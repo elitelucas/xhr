@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<!--说明网站开启webapp 程序的支持-->
+		<meta name="apple-touch-fullscreen" content="yes" />
+		<!--添加到主屏幕后，全屏显示-->
+		<meta name="apple-mobile-web-app-status-bar-style" content="#f96a36" />
+		<!--在web app应用下状态条（屏幕顶部条）的颜色-->
+		<meta name="format-detection" content="telephone=no" />
+		<title>诚汇通-项目详情</title>
+		<link rel="stylesheet" href="../../statics/app/css/style.css?v=3">
+		<link rel="stylesheet" href="../../statics/app/css/plugs/amazeui.min.css" />
+		<script type="text/javascript" src="../../statics/app/js/plugs/jquery-2.1.3.min.js"></script>
+		<script type="text/javascript" src="../../statics/app/js/plugs/amazeui.min.js"></script>
+		<script type="text/javascript" src="../../statics/app/js/fontSize.js"></script>
+		<style>
+		</style>
+	</head>
+
+	<body>
+		<!--借款详情-->
+		<section id="cht-jkDetials">
+			<div class="cht-jkCon">
+				<!--审核成功-->
+				<div class="successAudit tCenter">
+					<img src="../../statics/app/img/icon/successAudit.png" />
+				</div>
+				<h2><span>借款人信息</span></h2>
+				<div class="cth-jkTable">
+					<table class="am-table">
+						<tr>
+							<th>性别：{if $userinfo['sex']==1}男{elseif $userinfo['sex']==2}女{else}保密{/if}<span></span></th>
+							<th colspan="2">年龄：{if $userinfo['birthday']}<?=date("Y")-date("Y",$userinfo['birthday'])?>岁{/if}<span></span></th>
+							<th>婚姻：{if $userinfo['marry']==1}已婚{else}未婚{/if}</th>
+						</tr>
+						<tr>
+							<td colspan="2">居住地：{if empty($userinfo['liveaddress'])}{$region[$userinfo['province']]}{$region[$userinfo['city']]}{$region[$userinfo['area']]}{else}{$userinfo['liveaddress']}{/if}</td>
+							<td colspan="2">资产：{if $userinfo['assets']}<?=$userinfo['assets']?>{else}无{/if}</td>
+						</tr>
+						<tr>
+							<td colspan="2"> 房产价值：{if $userinfo['housing']}<?=$userinfo['housing']?>{else}无{/if}</td>
+							<td colspan="2"> 月营业额：{if $userinfo['income']}<?=$userinfo['income']?>{else}无{/if}</td>
+						</tr>
+						<tr>
+							<td colspan="2">已借额度：<?=number_format($credit['credit_nouse'],2,'.','')?></td>
+							<td colspan="2">授信额度：<?=number_format($credit['credit'],2,'.','')?></td>
+						</tr>
+					</table>
+				</div>
+				<h2><span>标的描述</span></h2>
+				<div class="cht-jkDescribe">
+					{$borrow['content']}
+				</div>
+			</div>
+		</section>
+	</body>
+
+</html>

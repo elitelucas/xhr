@@ -1,0 +1,650 @@
+{template header}
+
+<link href="../../statics/resource/css/love/love.css" rel="stylesheet">
+<link href="../../statics/resource/js/swipebox/1.3.0.2/css/swipebox.min.css" rel="stylesheet">
+<script src="../../statics/resource/js/placeholder/2.0.8/jquery.placeholder.min.js"></script>
+<script src="../../statics/resource/js/swipebox/1.3.0.2/js/jquery.swipebox.min.js"></script>
+<script src="../../statics/resource/js/textscroll/textscroll.js"></script>
+<script src="../../statics/resource/js/jquery.validate.min.js"></script>
+ <script type="text/javascript">
+function tender(cid){
+    {if empty($this->user)}
+        alert("您还没有登录，请先登录",function(){window.location.href='<?=url('content','login','index')?>';});
+    {elseif empty($this->user['paypassword'])}
+        alert("您还没有设置交易密码，请先设置后再操作。",function(){window.location.href='<?=url('member','security','paypass')?>';});
+    {else}
+        $.ajax({
+                url:"?m=activity&c=carefund&a=fund_info",
+                type:"POST",
+                data:{"id":cid},
+                success:function(data){      
+                    if(data){
+                        var t = eval('('+data+')');
+                        $("#sy").html(t.sy+"元");
+                        $("#qt").html(t.qt+"元");
+                        $("#cid").val(t.id);
+                        $('#myModal').modal('show');
+                    }
+                },
+                complete: function (XHR, TS) { XHR = null }
+        });
+    {/if}
+}
+
+function ajaxsubmit() {
+    var name = $('#name').val();
+    var money = $('#money').val();
+    var pwd = $('#pwd').val();
+    var cid = $('#cid').val();
+    $.ajax({
+        url:"?m=activity&c=carefund&a=fund_tender",
+        type:"POST",
+        data:{"id":cid,"name":name,"money":money,"pwd":pwd},
+        success:function(data){      
+            if(data==1){
+                alert("捐助成功！感谢您的爱心！");
+                window.top.location.reload();
+            }else{
+                var t = eval('('+data+')');
+                if(t.is_error == 1){
+                    $("#money-error").html(t.money);
+                    $("#pwd-error").html(t.pwd);
+                }else{
+                    alert(t, function() {
+                      window.top.location.reload();
+                  });
+                }
+            } 
+        },
+        complete: function (XHR, TS) { XHR = null }
+    });
+}
+
+function carejs(page,careid){
+    if($.trim(careid)=='' || careid ==0){
+        alert("参数错误!");
+        return false;
+     }
+     $.ajax({
+                url:"?m=activity&c=carefund&a=caretender",
+                type:"POST",
+                data:{"page":page,"careid":careid},
+                success:function(data){
+                   if(data){
+                        var t = eval('('+data+')');
+                        if(t.id){
+                            alert('参数错误！');
+                        }else{
+                            if (t.list) {
+                                $("#caretender_"+careid).html('');
+                                var obj = "";
+                                obj += '<tr class="fbold"><td class="text-left">用户名</td><td class="text-left">捐款人</td><td class="text-right">捐款金额<span class="f12 c999">（元）</span></td><td class="text-right">捐款时间</td></tr>';
+                                $.each(t.list, function(i, item) {
+                                    obj += '<tr>\n';
+                                    obj += '<td class="text-left">' + item.username + '</td>\n';
+                                    obj += '<td class="text-left">' + item.name + '</td>\n';
+                                    obj += '<td class="text-right">' + item.account_act + '</td>\n';
+                                    obj += '<td class="text-right">' + item.addtime + '</td>\n';
+                                    obj += '</tr>\n';
+                                });
+                                $("#caretender_"+careid).append(obj);
+//                                $(".pagination li").removeClass("active");
+//                                $("#care"+page).addClass("active");
+                                $("#carepage_"+careid).html(t.page);
+                            }
+                        }
+                    }else{
+                        alert('系统繁忙，请重试！');
+                        XHR = null ;
+                    }
+                },
+                complete: function (XHR, TS) { XHR = null ;t = null ;obj = null ; }
+        });
+}
+</script>
+  <!-- 确认捐款 -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalPay" aria-hidden="true" data-backdrop="static" aria-describedby="确认捐款">
+    <div class="modal-dialog">
+      <div class="modal-content">
+          <form id="payForm" class="form-inline" role="form" action="<?=url('','','')?>" method="post">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><div class="btn-close"></div></button>
+          <h4 class="modal-title" id="myModalPay"><span class="mr25 fbold">爱心捐助</span>奉献一份爱，给需要救助的人一个希望</h4>
+        </div>
+        <div class="modal-body">
+          <!-- 捐款人姓名 -->
+          <div class="form-group has-feedback">
+            <div class="input-group">
+              <div class="input-group-addon">您的可用余额：</span> </div>
+              <div class="pay-input form-control disabled">
+                <span class="mr10">{$w_account['money_usable']}元</span>
+                [<a href="<?=url('member','account','recharge')?>" target="_blank">我要充值</a>]
+              </div>
+              <span class="glyphicon form-control-feedback"></span>
+            </div>
+            <div class="help-block cred"></div>
+          </div>
+          <!-- /捐款人姓名 -->
+          
+          <!-- 捐款人姓名 -->
+          <div class="form-group has-feedback">
+            <div class="input-group">
+              <div class="input-group-addon">捐款人姓名：</span> </div>
+              <input id="name" name="name" class="pay-input form-control" type="text" placeholder="请填写捐款人姓名，若无填写，视为匿名捐款">
+              <span class="glyphicon form-control-feedback"></span>
+            </div>
+            <div class="help-block cred"></div>
+          </div>
+          <!-- /捐款人姓名 -->
+          
+          <!-- 可捐金额 -->
+          <div class="form-group has-feedback">
+            <div class="input-group">
+              <div class="input-group-addon">可捐金额：</span> </div>
+              <div class="pay-input form-control disabled" id='sy'></div>
+              <span class="glyphicon form-control-feedback"></span>
+            </div>
+            <div class="help-block cred"></div>
+          </div>
+          <!-- /可捐金额 -->
+          
+          <!-- 起捐金额 -->
+          <div class="form-group has-feedback">
+            <div class="input-group">
+              <div class="input-group-addon">起捐金额：</span> </div>
+              <div class="pay-input form-control disabled" id='qt'></div>
+              <span class="glyphicon form-control-feedback"></span>
+            </div>
+            <div class="help-block cred"></div>
+          </div>
+          <!-- /起捐金额 -->
+          
+          <!-- 捐款金额 -->
+          <div class="form-group has-feedback">
+            <div class="input-group">
+              <div class="input-group-addon">捐款金额：</span> </div>
+              <input id="money" name="money" class="pay-input form-control" type="text" placeholder="请输入捐款金额（单位：元）" required>
+              <span class="glyphicon form-control-feedback"></span>
+            </div>
+            <div class="help-block cred"><label id="money-error" class="error" for="money"></label></div>
+          </div>
+          <!-- /捐款金额 -->
+          
+          <!-- 支付密码 -->
+          <div class="form-group has-feedback">
+            <div class="input-group">
+              <div class="input-group-addon">交易密码：</span> </div>
+              <input id="pwd" name="pwd" class="pay-input form-control" type="password"  required>
+              <span class="glyphicon form-control-feedback"></span>
+            </div>
+            <div class="help-block cred"><label id="pwd-error" class="error" for="pwd"></label></div>
+          </div>
+          <!-- /支付密码 -->
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <input type="hidden" id="cid" value="">
+          <button type="submit" class="btn btn-warning" onclick="ajaxsubmit();">确认捐款</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- /确认捐款 -->
+
+  
+  <!-- banner -->
+  <div class="banner"></div>
+  <!-- /banner -->
+  
+  <!-- 资助对象 公益榜单 -->
+  <div class="funding-list-box">
+  <div class="container">
+    <!-- 资助对象 -->
+    <div class="funding-box">
+      <div class="funding-title fbold">资助对象</div>
+      <h3 class="f18 fbold line-height35px mb40">在深圳合法居住或工作一年以上（含一年）的自然人</h3>
+      <p>1、遭遇紧急事件，如突发性重大疾病，遭受意外伤害，导致家庭经济困难的；</p>
+      <p>2、经有关机关鉴定、证明，在深圳见义勇为、抢险救灾、救死扶伤中遭受意外伤害的；</p>
+      <p>3、对遭受自然灾害和突发性重大事故，导致基本生活受到严重影响个人，经初审单位核实证明确实存在实际困难的；资助对象具备上述任一条件即可申请。</p>
+    </div>
+    <!-- /资助对象 -->
+    
+    <!-- 公益榜单 -->
+    <div class="love-list-box">
+      <div class="love-list-content">
+        <div class="love-list-title"></div>
+        <!-- 标题 -->
+        <div class="textscroll2-title">
+          <div class="item1">序号</div>
+          <div class="item2">用户名</div>
+          <div class="item3">捐款人</div>
+          <div class="item4">捐款总金额(元)</div>
+        </div>
+        <!-- /标题 -->
+        <!-- 列表 -->
+        <div id="textscroll2" class="textscroll2">
+          <ul>
+              {if !empty($rank_list)}
+              {loop $rank_list $krr $rlist}
+            <li>
+              <div class="item1"><?=($krr+1)?></div>
+              <div class="item2"><?php if(empty($rlist['username'])){ echo '';}else {echo mb_substr($rlist['username'], 0, 1, "UTF-8")."**";} ?><span class="glyphicon glyphicon-heart"></span></div>
+              <div class="item3">{if !empty($rlist['name'])}{$rlist['name']}{else}匿名{/if}</div>
+              <div class="item4">{$rlist['rankact']}</div>
+            </li>
+            {/loop}
+            {/if}
+          </ul>
+        </div>
+        <!-- /列表 -->
+      </div>
+    </div>
+    <!-- /公益榜单 -->
+  </div>
+  </div>
+  <!-- /资助对象 公益榜单 -->
+  
+  <!-- 爱心接力 -->
+  <div class="container">
+    <!-- 模块标题 -->
+    <div class="module-title">
+      <span class="f24 fbold mr5">爱心接力</span>
+      <span class="glyphicon glyphicon-heart"></span> 
+      <span class="glyphicon glyphicon-heart"></span> 
+      <span class="glyphicon glyphicon-heart"></span>
+    </div>
+    <!-- /模块标题 -->
+    
+    <!-- 项目 -->
+    <div id="loveProject" class="loveProject love-project-box">
+      <!-- item -->
+      {loop $fundlist $fl}
+      <div class="item">
+          <?php if(round(($fl['account_tender']/$fl['account'])*100,2)==100):?><div class="care-icon-01"></div><?php endif;?>
+          <div class="care-icon-02"></div>
+        <!-- 标题 -->
+        <div class="love-proj-titl">
+          <div class="flg-yi"></div>
+          {$fl['title']}
+        </div>
+        <!-- /标题 -->
+        
+        <!-- 参数 -->
+        <div class="love-proj-param">
+          <div class="param-pic"><img src="{UPLOAD_PATH}{$fl['img']}" alt="" width="123" height="168"></div>
+          <div class="params">
+            <div class="params-top">
+              <div class="pull-left">
+                <p class="f18">资助金额<span class="f12 c999">（元）</span></p>
+                <p class="f20 cmain fbold">￥{$fl['account']}</p>
+              </div>
+              <div class="pull-left">
+                <p class="f18">已捐金额<span class="f12 c999">（元）</span></p>
+                <p class="f20 cmain fbold">￥{$fl['account_tender']}</p>
+              </div>
+              <div class="pull-left">
+                <p class="f18">起捐金额<span class="f12 c999">（元）</span></p>
+                <p class="f20 cmain fbold">￥{$fl['lowest_account']}</p>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="params-item">
+              <div class="pull-left">发起机构：</div>
+              <div class="pull-right">
+                <span>深圳市慈善会</span>、
+                <span>深圳广电集团</span>、
+                <span>诚汇通</span>
+              </div>
+            </div>
+            <div class="params-item">
+              <div class="pull-left">发布时间：</div>
+              <div class="pull-right">
+                <span><?=date("Y-m-d H:i:s",$fl['addtime'])?></span>
+              </div>
+            </div>
+            <div class="params-item">
+              <div class="pull-left">捐助进度：</div>
+              <div class="progress pull-right">
+                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:<?=round(($fl['account_tender']/$fl['account'])*100,2)?>%;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="params-btn-box">
+            <div>可用余额：￥<span>{$w_account['money_usable']}</span></div>
+            <div>可捐金额：￥<span><?=($fl['account']-$fl['account_tender'])?></span></div>
+            <a class="love-btn" href="javascript:tender({$fl['id']});">{if $fl['status']==1}爱心捐助{elseif $fl['status']==2}募集成功{elseif $fl['status']==3}已打款{/if}</a>
+          </div>
+        </div>
+        <!-- /参数 -->
+        
+        <!-- 详情 -->
+        <div class="love-detail-box">
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#tablistOne{$fl['id']}" role="tab" data-toggle="tab">资助信息</a></li>
+            <li role="presentation"><a href="#tablistTwo{$fl['id']}" role="tab" data-toggle="tab">捐款记录</a></li>
+            <li role="presentation"><a href="#tablistThree{$fl['id']}" role="tab" data-toggle="tab">发起机构</a></li>
+          </ul>
+          <div class="tab-content">
+            <!-- 资助信息 -->
+            <div role="tabpanel" class="tab-pane active" id="tablistOne{$fl['id']}">
+              <!-- 左边描述 -->
+              <div class="tablistOne-left pull-left">
+                  {$fl['info']}
+<!--                <p class="indent">1974年出生的谢先生是福建永定县人，家有8个兄弟姐妹，他排行老七，为摆脱贫困，从1999年开始离开家乡，来到深圳一家服装厂里务工，工资虽然不高，但已比在家中务农强了许多。2000年与同在一家工厂工作的老乡赖女士结婚，一年后也有了爱情的结晶，不幸的是孩子被医生确诊为脑瘫患儿。</p>
+                <p class="indent">为了给孩子筹集医疗费用和照顾孩子，谢先生的妻子专门辞去工作，在工厂附近开了一间专营茶叶的小商店，勉强维持家里的日常开支与小孩的治疗。可惜好景不长，小店不幸被拆，一家人的生活只能靠谢先生打工来维持，而孩子的治疗也被迫中断。</p>
+                <p class="indent">2007年，第二个孩子出生了，健康活泼的男孩——小斌给家里带来欢声笑语和无限的希望。可在今年3月，不幸再次降临，小斌突然感到不舒服，去医院检查被确诊为巨核细胞白血病。当谢先生听到此消息后，虽然他不知巨核细胞白血病是如何严重，但他却知道白血病的治疗是一个无底洞，顿时觉得天都要塌下来了！小斌每次的输血就需要2000多元，一个月至少要输血5次。如此昂贵的治疗费用，对他们一家来说无疑是天文数字。</p>-->
+              </div>
+              <!-- /左边描述 -->
+              
+              <!-- 右边展示 -->
+              <div class="tablistOne-right pull-right">
+                <div class="ml35">图片报道</div>
+                <div id="lovePic" class="lovePic owl-carousel">
+                    {if !empty($fl['tp'])}
+                    {loop $fl['tp'] $tp}
+                        <a href="{if !empty($tp['url'])}$tp['url']{else}{UPLOAD_PATH}{$tp['img']}{/if}" class="item text-center swipebox{$fl['id']}" title="">
+                          <img src="{UPLOAD_PATH}{$tp['img']}" width="250" height="150" alt="">
+                        </a>
+                    {/loop}
+                    {/if}
+                </div>
+                <script>$(".swipebox{$fl['id']}").swipebox();</script>
+                <div class="ml35 mt10">视频报道</div>
+                <div class="player">
+                    {if !empty($fl['sp'])}
+                    {loop $fl['sp'] $sp}
+                        <a href="{$sp['url']}" target="_blank">
+                          <img src="{UPLOAD_PATH}{$sp['img']}" alt="" width="250" height="150">
+                        </a>
+                    {/loop}
+                    {/if}
+                </div>
+              </div>
+              <!-- /右边展示 -->
+            </div>
+            <!-- /资助信息 -->
+        
+            <!-- 捐款记录 -->
+            <div role="tabpanel" class="tab-pane" id="tablistTwo{$fl['id']}">
+              <div class="love-record-box">
+                <div class="pull-left">
+                  <!-- 模块标题 -->
+                  <div class="module-title" style="margin-top:-5px;">
+                    <span class="f16 c444 fbold">捐款记录</span>
+                    <span class="glyphicon glyphicon-heart f12"></span>
+                  </div>
+                  <!-- /模块标题 -->
+                  <table class="table" style="margin-top:-20px;">
+                      <tbody id="caretender_<?php echo $fl['id'];?>">
+                    <tr class="fbold">
+                      <td class="text-left">用户名</td>
+                      <td class="text-left">捐款人</td>
+                      <td class="text-right">捐款金额<span class="f12 c999">（元）</span></td>
+                      <td class="text-right">捐款时间</td>
+                    </tr>
+                    {if !empty($fl['tender'])}
+                    {loop $fl['tender'] $tender}
+                    <tr>
+                      <td class="text-left"><?php if(empty($tender['username'])){ echo '';}else {echo mb_substr($tender['username'], 0, 1, "UTF-8")."**";} ?></td>
+                      <td class="text-left">{if !empty($tender['name'])}{$tender['name']}{else}匿名{/if}</td>
+                      <td class="text-right">{$tender['account_act']}</td>
+                      <td class="text-right"><?=date("Y-m-d H:i:s",$tender['addtime'])?></td>
+                    </tr>
+                    {/loop}
+                    {/if}
+                      </tbody>
+                  </table>
+                  <div id="carepage_<?php echo $fl['id'];?>" class="pagination pagination-sm" style="margin-top:-5px;">
+                      <?php echo $fl['page']['html'];?>
+                  </div>
+                </div>
+                <div class="pull-right">
+                  <div class="love-record-title">
+                    <span class="f16 c444 fbold">爱心榜</span>
+                    <span class="glyphicon glyphicon-heart f12"></span>
+                  </div>
+                  <table class="table">
+                    <tr class="fbold">
+                      <td>序号</td>
+                      <td>用户名</td>
+                      <td>捐款人</td>
+                      <td class="text-right">捐款金额<span class="f12 c999">（元）</span></td>
+                    </tr>
+                    {if !empty($fl['rank'])}
+                    {loop $fl['rank'] $rk $rl}
+                    <tr>
+                      <td><?=($rk+1)?></td>
+                      <td><?php if(empty($rl['username'])){ echo '';}else {echo mb_substr($rl['username'], 0, 1, "UTF-8")."**";} ?> </td>
+                      <td>{if !empty($rl['name'])}{$rl['name']}{else}匿名{/if}</td>
+                      <td class="text-right">{$rl['rankact']}</td>
+                    </tr>
+                    {/loop}
+                    {/if}
+                  </table>
+                </div>
+              </div>
+              <div class="clearfix"></div>
+              
+              <!-- 模块标题 -->
+              <div class="module-title" style="margin-top:-50px;">
+                <span class="f16 c444 fbold">打款凭证</span>
+                <span class="glyphicon glyphicon-heart f12"></span>
+              </div>
+              <!-- /模块标题 -->
+              
+              <!-- 打款凭证 -->
+              <div id="loveVoucher" class="loveVoucher owl-carousel">
+                {if $fl['status'] == 1}
+                    <div class="voucher-ing">募捐中</div>
+                {elseif $fl['status'] == 2}
+                    <div class="voucher-ing">审核中</div>
+                {elseif $fl['status'] == 3}
+                {if !empty($fl['pz'])}
+                    {loop $fl['pz'] $pz}
+                <a href="{UPLOAD_PATH}{$pz['img']}" class="item text-center swipeboxVoucher{$fl['id']}" title="">
+                  <div class="voucher-ed">完成捐助</div>
+                  <img src="{UPLOAD_PATH}{$pz['img']}" alt="">
+                </a>
+                    {/loop}
+                    {/if}
+                {/if}
+              </div>
+              <!-- /打款凭证 -->
+            </div>
+            <!-- /捐款记录 -->
+            <script>
+                $(".swipeboxVoucher{$fl['id']}").swipebox();
+            </script>
+            
+            <!-- 发起机构 -->
+            <div role="tabpanel" class="tab-pane" id="tablistThree{$fl['id']}">
+              <div class="agency">
+                <div class="agency-title">
+                  <span class="glyphicon glyphicon-heart f12"></span>
+                  <span class="f16 fbold">深圳市诚汇通金融信息有限公司：</span>
+                </div>
+                <p class="indent">诚汇通网络借贷平台是深圳市诚汇通金融信息有限公司运营成立的网络借贷平台，是一家专业性强，提供 p2p网络借贷的金融借贷服务网站和现实融资平台。</p>
+                <p>主营业务：车辆抵押，房产抵押，库存抵押，赎楼贷款、信用贷款等网络借贷中介服务。</p>
+                <p>经营理念：诚信兴业，安全可靠、以人为本，感恩客户。</p>
+                <p>发展愿景：做国内口碑最好的网络借贷中介平台。</p>
+                <div class="agency-title">
+                  <span class="glyphicon glyphicon-heart f12"></span>
+                  <span class="f16 fbold">深圳市慈善会：</span>
+                </div>
+                <p class="indent">深圳市慈善会（英文名SHENZHEN CHARITY FEDERATION）是在市委、市政府高度重视和支持下，由社会各界热心于慈善事业的机构、团体和个
+人组成，发动和接受国内外组织和个人，自愿向深圳慈善事业捐赠或资助财产并进行管理和运用的、具有国家公募资质和法人资格的公益性、非营利性社会组织。</p>
+                <p class="indent">宗旨：发扬人道主义精神，以人为本、扶危济困，弘扬慈善理念，实施安老扶幼、助学助医、助残济困等多方面慈善救助，规范捐赠管理提升募捐能力，促进深圳公益慈善事业与和谐社会建设，体现人类社会的进步和发展。</p>
+                <div class="agency-title">
+                  <span class="glyphicon glyphicon-heart f12"></span>
+                  <span class="f16 fbold">深圳广电集团：</span>
+                  <p class="indent">深圳广播电影电视集团（SZMG）旗下财经生活频道《寻找需要帮助的人》将对本次慈善活动做大力度采访报道，直面受资助群体，深入其生活，忠实记录其生活状态和心理状态，挖掘贫、病、困、苦背后的真情实感，展示他们面对逆境自强不息的精神和对美好生活的坚定信念，以情动人，唤醒良知，扶弱济困，展示爱心人士的大爱情怀。</p>
+                </div>
+              </div>
+            </div>
+            <!-- /发起机构 -->
+          </div>
+        </div>
+        <!-- /详情 -->
+        
+      </div>
+      {/loop}
+      <!-- /item -->
+    </div>
+    <!-- /项目 -->
+    
+  </div>
+  <!-- /爱心接力 -->
+  
+  <!-- 捐助说明 -->
+  <div class="funding-list-box mt30">
+    <div class="container descr-box">
+      <div class="descr-title">捐助说明</div>
+      <p>1、采用点对点的捐助方式，每一个受资助对象设置为一个独立的资助项目，募集资金由诚汇通公司捐助部分+诚汇通平台向用户募集部分+广电集团&amp;慈善会募集部分组成，所有渠道募集的资金统一在诚汇通平台展示。</p>
+      <p>2、捐款人可随深圳电视台节目组、诚汇通工作人员、深圳慈善会工作人员一起参与线下捐赠慰问活动；捐款金额达2万元及以上者，将有机会接受深圳电视台专访（咨询诚汇通客服）。</p>
+      <p>3、本着真诚透明的原则，所有募集善款专款专用，直接用于受资助对象，诚汇通在中间环节不会收取任何费用。</p>
+    </div>
+  </div>
+  <!-- /捐助说明 -->
+  
+  <!-- 新闻动态 视频报道 -->
+  <div class="funding-list-box" style="background-color:#d9ecfa;margin-bottom:-40px;margin-top:-20px;">
+    <div class="news-video-box container">
+      <!-- 新闻动态 -->
+      <div class="pull-left">
+        <div class="news-title">
+          <div style="float:left;">新闻动态</div>
+          <div style="float:right;"><a class="f14" href="<?=url('article','default','index',array('cateid'=>9))?>">更多</a></div>
+        </div>
+       {if isset($list)  && !empty($list)}
+        {loop $list $v}
+        <div class="news-item">
+          <div class="news-item-title"><a href="<?=url('article','default','disp',array('id'=>$v['id']))?>">{$v['title']}</a></div>
+          <div class="news-item-time"><?=date("Y-m-d H:i:s",$v['addtime'])?></div>
+        </div>
+        {/loop}
+       {/if}
+      </div>
+      <!-- /新闻动态 -->
+      
+      <!-- 视频报道 -->
+      <div class="pull-right">
+        <div class="video-title">
+          <div style="float:left;">视频报道</div>
+          <div style="float:right;"><a class="f14" href="<?=url('article','default','index',array('cateid'=>9))?>">更多</a></div>
+        </div>
+        <div class="player">
+            {if isset($list_news)  && !empty($list_news)}
+                {loop $list_news $vn}
+          <a href="<?=url('article','default','disp',array('id'=>$vn['id']))?>" target="_blank">
+              <?php $img_url = APP_PATH."/up_files/".$vn['img_url'];?>
+              <img src="{$img_url}" alt="" width="250" height="150">
+          </a>
+                {/loop}
+            {/if}
+        </div>
+      </div>
+      <!-- /视频报道 -->
+    </div>
+  </div>
+  <!-- /新闻动态 视频报道 -->
+  
+  <script type="text/javascript">
+    $(function() {
+      // 公益榜单
+//	  $("#textscroll2").Scroll({
+//		 line: 1,
+//		speed: 500,
+//		timer: 2500,
+//		   up: "due_btn_up",
+//		 down: "due_btn_down"
+//	  }); // end
+      
+	  // 爱心接力
+	  $('.loveProject').owlCarousel({
+		center: false,
+		items: 1,
+		loop: false,
+		merge: true,
+		nav: true,
+		navText: ['',''],
+		lazyLoad: true,
+		margin: 0
+	  }); // end
+	  
+	  // 图片报道
+	  $('.lovePic').owlCarousel({
+		center: false,
+		items: 1,
+		loop: false,
+		merge: true,
+		nav: true,
+		navText: ['',''],
+		lazyLoad: true,
+		margin: 0
+	  }); // end
+	  
+	  // 打款凭证
+	  $('.loveVoucher').owlCarousel({
+		center: false,
+		items: 6,
+		loop: false,
+		merge: true,
+		nav: false,
+		navText: ['',''],
+		lazyLoad: true,
+		margin: 0
+	  }); // end
+	  
+	  // 表单提示
+	  $('input, textarea').placeholder();
+	  
+	  // 表单验证
+	 var payForm =  $("#payForm").validate({
+	    errorPlacement:function(error,element) {
+	      error.appendTo(element.parent().parent().children(".help-block"));
+		},
+		highlight: function(element, errorClass, validClass) {
+		  $(element).parent().parent().addClass("has-error");
+		  $(element).next().addClass("glyphicon-remove cred");
+		},
+		success: function(label,element) {
+		  label.parent().parent().removeClass("has-error");
+		  $(element).next().removeClass("glyphicon-remove cred").addClass("glyphicon-ok cmain");
+		},
+		rules: {
+		  money: {
+		    required: true,
+			number: true,
+			min: 1
+		  },
+		  pwd: {
+		    required: true,
+			remote: "check.php"
+		  }
+		},
+		messages: {
+		  money: {
+		    required: "捐款金额不能为空，请输入",
+			number: "捐款金额只能输入数字，请重新输入",
+			min: "一元起投，请重新输入"
+		  },
+		  pwd: {
+		    required: "交易密码不能为空，请输入",
+			remote: "交易密码错误，请重新输入"
+		  }
+		},
+		submitHandler:function(form){
+             alert(payForm.valid());       
+           form.submit();
+        }
+		  
+	  }); // end
+
+	});
+	
+    jQuery.extend(jQuery.validator.messages, { required: "交易密码不能为空，请输入" });
+
+  </script>
+{template footer}

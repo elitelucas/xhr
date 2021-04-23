@@ -1,0 +1,146 @@
+@charset "utf-8";
+/* CSS Document */
+*{ margin:0; padding:0; box-sizing: border-box;}
+body{ font-size:12px;     font-family: "Microsoft yahei";font-style:normal;}
+a{ text-decoration:none}
+a,a:hover{  transition:background 0.5s linear;-webkit-transition:background 0.5s linear;-moz-transition:background 0.5s linear;-o-transition:background 0.5s linear;}
+em, i{font-style: normal;}
+ul, ol, li{list-style: none;}
+img{ border:none;vertical-align:middle; max-width: 100%; max-height: 100%;}
+input,select,textarea{outline:none;border:none;background:none;}
+input{ border: 1px solid #e6e3da;}
+input:focus{ border: 1px solid #4990e2;}
+textarea{resize:none;}
+p{line-height:22px;}
+.fl{float: left;}
+.fr{float: right;}
+/*清除浮动样式*/
+.clear{ clear:both; height:0; width:100%;}
+.clearfix:after {visibility: hidden;display: block;font-size: 0;content: " ";clear: both;height: 0;}
+.clearfix{zoom: 1; clear:both;}
+pre {
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+    margin: 0;
+    font-size: 14px;
+}
+.position{position:relative;}
+
+/*公共样式*/
+.layout{ width:1200px; display:table; margin:0 auto;}
+
+/*头部*/
+.head{ width: 100%; height: 40px; }
+.head-fl{}
+.head-fl a{ margin: 0 10px;line-height: 40px; color: #7b7b7b}
+
+.head-fr{ padding: 7px 0;}
+.head-fr li{float: left; padding-left: 10px; line-height: 26px;}
+.china{}
+.china span{ padding-right: 10px; color: #ebebeb}
+.china em{ width: 20px; height: 20px; border: 1px solid #7b7b7b; display: inline-block; border-radius: 50%; color: #7b7b7b; line-height: 19px;}
+.input-warp{ border: 1px solid #e6e3da; width: 100px;height: 26px; line-height: 25px; padding-right: 17px; position: relative;}
+.input-warp input{ width: 100%; height: 26px; line-height: 26px; padding: 0 5px; border: 0;}
+
+.input-warp i{  position: absolute; right: 0; top: 5px;}
+.head-fr button{ min-width: 76px; height: 26px; line-height: 26px;}
+
+.head-login{ padding: 12px 0;}
+.head-login li{ float: left; padding: 0 10px; position: relative;}
+.head-login li:after{ width: 1px; height: 12px; background: #ebebeb; position: absolute; top: 2px; right: 0; content: "";}
+.head-login li:last-child:after{ content: normal;}
+.head-login li a{ color: #7b7b7b;}
+
+.head-login li .ico-news{ background-position: 0 -55px; position: relative;}
+.head-login li .ico-news em{ width: 4px; height:4px; background: #d0011b; position: absolute; right: -5px; top: 0; content: "";}
+.head-login li .ico-bot{ margin: 0 0 0 5px;}
+
+
+/*忘记密码*/
+.forgot-pas{ color: #7b7b7b;}
+/*按钮*/
+button{ min-width: 88px;height: 30px; line-height: 30px; font-size: 14px; border: none; cursor: pointer; background: #fff;}
+button.btn-red{ background: #e25549; border: 1px solid #b63e3e; color: #fff;}
+button.btn-blue{ background: #42befb; border: 1px solid #028fd5;color: #fff;}
+button.btn-white{ border: 1px solid #cacaca; background: #fff;}
+button.btn-blue-bor{border: 1px solid #60a7fe; color: #60a7fe;}
+
+/*导航*/
+.nav{ background: #e2554a; }
+.logo{ width: 200px; text-align: center;height: 70px;display: -webkit-box; display: -moz-box; display: box; -webkit-box-align: center; -moz-box-align: center; box-align: center;
+    /*-webkit-box-pack: center;*/
+    -moz-box-pack: center; box-pack: center;}
+.nav ul{ padding: 12px 0;}
+.nav li{ float: left; font-size: 18px; padding-right: 40px;}
+.nav li a{ color: #fff; line-height: 46px; display: block;}
+.nav li a:hover,.nav li a.active{ border-bottom: 3px solid #fff;}
+
+
+
+
+
+
+/*公用样式*/
+.red{ color: #d0011b;}
+
+.ico{ background: url("../images/ico.png") no-repeat; display: inline-block;vertical-align: middle; margin-right: 5px;}
+.ico-user{ width: 9px; height: 13px; background-position: 0 -19px;}
+.ico-user2{ width: 9px; height: 13px; background-position: 0 0;}
+.ico-pas{ width: 10px; height: 13px; background-position: 0 -38px;}
+.ico-news{ width: 13px; height: 13px; background-position: 0 -57px;}
+.ico-bot{ width: 11px; height: 5px; background-position: 0 -208px;}
+.ico-cus{ width: 13px; height: 13px; background-position: 0 -76px;}
+.ico-delete{ width: 17px; height: 18px; background-position: 0 -326px;}
+.ico-delete2{ width: 18px; height: 18px; background-position: 0 -219px; cursor: pointer;}
+.ico-delete3{ width: 18px; height: 18px; background-position: 0 -243px;}
+.ico-explain{ width: 18px; height: 18px; background-position: -31px -90px;}
+.ico-close{ width: 21px; height: 21px; background-position: 0 -385px;}
+.ico-money{ width: 21px; height: 21px; background-position: -31px -115px;}
+.ico-triangle-bot{ width: 14px; height: 10px; background-position: 0 -281px;}/*实心三角*/
+.ico-wallet{ width: 23px; height: 22px; background-position: -32px 0;}/*钱包*/
+.ico-see{ width: 20px; height: 13px; background-position: 0 -347px;}/*查看眼睛*/
+.ico-see2{ width: 20px; height: 13px; background-position: 0 -364px;}/*查看眼睛*/
+.ico-trend{ width: 72px; height: 72px; background-position: -84px -154px;}/*房间左下角图标*/
+.ico-weixin{ width: 22px; height: 18px; background-position: -31px -142px;}/*微信*/
+.ico-zhifubao{ width: 18px; height: 18px; background-position: -31px -167px;}/*支付宝*/
+.ico-yinlian{ width: 21px; height: 15px; background-position: -31px -192px;}/*银联*/
+.ico-right{width: 6px; height: 12px; background-position: 0 -190px;}
+
+.ico1{ width: 24px; height: 24px; background-position: center center; display: inline-block;background-repeat: no-repeat; vertical-align: middle; margin-right: 10px;}
+.ico-wjx{ background-image: url(../images/ico-wjx.png);}
+.ico-bjpk10 {background-image: url(../images/ico-bjpk10.png); }
+.ico-fy { background-image: url(../images/ico-fy.png);}
+.ico-xyft {background-image: url(../images/ico-xyft.png);}
+.ico-rebate{ background-image: url("../images/Preferential.png");}
+.ico1-money{ background-image: url("../images/gold.png"); margin-right: 5px;}
+.ico-roomClose{ background-image: url("../images/Close.png");}
+
+/*表格样式*/
+.table-wap{ display: table; width: 100%; border: 1px solid #c7c7c7;}
+.table-wap dl{ display: table-row;box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.3), inset 0 1px 1px 2px rgba(255, 255, 255, 0.5); border: solid 1px #c7c7c7;}
+.table-wap dl:last-child{box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.3), inset 0 0 0 0 rgba(255, 255, 255, 0.5);}
+.table-wap dt,.table-wap dd{ display: table-cell; line-height: 38px; text-align: center;}
+
+
+/*分页样式*/
+.page{ padding: 10px; font-size: 14px; text-align: center; line-height: 24px;}
+.page em{ cursor: pointer;}
+.page a{ color: #78788c; width: 15px; display: inline-block ; text-align: center;}
+.page a.active{ color: #4990e2;}
+.page span{ color: #78788c; padding-left: 10px;}
+.ico-page-fl{ width: 25px; height: 24px; background-position: -31px -60px;}
+.ico-page-fr{ width: 25px; height: 24px; background-position: -31px -60px;}
+
+/*版权*/
+.copyright{ background: #131414; padding-bottom: 10px; min-width: 1200px;}
+.copyright-logo{ padding: 10px 0; height: 65px;}
+.copyright-logo img{ height: 100%;}
+.copyright-top{ height: 65px; border-bottom: 1px dashed #ccc;}
+.copyright-bot{ padding: 10px 0; overflow: hidden;}
+.copyright-bot p{ font-size: 13px; line-height: 2;  color: #525252; }
+.authorized{text-align: right;}
+.copyright-bot p span { color: #bbb;}
+.item-box{ width: 198px; height: 33px; background-position: -31px -243px; margin-right: 0;}

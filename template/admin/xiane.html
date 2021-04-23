@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="renderer" content="webkit">
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+	    <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+	    <script src="statics/admin/js/jquery.js"></script>
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>
+        <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+        <script src="statics/admin/js/bootstrap.min.js"></script>
+   	    {template public-new-ui-header} 
+    </head>
+    
+    <body class="new_ui_body">
+    <div class="ibox float-e-margins">
+	    <div class="ibox-title iboxWTitle">
+	        <h5>线上线下充值设置</h5>
+	    </div>
+	    <div class="ibox-content bagCol">
+	        <div class="ibox-title ">
+	            <h5>线上线下充值设置信息</h5>
+	            <div class="ibox-tools">
+	            	<a class="btn btn-white btn-bitbucket btn_sure" id="update_low" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+	        <div class="ibox-content m-b">
+	            <form id='form_update_low' method="post" class="form-horizontal">
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">充值下限</label>
+	                    <div class="col-sm-3">
+	                    	<span class="col-sm-8" style="padding-left: 0px;">
+	                        	<input type="text" class="form-control"  name="recharge" value="{$arr['recharge']}" readonly/>
+                        	</span>
+	                        <span class="col-sm-4 help-block m-b-none"></span>
+	                    </div>
+	                </div>
+                </form>
+            </div>
+			<div class="ibox-title ">
+				<h5>快捷金额充值</h5>
+				<div class="ibox-tools">
+					<a class="btn btn-white btn-bitbucket btn_sure" id="update_cash" data-title="修改"><i class="fa fa-pencil"></i> </a>
+					<a class="btn btn-white btn-bitbucket btn_sure_add" id="add" data-title="添加"><i class="fa fa-plus-square-o"></i> </a>
+				</div>
+			</div>
+			<div class="ibox-content m-b">
+				<form id='form_update_cash' method="post" class="form-horizontal">
+					{loop $list $k $v}
+					<div class="form-group">
+						<label class="col-sm-2 control-label">快捷充值金额</label>
+						<div class="col-sm-6">
+                   			<span class="col-sm-4" style="padding-left: 0px;">
+                       		<input type="text" class="form-control num"  value="{$v}"  readonly/>
+                       		</span>
+							<span class="col-sm-2 help-block m-b-none">（元宝）</span>
+						</div>
+					</div>
+					<div class="hr-line-dashed"></div>
+					{/loop}
+					<i id="last"></i>
+				</form>
+			</div>
+
+         </div>
+     </div>
+        <script>
+
+            $(".btn_sure_add").click(function () {
+                var obj = $('.num');
+                if(obj.length>=6){
+                    layer.msg('最多只能设置6个值!', {icon: 5, shade: [0.5, '#393D49']});
+                    return false;
+                }
+                var i_class = $('#update_cash').children('i').attr('class');
+                if (i_class == 'fa fa-pencil') {
+                    $('#update_cash').attr('data-title', '保存');
+                    $('#update_cash').children('i').attr('class', 'fa fa-save');
+                }
+
+                var html = '<div class="form-group"><label class="col-sm-2 control-label">快捷充值金额</label><div class="col-sm-6"><span class="col-sm-4" style="padding-left: 0px;"><input type="text" class="form-control num"  value=""/></span><span class="col-sm-2 help-block m-b-none">（元宝）</span></div></div><div class="hr-line-dashed"></div>';
+                $('#last').before(html);
+            });
+
+            $(function () {
+            	$(".btn_sure").click(function () {
+            	var form_id = 'form_' + $(this).attr('id');
+        		var i_class = $(this).children('i').attr('class');
+        		if (i_class == 'fa fa-pencil') {
+        			$(this).attr('data-title', '保存');
+        			$(this).children('i').attr('class', 'fa fa-save');
+        			$('#' + form_id).find('input').each(function() {
+        				$(this).attr('readonly', false);
+       				});
+        		}else {
+        			if (form_id == 'form_update_low') {
+        				var recharge = $('input[name=recharge]').val();
+                        var re = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+                        if(recharge=='' || !re.test(recharge)){
+                            layer.msg('充值下限必须为整数', {icon: 5, shade: [0.5, '#393D49'],time:2000});
+                            return false;
+                        }
+                        $.ajax({
+                            type: 'GET',
+                            url: '?m=admin&c=role&a=up_recharge&recharge=' + recharge,
+                            dataType: 'json',
+                            success: function (msg) {
+                                if (msg.state) {
+                                    layer.msg('设置成功', {icon: 6, shade: [0.5, '#393D49'],time:2000});
+                                    setTimeout(function () {
+                                        location.reload();
+                                    },2000)
+
+                                } else {
+                                    layer.msg('设置失败', {icon: 5, shade: [0.5, '#393D49'],time:2000});
+                                }
+                            }
+                        });
+        			}else if(form_id == 'form_update_cash'){
+                        var data = [];
+                        var obj = $('.num');
+                        for(var i=0;i<obj.length;i++){
+                            if(obj[i].value){
+                                data.push(obj[i].value);
+                            }
+                        }
+                        if(data.length<1){
+//                        alert('至少要有一个值！');
+                            layer.msg('至少要有一个值!', {icon: 5, shade: [0.5, '#393D49']});
+                            return false;
+                        }
+
+                        if(data.length>6){
+                            layer.msg('最多只能设置6个值!', {icon: 5, shade: [0.5, '#393D49']});
+                            return false;
+                        }
+
+
+                        $.ajax({
+                            url: "?m=admin&c=role&a=quickCashSet",
+                            data: {'data':data},
+                            dataType: 'json',
+                            type: 'post',
+                            beforeSend: function () {
+                                loading = layer.load(1);
+                            },
+                            error: function () {
+                                layer.close(loading);
+                                layer.msg('网络异常，稍后再试！！！', {icon: 5, shade: [0.5, '#393D49']});
+                            },
+                            success: function (data) {
+                                layer.close(loading);
+                                if(data['code'] != 0)
+                                {
+                                    layer.msg(data['msg'], {icon: 5, shade: [0.5, '#393D49']}, function () {
+                                        return false;
+                                    });
+                                }
+                                else
+                                {
+                                    layer.msg(data['msg'], {icon: 6, shade: [0.5, '#393D49']}, function () {
+//                                        location.href = "<?=url('admin','message','quickBetSet')?>";
+										location.reload();
+                                    });
+                                }
+
+                            }
+                        });
+					}
+        		}
+            	});
+            })
+        </script>
+    </body>
+</html>

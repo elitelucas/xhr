@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+    <script src="statics/admin/js/pintuer.js"></script>
+    <script src="statics/admin/bootstrap/js/bootstrap.min.js"></script>
+    {template public-new-ui-header}
+    <style type='text/css'>
+        .rules-1{
+            float: left;
+            height: 35px;
+            line-height: 35px;
+            padding-right:20px;
+            text-align: right;
+        }
+
+    </style>
+</head>
+<body style="margin: 15px;background-color: #f3f3f4;">
+<div class="ibox float-e-margins">
+    <div class="ibox-title iboxWTitle">
+        <h5>三无玩家返水限制</h5>
+    </div>
+    <div class="ibox-content bagCol">
+        <div class="ibox-title">
+            <h5>说明</h5>
+        </div>
+        <div class="ibox-content">
+            <form method="get" class="form-horizontal">
+                <div class="form-group">
+                    <div style="margin-left: 25px;">
+                        <p><b>1：</b>以下输入框均为输入1~100的纯数字</p>
+                        <p><b>2：</b>只有28类彩种增加 “组合，极值，单点和特殊” 玩法限制条件和当天投注额与投注期数的限制条件，其他彩种只需按照会员个人返水和团队返水设置的返水比例计算即可。</p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="ibox-content bagCol">
+        <div class="ibox-title">
+            <h5>个人返水限制</h5>
+            <div class="ibox-tools">
+                <a href="javascript:void(0)" class="btn btn-white btn-bitbucket" data-title="修改"  onclick="show(this)">
+                    <i class="fa fa-pencil-square"></i>
+                </a>
+                <a href="javascript:void(0)" class="btn btn-white btn-bitbucket" data-title="保存" onclick="returnWaterSet(1)" style="display: none">
+                    <i class="fa fa-save"></i>
+                </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <form method="get" class="form-horizontal">
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><input type="checkbox" name="self-check-true" {if !empty($selfList['condition1'])}checked='checked'{/if} /> 当天所有下注</label>
+                    <div class="col-sm-10">
+                        <span class="rules-1" style="width: 110px">【幸运28】</span>
+                        <span class="rules-1 self-bet-way-1">
+                            <input type="checkbox" name="self-bet-type-1" value="1" {if @in_array(1,$selfList['condition1']['xy28']['type']) }checked='checked'{/if} />组合
+                            &nbsp;&nbsp;
+                            <input type="checkbox" name="self-bet-type-1" value="2" {if @in_array(2,$selfList['condition1']['xy28']['type']) }checked='checked'{/if} />极值
+                            &nbsp;&nbsp;
+                            <input type="checkbox" name="self-bet-type-1" value="3" {if @in_array(3,$selfList['condition1']['xy28']['type']) }checked='checked'{/if} />单点
+                            &nbsp;&nbsp;
+                            <input type="checkbox" name="self-bet-type-1" value="4" {if @in_array(4,$selfList['condition1']['xy28']['type']) }checked='checked'{/if} />特殊
+                        </span>
+                        <span class="rules-1">未达到幸运28总额的</span>
+                        <span class="rules-1" style="padding-right: 2px;"><input type="number" class="form-control" name="self-amount-1" placeholder="请输入大于零的整数" value="{$selfList['condition1']['xy28']['amount']}" /></span>
+                        <span class="rules-1">%，无返水。</span>
+                        <br /> <br />
+                        <span class="rules-1" style="width: 110px">【加拿大28】</span>
+                        <span class="rules-1 self-bet-way-3">
+                            <input type="checkbox" name="self-bet-type-3" value="1" {if @in_array(1,$selfList['condition1']['jnd28']['type']) }checked='checked'{/if} />组合
+                            &nbsp;&nbsp;
+                            <input type="checkbox" name="self-bet-type-3" value="2" {if @in_array(2,$selfList['condition1']['jnd28']['type']) }checked='checked'{/if} />极值
+                            &nbsp;&nbsp;
+                            <input type="checkbox" name="self-bet-type-3" value="3" {if @in_array(3,$selfList['condition1']['jnd28']['type']) }checked='checked'{/if} />单点
+                            &nbsp;&nbsp;
+                            <input type="checkbox" name="self-bet-type-3" value="4" {if @in_array(4,$selfList['condition1']['jnd28']['type']) }checked='checked'{/if} />特殊
+                        </span>
+                        <span class="rules-1">未达到加拿大28总额的</span>
+                        <span class="rules-1" style="padding-right: 2px;"><input type="number" class="form-control" name="self-amount-3" placeholder="请输入大于零的整数" value="{$selfList['condition1']['jnd28']['amount']}" /></span>
+                        <span class="rules-1">%，无返水。</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><input type="checkbox" name="self-check-true" {if !empty($selfList['condition2'])}checked='checked'{/if} /> 当天投注期数</label>
+                    <div class="col-sm-10">
+                        <span class="rules-1" style="width: 110px">【幸运28】</span>
+                        <span class="rules-1">会员当天投注未达到</span>
+                        <span class="rules-1" style="padding-right: 2px;">
+                            <input type="number" class="form-control" name="self-num-1" placeholder="请输入大于零的整数" value="{$selfList['condition2']['xy28']}" />
+                        </span>
+                        <span class="rules-1">期，无返水；</span>
+
+                        <br /> <br />
+
+                        <span class="rules-1" style="width: 110px">【加拿大28】</span>
+                        <span class="rules-1">会员当天投注未达到</span>
+                        <span class="rules-1" style="padding-right: 2px;">
+                            <input type="number" class="form-control" name="self-num-3" placeholder="请输入大于零的整数" value="{$selfList['condition2']['jnd28']}" />
+                        </span>
+                        <span class="rules-1">期，无返水；</span>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <div class="ibox-content bagCol">
+        <div class="ibox-title">
+            <h5>团队返水限制</h5>
+            <div class="ibox-tools">
+                <a href="javascript:void(0)" class="btn btn-white btn-bitbucket" data-title="修改" onclick="show(this)">
+                    <i class="fa fa-pencil-square"></i>
+                </a>
+                <a href="javascript:void(0)" class="btn btn-white btn-bitbucket" data-title="保存" onclick="returnWaterSet(2)" style="display: none">
+                    <i class="fa fa-save"></i>
+                </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <form method="get" class="form-horizontal">
+                <form method="get" class="form-horizontal">
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><input type="checkbox" name="team-check-true" placeholder="请输入大于零的整数" {if !empty($teamList['condition1'])}checked='checked'{/if} /> 当天所有下注</label>
+                        <div class="col-sm-10">
+                            <span class="rules-1" style="width: 110px">【幸运28】</span>
+                            <span class="rules-1 team-bet-way-1">
+                                <input type="checkbox" name="team-bet-type-1" value="1" {if @in_array(1,$teamList['condition1']['xy28']['type']) }checked='checked'{/if} />组合
+                                &nbsp;&nbsp;
+                                <input type="checkbox" name="team-bet-type-1" value="2" {if @in_array(2,$teamList['condition1']['xy28']['type']) }checked='checked'{/if} />极值
+                                &nbsp;&nbsp;
+                                <input type="checkbox" name="team-bet-type-1" value="3" {if @in_array(3,$teamList['condition1']['xy28']['type']) }checked='checked'{/if} />单点
+                                &nbsp;&nbsp;
+                                <input type="checkbox" name="team-bet-type-1" value="4" {if @in_array(4,$teamList['condition1']['xy28']['type']) }checked='checked'{/if} />特殊
+                            </span>
+                            <span class="rules-1">未达到幸运28总额的</span>
+                            <span class="rules-1" style="padding-right: 2px;"><input type="number" class="form-control" name="team-amount-1" placeholder="请输入大于零的整数" value="{$teamList['condition1']['xy28']['amount']}" /></span>
+                            <span class="rules-1">%，无返水。</span>
+
+                            <br /> <br />
+
+                            <span class="rules-1" style="width: 110px">【加拿大28】</span>
+                            <span class="rules-1 team-bet-way-3">
+                                <input type="checkbox" name="team-bet-type-3" value="1" {if @in_array(1,$teamList['condition1']['jnd28']['type']) }checked='checked'{/if} />组合
+                                &nbsp;&nbsp;
+                                <input type="checkbox" name="team-bet-type-3" value="2" {if @in_array(2,$teamList['condition1']['jnd28']['type']) }checked='checked'{/if} />极值
+                                &nbsp;&nbsp;
+                                <input type="checkbox" name="team-bet-type-3" value="3" {if @in_array(3,$teamList['condition1']['jnd28']['type']) }checked='checked'{/if} />单点
+                                &nbsp;&nbsp;
+                                <input type="checkbox" name="team-bet-type-3" value="4" {if @in_array(4,$teamList['condition1']['jnd28']['type']) }checked='checked'{/if} />特殊
+                            </span>
+                            <span class="rules-1">未达到加拿大28总额的</span>
+                            <span class="rules-1" style="padding-right: 2px;"><input type="number" class="form-control" name="team-amount-3" placeholder="请输入大于零的整数" value="{$teamList['condition1']['jnd28']['amount']}" /></span>
+                            <span class="rules-1">%，无返水。</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><input type="checkbox" name="team-check-true" {if !empty($teamList['condition2'])}checked='checked'{/if} /> 当天投注期数</label>
+                        <div class="col-sm-10">
+                            <span class="rules-1" style="width: 110px">【幸运28】</span>
+                            <span class="rules-1">会员当天投注未达到</span>
+                            <span class="rules-1" style="padding-right: 2px;">
+                                <input type="number" class="form-control" name="team-num-1" placeholder="请输入大于零的整数" value="{$teamList['condition2']['xy28']}" />
+                            </span>
+                            <span class="rules-1">期，无返水；</span>
+
+                            <br /> <br />
+
+                            <span class="rules-1" style="width: 110px">【加拿大28】</span>
+                            <span class="rules-1">会员当天投注未达到</span>
+                            <span class="rules-1" style="padding-right: 2px;">
+                                <input type="number" class="form-control" name="team-num-3" placeholder="请输入大于零的整数" value="{$teamList['condition2']['jnd28']}" />
+                            </span>
+                            <span class="rules-1">期，无返水；</span>
+                        </div>
+                    </div>
+
+                </form>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var loading = "";//加载中......
+
+    $("input").attr("disabled",true);
+
+    //保存按钮显示
+    function show(obj){
+        $(obj).hide();
+        $(obj).next().show();
+        $(obj).parent().parent().parent().find("input").attr("disabled",false);
+    }
+
+    //三无返水限制
+    function returnWaterSet(type) {
+        var data = {};
+        var check = false;
+        var obj = '';
+        var reg = /^[1-9]\d*$/;
+        if(type == 1) { //个人返水限制
+
+            //当天所有下注限制
+            obj = $("input[name='self-check-true']");
+            if($(obj[0]).is(':checked')) {
+                var tmps = {
+                    'xy28':{},
+                    'jnd28':{}
+                }
+                var typeObj = $("input[name='self-bet-type-1'],input[name='self-bet-type-3']");
+                var tmpCon_xy28 = {};
+                var bet_xy28 = '';
+                var tmpCon_jnd28 = {};
+                var bet_jnd28 = '';
+                for(var a=0;a<typeObj.length;a++) {
+                    if ($(typeObj[a]).attr("name") == "self-bet-type-1") {
+                        if($(typeObj[a]).is(':checked')) {
+                            check = true;
+                            bet_xy28 += $(typeObj[a]).val()+",";
+                        }
+                        tmpCon_xy28['type'] = bet_xy28
+                        tmpCon_xy28['amount'] = $("input[name='self-amount-1']").val()
+                        if (tmpCon_xy28['amount'] != "") {
+                            tmpCon_xy28['amount'] = parseInt(tmpCon_xy28['amount']);
+                        }
+                        tmps['xy28'] = tmpCon_xy28
+                    } else {
+                        if($(typeObj[a]).is(':checked')) {
+                            check = true;
+                            bet_jnd28 += $(typeObj[a]).val()+",";
+                        }
+                        tmpCon_jnd28['type'] = bet_jnd28
+                        tmpCon_jnd28['amount'] = $("input[name='self-amount-3']").val()
+                        if (tmpCon_jnd28['amount'] != "") {
+                            tmpCon_jnd28['amount'] = parseInt(tmpCon_jnd28['amount']);
+                        }
+                        tmps['jnd28'] = tmpCon_jnd28
+                    }
+                }
+
+                if (tmps['xy28']['type'] == "" && tmps['jnd28']['type'] == "" && tmps['xy28']['amount'] == "" && tmps['jnd28']['amount'] == "") {
+                    layer.tips('请选择玩法', $(".self-bet-way-1"), {tips:[1, '#3595CC'], time: 4000});
+                    return false;
+                }
+
+                if (tmps['xy28']['type'] != "") {
+                    if (!reg.test(tmps['xy28']['amount']) || tmps['xy28']['amount'] > 100) {
+                        layer.tips('请输入大于零小于100的整数', $("input[name='self-amount-1']"), {tips:[1, '#3595CC'], time: 4000});
+                        return false;
+                    }
+                }
+                if (tmps['xy28']['amount'] != "") {
+                    if (!reg.test(tmps['xy28']['amount']) || tmps['xy28']['amount'] > 100) {
+                        layer.tips('请输入大于零小于100的整数', $("input[name='self-amount-1']"), {tips:[1, '#3595CC'], time: 4000});
+                        return false;
+                    }
+                    if (tmps['xy28']['type'] == "") {
+                        layer.tips('请选择玩法', $(".self-bet-way-1"), {tips:[1, '#3595CC'], time: 4000});
+                        return false;
+                    }
+                }
+
+                if (tmps['jnd28']['type'] != "") {
+                    if (!reg.test(tmps['jnd28']['amount']) || tmps['jnd28']['amount'] > 100) {
+                        layer.tips('请输入大于零小于100的整数', $("input[name='self-amount-3']"), {tips:[1, '#3595CC'], time: 4000});
+                        return false;
+                    }
+                }
+                if (tmps['jnd28']['amount'] != "") {
+                    if (!reg.test(tmps['jnd28']['amount']) || tmps['jnd28']['amount'] > 100) {
+                        layer.tips('请输入大于零小于100的整数', $("input[name='self-amount-3']"), {tips:[1, '#3595CC'], time: 4000});
+                        return false;
+                    }
+                    if (tmps['jnd28']['type'] == "") {
+                        layer.tips('请选择玩法', $(".self-bet-way-3"), {tips:[1, '#3595CC'], time: 4000});
+                        return false;
+                    }
+                }
+
+                data['condition1'] = tmps;
+            }
+
+            //当天投注期数
+            if($(obj[1]).is(':checked')) {
+
+                var tmp = {
+                    'xy28':$("input[name='self-num-1']").val(),
+                    'jnd28':$("input[name='self-num-3']").val()
+                }
+                if (tmp.xy28 != "") {
+                    tmp.xy28 = parseInt(tmp.xy28)
+                }
+                if (tmp.jnd28 != "") {
+                    tmp.jnd28 = parseInt(tmp.jnd28)
+                }
+                if (tmp.xy28 == "" && tmp.jnd28 == "") {
+                    layer.tips('请输入大于零的整数', $("input[name='self-num-1']"), {tips:[1, '#3595CC'], time: 4000});
+                    return false;
+                }
+
+                data['condition2'] = tmp;
+            }
+
+        } else if(type == 2) { //团队返水限制;
+
+            //当天所有下注限制
+            obj = $("input[name='team-check-true']");
+            if($(obj[0]).is(':checked')) {
+                var tmps = {
+                    'xy28':{},
+                    'jnd28':{}
+                }
+                var typeObj = $("input[name='team-bet-type-1'],input[name='team-bet-type-3']");
+                var tmpCon_xy28 = {};
+                var bet_xy28 = '';
+                var tmpCon_jnd28 = {};
+                var bet_jnd28 = '';
+                for(var a=0;a<typeObj.length;a++) {
+                    if ($(typeObj[a]).attr("name") == "team-bet-type-1") {
+                        if($(typeObj[a]).is(':checked')) {
+                            check = true;
+                            bet_xy28 += $(typeObj[a]).val()+",";
+                        }
+                        tmpCon_xy28['type'] = bet_xy28
+                        tmpCon_xy28['amount'] = $("input[name='team-amount-1']").val()
+                        if (tmpCon_xy28['amount'] != "") {
+                            tmpCon_xy28['amount'] = parseInt(tmpCon_xy28['amount'])
+                        }
+                        tmps['xy28'] = tmpCon_xy28
+                    } else {
+                        if($(typeObj[a]).is(':checked')) {
+                            check = true;
+                            bet_jnd28 += $(typeObj[a]).val()+",";
+                        }
+                        tmpCon_jnd28['type'] = bet_jnd28
+                        tmpCon_jnd28['amount'] = $("input[name='team-amount-3']").val()
+                        if (tmpCon_jnd28['amount'] != "") {
+                            tmpCon_jnd28['amount'] = parseInt(tmpCon_jnd28['amount'])
+                        }
+                        tmps['jnd28'] = tmpCon_jnd28
+                    }
+                }
+
+                if (tmps['xy28']['type'] == "" && tmps['jnd28']['type'] == "" && tmps['xy28']['amount'] == "" && tmps['jnd28']['amount'] == "") {
+                    layer.tips('请选择玩法', $(".team-bet-way-1"), {tips:[1, '#3595CC'], time: 4000});
+                    return false;
+                }
+
+                if (tmps['xy28']['type'] != "") {
+                    if (!reg.test(tmps['xy28']['amount']) || tmps['xy28']['amount'] > 100) {
+                        layer.tips('请输入大于零小于100的整数', $("input[name='team-amount-1']"), {tips:[1, '#3595CC'], time: 4000});
+                        return false;
+                    }
+                }
+                if (tmps['xy28']['amount'] != "") {
+                    if (!reg.test(tmps['xy28']['amount']) || tmps['xy28']['amount'] > 100) {
+                        layer.tips('请输入大于零小于100的整数', $("input[name='team-amount-1']"), {tips:[1, '#3595CC'], time: 4000});
+                        return false;
+                    }
+                    if (tmps['xy28']['type'] == "") {
+                        layer.tips('请选择玩法', $(".team-bet-way-1"), {tips:[1, '#3595CC'], time: 4000});
+                        return false;
+                    }
+                }
+
+
+                if (tmps['jnd28']['type'] != "") {
+                    if (!reg.test(tmps['jnd28']['amount']) || tmps['jnd28']['amount'] > 100) {
+                        layer.tips('请输入大于零小于100的整数', $("input[name='team-amount-3']"), {tips:[1, '#3595CC'], time: 4000});
+                        return false;
+                    }
+                }
+                if (tmps['jnd28']['amount'] != "") {
+                    if (!reg.test(tmps['jnd28']['amount']) || tmps['jnd28']['amount'] > 100) {
+                        layer.tips('请输入大于零小于100的整数', $("input[name='team-amount-3']"), {tips:[1, '#3595CC'], time: 4000});
+                        return false;
+                    }
+                    if (tmps['jnd28']['type'] == "") {
+                        layer.tips('请选择玩法', $(".team-bet-way-3"), {tips:[1, '#3595CC'], time: 4000});
+                        return false;
+                    }
+                }
+
+
+                data['condition1'] = tmps;
+            }
+
+            //当天投注期数
+            if($(obj[1]).is(':checked')) {
+
+                var tmp = {
+                    'xy28':$("input[name='team-num-1']").val(),
+                    'jnd28':$("input[name='team-num-3']").val()
+                }
+                if (tmp.xy28 != "") {
+                    tmp.xy28 = parseInt(tmp.xy28)
+                }
+                if (tmp.jnd28 != "") {
+                    tmp.jnd28 = parseInt(tmp.jnd28)
+                }
+                if (tmp.xy28 == "" && tmp.jnd28 == "") {
+                    layer.tips('请输入大于零的整数', $("input[name='team-num-1']"), {tips:[1, '#3595CC'], time: 4000});
+                    return false;
+                }
+
+                data['condition2'] = tmp;
+            }
+        }
+
+        data['setType'] = type;
+
+        $.ajax({
+            url: '?m=admin&c=odds&a=waterLimitAct',
+            data: data,
+            dataType: 'json',
+            type: 'post',
+            beforeSend: function () {
+                loading = layer.load(1);
+            },
+            error: function () {
+                layer.close(loading);
+                layer.msg('网络错误，请重试', {icon: 5, shade: [0.5, '#393D49']});
+            },
+            success: function (result) {
+                layer.close(loading);
+                if (result.code == 0) {
+                    layer.msg(result.msg, {icon: 6, shade: [0.5, '#393D49']}, function () {
+                        location.reload();
+                    });
+                } else {
+                    layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']});
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>

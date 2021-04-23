@@ -1,0 +1,97 @@
+<!-- 评论列表 -->
+<div class="publish-list container">
+    <?php foreach($list as $v):?>
+    <div class="item">
+        <div class="line"></div>
+        <h1><?php echo $v['topic'];?></h1>
+        <p><?php echo $v['content'];?></p>
+        <div class="icons">
+            <label class="comment" data-slogan-id='<?php echo $v["id"];?>'>
+                <span class="icon-comment"></span>
+                <span id="comment_<?php echo $v['id']?>"><?php echo $v['comment_num'];?></span>
+            </label>
+            <label class="zan" data-slogan-id='<?php echo $v["id"];?>'>
+                <span class="icon-zan"></span>
+                <span id="zan_<?php echo $v['id']?>"><?php echo $v['like_num'];?></span>
+            </label>
+            <div class="currbar hidden"></div>
+        </div>
+        <div class="comment-box hidden">
+            <div class="comment-input-bar clearfix">
+                <div class="name"><?php if($user['id']>0):?><?php echo $user['username'];?><?php else:?><a href="<?php echo url('content','login','index');?>" target="_blank">登录</a> / <a href="<?php echo url('content','regedit','index');?>" target="_blank">注册</a> <?php endif;?>:</div>
+                <div class="inputbar"><input type="text" placeholder="30字以内"></div>
+                <div class="inputbtn"><button data-slogan-id='<?php echo $v["id"];?>'  class="slogan_comment">点击评论</button></div>
+            </div>
+            <ul class="com-list" id="comlist_<?php echo $v['id']?>"></ul>
+        </div>
+    </div>
+    <?php endforeach;?>
+</div>
+<!-- /评论列表 -->
+<!-- 分页 -->
+<?php echo $page['html'];?>
+<!-- /分页 -->
+<script>
+    $(function () {
+        // 点击评论弹出评论框
+        $(".comment").on("click", function () {
+            var slogan_id = $(this).attr('data-slogan-id');
+            var $comBox = $(this).parent(".icons").next(".comment-box");
+            var $currbar = $(this).parent(".icons").children(".currbar");
+            var slogan_content = $("#comlist_" + slogan_id).text();
+            $(".comment-box").not($comBox).addClass("hidden");
+            $(".currbar").not($currbar).addClass("hidden");
+            if ($comBox.hasClass("hidden")) {
+                $comBox.removeClass("hidden");
+            } else {
+                $comBox.addClass("hidden");
+            }
+            if ($currbar.hasClass("hidden")) {
+                $currbar.removeClass("hidden");
+                if (slogan_content == '') {
+                    getComment(1, slogan_id);
+                }
+            } else {
+                $currbar.addClass("hidden");
+            }
+
+
+        });
+        $(".zan").on('click', function () {//点赞
+            var slogan_id = $(this).attr('data-slogan-id');
+            var $zan = $(this);
+            $.post("<?=C('app_home')?>/?m=activity&c=celebration&a=doLike", {slogan_id: slogan_id}, function (d) {
+                if (d.code == 'success') {
+                    var now_num = $zan.find("span").eq(1).text();
+                    now_num = parseInt(now_num);
+                    $zan.find("span").eq(1).text(now_num + 1); //点赞加1
+                } else {
+                    alert(d.msg);
+                    if (d.redirect) {
+                        window.location.href = d.redirect;
+                    }
+                }
+            }, 'json');
+        });
+
+        $(".slogan_comment").click(function (event) {
+            var $input = $(this).parent().prev().find("input");
+            var content = $input.val();
+            var slogan_id=$(this).attr('data-slogan-id');
+//            alert(content+" "+slogan_id);
+//            return;
+            $.post("<?=C('app_home')?>/?m=activity&c=celebration&a=postSloganComment", {content: content,slogan_id:slogan_id}, function (d) {
+                if (d.code == 'success') {                    
+                    alert(d.msg);
+                    $input.val("");
+                } else {
+                    alert(d.msg);
+                    if (d.redirect) {
+                        window.location.href = d.redirect;
+                    }
+                }
+            }, 'json');
+        });
+
+    });
+</script>

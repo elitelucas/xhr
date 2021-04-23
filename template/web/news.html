@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>系统消息</title>
+    <!--<link href="/statics/web/css/css.css?v=1" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+    <link rel="stylesheet" href="/statics/web/extend/dropload/dropload.css">
+    <script src="/statics/web/extend/dropload/dropload.min.js"></script>
+</head>
+<body>
+<header>
+    <em {if $history_go!=''} data-href="{$history_go}" {else} onclick="history.go(-1)" {/if}>返回</em>
+    <h1>消息</h1>
+</header>
+<div class="newsTitle"><ul id='news_tab'><li class="active" data='1'>平台公告</li><li data='2'>站内消息</li></ul></div>
+<section class="modify pb-0">
+<div class="newsContent">
+    <ul class="record_list">
+
+    </ul>
+    <ul class="record_list">
+
+    </ul>
+</div>
+<div class="zhanwei" style="display: none"></div>
+</section>
+<script type='text/javascript'>
+    var type = "{$_GET['type']}";
+    if(type==1){
+        $("#news_tab li").removeClass("active");
+        $("#news_tab li").eq(0).addClass("active");
+    }else {
+        $("#news_tab li").removeClass("active");
+        $("#news_tab li").eq(1).addClass("active");
+    }
+   //var type = 1;
+    var index = 0;
+    pageData();
+    $(function() {
+        //绑定点击事件
+        $("#news_tab li").click(function() {
+            $("#news_tab li").removeClass("active");
+            $(this).addClass("active");     
+            type = $(this).attr('data');
+            index = $(this).index();
+            $('.newsContent ul').eq(index).show().siblings('.newsContent ul').hide();
+
+            $(".zhanwei").hide();
+            pageData();
+        });
+    });
+    
+    function pageData() {
+        var page = 1; //页码
+        $('.record_list').html("");
+        $('.dropload-down').remove();
+
+        // dropload
+        $('.bettingRecordList').dropload({
+            scrollArea : window,
+            loadDownFn : function(me){
+                var result = '';
+                
+                if (index == 0 ) {
+                    $.ajax({
+                        type: 'GET',
+                        url: "<?=url('','','dataList')?>&type=" + type + "&page=" + page,
+                        dataType: 'json',
+                        success: function(data){
+                            var dataLen = data.list.length;
+                            //console.log(page, dataLen);
+                            //占位符
+                            if (page == 1 && dataLen == 0) {
+                                $(".zhanwei").show();
+                            }
+
+                            if (dataLen > 0) {
+                                for(var i=0; i < data.list.length; i++) {
+                                    var flag = data.list[i].has_read ==1 ?' class="yidu"':'';
+                                    result += "<li"+flag+" data-href='";
+                                    result +=  "<?=url('web','message','detail')?>&type=" + type + "&id=" + data.list[i].id + "'>";
+                                    result += "<div class='clearfix'><span class='title'>"+data.list[i].title+"</span><span>" + data.list[i].time  + "    " + data.list[i].month + '/' + data.list[i].day + "</span></div>";
+                                    result +="<h3>" + data.list[i].content + "</h3></li>";
+                                }
+                            } else {
+                                 // 锁定
+                                me.lock();
+                                // 无数据
+                                me.noData();
+                            }
+                            // 为了测试，延迟1秒加载
+                            setTimeout(function(){
+                                $('.newsContent ul').eq(0).append(result);
+                                // 每次数据加载完，必须重置
+                                me.resetload();
+                            },1000);
+
+                            page++; //页面加1
+                        },
+                        error: function(xhr, type){
+                            // 即使加载出错，也得重置
+                            me.resetload();
+                        }
+                    });
+                }else{
+                    $.ajax({
+                        type: 'GET',
+                        url: "<?=url('','','dataList')?>&type=" + type + "&page=" + page,
+                        dataType: 'json',
+                        success: function(data){
+                            var dataLen = data.list.length;
+                            //console.log(page, dataLen);
+                            //占位符
+                            if (page == 1 && dataLen == 0) {
+                                $(".zhanwei").show();
+                            }
+
+                            if (dataLen > 0) {
+                                for(var i=0; i < data.list.length; i++) {
+                                    var flag = data.list[i].has_read ==1 ?' class="yidu"':'';
+                                    result += "<li"+flag+" data-href='";
+                                    result +=  "<?=url('web','message','detail')?>&type=" + type + "&id=" + data.list[i].id + "'>";
+                                     result += "<div class='clearfix'><span class='title'>"+data.list[i].title+"</span><span>" + data.list[i].time  + "    " + data.list[i].month + '/' + data.list[i].day + "</span></div>";
+                                    result +="<h3>" + data.list[i].content + "</h3></li>";
+                                }
+                            } else {
+                                 // 锁定
+                                me.lock();
+                                // 无数据
+                                me.noData();
+                            }
+                            // 为了测试，延迟1秒加载
+                            setTimeout(function(){
+                                $('.newsContent ul').eq(1).append(result);
+                                // 每次数据加载完，必须重置
+                                me.resetload();
+                            },1000);
+
+                            page++; //页面加1
+                        },
+                        error: function(xhr, type){
+                            // 即使加载出错，也得重置
+                            me.resetload();
+                        }
+                    });
+                }
+            },
+            threshold : 50
+        });
+    }    
+</script>
+</body>
+</html>

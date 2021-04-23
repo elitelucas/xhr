@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>钱包</title>
+    <!--<link href="/statics/web/css/css.css?v=1" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+</head>
+<body>
+<header class="head_wallet">
+    <div class="headerLeft">
+        <ul>
+            <li class="icoRefresh"><a href="#"></a></li>
+        </ul>
+    </div>
+    <h1>钱包</h1>
+    <div class="headerRight">
+        <ul>
+            <li class="redpacket" data-href="?m=web&c=redpacket&a=redPacket_record"></li>
+        </ul>
+
+    </div>
+</header>
+<section>
+    <div class="walletWarp my">
+        <!--如果是游客不显示红包图标-->
+        <!-- <span class="redpacket" data-href="?m=web&c=redpacket&a=redPacket_record"></span> -->
+        <div class="wallet">
+            <p>账户余额</p>
+            <div class="walletAcer"><em class="icoAcer">{$money}</em></div>
+        </div>
+        <div class="walletUl">
+            {if $rtArr['reg_type'] != '8'}
+            <ul>
+
+                <li data-href="{$JumpUrl[24]}"><div><label class="icoCz1">充值</label></div></li>
+                <li data-href="{$JumpUrl[27]}"><div><label class="icoCz2">提现</label></div></li>
+            </ul>
+            {/if}
+            <ul>
+                {if $rtArr['reg_type'] != '8'}
+                <li data-href="?m=web&c=bank&a=getUserBank"><div><label class="icoCz3">银行卡</label></div></li>
+                {/if}
+                <li data-href="{$JumpUrl[29]}"><div><label class="icoCz4">交易记录</label></div></li>
+
+            </ul>
+            {if $rtArr['reg_type'] != '8'}
+            <ul>
+                <li data-href="{$JumpUrl[33]}"><div><label class="icoCz5">支付安全</label></div></li>
+
+            </ul>
+            {/if}
+        </div>
+    </div>
+</section>
+<div class="popup bindBank" style="display: none">
+    <div class="config">
+        <i class="configClose"></i>
+        <div class="bindBank_con">
+            <div class="tit_img"></div>
+            <div class="tit_bind">绑定银行卡</div>
+            <div class="info_bind">为保障您的账户资金安全，需先成功绑定银行卡才能进行安全提现。</div>
+            <a href="<?=url('','bank','getUserBank')?>"><p>立即绑定</p></a>
+        </div>
+    </div>
+</div>
+
+<script src="/statics/web/extend/layer/mobile/layer.js"></script>
+<link href="/statics/web/css/s_min.css" rel="stylesheet" type="text/css">
+<script type='text/javascript'>
+    {if $rtArr['reg_type'] != '8'}
+    $(function () {
+        var bank = "{$userBank['bank']}";
+        //console.log(bank);
+        var first_login = "{$first_login}";
+        if (bank == ''&& first_login) { //绑定卡
+            $(".bindBank").css("display", "block");
+        }
+
+        //判断用户状态展示红包图标
+        var isTourist = Number(getCookie('tourist'));
+        if(isTourist == 0){
+            $(".redpacket").show();
+        }
+    })
+    {/if}
+    //定义链接跳转函数
+    function jump(url) {
+        window.location.href = url;
+    }
+
+    var tips = {$tips};
+    if(tips.status == 1){
+        layer.open({
+            content: "<pre style='line-height: 32px' class='alert_msg'>"+tips.msg+'</pre>'
+            ,btn: '<p class="alert_buttom">我知道了</p>'
+        });
+    }
+
+    function getCookie(objName) {//获取指定名称的cookie的值
+        var arrStr = document.cookie.split("; ");
+        for (var i = 0; i < arrStr.length; i++) {
+            var temp = arrStr[i].split("=");
+            if (temp[0] == objName) return unescape(temp[1]);
+        }
+        return "";
+    }
+</script>
+
+{template public-footer}

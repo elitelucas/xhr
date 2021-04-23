@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>客服</title>
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+    <script type='text/javascript'>
+        var userinfo = {$userInfo};
+    </script>
+    <script src="/statics/web/js/ws-client.js"></script>
+    <script src="/statics/web/js/store.js"></script>
+    <script src="/statics/web/js/service.js"></script>
+</head>
+<body>
+<header>
+    <h1>客服</h1>
+    <div class="headerRight">
+        <ul>
+            <li class="icoNews" data-new="" data-href="<?=url('web','message','index', array('type' => 1))?>&flag_m=3"></li>
+            <li class="icoAdd"><a href="#"></a> </li>
+        </ul>
+
+    </div>
+    <div class="menu" style="display: none">
+        <ul>
+            <li class="icoRebate" data-href="{$JumpUrl[10]}">天天返利</li>
+            <li class="icoResult" data-href="{$JumpUrl[11]}">开奖结果</li>
+            <li class="icoIntroduce" data-href="{$JumpUrl[12]}">玩法介绍</li>
+            <li class="icoTrend" data-href="{$JumpUrl[13]}">开奖走势</li>
+
+        </ul>
+    </div>
+</header>
+<section>
+<div class="customService">
+    <ul>
+        <!--<li>-->
+            <!--<div class="girl left"><img src="/statics/web/images/headPortrait.png" /> </div>-->
+            <!--<div class="customContent left">-->
+                <!--回复1：XXXXXXXX<br/>-->
+                <!--回复2：XXXXXXXX<br/>-->
+                <!--回复3：XXXXXXX<br/>-->
+                <!--回复4：XXXXXX<br/>-->
+            <!--</div>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<div class="girl right"><img src="/statics/web/images/headPortrait.png" /> </div>-->
+            <!--<div class="customContent right">-->
+                <!--回复1：XXXXXXXX<br/>-->
+                <!--回复2：XXXXXXXX<br/>-->
+                <!--回复3：XXXXXXX<br/>-->
+                <!--回复4：XXXXXX<br/>-->
+            <!--</div>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<div class="girl right"><img src="/statics/web/images/headPortrait.png" /> </div>-->
+            <!--<div class="customContent right">-->
+                <!--回复1：XXXXXXXX<br/>-->
+                <!--回复2：XXXXXXXX<br/>-->
+                <!--回复3：XXXXXXX<br/>-->
+                <!--回复4：XXXXXX<br/>-->
+            <!--</div>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<div class="girl right"><img src="/statics/web/images/headPortrait.png" /> </div>-->
+            <!--<div class="customContent right">-->
+                <!--回复1：XXXXXXXX<br/>-->
+                <!--回复2：XXXXXXXX<br/>-->
+                <!--回复3：XXXXXXX<br/>-->
+                <!--回复4：XXXXXX<br/>-->
+            <!--</div>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<div class="girl right"><img src="/statics/web/images/headPortrait.png" /> </div>-->
+            <!--<div class="customContent right">-->
+                <!--回复1：XXXXXXXX<br/>-->
+                <!--回复2：XXXXXXXX<br/>-->
+                <!--回复3：XXXXXXX<br/>-->
+                <!--回复4：XXXXXX<br/>-->
+            <!--</div>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<div class="girl right"><img src="/statics/web/images/headPortrait.png" /> </div>-->
+            <!--<div class="customContent right">-->
+                <!--回复1：XXXXXXXX<br/>-->
+                <!--回复2：XXXXXXXX<br/>-->
+                <!--回复3：XXXXXXX<br/>-->
+                <!--回复4：XXXXXX<br/>-->
+            <!--</div>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<div class="girl right"><img src="/statics/web/images/headPortrait.png" /> </div>-->
+            <!--<div class="customContent right">-->
+                <!--回复1：XXXXXXXX<br/>-->
+                <!--回复2：XXXXXXXX<br/>-->
+                <!--回复3：XXXXXXX<br/>-->
+                <!--回复4：XXXXXX<br/>-->
+            <!--</div>-->
+        <!--</li>-->
+    </ul>
+
+</div>
+    <div class="customNews">
+        <div class="textArea" contenteditable="true"></div>
+        <button id="sUpdate">发送</button>
+    </div>
+</section>
+<script type="text/javascript">
+    $(function(){
+        getMessage();
+    })
+    function getMessage ()
+    {
+        var data = {
+            "token": '{$token}'
+        }
+        var host = window.location.host;
+        $.ajax({
+            url : "?m=api&c=lobby&a=getMessageNum",
+            type : 'POST',
+            data : data,
+            dataType:"json",
+            success: function(data){
+                $(".icoNews").attr("data-new",data['msg_num']);
+                if($(".headerRight li.icoNews").attr("data-new") > 0){
+                    $(".headerRight li.icoNews").addClass("oAfter")
+                }
+            }
+        });
+    }
+</script>
+
+{template public-footer}

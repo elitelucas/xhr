@@ -1,0 +1,451 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>专注小而美互联网投</title>
+<link rel="stylesheet" type="text/css" href="../../statics/activity/xem/style/css.css">
+  <style>
+/*首页左边浮动框*/
+.float_left{ position:fixed; top:50%; left:6px; margin-top:-133px; z-index: 9999; width: 150px; height:auto;}
+.float_left img{ display:inline-block;}
+.float_left .float-img{ background:none; padding:0 ; margin:0; margin-top:20px; text-align:center; width:100%;}
+.float_left .float-img:hover{ background:none;}
+.float_left .erweima{ margin-left:28px;}
+.float_left .back-top{ display:block; width:81px; height:29px; position:absolute; bottom:0; left:37px; cursor:pointer; font-size:16px; font-weight:bold; color:#fff; text-align:center; line-height:22px;}
+.float_left a{ display:block; width:143px; min-height:32px; line-height:26px; background:url(../../statics/resource/images/float-bg.png); color:#fbfbe0; text-align:center; font-size:14px; font-weight:bold; margin:0 6px 6px 2px; overflow:hidden;}
+.float_left a:hover{ text-decoration:none;/* background-color:#be1a00;*/}
+.float_left a span{ cursor:pointer; font-size:18px; color:#ffef3c;}
+.float_left a .float_txt{ width:60%;}
+.float_left a .float_per{ width:40%;}
+.float_left #float_colse{ position:absolute; top:0; right:0; cursor:pointer; display:block; width:20px; height:20px; text-align:center; line-height:20px; color:#4c4c4c;}
+  </style>
+</head>
+
+<body>
+<div id="header" class="clearfix">
+	<div class="container">
+        <h1 class="float-left"><a href="https://www.chenghuitong.net/" target="_blank"><img src="../../statics/activity/xem/images/{if $type}logo2.gif{else}logo.gif{/if}" alt="诚汇通LOGO"></a></h1>
+        <div class="float-right">400-018-0107</div>
+    </div>
+</div>
+<div class="banner">
+  <div class="flexslider">
+        <ul class="slides">
+            <li><a href="#" target="_blank" style=" background:url(../../statics/activity/xem/images/banner001.jpg) 50% 0 no-repeat;"></a></li>
+            <li><a href="#" target="_blank" style=" background:url(../../statics/activity/xem/images/banner002.jpg) 50% 0 no-repeat;"></a></li>
+        </ul>
+    </div>
+    <div class="register">
+	{if empty($this->user)}
+   	  <div class="container">
+		  <form id="form" class="form-inline" role="form" action="<?=url('','','',array('type'=>$type))?>" method="post" target="_top">
+        	<div class="register_mask"></div>
+            <div class="register_box tc">
+                <h2 class="f18">50元起投、100%本息担保</h2>
+              <div class="item">
+                    <div class="float-left">用&nbsp;户&nbsp;&nbsp;名</div>
+                    <div class="float-right">
+                        <input class="text" type="text" placeholder="请输入用户名" name="username" autofocus value="{$data['username']}" maxlength="20">
+                        <div class="help">{$info_arr['username']}</div>
+                    </div>
+                </div>
+              <div class="item">
+                    <div class="float-left">设置密码</div>
+                    <div class="float-right">
+                        <input class="text" type="password" placeholder="请输入8-20位密码" name="pwd" value="" maxlength="20">
+                        <div class="help">{$info_arr['pwd']}</div>
+                    </div>
+                </div>
+              <div class="item">
+                    <div class="float-left">确认密码</div>
+                    <div class="float-right">
+                        <input class="text" type="password" placeholder="请再次确认密码" name="compwd" value="" maxlength="20">
+                        <div class="help">{$info_arr['compwd']}</div>
+                    </div>
+                </div>
+              <div class="item">
+                    <div class="float-left">手&nbsp;&nbsp;机&nbsp;&nbsp;号</div>
+                    <div class="float-right">
+                        <input class="text" type="text" placeholder="请输入手机号码" name="phone" value="{$data['phone']}" maxlength="11">
+                        <div class="help">{$info_arr['phone']}</div>
+                    </div>
+                </div>
+				<div class="agreement"><input type="checkbox" id="xieyi" checked>阅读并同意服务协议<a href="http://www.chenghuitong.net/article/default-xieyi.html" target="_blank">《诚汇通协议书》</a></div>
+				<div class="text-center"><a href="javascript:;" class="btn-register">立即注册</a></div>
+		   </div>
+		  </form>
+        </div>
+	{/if}
+    </div>
+</div>
+<div class="container of-hidden">
+	<div class="keyword-list clearfix">
+        <dl class="item1">
+          <dt class="icon"></dt>
+          <dd>
+            <h3>安全投资</h3>
+            <div>安全运营<em>{$days}</em>天<br>第三方资金托管本息担保</div>
+          </dd>
+        </dl>
+        <dl class="item2">
+          <dt class="icon"></dt>
+          <dd>
+            <h3>灵活快捷</h3>
+            <div>短周期1,3,6月多种回款方式<br>微信,<em>APP</em>随身理财</div>
+          </dd>
+        </dl>
+        <dl class="item3">
+          <dt class="icon"></dt>
+          <dd>
+            <h3>专享理财</h3>
+            <div><em>15.5%-21%</em>年化收益<br>投资续投奖励活动多多</div>
+          </dd>
+        </dl>
+    </div>
+</div>
+<div class="container">
+	<h2 class="title"><span>高保障投资项目&nbsp;&nbsp;任你选<i class="icon icon-l"></i><i class="icon icon-r"></i></span></h2>
+    <div class="clearfix">
+
+    <!-- 标列表 -->
+    <div class="project-list">
+      {loop $Borrowlist $k $vo}
+      <a class="item" href="<?=url('borrow','default','info',array('id'=>$vo['id']))?>" target="_blank">
+        <!-- 活动标签 -->
+        {if !empty($vo['huodong'])}
+        {/if}
+        <!-- 约标标签 -->
+        {if $vo['is_dxb'] == 1}
+        {/if}
+        <!-- 标志 -->
+        <div class="project-flag">
+          <div class="{if $vo['borrow_type']==2}flg-ya{else}flg-xin{/if}"></div>
+          {if $vo['is_dxb'] == 1}
+          <span class="flg-yue"></span>
+          {/if}
+          {if !empty($vo['zhuanrangren'])}
+          <span class="flg-tuo"></span>
+          {/if}
+          {if $vo['is_dxb'] == 1}
+		   {if $vo['bonus'] != '0.00'}
+           <span class="itooltip flg-jiang" data-toggle="tooltip" data-trigger="hover" data-placement="top" title="含约标另赠奖励">{$vo['bonus']}%</span>
+		   {/if}
+          {elseif $vo['award']==1}
+		  {if $vo['bonus'] != '0.00'}
+          <span class="itooltip flg-jiang" data-toggle="tooltip" data-trigger="hover" data-placement="top" title="投标奖励{$vo['bonus']}元">{$vo['bonus']}元</span>
+		  {/if}
+          {elseif $vo['award']==2}
+		  {if $vo['bonus'] != '0.00'}
+          <span class="itooltip flg-jiang" data-toggle="tooltip" data-trigger="hover" data-placement="top" title="投标奖励{$vo['bonus']}%">{$vo['bonus']}%</span>
+		  {/if}
+          {/if}
+        </div>
+        <!-- 标志 -->
+        <!-- 标题 -->
+        <div class="project-title font16px">{if !empty($vo['zhuanrangren'])}<span style="color:red;">{else}<span>{/if}{$vo['title']}</span></div>
+        <!-- /标题 -->
+        <div class="project-parameter">借款金额 / <span class="color-main bold font16px"><bdo>￥<?=number_format($vo['account'],2)?></bdo></span></div>
+        <div class="project-parameter">还款方式 / <span class="color-main bold font14px ">{if !empty($vo['style'])}<bdo class="text-info">{$borrow_style[$vo['style']]['name']}</bdo> {else}<bdo>{$borrow_style[$vo['style']]['name']}</bdo>{/if}</span></div>
+        <!-- 进度 -->
+        <div class="progress-value"><?=round(($vo['account_tender']/$vo['account'])*100,2)?> %</div>
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:<?=round(($vo['account_tender']/$vo['account'])*100,2)?>%;"></div>
+        </div>
+        <!-- /进度 -->
+        <ul class="project-parameter-ul unlist text-center">
+          <li>
+            <div><span class="color-main font18px bold"><bdo><?=$vo['apr']*100?>%</bdo></span></div>
+            <div>年化利率</div>
+          </li>
+          <li>
+            <div><span class="color-main font18px bold"><bdo>{$vo['time_limit']}{if $vo['is_datetype']==0}个月{else} 天{/if}</bdo></span></div>
+            <div>借款期限</div>
+          </li>
+        </ul>
+        {if $vo['status']==2 }
+        	{if $vo['borrow_type']==4}
+        		<div class="project-btn btn btn-warning">流转中</div>
+        	{else}
+        		<div class="project-btn btn btn-warning">立即投标</div>
+        	{/if}
+        {else}
+        	<div class="project-btn btn btn-primary">{$Borrowstatus[$vo['status']]}</div>
+        {/if}
+      </a>
+      {/loop}
+    </div>
+    <!-- /标列表 -->
+
+        <div class="float-right counter">
+        	<div class="tname">收益计算器</div>
+            <div class="item">
+                <div class="float-left">投资金额</div>
+                <div class="float-right">
+                    <input class="text" type="text" placeholder="请输入投资金额" id="account" autofocus value="">
+                </div>
+            </div>
+            <div class="item">
+                <div class="float-left">投资期限</div>
+                <div class="float-right fr-txt">
+                    <input class="text" type="text" placeholder="请输入投资期限" id="time_limit" autofocus value="">
+                    <span>月</span>
+                </div>
+            </div>
+            <div class="item">
+                <div class="float-left">还款方式</div>
+                <div class="float-right">
+                <select id="bankCardSelect" class="selectbox h34">
+                    <option value="263">按月分期，等额本息</option>
+                    <option value="574">按月付息，到期还本</option>
+                </select>
+                </div>
+            </div>
+            <div class="item">
+                <div class="float-left">年利率</div>
+                <div class="float-right fr-txt">
+                    <input class="text" type="text" placeholder="请输入年利率" id="apr" autofocus value="">
+                    <span>%</span>
+                </div>
+            </div>
+            <div class="item">
+                <div class="float-left">可得收益</div>
+                <div class="float-right fr-txt">
+                    <b id="calc_result">0</b><span>元</span>
+                </div>
+            </div>
+            <div class="text-center"><a href="javascript:;" class="btn-counter">点击计算</a></div>
+            <div class="txt">已有：超过<em>12</em>万位理财人士加入诚汇通<br>累计为客户赚钱：超过<em>8400</em>万元</div>
+        </div>
+  </div>
+</div>
+<div class="container">
+  <h2 class="title"><span>诚汇通-稳扎稳打，安全至上<i class="icon icon-l"></i><i class="icon icon-r"></i></span></h2>
+    <ul class="brief-list">
+      <li class="blue-bg item1">
+      	<div class="year">2015年</div>
+        <div class="b-title">金融界</div>
+        <div class="b-subtitle">高峰论坛</div>
+        <p>2015年12月17日，第四届“领航中国”金融行业创新发展高峰论坛暨2015金融行业年度评选颁奖盛典在北京隆重举行。</p>
+      </li>
+      <li class="item2"><img src="../../statics/activity/xem/images/list-img1.jpg"></li>
+      <li class="item3"><img src="../../statics/activity/xem/images/list-img2.jpg"></li>
+      <li class="item4"><img src="../../statics/activity/xem/images/list-img3.jpg"></li>
+      <li class="blue-bg item5">
+      	<div class="year">诚汇通董事长上台领奖</div>
+        <p>金融行业年度评选颁奖活动将论坛推到高潮。自9月份启动评选活动以来，得到了各金融机构积极参与，同时也受到业界专家、学者及万亿网友的积极关注。</p>
+      </li>
+      <li class="pink-bg item6">
+      	<div class="year">2015年</div>
+        <div class="b-title">深圳金博会</div>
+        <div class="b-subtitle">互联网金融大放异彩</div>
+        <p>11月5日-7日，以“跨界、互通、创新、共赢”为主题的第九届中国（深圳）国际金融博览会（以下简称“金博会”）在深圳会展中心举行。</p>
+      </li>
+      <li class="item7"><img src="../../statics/activity/xem/images/list-img4.jpg"></li>
+      <li class="item8"><img src="../../statics/activity/xem/images/list-img5.jpg" class="mgb3"><img src="../../statics/activity/xem/images/list-img6.jpg"></li>
+    </ul>
+
+</div>
+<div class="container">
+    <h2 class="title"><span>投资回款全流程<i class="icon icon-l"></i><i class="icon icon-r"></i></span></h2>
+    <ul class="guide-list clearfix">
+      <li>
+        <dl class="clearfix">
+          <dt class="icons icon-step1"></dt>
+          <dd>
+            <p class="step-title"><b>01</b>.会员注册<i class="icons"></i></p>
+            <p>注册成为会员，完成实名及银行卡认证</p>
+          </dd>
+        </dl>
+      </li>
+      <li>
+        <dl class="clearfix">
+          <dt class="icons icon-step2"></dt>
+          <dd>
+            <p class="step-title"><b>02</b>.安全认证<i class="icons"></i></p>
+            <p>进行实名认证，进行安全保障</p>
+          </dd>
+        </dl>
+      </li>
+      <li>
+        <dl class="clearfix">
+          <dt class="icons icon-step3"></dt>
+          <dd>
+            <p class="step-title"><b>03</b>.账户充值<i class="icons"></i></p>
+            <p>绑定银行卡，对账户进行充值</p>
+          </dd>
+        </dl>
+      </li>
+      <li>
+        <dl class="clearfix">
+          <dt class="icons icon-step4"></dt>
+          <dd>
+            <p class="step-title"><b>04</b>.选择投资</p>
+            <p>选择您适合的项目进行投资</p>
+          </dd>
+        </dl>
+      </li>
+      <li>
+        <dl class="clearfix">
+          <dt class="icons icon-step5"></dt>
+          <dd>
+            <p class="step-title"><b>05</b>.获取收益</p>
+            <p>获得收益，让资金进行翻倍</p>
+          </dd>
+        </dl>
+      </li>
+    </ul>
+    <div class="text-center"><a href="javascript:;" id="bottomImg"><img src="../../statics/activity/xem/images/bottom-img.jpg"></a></div>
+</div>
+<div class="float_left">
+    <a href="/zhuanti/20160503May/index.html" class="float-img" target="_blank"><img src="../../statics/resource/images/float-img.png"></a> 
+    <a href="/zhuanti/20160503May/index.html#reward1" target="_blank">最高年化&nbsp;&nbsp;<span>20%</span></a>
+    <a href="/zhuanti/20160503May/index.html#reward1" target="_blank">投标奖励&nbsp;&nbsp;<span>0.8%</span></a>
+    <a href="/zhuanti/20160503May/index.html#reward2" target="_blank">周末抢标&nbsp;&nbsp;<span>0.1%</span></a>
+    <a href="/zhuanti/20160503May/index.html#reward3" target="_blank">续投奖励&nbsp;&nbsp;<span>0.2%</span></a>
+    <a href="/zhuanti/20160503May/index.html#reward4" target="_blank">约标奖励&nbsp;&nbsp;<span>0.3%</span></a>
+    <span id="float_colse" style="top:-25px">X</span>
+</div>
+<script type="text/javascript" src="../../statics/activity/xem/js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../../statics/activity/xem/js/jquery.flexslider-min.js"></script>
+<script type="text/javascript" src="../../statics/activity/xem/js/jquery.selectbox-0.6.1.js"></script>
+<script type="text/javascript" src="../../statics/resource/js/jquery.validate.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('#xieyi').click(function() {
+		if (!$(this).attr('checked')) {
+			alert('您必须同意服务协议才能注册本站账号');
+		}
+		$(this).prop('checked', true);
+	});
+
+	$('.btn-register').click(function(){
+		$("#form").submit();
+	});
+
+	$("#form").validate({
+	    errorPlacement:function(error,element) {
+			error.appendTo(element.siblings('.help'));
+		},
+		rules: {
+			username: {
+				required: true,
+				minlength: 3,
+				maxlength: 20,
+				remote: {
+					url: "<?=url('content', 'regedit', 'public_username_ajx')?>".replace(/^https?:\/\/[^\/]+/, '')
+				}
+			},
+ 			phone: {
+				required: true,
+				digits: true,
+				minlength: 11,
+				maxlength: 11,
+				remote: {
+					url: "<?=url('content', 'regedit', 'public_phone_ajx')?>".replace(/^https?:\/\/[^\/]+/, '')
+				}
+ 			},
+			pwd: {
+				required: true,
+				minlength: 8,
+				maxlength: 20
+			},
+			compwd: {
+				required: true,
+				equalTo: "[name='pwd']"
+			}
+		},
+		messages: {
+			username: {
+				required: "用户名不能为空",
+				minlength: "用户名至少3位",
+				maxlength: "用户名至多20位",
+				remote: "该用户名已存在，请重新输入"
+			},
+			phone: {
+				required: "电话号码不能留空",
+				digits: "请输入正确的电话号码",
+				minlength: "目前只接受11位的国内手机号码",
+				maxlength: "目前只接受11位的国内手机号码",
+				remote: "该电话号码已经存在，请重新输入"
+ 			},
+			pwd: {
+				required: "密码不能为空",
+				minlength: "密码至少8位",
+				maxlength: "密码至多20位"
+			},
+			compwd: {
+				required: "确认密码不能为空",
+				equalTo: "确认密码不一致，请重新输入"
+			}
+		}
+	});
+
+	$('.btn-counter').click(function(){
+		var account = $('#account').val();
+		var time_limit = $('#time_limit').val();
+		var style = $('#bankCardSelect').val();
+		var apr = $('#apr').val();
+		var url = "<?=url('', '', 'calculator')?>".replace(/^https?:\/\/[^\/]+/, '');
+
+		if (!/^\d+(\.\d{1,2})?$/.test(account)) {
+			return alert('投资金额不正确');
+		}
+		if (!/^\d{1,2}$/.test(time_limit)) {
+			return alert('投资期限不正确');
+		}
+		if (!/^\d{1,2}(\.\d{1,2})?$/.test(apr)) {
+			return alert('年利率不正确');
+		}
+
+		$.post(url, {
+			account: account,
+			time_limit: time_limit,
+			style: style,
+			apr: apr
+		}, function(result){
+			$('#calc_result').text(result);
+		}, 'text');
+	});
+
+	/*头部banner轮播图切换效果*/
+	$(".flexslider").flexslider({
+		directionNav: true,
+		pauseOnAction: false
+	});
+
+	/*注册框动画*/
+	$(".register_box,.register_mask").animate({"top":"60px"},1000).animate({top:"20px"}).animate({top:"40px"});
+
+	$("#bankCardSelect").selectbox();
+
+	$("#bottomImg").click(function(e) {
+        $("body,html").animate({
+			scrollTop:0
+		});
+    });
+});
+</script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?58b625f2fae8bd6127a23680606506af";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<script type="text/javascript">
+var _py = _py || [];
+_py.push(['a', 'Tm..DUK-NY5HfP8gsyvUJdDDO_']);
+_py.push(['domain','stats.ipinyou.com']);
+_py.push(['e','']);
+-function(d) {
+	var s = d.createElement('script'),
+	e = d.body.getElementsByTagName('script')[0]; e.parentNode.insertBefore(s, e),
+	f = 'https:' == location.protocol;
+	s.src = (f ? 'https' : 'http') + '://'+(f?'fm.ipinyou.com':'fm.p0y.cn')+'/j/adv.js';
+}(document);
+</script>
+<noscript><img src="//stats.ipinyou.com/adv.gif?a=Tm..DUK-NY5HfP8gsyvUJdDDO_&e=" style="display:none;"/></noscript>
+</body>
+</html>

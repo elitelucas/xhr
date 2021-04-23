@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+    <script src="statics/admin/js/pintuer.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/jquery.date_input.pack.js"></script>
+    <style>
+        #page{height: 60px;margin-top: 20px;text-align: center;}
+        #page ul li{float: left;margin-right:10px;}
+        #page ul .current{ background-color:#0099ff;text-align:center;}
+    </style>
+</head>
+<body>
+<div class="panel admin-panel">
+    <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>编辑【{$data['name']}】</strong></div>
+    <div class="body-content">
+        <form method="post" class="form-x" action="" id='form'>
+        <div class="form-group">
+            <div class="label">
+                <label>支付名称：</label>
+            </div>
+            <div class="field">
+                <input type="text" class="input w50" value="{$data['name']}" name="name"/>
+                <div class="tips"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="label">
+                <label>图片：</label>
+            </div>
+            <div class="field">
+                <img src="{$data['logo']}" width="50" />
+                <div class="tips"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="label">
+                <label>状态：</label>
+            </div>
+            <div class="field" style="padding-top:8px;">
+                <input type="radio" name="canuse" value='0' <?php if($data['canuse'] == 0){echo "checked"; }   ?> />停用&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="radio" name="canuse" value='1' <?php if($data['canuse'] == 1){echo "checked"; }   ?>/>启用
+            </div>
+        </div>
+        <?php if($data['nid'] == 'ayzf'){   ?>
+
+        <div class="form-group">
+            <div class="label">
+                <label>商户ID：</label>
+            </div>
+            <div class="field">
+                <input type="text" class="input w50" value="{$data['config']['mch_id']}" name="mch_id"/>
+                <div class="tips"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="label">
+                <label>商户秘钥：</label>
+            </div>
+            <div class="field">
+                <input type="text" class="input w50" value="{$data['config']['iy_secret']}" name="iy_secret"/>
+                <div class="tips"></div>
+            </div>
+        </div>
+
+        <?php }elseif($data['nid'] == 'xhbzf' || $data['nid'] == 'nfzf'){   ?>
+
+        <div class="form-group">
+            <div class="label">
+                <label>商户ID：</label>
+            </div>
+            <div class="field">
+                <input type="text" class="input w50" value="{$data['config']['merchantNum']}" name="merchantNum"/>
+                <div class="tips"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="label">
+                <label>商户秘钥：</label>
+            </div>
+            <div class="field">
+                <input type="text" class="input w50" value="{$data['config']['merchantKey']}" name="merchantKey"/>
+                <div class="tips"></div>
+            </div>
+        </div>
+
+        <?php }elseif($data['nid'] == 'mbzf'){  ?>
+
+        <div class="form-group">
+            <div class="label">
+                <label>商户ID：</label>
+            </div>
+            <div class="field">
+                <input type="text" class="input w50" value="{$data['config']['merchantID']}" name="merchantID"/>
+                <div class="tips"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="label">
+                <label>商户号：</label>
+            </div>
+            <div class="field">
+                <input type="text" class="input w50" value="{$data['config']['merchantName']}" name="merchantName"/>
+                <div class="tips"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="label">
+                <label>商户秘钥：</label>
+            </div>
+            <div class="field">
+                <input type="text" class="input w50" value="{$data['config']['merchantKey']}" name="merchantKey"/>
+                <div class="tips"></div>
+            </div>
+        </div>
+
+        <?php }elseif($data['nid'] == 'ybzf'){    ?>
+
+        <div class="form-group">
+            <div class="label">
+                <label>商户ID：</label>
+            </div>
+            <div class="field">
+                <input type="text" class="input w50" value="{$data['config']['merchantID']}" name="merchantID"/>
+                <div class="tips"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="label">
+                <label>商户秘钥：</label>
+            </div>
+            <div class="field">
+                <input type="text" class="input w50" value="{$data['config']['merchantKey']}" name="merchantKey"/>
+                <div class="tips"></div>
+            </div>
+        </div>
+
+        <?php }elseif($data['nid'] == 'sfzf'){   ?>
+
+        <div class="form-group">
+            <div class="label">
+                <label>商户ID：</label>
+            </div>
+            <div class="field">
+                <input type="text" class="input w50" value="{$data['config']['merchantID']}" name="merchantID"/>
+                <div class="tips"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="label">
+                <label>终端ID：</label>
+            </div>
+            <div class="field">
+                <input type="text" class="input w50" value="{$data['config']['terminalID']}" name="terminalID"/>
+                <div class="tips"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="label">
+                <label>商户秘钥：</label>
+            </div>
+            <div class="field">
+                <input type="text" class="input w50" value="{$data['config']['merchantKey']}" name="merchantKey"/>
+                <div class="tips"></div>
+            </div>
+        </div>
+
+        <?php }elseif($data['nid'] == 'lyzf'){   ?>
+            <div class="form-group">
+                <div class="label">
+                    <label>商户ID：</label>
+                </div>
+                <div class="field">
+                    <input type="text" class="input w50" value="{$data['config']['merchantID']}" name="merchantID"/>
+                    <div class="tips"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="label">
+                    <label>商户秘钥：</label>
+                </div>
+                <div class="field">
+                    <input type="text" class="input w50" value="{$data['config']['merchantKey']}" name="merchantKey"/>
+                    <div class="tips"></div>
+                </div>
+            </div>
+
+        <?php }elseif($data['nid'] == 'ddbzf'){   ?>
+            <div class="form-group">
+                <div class="label">
+                    <label>商家ID：</label>
+                </div>
+                <div class="field">
+                    <input type="text" class="input w50" value="{$data['config']['merchantID']}" name="merchantID"/>
+                    <div class="tips"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="label">
+                    <label>商家私钥：</label>
+                </div>
+                <div class="field">
+                    <textarea class="input w50" style="height:400px;width:700px;" name="merchantKey">{$data['config']['merchantKey']}</textarea>
+                     <div class="tips" style="float:left;width:350px;margin: 30px;color: #999;">
+	                   <div>格式说明：</div>
+	                   <dvi>将"-----BEGIN PRIVATE KEY-----"和"-----END PRIVATE KEY-----"及其之间的内容粘贴到商家秘钥框里，注意"-----BEGIN PRIVATE KEY-----"和"-----END PRIVATE KEY-----"单独一行，
+                    之间的字符串除了最后一行外其他每行的字符串长度相同（文本文件中查看长度是否相同，行数10~20行），每行前后不能有空格。</dvi>
+                       <div>格式如：</div>
+                       <div>
+	                       	<div>-----BEGIN PRIVATE KEY-----</div>
+							<div>qw12rty/</div>
+							<div>asdfghjQ</div>
+							<div>awedEgty</div>
+							<div>kbmvfre+</div>
+							<div>adfa=</div>
+							<div>-----END PRIVATE KEY-----</div>
+					   </div>
+				   </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="label">
+                    <label>多得宝公钥：</label>
+                </div>
+                <div class="field">
+                    <textarea class="input w50" style="height:250px;width:700px;" name="merchantPublicKey">{$data['config']['merchantPublicKey']}</textarea>
+                    <div class="tips" style="float:left;width:350px;margin-left: 30px;color: #999;">
+		                <div>格式说明：</div>
+		                <dvi>(支付平台提供，一般商户登录支付平台后台可以找到)将"-----BEGIN PUBLIC KEY-----"和"-----END PUBLIC KEY-----"及其之间的内容粘贴到平台公钥框里，注意"-----BEGIN PUBLIC KEY-----"和"-----END PUBLIC KEY-----"单独一行，
+	                    它们之间的字符串分4行,前三行每行的字符串长度相同（文本文件中查看长度是否相同），每行前后不能有空格。</dvi>
+                       <div>格式如：</div>
+                       <div>
+	                       	<div>-----BEGIN PUBLIC KEY-----</div>
+							<div>dfdfDdfefadf123+</div>
+							<div>fsfasFdfefdkAS5/</div>
+							<div>awed2DSFaefsf33f</div>
+							<div>aep2K3on</div>
+							<div>-----END PUBLIC KEY-----</div>
+					   </div>
+			   	</div>
+                </div>
+            </div>
+
+        <?php }elseif($data['nid'] == 'kfzf'){   ?>
+            <div class="form-group">
+                <div class="label">
+                    <label>商户ID：</label>
+                </div>
+                <div class="field">
+                    <input type="text" class="input w50" value="{$data['config']['merchantID']}" name="merchantID"/>
+                    <div class="tips"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="label">
+                    <label>商户账号：</label>
+                </div>
+                <div class="field">
+                    <input type="text" class="input w50" value="{$data['config']['merchantName']}" name="merchantName"/>
+                    <div class="tips"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="label">
+                    <label>商户秘钥：</label>
+                </div>
+                <div class="field">
+                    <input type="text" class="input w50" value="{$data['config']['merchantKey']}" name="merchantKey"/>
+                    <div class="tips"></div>
+                </div>
+            </div>
+
+        <?php }elseif($data['nid'] == 'bpzf'){   ?>
+            <div class="form-group">
+                <div class="label">
+                    <label>商户ID：</label>
+                </div>
+                <div class="field">
+                    <input type="text" class="input w50" value="{$data['config']['merchantID']}" name="merchantID"/>
+                    <div class="tips"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="label">
+                    <label>商户秘钥：</label>
+                </div>
+                <div class="field">
+                    <input type="text" class="input w50" value="{$data['config']['merchantKey']}" name="merchantKey"/>
+                    <div class="tips"></div>
+                </div>
+            </div>
+		 <?php }elseif($data['nid'] == 'shan_yun_fu_pay'){   ?>
+            <div class="form-group">
+                <div class="label">
+                    <label>商户ID：</label>
+                </div>
+                <div class="field">
+                    <input type="text" class="input w50" value="{$data['config']['merchantID']}" name="merchantID"/>
+                    <div class="tips"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="label">
+                    <label>商户上级代理ID：</label>
+                </div>
+                <div class="field">
+                    <input type="text" class="input w50" value="{$data['config']['partnerId']}" name="partnerId"/>
+                    <div class="tips"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="label">
+                    <label>商户秘钥：</label>
+                </div>
+                <div class="field">
+                    <input type="text" class="input w50" value="{$data['config']['merchantKey']}" name="merchantKey"/>
+                    <div class="tips"></div>
+                </div>
+            </div>
+        <?php }elseif($data['nid'] == 'zfzf'){   ?>
+        <div class="form-group">
+            <div class="label">
+                <label>商家ID：</label>
+            </div>
+            <div class="field">
+                <input type="text" class="input w50" value="{$data['config']['merchantID']}" name="merchantID"/>
+                <div class="tips"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="label">
+                <label>商家私钥：</label>
+            </div>
+            <div class="field">
+                <textarea class="input w50" style="height:400px;width:700px;" name="merchantKey">{$data['config']['merchantKey']}</textarea>
+                <div class="tips" style="float:left;width:350px;margin: 30px;color: #999;">
+	                   <div>格式说明：</div>
+	                   <dvi>将"-----BEGIN PRIVATE KEY-----"和"-----END PRIVATE KEY-----"及其之间的内容粘贴到商家秘钥框里，注意"-----BEGIN PRIVATE KEY-----"和"-----END PRIVATE KEY-----"单独一行，
+                    之间的字符串除了最后一行外其他每行的字符串长度相同（文本文件中查看长度是否相同，行数10~20行），每行前后不能有空格。</dvi>
+                       <div>格式如：</div>
+                       <div>
+	                       	<div>-----BEGIN PRIVATE KEY-----</div>
+							<div>qw12rty/</div>
+							<div>asdfghjQ</div>
+							<div>awedEgty</div>
+							<div>kbmvfre+</div>
+							<div>adfa=</div>
+							<div>-----END PRIVATE KEY-----</div>
+					   </div>
+				   </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="label">
+                <label>智付公钥：</label>
+            </div>
+            <div class="field">
+                <textarea class="input w50" style="height:250px;width:700px;" name="merchantPublicKey">{$data['config']['merchantPublicKey']}</textarea>
+                <div class="tips" style="float:left;width:350px;margin-left: 30px;color: #999;">
+		                <div>格式说明：</div>
+		                <dvi>(支付平台提供，一般商户登录支付平台后台可以找到)将"-----BEGIN PUBLIC KEY-----"和"-----END PUBLIC KEY-----"及其之间的内容粘贴到平台公钥框里，注意"-----BEGIN PUBLIC KEY-----"和"-----END PUBLIC KEY-----"单独一行，
+	                    它们之间的字符串分4行,前三行每行的字符串长度相同（文本文件中查看长度是否相同），每行前后不能有空格。</dvi>
+                       <div>格式如：</div>
+                       <div>
+	                       	<div>-----BEGIN PUBLIC KEY-----</div>
+							<div>dfdfDdfefadf123+</div>
+							<div>fsfasFdfefdkAS5/</div>
+							<div>awed2DSFaefsf33f</div>
+							<div>aep2K3on</div>
+							<div>-----END PUBLIC KEY-----</div>
+					   </div>
+			   	</div>
+            </div>
+        </div>
+
+        <?php }  ?>
+            <div class="form-group">
+                <div class="label">
+                    <label>排序：</label>
+                </div>
+                <div class="field">
+                    <input type="text" class="input w50" value="{$data['sort']}" name="sort"/>
+                    <div class="tips"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="label">
+                    <label>渠道ID：</label>
+                </div>
+                <div class="field">
+                    <input type="text" class="input w50" value="{$data['config']['channel_type']}" name="channel_type" readonly="readonly" />
+                    <div class="tips"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="label">
+                    <label>支付编码：</label>
+                </div>
+                <div class="field">
+                    <input type="text" class="input w50" value="{$data['config']['pay_type']}" name="pay_type" readonly="readonly"/>
+                    <div class="tips"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="label">
+                    <label>是否为二维码模式：</label>
+                </div>
+                <div class="field">
+                    <input type="text" class="input w50" value="{$data['config']['type']}" name="type" />
+                    <div class="tips"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="label">
+                    <label>指定层级：</label>
+                </div>
+                <div id="pay_layer" class="field" style="margin-top: 10px;">
+                    {loop $layerArr $vo}
+                        <label >第{$vo['layer']}层</label>
+                        {if in_array($vo['layer'],$payArrs)}
+                            <input type="checkbox" checked class="" value="{$vo['layer']}" />
+                        {else}
+                            <input type="checkbox" class="" value="{$vo['layer']}" />
+                        {/if}
+                    {/loop}
+                    <div class="tips"></div>
+                </div>
+            </div>
+        <div class="form-group">
+            <div class="label">
+                <label></label>
+            </div>
+            <div class="field">
+                <button class="button bg-main icon-check-square-o" type="button" id="btn_submit"> 提交</button>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <button class="button bg-main icon-check-square-o" type="button" id="btn_cancel"> 返回</button>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    var loading = "";//加载中......
+    $(function () {
+        $("#btn_submit").click(function () {
+
+            var nid = "{$data['nid']}";
+            var config = {
+                'channel_type': $("input[name='channel_type']").val(),
+                'pay_type': $("input[name='pay_type']").val(),
+                'type': $("input[name='type']").val(),
+            }
+            if(nid == "ayzf")
+            {
+                config['mch_id'] = $("input[name='mch_id']").val();
+                config['iy_secret'] = $("input[name='iy_secret']").val();
+            }
+            else if(nid == "xhbzf" || nid == "nfzf")
+            {
+                config['merchantNum'] = $("input[name='merchantNum']").val();
+                config['merchantKey'] = $("input[name='merchantKey']").val();
+            }
+            else if(nid == "mbzf")
+            {
+                config['merchantName'] = $("input[name='merchantName']").val();
+                config['merchantKey'] = $("input[name='merchantKey']").val();
+                config['merchantID'] = $("input[name='merchantID']").val();
+            }
+            else if(nid == "ybzf")
+            {
+                config['merchantID'] = $("input[name='merchantID']").val();
+                config['merchantKey'] = $("input[name='merchantKey']").val();
+            }
+            else if(nid == "sfzf")
+            {
+                config['merchantID'] = $("input[name='merchantID']").val();
+                config['merchantKey'] = $("input[name='merchantKey']").val();
+                config['terminalID'] = $("input[name='terminalID']").val();
+            }
+            else if(nid == "lyzf")
+            {
+                config['merchantID'] = $("input[name='merchantID']").val();
+                config['merchantKey'] = $("input[name='merchantKey']").val();
+            }
+            else if(nid == "ddbzf")
+            {
+                config['merchantID'] = $("input[name='merchantID']").val();
+                config['merchantKey'] = $("textarea[name='merchantKey']").val();
+                config['merchantPublicKey'] = $("textarea[name='merchantPublicKey']").val();
+            }
+            else if(nid == "kfzf")
+            {
+                config['merchantName'] = $("input[name='merchantName']").val();
+                config['merchantKey'] = $("input[name='merchantKey']").val();
+                config['merchantID'] = $("input[name='merchantID']").val();
+            }
+            else if(nid == "bpzf")
+            {
+                config['merchantID'] = $("input[name='merchantID']").val();
+                config['merchantKey'] = $("input[name='merchantKey']").val();
+            }
+            else if(nid == "shan_yun_fu_pay")
+            {
+                config['merchantID'] = $("input[name='merchantID']").val();
+                config['merchantKey'] = $("input[name='merchantKey']").val();
+                config['partnerId'] = $("input[name='partnerId']").val();
+            }
+            else if(nid == "zfzf")
+            {
+                config['merchantID'] = $("input[name='merchantID']").val();
+                config['merchantKey'] = $("textarea[name='merchantKey']").val();
+                config['merchantPublicKey'] = $("textarea[name='merchantPublicKey']").val();
+            }
+
+            var check = true;
+            $.each(config, function(key, val){
+                if(val == null || val == ''){
+                    check = false;
+                }
+            });
+            if(check === false)
+            {
+                layer.msg('参数输入不正确', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+
+            //支付分层
+            var players=pay_layers='';
+            $('#pay_layer input').each(function (i) {
+                if($(this).is(':checked')){
+                    players +=$(this).val()+',';
+                }
+            });
+
+            pay_layers=players.substring(0,players.length-1);
+            var data = {
+                'id':"{$data['id']}",
+                'nid':"{$data['nid']}",
+                'canuse':$("input[name='canuse']:checked").val(),
+                'config':config,
+                'pay_layers':pay_layers,
+                'sort':$("input[name='sort']").val(),
+                'name':$("input[name='name']").val()
+            };
+//            console.log(data);
+//            return false;
+
+            $.ajax({
+                url: "<?=url('admin','role','thirdConfigAct')?>",
+                data: data,
+                dataType: 'json',
+                type: 'post',
+                beforeSend: function () {
+                    loading = layer.load(1);
+                },
+                error: function () {
+                    layer.close(loading);
+                    layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                },
+                success: function (data) {
+                    layer.close(loading);
+                    if(data['code'] != 0)
+                    {
+                        layer.msg(data['msg'], {icon: 5, shade: [0.5, '#393D49']}, function () {
+                            return false;
+                        });
+                    }
+                    else
+                    {
+                        layer.msg(data['msg'], {icon: 6, shade: [0.5, '#393D49']}, function () {
+                            location.href = "<?=url('admin','role','thirdConfigEdit',['id'=>$data['id']])?>";
+                        });
+                    }
+
+                }
+            });
+        });
+
+        $("#btn_cancel").click(function () {
+            location.href = '?m=admin&c=role&a=thirdConfigList';
+        });
+    });
+</script>
+</body>
+</html>

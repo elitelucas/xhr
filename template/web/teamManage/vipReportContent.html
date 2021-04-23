@@ -1,0 +1,24 @@
+<ul>
+	<?php foreach ($myMemberList as $v) { ?>
+    <li data-href="<?php echo $this->URL(array('c'=>'user','a'=>'memberDetailWeb','param'=>'&id='.$v['uid']))?>">
+        <div>
+            <label class="icoGirl2">账号：<em><?= subtext($v['nickname'],10)?></em></label><span>注册时间：<?php echo date("Y-m-d H:i",$v['regtime']);?></span>
+        </div>
+        <div><label class="icoMoney">现金余额：{$v['money']}</label><label class="icoBetting">当日投注：{$v['inputsMoney']}</label></div>
+    </li>
+    <?php }?>
+    {if !empty($myMemberList)}
+    <script>
+        $(function () {
+            $('.zhanwei').removeClass('zhanwei');
+        })
+    </script>
+    {else}
+    <script>
+        $(function () {
+            $('.vipReport').addClass('zhanwei');
+        })
+    </script>
+    {/if}
+</ul>
+

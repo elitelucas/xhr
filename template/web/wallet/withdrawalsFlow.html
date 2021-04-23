@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>提现</title>
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+    <script src="/statics/web/extend/layer/mobile/layer.js"></script>
+</head>
+<body>
+<header>
+    <em onclick="history.go(-1)">返回</em>
+    <h1>提现</h1>
+    <!--<div class="headerRight">
+        <ul>
+            <li class="icoRefresh"><a href="javascript:location.reload()"></a></li>
+        </ul>
+
+    </div>-->
+</header>
+<section class="pb-0">
+    <div class="modify">
+        <ul class="pl-0">
+            <li class="pl-0">
+                <label class="pl-0" >
+                    <?php if(!empty($res['UnionPay'])){   ?>
+                    <div class="details UnionPay">
+                        <span class="name">{$res['UnionPay']['bankName']}</span>
+                        <p> **** **** **** <?=substr($res['UnionPay']['account'],-4)?></p>
+                        <input type="hidden" name="bank_id" value="{$res['UnionPay']['id']}"/>
+                        <p class="xe">限额：单笔最低{$cash['cash_lower']}元 <span class="space"></span> 最高{$cash['cash_upper']}元</p>
+                    </div>
+                    <?php } ?>
+                    <?php if(!empty($res['Alipay'])){   ?>
+                    <div class="details Alipay">
+                        <span class="name">{$res['Alipay']['bankName']}</span>
+                        <p> **** **** **** <?php echo interceptChinese($res['Alipay']['account'])   ?></p>
+                        <input type="hidden" name="bank_id" value="{$res['Alipay']['id']}"/>
+                        <p class="xe">限额：单笔最低{$cash['cash_lower']}元 <span class="space"></span> 最高{$cash['cash_upper']}元</p>
+                    </div>
+                    <?php } ?>
+                    <?php if(!empty($res['WeChat'])){   ?>
+                    <div class="details WeChat">
+                        <span class="name">{$res['WeChat']['bankName']}</span>
+                        <p> **** **** **** <?php echo interceptChinese($res['WeChat']['account'])   ?></p>
+                        <input type="hidden" name="bank_id" value="{$res['WeChat']['id']}"/>
+                        <p class="xe">限额：单笔最低{$cash['cash_lower']}元 <span class="space"></span> 最高{$cash['cash_upper']}元</p>
+                    </div>
+                    <?php } ?>
+                    <?php if(!empty($res['QQ'])){   ?>
+                    <div class="details QQ">
+                        <span class="name">{$res['QQ']['bankName']}</span>
+                        <p> **** **** **** <?=substr($res['QQ']['account'],-4)?></p>
+                        <p class="xe">限额：单笔最低{$cash['cash_lower']}元 <span class="space"></span> 最高{$cash['cash_upper']}元</p>
+                        <input type="hidden" name="bank_id" value="{$res['QQ']['id']}"/>
+                    </div>
+                    <?php } ?>
+                </label>
+
+            </li>
+            <li class="pl-25">
+
+                <label class="icoMoney" for="money"><span style="padding-left: 50px;">提现金额：</span><input type="number" id="money">
+
+                <p style="position: absolute;top: 37px;right: 58px; color: #ccc">人民币</p>
+                </label>
+                <!-- <p class="remarks"><span style="color: red;">*</span>范围：最低提现: {$cash['cash_lower']} 元<br>最高提现: {$cash['cash_upper']} 元</p> -->
+
+            </li>
+
+        </ul>
+        <!-- <div class="warmth-tips">
+            <p>温馨提示</p>
+            <p>1.点击保存二维码至相册</p>
+            <p>2.打开工商银行扫一扫，点击右上角相册，从相册中选择保存的二维码</p>
+            <p>3.输了正确金额，完成支付后联系在线客服上分</p>
+        </div> -->
+        <div class="button" id="tx_next" style="margin-top: 30px"><button class="red-btn">立即提交</button></div>
+        <div class="mask" style="display: none;"></div>
+        <div  class="pop-input" style="display: none" id="payPsd">
+            <div class="withdrawalsWarp">
+                <h4><span class="close"></span>请输入您的资金密码</h4>
+                <div class="withdrawalsPas">
+                    <input name="psd" type="number" maxlength="6" class="inputPas" autocomplete="off"/>
+                    <ul class="clearfix">
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                </div>
+            </div>
+        <!-- <div class="button"><button id="tjBtn" class="red-btn">确定</button></div> -->
+        <!-- <div class="button" style="margin-top: 40px;"><button class="cancel" onclick="history.go(-1);">取消</button></div> -->
+        </div>
+    </div>
+
+    </section>
+
+<div class="popup" style="display: none">
+
+    <div class="config">
+        <i class="configClose"></i>
+        <p style="color: #242424;">资金密码错误</p>
+        <p style="color: #242424;">您还有2次机会</p>
+        <!--<div class="cigBtn"><button>确认</button><button class="cancel">取消</button></div>-->
+
+    </div>
+</div>
+<div class="popup" style="display: none">
+
+    <div class="config">
+        <i class="configClose"></i>
+        <p style="color: #242424;">密码错误，请重新输入</p>
+        <!--<p style="color: #242424;">您还有2次机会</p>-->
+        <!--<div class="cigBtn"><button>确认</button><button class="cancel">取消</button></div>-->
+
+    </div>
+</div>
+<div class="popup bindBank" style="display: none">
+    <div class="config">
+        <i class="configClose"></i>
+        <div class="bindBank_con">
+            <div class="tit_img"></div>
+            <div class="tit_bind">绑定银行卡</div>
+            <div class="info_bind">为保障您的账户资金安全，需先成功绑定银行卡才能进行安全提现。</div>
+            <a href="{$JumpUrl[28]}"><p>立即绑定</p></a>
+        </div>
+    </div>
+</div>
+<div class="popup setFundPsd " style="display: none">
+    <div class="config">
+        <i class="configClose"></i>
+        <div class="bindBank_con">
+            <div class="tit_img"></div>
+            <div class="tit_bind">未设置资金密码</div>
+            <div class="info_bind">为保障安全便捷的资金交易，请先设置您的资金密码。</div>
+            <a href="{$JumpUrl[31]}&flag_p=2"><p>立即设置</p></a>
+        </div>
+    </div>
+</div>
+
+    <script type='text/javascript'>
+        $(function() {
+            var money;
+            var bank = "{$bank}";
+            var is_set_p = "{$is_set_paypassword}";
+            
+            if (bank==1) { //绑定卡
+                $(".bindBank").css("display", "block"); 
+            } else { //校验是否设置密码
+                if (is_set_p == 0) { //未设置
+                    $(".setFundPsd").css("display", "block");
+                }                
+            }
+            function hidePop(){
+                $(".mask").hide();
+                $(".pop-input").hide();
+            }
+            $(".mask ,.close").click(function(){
+                hidePop();
+                $(".inputPas").val("");
+                $(".withdrawalsPas li").text("");
+            });
+            //输入位数限制
+            $("#money").on("input", function() {
+                var re = /([0-9]+\.[0-9]{2})[0-9]+/;
+                var tmoney = $(this).val();
+                
+                if (re.test(tmoney)) {
+                    var num = new Number(tmoney);
+                    $(this).val(num.toFixed(2));
+                }
+            });
+            
+            
+            //点击下一步
+            $("#tx_next").click(function() {
+                money = $("#money").val();
+                if (money == "") {
+                    layer.open({
+                        content: "<p class='alert_msg'>请输入金额</p>",
+                        btn: '我知道了'
+                    });
+                    return false;
+                }
+                
+                // $(this).css("display", "none");
+                $("#payPsd").css("display", "block");
+                $(".mask").css("display", "block");
+                $(".inputPas").focus();
+            });
+
+            //点击关闭时返回上一个页面
+            $(".configClose").click(function() {
+                location.href="<?=url('web','account','index')?>"
+            });
+            // $("#tjBtn").click(function() {
+            //     var data = {};
+            //     var freeCont = {$withdrawSet['freeCont']};
+            //     var cont = {$withdrawSet['withdrwlCont']};
+            //     var withdrawFee = {$withdrawSet['withdrwlFee']};
+            //     var bank_id = $("input[name=bank_id]").val();
+            //     var psd = $("input[name=psd]").val();
+            //     // if (psd.length < 6) {
+            //     //     layer.open({
+            //     //         content: "<p class='alert_msg'>请输入6位数的密码</p>",
+            //     //         btn: '我知道了'
+            //     //     });
+            //     //     return false;
+            //     // }
+            //     //防止多次点击
+            //     // $("#tjBtn").attr("disabled", "true");
+            //     cont = cont + 1;
+            //     //每天免费提现次数判断
+            //     if (freeCont > 0 && freeCont < cont) {
+            //         layer.open({
+            //             content: "您今天提现次数已经超出系统设置的每天免费提现次数限制，继续提现需要额外手续费:{$withdrawSet['withdrwlFee']}元/次！"
+            //             ,shadeClose: false
+            //             ,btn: ['继续提现', '返回']
+            //             ,yes: function(index){
+            //                 //入库
+            //                 $.ajax({
+            //                     url: "<?=url('','','cash')?>",
+            //                     type: "post",
+            //                     data: {bank_id: bank_id, money: $("#money").val(), psd: psd},
+            //                     dataType: "json",
+            //                     success: function(data) {
+            //                         if (data.status == 0) {
+            //                             console.log(data);
+            //                             window.location.href = "<?=url('','cash','presentState')?>&cash_id=" + data.cash_id;
+            //                         } else {
+            //                             $("#tjBtn").removeAttr("disabled");
+            //                             var goherf = "data-herf='<?=url('','app','customService')?>'";
+            //                             if(data.status == 100039){
+            //                                 layer.open({
+            //                                     content: "<p class='alert_msg'>"+ data.ret_msg +"</p>",
+            //                                     btn: ['继续提现', '返回'],
+            //                                     yes: function () {
+            //                                         $.ajax({
+            //                                             url: "<?=url('','','cash')?>",
+            //                                             type: "post",
+            //                                             data: {bank_id: bank_id, money: $("#money").val(), psd: psd,agree:1},
+            //                                             dataType: "json",
+            //                                             success: function(data) {
+            //                                                 if (data.status == 0) {
+            //                                                     console.log(data);
+            //                                                     window.location.href = "<?=url('','cash','presentState')?>&cash_id=" + data.cash_id;
+            //                                                 }else if(data.status == 100040){
+            //                                                     layer.open({
+            //                                                         content: "<p class='alert_msg'>" + data.ret_msg + "</p>",
+            //                                                         btn: ['我知道了']
+            //                                                     })
+            //                                                 }else{
+            //                                                     console.log(data);
+            //                                                 }
+            //                                             },
+            //                                             error: function(error) {
+            //                                                 $("#tjBtn").removeAttr("disabled");
+            //                                                 layer.open({
+            //                                                     content: "<p class='alert_msg'>网络异常,请稍后再试!</p>",
+            //                                                     btn: '我知道了'
+            //                                                 });
+            //                                             }
+            //                                         })
+            //                                     }
+            //                                 });
+            //                             }else if(data.status == 100017){
+            //                                 layer.open({
+            //                                     content: "<p class='alert_msg'><a href='<?=url('web','app','customService')?>'>"+ data.ret_msg +"</a></p>",
+            //                                     btn: "<a href='<?=url('','app','customService')?>'>我知道了</a>"
+            //                                 });
+            //                             }else {
+            //                                 layer.open({
+            //                                     content: "<p class='alert_msg'"+goherf+">"+ data.ret_msg +"</p>",
+            //                                     btn: '我知道了'
+            //                                 });
+            //                             }
+            //                         }
+            //                     },
+            //                     error: function(error) {
+            //                         $("#tjBtn").removeAttr("disabled");
+            //                         layer.open({
+            //                             content: "<p class='alert_msg'>网络异常,请稍后再试!</p>",
+            //                             btn: '我知道了'
+            //                         });
+            //                     }
+            //                 });
+                            
+            //                 layer.close(index);
+            //             },no: function(index){
+            //                 $("#tjBtn").removeAttr("disabled");
+            //                 layer.close(index);
+            //             }
+            //         });
+            //         $("#tjBtn").removeAttr("disabled");
+            //     } else {
+            //         $.ajax({
+            //             url: "<?=url('','','cash')?>",
+            //             type: "post",
+            //             data: {bank_id: bank_id, money: $("#money").val(), psd: psd},
+            //             dataType: "json",
+            //             success: function(data) {
+            //                 if (data.status == 0) {
+            //                     console.log(data);
+            //                     window.location.href = "<?=url('','cash','presentState')?>&cash_id=" + data.cash_id;
+            //                 } else {
+            //                     $("#tjBtn").removeAttr("disabled");
+            //                     var goherf = "data-herf='<?=url('','app','customService')?>'";
+            //                     if(data.status == 100039){
+            //                         layer.open({
+            //                             content: "<p class='alert_msg'>"+ data.ret_msg +"</p>",
+            //                             btn: ['继续提现', '返回'],
+            //                             yes: function () {
+            //                                 $.ajax({
+            //                                     url: "<?=url('','','cash')?>",
+            //                                     type: "post",
+            //                                     data: {bank_id: bank_id, money: $("#money").val(), psd: psd,agree:1},
+            //                                     dataType: "json",
+            //                                     success: function(data) {
+            //                                         if (data.status == 0) {
+            //                                             console.log(data);
+            //                                             window.location.href = "<?=url('','cash','presentState')?>&cash_id=" + data.cash_id;
+            //                                         }else if(data.status == 100040){
+            //                                             layer.open({
+            //                                                 content: "<p class='alert_msg'>" + data.ret_msg + "</p>",
+            //                                                 btn: ['我知道了']
+            //                                             })
+            //                                         }else{
+            //                                             console.log(data);
+            //                                         }
+            //                                      },
+            //                                     error: function(error) {
+            //                                         $("#tjBtn").removeAttr("disabled");
+            //                                         layer.open({
+            //                                             content: "<p class='alert_msg'>网络异常,请稍后再试!</p>",
+            //                                             btn: '我知道了'
+            //                                         });
+            //                                     }
+            //                                 })
+            //                             }
+            //                         });
+            //                     }else if(data.status == 100017){
+            //                         layer.open({
+            //                             content: "<p class='alert_msg'><a href='<?=url('web','app','customService')?>'>"+ data.ret_msg +"</a></p>",
+            //                             btn: "<a href='<?=url('','app','customService')?>'>我知道了</a>"
+            //                         });
+            //                     }else {
+            //                         layer.open({
+            //                             content: "<p class='alert_msg'"+goherf+">"+ data.ret_msg +"</p>",
+            //                             btn: '我知道了'
+            //                         });
+            //                     }
+            //                 }
+            //             },
+            //             error: function(error) {
+            //                 $("#tjBtn").removeAttr("disabled");
+            //                 layer.open({
+            //                     content: "<p class='alert_msg'>网络异常,请稍后再试!</p>",
+            //                     btn: '我知道了'
+            //                 });
+            //             }
+            //         });
+            //     }            
+            // });
+function getAjax(){
+    var data = {};
+                var freeCont = {$withdrawSet['freeCont']};
+                var cont = {$withdrawSet['withdrwlCont']};
+                var fee = {$withdrawSet['withdrwlFee']};
+                var withdrawFee = {$withdrawSet['withdrwlFee']};
+                var bank_id = $("input[name=bank_id]").val();
+                var psd = $("input[name=psd]").val();
+                cont = cont + 1;
+                //每天免费提现次数判断
+                if (freeCont > 0 && freeCont < cont && fee>0) {
+                    layer.open({
+                        content: "您今天提现次数已经超出系统设置的每天免费提现次数限制，继续提现需要额外手续费:{$withdrawSet['withdrwlFee']}元/次！"
+                        ,shadeClose: false
+                        ,btn: ['继续提现', '返回']
+                        ,yes: function(index){
+                            //入库
+                            $.ajax({
+                                url: "<?=url('','','cash')?>",
+                                type: "post",
+                                data: {bank_id: bank_id, money: $("#money").val(), psd: psd},
+                                dataType: "json",
+                                success: function(data) {
+                                    if (data.status == 0) {
+                                        console.log(data);
+                                        window.location.href = "<?=url('','cash','presentState')?>&cash_id=" + data.cash_id;
+                                    } else {
+                                        // $("#tjBtn").removeAttr("disabled");
+                                        var goherf = "data-herf='<?=url('','app','customService')?>'";
+                                        if(data.status == 100039){
+                                            layer.open({
+                                                content: "<p class='alert_msg'>"+ data.ret_msg +"</p>",
+                                                btn: ['继续提现', '返回'],
+                                                yes: function () {
+                                                    $.ajax({
+                                                        url: "<?=url('','','cash')?>",
+                                                        type: "post",
+                                                        data: {bank_id: bank_id, money: $("#money").val(), psd: psd,agree:1},
+                                                        dataType: "json",
+                                                        success: function(data) {
+                                                            if (data.status == 0) {
+                                                                console.log(data);
+                                                                window.location.href = "<?=url('','cash','presentState')?>&cash_id=" + data.cash_id;
+                                                            }else if(data.status == 100040){
+                                                                layer.open({
+                                                                    content: "<p class='alert_msg'>" + data.ret_msg + "</p>",
+                                                                    btn: '我知道了',
+                                                                    yes:function(index){
+                                                                        $(".inputPas").val("");
+                                                                        $(".withdrawalsPas li").text("");
+                                                                        layer.close(index);
+                                                                    }
+                                                                })
+                                                            }else if(data.status == 100041){
+                                                                layer.open({
+                                                                    content: "<p class='alert_msg'>" + data.ret_msg + "</p>",
+                                                                    btn: '我知道了',
+                                                                    yes:function(index){
+                                                                        $(".inputPas").val("");
+                                                                        $(".withdrawalsPas li").text("");
+                                                                        layer.close(index);
+                                                                    }
+                                                                })
+                                                            }else{
+                                                                console.log(data);
+                                                            }
+                                                        },
+                                                        error: function(error) {
+                                                            $("#tjBtn").removeAttr("disabled");
+                                                            layer.open({
+                                                                content: "<p class='alert_msg'>当前网络异常,请尝试刷新!</p>",
+                                                                btn: '我知道了',
+                                                                yes: function(){
+                                                                    location.reload();
+                                                                }
+                                                            });
+                                                        }
+                                                    })
+                                                }
+                                            });
+                                        }else if(data.status == 100017){
+                                            layer.open({
+                                                content: "<p class='alert_msg'><a href='<?=url('web','app','customService')?>'>"+ data.ret_msg +"</a></p>",
+                                                btn: "<a href='<?=url('','app','customService')?>'>我知道了</a>",
+                                                yes:function(index){
+                                                    $(".inputPas").val("");
+                                                    $(".withdrawalsPas li").text("");
+                                                    layer.close(index);
+                                                }
+                                            });
+                                        }else {
+                                            layer.open({
+                                                content: "<p class='alert_msg'"+goherf+">"+ data.ret_msg +"</p>",
+                                                btn: '我知道了',
+                                                yes:function(index){
+                                                    $(".inputPas").val("");
+                                                    $(".withdrawalsPas li").text("");
+                                                    layer.close(index);
+                                                }
+                                            });
+                                        }
+                                    }
+                                },
+                                error: function(error) {
+                                    // $("#tjBtn").removeAttr("disabled");
+                                    layer.open({
+                                        content: "<p class='alert_msg'>当前网络异常,请尝试刷新!</p>",
+                                        btn: '刷新',
+                                        yes: function(){
+                                            location.reload();
+                                        }
+                                    });
+                                }
+                            });
+                            
+                            layer.close(index);
+                        },no: function(index){
+                            $("#tjBtn").removeAttr("disabled");
+                            layer.close(index);
+                        }
+                    });
+                    $("#tjBtn").removeAttr("disabled");
+                } else {
+                    $.ajax({
+                        url: "<?=url('','','cash')?>",
+                        type: "post",
+                        data: {bank_id: bank_id, money: $("#money").val(), psd: psd},
+                        dataType: "json",
+                        success: function(data) {
+                            if (data.status == 0) {
+                                console.log(data);
+                                window.location.href = "<?=url('','cash','presentState')?>&cash_id=" + data.cash_id;
+                            } else {
+                                $("#tjBtn").removeAttr("disabled");
+                                var goherf = "data-herf='<?=url('','app','customService')?>'";
+                                if(data.status == 100039){
+                                    layer.open({
+                                        content: "<p class='alert_msg'>"+ data.ret_msg +"</p>",
+                                        btn: ['继续提现', '返回'],
+                                        yes: function () {
+                                            $.ajax({
+                                                url: "<?=url('','','cash')?>",
+                                                type: "post",
+                                                data: {bank_id: bank_id, money: $("#money").val(), psd: psd,agree:1},
+                                                dataType: "json",
+                                                success: function(data) {
+                                                    if (data.status == 0) {
+                                                        console.log(data);
+                                                        window.location.href = "<?=url('','cash','presentState')?>&cash_id=" + data.cash_id;
+                                                    }else if(data.status == 100040){
+                                                        layer.open({
+                                                            content: "<p class='alert_msg'>" + data.ret_msg + "</p>",
+                                                            btn: '我知道了'
+                                                        })
+                                                    }else if(data.status == 100041){
+                                                        layer.open({
+                                                            content: "<p class='alert_msg'>" + data.ret_msg + "</p>",
+                                                            btn: '我知道了'
+                                                        })
+                                                    }else{
+                                                        console.log(data);
+                                                    }
+                                                 },
+                                                error: function(error) {
+                                                    $("#tjBtn").removeAttr("disabled");
+                                                    layer.open({
+                                                        content: "<p class='alert_msg'>当前网络异常,请尝试刷新!</p>",
+                                                        btn: '刷新'
+                                                        ,yes: function(){
+                                                            location.reload();
+                                                        }
+                                                    });
+                                                }
+                                            })
+                                        }
+                                    });
+                                }else if(data.status == 100017){
+                                    layer.open({
+                                        content: "<p class='alert_msg'><a href='<?=url('web','app','customService')?>'>"+ data.ret_msg +"</a></p>",
+                                        btn: "<a href='<?=url('','app','customService')?>'>我知道了</a>"
+                                    });
+                                }else {
+                                    layer.open({
+                                        content: "<p class='alert_msg'"+goherf+">"+ data.ret_msg +"</p>",
+                                        btn: '我知道了',
+                                        yes:function(index){
+                                            $(".inputPas").val("");
+                                            $(".withdrawalsPas li").text("");
+                                            layer.close(index);
+                                        }
+                                    });
+                                }
+                            }
+                        },
+                        error: function(error) {
+                            $("#tjBtn").removeAttr("disabled");
+                            layer.open({
+                                content: "<p class='alert_msg'>当前网络异常,请尝试刷新!</p>",
+                                btn: '刷新'
+                                ,yes: function(){
+                                    location.reload();
+                                }
+                            });
+                        }
+                    });
+                } 
+}
+            $(".inputPas").keyup(function(){
+                if($(this).val().length == 6){
+                    getAjax();
+                }
+            })
+        
+        });
+
+    </script>
+</body>
+</html>

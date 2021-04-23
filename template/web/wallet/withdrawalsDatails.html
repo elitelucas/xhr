@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>提现</title>
+    <!--<link href="/statics/web/css/css.css?v=1" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+</head>
+<body>
+<header>
+    <em data-href="<?=url('web','account','index')?>">返回</em>
+    <h1>提现</h1>
+    <div class="headerRight">
+        <ul>
+            <li class="icoRefresh"><a href="javascript:location.reload()"></a></li>
+        </ul>
+
+    </div>
+    <!---->
+</header>
+<section class="modify pb-0">
+    <div class="withdrawals">
+        <dl>
+            <!-- <dt><i class="icoDrawing"></i>提现详情</dt> -->
+            <dd>
+                <div class="bank-name">{$res['bank_name']}</div>
+                <div class="money-box"><em>{$res['money']}</em>元</div>
+                <div class="tx-status">{if $res['type'] == 0}提现处理中{elseif $res['type'] == 1 || $res['type'] == 4}<span style="color:#5f98fe">提现成功</span>{else}<span style="color: red">提现失败</span>{/if}</div>
+                <!-- <p><?=date('Y-m-d　H:i', $res['addtime'])?></p>
+                <?php 
+                if($res['bank'] == 1 || $res['bank'] == 2){   ?>
+                <p>{$res['bank_name']} | <?php echo interceptChinese($res['account'])  ?> | 申请提现{$res['money']}元</p>
+                <?php }else{  ?>
+                <p>{$res['bank_name']} | 尾号<?=substr($res['account'],-4)?> | 申请提现{$res['money']}元</p>
+                <?php }?>
+                {if $res['type'] != 0}
+                <p><?=date('Y-m-d　H:i', $res['verifytime'])?></p>
+                <p>{if $res['type'] == 1}提现成功{else}提现失败{/if}</p>
+                {/if} -->
+            </dd>
+        </dl>
+        <dl>
+            <!-- <dt><i style="background-image: url('/statics/web/images/jindu@3x.png')"></i>提现进度<em>{if $res['type'] == 0}处理中{elseif $res['type'] == 1}<?=date('Y-m-d H:i', $res['verifytime'])?>提现成功{else}<span style="color: red">提现失败</span>{/if}</em></dt> -->
+            <!-- <dd>
+                <?php if($res['bank'] == 1 || $res['bank'] == 2){   ?>
+                <p>{$res['bank_name']} | <?php echo interceptChinese($res['account'])  ?> | 申请提现{$res['money']}元</p>
+                <?php }else{  ?>
+                <p>{$res['bank_name']} | 尾号<?=substr($res['account'],-4)?> | 申请提现{$res['money']}元</p>
+                <?php }?>
+            
+                <label>{if $res['type'] == 0}处理中，请稍后{elseif $res['type'] == 1}如未到账请咨询银行{else}{$res['verifyremark']}{/if}</label>
+                <label>{if $res['type'] == 0}处理中，请稍后{elseif $res['type'] == 1}如未到账请咨询银行{else}如有疑问,请联系客服{/if}</label>
+                <ul>
+                    <li>
+                        <i class="icoApply"></i>
+                        <p>提现申请成功</p>
+                        <p><?=date('Y-m-d H:i', $res['addtime'])?></p>
+                    </li>
+                    <li>
+                        <i class="icoHandle"></i>
+                        <p>处理中</p>
+                    </li>
+                    {if $res['type'] != 0}
+                    <li>
+                        <i {if $res['type'] == 1}class="icoComplete1"{else}style="background-image: url('/statics/web/images/tikuanshibai@2x.png')"{/if}></i>
+                        <p>{if $res['type'] == 1}提现成功{else}提现失败{/if}</p>
+                        <p><?=date('Y-m-d H:i', $res['verifytime'])?></p>
+                    </li>
+                    {/if}
+                </ul>
+            </dd> -->
+            <ul class="tx-info">
+                <li class="clearfix">
+                    <span class="name">提现金额</span><span class="info">{$res['money']}元</span>
+                </li>
+                <li class="clearfix"><span class="name">提现银行卡</span><span class="info">{$res['bank_name']}（<?=substr($res['account'],-4)?>）</span></li>
+                <li class="clearfix"><span class="name">处理进度</span>
+                <div class="status-info info">
+                    <div class="first-step"><p>提现申请已成功提交</p><p><?=date('Y-m-d H:i', $res['addtime'])?></p></div>
+                    <div class="tow-step">处理中</div> 
+                    {if $res['type'] != 0}
+                    <div class="three-step">{if $res['type'] == 1 || $res['type'] == 4}已到账<p>{else}<span style="color:#d22727">提现失败</span><p style="color:#d22727">{/if}<?=date('Y-m-d H:i', $res['verifytime'])?></p></div>
+                    {/if}  
+                </div></li>
+            </ul>
+        </dl>
+        <div class="fix-bottom">
+	        {if $res['type'] == 1 || $res['type'] == 4}
+	        	<p class="tips">如未到账请咨询银行</p>
+	        {elseif $res['type'] == 2 ||$res['type'] == 5}
+	        	<p class="tips">如有问题，请联系客服</p>
+        	{else}
+        		<p style="color:#d22727" class="tips">您的提现已提交，请您耐心等待</p>
+	        {/if}
+            <p><a data-href="http://kf.dandandd.com/index.php?g=Api&m=Chat&a=index&key=A0E4291422C1451290" class="link-fk">联系在线客服</a></p>
+        </div>
+    </div>
+
+</section>
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <!--  <link rel="stylesheet" href="statics/admin/css/pintuer.css"> -->
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+    <script src="statics/admin/js/pintuer.js"></script>
+    <script src="statics/admin/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- template-begin+++ -->
+    {template public-new-ui-header}
+    <!-- template-end+++ -->
+
+    <style type='text/css'>
+        .rules-1{
+            float: left;
+            height: 35px;
+            line-height: 35px;
+            padding-right:10px;
+        }
+        .rules-2{
+            float: left;
+            height: 35px;
+            line-height: 35px;
+            padding:0 10px 0 10px;
+        }
+        .rules-3{
+            float: left;
+            width: 20%;
+        }
+    </style>
+</head>
+    <body style="margin: 15px;background-color: #f3f3f4;">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title iboxWTitle">
+                <h5>新增返水比例</h5>
+                <div class="ibox-tools">
+                    <a href="javascript:void(0)" class="btn btn-white btn-bitbucket" onclick="javascript:history.go(-1);">
+                        <i class="fa fa-reply"></i> 返回
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content bagCol">
+                <div class="ibox-title">
+                    <h5>详情</h5>
+                </div>
+                <div class="ibox-content">
+                    <form method="get" class="form-horizontal">
+
+                        <input id="max" type="hidden" value="{$max}">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">选择房间</label>
+                            <div class="col-sm-3 m-b">
+                                <select id="room_id" class="form-control">
+                                    {loop $roomlist $v}
+                                        <option value="{$v['id']}" {if $v['id'] == $room_id } selected{/if} data-type="{$v['lottery_type']}" >{$v['name']}--{$v['title']}</option>
+                                    {/loop}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>返水类型</label>
+                            <div class="col-sm-4" style="padding-top: 3px;">
+                                <select name="type" class="form-control" id="type">
+                                    <option {if $type==1 }selected{/if} value="1">有效投注</option>
+                                    <option {if $type==2 }selected{/if} value="2">输分</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">最小金额(不包含最小额)</label>
+                            <div class="col-sm-5 m-b">
+                                <input type="number" value="{if $max}{$max}{/if}" class="form-control" id="lower" placeholder="最小金额">
+                                <p style="color: gray;padding-top: 10px;">大于0的正整数；如果设置过上一级别返水，该项自动获取上一级别的最大值，但修改时不能低于该值</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">最大金额(包含最大额)</label>
+                            <div class="col-sm-4 m-b">
+
+                                <input type="number" class="form-control" id="upper" placeholder="最大金额"/>
+                                <p style="color: gray;padding-top: 10px;">大于0的正整数，最大金额必须大于最小金额</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">返水率</label>
+                            <div class="col-sm-5">
+                                <input type="number" class="form-control rules-3" id="rate" placeholder="返水率"/>
+                                <span class="rules-2">%</span>
+                                <p style="color: gray;padding-top: 10px;clear: both">输入大于0的整数；以上返水均按房间计算，计算方式：房间有效投注总额/输分 * 对应的金额区间返水比例</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">特码A返水率</label>
+                            <div class="col-sm-5">
+                                <input type="number" class="form-control rules-3" id="rate_special" placeholder="特码A返水率"/>
+                                <span class="rules-2">%</span>
+                                <p style="color: gray;padding-top: 10px;clear: both">输入大于0的整数；以上返水均按房间计算，计算方式：房间有效投注总额/输分 * 对应的金额区间返水比例</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">正码A返水率</label>
+                            <div class="col-sm-5">
+                                <input type="number" class="form-control rules-3" id="rate_just" placeholder="输入大于0的整数"/>
+                                <span class="rules-2">%</span>
+                                <p style="color: gray;padding-top: 10px;clear: both">输入大于0的整数；以上返水均按房间计算，计算方式：房间有效投注总额/输分 * 对应的金额区间返水比例</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label"></label>
+                            <div class="col-sm-2 col-sm-offset-1">
+                                <button class="btn btn-primary" type="button" onclick="addContent()">添加</button>
+                                <button class="btn btn-white" type="button" style="border: 1px solid #e7eaec" onclick="javascript:history.go(-1);">取消</button>
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript">
+
+        $(function(){
+            $("#room_id").change();
+            $("#type").change();
+        });
+
+        $('#type').change(function () {
+            var room_id = $('#room_id').val();
+            var type = $("#type option:selected").val();
+
+            var data = {'room_id':room_id,'type':type};
+            $.ajax({
+                url: '?m=admin&c=odds&a=getMaxVal',
+                data: data,
+                dataType: 'json',
+                type: 'post',
+                beforeSend: function () {
+                    loading = layer.load(1);
+                },
+                error: function () {
+                    layer.close(loading);
+                    layer.msg('网络错误,请重试', {icon: 5, shade: [0.5, '#393D49']});
+                },
+                success: function (result) {
+                    layer.close(loading);
+                    console.log(result);
+
+                    if (result.code==0) {
+                        $('#max').val(result.max);
+                        $('#lower').val(result.max);
+                    }
+                }
+            });
+
+        });
+
+        $("#room_id").change(function(){
+            var room_id = $(this).val();
+//            if('{$room_id}' != room_id){
+//                location.href = '?m=admin&c=odds&a=editBack&max=10&type=1&room_id=1'
+//            }
+            var lottery_type = $(this).find("option:selected").attr("data-type");
+//            var upper = $(this).find("option:selected").attr("data-upper");
+            var upper = $('#max').val();
+            if (upper != "") {
+                $("#lower").attr("placeholder","最小金额必须大于0")
+            } else {
+                $("#lower").attr("placeholder","最小金额")
+            }
+            if (lottery_type == 7 || lottery_type == 8) {
+                $("#rate_just").parent().parent().show();
+                $("#rate_special").parent().parent().show();
+            } else {
+                $("#rate_just").parent().parent().hide();
+                $("#rate_special").parent().parent().hide();
+            }
+
+        })
+
+        //返水比率设置
+        function addContent(){
+            var data = {
+                'lower':parseInt($("#lower").val()),
+                'type':parseInt($("#type").val()),
+                'upper':parseInt($("#upper").val()),
+//                'rate':parseInt($.trim($("#rate").val())),
+                'rate':$("#rate").val(),
+                'room_id':$("#room_id").val(),
+                'rate_special':parseInt($.trim($("#rate_special").val())),
+                'rate_just':parseInt($.trim($("#rate_just").val()))
+            };
+
+            var upper = $("#room_id").find("option:selected").attr("data-upper");
+            var lottery_type = $("#room_id").find("option:selected").attr("data-type");
+
+            for (key in data) {
+                if (isNaN(data[key])) {
+                    data[key] = "";
+                }
+            }
+
+            if(data.lower ==''){
+                layer.tips('最小金额不能为空', $("#lower"), {tips:[1, '#3595CC'], time: 4000});
+                return false;
+            }
+
+            var lowerr = $('#max').val();
+
+            if (data.lower < lowerr) {
+                layer.tips('最小金额必须大于等于'+lowerr, $("#lower"), {tips:[1, '#3595CC'], time: 4000});
+                return false;
+            }
+
+            if(data.upper == ''){
+                layer.tips('最大金额不能为空', $("#upper"), {tips:[1, '#3595CC'], time: 4000});
+                return false;
+            }
+
+            if(data.rate == ''){
+                layer.tips('比例不能为空', $("#rate"), {tips:[1, '#3595CC'], time: 4000});
+                return false;
+            }
+            if(data.rate > 100){
+                layer.tips('请输入大于零小于100的整数', $("#rate"), {tips:[1, '#3595CC'], time: 4000});
+                return false;
+            }
+
+            if(data.lower >= data.upper){
+                layer.tips('最大金额必须大于最小金额', $("#upper"), {tips:[1, '#3595CC'], time: 4000});
+                return false;
+            }
+
+            if (lottery_type == 7 || lottery_type == 8) {
+
+
+                if(data.rate_special ==''){
+                    layer.tips('特码A比例不能为空', $("#rate_special"), {tips:[1, '#3595CC'], time: 4000});
+                    return false;
+                }
+                if(data.rate_just ==''){
+                    layer.tips('正码A比例不能为空', $("#rate_just"), {tips:[1, '#3595CC'], time: 4000});
+                    return false;
+                }
+
+                if (data.rate_special > 100) {
+                    layer.tips('请输入大于零小于100的整数', $("#rate_special"), {tips:[1, '#3595CC'], time: 4000});
+                    return false;
+                }
+
+                if (data.rate_just > 100) {
+                    layer.tips('请输入大于零小于100的整数', $("#rate_just"), {tips:[1, '#3595CC'], time: 4000});
+                    return false;
+                }
+            }
+
+            $.ajax({
+                url: '?m=admin&c=odds&a=backContent',
+                data: data,
+                dataType: 'json',
+                type: 'post',
+                beforeSend: function () {
+                    loading = layer.load(1);
+                },
+                error: function () {
+                    layer.close(loading);
+                    layer.msg('网络错误,请重试', {icon: 5, shade: [0.5, '#393D49']});
+                },
+                success: function (result) {
+                    layer.close(loading);
+                    if (result.rt) {
+                        layer.msg('添加成功', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                            location.href = "?m=admin&c=odds&type="+data.type+"&a=back&room_id="+data.room_id+"&lottery_type="+lottery_type
+                        });
+                    } else {
+                        layer.msg('添加失败', {icon: 5, shade: [0.5, '#393D49']});
+                    }
+                }
+            });
+        }
+    </script>
+</html>

@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <!--  <link rel="stylesheet" href="statics/admin/css/pintuer.css"> -->
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+    <script src="statics/admin/js/pintuer.js"></script>
+    <script src="statics/admin/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- template-begin+++ -->
+    {template public-new-ui-header}
+    <!-- template-end+++ -->
+    <script src="statics/admin/js/jquery.date_input.pack.js"></script>
+    <link rel="stylesheet" href="statics/admin/jedate/skin/jedate.css">
+    <script type="text/javascript" src="statics/admin/jedate/jquery.jedate.min.js"></script>
+
+    <!-- 图片上传 引入插件 -->
+    <script src="statics/admin/fileupload/js/vendor/jquery.ui.widget.js"></script>
+    <script src="statics/admin/fileupload/js/jquery.fileupload.js"></script>
+
+    <style type='text/css'>
+        #page{height: 60px;margin-top: 20px;text-align: center;}
+        #page ul li{float: left;margin-right:10px;}
+        #page ul .current{ background-color:#0099ff;text-align:center;}
+        .table td div.username{
+            height: 23px;
+            overflow: hidden;
+            white-space:nowrap;
+            text-overflow: ellipsis;
+        }
+        .table tbody tr td{
+            vertical-align: middle;
+        }
+        .table>thead>tr>th {
+            vertical-align: middle;
+        }
+        .rules-1{
+            float: left;
+            height: 35px;
+            line-height: 35px;
+            padding-right:10px;
+        }
+        .rules-2{
+            float: left;
+            height: 35px;
+            line-height: 35px;
+            padding:0 10px 0 10px;
+        }
+        .rules-3{
+            float: left;
+            width: 20%;
+        }
+    </style>
+</head>
+<body style="margin: 15px;background-color: #f3f3f4;">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title iboxWTitle">
+            <h5>新增活动</h5>
+            <div class="ibox-tools">
+                <a href="javascript:void(0)" class="btn btn-white btn-bitbucket" onclick="javascript:history.go(-1);">
+                    <i class="fa fa-reply"></i> 返回
+                </a>
+            </div>
+        </div>
+        <div class="ibox-content bagCol">
+            <div class="ibox-title">
+                <h5>活动详情</h5>
+            </div>
+            <div class="ibox-content">
+                <form method="get" class="form-horizontal">
+
+                    <div class="form-group">
+                        <div style="margin-left: 25px;">
+                            <p><b>元宝数额一栏说明：</b>如果为实物，该选项为：0；如果为元宝，该选项为：具体数值</p>
+                            <p><b>白名单一栏说明：</b>输入格式为：用户名-中奖次数 多个用户请用英文分号“;”分开，例如：admin-1;user-2.....</p>
+                            <p><b>中奖率一栏说明：</b>所有序号内对应层级中奖率相加必须为100%，每个奖项中奖率最多保留2位小数</p>
+                            <p><b>奖项说明：</b>奖项一列最多能输入6个字符</p>
+                            <p><b>奖品名称说明：</b>奖品名称一列最多能输入10个字符</p>
+                            <p><b>奖品类型说明：</b>如无需设置某奖项，则只需要将奖品类型设置为“无”，该奖项将不参与抽奖。</p>
+                            <p><b>活动内容说明：</b>多条说明请用 【换行】 分开。</p>
+                            <p><b>每日输赢赠送有效时间：</b>【赠送结束时间】 建议比 【活动结束时间】 提前一天。</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">活动名称</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" name="title" value="{if empty($list)} 九宫格第{$maxNum}期活动 {else} {$list['title']} {/if}" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">活动时间</label>
+                        <div class="col-sm-7">
+                            <div class="input-group">
+                                <input style="width: 43%" type="text" name="start_time" class="date_picker form-control" value="<?php if(!empty($list['start_time'])){ echo date('Y-m-d H:i:s',$list['start_time']);}   ?>" />
+                                <span style="float: left;line-height: 34px;padding: 0 20px 0 20px;">至</span>
+                                <input style="width: 43%" type="text" name="end_time" class="date_picker form-control" value="<?php if(!empty($list['end_time'])){ echo date('Y-m-d H:i:s',$list['end_time']);}   ?>" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">是否开启</label>
+                        <div class="col-sm-1">
+                            <select class="form-control m-b" name="state">
+                                <option value="1" {if $list['state'] == 1} selected="selected" {/if}>开启</option>
+                                <option value="2" {if $list['state'] == 2} selected="selected" {/if}>停止</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">彩金自动派发</label>
+                        <div class="col-sm-1">
+                            <select class="form-control m-b" name="money_auto">
+                                <option value="1" {if $list['money_auto'] == 1} selected="selected" {/if}>是</option>
+                                <option value="2" {if $list['money_auto'] == 2} selected="selected" {/if}>否</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">玩法规则</label>
+                        <div class="col-sm-7">
+                            <span class="rules-1">活动期间有效充值达到</span>
+                            <input class="form-control rules-3" name="every_topup" value="{if empty($list)} 100 {else} {$list['rules_play']['every_topup']} {/if}" type="text" />
+                            <span class="rules-2">元宝，可以玩</span>
+                            <input class="form-control rules-3" name="every_topup_val" value="{if empty($list)} 1 {else} {$list['rules_play']['every_topup_val']} {/if}" type="text" />
+                            <span class="rules-2">次 <font color="gray">(充值赠送次数即时生效)</font></span>
+
+                            <br /><br />
+
+                            <span class="rules-1">活动期间有效投注达到</span>
+                            <input class="form-control rules-3" name="every_bet" value="{if empty($list)} 100 {else} {$list['rules_play']['every_bet']} {/if}" type="text" />
+                            <span class="rules-2">元宝，可以玩</span>
+                            <input class="form-control rules-3" name="every_bet_val" value="{if empty($list)} 1 {else} {$list['rules_play']['every_bet_val']} {/if}" type="text" />
+                            <span class="rules-2">次 <font color="gray">(投注赠送次数即时生效)</font></span>
+
+                            <br /><br />
+
+                            <span class="rules-1">活动期间每日赢达到</span>
+                            <input class="form-control rules-3" name="every_win" value="{if empty($list)} 1000 {else} {$list['rules_play']['every_win']} {/if}" type="text" />
+                            <span class="rules-2">元宝，可以玩</span>
+                            <input class="form-control rules-3" name="every_win_val" value="{if empty($list)} 1 {else} {$list['rules_play']['every_win_val']} {/if}" type="text" />
+                            <span class="rules-2">次</span>
+
+                            <br /><br />
+
+                            <span class="rules-1">活动期间每日输达到</span>
+                            <input class="form-control rules-3" name="every_lose" value="{if empty($list)} 1000 {else} {$list['rules_play']['every_lose']} {/if}" type="text">
+                            <span class="rules-2">元宝，可以玩</span>
+                            <input class="form-control rules-3" name="every_lose_val" value="{if empty($list)} 1 {else} {$list['rules_play']['every_lose_val']} {/if}" type="text">
+                            <span class="rules-2">次</span>
+
+                            <br /><br />
+
+                            <span class="rules-1">每日输赢赠送有效时间</span>
+                            <input type="text" name="send_start_time" class="date_picker form-control rules-3" value="<?php if(!empty($list['rules_play']['send_start_time'])){  echo date('Y-m-d H:i:s',$list['rules_play']['send_start_time']);}   ?>" />
+                            <span class="rules-2">-----</span>
+                            <input type="text" name="send_end_time" class="date_picker form-control rules-3" value="<?php if(!empty($list['rules_play']['send_end_time'])){ echo date('Y-m-d H:i:s',$list['rules_play']['send_end_time']);}   ?>" />
+                            <span class="rules-2"><font color="gray">(输赢赠送次数每日12点结算)</font></span>
+
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">会员组限制</label>
+                        <div class="col-sm-10">
+                            {loop $groupInfo $val}
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="group" value="{$val['id']}" {if empty($list)} checked="checked" {else} {loop $list['level_limit'] $va} {if $va == $val['id']} checked="checked" {/if} {/loop} {/if} />{$val["name"]}
+                            </label>
+                            {/loop}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">活动内容</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" name="details" rows="5"><?php if(empty($list)) { echo "1.单次抽奖消耗一次机会；\n2.彩金类奖品在第二天到账，如未到账，请联系客服人员；\n3.实物类奖品需等待客服人员联系并发放。"; } else { echo $list['value']['details']; }    ?></textarea>
+                            <p style="color: gray;padding-top: 10px;">多条说明请用 【换行】 分开。</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">底部文案</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" name="statement" rows="2"><?php if(empty($list)) { echo '本活动最终解释权归本网站所有'; } else { echo $list['value']['statement']; } ?></textarea>
+                            <p style="color: gray;padding-top: 10px;">多条说明请用 【换行】 分开。</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">活动期数</label>
+                        <div class="col-sm-10">
+                            <span class="rules-1">第 {$maxNum} 期</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">奖品设置</label>
+                        <div class="col-sm-11">
+                            <div class="dataTables_wrapper form-inline">
+                                <table class="table table-striped table-bordered table-hover  dataTable" id="editable" aria-describedby="editable_info">
+                                    <thead>
+                                    <tr>
+                                        <th>序号</th>
+                                        <th>奖品类型</th>
+                                        <th>奖项</th>
+                                        <th>奖品名称</th>
+                                        <th>图片</th>
+                                        <th>元宝数额</th>
+                                        <th>奖品份数</th>
+                                        <th>剩余奖品份数</th>
+                                        <th>中奖白名单</th>
+                                        <th>中奖率(%)</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="config_info">
+                                        <td><input class="form-control" name="prize_id" type="text" readonly="readonly" value="1" style="width: 40px;" /> </td>
+                                        <td>
+                                            一
+                                            <select name="prize_type" style="display:none" class="form-control">
+                                                <option value="3">无</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="text" class="form-control" name="prize_project" value="<?php if(empty($list)) { echo '谢谢参与'; } else { echo $list['value']['prize_config'][0]['prize_project']; } ?>" /></td>
+                                        <td><input type="text" class="form-control" name="prize_name" value="<?php if(empty($list)) { echo '谢谢参与'; } else { echo $list['value']['prize_config'][0]['prize_name']; } ?>" /></td>
+
+                                        <td>
+                                            <img data-index="1" class="view" src="{$list['value']['prize_config'][0]['prize_img']}" alt="" style="display: none" onclick="this.nextElementSibling.click();">
+                                            <input data-index="1" style="display:none;" name="file" class="file_upload" type="file">
+                                            {if $list['value']['prize_config'][0]['prize_img'] == ""}
+                                            <a data-index="1" href="javascript:;" onclick="this.previousElementSibling.click();" style="display: none">上传图片</a>
+                                            {/if}
+                                            <input data-index="1" name="prize_img" value="{$list['value']['prize_config'][0]['prize_img']}" type="hidden">
+                                        </td>
+                                        <td><input type="text" class="form-control" name="prize_design" value="<?php if(!empty($list)) { echo $list['value']['prize_config'][0]['prize_design']; } else { echo '0'; } ?>" readonly="readonly" /></td>
+                                        <td><input type="text" class="form-control" name="prize_num" value="99999" readonly="readonly" /></td>
+                                        <td><input type="text" class="form-control" name="prize_remainder" value="<?php if(!empty($list)) { echo $list['value']['prize_config'][0]['prize_remainder']; } else { echo '99999'; } ?>" readonly="readonly" /></td>
+                                        <td><input type="text" class="form-control" name="prize_white" value="" readonly="readonly"  /></td>
+                                        <td><input type="text" class="form-control" name="prize_reward" value="<?php if(empty($list)) { echo '98.40'; } else { echo $list['value']['prize_config'][0]['prize_reward']; } ?>" /></td>
+                                    </tr>
+
+                                    <tr class="config_info">
+                                        <td><input class="form-control" name="prize_id" type="text" readonly="readonly" value="2" style="width: 40px;" /> </td>
+                                        <td>
+                                            <select name="prize_type" style="width:80px; line-height:17px;display:inline-block" class="form-control prize_type">
+                                                <option value="2" {if $list['value']['prize_config'][1]['prize_type'] == 2 } selected {/if}>彩金</option>
+                                                <option value="1" {if $list['value']['prize_config'][1]['prize_type'] == 1 } selected {/if}>实物</option>
+                                                <option value="3" {if $list['value']['prize_config'][1]['prize_type'] == 3 } selected {/if}>无</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="text" class="form-control" name="prize_project" value="<?php if(empty($list)) { echo '一等奖'; } else { echo $list['value']['prize_config'][1]['prize_project']; } ?>" /></td>
+                                        <td><input type="text" class="form-control" name="prize_name" value="<?php if(empty($list)) { echo '100元宝'; } else { echo $list['value']['prize_config'][1]['prize_name']; } ?>" /></td>
+
+                                        <td>
+                                            <img data-index="2" class="view" src="{$list['value']['prize_config'][1]['prize_img']}" alt="" style="float: left;width:200px; {if $list['value']['prize_config'][1]['prize_img'] == ''} display:none; {/if}" onclick="this.nextElementSibling.click();">
+                                            <input data-index="2" style="display:none;" name="file" class="file_upload" type="file">
+                                            {if $list['value']['prize_config'][1]['prize_img'] == ""}
+                                            <a data-index="2" href="javascript:;" onclick="this.previousElementSibling.click();">上传图片<br />(建议图片大小210*210)</a>
+                                            {/if}
+                                            <input data-index="2" name="prize_img" value="{$list['value']['prize_config'][1]['prize_img']}" type="hidden">
+                                        </td>
+                                        <td><input type="text" class="form-control" name="prize_design" value="<?php if(!empty($list)) { echo $list['value']['prize_config'][1]['prize_design']; } else { echo '100'; } ?>" /></td>
+                                        <td><input type="text" class="form-control" name="prize_num" value="<?php if(empty($list)) { echo '2'; } else { echo $list['value']['prize_config'][1]['prize_num']; } ?>" /></td>
+                                        <td><input type="text" class="form-control" name="prize_remainder" readonly="readonly" value="<?php if(empty($list)) { echo '2'; } else { echo $list['value']['prize_config'][1]['prize_remainder']; } ?>" /></td>
+                                        <td><input type="text" class="form-control" name="prize_white" value="{$list['value']['prize_config'][1]['prize_white']}" /></td>
+                                        <td><input type="text" class="form-control" name="prize_reward" value="<?php if(empty($list)) { echo '0.01'; } else { echo $list['value']['prize_config'][1]['prize_reward']; } ?>" /></td>
+                                    </tr>
+
+                                    <tr class="config_info">
+                                        <td><input class="form-control" name="prize_id" type="text" readonly="readonly" value="3" style="width: 40px;" /> </td>
+                                        <td>
+                                            <select name="prize_type" style="width:80px; line-height:17px;display:inline-block" class="form-control prize_type">
+                                                <option value="2" {if $list['value']['prize_config'][2]['prize_type'] == 2 } selected {/if}>彩金</option>
+                                                <option value="1" {if $list['value']['prize_config'][2]['prize_type'] == 1 } selected {/if}>实物</option>
+                                                <option value="3" {if $list['value']['prize_config'][2]['prize_type'] == 3 } selected {/if}>无</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="text" class="form-control" name="prize_project" value="<?php if(empty($list)) { echo '二等奖'; } else { echo $list['value']['prize_config'][2]['prize_project']; } ?>" /></td>
+                                        <td><input type="text" class="form-control" name="prize_name" value="<?php if(empty($list)) { echo '80元宝'; } else { echo $list['value']['prize_config'][2]['prize_name']; } ?>" /></td>
+
+                                        <td>
+                                            <img data-index="3" class="view" src="{$list['value']['prize_config'][2]['prize_img']}" alt="" style="float: left;width:200px; {if $list['value']['prize_config'][2]['prize_img'] == ''} display:none; {/if}" onclick="this.nextElementSibling.click();">
+                                            <input data-index="3" style="display:none;" name="file" class="file_upload" type="file">
+                                            {if $list['value']['prize_config'][2]['prize_img'] == ""}
+                                            <a data-index="3" href="javascript:;" onclick="this.previousElementSibling.click();">上传图片<br />(建议图片大小210*210)</a>
+                                            {/if}
+                                            <input data-index="3" name="prize_img" value="{$list['value']['prize_config'][2]['prize_img']}" type="hidden">
+                                        </td>
+                                        <td><input type="text" class="form-control" name="prize_design" value="<?php if(!empty($list)) { echo $list['value']['prize_config'][2]['prize_design']; } else { echo '80'; } ?>" /></td>
+                                        <td><input type="text" class="form-control" name="prize_num" value="<?php if(empty($list)) { echo '5'; } else { echo $list['value']['prize_config'][2]['prize_num']; } ?>" /></td>
+                                        <td><input type="text" class="form-control" name="prize_remainder" readonly="readonly" value="<?php if(empty($list)) { echo '5'; } else { echo $list['value']['prize_config'][2]['prize_remainder']; } ?>" /></td>
+                                        <td><input type="text" class="form-control" name="prize_white" value="{$list['value']['prize_config'][2]['prize_white']}" /></td>
+                                        <td><input type="text" class="form-control" name="prize_reward" value="<?php if(empty($list)) { echo '0.05'; } else { echo $list['value']['prize_config'][2]['prize_reward']; } ?>" /></td>
+                                    </tr>
+
+                                    <tr class="config_info">
+                                        <td><input class="form-control" name="prize_id" type="text" readonly="readonly" value="4" style="width: 40px;"/> </td>
+                                        <td>
+                                            <select name="prize_type" style="width:80px; line-height:17px;display:inline-block" class="form-control prize_type">
+                                                <option value="2" {if $list['value']['prize_config'][3]['prize_type'] == 2 } selected {/if}>彩金</option>
+                                                <option value="1" {if $list['value']['prize_config'][3]['prize_type'] == 1 } selected {/if}>实物</option>
+                                                <option value="3" {if $list['value']['prize_config'][3]['prize_type'] == 3 } selected {/if}>无</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="text" class="form-control" name="prize_project" value="<?php if(empty($list)) { echo '三等奖'; } else { echo $list['value']['prize_config'][3]['prize_project']; } ?>" /></td>
+                                        <td><input type="text" class="form-control" name="prize_name" value="<?php if(empty($list)) { echo '50元宝'; } else { echo $list['value']['prize_config'][3]['prize_name']; } ?>" /></td>
+
+                                        <td>
+                                            <img data-index="4" class="view" src="{$list['value']['prize_config'][3]['prize_img']}" alt="" style="float: left;width:200px; {if $list['value']['prize_config'][3]['prize_img'] == ''} display:none; {/if}" onclick="this.nextElementSibling.click();">
+                                            <input data-index="4" style="display:none;" name="file" class="file_upload" type="file">
+                                            {if $list['value']['prize_config'][3]['prize_img'] == ""}
+                                            <a data-index="4" href="javascript:;" onclick="this.previousElementSibling.click();">上传图片<br />(建议图片大小210*210)</a>
+                                            {/if}
+                                            <input data-index="4" name="prize_img" value="{$list['value']['prize_config'][3]['prize_img']}" type="hidden">
+                                        </td>
+                                        <td><input type="text" class="form-control" name="prize_design" value="<?php if(!empty($list)) { echo $list['value']['prize_config'][3]['prize_design']; } else { echo '50'; } ?>" /></td>
+                                        <td><input type="text" class="form-control" name="prize_num" value="<?php if(empty($list)) { echo '10'; } else { echo $list['value']['prize_config'][3]['prize_num']; } ?>" /></td>
+                                        <td><input type="text" class="form-control" name="prize_remainder" readonly="readonly" value="<?php if(empty($list)) { echo '10'; } else { echo $list['value']['prize_config'][3]['prize_remainder']; } ?>" /></td>
+                                        <td><input type="text" class="form-control" name="prize_white" value="{$list['value']['prize_config'][3]['prize_white']}" /></td>
+                                        <td><input type="text" class="form-control" name="prize_reward" value="<?php if(empty($list)) { echo '0.14'; } else { echo $list['value']['prize_config'][3]['prize_reward']; } ?>" /></td>
+                                    </tr>
+
+                                    <tr class="config_info">
+                                        <td><input class="form-control" name="prize_id" type="text" readonly="readonly" value="5" style="width: 40px;" /> </td>
+                                        <td>
+                                            <select name="prize_type" style="width:80px; line-height:17px;display:inline-block" class="form-control prize_type">
+                                                <option value="2" {if $list['value']['prize_config'][4]['prize_type'] == 2 } selected {/if}>彩金</option>
+                                                <option value="1" {if $list['value']['prize_config'][4]['prize_type'] == 1 } selected {/if}>实物</option>
+                                                <option value="3" {if $list['value']['prize_config'][4]['prize_type'] == 3 } selected {/if}>无</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="text" class="form-control" name="prize_project" value="<?php if(empty($list)) { echo '四等奖'; } else { echo $list['value']['prize_config'][4]['prize_project']; } ?>" /></td>
+                                        <td><input type="text" class="form-control" name="prize_name" value="<?php if(empty($list)) { echo '40元宝'; } else { echo $list['value']['prize_config'][4]['prize_name']; } ?>" /></td>
+
+                                        <td>
+                                            <img data-index="5" class="view" src="{$list['value']['prize_config'][4]['prize_img']}" alt="" style="float: left;width:200px; {if $list['value']['prize_config'][4]['prize_img'] == ''} display:none; {/if}" onclick="this.nextElementSibling.click();">
+                                            <input data-index="5" style="display:none;" name="file" class="file_upload" type="file">
+                                            {if $list['value']['prize_config'][4]['prize_img'] == ""}
+                                            <a data-index="5" href="javascript:;" onclick="this.previousElementSibling.click();">上传图片<br />(建议图片大小210*210)</a>
+                                            {/if}
+                                            <input data-index="5" name="prize_img" value="{$list['value']['prize_config'][4]['prize_img']}" type="hidden">
+                                        </td>
+                                        <td><input type="text" class="form-control" name="prize_design" value="<?php if(!empty($list)) { echo $list['value']['prize_config'][4]['prize_design']; } else { echo '40'; } ?>"  /></td>
+                                        <td><input type="text" class="form-control" name="prize_num" value="<?php if(empty($list)) { echo '30'; } else { echo $list['value']['prize_config'][4]['prize_num']; } ?>" /></td>
+                                        <td><input type="text" class="form-control" name="prize_remainder" readonly="readonly" value="<?php if(empty($list)) { echo '30'; } else { echo $list['value']['prize_config'][4]['prize_remainder']; } ?>" /></td>
+                                        <td><input type="text" class="form-control" name="prize_white" value="{$list['value']['prize_config'][4]['prize_white']}" /></td>
+                                        <td><input type="text" class="form-control" name="prize_reward" value="<?php if(empty($list)) { echo '0.20'; } else { echo $list['value']['prize_config'][4]['prize_reward']; } ?>" /></td>
+                                    </tr>
+
+                                    <tr class="config_info">
+                                        <td><input class="form-control" name="prize_id" type="text" readonly="readonly" value="6" style="width: 40px;" /> </td>
+                                        <td>
+                                            <select name="prize_type" style="width:80px; line-height:17px;display:inline-block" class="form-control prize_type">
+                                                <option value="2" {if $list['value']['prize_config'][5]['prize_type'] == 2 } selected {/if}>彩金</option>
+                                                <option value="1" {if $list['value']['prize_config'][5]['prize_type'] == 1 } selected {/if}>实物</option>
+                                                <option value="3" {if $list['value']['prize_config'][5]['prize_type'] == 3 } selected {/if}>无</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="text" class="form-control" name="prize_project" value="<?php if(empty($list)) { echo '五等奖'; } else { echo $list['value']['prize_config'][5]['prize_project']; } ?>" /></td>
+                                        <td><input type="text" class="form-control" name="prize_name" value="<?php if(empty($list)) { echo '30元宝'; } else { echo $list['value']['prize_config'][5]['prize_name']; } ?>" /></td>
+
+                                        <td>
+                                            <img data-index="6" class="view" src="{$list['value']['prize_config'][5]['prize_img']}" alt="" style="float: left;width:200px; {if $list['value']['prize_config'][5]['prize_img'] == ''} display:none; {/if}" onclick="this.nextElementSibling.click();">
+                                            <input data-index="6" style="display:none;" name="file" class="file_upload" type="file">
+                                            {if $list['value']['prize_config'][5]['prize_img'] == ""}
+                                            <a data-index="6" href="javascript:;" onclick="this.previousElementSibling.click();">上传图片<br />(建议图片大小210*210)</a>
+                                            {/if}
+                                            <input data-index="6" name="prize_img" value="{$list['value']['prize_config'][5]['prize_img']}" type="hidden">
+                                        </td>
+                                        <td><input type="text" class="form-control" name="prize_design" value="<?php if(!empty($list)) { echo $list['value']['prize_config'][5]['prize_design']; } else { echo '30'; } ?>" /></td>
+                                        <td><input type="text" class="form-control" name="prize_num" value="<?php if(empty($list)) { echo '50'; } else { echo $list['value']['prize_config'][5]['prize_num']; } ?>" /></td>
+                                        <td><input type="text" class="form-control" name="prize_remainder" readonly="readonly" value="<?php if(empty($list)) { echo '50'; } else { echo $list['value']['prize_config'][5]['prize_remainder']; } ?>" /></td>
+                                        <td><input type="text" class="form-control" name="prize_white" value="{$list['value']['prize_config'][5]['prize_white']}" /></td>
+                                        <td><input type="text" class="form-control" name="prize_reward" value="<?php if(empty($list)) { echo '0.30'; } else { echo $list['value']['prize_config'][5]['prize_reward']; } ?>" /></td>
+                                    </tr>
+
+                                    <tr class="config_info">
+                                        <td><input class="form-control" name="prize_id" type="text" readonly="readonly" value="7" style="width: 40px;"/> </td>
+                                        <td>
+                                            <select name="prize_type" style="width:80px; line-height:17px;display:inline-block" class="form-control prize_type">
+                                                <option value="2" {if $list['value']['prize_config'][6]['prize_type'] == 2 } selected {/if}>彩金</option>
+                                                <option value="1" {if $list['value']['prize_config'][6]['prize_type'] == 1 } selected {/if}>实物</option>
+                                                <option value="3" {if $list['value']['prize_config'][6]['prize_type'] == 3 } selected {/if}>无</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="text" class="form-control" name="prize_project" value="<?php if(empty($list)) { echo '六等奖'; } else { echo $list['value']['prize_config'][6]['prize_project']; } ?>" /></td>
+                                        <td><input type="text" class="form-control" name="prize_name" value="<?php if(empty($list)) { echo '20元宝'; } else { echo $list['value']['prize_config'][6]['prize_name']; } ?>" /></td>
+
+                                        <td>
+                                            <img data-index="7" class="view" src="{$list['value']['prize_config'][6]['prize_img']}" alt="" style="float: left;width:200px; {if $list['value']['prize_config'][5]['prize_img'] == ''} display:none; {/if}" onclick="this.nextElementSibling.click();">
+                                            <input data-index="7" style="display:none;" name="file" class="file_upload" type="file">
+                                            {if $list['value']['prize_config'][6]['prize_img'] == ""}
+                                            <a data-index="7" href="javascript:;" onclick="this.previousElementSibling.click();">上传图片<br />(建议图片大小210*210)</a>
+                                            {/if}
+                                            <input data-index="7" name="prize_img" value="{$list['value']['prize_config'][6]['prize_img']}" type="hidden">
+                                        </td>
+                                        <td><input type="text" class="form-control" name="prize_design" value="<?php if(!empty($list)) { echo $list['value']['prize_config'][6]['prize_design']; } else { echo '20'; } ?>" /></td>
+                                        <td><input type="text" class="form-control" name="prize_num" value="<?php if(empty($list)) { echo '50'; } else { echo $list['value']['prize_config'][6]['prize_num']; } ?>" /></td>
+                                        <td><input type="text" class="form-control" name="prize_remainder" readonly="readonly" value="<?php if(empty($list)) { echo '50'; } else { echo $list['value']['prize_config'][6]['prize_remainder']; } ?>" /></td>
+                                        <td><input type="text" class="form-control" name="prize_white" value="{$list['value']['prize_config'][6]['prize_white']}" /></td>
+                                        <td><input type="text" class="form-control" name="prize_reward" value="<?php if(empty($list)) { echo '0.40'; } else { echo $list['value']['prize_config'][6]['prize_reward']; } ?>" /></td>
+                                    </tr>
+
+                                    <tr class="config_info">
+                                        <td><input class="form-control" name="prize_id" type="text" readonly="readonly" value="8" style="width: 40px;"/> </td>
+                                        <td>
+                                            <select name="prize_type" style="width:80px; line-height:17px;display:inline-block" class="form-control prize_type">
+                                                <option value="2" {if $list['value']['prize_config'][7]['prize_type'] == 2 } selected {/if}>彩金</option>
+                                                <option value="1" {if $list['value']['prize_config'][7]['prize_type'] == 1 } selected {/if}>实物</option>
+                                                <option value="3" {if $list['value']['prize_config'][7]['prize_type'] == 3 } selected {/if}>无</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="text" class="form-control" name="prize_project" value="<?php if(empty($list)) { echo '七等奖'; } else { echo $list['value']['prize_config'][7]['prize_project']; } ?>" /></td>
+                                        <td><input type="text" class="form-control" name="prize_name" value="<?php if(empty($list)) { echo '10元宝'; } else { echo $list['value']['prize_config'][7]['prize_name']; } ?>" /></td>
+
+                                        <td>
+                                            <img data-index="8" class="view" src="{$list['value']['prize_config'][7]['prize_img']}" alt="" style="float: left;width:200px; {if $list['value']['prize_config'][5]['prize_img'] == ''} display:none; {/if}" onclick="this.nextElementSibling.click();">
+                                            <input data-index="8" style="display:none;" name="file" class="file_upload" type="file">
+                                            {if $list['value']['prize_config'][7]['prize_img'] == ""}
+                                            <a data-index="8" href="javascript:;" onclick="this.previousElementSibling.click();">上传图片<br />(建议图片大小210*210)</a>
+                                            {/if}
+                                            <input class="form-control" data-index="8" name="prize_img" value="{$list['value']['prize_config'][7]['prize_img']}" type="hidden">
+                                        </td>
+                                        <td><input type="text" class="form-control" name="prize_design" value="<?php if(!empty($list)) { echo $list['value']['prize_config'][7]['prize_design']; } else { echo '10'; } ?>" /></td>
+                                        <td><input type="text" class="form-control" name="prize_num" value="<?php if(empty($list)) { echo '50'; } else { echo $list['value']['prize_config'][7]['prize_num']; } ?>" /></td>
+                                        <td><input type="text" class="form-control" name="prize_remainder" readonly="readonly" value="<?php if(empty($list)) { echo '50'; } else { echo $list['value']['prize_config'][7]['prize_remainder']; } ?>" /></td>
+                                        <td><input type="text" class="form-control" name="prize_white" value="{$list['value']['prize_config'][7]['prize_white']}" /></td>
+                                        <td><input type="text" class="form-control" name="prize_reward" value="<?php if(empty($list)) { echo '0.50'; } else { echo $list['value']['prize_config'][7]['prize_reward']; } ?>" /></td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-2 col-sm-offset-1">
+                            <button class="btn btn-primary" type="button" data-id="{$activity_info['id']}" id="btn_submit">保存内容</button>
+                            <button class="btn btn-white" type="button" style="border: 1px solid #e7eaec" onclick="javascript:history.go(-1);" id="qx_submit">取消</button>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+
+    $("input[name='prize_num']").on("change",function(){
+        var obj = $(this);
+        obj.parent().parent().find("input[name='prize_remainder']").val(obj.val());
+
+    })
+    $(".prize_type").on("change",function(){
+        var obj = $(this);
+        if(obj.val() == 1){
+            obj.parent().parent().find("input[name='prize_num']").attr("disabled",false);
+            obj.parent().parent().find("input[name='prize_white']").attr("disabled",false);
+            obj.parent().parent().find("input[name='prize_design']").attr("disabled",true);
+            obj.parent().parent().find("input[name='prize_reward']").attr("disabled",false);
+            obj.parent().parent().find("input[name='prize_design']").val("0");
+            if(obj.parent().parent().find("img").attr("src") != ""){
+                obj.parent().parent().find("img").css("display","block");
+                obj.parent().parent().find("a").css("display","none");
+            } else {
+                obj.parent().parent().find("a").css("display","block");
+            }
+        } else if(obj.val() == 3) {
+            obj.parent().parent().find("input[name='prize_design']").attr("disabled",true);
+            obj.parent().parent().find("input[name='prize_design']").val("0");
+            obj.parent().parent().find("input[name='prize_num']").attr("disabled",true);
+            obj.parent().parent().find("input[name='prize_num']").val("0");
+            obj.parent().parent().find("input[name='prize_remainder']").attr("disabled",true);
+            obj.parent().parent().find("input[name='prize_remainder']").val("0");
+            obj.parent().parent().find("input[name='prize_white']").attr("disabled",true);
+            obj.parent().parent().find("input[name='prize_white']").val("");
+            obj.parent().parent().find("input[name='prize_reward']").attr("disabled",true);
+            obj.parent().parent().find("input[name='prize_reward']").val("0.00");
+            obj.parent().parent().find("a").css("display","none");
+            obj.parent().parent().find("img").css("display","none");
+            obj.parent().parent().find("img").attr("src","");
+            obj.parent().parent().find("input[name='prize_img']").val("");
+        } else {
+            obj.parent().parent().find("input[name='prize_design']").attr("disabled",false);
+            obj.parent().parent().find("input[name='prize_num']").attr("disabled",false);
+            obj.parent().parent().find("input[name='prize_remainder']").attr("disabled",false);
+            obj.parent().parent().find("input[name='prize_white']").attr("disabled",false);
+            obj.parent().parent().find("input[name='prize_reward']").attr("disabled",false);
+            if(obj.parent().parent().find("img").attr("src") != ""){
+                obj.parent().parent().find("img").css("display","block");
+                obj.parent().parent().find("a").css("display","none");
+            } else {
+                obj.parent().parent().find("a").css("display","block");
+            }
+        }
+    });
+    $(".file_upload").fileupload({
+        url: "?m=admin&c=role&a=uploadFile",
+        sequentialUploads: true
+    }).bind('fileuploaddone', function(e, data) {
+        var data_index = $(this).data('index');
+        var res = $.parseJSON(data.result);
+        if (res.code == 0) {
+            $(".view[data-index='" + data_index + "']").attr({
+                'src': res.msg
+            }).show();
+            $(".file_upload[data-index='" + data_index + "']").attr({
+                'style': "width:200px; float: left; opacity: 0 ; margin-left: -200px"
+            });
+            $('input[name="prize_img"][data-index="' + data_index + '"]').val(res.msg);
+            $('a[data-index="' + data_index + '"]').css("display","none");
+        } else {
+            layer.msg(res.msg,{icon:5, shade: [0.5, '#393D49']}); //弹出错误信息
+            return false;
+        }
+    });
+
+    $(function () {
+        if("{$list['id']}" != "") {
+            $("input").attr("disabled",true);
+            $("select").attr("disabled",true);
+            $("textarea").attr("disabled",true);
+            $("button").attr("disabled",true);
+            $("#btn_submit").css("display","none");
+            $("#qx_submit").css("display","none");
+
+        } else {
+            $("select[name='prize_type']").trigger("change");
+        }
+        //时间插件
+        $("[name='start_time']:visible,[name='send_start_time']:visible").jeDate({
+            isinitVal:true,
+            festival:true,
+            ishmsVal:true,
+            minDate: $.nowDate(0),
+            format:"YYYY-MM-DD hh:mm:ss",
+            zIndex:3000,
+        });
+        $("input[name='end_time']").jeDate({
+            isinitVal:true,
+            festival:true,
+            ishmsVal:true,
+            minDate: $.nowDate(0),
+            initAddVal:[30],
+            format:"YYYY-MM-DD hh:mm:ss",
+            zIndex:3000,
+        });
+        $("input[name='send_end_time']").jeDate({
+            isinitVal:true,
+            festival:true,
+            ishmsVal:true,
+            initAddVal:[29],
+            format:"YYYY-MM-DD 23:59:59",
+            zIndex:3000,
+        });
+
+
+        //保存
+        $('#btn_submit').click(function () {
+            var data = {
+                'id' : "{$list['id']}",
+                'title' : $.trim($('input[name="title"]').val()),
+                'start_time' : new Date($("input[name='start_time']").val()).getTime() / 1000,
+                'end_time' : new Date($("input[name='end_time']").val()).getTime() / 1000,
+                'state' : $('select[name="state"]').val(),
+                'money_auto' : $('select[name="money_auto"]').val(),
+                'rules_play' : '',
+                'level_limit' : [],
+                'event_num' : '{$maxNum}',
+                'value' : {},
+                'type' : "{$type}"
+            }
+
+            //添加可参加活动的用户组
+            var level_info = $("input[name='group']:checked");
+            if(level_info.length > 0) {
+                for (var a = 0; a < level_info.length; a++){
+                    data.level_limit.push($(level_info[a]).val());
+                }
+            }
+
+            //判断活动名称不能为空
+            if (data.title == "") {
+                layer.alert('活动名称不能为空', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+
+            //判断活动时间是否合法
+            if (data.start_time > data.end_time) {
+                layer.alert('活动开始时间不能大于结束时间', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+
+
+            var rule = {
+                'every_topup' : $.trim($("input[name='every_topup']").val()),
+                'every_topup_val' : $.trim($("input[name='every_topup_val']").val()),
+                'every_bet' : $.trim($("input[name='every_bet']").val()),
+                'every_bet_val' : $.trim($("input[name='every_bet_val']").val()),
+                'every_lose' : $.trim($("input[name='every_lose']").val()),
+                'every_lose_val' : $.trim($("input[name='every_lose_val']").val()),
+                'every_win' : $.trim($("input[name='every_win']").val()),
+                'every_win_val' : $.trim($("input[name='every_win_val']").val()),
+                'send_start_time' : $.trim(new Date($("input[name='send_start_time']").val()).getTime() / 1000),
+                'send_end_time' : $.trim(new Date($("input[name='send_end_time']").val()).getTime() / 1000),
+            }
+            var reg = /^[0-9]\d*$/;
+            var rule_check = true;
+            $.each(rule,function(key,val){
+                if(val == '' || !reg.test(val)){
+                    rule_check = false;
+                }
+            });
+            //判断输分赠送时间是否合法
+            if (rule.send_start_time > rule.send_end_time) {
+                layer.alert('赠送有效时间不能大于结束时间', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+            if (
+                (rule.send_start_time <  data.start_time && rule.send_start_time > data.end_time) ||
+                (rule.send_end_time >  data.start_time && rule.send_end_time > data.end_time)
+            ) {
+                layer.alert('赠送有效时间不能超出活动时间范围', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+            //判断玩法规则输出参数是否合法
+            if(rule_check === false){
+                layer.alert('玩法规则设置不正确', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+            data.rules_play = rule;
+            //活动详细配置
+            var config = {
+                'details' : $("textarea[name='details']").val(),
+                'statement' : $("textarea[name='statement']").val(),
+                'prize_config' : []
+            }
+            var config_info = $(".config_info")
+            var rate_count_num = 0;
+            for (var a = 0; a < config_info.length; a++){
+                var obj = $(config_info[a]);
+                var tmp = {
+                    'prize_id' : obj.find("input[name='prize_id']").val(),
+                    'prize_type' : obj.find("select[name='prize_type']").val(),
+                    'prize_name' : obj.find("input[name='prize_name']").val(),
+                    'prize_project' : obj.find("input[name='prize_project']").val(),
+                    'prize_img' : obj.find("input[name='prize_img']").val(),
+                    'prize_design' : obj.find("input[name='prize_design']").val(),
+                    'prize_num' : obj.find("input[name='prize_num']").val(),
+                    'prize_remainder' : obj.find("input[name='prize_remainder']").val(),
+                    'prize_white' : obj.find("input[name='prize_white']").val(),
+                    'prize_reward' : obj.find("input[name='prize_reward']").val()
+                }
+
+                //判断奖品名称以及奖项非空
+                if (tmp.prize_project == '') {
+                    layer.alert('奖项不能为空', {icon: 5, shade: [0.5, '#393D49']});
+                    return false;
+                }
+                if (tmp.prize_name == '') {
+                    layer.alert('奖品名称不能为空', {icon: 5, shade: [0.5, '#393D49']});
+                    return false;
+                }
+                //判断奖品名称以及奖项字符串长度
+                if (tmp.prize_project.length > 6) {
+                    layer.alert('奖项字符串长度最大长度6个字符', {icon: 5, shade: [0.5, '#393D49']});
+                    return false;
+                }
+
+                if (tmp.prize_name.length > 15) {
+                    layer.alert('奖品名称符串长度最大长度15个字符', {icon: 5, shade: [0.5, '#393D49']});
+                    return false;
+                }
+
+
+                //判断奖品数量是否为数字并且非空
+                if (!reg.test(tmp.prize_num) || !reg.test(tmp.prize_remainder) ) {
+                    layer.alert('奖品份数必须为大于0的整数', {icon: 5, shade: [0.5, '#393D49']});
+                    return false;
+                }
+
+                //判断元宝数额是否为数字并且非空
+                if (!reg.test(tmp.prize_design)) {
+                    layer.alert('元宝数额必须为大于0的整数', {icon: 5, shade: [0.5, '#393D49']});
+                    return false;
+                }
+
+                //判断中奖概率非空
+                if (tmp.prize_reward == '') {
+                    layer.alert('中奖率不能为空', {icon: 5, shade: [0.5, '#393D49']});
+                    return false;
+                }
+
+                //判断中奖保留两位小数
+                if (tmp.prize_reward.split('.')[1] !== undefined && tmp.prize_reward.split('.')[1].length > 2) {
+                    layer.alert('中奖率只能保留2位小数', {icon: 5, shade: [0.5, '#393D49']});
+                    return false;
+                }
+                //保留两位小数，所以此处做乘100处理，避免浮点数运算失真问题
+                rate_count_num += (tmp.prize_reward) * 100;
+
+                config.prize_config.push(tmp);
+            }
+
+            rate_count_num /= 100;
+            if (rate_count_num != 100) {
+                layer.alert('中奖率之和不等于100(当前值为' + rate_count_num + ')', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+            data.value = config;
+
+            //等待层
+            var loading;
+            //提交
+
+            layer.confirm('活动一旦创建不可编辑，是否创建活动？', {icon: 3, title:'提示'}, function(index){
+                $.ajax({
+                    url: '?m=admin&c=activity&a=activityEditAct',
+                    data: data,
+                    dataType: 'json',
+                    type: 'post',
+                    beforeSend: function () {
+                        loading = layer.load(1);
+                    },
+                    error: function () {
+                        layer.close(loading);
+                        layer.msg('网络错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                    },
+                    success: function (result) {
+                        layer.close(loading);
+                        if (result.code == '0') {
+                            layer.msg('操作成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                location.href='?m=admin&c=activity&a=nineList'
+                            });
+                        } else {
+                            layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']});
+                        }
+                    }
+                });
+            });
+
+
+        });
+    });
+</script>
+</html>

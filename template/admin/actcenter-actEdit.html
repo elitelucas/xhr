@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <!--  <link rel="stylesheet" href="statics/admin/css/pintuer.css"> -->
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+    <script src="statics/admin/js/pintuer.js"></script>
+    <script src="statics/admin/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- template-begin+++ -->
+    {template public-new-ui-header}
+    <!-- template-end+++ -->
+    <script src="statics/admin/js/jquery.date_input.pack.js"></script>
+    <link rel="stylesheet" href="statics/admin/jedate/skin/jedate.css">
+    <script type="text/javascript" src="statics/admin/jedate/jquery.jedate.min.js"></script>
+
+    <!-- 图片上传 引入插件 -->
+    <script src="statics/admin/fileupload/js/vendor/jquery.ui.widget.js"></script>
+    <script src="statics/admin/fileupload/js/jquery.fileupload.js"></script>
+
+    <style type='text/css'>
+        #page{height: 60px;margin-top: 20px;text-align: center;}
+        #page ul li{float: left;margin-right:10px;}
+        #page ul .current{ background-color:#0099ff;text-align:center;}
+        .table td div.username{
+            height: 23px;
+            overflow: hidden;
+            white-space:nowrap;
+            text-overflow: ellipsis;
+        }
+        .table tbody tr td{
+            vertical-align: middle;
+        }
+        .table>thead>tr>th {
+            vertical-align: middle;
+        }
+        .rules-1{
+            float: left;
+            height: 35px;
+            line-height: 35px;
+            padding-right:10px;
+        }
+        .rules-2{
+            float: left;
+            height: 35px;
+            line-height: 35px;
+            padding:0 10px 0 10px;
+        }
+        .rules-3{
+            float: left;
+            width: 20%;
+        }
+    </style>
+</head>
+<body style="margin: 15px;background-color: #f3f3f4;">
+<div class="ibox float-e-margins">
+    <div class="ibox-title iboxWTitle">
+        <h5>编辑活动</h5>
+        <div class="ibox-tools">
+            <a href="javascript:void(0)" class="btn btn-white btn-bitbucket" onclick="javascript:history.go(-1);">
+                <i class="fa fa-reply"></i> 返回
+            </a>
+        </div>
+    </div>
+        <div class="ibox-content bagCol">
+            <div class="ibox-title">
+                <h5>活动详情</h5>
+            </div>
+            <div class="ibox-content">
+                <form method="get" id="form" class="form-horizontal">
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">是否上架</label>
+                        <div class="col-sm-3">
+                            <select class="form-control m-b" name="is_putaway">
+                                <option value="1" {if $act_info['is_putaway'] == 1} selected="selected" {/if}>上架</option>
+                                <option value="2" {if $act_info['is_putaway'] == 2} selected="selected" {/if}>下架</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">活动状态</label>
+                        <div class="col-sm-3">
+                            <select class="form-control m-b" name="is_underway">
+                                <option value="1" {if $act_info['is_underway'] == 1} selected="selected" {/if}>进行中</option>
+                                <option value="2" {if $act_info['is_underway'] == 2} selected="selected" {/if}>已结束</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">活动类别</label>
+                        <div class="col-sm-3">
+                            <select class="form-control m-b" name="act_type">
+                                <option value="">请选择</option>
+                                {loop $act_type_list $each_act_type}
+                                <option value="{$each_act_type['type_value']}" {if $each_act_type['type_value'] == $act_info['act_type']}selected="selected"{/if}>{$each_act_type['type_name']}</option>
+                                {/loop}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">活动标题</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" name="act_title" maxlength="15" value="{$act_info['act_title']}" placeholder="活动标题只能输入字母，数字，下划线以及中文并且长度不超过15个字符" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">移动端banner图</label>
+                        <div class="col-sm-4">
+                            <img class="view" src="{$act_info['act_banner_pic']}" alt="" style="width:355px; height: 140px; {if !$act_info['act_banner_pic']}display:none;{/if}" onclick="this.nextElementSibling.click();">
+                            <input style="display:none;" name="file" class="file_upload" type="file">
+                            <a style="line-height: 35px;" href="javascript:;" class="upload_file_link" onclick="this.previousElementSibling.click();">上传图片</a>
+                            <input name="act_banner_pic" id="act_banner_pic" value="{$act_info['act_banner_pic']}" type="hidden">
+                            <p style="color: gray;">建议尺寸：710*280</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">PC端banner图</label>
+                        <div class="col-sm-4">
+                            <img class="view" src="{$act_info['act_banner_pic_pc']}" alt="" style="width:355px; height: 140px; {if !$act_info['act_banner_pic_pc']}display:none;{/if}" onclick="this.nextElementSibling.click();">
+                            <input style="display:none;" name="file" class="file_upload" type="file">
+                            <a style="line-height: 35px;" href="javascript:;" class="upload_file_link" onclick="this.previousElementSibling.click();">上传图片</a>
+                            <input name="act_banner_pic_pc" id="act_banner_pic_pc" value="{$act_info['act_banner_pic_pc']}" type="hidden">
+                            <p style="color: gray;">建议尺寸：590*210</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">banner有效时间</label>
+                        <div class="col-sm-7">
+                            <div class="input-group">
+                                <input style="width: 43%" type="text" name="act_start_time" class="date_picker form-control start_time" value="{$s_date}" />
+                                <span style="float: left;line-height: 34px;padding: 0 20px 0 20px;">至</span>
+                                <input style="width: 43%" type="text" name="act_end_time" class="date_picker form-control end_time" value="{$e_date}" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">排序</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" name="act_sort" maxlength="10" value="{$act_info['act_sort']}" placeholder="排序只能输入数字，建议不要与已有的排序值重复" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">活动链接</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" name="act_url" value="{$act_info['act_url']}" placeholder="跳转地址为外部链接请按照以下格式配置：http://www.xxx.com" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label"></label>
+                        <div class="col-sm-4 col-sm-offset-1">
+                            <button class="btn btn-primary" type="button" data-id="{$act_info['id']}" id="btn_submit">保存内容</button>
+                            <button class="btn btn-white" type="button" style="border: 1px solid #e7eaec" onclick="javascript:history.go(-1);" id="qx_submit">取消</button>
+                        </div>
+                    </div>
+
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    $(function () {
+        //初始化banner有效时间是否可只读
+        var act_type = "{$act_info['act_type']}";
+        if (act_type == '5') {
+            $('[name="act_start_time"]').prop('disabled', false);
+            $('[name="act_end_time"]').prop('disabled', false);
+        } else {
+            $('[name="act_start_time"]').prop('disabled', true);
+            $('[name="act_end_time"]').prop('disabled', true);
+        }
+
+        //上传图片
+        $(".file_upload").fileupload({
+            url: "?m=admin&c=actcenter&a=uploadImg",
+            sequentialUploads: true
+        }).bind('fileuploaddone', function(e, data) {
+
+            var res = $.parseJSON(data.result);
+            if (res.status == 0) {
+                $(e.target).prevAll(".view").attr({'src': res.data }).show();
+                // $('#act_banner_pic').val(res.data);
+                $(e.target).nextAll('[name^="act_banner_pic"]').val(res.data);
+            } else {
+                layer.alert(res.data,{icon:5, shade: [0.5, '#393D49']}); //弹出错误信息
+                return false;
+            }
+        });
+
+        //时间插件
+        $(".date_picker").jeDate({
+            isinitVal:true,
+            festival:true,
+            ishmsVal:true,
+            // minDate: '2016-06-16 23:59:59',
+            // maxDate: $.nowDate(0),
+            format:"YYYY-MM-DD hh:mm:ss",
+            zIndex:3000,
+        });
+
+        //保存
+        $('#btn_submit').click(function () {
+            var update_id = $(this).data('id');
+
+            //初始化数据对象
+            var post_data_obj = {};
+            post_data_obj.id = update_id;
+
+            //活动是否上架、是否开启
+            post_data_obj.is_putaway = $('[name="is_putaway"]').val();
+            post_data_obj.is_underway = $('[name="is_underway"]').val();
+            
+            //类别
+            post_data_obj.act_type = $('[name="act_type"]').val();
+
+            //类别不能为空
+            if ($.trim(post_data_obj.act_type) == "") {
+                layer.alert('请选择活动类别', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+
+
+            //判断活动标题不能为空
+            post_data_obj.act_title = $('[name="act_title"]').val();
+            if ($.trim(post_data_obj.act_title) == "") {
+                layer.alert('活动标题不能为空', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+
+            //移动端banner图片
+            post_data_obj.act_banner_pic = $('[name="act_banner_pic"]').val();
+
+            //PC端banner图片
+            post_data_obj.act_banner_pic_pc = $('[name="act_banner_pic_pc"]').val();
+
+            //判断时间是否合法
+            post_data_obj.act_start_time = $('[name="act_start_time"]').val();
+            post_data_obj.act_end_time = $('[name="act_end_time"]').val();
+            if (new Date(post_data_obj.act_start_time) > new Date(post_data_obj.act_end_time)) {
+                layer.alert('活动开始时间不能大于结束时间', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+
+            //正整数正则
+            var right_num_regexp = /^\d+$/;
+
+            //判断排序数字的合法性
+            post_data_obj.act_sort = Number($('[name="act_sort"]').val());
+            if (! right_num_regexp.test(post_data_obj.act_sort)) {
+                layer.alert('排序值必须为正整数', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+
+            //活动链接
+            post_data_obj.act_url = $('[name="act_url"]').val();
+
+            act_save(post_data_obj);
+        });
+
+        $('[name="act_type"]').change(function () {
+            ajaxFetchActInfo($(this));
+        });
+        $('[name="act_type"]').change();
+
+    });
+
+    function ajaxFetchActInfo ($this_ele) {
+
+        var post_data_obj = {
+            act_type : $this_ele.val(),
+        };
+
+        //等待层
+        var loading;
+
+        //提交
+        $.ajax({
+            url: '?m=admin&c=actcenter&a=fetchActInfo',
+            data: post_data_obj,
+            dataType: 'json',
+            type: 'post',
+            beforeSend: function () {
+                loading = layer.load(1);
+            },
+            error: function () {
+                layer.close(loading);
+                layer.msg('参数错误或网络异常', {icon: 5, shade: [0.5, '#393D49']});
+            },
+            success: function (result) {
+                layer.close(loading);
+
+                if (result.code == '0') {
+                    if (result.data != null) {
+                        //将活动信息带入（包括开始时间、结束时间以及活动是否正在进行中）
+                        $('[name="act_start_time"]').val(result.data.s_date).prop('disabled', true);
+                        $('[name="act_end_time"]').val(result.data.e_date).prop('disabled', true);
+                        $('[name="is_underway"][value="' + result.data.act_status + '"]').prop('checked', true)
+                    } else {
+                        $('[name="act_start_time"]').prop('disabled', false);
+                        $('[name="act_end_time"]').prop('disabled', false);
+                        $('[name="is_underway"][value="1"]').prop('checked', true)
+                    }
+                    $('#btn_submit').prop('disabled', false);
+                } else {
+                    layer.alert(result.msg, {icon: 5, shade: [0.5, '#393D49']});
+                    $('#btn_submit').prop('disabled', true);
+                }
+            }
+        });
+    }
+
+    function act_save (post_data_obj) {
+
+        //等待层
+        var loading;
+
+        //提交
+        $.ajax({
+            url: '?m=admin&c=actcenter&a=actSave',
+            data: post_data_obj,
+            dataType: 'json',
+            type: 'post',
+            beforeSend: function () {
+                loading = layer.load(1);
+            },
+            error: function () {
+                layer.close(loading);
+                layer.msg('参数错误或网络异常', {icon: 5, shade: [0.5, '#393D49']});
+            },
+            success: function (result) {
+                layer.close(loading);
+                if (result.code == '0') {
+                    layer.msg('操作成功', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                        location.href='?m=admin&c=actcenter&a=actList'
+                    });
+                } else {
+                    layer.alert(result.msg, {icon: 5, shade: [0.5, '#393D49']});
+                }
+            }
+        });
+    }
+
+
+</script>
+</html>

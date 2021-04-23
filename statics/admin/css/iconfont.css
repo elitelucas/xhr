@@ -1,0 +1,53 @@
+
+@font-face {font-family: "iconfont1";
+  src: url('../fonts/iconfont1.ttf?t=20180417')
+}
+
+.iconfont:before {
+  font-family:"iconfont1" !important;
+  font-size: 21px !important;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-diyu:before { content: "\e600"; }
+
+.icon-gaoyu:before { content: "\e601"; }
+
+.icon-changwandeyouxi:before { content: "\e63d"; }
+
+.icon-leftBar2:before { content: "\e6de"; }
+
+.icon-leftBar1:before { content: "\e6e2"; }
+
+.icon-leftBar3:before { content: "\e6ea"; }
+
+.icon-leftBar6:before { content: "\e6ee"; }
+
+.icon-customerservice_fill:before { content: "\e6f0"; }
+
+.icon-homepage_fill:before { content: "\e702"; }
+
+.icon-leftBar4:before { content: "\e703"; }
+
+.icon-leftBar5:before { content: "\e70a"; }
+
+.icon-leftBar9:before { content: "\e70b"; }
+
+.icon-leftBar12:before { content: "\e71f"; }
+
+.icon-leftBar8:before { content: "\e728"; }
+.icon-leftBar7:before { content: "\e6f4"; }
+.icon-qinglihuancun:before { content: "\e615"; }
+
+.icon-leftBar11:before { content: "\e74f"; }
+
+.icon-vip:before { content: "\e602"; }
+
+.icon-leftBar10:before { content: "\e603"; }
+
+.icon-visitor:before { content: "\e604"; }
+
+.icon-go:before { content: "\e605"; }
+

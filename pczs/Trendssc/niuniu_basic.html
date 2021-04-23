@@ -1,0 +1,57 @@
+<style type="text/css">
+	.sub_table thead tr td{
+		width: 45px;
+	}
+</style>
+				<div class="trend_numstat">
+					
+					<div class="trend_numstat_tab">
+						<table class="sub_table double_th" border="0" cellpadding="0" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<td rowspan="2">{{english.序号}}</td>
+									<td rowspan="2">{{english.期号}}</td>
+									<th colspan="5">{{english.开牌结果}}</th>
+									<td rowspan="2">{{english.胜负}}</td>
+									<td rowspan="2">{{english.牛牛}}</td>
+									<td rowspan="2">{{english.公牌}}</td>
+									<td rowspan="2">{{english.龙虎}}</td>
+									<td rowspan="2">{{english.总和大}}</td>
+									<td rowspan="2">{{english.总和小}}</td>
+									<td rowspan="2">{{english.单}}</td>
+									<td rowspan="2">{{english.双}}</td>
+								</tr>
+								<tr>
+									<td style="width:50px;">{{english.牌}}1</td>
+									<td style="width:50px;">{{english.牌}}2</td>
+									<td style="width:50px;">{{english.牌}}3</td>
+									<td style="width:50px;">{{english.牌}}4</td>
+									<td style="width:50px;">{{english.牌}}5</td>
+								</tr>
+							</thead>
+							<tbody id="reslist">
+
+							</tbody>
+						</table>
+						
+						
+					</div>
+				</div>
+				
+			</div>
+		</div>
+
+
+		<script type="text/javascript" src="../js/English.js"></script>
+		<script type="text/javascript">
+			(function(exports) {
+				exports.app = new Vue({
+					el: '.trend_numstat',
+					data: function() {
+						return {
+							english: english
+						}
+					}
+				})
+			})(window);
+		</script>

@@ -1,0 +1,81 @@
+{template header}
+  <!-- Investor_center -->
+  <link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+  
+  <!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+      <li class="active">我的账户</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->
+  {template member-nav-left}
+    <!-- 右边正文 -->
+    <div class="investor-right pull-right border-radius">
+      <ul class="nav nav-tabs" role="tablist" id="myTab">
+        <li><a href="<?=url('member','account','recharge')?>">账户充值</a></li>
+        <li class="active"><a href="<?=url('member','account','recharge_log')?>">充值记录</a></li>
+        <!--<li><a href="<?=url('member','account','recharge_logs')?>">线下充值明细</a></li>-->
+      </ul>
+
+      <div class="tab-content">
+        <!-- 充值记录 -->
+        <div class="tab-pane active" id="profile">
+          <div class="withdraw-info bg-warning">
+            <div class="recharge-info-div pull-left">
+              <div><span class="mr10">成功充值：</span>￥{$statistics['totle']}</div>
+              <div><span class="mr10">手动充值：</span>￥{$statistics['system']}</div>
+            </div>
+            <div class="recharge-info-div pull-left">
+              <div><span class="mr10">线上充值：</span>￥{$statistics['online']}</div>
+              <div><span class="mr10">充值手续费：</span>￥{$statistics['fee']}</div>
+            </div>
+            <div class="recharge-info-div pull-left">
+              <div><span class="mr10">线下充值：</span>￥{$statistics['theline']}</div>
+              <div><span class="mr10">充值奖励：</span>￥{$statistics['reward']}</div>
+            </div>
+          </div>
+          
+          <table class="table table-bordered font12px table-hover">
+            <tr class="text-center">
+              <td>支付方式</td>
+              <td>订单号</td>
+              <td>充值金额</td>
+              <td>手续费</td>
+              <td>奖励</td>
+              <td>备注</td>
+              <td>充值时间</td>
+              <td>状态</td>
+            </tr>
+      {loop $list $v}
+            <tr class="text-center">
+              <td>{if $v['payment_id']}{$payment_type[$v['payment_id']]['name']}{else}平台充值{/if}</td>
+              <td>{$v['order_sn']}</td>
+              <td class="text-right">￥{$v['money']}</td>
+              <td class="text-right">￥{$v['fee']}</td>
+              <td class="text-right">￥{$v['reward']}</td>
+              <td>{$v['remark']}</td>
+              <td>
+                <span class="itooltip" data-toggle="tooltip" data-trigger="hover" data-placement="top" title="<?=date('Y-m-d H:i:s',$v['addtime'])?>">
+                  <?=date("Y-m-d",$v['addtime'])?> <span class="itool-tip">[...]</span>
+                </span>
+              </td>
+              <td class="text-danger">{if $v['status']==0}审核中{elseif $v['status']==1}充值成功{else}充值失败{/if}</td>
+            </tr>
+      {/loop}
+          </table>
+          <div class="text-center">
+			<?php echo $page['html'];?>
+          </div>
+        </div>
+        <!-- /充值记录 -->
+      </div>
+      
+      
+    </div>
+    <!-- /右边正文 -->
+  </div>
+{template footer}

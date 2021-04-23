@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>注册</title>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,minimal-ui">
+		<meta name="location" content="province=广东;city=深圳市;coord=114.063497,22.538715">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta content="telephone=no,email=no" name="format-detection">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<link rel="stylesheet" href="../../statics/weixin/css/style.css">
+	</head>
+	<body>
+		<div class="divider"><img src="../../statics/weixin/image/banner201225.jpg"></div>
+		<div class="container">
+			<form action="<?=url('','','zhuce')?>" method="post">
+				<input type="text" name="username" placeholder="请输入用户名" value="{$data['username']}">
+				<input type="password" name="password" placeholder="请输入登录密码" value="{$data['password']}">
+				<input type="password" name="compassword" placeholder="请输入确认密码" value="{$data['compassword']}">
+				<input type="text" name="phone" id="phone" maxlength="11" placeholder="请输入手机号码" value="{$data['phone']}">
+				<div class="input-item">
+					<input type="text" id="pcode" name="pcode" placeholder="请输入验证码">
+					<input type="button" class="btn-verify" value="发送验证码"/>
+				</div>
+				<div class="red divider2" id="error" {if empty($info_arr)}style="display:none"{/if}>
+					{loop $info_arr $info}
+					*{$info}<br/>
+					{/loop}
+				</div>
+				<input type="hidden" value="dosave" name="save" />
+				<button type="submit">下一步</button>
+				<div class="input-tips txt-center">已有账号？<a href="<?=url('','','bindaccount')?>">登录</a></div>
+			</form>
+		</div>
+		<script src="../../statics/weixin/js/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript">
+			var tt;
+			function time(obj, wait) {
+				if (wait == 0) {
+					clearTimeout(tt);
+					obj.removeAttr("disabled").removeClass("btn-disabled");
+					obj.val("发送验证码");
+				}
+				else {
+					obj.attr("disabled", true);
+					obj.val("重新发送(" + wait + ")").addClass("btn-disabled");
+					wait--;
+					tt = setTimeout(function () {
+						time(obj, wait);
+					}, 1000);
+				}
+			}
+			$(function () {
+				$(".btn-verify").click(function (e) {
+					var self = $(this);
+					time(self, 60);
+					var mobile = $("#phone").val();
+					$.ajax({
+						url: "<?=url('activity','marketing','public_phonesend_ajax')?>",
+						data: {mobile:mobile},
+						success: function(data){
+							if(data=='0'){
+								time(self, 0);
+								$("#error").html("*手机号码不能为空！").show();
+							}else if(data=='-1'){
+								time(self, 0);
+								$("#error").html("*手机号码格式不对！").show();
+							}else if(data=='-2'){
+								time(self, 0);
+								$("#error").html("*60秒后再点击获取验证码！").show();
+							}else if(data=='-3'){
+								time(self, 0);
+								$("#error").html("*该手机号码已被使用！").show();
+							}
+						}
+				    });
+				});
+			});
+		</script>
+	</body>
+</html>

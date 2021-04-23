@@ -1,0 +1,291 @@
+{template header}
+  <!-- Investor_center -->
+  <link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+  <link href="../../statics/css/upload_modal.css" rel="stylesheet">
+   
+{template upload-modal}
+{template image-modal}
+  <!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+      <li class="active">我的账户</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->
+  
+  <div class="container">
+    <!-- 左边导航 -->
+    {template member-nav-left}
+    <!-- /左边导航 -->
+    
+    <!-- 右边正文 -->
+    <div class="investor-right pull-right border-radius">
+      <div class="investor-title">上传资料</div>
+      <div class="withdraw-info bg-warning">
+        <p>温馨提示：</p>
+        <p>1、必须是本人的相关资料。</p>
+        <p>2、真实有效。</p>
+      </div>
+      
+        <div class="loaned-form">
+          <div class="pull-left">添加资料组：</div>
+          <div class="pull-left margin-right20px">
+          <input class="form-control" type="text" name="addclass" value="" id="addclass"></div>
+          <div class="pull-left">
+            <a class="btn btn-warning" id="addMclass" onclick="add_class(this)">添加</a>
+          </div>
+        </div>
+        <div id="material_list" class="material_list">
+  {loop $clssslist $v}
+    <div class="pic_class_item" classid="{$v['id']}">
+    	<em class="class_name">{$v['name']}</em>
+        <input class="class_text hide" value="{$v['name']}" type="text" style="display:none;" onblur="class_text_blur(this)">
+      	<div class="pic_act_list">
+      		<img class="show_list" src="../../statics/images/user1.png" title="列表" onclick="show_list(this)"/>
+            <img class="delete_class" src="../../statics/images/pic_delete.png" title="删除" onclick="delete_class(this)"/>
+            <img class="upload_pic" src="../../statics/images/pic_chuan.png" title="上传资料" onclick="upload_pic(this)" data-toggle="modal" data-target="#myModal"/>
+            <img class="update_class" src="../../statics/images/pic_xiu.png" title="修改" onclick="update_class(this)"/>
+        </div>
+    </div>
+    <div class="pic_list group" classid="{$v['id']}">
+      <ul>
+      {loop $v['pics'] $v1}
+        <li picid="{$v1['id']}">
+          <img class="show_pic" src="{UPLOAD_PATH}<?=get_thumb($v1['file'])?>" onclick="show_pic(this)" data-toggle="modal" data-target="#picModal"/>
+          <em class="delete_pic delete" title="删除" onclick="delete_pic(this)"></em>
+          <p class="modify_title" onclick="picture_edit(this)" title="{$v1['title']}"><?php echo getstr($v1['title'], 8);?></p>
+          <textarea class="title_text" cols="20" rows="5" style="display:none;" onblur="picture_edit_blur(this)"></textarea>
+          <span>{if $v1['status']==1}审核通过{elseif $v1['status']==2}审核未通过{else}审核中{/if}</span> 
+        </li>
+      {/loop}
+      </ul>
+    </div>
+  {/loop}
+        </div>
+    </div>
+    <!-- /右边正文 -->   
+  </div>
+
+<script type="text/javascript">
+//从上传模态框中获取上传文件的列表, 添加到当前资料组
+function pic_list_add() {
+	//classid由点击upload_pic时设置
+	var class_id = $(".pic_list.upload").attr("classid"); // 获取资料组ID
+	var pic_lists = $(".pic_list.upload ul li"); // 获取资料组列表
+	var il_element;
+	var il_element_src;
+	$(pic_lists).each(function(i, self){
+		$.ajax({
+			url: "<?=url('','','public_materialadd_ajx')?>",     
+			type: 'get',     
+			data: {ids:$(self).attr("picid"),classid:class_id},     
+			async: false, //默认为true异步     
+			error: function(){
+				alert('error');     
+			},     
+			success: function(data){
+				data = JSON.parse(data);
+				if(data.id){
+					il_element = document.createElement("li"); 
+					$(il_element).append('<img class="show_pic" onclick="show_pic(this)" data-toggle="modal" data-target="#picModal"/>');
+					$(il_element).append('<em class="delete_pic delete" title="删除" onclick="delete_pic(this)"></em>');
+					$(il_element).append('<p class="modify_title" onclick="picture_edit(this)"></p>');
+					$(il_element).append('<textarea class="title_text" cols="20" rows="5" style="display:none;" onblur="picture_edit_blur(this)"></textarea>');
+					$(il_element).append('<span>审核中</span>');
+					$(il_element).attr("picid",data.id);
+					$("img",$(il_element)).attr("src",$("img",self).attr("src"));
+					$("p",$(il_element)).text($("p",self).text());
+					$(il_element).appendTo(".pic_list.group[classid='" + class_id + "'] ul");
+					window.location.href="<?=url('member','borrow','material')?>";
+				}
+			}  
+		}); 
+		
+	});
+};
+function add_class(self) {
+        var classname = $("#addclass").val();
+		if (classname == null || classname ==""){
+			alert("请输入资料组名称");
+			return false;
+		}
+		$.get("<?=url('member','borrow','public_materialclassadd_ajx')?>",{name:classname},function(data, status){
+		data = JSON.parse(data);
+		
+			if (data) {
+				$("#material_list").append(
+					'<div class="pic_class_item" classid="'+data.id+'">'+
+					'<em class="class_name">'+data.name+'</em>'+
+					'<input class="class_text" value="" type="text" style="display:none;" onblur="class_text_blur(this)"/>'+
+					'<div class="pic_act_list">'+
+					'<img class="show_list" src="../../statics/images/user1.png" title="列表" onclick="show_list(this)"/>'+
+					'<img class="delete_class" src="../../statics/images/pic_delete.png" title="删除" onclick="delete_class(this)"/>'+
+					'<img class="upload_pic" src="../../statics/images/pic_chuan.png" title="上传资料" onclick="upload_pic(this)" data-toggle="modal" data-target="#myModal"/>'+
+					'<img class="update_class" src="../../statics/images/pic_xiu.png" title="修改" onclick="update_class(this)"/>'+
+					'</div>'+
+					'</div>'+
+					'<div class="pic_list group" classid="'+data.id+'"></div>'
+				);
+				//window.location.reload()
+			}
+		});
+    };
+function update_class(self) {
+		var em = $(self).parent().siblings(".class_name");
+		var inpt = $(self).parent().siblings(".class_text");
+		em.hide();
+		var class_name = em.text();
+		inpt.val(class_name);
+		inpt.show().focus();
+		inpt.keydown(function(e){ 
+			var curKey = e.which;
+			if (curKey == 13){ 
+				inpt.blur();
+			} 
+		});
+	};
+function delete_class(self) {
+		var pic_class = $(self).parent().parent();
+		var class_id = pic_class.attr("classid");
+		var pic_list = pic_class.siblings(".pic_list.group[classid='" + class_id + "']");
+		if (confirm('你确认删除操作？')) {
+			$.get("<?=url('member','borrow','public_materialclassdel_ajx')?>",{id:class_id},function(data){
+				if (data){
+					pic_class.remove();
+					pic_list.remove();
+					//window.location.reload();
+				}
+			});
+		};
+	};
+function show_list(self) {
+		var class_id = $(self).parent().parent().attr("classid");
+		$(".pic_list.group[classid='" + class_id + "']").slideToggle();
+		if($(self).attr("src").indexOf("user1.png") > 0){
+			$(self).attr({src: $(self).attr("src").replace(/user1.png/i,"user2.png")});
+		}else{
+			$(self).attr({src: $(self).attr("src").replace(/user2.png/i,"user1.png")});
+		}
+	};
+function class_text_blur(self) {
+		var input_text = $(self).val();
+		var class_name = $(self).siblings(".class_name").text();
+		var class_id = $(self).parent().attr("classid");
+		if(input_text != class_name){
+				$.ajax({
+				   url: "<?=url('member','borrow','public_materialclassedit_ajx')?>",
+				   data: {name:input_text,id:class_id},
+				   success: function(msg){
+					   if(isNaN(msg)){
+						   //$.dialog.alert(msg,function(){});
+						   return false;
+					   }
+				   }
+				});
+		}
+		$(self).hide();
+	    $(self).siblings(".class_name").text(input_text);
+	    $(self).siblings(".class_name").show();
+	};
+
+/*
+ * 删除以上传图片
+ * 图片为模态框里展示的图片
+ * 不是资料组列表项里展示的图片
+*/
+function delete_pic(self) {
+		var picid = $(self).parent().attr("picid"); // 获取要删除图片的ID
+		var li_element = $(self).parent(); // 获取要删除图片的列表项jQuery对象（li）
+		$.get("<?=url('member','borrow','public_materialdel_ajx')?>",{id: picid},function(data){
+			if(data){
+				li_element.remove(); // 服务请求成功后，从图片展示列表中删除目标图片
+			}
+		})
+	};
+function picture_edit(self) {
+		var inpt = $(self).siblings(".title_text");
+		$(self).hide();
+		var title_name = $(self).text();
+		inpt.val(title_name);
+		inpt.show().focus();
+		inpt.keydown(function(e){ 
+			var curKey = e.which;
+			if (curKey == 13){ 
+				inpt.blur();
+			} 
+		});
+	};
+function picture_edit_blur(self){
+		var input_text = $(self).val();
+		var title_name = $(self).siblings(".modify_title").text();
+		var class_id = $(self).parent().attr("picid");
+		if(input_text != title_name){
+				$.ajax({
+				   url: "<?=url('member','borrow','public_materialedit_ajx')?>",
+				   data: {name: input_text,id: class_id},
+				   success: function(msg){
+					   if(isNaN(msg)){
+						   //$.dialog.alert(msg,function(){});
+						   return false;
+					   }
+				   }
+				});
+		}
+		$(self).hide();
+	    $(self).siblings(".modify_title").text(input_text);
+	    $(self).siblings(".modify_title").show();
+	};
+	
+/*
+ * 创建已上传图片展示列表
+*/
+function upload_pic(self) {
+		var pic_class = $(self).parent().parent(); // 获取该资料组的jQuery对象
+		var class_id = pic_class.attr("classid"); // 获取该资料组的ID
+		$(".pic_list.upload").attr("classid", class_id); // 将该资料组的ID赋给上传资料弹出框的已上传资料的展示DIV
+		//var ul_element = $(".pic_list.upload ul");  // 获取已上传资料展示列表的jQuery对象
+		var ul_element = $(".pic_list.upload");  // 获取已上传资料展示DIV的jQuery对象
+		/*if (ul_element) {
+			ul_element.remove();
+		}*/
+		$(".pic_list.upload").append('<ul></ul>'); // 添加用户展示已上传图片的列表元素
+	};
+
+function show_pic(self){
+		$(".modal-title.picModal").text($(self).siblings(".modify_title").text());
+		$(".modal-body.picModal img").attr("src",$(self).attr("src").replace(/_t./,"."));
+	};
+function upfile_submit() {
+	var val = $('#upfile-input').val();
+	if(/^.+\.(jpg|png|jpeg|gif)$/.test(val.toLowerCase())){
+		$('#upfile-form').submit();
+	} else {
+		//提示: 文件类型不在允许范围内
+	}
+};
+//监听iframe事件onload
+$("#upfile-iframe").ready(function() {
+$("#upfile-iframe").bind("load", function(event){
+	var json_str = document.getElementById("upfile-iframe").contentDocument.body.innerHTML;
+	var json = JSON.parse(json_str);		//or $.parseJSON(json_str);
+	if (json.status != 'x') {
+		var il_element = document.createElement("li"); 
+		$(il_element).append('<img class="show_pic"/>');
+		$(il_element).append('<em class="delete_pic delete" title="删除" onclick="delete_pic(this)"></em>');
+		$(il_element).append('<p class="hide"></p>');
+		$(il_element).attr("picid",json.id);
+		$("img",$(il_element)).attr("src",json.url);
+		$("p",$(il_element)).text(json.filename);
+		$(il_element).appendTo(".pic_list.upload ul");
+	}else{
+	}
+});
+})
+$("#upload-modal-submit").attr("onclick","pic_list_add();");
+</script>
+  </div>
+  
+{template footer}

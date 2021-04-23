@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+        <script src="statics/admin/js/pintuer.js"></script>  
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>  
+        <script src="statics/admin/js/jquery.date_input.pack.js"></script> 
+        <style>
+            #list_tb .diff_data{ color:#FF3300;}
+            .icon-search {
+                margin-bottom: 6px;
+            }
+            .setting {
+                margin-bottom: 4px;
+                margin-top: 7px;
+                margin-left: 10px;
+                display: inline-block;
+            }
+            .icon-search.btn_focus {
+                color: #fff;
+                border-color: #0ae;
+                background-color: #0ae;
+            }
+            .mtime_info {
+                margin-left: 10px;
+                margin-bottom: 5px;
+            }
+            .mtime_info.notice {
+                color: #FF3300;
+                font-weight: 600;
+            }
+            #diff_len {
+                width:50px;
+                display: inline-block;
+            }
+        </style>
+    </head>
+    <body>
+        <form method="post" id="form" action="">
+            <div class="panel admin-panel">
+                <div class="panel-head"><strong class="icon-reorder">当天期号对比</strong></div>
+                <div class="setting">
+                    <span>切换彩种：</span>
+
+                    {loop $lottery_type_obj $lottery_key $lottery_val}
+                        {if $lottery_key != '3'}
+                        <input class="button border-main icon-search {if $lottery_key == $lottery_type}btn_focus{/if}" data-key="{$lottery_key}" value="{$lottery_val['name_text']}" type="button">
+                        {/if}
+                    {/loop}
+                </div>
+                <div class="setting">
+                    <span>操作：</span>
+                    <!-- <label><input type="radio" name="use_which_issue" value="1">使用本地期号</label>
+                    &nbsp;
+                    <label><input type="radio" name="use_which_issue" value="2" checked="checked">使用推送期号（默认使用）</label> -->
+                    <input type="button" class="ok_btn button bg-main" value="使用本地期号">
+                    <input type="button" class="create_btn button bg-main" value="手工生成期号">
+                </div>
+                <div class="setting">
+                    <span>差异期号数量：<em id="diff_len">统计中...</em></span>
+                </div>
+                <div class="mtime_info">平台本地期号文件最后修改时间：{$local_file_mtime}</div>
+                <div class="mtime_info">默认使用期号文件最后修改时间：{$push_file_mtime}</div>
+                <div class="mtime_info notice">
+                    注意：当天停售之前，如果操作过了“手工生成期号”按钮，则不可再操作“使用本地期号”按钮，否则会出现期号与时间对应不上的情况。如果不慎出现此种情况，则需要再次去操作“手工生成期号”，输入对的期号和对应的时间即可
+                </div>
+                <table class="table table-hover text-center table-bordered">
+                    <tr>
+                        <th>序号</th>
+                        <th>平台本地计算期号</th>
+                        <th>默认使用期号</th>
+                        <th>平台本地开奖时间</th>
+                        <th>默认开奖时间</th>
+                    </tr>      
+                    <tbody id="list_tb">
+                        {loop $local_issue_data['list'] $k $v}
+                        <tr>
+                            <td><?php echo $k + 1;?></td>
+                            <td>{$v['issue']}</td>
+                            <?php
+                                if ($diff_local_minus_push == 0) {
+                                    //不同数据（a.期号 b.时间）区分颜色
+                                    $class_diff_str_a = ($v['issue'] != $push_issue_data['list'][$k]['issue']) ? 'class="diff_data diff_issue"' : '';
+                                    $class_diff_str_b = ($v['date'] != $push_issue_data['list'][$k]['date']) ? 'class="diff_data diff_time"' : '';
+
+                                    $tmp_html_arr = [
+                                        "<td {$class_diff_str_a}>", 
+                                            $push_issue_data['list'][$k]['issue'],
+                                        '</td>',
+                                        '<td>' ,
+                                            date('Y-m-d H:i:s', $v['date']) ,
+                                        '</td>',
+                                        "<td {$class_diff_str_b}>",
+                                            date('Y-m-d H:i:s', $push_issue_data['list'][$k]['date']),
+                                        '</td>',
+                                    ];
+
+                                    echo implode('', $tmp_html_arr);
+
+                                } else {
+                                    if ($k >= $diff_local_minus_push) {
+                                        $new_key = $k - $diff_local_minus_push;
+
+                                        //同上，不同数据（a.期号 b.时间）区分颜色
+                                        $class_diff_str_a = ($v['issue'] != $push_issue_data['list'][$new_key]['issue']) ? 'class="diff_data diff_issue"' : '';
+                                        $class_diff_str_b = ($v['date'] != $push_issue_data['list'][$new_key]['date']) ? 'class="diff_data diff_time"' : '';
+
+                                        $tmp_html_arr = [
+                                            "<td {$class_diff_str_a}>",
+                                                $push_issue_data['list'][$new_key]['issue'],
+                                            '</td>',
+                                            '<td>',
+                                                date('Y-m-d H:i:s', $v['date']),
+                                            '</td>',
+                                            "<td {$class_diff_str_b}>",
+                                                date('Y-m-d H:i:s', $push_issue_data['list'][$new_key]['date']),
+                                            '</td>',
+                                        ];
+                                        echo implode('', $tmp_html_arr);
+
+                                    } else {
+
+                                        $tmp_html_arr = [
+                                            '<td></td>',
+                                            '<td>',
+                                                date('Y-m-d H:i:s', $v['date']),
+                                            '</td>',
+                                            '<td></td>',
+                                        ];
+                                        echo implode('', $tmp_html_arr);
+                                    }
+                                }
+                            ?>
+                            
+                        </tr>
+                        {/loop}
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </body>
+    <script>
+        $(function () {
+            //切换彩种查看
+            $('.icon-search').click(function () {
+                window.location.href = '?m=admin&c=compareissue&a=list_diff_issue&lottery_type=' + $(this).data('key');
+            });
+
+            //统计差异期号数量
+            var diff_len = $('#list_tb').find('.diff_issue').length;
+            $('#diff_len').text(diff_len);
+
+            //使用期号操作
+            $('.ok_btn').click(function () {
+                // var $check_item = $('[name="use_which_issue"]:checked');
+                // var use_which_issue = $check_item.val();
+                var lottery_type = '{$lottery_type}';
+                layer.confirm('确认使用本地计算期号代替推送期号？', {
+                    btn: ['确认', '取消']
+                }, function () {
+                    $.ajax({
+                        type: 'GET',
+                        url: '?m=admin&c=compareissue&a=write_and_use_issue&lottery_type=' + lottery_type,
+                        success: function () {
+                            layer.msg('操作成功', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                location.reload();
+                            });
+                        }
+                    });
+                }, function () {
+                });
+            });
+
+            //手工生成期号
+            $('.create_btn').click(function () {
+                location.href = '?m=admin&c=compareissue&a=writeIssueForm';
+            });
+
+        });
+    </script>
+</html>

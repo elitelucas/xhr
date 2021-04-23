@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+   <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+   <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+   <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+   <link type="text/css" href="statics/admin/new_ui/bootstrap.min.css" rel="stylesheet">
+   <link type="text/css" href="statics/admin/new_ui/font-awesome.css" rel="stylesheet">
+   <link type="text/css" href="statics/admin/new_ui/style.css" rel="stylesheet">
+   <script src="statics/admin/js/jquery.js"></script>
+      <script src="statics/admin/js/layer/2.1/layer.js"></script>
+      <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+      <script src="statics/admin/js/bootstrap.min.js"></script>
+    <style>
+        #page{height: 60px;margin-top: 20px;text-align: center;}
+        #page ul li{float: left;margin-right:10px;}
+        #page ul .current{ background-color:#0099ff;text-align:center;}
+    </style>
+</head>
+<body class="new_ui_body">
+    <div class="ibox float-e-margins">
+	    <div class="ibox-title iboxWTitle">
+	        <h5>新增提示音</h5>
+	        <div class="ibox-tools">
+	            <a  class="btn btn-white btn-bitbucket" id="btn_back">
+	                <i class="fa fa-reply"></i> 返回
+	            </a>
+	        </div>
+	    </div>
+   	    <div class="ibox-content bagCol">
+	        <div class="ibox-title ">
+	            <h5>提示音信息</h5>
+	        </div>
+	        <div class="ibox-content">
+            	<form method="get" class="form-horizontal">
+	            	 <div class="form-group">
+	                    <label class="col-sm-2 control-label">消息</label>
+	                    <div class="col-sm-4">
+                            <input type="text" class="form-control" name="title" value="{$arr['title']}" readonly="readonly" />
+                            <span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">名称</label>
+	                    <div class="col-sm-4">
+                            <input type="text" placeholder="请输入消息名称" class="form-control" name="music" value="{$arr['music']}"/>
+                            <span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="form-group">
+	                    <label class="col-sm-2  control-label">提示音</label>
+	                    <div class="col-sm-6">
+	                        <audio src="/{$arr['url']}" controls="controls"></audio>
+	                        <span class="help-block m-b-none"></span>
+                    	</div>
+	                </div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">上传新的提示音</label>
+	                    <div class="col-sm-8">
+                            <input type="file" class="upload" col-sm-2 name="fileName">
+	                        <input type="hidden" name="music_path" value="{$arr['url']}" />
+	                        <input type="hidden" name="id" value="{$arr['id']}" />
+	                        <input type="button" value="上传" onclick="return addAction(this)" style="margin-right: 30px;">
+	                        <span>未上传文件</span>
+                            <span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">备注</label>
+	                    <div class="col-sm-4">
+                            <textarea class="form-control" placeholder="请输入备注" id="remark" style="height:120px">{$arr['remark']}</textarea>
+                            <span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+					{if $arr['id']==1||$arr['id']==2}
+						<div class="form-group">
+							<label class="col-sm-2 control-label">是否弹窗提醒</label>
+							<div class="col-sm-4">
+								开启<input type="radio" name="is_pop" {if $arr['is_pop'] == 1}checked='checked'{/if} value="1"/>
+								关闭<input type="radio" name="is_pop" {if $arr['is_pop'] == 0}checked='checked'{/if} value="0"/>
+								<span class="help-block m-b-none"></span>
+							</div>
+						</div>
+					{/if}
+	                </form>
+	                <div class="form-group">
+		            	<div class="col-sm-4 col-sm-offset-2">
+		                	<button class="btn btn-primary" type="submit" id="btn_submit">提交</button>
+		                	<button class="btn btn-white btn_cancel" id="btn_cancel" type="submit">取消</button>
+		            	</div>
+	       			</div>
+       			</div>
+   			</div>
+		</div>
+<script type="text/javascript">
+    var loading = "";//加载中.....
+
+    //提交
+    $("#btn_submit").bind("click",function(){
+        var data = {
+            'id': $("input[name='id']").val(),
+            'url': $("input[name='music_path']").val(),
+            'music':$("input[name='music']").val(),
+            'remark':$("#remark").val(),
+			'is_pop':$("input[type='radio']:checked").val()
+        }
+        if(data['url'] == "")
+        {
+            layer.msg('请上传提示音！！！', {icon: 5, shade: [0.5, '#393D49']});
+            return false;
+        }
+        if(data['music'] == "")
+        {
+            layer.msg('请输入提示音名称！！！', {icon: 5, shade: [0.5, '#393D49']});
+            return false;
+        }
+        $.ajax({
+            url: '?m=admin&c=message&a=editMusic',
+            data: data,
+            dataType: 'json',
+            type: 'post',
+            beforeSend: function () {
+                loading = layer.load(1);
+            },
+            error: function () {
+                layer.close(loading);
+                layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+            },
+            success: function (result) {
+                console.log(result);
+                layer.close(loading);
+                if (result.code == 0) {
+                    layer.msg('提交成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                        location.href = '?m=admin&c=message&a=music';
+                    });
+                }
+                else{
+                    layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                }
+            }
+        })
+
+
+    });
+
+    //上传MP3
+    function addAction(obj){
+        var obj = $(obj);
+        obj.next().html("未上传文件");
+        var formData = new FormData();
+        formData.append("file",obj.siblings(".upload")[0].files[0]);
+        $.ajax({
+            url : "?m=admin&c=message&a=uploadFile",
+            type : 'POST',
+            data : formData,
+            processData : false,
+            contentType : false,
+            beforeSend:function(){
+                obj.next().html("正在进行，请稍候");
+                obj.attr("disabled",true);
+            },
+            success : function(responseStr) {
+                var data = JSON.parse(responseStr);
+                console.log(data);
+                if(data.code == 0)
+                {
+                    obj.siblings("input[name='music_path']").val(data.msg)
+                    obj.next().html("已上传").css("color","green");
+                }
+                else
+                {
+                    obj.next().html(data.msg).css("color","red");
+                    obj.attr("disabled",false);
+                }
+            },
+            error : function(responseStr) {
+                obj.next().html(responseStr.responseText).css("color","red");
+            }
+        });
+    };
+
+
+    $(function () {
+        $("#btn_cancel").click(function () {
+            location.href = '?m=admin&c=message&a=music';
+        });
+        
+        $("#btn_back").click(function () {
+            location.href = '?m=admin&c=message&a=music';
+        });
+
+    });
+</script>
+</body>
+</html>

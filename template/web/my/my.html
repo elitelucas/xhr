@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>个人中心</title>
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">
+    <script src="/statics/web/js/jquery.1.8.2.min.js"></script>
+    <script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+
+    <!-- layer -->
+    <script src="/statics/web/extend/layer/mobile/layer.js"></script>
+    <!-- layer - end -->
+</head>
+<body>
+<header class="head_my">
+    <h1>个人中心</h1>
+    <div class="headerRight">
+        <span class="set" data-href="{$JumpUrl['7']}">设置</span>
+        <!--<ul>-->
+            <!--<li class="icoNews" data-new="" data-href="<?=url('web','message','index', array('type' => 1))?>&flag_m=4"></li>-->
+            <!--<li class="icoAdd"><a href="#"></a> </li>-->
+        <!--</ul>-->
+
+    </div>
+</header>
+<section>
+    <div class="my">
+        <!--<ul>-->
+            <!--<li class="girl" data-href="{$JumpUrl['1']}"><label class="icoGirl">头像</label><i><img src="{$userInfo['avatar']}" /></i></li>-->
+            <!--<li style="background:#FFFFFF"><label class="icoUsername1">账号</label><span style="color: red">{$username}</span></li>-->
+            <!--<li style="background:#FFFFFF">-->
+                <!--<label class="icoNickname">昵称</label>-->
+                <!--<span style="float: right">{$userInfo['nickname']}</span>-->
+                <!--<span>{if $userInfo['honor']}<b class="honor">{$userInfo['honor']}</b>{/if}{if $userInfo['icon']}<i class="honor_icon"><img src="{$userInfo['icon']}"></i>{/if} </span> -->
+            <!--</li>-->
+        <!--</ul>-->
+
+        <div class="head">
+            <div class="head_left" data-href="{$JumpUrl['1']}">
+                <div class="icon">
+                    <img src="{$userInfo['avatar']}" />
+                </div>
+                {if $honor['honor_status'] == 1}
+                <i class="honor_icon"><img src="{$honor['icon']}"></i>
+                {/if}
+            </div>
+
+            <div class="user_info">
+                <span class="user_name">{$nickname}</span>
+                <span class="user_edit" data-href="{$JumpUrl['1']}"><i class="user_ico_edit"></i> 编辑个人资料</span>
+            </div>
+
+			{if $honor['honor_status'] == 1}
+            <!--<div class="head_right play" data-href="{$JumpUrl['61']}">-->
+                <!--&lt;!&ndash;<img src="/up_files/honor/badge0{$honor['sort']}_01.png" alt=""/>&ndash;&gt;-->
+            <!--</div>-->
+            <div class="head_right play" data-href="?m=web&c=user&a=honorDetails"></div>
+            {else}
+            <!--<div class="head_right play" data-href="{$JumpUrl['1']}">-->
+                <!--&lt;!&ndash;<img src="/up_files/honor/badge0{$honor['sort']}_01.png" alt=""/>&ndash;&gt;-->
+            <!--</div>-->
+            <div class="head_right play" data-href=""></div>
+            {/if}
+        </div>
+        {if $honor['honor_status'] == 1}
+        <div class="integral">
+        	{if $honor['next_status'] == 0} 
+            <div class="nowstate">
+                <img src="/up_files/honor/sbadge0{$honor['sort']}.png" alt=""/>
+                <span>{$honor['score']}</span>
+            </div>
+            {else}
+           <div class="nowstate">
+                <img src="/up_files/honor/sbadge0{$honor['next_sort']}.png" alt=""/>
+                <span>{$honor['next_score']}</span>
+            </div>
+            {/if}
+            <div class="infostate">
+                <p class="clearfix">
+                    <span class="left">我的积分:<em class="myIntegral">{$honor['user_score']}</em></span>
+                </p>
+                <div class="line_bg">
+                    <p class="line"></p>
+                </div>
+                <p class="clearfix">
+                   {if $honor['next_status'] == 0}<span class="right">离升级还差:<em class="short"><?php echo ($honor['next_score'] - $honor['user_score']) ?></em></span>{else}<span class="right">已达到最高等级</span>{/if}
+                </p>
+            </div>
+            {if $honor['next_status'] == 0} 
+            <div class="nextstate">
+                <img src="/up_files/honor/sbadge0{$honor['next_sort']}.png" alt=""/>
+                <span>{$honor['next_score']}</span>
+            </div>
+            {else}
+            <div class="nextstate">
+                <img src="/up_files/honor/sbadge0{$honor['sort']}.png" alt=""/>
+                <span>{$honor['score']}</span>
+            </div>
+            {/if}
+        </div>
+        {/if}
+
+        <ul>
+            <li data-href="{$JumpUrl['2']}"><div><label class="icoWallet">钱包</label></div></li>
+        </ul>
+        <ul>
+            <li data-href="{$JumpUrl['3']}"><div><label class="icoAgent">代理制度</label></div></li>
+            <li data-href="{$JumpUrl['4']}"><div><label class="icoShare">代理分享</label><span><img src="/statics/web/images/person_ercode_icon@2x.png" /></span></div></li>
+        </ul>
+        <ul>
+            <li data-href="{$JumpUrl['5']}"><div><label class="icoRecord">投注记录</label></div></li>
+            {if $rtArr['reg_type'] != '8'}
+            <li data-href="{$JumpUrl['6']}"><div><label class="icoTeam">团队管理</label></div></li>
+            {/if}
+        </ul>
+        <ul>
+            <li data-href="{$JumpUrl['63']}"><div><label class="icoActivity">活动中心</label><span>精彩好礼等您拿</span></div></li>
+        </ul>
+        <!-- {if $rtArr['reg_type'] != 8}
+        <ul>
+            {if $bo_bin['isNav'] == 1}
+            <li id="bobing" data-href="{$JumpUrl['57']}&id={$uid}&h5=1&type=1"><div>
+                <label class="icoAutumn">中秋博饼</label>
+                {if $bo_bin['state'] == 0}
+                <span>新活动暂未开启</span>
+                {/if}
+            </div>
+            </li>
+            {/if}
+            {if $christmas['isNav'] == 1}
+            <li id="christmas" data-href="{$JumpUrl['59']}&id={$uid}&h5=1&type=2"><div>
+                <label class="icoluckyegg">双旦有礼</label>
+                {if $christmas['state'] == 0}
+                <span>新活动暂未开启</span>
+                {/if}
+            </div>
+            </li>
+            {/if}
+
+            {if $is_show_in_profile == 1}
+            <li id="turntable" data-href="{$JumpUrl['58']}"><div>
+                <label class="icolucky">幸运大转盘</label>
+                <!--{if $christmas['state'] == 0}-->
+                <!--<span>新活动暂未开启</span>-->
+                <!--{/if}
+            </div>
+            </li>
+            {/if}
+        </ul>
+        {/if} -->
+        <!--<ul><li data-href="{$JumpUrl['7']}"><label class="icoSetUp">设置</label></li></ul>-->
+    </div>
+</section>
+<div class="popup" style="display:none"></div>
+<script type="text/javascript">
+	
+    $(function(){
+        var isShow_honor = Number({$honor['honor_status']}); //0关 1开
+        if(isShow_honor == 0){
+            $(".head_right").hide();
+            $(".integral").hide();
+        }
+    	var grade = Number({$honor['sort']});
+        var firstScore = Number({$honor['score']});
+        var lastScore = Number({$honor['next_score']});
+        var myScore = Number({$honor['user_score']});
+        var next_status = Number({$honor['next_status']});
+        var is_upgrade = Number({$honor['upgrade']});  //1:需要弹出恭喜升级框，0：不用处理
+
+        //积分升级弹窗
+        if(is_upgrade == 1){
+            if(grade > 0){
+               getHonorBox();
+            }
+        }
+        //点击关闭积分升级弹窗
+        $("body").on("click",".upgrade-close",function(){
+            $(".popup").fadeOut(function(){
+                giveNotice();
+            });
+        })
+
+        //徽章动画效果
+//        if(grade == 1){
+            $(".play").css({'animation-name': 'myalter0'+grade,
+                '-moz-animation-name': 'myalter0'+grade,
+                '-webkit-animation-name': 'myalter0'+grade,
+                '-o-animation-name': 'myalter0'+grade,
+            });
+//        }else if(grade == 2){
+//            $(".play").css({'animation-name': 'myalter02',})
+//        }
+
+        //升级经验条
+        if (next_status == 1) {
+        	 var wid = myScore/myScore*500;
+             $(".line").animate({width: wid}, 2000);
+        } else {
+        	var wid = myScore/lastScore*500;
+            $(".line").animate({width: wid}, 2000);
+        }
+
+        //获取新消息
+//        getMessage();
+        //博饼活动
+        var a = "{$isOpen}";
+        $("#bobing").click(function(e){
+            console.log(a)
+            e.preventDefault();
+        })
+
+        isActivity()
+    })
+
+    function isActivity(){
+        $.ajax({
+            url : "?m=api&c=turntable&a=fetch_activity_setting",
+            type : 'POST',
+            data : {},
+            dataType:"json",
+            success: function(data){
+                if(data.status==0){
+                    console.log(data);
+                    if(Number(data.turntable_running) == 0){
+                        $("#turntable").removeAttr("data-href");
+                        $("#turntable div").append("<span>新活动暂未开启</span>");
+//                        $("#turntable").click(function(){
+//                            layer.open({
+//                                content: '幸运大转盘活动已关闭',
+//                                skin: 'msg',
+//                                time: 2 //2秒后自动关闭
+//                            });
+//                        });
+                    }
+                    if(Number(data.bo_bing_info.state) == 0){
+                        $("#bobing").removeAttr("data-href");
+//                        $("#bobing").click(function(){
+//                            layer.open({
+//                                content: '中秋博饼活动已关闭',
+//                                skin: 'msg',
+//                                time: 2 //2秒后自动关闭
+//                            });
+//                        });
+                    }
+                    if(Number(data.christmas_info.state) == 0){
+                        $("#christmas").removeAttr("data-href");
+//                        $("#christmas").click(function(){
+//                            layer.open({
+//                                content: '双旦有礼活动已关闭',
+//                                skin: 'msg',
+//                                time: 2 //2秒后自动关闭
+//                            });
+//                        });
+                    }
+                }else{
+                    layer.open({
+                        content: data.ret_msg,
+                        skin: 'msg',
+                        time: 2 //2秒后自动关闭
+                    });
+                }
+            }
+        });
+
+    }
+
+    //获取荣誉机制状态
+    function getHonorBox() {
+        var data = {
+            "token": '{$token}'
+        }
+        $.ajax({
+            url : "?m=web&c=user&a=getHonorBox",
+            type : 'POST',
+            data : data,
+            dataType:"json",
+            success: function(data){
+            	if (data.code == 1) {
+            		var html = '<div class="upgrade-pop"><div class="upgrade-shine_bg"></div><div class="upgrade-wrap"><div class="upgrade-con">'+
+                    '<div class="upgrade-info"></div><div class="upgrade-badge"></div>'+
+                    '<div class="upgrade-name"></div><div class="upgrade-close"></div></div></div></div>';
+		            $(".popup").html(html);
+		            $(".upgrade-badge").css("background", "url(/statics/web/images/honor/badge0"+data.grade+"@2x.png) no-repeat center center");
+		            $(".upgrade-name").css("background", "url(/statics/web/images/honor/fame0"+data.grade+"@2x.png) no-repeat center center");
+		            $(".popup").fadeIn();
+            	}
+            }
+        });
+    }
+
+    function giveNotice () {
+        var data = {
+            "token": '{$token}'
+        }
+        $.ajax({
+            url : "?m=web&c=user&a=closeHonorBox",
+            type : 'POST',
+            data : data,
+            dataType:"json",
+            success: function(data){
+            }
+        });
+    }
+</script>
+{template public-footer}

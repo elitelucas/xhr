@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="renderer" content="webkit">
+        <title>网站信息</title>  
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>
+        <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+        <script src="statics/admin/js/pintuer.js"></script>
+        {template public-new-ui-header}
+        <style>
+            .expired_color {color: #f50e39;}
+            .normal_color {color: #2c7;}
+        </style>
+    </head>
+    <body class="new_ui_body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title iboxWTitle">
+                        <h5>角色管理</h5>
+                        <div class="ibox-tools padding">
+                            <a class="btn btn-white first_link" data-return="1" href="javascript:;" style="display:none;"><i class="fa fa-reply"></i>返回</a>
+                            <a class="btn btn-white " data-return="0" href="javascript:;"><span class="icon-plus-square-o"></span>管理员</a>
+                            <a class="btn btn-white" data-return="0" href="javascript:;">随机授权码设置</a>
+                        </div>
+                    </div>
+                    <!-- <div class="ibox-content bagCol" style="width: 100%;"> -->
+                    <div class="ibox-content list"  style="width: 100%;">
+                        <div id="editable_wrapper" class="dataTables_wrapper form-inline" role="grid" style="width: 100%">
+                            <table class="table table-striped table-bordered table-hover  dataTable" id="editable" aria-describedby="editable_info">
+                                <thead>
+                                    <tr>
+                                        <th width="5%">ID</th>
+                                        <th>用户名</th>
+                                        <th>随机授权码</th>
+                                        <th>所属角色</th>
+                                        <th>最后登录IP</th>
+                                        <th>最后登录IP归属地</th>
+                                        <th>最后登录时间</th>
+                                        <th>邮箱</th>
+                                        <th>状态</th>
+                                        <th width="250">操作</th>
+                                    </tr>
+                                </thead>
+                                    {loop $data $v}
+                                    <tbody>
+                                        <tr>
+                                            <td>{$v['userid']}</td>
+                                            <td>{$v['username']}</td>
+                                            <td>
+                                                {if $v['device_code'] == ''}
+                                                {if $v['random_code_createtime'] + $expired_time < $now_time}
+                                                <span class="expired_color">{$v['random_code']}</span>
+                                                {else}
+                                                <span class="normal_color">{$v['random_code']}</span>
+                                                {/if}
+                                                {else}
+                                                已绑定
+                                                {/if}
+                                            </td>
+                                            <td>{$v['groupName']}</td>
+                                            <td>{$v['lastloginip']}</td>
+                                            <td>{$v['lastloginip_attribution']}</td>
+                                            <td><?php if($v['lastlogintime'] > 0) {echo date('Y-m-d H:i:s',$v['lastlogintime']);}?></td>
+                                            <td>{$v['email']}</td>
+                                            <td>{if $v['disabled']==0} 开启 {else} 禁用 {/if}</td>
+                                            <td class="font-icon">
+                                                <div class="button-group" style="color:#5aa4eb;">
+                                                    {if $v['userid'] !=1}
+                                                        <a type="button" data-title="编辑" class="" href="?m=admin&c=role&a=update_admin&userid={$v['userid']}"><i class="fa fa-pencil"></i></a>
+                                                        <a type="button" data-title="删除" class="" href="#" onclick="del({$v['userid']})"><i class="fa fa-trash-o"></i></a>
+                                                        <a class="" href="#" data-title="{if $v['disabled']==0 }拉黑{else}开启{/if}" onclick="blank({$v['userid']}, {$v['disabled']}, this)">{if $v['disabled']==0 }<i class="fa fa-ban"></i>{else}<i class="fa fa-check-circle-o"></i>{/if}</a>
+
+                                                    {/if}
+                                                    {if $v['userid'] ==1}
+                                                        <a type="button" class="" href="?m=admin&c=role&a=update_admin&userid={$v['userid']}"><i class="fa fa-pencil"></i></a>
+                                                    {/if}
+                                                    <a href="javascript:;" data-title="解绑/生成随机授权码" data-userid="{$v['userid']}" class="unbind_device_link"><i class="fa fa-spinner"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {/loop}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="ibox-content bagCol list" style="display:none;">
+                        <div class="">
+                            <div class="ibox-title" id="add">
+                                <h5>新增管理员</h5>
+                            </div>
+                            <div class="ibox-content"  style="width: 100%;">
+                                <div class="row">
+                                    <div class="body-content">
+                                        <form method="post" class="form-x" id="form-add">
+                                            <input type="hidden" name="id" value="" />
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>用户名</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" placeholder="请输入用户名" class="input w50 form-control" name="username" value=""  data-validate="required:不能为空"/>
+                                                    <div class="tipss"></div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>密码</label>
+                                                <div class="col-sm-4">
+                                                    <input type="password" placeholder="请输入密码" class="input w50 form-control" name="password" value=""  data-validate="required:不能为空"/>
+                                                    <div class="tipss"></div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label input_title">邮箱</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" placeholder="请输入邮箱" class="input w50 form-control" name="email" value=""  data-validate="required:不能为空"/>
+                                                    <div class="tipss"></div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label input_title">角色</label>
+                                                <div class="col-sm-4" style=":6px;">
+                                                    {loop $roleData $v}
+                                                        {if $v['roleid'] != 1}
+                                                            <input class="roleids" type="radio" name="roleid" value='{$v["roleid"]}' />{$v['rolename']}&nbsp;&nbsp;
+                                                        {/if}
+                                                    {/loop}
+                                                    <div class="tipss"></div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label input_title"></label>
+                                                <div class="col-sm-4">
+                                                    <button class="btn btn-primary" type="button" onclick="add()" id='btn'> 提交</button>
+                                                    <button class="btn btn-white" type="button" onclick="location.reload()">取消</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        
+                    <div class="ibox-content bagCol list" style="display: none;">
+                        <div class="">
+                            <div class="ibox-title" id="add">
+                                <h5>随机授权码设置</h5>
+                            </div>
+                            <div class="ibox-content"  style="width: 100%;">
+                                <div class="row">
+                                    <div class="body-content">
+                                        <form method="post" class="form-x" id="form-add2">
+                                            <input type="hidden" name="id" value="" />
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>是否打开随机授权码登录</label>
+                                                <div class="col-sm-4">
+                                                    <label><input class="code_type form-control" type="radio" {if $is_open == '1'}checked="checked"{/if} name="code_type" value='1' />开启&nbsp;&nbsp;</label>
+                                                    <label><input class="code_type form-control" type="radio" {if $is_open == '0'}checked="checked"{/if} name="code_type" value='0' />关闭&nbsp;&nbsp;</label>
+                                                    <div class="tipss"></div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-4" style="margin-left: 16.4%; ">
+                                                    <button class="btn btn-primary" type="button" onclick="save_login_setting()" id='btn2'> 保存</button>
+                                                    <button class="btn btn-white" type="button" onclick="location.reload()">取消</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- </div> -->
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        $(function () {
+            $("input[name=roleid]").eq(1).attr({checked:'checked'});
+
+            $('.unbind_device_link').click(function () {
+                var userid = $(this).data('userid');
+                $.ajax({
+                    url: "?m=admin&c=role&a=unbindDevice&userid=" + userid,
+                    data: {},
+                    dataType: 'json',
+                    type: 'post',
+                    beforeSend: function () {
+                        loading = layer.load(1);
+                    },
+                    error: function () {
+                        layer.close(loading);
+                        layer.msg('网络异常，请稍候！', {icon: 5, shade: [0.5, '#393D49']});
+                    },
+                    success: function (data) {
+                        layer.close(loading);
+                        if(data['code'] == 0) {
+                            layer.msg(data['msg'], {icon: 6, shade: [0.5, '#393D49']}, function(){
+                                location.reload();
+                            });
+                        } else {
+                            layer.msg('解绑失败！', {icon: 5, shade: [0.5, '#393D49']});
+                        }
+                    }                    
+                });
+            });
+        })
+        //新增
+        function add(){
+            //数据
+            var username = $.trim($("input[name=username]").val());
+            var password = $.trim($("input[name=password]").val());
+            var email = $.trim($("input[name=email]").val());
+            if(username.length > 20 || username == ""){
+                layer.msg('请输入20位长度以内用户名！！！', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+            if(password.length > 15 || password.length < 6){
+                layer.msg('请输入长度6-15位密码！！！', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+            if(email == ""){
+                layer.msg('邮箱不能为空！！！', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+          
+            $.ajax({
+                url: '?m=admin&c=role&a=add_admin',
+                data: $("#form-add").serialize(),
+                dataType: 'json',
+                type: 'post',
+                beforeSend: function () {
+                    loading = layer.load(1);
+                },
+                error: function () {
+                    layer.close(loading);
+                    layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                },
+                success: function (data) {
+                    layer.close(loading);
+                    if(data['code'] != 0) {
+                        layer.msg(data['msg'], {icon: 5, shade: [0.5, '#393D49']});
+                    } else {
+                        layer.msg('新增成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function(){
+                            location.href = '?m=admin&c=role&a=admin_lst';
+                        });
+                    }
+                }
+            });
+        }
+
+        //删除 
+        function del(id){
+        layer.confirm('您确定要删除吗？', {
+        btn: ['确定', '取消'] //按钮
+        }, function(){
+        $.ajax({
+        url: '?m=admin&c=role&a=del_admin',
+                data: {userid:id},
+                dataType: 'json',
+                type: 'post',
+                beforeSend: function () {
+                loading = layer.load(1);
+                },
+                error: function () {
+                layer.close(loading);
+                layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                },
+                success: function () {
+                layer.close(loading);
+                layer.msg('删除成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function(){
+                location.href = '?m=admin&c=role&a=admin_lst';
+                });
+                }
+        });
+        }, function(){
+        });
+        }
+
+        //拉黑
+        function blank(id, disabled, o){
+        var str = disabled == 1 ? '您确定要开启吗？':'您确定要拉黑吗？';
+        layer.confirm(str, {
+        btn: ['确定', '取消'] //按钮
+        }, function(){
+        $.ajax({
+        type: 'POST',
+                url: '?m=admin&c=role&a=update_dis',
+                data:{userid:id, disabled:disabled},
+                dataType:'json',
+                beforeSend: function () {
+                loading = layer.load(1);
+                },
+                error: function () {
+                layer.close(loading);
+                layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                },
+                success:function(){
+                layer.close(loading);
+                layer.msg('操作成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function(){
+                location.href = '?m=admin&c=role&a=admin_lst';
+                });
+                }
+        });
+        }, function(){
+        });
+        }
+
+        $('.first_link').click(function () {
+            $(this).hide();
+        });
+
+        $('[data-return]').click(function () {
+            if ($(this).data('return') == '0') {
+                $('[data-return="1"]').show();
+                $('[data-return="0"]').hide();
+            }else{
+//                $('[data-return="1"]').show();
+                $('[data-return="0"]').show();
+            }
+        });
+
+
+        $(function(){
+            var a = $('.padding').find('a');
+            a.bind('click', function(){
+                var i = $(this).index();
+                $('.list').css('display', 'none');
+                $(".list:eq(" + i + ")").css('display', 'block');
+
+            });
+        });
+
+        //保存随机授权码设置
+        function save_login_setting () {
+            var random_code_is_open = $('.code_type:checked').val();
+
+            //等待层
+            var loading;
+
+            //提交
+            $.ajax({
+                url: '?m=admin&c=role&a=saveRandomCodeSetting',
+                data: {
+                    random_code_is_open : random_code_is_open,
+                },
+                dataType: 'json',
+                type: 'post',
+                beforeSend: function () {
+                    loading = layer.load(1);
+                },
+                error: function () {
+                    layer.close(loading);
+                    layer.msg('参数错误或网络异常！！！', {icon: 5, shade: [0.5, '#393D49']});
+                },
+                success: function (result) {
+                    layer.close(loading);
+
+                    if (result.code == '0') {
+                        layer.alert(result.msg, {icon: 6, shade: [0.5, '#393D49']},function () {
+                            location.href = '?m=admin&c=role&a=admin_lst';
+                        });
+                    } else {
+                        layer.alert(result.msg, {icon: 5, shade: [0.5, '#393D49']});
+                    }
+                }
+            });
+        }
+    </script>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>玩法介绍</title>
+    {template public-header}
+</head>
+<body>
+<header>
+    <em onclick="history.go(-1)">返回</em>
+    <h1>玩法介绍</h1>
+
+</header>
+<section>
+    <div class="my">
+        <ul>
+            {loop $gameInfo $v}
+            <li data-href="<?=url('','','gameplay',array('lottery_type' => $v['id']))?>&&h5=1">
+                <!--class="icowfjs{$v['id']}"-->
+                <label style="padding-left: 0;">{$v['name']}</label></li>
+            {/loop}
+<!--            <li><label class="icoFy">加拿大28</label></li>-->
+        </ul>
+        </div>
+</section>
+</body>
+</html>

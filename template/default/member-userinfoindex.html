@@ -1,0 +1,255 @@
+{template header}
+  <!-- Investor_center -->
+  <link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+  
+  <!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+      <li class="active">我的账户</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->
+{template member-nav-left}
+    
+    <!-- 右边正文 -->
+    <div class="investor-right pull-right border-radius">
+      <div class="investor-title">个人资料</div>
+      <form class="form-horizontal has-feedback" action="<?=url('','','index')?>" method="post" role="form">
+          <div class="form-group has-feedback">
+            <label for="inputUser" class="col-sm-3 control-label">用户名：</label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="inputUser" value="{$user['username']}" disabled>
+            </div>
+            <div class="help-block">已注册不可更改</div>
+          </div>
+          
+         <!-- <div class="form-group has-feedback">
+            <label for="inputEmail" class="col-sm-3 control-label">手机：</label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="inputEmail" name="phone" placeholder="手机" value="{$user['phone']}" {if !empty($user['phone'])}disabled{/if}>
+            </div>
+            <div class="help-block">已认证通过，不可更改</div>
+          </div>
+          
+          <div class="form-group has-feedback">
+            <label for="inputEmail" class="col-sm-3 control-label">邮箱：</label>
+            <div class="col-sm-4">
+              <input type="email" class="form-control" id="inputEmail" name="email" placeholder="邮箱" value="{$user['email']}" {if !empty($user['email'])}disabled{/if}>
+            </div>
+            <div class="help-block">已认证通过，不可更改</div>
+          </div>-->
+          
+          <div class="form-group has-feedback">
+            <label for="inputQq" class="col-sm-3 control-label">QQ：</label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="inputQq" name="qq" placeholder="QQ" value="<?=empty($data['qq'])?'':$data['qq']?>">
+              <span class="glyphicon form-control-feedback"></span>
+            </div>
+            <div class="help-block">请输入QQ号码</div>
+          </div>
+          
+          <div class="form-group has-feedback">
+            <label for="inputSex" class="col-sm-3 control-label">性别：</label>
+            <div class="col-sm-4">
+              <label class="radio-inline">
+                <input type="radio" name="sex" id="inputSex1" value="1" <?=$user['sex']==1?'checked':''?>> 男
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="sex" id="inputSex2" value="2" <?=$user['sex']==2?'checked':''?>> 女
+              </label>
+            </div>
+            <div class="help-block">请选择性别</div>
+          </div>
+          
+          <div class="form-group has-feedback">
+            <label for="inputBirth" class="col-sm-3 control-label">出生日期：</label>
+            <div class="col-sm-4">
+              <!--<input type="date" class="form-control" id="inputBirth" placeholder="出生日期" value="">-->
+              <?=form::date('birthday',date('Y-m-d',empty($user['birthday'])?SYS_TIME:$user['birthday']))?>
+              <span class="glyphicon form-control-feedback"></span>
+            </div>
+            <div class="help-block">请输入出生日期</div>
+          </div>
+          
+<!--          <div class="form-group has-feedback">
+            <label for="inputAddress" class="col-sm-3 control-label">现居住地址：</label>
+            <div class="col-sm-6">
+                  <div class="pull-left mr5" style="width:160px;">
+                  <select id="province" name="liveprovince" class="form-control"><option value="0">请选择省市</option></select>
+                  </div>
+                  <div class="pull-left mr5 ml5" style="width:160px;">
+                  <select id="city" name="livecity" class="form-control"><option value="0">请选择城市</option></select>
+                  </div>
+                  <div class="pull-left mr5 mt10" style="width:160px;">
+                  <select id="area" name="livearea" class="form-control"><option value="0">请选择区/县</option></select>
+                  </div>
+              <span class="glyphicon form-control-feedback"></span>
+            </div>
+            <div class="help-block"></div>
+          </div>-->
+          
+          <div class="form-group has-feedback">
+            <label for="inputBirth" class="col-sm-3 control-label">现居住地址：</label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" id="" name="liveaddress" placeholder="详细地址" value="<?=empty($data['liveaddress'])?'':$data['liveaddress']?>" style="width:330px;">
+              <span class="glyphicon form-control-feedback"></span>
+            </div>
+            <div class="help-block"></div>
+          </div>
+          
+          <div class="form-group has-feedback">
+            <label for="inputBtn" class="col-sm-3 control-label"></label>
+            <div class="col-sm-4">
+              <input class="btn btn-warning form-control" type="submit" id="inputBtn" value="保存资料">
+              <input type='hidden' name='save' value='save'>
+              <input type='hidden' name='formhash' value='<?=formhash()?>' >
+            </div>
+            <div class="help-block"><a data-toggle="collapse" aria-expanded="false" aria-controls="demo" href="#demo">更多个人资料》</a></div>
+          </div>
+      </form>
+      
+      
+      <form class="form-horizontal has-feedback collapse" action="<?=url('','','index')?>" method="post" role="form" id="demo">
+         <hr> 
+          <div class="form-group has-feedback">
+            <label for="inputSex" class="col-sm-3 control-label">是否已婚：</label>
+            <div class="col-sm-4">
+              <label class="radio-inline">
+                <input type="radio" name="marry" id="" value="1" <?=$data['marry']==1?'checked':''?>> 是
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="marry" id="" value="0" <?=$data['marry']==0?'checked':''?>> 否
+              </label>
+            </div>
+            <div class="help-block"></div>
+          </div>
+          
+          <div class="form-group has-feedback">
+            <label for="inputUser" class="col-sm-3 control-label">最高学历：</label>
+            <div class="col-sm-4">
+                <select name="education" class="form-control">
+                    {loop $education $vo}
+                    <option value="{$vo['id']}" {if $vo['id']==$data['education']}selected="selected"{/if}>{$vo['name']}</option>
+                    {/loop}
+                </select>
+            </div>
+            <div class="help-block"></div>
+          </div>
+          
+          <div class="form-group has-feedback">
+            <label for="inputUser" class="col-sm-3 control-label">车产价值：</label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="" name="car"  value="<?=empty($data['car'])?'':$data['car']?>">
+            </div>
+            <div class="help-block">元</div>
+          </div>
+          
+          <div class="form-group has-feedback">
+            <label for="inputUser" class="col-sm-3 control-label">房产价值：</label>
+            <div class="col-sm-4">
+              <input type="text" name="housing" class="form-control" id="" value="<?=empty($data['housing'])?'':$data['housing']?>">
+            </div>
+            <div class="help-block">元</div>
+          </div>
+          
+          <div class="form-group has-feedback">
+            <label for="inputUser" class="col-sm-3 control-label">负债情况：</label>
+            <div class="col-sm-4">
+              <input type="text" name="liabilities" class="form-control" id="" value="<?=empty($data['liabilities'])?'':$data['liabilities']?>">
+            </div>
+            <div class="help-block"></div>
+          </div>
+          
+          <div class="form-group has-feedback">
+            <label for="inputUser" class="col-sm-3 control-label">社保年限：</label>
+            <div class="col-sm-4">
+              <input type="text" name="shebao" class="form-control" id="" value="<?=empty($data['shebao'])?'':$data['shebao']?>">
+            </div>
+            <div class="help-block">年</div>
+          </div>
+          
+          <div class="form-group has-feedback">
+            <label for="inputUser" class="col-sm-3 control-label">月营业额：</label>
+            <div class="col-sm-4">
+              <input type="text" name="income" class="form-control" id="" value="<?=empty($data['income'])?'':$data['income']?>">
+            </div>
+            <div class="help-block">元</div>
+          </div>
+         
+         <div class="form-group has-feedback">
+            <label for="inputUser" class="col-sm-3 control-label">征信评级：</label>
+            <div class="col-sm-4">
+              <input type="text" name="credit_rating" class="form-control" id="" value="<?=empty($data['credit_rating'])?'':$data['credit_rating']?>">
+            </div>
+            <div class="help-block"></div>
+          </div>
+         
+         <div class="form-group has-feedback">
+            <label for="inputUser" class="col-sm-3 control-label">资产：</label>
+            <div class="col-sm-4">
+              <input type="text" name="assets" class="form-control" id="" value="<?=empty($data['assets'])?'':$data['assets']?>">
+            </div>
+            <div class="help-block">元</div>
+          </div>
+          
+          <div class="form-group has-feedback">
+            <label for="inputUser" class="col-sm-3 control-label">紧急联系人：</label>
+            <div class="col-sm-4"></div>
+            <div class="help-block"></div>
+          </div>
+          
+          <div class="form-group has-feedback">
+            <label for="inputUser" class="col-sm-3 control-label">姓名：</label>
+            <div class="col-sm-4">
+              <input type="text" name="linkman" class="form-control" id="" value="<?=empty($data['linkman'])?'':$data['linkman']?>">
+            </div>
+            <div class="help-block"></div>
+          </div>
+          
+          <div class="form-group has-feedback">
+            <label for="inputUser" class="col-sm-3 control-label">关系：</label>
+            <div class="col-sm-4">
+                <select name="linkrelation" class="form-control">
+                    {loop $linkrelation $vo}
+                        <option value="{$vo['id']}" {if $vo['id']==$data['linkrelation']}selected="selected"{/if}>{$vo['name']}</option>
+                    {/loop}
+                </select>
+            </div>
+            <div class="help-block"></div>
+          </div>
+          
+          <div class="form-group has-feedback">
+            <label for="inputUser" class="col-sm-3 control-label">手机：</label>
+            <div class="col-sm-4">
+              <input type="text" name="linkphone" class="form-control" id="" value="<?=empty($data['linkphone'])?'':$data['linkphone']?>" >
+            </div>
+            <div class="help-block"></div>
+          </div>
+          
+          <div class="form-group has-feedback">
+            <label for="inputBtn" class="col-sm-3 control-label"></label>
+            <div class="col-sm-4">
+              <input class="btn btn-warning form-control" type="submit" id="inputBtn" value="确认提交">
+              <input type='hidden' name='save' value='save'>
+              <input type='hidden' name='formhash' value='<?=formhash()?>' >
+            </div>
+            <div class="help-block"></div>
+          </div>
+          
+      </form>
+    </div>
+    <!-- /右边正文 -->
+  </div>
+
+  <script language="javascript" type="text/javascript" src="../../statics/js/district.js" charset="UTF-8"></script>
+  <script language="javascript" type="text/javascript" src="../../statics/js/common.js"></script>
+  
+  <script type="text/javascript">
+    $(function() {
+    addressInit('province', 'city', 'area','{$data["liveprovince"]}','{$data["livecity"]}','{$data["livearea"]}');
+});
+  </script>
+{template footer}

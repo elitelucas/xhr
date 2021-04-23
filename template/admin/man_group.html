@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
+        <meta name="renderer" content="webkit">
+        <title>
+            网站信息
+        </title>
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+        <script src="statics/admin/js/jquery.js">
+        </script>
+        <script src="statics/admin/js/layer/2.1/layer.js">
+        </script>
+        <script src="statics/admin/js/layer/2.1/extend/layer.ext.js">
+        </script>
+        <script src="statics/admin/js/pintuer.js">
+        </script>
+        {template public-new-ui-header}
+    </head>
+    <body class="new_ui_body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+
+                    <div class="ibox-title iboxWTitle">
+                        <h5>会员组管理</h5>
+                        <div class="ibox-tools">
+                            <a href="javascript:;" class="btn btn-white btn-bitbucket add_user_group">
+                                <i class="fa fa-plus-square-o"> </i> 新增会员组
+                            </a>
+                            <a href="javascript:;" class="btn btn-white btn-bitbucket list_user_group" style='display:none;'>
+                                <i class="fa fa-reply"> </i> 返回
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content list_member_group_box" style="width: 100%;">
+                        <div class="dataTables_wrapper form-inline" role="grid" style="width: 100%">
+                            <table class="table table-striped table-bordered table-hover  dataTable" id="editable" aria-describedby="editable_info">
+                                <thead>
+                                    <tr>
+                                        <th width="5%"> 会员组 </th>
+                                        <th> 线下支付方式 </th>
+                                        <th> 线上支付方式 </th>
+                                        <th> 备注 </th>
+                                        <th width="250"> 操作 </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {loop $groupList $key $v}
+                                    <tr>
+                                        <td>
+                                            <?php echo $v[ 'name'] ;?>
+                                        </td>
+                                        <td>
+                                            <?php echo $v[ 'offline'] ;?>
+                                        </td>
+                                        <td>
+                                            <?php echo $v[ 'online'] ;?>
+                                        </td>
+                                        <td>
+                                            <?php echo $v[ 'remark'] ;?>
+                                        </td>
+                                        <td class="font-icon">
+                                            <div class="button-group">
+                                                <a type="button" class="" href="?m=admin&c=user&a=update_user_group&id={$v['id']}" data-title="修改">
+                                                    <i class="fa fa-pencil"></i>
+                                                </a>
+                                                {if $key != 0}
+                                                <a class="" href="javascript:;" onclick="del({$v['id']});" data-title="删除">
+                                                    <i class="fa fa-trash-o"></i>
+                                                </a>
+                                                {/if}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {/loop}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="ibox-content bagCol add_member_group_box" style="width: 100%;display:none;">
+                        <form method="post" class="form-x" action="" id="form-add">
+                            <input type="hidden" name="id"  value="{$data['id']}" />
+                            <div class="ibox-title">
+                                <h5>会员组资料</h5>
+                            </div>
+                            <div class="ibox-content m-b" style="width: 100%;">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>名称</label>
+                                        <div class="col-sm-4">
+                                            <input class="w50 form-control" type="text" name="name" id="name" data-validate="required:不能为空" />
+                                            <div class="tips"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>线下支付方式</label>
+                                        <div class="col-sm-7" style="padding-top: 5px;">
+                                            {loop $reypment['offline'] $v}
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" id="url1" name="powers[]" value="{$v['id']}" /> {$v['name']}
+                                            </label>
+                                            {/loop}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>线上支付方式</label>
+                                        <div class="col-sm-7" style="padding-top: 5px;">
+                                            {loop $reypment['online'] $v}
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" id="url1" name="online_type[]" value="{$v['id']}" /> {$v['name']}
+                                            </label>
+                                            {/loop}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title">备注</label>
+                                        <div class="col-sm-4">
+                                            <textarea type="text" class="input" name="remark" xstyle="height:100px;width:363px;"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-4 col-sm-offset-2">
+                                            <button class="btn btn-primary" type="button" id="btn" onclick="add()">提交</button>
+                                            &nbsp;
+                                            <button class="btn btn-white list_user_group" type="button">取消</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        $(function() {
+            //点击新增会员组
+            $('.add_user_group').click(function () {
+                $(this).hide();
+                $('.list_member_group_box').hide();
+                $('.list_user_group, .add_member_group_box').show();
+            });
+            //返回
+            $('.list_user_group').click(function () {
+                $('.list_user_group, .add_member_group_box').hide();
+                $('.add_user_group, .list_member_group_box').show();
+            });
+
+            // var a = $('.padding').find('a');
+            // a.bind('click',
+            // function() {
+            //     var i = $(this).index();
+            //     $('.list').css('display', 'none');
+            //     $(".list:eq(" + i + ")").css('display', 'block');
+            // });
+        });
+
+        var loading = "";
+
+        //新增
+        function add() {
+            var name = $("#name").val();
+            var offline = $("input:checkbox[name='powers[]']:checked").val();
+            var online  = $("input:checkbox[name='online_type[]']:checked").val();
+            if ($.trim(name) == "") {
+                layer.msg('请输入会员组名称！！！', {
+                    icon: 5,
+                    shade: [0.5, '#393D49']
+                });
+                return false;
+            }
+            if (offline.lenth == 0 && online.lenth == 0) {
+            	layer.msg('线下支付方式/线上上支付方式不能都为空！', {
+                    icon: 5,
+                    shade: [0.5, '#393D49']
+                });
+            	
+            	return false;
+            }
+            
+            $.ajax({
+                url: '?m=admin&c=user&a=add_group',
+                data: $("#form-add").serialize(),
+                dataType: 'json',
+                type: 'post',
+                beforeSend: function() {
+                    loading = layer.load(1);
+                },
+                error: function() {
+                    layer.close(loading);
+                    layer.msg('服务器错误！！！', {
+                        icon: 5,
+                        shade: [0.5, '#393D49']
+                    });
+                },
+                success: function() {
+                    layer.msg('新增成功！！！', {
+                        icon: 6,
+                        shade: [0.5, '#393D49']
+                    },
+                    function() {
+                        location.href = '?m=admin&c=user&a=man_group';
+                    });
+                }
+            });
+        }
+
+        //删除
+        function del(id) {
+            layer.confirm('您确定要删除吗？', {
+                btn: ['确定', '取消'] //按钮
+            },
+            function() {
+                $.ajax({
+                    url: '?m=admin&c=user&a=del_group',
+                    data: {
+                        id: id
+                    },
+                    dataType: 'json',
+                    type: 'post',
+                    beforeSend: function() {
+                        loading = layer.load(1);
+                    },
+                    error: function() {
+                        layer.close(loading);
+                        layer.msg('服务器错误！！！', {
+                            icon: 5,
+                            shade: [0.5, '#393D49']
+                        });
+                    },
+                    success: function() {
+                        layer.msg('删除成功！！！', {
+                            icon: 6,
+                            shade: [0.5, '#393D49']
+                        },
+                        function() {
+                            location.href = '?m=admin&c=user&a=man_group';
+                        });
+                    }
+                });
+            },
+            function() {});
+        }
+    </script>
+
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="renderer" content="webkit">
+        <title>网站信息</title>  
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>
+        <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+
+        <script src="statics/admin/js/pintuer.js"></script> 
+    </head>
+    <body>
+        <div class="panel admin-panel">
+            <div class="panel-head"><strong class="icon-reorder">来源地址</strong></div>
+            <div class="padding border-bottom form">
+                <a class="button border-yellow" href="javascript:;"><span class=""></span>来源地址</a>
+                <a class="button border-green" href="javascript:source_add();"><span class="icon-plus-square-o"></span>新增来源</a>
+            </div>
+
+            <div class='list'>
+                <table class="table table-hover text-center">
+                    <tr>
+                        <th>来源地址</th>
+                        <th>添加时间</th>
+                        <th width="250">操作</th>
+                    </tr>
+                    <tbody class="tbody">
+                    {loop $data $k=>$v}
+                    <tr>
+                        <td>{$v['url']}</td>
+                        <td><?php echo date('Y-m-d H:i:s',$v['time']); ?></td>
+                        <td>
+                            <div class="button-group" style="color:#5aa4eb;">
+                                <!--<a type="button" class="" href="?m=admin&c=role&a=role_auth&id={$v['roleid']}"><span class="icon-edit"></span>权限设置</a>|-->
+                                <!--<a type="button" class="" href="?m=admin&c=honor&a=level_edit&id={$v['id']}"><span class="icon-edit"></span>编辑</a>|-->
+                                <a class="del" data-index="{$k}" onclick="del(this);" href="#">删除</a>
+                            </div>
+                        </td> 
+                    </tr> 
+                    {/loop}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+    <script>
+        function source_add() {
+            //prompt层
+            layer.prompt({title: '输入来源地址，并确认', formType: 3}, function(text, index){
+                $.post('?m=admin&c=user&a=source_add',{source:text},function (data) {
+                    layer.msg('演示完毕！您的口令：'+ text);
+                    if (data.code == 1) {
+                        layer.msg(data.msg, {icon: 6, shade: [0.5, '#393D49']},function () {
+                            layer.close(index);
+                            location.reload();
+                        });
+                    } else {
+                        layer.msg(data.msg, {icon: 5, shade: [0.5, '#393D49']});
+                    }
+                },'json');
+            });
+        }
+        $(".form .status").click(function () {
+            var val = $('.status[name=status]:checked').val()?1:0;
+            $.post('?m=admin&c=honor&a=show_honor',{value:val},function (data) {
+                if (data.code == 1) {
+                    layer.msg(data.msg, {icon: 6, shade: [0.5, '#393D49']});
+                } else {
+                    layer.msg(data.msg, {icon: 5, shade: [0.5, '#393D49']});
+                }
+            },'json')
+            console.log(val);
+        })
+        var loading = "";
+        function del(t) {
+            var index = $(t).data('index');
+            layer.confirm('您确定要删除吗？', {
+                btn: ['确定', '取消'] //按钮
+            }, function () {
+                console.log(index);
+                $.ajax({
+                    url: '?m=admin&c=user&a=source_del',
+                    data: {k:index},
+                    dataType: 'json',
+                    type: 'post',
+                    success: function () {
+                        layer.close(loading);
+                        layer.msg('删除成功！！！', {icon: 6, shade: [0.5, '#393D49']},function(){
+                            location.reload();
+                        });
+                    }
+                });
+            }, function () {
+            });
+        }
+    </script>
+</html>

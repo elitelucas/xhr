@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <!--  <link rel="stylesheet" href="statics/admin/css/pintuer.css"> -->
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+
+    <!-- template-begin+++ -->
+    {template public-new-ui-header}
+    <!-- template-end+++ -->
+
+</head>
+<body style="margin: 15px;background-color: #f3f3f4;">
+<div class="ibox float-e-margins">
+    <div class="ibox-title iboxWTitle">
+        <h5>自动开奖持续时长</h5>
+    </div>
+    <div class="ibox-content bagCol">
+        <div class="ibox-title">
+            <h5>详情</h5>
+            <div class="ibox-tools">
+                <a class="btn btn-white btn-bitbucket btn_sure" id="update" data-title="修改"><i class="fa fa-pencil"></i> </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <form method="post" class="form-horizontal" id="form">
+                <input type="hidden" name="id"  value="" />
+                {loop $arr $v}
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">【{$v['name']}】自动开奖持续时长(s)</label>
+                    <div class="col-sm-3">
+                        <input type="number" class="form-control m-b auto_open" name="auto_open_{$v['id']}" data-id="{$v['id']}" value="{$v['auto_open']}" disabled="disabled" />
+                    </div>
+                </div>
+                {/loop}
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    var loading = "";
+    $("#update").click(function(){
+        $(this).parent().html('<a class="btn btn-white btn-bitbucket btn_sure" id="btn_submit" data-title="保存"><i class="fa fa-save"></i></a>')
+        $(this).remove();
+        $("input").attr("disabled",false);
+    })
+    $("body").on("click","#btn_submit",function(){
+        var data = [];
+        var obj = $(".auto_open")
+        var re = /^[0-9]*$/;
+        for (var a = 0; a < obj.length; a++) {
+            var tmp = {
+                "auto_open":$(obj[a]).val(),
+                'id':$(obj[a]).attr("data-id")
+            }
+            if(tmp.auto_open=='' || !re.test(tmp.auto_open)){
+                layer.tips('自动开奖持续时长必须为正整数', $("[name='auto_open_"+tmp.id+"']"), {tips: [1, '#c00']});
+                return false;
+            }
+            data.push(tmp);
+        }
+        $.ajax({
+            url: '?m=admin&c=role&a=up_length',
+            data: {data:data},
+            dataType: 'json',
+            type: 'post',
+            beforeSend: function () {
+                loading = layer.load(1);
+            },
+            error: function () {
+                layer.close(loading);
+                layer.msg('网络异常，稍后再试！！！', {icon: 5, shade: [0.5, '#393D49']});
+            },
+            success: function (result) {
+                layer.close(loading);
+                if (result.state==1) {
+                    layer.msg(result.msg, {icon: 6, shade: [0.5, '#393D49']}, function () {
+                        location.reload();
+                    });
+                } else {
+                    if (result.msg) {
+                        layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']}, function () {
+                            location.reload();
+                        });
+                    }
+                }
+            }
+        });
+
+    })
+
+    function up_length(vm) {
+        var auto_open = $(vm).parent().siblings("input").val();
+        var type = $(vm).attr("data-id");
+        var re = /^[0-9]*$/;
+        if(auto_open=='' || !re.test(auto_open)){
+            layer.msg($(vm).attr('data-name')+'自动开奖持续时长必须为正整数', {icon: 5, shade: [0.5, '#393D49']});
+            return false;
+        }
+
+
+    }
+</script>
+    </body>
+</html>

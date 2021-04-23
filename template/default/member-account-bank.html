@@ -1,0 +1,214 @@
+{template header}
+  <!-- Investor_center -->
+  <link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+
+  <!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+      <li class="active">我的账户</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->
+{template member-nav-left}
+    <!-- 右边正文 -->
+    <div class="investor-right pull-right border-radius">
+      <ul class="nav nav-tabs" role="tablist" id="myTab">
+        <li><a href="<?=url('member','account','cash')?>">申请提现</a></li>
+        <li class="active"><a href="<?=url('member','account','cash_bank')?>">提现银行账号</a></li>
+        <li class="{if ROUTE_A=='bankup'}active{/if}"><a href="<?=url('member','account','bankup')?>">修改提现银行</a></li>
+        <li><a href="<?=url('member','account','cash_log')?>">提现记录</a></li>
+      </ul>
+
+      <div class="tab-content">
+        <!-- 提现银行账号 -->
+        <div class="tab-pane active" id="profile">
+          <div class="withdraw-info bg-warning">
+            <div>1、禁止信用卡套现、虚假交易等行为,一经发现将予以处罚,包括但不限于：限制收款、冻结账户、永久停止服务,并有可能影响相关信用记录。</div>
+            <div>2、提现银行账号一经提交, 将不允许自行再次修改, 如需修改,请联系客服。</div>
+          </div>
+  {if isset($data) && !empty($data)}
+  <!--申请中,或 已认证,将不修改-->
+          <div class="bold line-height50px">银行账号：	<?=f_bank($data['account'])?></div>
+  {else}
+            <div class="withdraw-left pull-left text-right">
+              <div class="withdraw-div line-height40px">开户银行：</div>
+              <div class="withdraw-div line-height45px">开户地：</div>
+              <div class="withdraw-div" style="line-height:55px">开户行支行名称：</div>
+              <div class="withdraw-div" style="line-height:60px">银行卡账号：</div>
+            </div>
+  <div class="withdraw-right pull-right">
+    <form action="<?=url('','','')?>" id='myform' method="post">
+              <div class="withdraw-div">
+                <div class="pull-left">
+                <select name="bank" style="padding:5px 10px;">
+                            {loop $glossary $vo}
+              		<option value="{$vo['id']}">{$vo['name']}</option>
+                            {/loop}
+                </select>
+                </div>
+                <div class="pull-left">
+                  <span class="margin-left15px"><span class="glyphicon"></span></span>
+                </div>
+              </div>
+              <div class="withdraw-div">
+                <div class="pull-left">
+                  <select id="province" name="province" style="padding:5px 10px;"><option value="">请选择省市</option></select>
+                        <select id="city" name="city" style="padding:5px 10px;"><option value="">请选择城市</option></select>
+                        <select id="area" name="area" style="padding:5px 10px;"><option value="">请选择区/县</option></select>
+                </div>
+                <div class="pull-left">
+                  <span class="margin-left15px"><span class="glyphicon"></span></span>
+                </div>
+				<div class="help-block line-height30px">&nbsp;</div>
+              </div>
+              <div class="withdraw-div">
+                <div class="pull-left">
+                <input type="text"  name='branch' id='branch' value="" style="padding:3px 10px;width:300px;">
+                </div>
+                <div class="pull-left"><span class="margin-left15px">
+                  <span class="glyphicon"></span></span>
+                </div>
+				<div class="help-block line-height30px">&nbsp;</div>
+              </div>
+              <div class="withdraw-div">
+                <div class="pull-left">
+                <input type="text"  name='account' id='account' value="" style="padding:3px 10px;width:300px;">
+                </div>
+                <div class="pull-left"><span class="margin-left15px">
+                  <span class="glyphicon"></span></span>
+                </div>
+				<div class="help-block line-height30px">&nbsp;</div>
+              </div>
+			  <div class="withdraw-div">
+                <div class="pull-left" style="margin-top:5px">
+				<input type='hidden' name='save' value='save'>
+				<input type='hidden' name='formhash' value='<?=formhash()?>'>
+                <input type=submit class="withdraw-btn btn btn-warning" value="确认提交">
+                </div>
+              </div>
+    </form>
+  </div>
+
+<script language="javascript" type="text/javascript" src="../../statics/js/district.js" charset="UTF-8"></script>
+<script language="JavaScript" type="text/javascript">
+$(function() {
+	addressInit('province', 'city', 'area');
+});
+var addressInit = function(_cmbProvince, _cmbCity, _cmbArea, defaultProvince, defaultCity, defaultArea){
+    var cmbProvince = document.getElementById(_cmbProvince);
+    var cmbCity = document.getElementById(_cmbCity);
+    var cmbArea = document.getElementById(_cmbArea);
+     
+    function cmbSelect(cmb, str){
+		if(str){
+	        $(cmb).attr("value",str);
+		}
+    }
+    function cmbAddOption(cmb, str, val)    {
+        var option = document.createElement("OPTION");
+        cmb.options.add(option);
+        option.innerHTML = val;
+        option.value = str;
+    }
+     
+    function changeCity()    {
+        cmbArea.options.length = 0;
+        if(cmbCity.selectedIndex == -1)return;
+        var item = cmbCity.options[cmbCity.selectedIndex].value;
+		$.each(area[item],function(key,val){
+			cmbAddOption(cmbArea, key, val[0]);
+		});
+        cmbSelect(cmbArea, defaultArea);
+    }
+    function changeProvince()    {
+        cmbCity.options.length = 0;
+        cmbCity.onchange = null;
+        if(cmbProvince.selectedIndex == -1)return;
+        var item = cmbProvince.options[cmbProvince.selectedIndex].value;
+		$.each(city[item],function(key,val){
+			cmbAddOption(cmbCity, key, val[0]);
+		});
+        cmbSelect(cmbCity, defaultCity);
+        changeCity();
+        cmbCity.onchange = changeCity;
+		if(cmbProvince.options[0].value==0){
+			cmbProvince.options.remove(0);
+		}
+    }
+    $.each(province,function(key,val){
+		cmbAddOption(cmbProvince, key, val[0]);
+	});
+	cmbProvince.onchange = changeProvince;
+    cmbSelect(cmbProvince, defaultProvince);
+};
+</script>
+
+<script type="text/javascript" src="../../statics/resource/js/jquery.validate.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$.validator.addMethod("chinese", function(value, element) {
+		var regexp = /^[\u4e00-\u9fa5]+$/;
+		return this.optional(element) || (regexp.test(value));
+	}, "只允许输入中文");
+	$("form").validate({
+	    errorPlacement:function(error,element) {
+			error.appendTo(element.parent().parent().children(".help-block"));
+		},
+		rules: {
+			province: {
+				required: true
+			},
+			/*city: {
+				required: true
+			},
+			area: {
+				required: true
+			},*/
+			bank: {
+				required: true
+			},
+			branch: {
+				required: true,
+				chinese: true
+			},
+			account: {
+				required: true,
+				digits: true,
+				minlength: 16,
+				maxlength: 19
+			}
+		},
+		messages: {
+			province: {
+				required: "请选择开户地省市"
+			},
+			branch: {
+				required: "请填写支行名称",
+				chinese: "支行名称只允许填写中文"
+			},
+			account: {
+				required: "请填写银行账号",
+				digits: "银行卡账号为16-19位纯数字",
+				minlength: "银行卡账号为16-19位纯数字",
+				maxlength: "银行卡账号为16-19位纯数字"
+			}
+		}
+	});
+});
+</script>
+  {/if}
+        </div>
+        <!-- /提现银行账号 -->
+
+      </div>
+
+
+    </div>
+    <!-- /右边正文 -->
+  </div>
+
+</script>
+{template footer}

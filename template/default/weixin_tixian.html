@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- Meta, title, CSS, favglyphicons, etc. -->
+	<meta charset="utf-8">
+	<title>诚汇通</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+	<meta name="description" content="">
+
+	<!-- Bootstrap -->
+	<link href="../../statics/weixin/assets/css/bootstrap.css" rel="stylesheet" media="screen">
+	<link href="../../statics/weixin/css/cht.css" rel="stylesheet" media="screen">
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="../../statics/weixin/assets/js/html5shiv.js"></script>
+	<script src="../../statics/weixin/assets/js/respond/respond.min.js"></script>
+	<![endif]-->
+
+</head>
+<body>
+	<!--  
+	<div class="navbar navbar-inverse dh_sy">
+		<div class="container toubu">
+
+			<ul class="nav top_cent">
+				<li>提现</li>
+			</ul>
+			<a class="navbar-brand" href="#">
+				<img src="../../statics/weixin/images/fanhui.png"></a>
+			<a class="nav-home" href="#">
+				<img src="../../statics/weixin/images/shouye.png"></a>			
+		</div>
+	</div>
+    -->
+	<!-- Carousel
+	================================================== -->
+	<!-- /container -->
+	<div class="container">
+	   <form method="post"  id="myfrom" action="">
+		<div class="row mt10">
+			<div class="col-12">
+				<div class="tix">
+					<ul>
+						<li><span class="col-5 txlr">真实姓名：</span><?php echo f_realname($data['realname']);?></li>
+						<li><span class="col-5 txlr">账户总额：</span>￥<?php echo empty($data['money'])?'0.00':$data['money'];?></li>
+						<li><span class="col-5 txlr">可用余额：</span>￥<?php echo empty($data['money_usable'])?'0.00':$data['money_usable'];?></li>
+						<li><span class="col-5 txlr">冻结总额：</span>￥<?php echo empty($data['money_freeze'])?'0.00':$data['money_freeze'];?></li>
+						{if !empty($data['cash_money'])}
+						  <li><span class="col-5 txlr">可提额度:</span>￥<?php echo empty($data['cash_money'])?'0.00':$data['cash_money'];?></li>
+						{/if}
+						<li><span class="col-5 txlr">可免费提现：</span>￥<?php echo empty($data['mf_money'])?'0.00':$data['mf_money'];?></li>
+						<li><span class="col-5 txlr">提现账户：</span><?=f_bank($bank['account'])?></li>
+						<li><span class="col-5 txlr">提现金额：</span><input  type="text" placeholder="请输入100以上的金额" name="money" id="money" class="form-control col-7"></li>						
+						<li><span class="col-5 txlr">交易密码：</span><span id="divpass"><input type="password" placeholder="请输入交易密码" name="paypassword" id="password" class="form-control col-7"></span></li>
+						<li><span class="col-5 txlr">明文显示密码：</span><input type="checkbox" name="passdip" value="1" id="passdip" /></li>
+						<li><span class="col-5 txlr">提现手续费：</span><i id="cash_fee">0.00</i></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="col-12">
+          <p  align="center" style="padding:8px 0; line-height:22px; color:#ff0000" id="info"></p>
+        </div>
+		<div class="row mt20">
+			<div class="col-12">
+				<p class="tcdl"><button  id="button" type="button" class="btn btn-primary btn-lg yanse_1">确认提交</button></p>
+			</div>
+		</div>
+		<input  id="money_usable" type="hidden" value="<?php echo empty($data['money_usable'])?'0.00':$data['money_usable'];?>">
+		</form>
+	</div>
+
+	<!-- JavaScript plugins (requires jQuery) -->
+	<script src="../../statics/weixin/assets/js/jquery.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="../../statics/weixin/assets/js/bootstrap.min.js"></script>
+	<script src="../../statics/weixin/assets/js/holder/holder.js"></script>
+	<script type="text/javascript">
+	
+	
+	
+	$("#button").click(function(){
+		var money = $.trim($("#money").val());
+		
+		$("#info").text('');	
+		if(money==''){
+			$("#info").text('提现金额不能为空！');
+			return false;
+		}
+		var re=/^[1-9]([0-9])*$/;
+        /*if (!re.test(money)){          	
+             	$("#info").text('只能输入数字！');
+				return false;
+        }*/
+		if (!$.isNumeric(money)){          	
+             	$("#info").text('请正确输入金额！');
+				return false;
+        }
+		if(100>money){
+			$("#info").text('提现金额要大于等于100！');
+			return false;
+		}
+		var usermoney=parseFloat($("#money_usable").val());	
+		if(usermoney<money){			  
+			$("#info").text('提现金额不能大于可用余额！');
+			return false;
+		}
+		
+		if($("#password").val()==''){
+			$("#info").text('交易密码不能为空！');
+			return false;
+		}
+		var flag = false;
+		/*$.get("?m=weixin&c=default&a=ajax_pwd", {
+				 password:$("#password").val() },			
+				   function(data){
+					if(data=='2'){
+					 	$("#info").text('请在网站设置交易密码！');
+					 	return false;
+					 }
+					 if(data!=2 && data!=1){
+					 	$("#info").text('交易密码密码有误！');
+					 	return false;
+					 }
+					 if(data==1){
+					 	flag=true;
+					 	return true;
+					 }
+		});	*/
+		$("#info").text('处理中，请稍后...');	
+		$.ajax({ url:"?m=weixin&c=default&a=ajax_pwd", 
+				 type:"post",
+				 async:false, 
+				 data: "password="+$("#password").val(),
+				 success: function(data){
+    				 if(data=='2'){
+					 	$("#info").text('请在网站设置交易密码！');
+					 	return false;
+					 }
+					 if(data==3){
+					 	$("#info").text('交易密码密码有误！');
+					 	return false;
+					 }
+					 if(data==1){
+					 	flag=true;
+					 	return true;
+					 }
+		}});
+
+		if(flag==true){
+			
+			$.post("?m=weixin&c=default&a=cash_tixian",{
+			 money:$("#money").val(),
+			 paypassword:$("#password").val()},
+			 function(data){
+				 if(data=='1'){
+				 	$("#info").text('提现成功!');
+				 	$("#button").attr('disabled',true);
+				 }else if(data =='30'){
+                                      $("#info").text('您好，由于您的投标额不足500元，新人任务现金卷20元暂不可以提现！');
+                                 }else if(data =='40'){
+                                      $("#info").text('您好，所得现金红包仅用于投资，投资到期后方可提现！');
+                                 }else{
+				 	 $("#info").text('提现失败!');
+				 }
+		 	});
+		}
+		
+		
+		
+	});
+	
+	$("#money").blur(function(){
+		$.get("?m=weixin&c=default&a=ajax_money", {
+						 money:$("#money").val()},			
+						    function(data){				  		    
+							 if(data=='false'){
+							   $("#cash_fee").text('0.00');	
+							   return false;			   
+							 }else if(data){
+							 	$("#cash_fee").text(data);
+							 	return true;
+							 }
+		});	
+			
+	});
+	
+	
+/*		var flag=false;	
+		
+		$("#button").click(function(){	
+			$("#info").text('');
+			
+			if($.trim($("#money").val())==''){
+				$("#info").text('提现金额不能为空！');
+				return false;
+			}
+			
+			var usermoney=parseFloat($("#money_usable").val());
+			var money=parseFloat($("#money").val());
+			
+			var re=/^[1-9]([0-9])*$/;
+            if (!$.isNumeric(money)){          	
+             	$("#info").text('只能输入数字！');
+				return false;
+            }else{
+				if(money){
+					if(100>money){
+							$("#info").text('提现金额要大于等于100！');
+							return false;
+						}			
+						if(usermoney<money){			  
+							$("#info").text('提现金额不能大于可用余额！');
+							return false;
+						}	
+						$.get("?m=weixin&c=default&a=ajax_money", {
+						 money:$("#money").val()},			
+						    function(data){				  		    
+							 if(data=='false'){
+							   $("#cash_fee").text('0.00');	
+							   return false;			   
+							 }else if(data){
+							 	$("#cash_fee").text(data);
+							 	return true;
+							 }
+						});				  	
+				}
+		  }
+		});
+			
+	    $("#button").click(function(){	
+	    	$("#info").text('');
+	    	if($("#password").val()==''){
+	    		$("#info").text('交易密码不能为空！');
+				flag=false;
+	    	}else{
+				$.get("?m=weixin&c=default&a=ajax_pwd", {
+				 password:$("#password").val() },			
+				   function(data){
+					 if(data=='1'){
+					 	flag=true;
+					 }else if(data=='2'){
+					 	$("#info").text('请在网站设置交易密码！');
+					 	flag=false;
+					 }else{
+					 	$("#info").text('交易密码密码有误！');
+					 	flag=false;
+					 }
+				});	
+			}	
+		});*/
+		
+		
+				
+/*    $("#button").click(function(){	   
+	     $.post("?m=weixin&c=default&a=cash_tixian",{
+			 money:$("#money").val(),
+			 paypassword:$("#password").val()},
+			 function(data){
+				 if(data=='1'){
+				 	$("#info").text('提现成功!');
+				 	$("#button").attr('disabled',true);
+				 }else{
+				 	 $("#info").text('提现失败!');
+				 }
+				});		 	
+     });
+    		*/
+	</script>
+
+<script language="JavaScript" type="text/javascript">
+$(document).ready(function(){
+  $("#passdip").click(function(){
+		var is_display = $("#passdip").is(':checked');
+		if(is_display){
+			var val = $("#password").val();
+			$("#divpass").html('<input type="text" placeholder="请输入交易密码" name="paypassword" id="password" class="form-control col-7">');
+			$("#password").val(val);
+		}
+		else{
+			var val = $("#password").val();
+			$("#divpass").html('<input type="password" placeholder="请输入交易密码" name="paypassword" id="password" class="form-control col-7">');
+			$("#password").val(val);
+		}
+  });
+
+  
+});
+</script>
+
+</body>
+</html>

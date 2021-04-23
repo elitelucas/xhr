@@ -1,0 +1,41 @@
+{template header}
+  
+<link href="../../statics/resource/css/safeguard/safeguard.css" rel="stylesheet">
+  <link href="../../statics/resource/css/control/css/control.css" rel="stylesheet">
+  <!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('article','safety','index')?>">安全保障</a></li>
+      <li class="active">风控管理</li>
+      <li class="active">赎楼借款的常规操作流程及案例</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->
+  
+  <div class="container">
+    <!-- 左边导航 -->
+    <div class="control-right-box pull-right">
+      <div class="control-right text-center">
+        <div class="control-nav-right-title font16px">风控管理</div>
+        {if !empty($list)}
+        {loop $list $l}
+        <a class="control-nav {if $l['id']==$data['id']}control-active{/if}" href="<?=url('article','safety','safe_detail',array('id'=>$l['id']))?>">{$l['title']}</a>
+        {/loop}
+        {/if}
+        <a id="top" class="control-nav hidden" href="javascript:void(0);">返回顶部</a>
+      </div>
+    </div>
+    <!-- /左边导航 -->
+    
+    <!-- 右边内容 -->
+    <div class="control-left-box pull-left border-radius">
+      <div class="control-nav-title text-center">{$data['title']}</div>
+      <div class="control-content">
+        {$data['content']}
+      </div>
+    </div>
+    <!-- /右边内容 -->
+  </div>
+{template footer}

@@ -1,0 +1,58 @@
+/* Code tidied up by ScrapBook */
+* { margin: 0px; padding: 0px; }
+ul, ol, li { list-style: outside none none; }
+
+
+a { text-decoration: none; }
+a:hover { color: rgb(255, 255, 255); }
+img { max-width: 100%; }
+.main { width: 1110px; margin: 0px auto; padding: 10px 0px; position: relative; }
+.clear { display: block; line-height: 0; font-size: 0px; clear: both; }
+#header-wrap { background-color: rgb(29, 28, 36); border-bottom: 1px solid rgb(33, 35, 51); position: relative; z-index: 222; box-shadow: 0px 1px 20px rgba(0, 0, 0, 0.5); }
+#logo { height: 45px; width: auto; margin: 0px 10px; }
+#logo > a { display: block; height: 45px; width: 130px; background-image: url("logo-sign.PNG"); background-size: cover; background-position: 0px 0px; font-size: 0px; }
+#nav { position: absolute; top: 0px; right: 0px; }
+#nav > ul, #nav > ul > li { display: inline-block; float: left; }
+#nav > ul > li a { display: block; line-height: 65px; padding: 0px 16px; font-size: 14px; margin: 0px 8px; transition: all 0.3s ease 0s; }
+#nav > ul > li a:hover { color: rgb(255, 255, 255); box-shadow: 0px 4px 0px rgb(133, 140, 177) inset; }
+#nav > ul > li.active a { color: rgb(255, 255, 255); box-shadow: 0px 4px 0px rgb(0, 204, 255) inset; }
+#special-wrap { background-color: rgb(29, 29, 29); background-image: url("special-bg.jpg"); background-repeat: no-repeat; background-position: center top; height: 510px; position: relative; overflow: hidden; z-index: 1; }
+#special-wrap .special { background-image: url("special-desktop.gif"); background-repeat: no-repeat; background-position: 0px 0px; height: inherit; width: 1410px; position: absolute; top: 0px; left: 50%; margin-left: -705px; z-index: 1; }
+#special-wrap .special .s-image, #special-wrap .special .s-info { position: absolute; }
+#special-wrap .special .s-image { height: 400px; width: 520px; left: 0px; top: 25px; background-image: url("special-cover.gif"); background-repeat: no-repeat; background-position: 0px 0px; }
+#special-wrap .special .s-info { width: 490px; top: 20px; right: 40px; text-align: center; }
+#special-wrap .special .s-info > h1 { background-image: url("special-info-title.png"); background-repeat: no-repeat; background-position: 0px 0px; font-size: 0px; height: 128px; width: 490px; }
+#special-wrap .special .s-info > span.si-code { margin: 10px 30px 40px; background-color: rgb(255, 255, 255); padding: 4px; height: 96px; width: 96px; border-radius: 4px; box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2); text-align: center; display: inline-block; color: rgb(255, 255, 102); line-height: 23px; }
+#special-wrap .special .s-info > span.si-code img { height: 100%; width: 100%; }
+#special-wrap .special .s-info > ul.si-buttons { font-size: 0px; text-align: center; }
+#special-wrap .special .s-info > ul.si-buttons li { display: inline-block; }
+#special-wrap .special .s-info > ul.si-buttons li > a { display: block; background-image: url("special-info-button.png"); background-repeat: no-repeat; background-position: 0px 0px; height: 64px; width: 160px; margin: 0px 8px; }
+#special-wrap .special .s-info > ul.si-buttons li > a.s-b-ios { background-position: 0px 0px; }
+#special-wrap .special .s-info > ul.si-buttons li > a.s-b-ios:active { background-position: 0px -64px; }
+#special-wrap .special .s-info > ul.si-buttons li > a.s-b-android { background-position: -160px 0px; }
+#special-wrap .special .s-info > ul.si-buttons li > a.s-b-android:active { background-position: -160px -64px; }
+#special-wrap .special .s-info > a.si-tutorial-handler { display: inline-block; font-size: 0px; background-image: url("special-tutorial-handler.png"); background-repeat: no-repeat; background-position: 0px 0px; height: 35px; width: 140px; }
+#summary-wrap { background-color: rgb(29, 28, 36); border-top: 1px solid rgb(33, 35, 51); border-bottom: 1px solid rgb(33, 35, 51); position: relative; z-index: 22; box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5); }
+#summary-wrap .summary { background: transparent url("summary-light.png") no-repeat scroll center top; height: 300px; padding: 0px; }
+#summary-wrap .summary .item { display: inline-block; float: left; position: relative; height: 300px; width: 1110px; }
+#summary-wrap .summary .item-info, #summary-wrap .summary .item-image { position: relative; height: 300px; width: 50%; }
+#summary-wrap .summary .item-info { float: left; }
+#summary-wrap .summary .item-info img { height: 128px; width: 128px; position: absolute; left: 36px; top: 50%; margin-top: -64px; }
+#summary-wrap .summary .item-info h2, #summary-wrap .summary .item-info h4 { color: rgb(167, 191, 239); font-weight: normal; margin-left: 200px; }
+#summary-wrap .summary .item-info h2 { height: 48px; line-height: 48px; font-size: 28px; white-space: nowrap; overflow: hidden; margin-top: 106px; }
+#summary-wrap .summary .item-info h4 { height: 40px; line-height: 20px; font-size: 12px; width: 50%; }
+#summary-wrap .summary .item-image { float: right; }
+#summary-wrap .summary .item-image img { height: 100%; width: 100%; }
+#footer-wrap { background-color: rgb(29, 28, 36); }
+#footer-wrap.app-fixed-footer { position: absolute; left: 0px; bottom: 0px; width: 100%; }
+.app-copyright { padding: 10px; text-align: center; }
+.app-copyright > a { padding: 0px 4px; }
+.modal { display: none; position: fixed; left: 0px; top: 0px; height: 100%; width: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 9999; }
+.modal-inner { margin: 20px auto; background-color: rgb(255, 255, 255); max-width: 480px; width: 100%; border-radius: 4px; box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.8); }
+.modal-header { border-bottom: 1px solid rgb(221, 221, 221); padding: 4px; position: relative; box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1); }
+.modal-title { font-weight: normal; font-size: 14px; padding: 0px 8px; line-height: 32px; }
+.modal-close { color: rgb(153, 153, 153); background-color: rgb(238, 238, 238); line-height: 24px; height: 24px; width: 48px; position: absolute; top: 8px; right: 8px; font-size: 12px; text-align: center; border-radius: 2px; }
+.modal-close:hover { color: rgb(255, 255, 255); background-color: rgb(204, 0, 0); }
+.modal-body { padding: 10px; overflow: auto; max-height: 400px; }
+#app-tutorial-modal p { line-height: 24px; }
+#app-tutorial-modal img { width: 320px; margin: 16px auto; }

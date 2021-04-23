@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="renderer" content="webkit">
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+	    <link rel="stylesheet" href="statics/admin/css/admin.css">
+	    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+	    <script src="statics/admin/js/jquery.js"></script>
+	    <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+	    <script src="statics/admin/js/pintuer.js"></script>  
+	    <script src="statics/admin/js/layer/2.1/layer.js"></script>  
+	    <script src="statics/admin/js/jquery.date_input.pack.js"></script> 
+	    {template public-new-ui-header}
+    </head>
+    <body class="new_ui_body">
+    <div class="ibox float-e-margins">
+	    <div class="ibox-title iboxWTitle">
+	        <h5>数据预处理操作</h5>
+	    </div>
+	    <div class="ibox-content bagCol">
+	        <div class="ibox-title ">
+	            <h5>数据预处理操作信息</h5>
+	        </div>
+         	<div class="ibox-content">
+         		<div class="form-horizontal">
+	           		<div class="form-group">
+	                    <label class="col-sm-3 control-label">投注订单表数据预处理统计</label>
+	                    <div class="col-sm-2">
+	                        <button class="btn btn-primary" type="submit" id="btn_submit" onclick="startStatistic('order')">开始统计</button>
+	                    </div>
+	                </div>
+	                <div class="form-group">
+	                    <label class="col-sm-3 control-label">充值订单表数据预处理统计</label>
+	                    <div class="col-sm-2">
+	                        <button class="btn btn-primary" type="submit" id="btn_submit" onclick="startStatistic('recharge')">开始统计</button>
+	                    </div>
+	                </div>
+	                <div class="form-group">
+	                    <label class="col-sm-3 control-label">提现订单表数据预处理统计</label>
+	                    <div class="col-sm-2">
+	                        <button class="btn btn-primary" type="submit" id="btn_submit" onclick="startStatistic('drawal')">开始统计</button>
+	                    </div>
+	                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    var loading = "";//加载中
+        function startStatistic(type) {
+            $.ajax({
+                type: 'GET',
+                url: '?m=admin&c=reporting&a=startStatistics&type=' + type,
+                dataType: 'json',
+                error: function () {
+                    layer.close(loading);
+                    layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                },
+                success: function (data) {
+                    layer.close(loading);
+                    if(data['code'] != 0)
+                    {
+                        layer.msg(data['msg'], {icon: 5, shade: [0.5, '#393D49']}, function () {
+                            return false;
+                        });
+                    }
+                    else {
+                        layer.msg(data['msg'], {icon: 6, shade: [0.5, '#393D49']}, function () {
+                            location.reload();
+                        });
+                    }
+
+                }
+            });
+        }
+            
+        function startAllStatistic() {
+            $.ajax({
+                type: 'GET',
+                url: '?m=admin&c=role&a=startStatistics&type=' + type,
+                dataType: 'json',
+                error: function () {
+                    layer.close(loading);
+                    layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                },
+                success: function (data) {
+                    layer.close(loading);
+                    if(data['code'] != 0)
+                    {
+                        layer.msg(data['msg'], {icon: 5, shade: [0.5, '#393D49']}, function () {
+                            return false;
+                        });
+                    }
+                    else
+                    {
+                        layer.msg(data['msg'], {icon: 6, shade: [0.5, '#393D49']}, function () {
+                            location.reload();
+                        });
+                    }
+
+                }
+            });
+        }
+    </script>
+    </body>
+</html>

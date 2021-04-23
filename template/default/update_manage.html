@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="renderer" content="webkit">
+    <title>网站信息</title>  
+    <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/pintuer.js"></script> 
+</head>
+<body>
+<div class="panel admin-panel">
+  <div class="panel-head"><strong class="icon-reorder">代理等级管理</strong></div>
+  <div class="padding border-bottom">  
+  <a class="button border-green" href="javascript:;"><span class="icon-plus-square-o"></span>修改代理等级</a>
+  </div>
+</div>
+<script>
+function del(){
+
+	if(confirm("您确定要删除吗?")){
+	    	
+	}
+}
+</script>
+<div class="panel admin-panel margin-top list">
+  <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>添加代理等级</strong></div>
+  <div class="body-content">
+    <form method="post" class="form-x" action="?m=admin&c=user&a=update_agent_ok">   
+      <input type="hidden" name="id"  value=""/>
+      <div class="form-group">
+        <div class="label">
+          <label>等级：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" name="id" value="<?php echo $data['id'];?>" data-validate="required:请输入等级" /> 
+          <div class="tipss">*(等级必须是唯一性的) </div>		  
+        </div>
+      </div> 
+      <div class="form-group">
+        <div class="label">
+          <label>投注额下限：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" name="upper" value="<?php echo $data['lower'];?>" />    
+		  <div class="tipss">*</div>
+        </div>
+      </div>
+       <div class="form-group">
+        <div class="label">
+          <label>投注额上限</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" name="upper" value="<?php echo $data['upper'];?>" />         
+          <div class="tipss">*</div>
+        </div>
+      </div>       
+      <div class="form-group">
+        <div class="label">
+          <label>回水比例：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" name="backwater" value="<?php echo $data['backwater'];?>" />   
+           <div class="tipss">%*</div>		  
+        </div>
+      </div>
+      
+     <div class="form-group">
+        <div class="label">
+          <label></label>
+        </div>
+        <div class="field">
+          <button class="button bg-main icon-check-square-o" type="submit"> 提交</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+<script>
+
+</script>
+</html>

@@ -1,0 +1,69 @@
+{template header}
+  <!-- Investor_center -->
+  <link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+  
+  <!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+      <li class="active">我的账户</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->
+  {template member-nav-left}
+    <!-- 右边正文 -->
+    <div class="investor-right pull-right border-radius">
+      <ul class="nav nav-tabs" role="tablist" id="myTab">
+        <li><a href="<?=url('member','account','recharge')?>">账户充值</a></li>
+        <li><a href="<?=url('member','account','recharge_log')?>">充值记录</a></li>
+        <!--<li class="active"><a href="<?=url('member','account','recharge_logs')?>">线下充值明细</a></li>-->
+      </ul>
+
+      <div class="tab-content">
+        <!-- 线下充值明细 -->
+        <div class="tab-pane active" id="messages">
+          <div class="withdraw-info bg-warning">
+            <div>
+              <span class="margin-right30px">充值成功总额 ￥{$statistics['theline']}</span>
+              <span class="margin-left30px">充值手续费 ￥{$statistics['fee']}</span>
+            </div>
+          </div>
+          <table class="table table-bordered table-hover">
+            <tr class="font12px text-center">
+              <!--<td>充值银行</td>-->
+              <td>充值账号</td>
+              <td>充值总额</td>
+              <td>手续费</td>
+              <td>奖励</td>
+              <td>协议</td>
+              <td>充值时间</td>
+              <td>状态</td>
+              <td>操作/审核备注</td>
+            </tr>
+      {loop $list $v}
+            <tr class="font12px">
+        <td align='center'>{$v['order_sn']}</td>
+        <td align='right'>￥{$v['money']}</td>
+        <td align='right'>￥{$v['fee']}</td>
+        <td align='right'>￥{$v['reward']}</td>
+        <td align='center'><a href="<?=url('member','account','xieyi',array('at'=>$v['addtime']))?>" target="_Blank">查看</a></td>
+        <td align='center'><?=date("Y-m-d H:i:s",$v['addtime'])?></td>
+        <td align='center'>{if $v['status']==0}审核中{elseif $v['status']==1}充值成功{else}充值失败{/if}</td>
+        <td align='center'>{$v['verify_remark']}</td>
+            </tr>
+      {/loop}
+          </table>
+        </div>
+          <div class="text-center">
+        <?php echo $page['html'];?>
+      </div>
+        <!-- /线下充值明细 -->
+      </div>
+      
+      
+    </div>
+    <!-- /右边正文 -->
+  </div>
+{template footer}

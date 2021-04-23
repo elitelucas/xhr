@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+    <title>红包</title>
+    <link href="/statics/web/css/redpacket.css" rel="stylesheet" type="text/css">
+    <script src="/statics/web/js/jquery.1.8.2.min.js"></script>
+
+    <link rel="stylesheet" href="/statics/web/extend/dropload/dropload.css">
+    <script src="/statics/web/extend/dropload/dropload.min.js"></script>
+    <!-- layer -->
+    <!-- <link rel="stylesheet" href="/statics/web/extend/layui/css/layui.css">
+    <script src="/statics/web/extend/layui/layui.js"></script> -->
+    <script src="/statics/web/extend/layer/mobile/layer.js"></script>
+    <!-- layer - end -->
+</head>
+<body>
+<section class="redpacket">
+    <div class="top">
+        <div class="header">
+            <em onclick="javascript :history.go(-1);">返回</em>
+            <a class="goback" style="display: none" href="?m=web&c=lobby&a=index">返回</a>
+            <h1>红包</h1>
+            <a class="goto-rule" href="?m=web&c=redpacket&a=redPacket_rule&redpacket_id={$redpacket_id}">活动规则</a>
+            <!--<a class="goto-rule" href="redPacket_rule.html">活动规则</a>-->
+        </div>
+    </div>
+
+    <div class="con">
+        <div class="con-packet-icon">
+            <!--<img src="/up_files/room/avatar.png" />-->
+        </div>
+        <span class="lucky"><i class="best-lucky"></i>手气最佳</span>
+        <div class="con-packet-info clearfix">
+            <span class="con-packet-name"></span>
+        </div>
+        <div class="packet-result-none">手速太慢，红包已全部发完</div>
+        <div class="packet-result-has"></div>
+        <div class="packet-result-hasinfo">已存入余额，可直接消费</div>
+    </div>
+    <div class="record-year">
+        <ul></ul>
+    </div>
+    <div class="record-check"><a href="?m=web&c=redpacket&a=redPacket_record">查看我的红包记录</a></div>
+    <!--<div class="record-check"><a href="redPacket_record.html">查看我的红包记录</a></div>-->
+    <!--<textarea style="display:none" id="data_redpacket_info" class="data_redpacket_info">{$redpacket_list}</textarea>-->
+</section>
+
+<script type="text/javascript">
+    //截取url
+    function GetRequest() {
+        var url = decodeURI(location.search); //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for(var i = 0; i < strs.length; i ++) {
+                theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+
+    $(function(){
+        var returnRefresh = GetRequest().returnRefresh;
+        var noback = GetRequest().noback;
+        if(returnRefresh == "1"){
+            $(".header em").hide();
+            $(".goback").show();
+        }
+        if(noback == "1"){
+            $(".record-check").hide();
+        }
+        var sendData = {};
+        // var redpacket_id = GetRequest().redpacket_id;
+        // if(redpacket_id == undefined || redpacket_id == ""){
+        //     sendData.redpacket_id = "";
+        // }
+        var redpacket_id = '{$redpacket_id}';
+        var token = '{$token}';
+        sendData.token = token;
+        sendData.redpacket_id = redpacket_id;
+
+        $.ajax({
+            url: "?m=api&c=redpacket&a=gainRedpacket",
+            type: "post",
+            data: sendData,
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+                if (data.status == 0) {
+                    $(".con-packet-name").html(data.redpacket_title);
+                    if(data.redpacket_pic == ''){
+                        $(".con-packet-icon").css("background", "url(/up_files/room/avatar.png) no-repeat center center");
+                    }else{
+                        $(".con-packet-icon").css("background", "url("+data.redpacket_pic+") no-repeat center");
+                    }
+
+                    if(data.self_gain_money == 0){
+                        $(".packet-result-none").show();
+                    }else{
+                        $(".packet-result-has").html(data.self_gain_money).show();
+                        $(".packet-result-hasinfo").show();
+                    }
+                    if(data.is_best_lucky == 1){
+                        $(".lucky").show();
+                    }
+
+                    //渲染当日所有人红包记录
+                    var list = data.all_gain_list;
+                    var ht='';
+                    for (var i = 0; i < list.length; i++) {
+                        ht += '<li class="record-item">'+
+                                '<div class="packet-icon"><img src="'+list[i].user_pic+'" /></div>'+
+                                '<div class="packet-info">'+
+                                '<p class="packet-name">'+list[i].username+'</p>'+
+                                '<p class="packet-time">'+
+                                '<span class="time-data">'+list[i].user_gain_date+'</span></p></div>'+
+                                '<div class="packet-money right">'+list[i].user_gain_money+'</div></li>'
+                    }
+                    var p = $(ht).appendTo($('.record-year ul'));
+                } else if(data.status == 1202) {
+                    window.location.href = "<?=url('','user','login')?>";
+                } else {
+
+                    $(".packet-result-none").show();
+                    layer.open({
+                        content: data.ret_msg,
+                        skin: 'msg',
+                        time: 2 //2秒后自动关闭
+                    });
+                }
+            },
+            error: function(error) {
+                layer.open({
+                    content: '服务器出错了',
+                    skin: 'msg',
+                    time: 2 //2秒后自动关闭
+                });
+            }
+        });
+
+//        var redpacketData = JSON.parse($("#data_redpacket_info").html());
+//        fill(redpacketData);
+//        function fill(data){
+//            $(".con-packet-name").html(data.redpacket_title);
+//            $(".con-packet-icon").css("background", "url("+data.self_pic+") no-repeat center");
+//            if(data.self_gain_money == 0){
+//                $(".packet-result-none").html("手速太慢，红包已全部发完").show();
+//            }else{
+//                $(".packet-result-has").html(data.self_gain_money).show();
+//                $(".packet-result-hasinfo").show();
+//            }
+//            if(data.is_best_lucky == 1){
+//                $(".lucky").show();
+//            }
+//            //渲染当日所有人红包记录
+//            var list = data.all_gain_list;
+//            var ht='';
+//            for (var i = 0; i < list.length; i++) {
+//                ht += '<li class="record-item">'+
+//                        '<div class="packet-icon"><img src="'+list[i].user_pic+'" /></div>'+
+//                        '<div class="packet-info">'+
+//                        '<p class="packet-name">'+list[i].username+'</p>'+
+//                        '<p class="packet-time">'+
+//                        '<span class="time-data">'+list[i].user_gain_date+'</span></p></div>'+
+//                        '<div class="packet-money right">'+list[i].user_gain_money+'</div></li>'
+//            }
+//            var p = $(ht).appendTo($('.record-year ul'));
+//        }
+
+        // 页数
+        var page = 1;
+        // 每页展示5个
+//    var size = 5;
+        $('.record-year').dropload({
+            scrollArea : window,
+            domDown : {
+                // 没有更多内容-显示提示
+                domNoData  : '<div class="dropload-noData"></div>'
+            },
+            loadDownFn : function(me){
+                page++;
+                var ht='';
+                $.ajax({
+                    type: 'GET',
+                    url: '?m=api&c=redpacket&a=currentRedpacketList',
+                    data: { token: token, redpacket_id : redpacket_id, page: page},
+                    dataType: 'json',
+                    success: function(data){
+                        console.log(data);
+                        if (data.status == 0) {
+                            //渲染当日所有人红包记录
+                            var list = data.gain_list;
+                            var arrLen = list.length;
+                            if(arrLen > 0) {
+                                for (var i = 0; i < arrLen; i++) {
+                                    ht += '<li class="record-item">'+
+                                            '<div class="packet-icon"><img src="'+list[i].user_pic+'" /></div>'+
+                                            '<div class="packet-info">'+
+                                            '<p class="packet-name">'+list[i].username+'</p>'+
+                                            '<p class="packet-time">'+
+                                            '<span class="time-data">'+list[i].user_gain_date+'</span></p></div>'+
+                                            '<div class="packet-money right">'+list[i].user_gain_money+'</div></li>'
+                                }
+
+                            }else{
+                                me.lock(); // 锁定
+                                me.noData(); // 无数据
+                            }
+
+                            // 为了测试，延迟1秒加载
+                            setTimeout(function(){
+                                // 插入数据到页面，放到最后面
+                                $('.record-year ul').append(ht);
+                                // 每次数据插入，必须重置
+                                me.resetload();
+                            },800);
+
+                        } else if(data.status == 1202) {
+                            window.location.href = "<?=url('','user','login')?>";
+                        } else {
+                            layer.open({
+                                content: data.ret_msg,
+                                skin: 'msg',
+                                time: 2 //2秒后自动关闭
+                            });
+                        }
+                    },
+                    error: function(xhr, type){
+                        layer.open({
+                            content: '服务器出错了',
+                            skin: 'msg',
+                            time: 2 //2秒后自动关闭
+                        });
+                        me.noData(); // 无数据
+                        //alert('Ajax error!');
+                        // 即使加载出错，也得重置
+//                        me.resetload();
+                    }
+                });
+            }
+        });
+
+        //游客登录
+        $('.gou3x').click(function () {
+            var rm = $('input[name=rember]').val();
+            if(rm==1){
+               $('input[name=rember]').val(2);
+            }else {
+                $('input[name=rember]').val(1);
+            }
+        })
+
+    })
+</script>
+</body>
+</html>

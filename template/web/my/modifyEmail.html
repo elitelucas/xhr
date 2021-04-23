@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>个人中心</title>
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+    <!-- 新增css -->
+    <link href="/statics/web/css/s_min.css" rel="stylesheet" type="text/css">
+    <!-- 新增css - end -->
+    <!-- Validform -->
+    <link rel="stylesheet" href="/statics/web/extend/Validform_v5.3.2/css/style.css" type="text/css" media="all" />
+    <script type="text/javascript" src="/statics/web/extend/Validform_v5.3.2/js/Validform_v5.3.2_min.js"></script>
+    <!-- Validform - end -->
+
+    <!-- layer -->
+    <!-- <link rel="stylesheet" href="/statics/web/extend/layui/css/layui.css">
+    <script src="/statics/web/extend/layui/layui.js"></script> -->
+    <script src="/statics/web/extend/layer/mobile/layer.js"></script>
+    <!-- layer - end -->
+</head>
+<body>
+<header>
+    <em onclick="javascript :history.go(-1);">返回</em>
+    <h1>电子邮箱</h1>
+
+</header>
+<section>
+    <div class="modify">
+    	<form class="Validform" method="post">
+	        <ul>
+	            <li><label class="icoEmail" for="modifyEmail">输入电子邮箱</label>
+	                <input type="text" id="modifyEmail" name="email" value="{$userInfo['email']}" datatype="e" nullmsg="请输入您的电子邮箱！" errormsg="请输入正确的电子邮箱！" /></li>
+	        </ul>
+	        <ul class="s_msg_box" style="display: none;">
+	            <li style="text-align: center;">
+	            	<span style=" font-size: 30px;" class="Validform_checktip" id="m-nickname"></span>
+	            </li>
+	        </ul>
+	        <div class="button"><button>保存</button></div>
+        </form>
+    </div>
+</section>
+<script type="text/javascript">
+    $(function(){
+        $(".Validform").Validform({
+        	url:"{$ValidUrl}",
+            tiptype:function(msg,o,cssctl){
+                //msg：提示信息;
+                //o:{obj:*,type:*,curform:*}, obj指向的是当前验证的表单元素（或表单对象），type指示提示的状态，值为1、2、3、4， 1：正在检测/提交数据，2：通过验证，3：验证失败，4：提示ignore状态, curform为当前form对象;
+                //cssctl:内置的提示信息样式控制函数，该函数需传入两个参数：显示提示信息的对象 和 当前提示的状态（既形参o中的type）;
+
+                if(!o.obj.is("form")){  //验证表单元素时o.obj为该表单元素，全部验证通过提交表单时o.obj为该表单对象;
+                    var objtip=$(".Validform_checktip");
+                    if(o.type!=2){
+                        cssctl(objtip,o.type);
+                        objtip.text(msg);
+                        $(".s_msg_box").show();
+                    }else {
+                        cssctl(objtip,0);
+                        objtip.text('');
+                        $(".s_msg_box").hide();
+                    }
+                }
+            },
+            ajaxPost:true,
+            callback:function(data){
+                if(data.status==0){
+                    window.location.href= data.JumpUrl;
+                }else {
+                	layer.open({
+                        content: "<p class='alert_msg'>"+data.ret_msg+"</p>",
+                        btn: '<p class="alert_buttom">我知道了</p>'
+                    });
+                    //$.Showmsg(data.ret_msg);
+                }
+            }
+        });
+    })
+</script>
+</body>
+</html>

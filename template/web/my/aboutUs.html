@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>个人中心</title>
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+</head>
+<body>
+<header>
+    <em onclick="javascript :history.go(-1);">返回</em>
+    <h1>设置</h1>
+
+</header>
+<section class="my_info">
+    <div class="my">
+        <div class="aboutUs">
+            <img src="/statics/web/images/android-template@2x.png" >
+            <p style="font-size: 48px;">{$name}</p>
+            <p style="font-size:28px;">版本号：{$version}</p>
+        </div>
+
+    </div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head >
+    <title>{$lottery_title}</title>
+    <meta name="referrer" content="always" />
+    <meta charset='utf-8' />
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <title><?php echo C("app_webname"); ?></title>
+    <!--{template public-header}-->
+    <link href="/statics/web/css/room.css" rel="stylesheet" type="text/css">
+    <link href="/statics/web/css/red.css" rel="stylesheet" type="text/css">
+    <script src="/statics/web/js/jquery.1.8.2.min.js"></script>
+    <script src="/statics/web/extend/layer/mobile/layer.js"></script>
+    <script>
+        var userinfo = {$userInfo};
+        var btn_url = "<?=url('', 'user', 'setInfo')?>";
+        var aWanf =new Array();
+        var aJine =new Array();
+        var fag1 =true;//防止重复提交投注
+        var tz_record = "{$JumpUrl[5]}"; //投注记录
+        var issue ={$list[0]['issue']}; //上期期号
+    </script>
+</head>
+<body>
+
+<header>
+    <em onclick="history.go(-1)">返回</em>
+    <!--<em data-href="<?=url('web','lobby','index')?>">返回</em>-->
+    <!--<h1>{$room_name['title']}</h1>-->
+    <h1>
+        <p>{$lottery_title}</p>
+        <p>{$room_name['title']}</p>
+
+    </h1>
+    <div class="headerRight">
+        <ul>
+            <!--<li class="icoSound"></li>-->
+            <li class="icoAdd"><a href="javascript:void(0);"></a> </li>
+        </ul>
+
+    </div>
+    <div class="menu" style="display: none">
+        <ul>
+            <li class="icoSupport" data-href="{$kefu}">在线客服</li>
+            <li class="icoResult" data-href="{$JumpUrl[11]}">开奖结果</li>
+            <li class="icoTrend" data-href="<?=url('','openAward','trendChart', ['lottery_id' => $lottery_type])?>">开奖走势</li>
+            <li class="icoIntroduce" data-href="{$JumpUrl[12]}">玩法介绍</li>
+
+        </ul>
+    </div>
+</header>
+<div class="roomHead">
+    <div class="roomHead1">
+        <ul>
+            <li class="roomLi">
+                <p>距离 <em id="issue"></em> 期截止</p>
+                <p><span class="icoTime"></span></p>
+                <div class="line"></div>
+            </li>
+
+            <li>
+                <p class="money">余额</p>
+                <p><i class="iconMoney"></i><span class="icoAcer"> {$ybMoney}</span></p>
+            </li>
+        </ul>
+    </div>
+    <div class="roomHead2"><span>第<label id="issue2">{$list[0]['issue']}</label>期 {$list[0]['lottery_result']}<label style="color: #2aa7f6">({$list[0]['lottery_he']},{$list[0]['lottery_dx']},{$list[0]['lottery_ds']})</label></span>
+        <em class="record_icon"></em>
+    </div>
+</div>
+<!--开奖结果-->
+<div class="lottery lottery_pkxy" style="display: none;">
+    <dl>
+        <dt>
+        <!--<ul>-->
+            <!--<li>期号</li>-->
+            <!--<li>开奖时间</li>-->
+            <!--<li>开奖结果</li>-->
+        <!--</ul>-->
+        </dt>
+        <dd>
+            {loop $list $v}
+            <ul>
+                <li class='colorjieguo_down'>
+                    第<em>{$v['issue']}</em>期 {$v['lottery_result']}
+                    <label style="color: #2aa7f6">({$v['lottery_he']},{$v['lottery_dx']},{$v['lottery_ds']})</label>
+                </li>
+
+                <!--<li>{$v['kaijiangshijian']}</li>-->
+            </ul>
+            {/loop}
+        </dd>
+    </dl>
+    <!--<div class="lotteryBut"><button data-href="{$JumpUrl[11]}">更多开奖结果</button></div>-->
+</div>
+<!--开奖结果-->
+<section>
+
+    <div class="betTixing" style="display: none">
+        <span><em>本期已下0注</em></span>
+        <span id="quxiaoXz">取消本期下注</span>
+        <em class="arrow"></em>
+        <em class="jt"></em>
+        <div class="quxiao" style="display: none">
+            <div style="padding: 0 50px;"><button class="colorDa" id="quxiaoSy">取消本期所有下注</button></div>
+            <ul>
+            
+            </ul>
+        </div>
+    </div>
+    <!--房间开始-->
+    <div class="room" id="wrapper">
+        <div class="roomContent" id="scroller">
+            
+            <!--<div class="roomGroup">【789138】 单注10起，20000封顶，总注80000封顶现在可以开始下注</div>-->
+            <!--<div class="userBetting">-->
+            <!--<dl class="left">-->
+            <!--<dt><h3>他</h3>-->
+            <!--<img src="/statics/web/images/1.jpg"></dt>-->
+            <!--<dd>-->
+            <!--<p><span>小单</span> 金额：<em>2000</em></p>-->
+            <!--<div><span>10:30</span><span>第789138期</span></div>-->
+            <!--</dd>-->
+            <!--</dl>-->
+            <!--</div>-->
+            <!--<div class="userBetting">-->
+            <!--<ul class="right">-->
+            <!--<li>-->
+            <!--<h3>他</h3>-->
+            <!--<img src="/statics/web/images/headPortrait.png"></li>-->
+            <!--<li>你好，在吗</li>-->
+            <!--</ul>-->
+            <!--</div>-->
+            <!--<div class="userBetting">-->
+            <!--<dl class="right">-->
+            <!--<dt><img src="/statics/web/images/headPortrait.png"></dt>-->
+            <!--<dd>-->
+            <!--<p>投注类型：小单</p>-->
+            <!--<p>金额：2000</p>-->
+            <!--<div><span>10:30</span><span>第789138期</span></div>-->
+            <!--<i></i>-->
+            <!--</dd>-->
+            <!--</dl>-->
+            <!--</div>-->
+            <!--<div class="userBetting">-->
+            <!--<ul class="left">-->
+            <!--<li><img src="/statics/web/images/headPortrait.png"></li>-->
+            <!--<li>在的</li>-->
+            <!--</ul>-->
+            <!--</div>-->
+
+    </div>
+    </div>
+        <!--房间结束-->
+
+
+    <!--客服开始-->
+    <!--<div class="customer" id="drag" data-href="<?php echo C('kefu');?>&username=<?php echo $_SESSION['SN_']['username'];  ?>"></div>-->
+    <!--客服结束-->
+
+    <!--视频-->
+    <div class="video" id="video" style="display: none"></div>
+    <div class="video_post">
+        <iframe id="video_window" width="100%" height="100%" scrolling="no" frameborder="0" src=""></iframe>
+        <span class="video_colse"><i class="video_upArrow"></i>收起动画</span>
+        <div class="video_info">
+            <div class="video_info_left">
+                <p>距离 <em class="issue_video"></em> 期截止</p>
+                <p><span class="icoTime"></span></p>
+            </div>
+            <div class="video_info_right">
+                <!--<p class="money">余额:</p>-->
+                <p><em><i class="iconMoney"></i><span class="icoAcer"> {$ybMoney}</span></em></p>
+            </div>
+
+        </div>
+
+    </div>
+    <!--视频-->
+
+
+    <!--追号图标-->
+    <!--<div class="ioc_zhuihao" id="dZh" <?php if($isZhuiHao['unm'] > 0){ echo 'style="display: block"';}else{ echo 'style="display: none"';}     ?>></div>-->
+    <div class="ioc_zhuihao" id="dZh"></div>
+    <!--追号图标结束-->
+    <div class="customNews roomNews">
+        <em class="bgCol" id="bettingBtu">投注</em>
+        <em class="bgCol keyboard" style="display: none">取消</em>
+        <em id="chaseNumber_pkxy" class="bgCol2">追号</em>
+        <div class="textArea"><div contenteditable="true" data-content="true"></div></div>
+        <!--<div class="textArea" data-content="false"></div>
+        <p><label>大</label> <span>20</span><em class="close"></em></p>-->
+        <!--<button id="chaseNumber" style="margin-left:10px; ">追号</button>-->
+        <button id="speak">发送</button>
+        <!--<button id="bettingBtu1" style="display: none">投注</button>-->
+
+        <!--<i class="keyboard" style="display: none">-->
+        <!--<svg class="icon" style="width: 131px;height: 72px;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" p-id="1555"><path d="M258.913353 548.183084l0 44.429909c0 5.028527-2.365884 7.546883-7.098675 7.546883l-41.816384 0c-4.736884 0-7.102768-2.518357-7.102768-7.546883l0-44.429909c0-5.028527 2.365884-7.54279 7.102768-7.54279l41.816384 0C256.547469 540.640294 258.913353 543.154557 258.913353 548.183084L258.913353 548.183084zM315.719126 428.308903l0 44.429909c0 5.028527-2.366907 7.54279-7.099698 7.54279l-98.621135 0c-4.736884 0-7.102768-2.514263-7.102768-7.54279l0-44.429909c0-5.028527 2.365884-7.54279 7.102768-7.54279l98.621135 0C313.352219 420.766113 315.719126 423.280376 315.719126 428.308903L315.719126 428.308903zM258.913353 308.434721l0 45.264926c0 5.03262-2.365884 7.546883-7.098675 7.546883l-41.816384 0c-4.736884 0-7.102768-2.514263-7.102768-7.546883L202.895525 308.434721c0-5.03262 2.365884-7.546883 7.102768-7.546883l41.816384 0C256.547469 300.887838 258.913353 303.402101 258.913353 308.434721L258.913353 308.434721zM710.211852 548.183084l0 44.429909c0 5.028527-2.365884 7.546883-7.102768 7.546883L322.821895 600.159876c-4.732791 0-7.102768-2.518357-7.102768-7.546883l0-44.429909c0-5.028527 2.369977-7.54279 7.102768-7.54279l380.286166 0C707.844945 540.640294 710.211852 543.154557 710.211852 548.183084L710.211852 548.183084zM428.546821 428.308903l0 44.429909c0 5.028527-2.371 7.54279-7.103792 7.54279l-42.603307 0c-4.736884 0-7.102768-2.514263-7.102768-7.54279l0-44.429909c0-5.028527 2.365884-7.54279 7.102768-7.54279l42.603307 0C426.175821 420.766113 428.546821 423.280376 428.546821 428.308903L428.546821 428.308903zM371.736954 308.434721l0 45.264926c0 5.03262-2.365884 7.546883-7.099698 7.546883l-41.815361 0c-4.732791 0-7.102768-2.514263-7.102768-7.546883L315.719126 308.434721c0-5.03262 2.369977-7.546883 7.102768-7.546883l41.815361 0C369.37107 300.887838 371.736954 303.402101 371.736954 308.434721L371.736954 308.434721zM540.578384 428.308903l0 44.429909c0 5.028527-2.102894 7.54279-6.311753 7.54279l-42.603307 0c-4.732791 0-7.098675-2.514263-7.098675-7.54279l0-44.429909c0-5.028527 2.365884-7.54279 7.098675-7.54279l42.603307 0C538.476513 420.766113 540.578384 423.280376 540.578384 428.308903L540.578384 428.308903zM484.564649 308.434721l0 45.264926c0 5.03262-2.371 7.546883-7.103792 7.546883l-41.815361 0c-4.732791 0-7.098675-2.514263-7.098675-7.546883L428.546821 308.434721c0-5.03262 2.365884-7.546883 7.098675-7.546883l41.815361 0C482.193649 300.887838 484.564649 303.402101 484.564649 308.434721L484.564649 308.434721zM653.406079 428.308903l0 44.429909c0 5.028527-2.369977 7.54279-7.102768 7.54279l-41.815361 0c-4.732791 0-7.099698-2.514263-7.099698-7.54279l0-44.429909c0-5.028527 2.365884-7.54279 7.099698-7.54279l41.815361 0C651.036102 420.766113 653.406079 423.280376 653.406079 428.308903L653.406079 428.308903zM823.035454 548.183084l0 44.429909c0 5.028527-2.365884 7.546883-7.099698 7.546883l-42.6074 0c-4.732791 0-7.099698-2.518357-7.099698-7.546883l0-44.429909c0-5.028527 2.365884-7.54279 7.099698-7.54279l42.6074 0C820.668547 540.640294 823.035454 543.154557 823.035454 548.183084L823.035454 548.183084zM597.388251 308.434721l0 45.264926c0 5.03262-2.365884 7.546883-7.102768 7.546883l-42.603307 0c-4.732791 0-7.102768-2.514263-7.102768-7.546883L540.579407 308.434721c0-5.03262 2.369977-7.546883 7.102768-7.546883l42.603307 0C595.021344 300.887838 597.388251 303.402101 597.388251 308.434721L597.388251 308.434721zM710.211852 308.434721l0 45.264926c0 5.03262-2.365884 7.546883-7.102768 7.546883l-42.603307 0c-4.732791 0-7.099698-2.514263-7.099698-7.546883L653.406079 308.434721c0-5.03262 2.365884-7.546883 7.099698-7.546883l42.603307 0C707.844945 300.887838 710.211852 303.402101 710.211852 308.434721L710.211852 308.434721zM823.035454 308.434721l0 164.30409c0 5.028527-2.365884 7.54279-7.099698 7.54279l-98.625228 0c-4.732791 0-7.099698-2.514263-7.099698-7.54279l0-44.429909c0-5.028527 2.365884-7.54279 7.099698-7.54279l48.919153 0L766.22968 308.434721c0-5.03262 2.365884-7.546883 7.099698-7.546883l42.6074 0C820.668547 300.887838 823.035454 303.402101 823.035454 308.434721L823.035454 308.434721zM879.053282 660.515498 879.053282 241.368256l-732.963531 0 0 419.147242L879.053282 660.515498 879.053282 660.515498zM935.07111 241.368256l0 419.147242c0 16.20917-5.523807 30.179346-16.568351 41.915645s-24.196075 17.603937-39.449477 17.603937l-732.963531 0c-15.253402 0-28.404933-5.867638-39.449477-17.603937S90.071923 676.724669 90.071923 660.515498L90.071923 241.368256c0-16.764825 5.523807-31.015388 16.568351-42.750663 11.044544-11.736299 24.196075-17.60496 39.449477-17.60496l732.963531 0c15.781428 0 28.928866 5.868661 39.449477 17.60496C929.02337 210.352869 934.544107 224.603431 935.07111 241.368256L935.07111 241.368256zM935.07111 241.368256M425.756265 748.947574 506.557546 844.11505 587.358827 748.947574Z" p-id="1556"></path></svg>-->
+        <!--</i>-->
+    </div>
+
+    <!--投注键盘 开始-->
+    <!--<div class="bettingWarp">-->
+        <!--<div class="bottomWarp">-->
+            <!--<div class="bettingKey-pkft"  id="myBtn">-->
+                <!--&lt;!&ndash;选号区&ndash;&gt;-->
+                <!--<div class="selecArea clearfix">-->
+                    <!--<div class="nav-title">-->
+                        <!--<h4 class="active"><p>大小单双</p></h4>-->
+                        <!--<h4><p>猜车号</p></h4>-->
+                        <!--<h4><p>猜龙虎</p></h4>-->
+                        <!--<h4><p>猜庄闲</p></h4>-->
+                        <!--<h4><p>猜冠亚</p></h4>-->
+                        <!--<h4><p>冠亚和</p></h4>-->
+                    <!--</div>-->
+                    <!--<ul class='roomWay' id="roomWayUl">-->
+                        <!--<div class="wanfa-title">大小单双 <i class="multiple"></i></div>-->
+                        <!--<li>-->
+                            <!--<div class="play play1">-->
+                                <!--<ul>-->
+                                    <!--<li><div><span>1234</span><p>dsfs</p></div></li>-->
+
+                                <!--</ul>-->
+                                <!--<span class="odds_info_pkft"><i class="ico_peilv"></i>赔率说明</span>-->
+                            <!--</div>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<div class="play play2">-->
+                                <!--<ul></ul>-->
+                                <!--<span class="odds_info_pkft"><i class="ico_peilv"></i>赔率说明</span>-->
+                            <!--</div>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<div class="play play3">-->
+                                <!--<ul></ul>-->
+                                <!--<span class="odds_info_pkft"><i class="ico_peilv"></i>赔率说明</span>-->
+                            <!--</div>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<div class="play play4">-->
+                                <!--<ul></ul>-->
+                                <!--<span class="odds_info_pkft"><i class="ico_peilv"></i>赔率说明</span>-->
+                            <!--</div>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<div class="play play5">-->
+                                <!--<ul></ul>-->
+                                <!--<span class="odds_info_pkft"><i class="ico_peilv"></i>赔率说明</span>-->
+                            <!--</div>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<div class="play play6">-->
+                                <!--<ul></ul>-->
+                                <!--<span class="odds_info_pkft"><i class="ico_peilv"></i>赔率说明</span>-->
+                            <!--</div>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                <!--</div>-->
+
+                <!--&lt;!&ndash;投注操作区&ndash;&gt;-->
+                <!--<div class="operateWarp">-->
+                    <!--&lt;!&ndash;<div class="betfun">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<button class="odds-info">赔率说明</button>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<button class="bet-quick">快捷投注</button>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<button class="bet-min">最小投注</button>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--<div class="operate">-->
+                        <!--<div class="moneyInput"><input type="number" id="inputNumber" pattern="\d*"></div>-->
+                        <!--<button class="add-list" id="butJp">确定</button>-->
+                        <!--<button class="bet-cancel" id="cancelJp">取消</button>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <!--&lt;!&ndash;注单&ndash;&gt;-->
+                <!--<div class="betList">-->
+                    <!--<div class="list-tit"><p><span>投注内容</span><span class="list-empty"><i class="clear-all"></i>清空</span></p></div>-->
+                    <!--<div class="list-con"></div>-->
+                    <!--&lt;!&ndash;<div class="list-bet"><i class="list-confirm"></i><span>确认投注</span></div>&ndash;&gt;-->
+                <!--</div>-->
+                <!--<div class="stakeWarp">-->
+                    <!--<div class="noStake">-->
+                        <!--<div class="stake-info">-->
+                            <!--<div class="stake-icon"></div>-->
+                            <!--<span>暂未下注</span>-->
+                        <!--</div>-->
+                        <!--<div class="stake-limit"><span></span>元宝起投</div>-->
+                    <!--</div>-->
+                    <!--<div class="hasStake">-->
+                        <!--<div class="stake-info">-->
+                            <!--<div class="stake-icon"><span class="stake-num"></span></div>-->
+                            <!--<p class="stake-money-txt">总计：<span class="stake-money"></span><i class="icon-yb"></i></p>-->
+                            <!--<p class="stake-num-txt">共<span></span>注</p>-->
+                        <!--</div>-->
+                        <!--<div class="stake-go" id="listBet">去下注</div>-->
+
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+
+
+    <!--</div>-->
+
+    <div class="betWarp">
+        <div class="betCon">
+            <div class="betLeftNav">
+                <ul>
+                    <li class="active" data-title="猜双面">猜双面</li>
+                    <li data-title="猜数字">猜数字</li>
+                    <li data-title="猜总和">猜总和</li>
+                    <li data-title="猜龙虎">猜龙虎</li>
+                </ul>
+            </div>
+            <div class="betRight">
+                <h4 id="betTitle">大小单双</h4>
+                <div class="data-con">
+                    <!--<div class="betRightSel">-->
+                    <!--<span>冠军</span>-->
+                    <!--<select>-->
+                    <!--<option>冠军</option>-->
+                    <!--<option>亚军</option>-->
+                    <!--</select>-->
+                    <!--</div>-->
+                    <!--<div class="betRightCon">-->
+                    <!--<dl>-->
+                    <!--<dt>冠亚和</dt>-->
+                    <!--</dl>-->
+                    <!--<dl>-->
+                    <!--<dd>-->
+                    <!--<div class="betPlay">-->
+                    <!--<em>大</em>-->
+                    <!--<span>42</span>-->
+                    <!--</div>-->
+                    <!--</dd>-->
+                    <!--<dd>-->
+                    <!--<div class="betPlay">-->
+                    <!--<em>大</em>-->
+                    <!--<span>42</span>-->
+                    <!--</div>-->
+                    <!--</dd>-->
+                    <!--</dl>-->
+                    <!--<div class="oddsExplain"><i class="ico_peilv"></i>赔率说明</div>-->
+                    <!--</div>-->
+                </div>
+
+            </div>
+
+            <div class="betListWarp">
+                <!--注单-->
+                <div class="betList">
+                    <div class="list-tit"><p><span>投注内容</span><span class="list-empty"><i class="clear-all"></i>清空</span></p></div>
+                    <div class="list-con"></div>
+                    <!--<div class="list-bet"><i class="list-confirm"></i><span>确认投注</span></div>-->
+                </div>
+            </div>
+
+            <div class="stakeWarp">
+
+                <div class="noStake" style="display: block">
+                    <div class="stake-info">
+                        <div class="stake-icon"></div>
+                        <span>暂未下注</span>
+                    </div>
+                    <div class="stake-limit"><span></span>元宝起投</div>
+                </div>
+                <div class="hasStake" style="display: none">
+                    <div class="stake-info">
+                        <div class="stake-icon"><span class="stake-num"></span></div>
+                        <p class="stake-money-txt">总计：<span class="stake-money"></span><i class="icon-yb"></i></p>
+                        <p class="stake-num-txt">共<span></span>注</p>
+                    </div>
+                    <div class="stake-go" id="listBet">去下注</div>
+
+                </div>
+            </div>
+
+            <div class="operate" style="display: none">
+                <input type="tel" id="inputNumber" pattern="\d*" class="moneyInput">
+                <button class="add-list" id="butJp">确定</button>
+                <button class="bet-cancel" id="cancelJp">取消</button>
+            </div>
+        </div>
+    </div>
+
+        <!--追号操作区-->
+    <div class="chaseWarp">
+        <div class="zhuiHao" style="display: none;">
+            <div class="bgffShow"></div>
+            <div class="chase-form">
+                <ul>
+                    <li>
+                        <div class="chase-form-left">
+                            <span class="chase-wanf"></span>
+                        </div>
+                        <div class="chase-form-right">
+                            投注金额：
+                            <input class="money-text" placeholder="请输入金额" type="number">
+                        </div>
+                    </li>
+                    <li>
+                        <div class="chase-form-left">
+                            <em class="">追号：</em>
+                            <div class="input-main">
+                                <!--<i class="icon-size lessB">-</i>-->
+                                <input type="text" id="zhuiQs" class="input-c" value="1">
+                                <!--<i class="icon-size add">+</i>-->
+                            </div>
+                        </div>
+                        <div class="chase-form-right">
+                            <em class="">翻倍：</em>
+                            <div class="input-main">
+                                <!--<i class="icon-size lessB">-</i>-->
+                                <input type="text" id="zhuiBs" class="input-c" value="1">
+                                <!--<i class="icon-size add">+</i>-->
+                            </div>
+                            <!--<em class="left">倍</em>-->
+                            <button class="generate">创建</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!--追号清单-->
+            <div class="zhuiHaoList">
+                <div class="chase-table">
+                    <table class="tit">
+                        <thead>
+                        <tr>
+                            <th width="34%">期号</th>
+                            <th width="33%">投注金额</th>
+                            <th width="33%">翻倍</th>
+                            <!--<th>是否中奖</th>-->
+                        </tr>
+                        </thead>
+                    </table>
+                    <div class="listQs">
+                        <table class="list">
+                            <tbody id="zhuiHList">
+                            <!--<tr><td width="34%">第<em>619941</em>期</td><td width="33%"><em>1</em>元</td><td width="33%">1倍</td></tr>-->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="Stop">
+                    <div class="squaredThree">
+                        <input type="checkbox" value="None" id="if_win_stop" name="check" checked="checked">
+                        <label for="if_win_stop"> &nbsp;</label>
+                    </div>
+                    是否追停
+                    <button class="Stop-btn" id="querenTz">确认投注</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!--投注键盘 结束-->
+    <!--投注金额 开始-->
+    <!--<div class="betMoney" style="display: none">-->
+    <!--<ul>-->
+    <!--<li>1</li>-->
+    <!--<li>2</li>-->
+    <!--<li>3</li>-->
+    <!--<li class="delete">X</li>-->
+    <!--</ul>-->
+    <!--<ul>-->
+    <!--<li>4</li>-->
+    <!--<li>5</li>-->
+    <!--<li>6</li>-->
+    <!--<li>梭哈</li>-->
+    <!--</ul>-->
+    <!--<ul>-->
+    <!--<li>7</li>-->
+    <!--<li>8</li>-->
+    <!--<li>9</li>-->
+    <!--<li class="betting">投注</li>-->
+    <!--</ul>-->
+    <!--<ul>-->
+    <!--<li class="return2"></li>-->
+    <!--<li>0</li>-->
+    <!--<li>00</li>-->
+    <!--</ul>-->
+    <!--</div>-->
+    <!--<div class="cenMoneyWarp" >-->
+        <!--<div class="cenMoney">-->
+            <!--<h1 id="touzhuzhi">大数</h1>-->
+            <!--<ul class="text-ul">-->
+                <!--&lt;!&ndash;<li>20</li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li>50</li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li>100</li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li>200</li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li>500</li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li>800</li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li>1000</li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li>2000</li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li>5000</li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li class="butzhi" >梭哈</li>&ndash;&gt;-->
+            <!--</ul>-->
+            <!--&lt;!&ndash;<div class="moneyInput">&ndash;&gt;-->
+                <!--&lt;!&ndash;输入金额：<input type="number" id="inputNumber">&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--<div class="cigBtn" id="butJp">-->
+                <!--&lt;!&ndash;<button>确认</button>&ndash;&gt;-->
+                <!--<button class="cancel">取消</button>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--投注金额 结束-->
+
+    <!--追号列表 开始-->
+    <div class="zhui_details">
+        <div class="zhui_details_w">
+            <!--<i class="configClose2"></i>-->
+            <div class="zhui_con" >
+                <h3>追号详情</h3>
+                <div class="zhui_details_con"></div>
+            </div>
+            <div class="zhui_close"></div>
+        </div>
+    </div>
+    <!--追号列表 结束-->
+
+</section>
+
+<!--<div class="popup" style="display: none">-->
+
+<!--<div class="config">-->
+<!--<i class="configClose"></i>-->
+<!--<p style="color: #ff4f4f;">您真的要取消本所有下注吗？</p>-->
+<!--<p style="color: #242424;">点击确认继续</p>-->
+<!--<div class="cigBtn"><button>确认</button><button class="cancel">取消</button></div>-->
+
+<!--</div>-->
+<!--</div>-->
+<div class="popup" style="display:none ">
+
+    <!--<div class="config">-->
+    <!--<h3>修改昵称</h3>-->
+    <!--<i class="configClose"></i>-->
+    <!--<div class="configInput"><input type="text" placeholder="请输入新的昵称"></div>-->
+
+    <!--<div class="button" style="margin-top: 30px;"><button>保存</button></div>-->
+
+    <!--</div>-->
+    <div class="zhui_details_w">
+        <!--<i class="configClose2"></i>-->
+        <div class="zhui_con" >
+            <h3>追号详情</h3>
+            <div class="zhui_details_con"></div>
+        </div>
+        <div class="zhui_close"></div>
+    </div>
+</div>
+
+<!---跟投--->
+<!--<div class="popup" style="display:none ">-->
+
+<!--<div class="config">-->
+<!--<i class="configClose"></i>-->
+<!--<p style="font-size: 24px; text-align: left;">10:30 第789138期</p>-->
+<!--<p style="font-size: 30px; text-align: left;">投注类型：小单 <label class="configAcer">金额：2000</label></p>-->
+
+<!--<div class="button" style="margin-top: 30px;"><button>跟他投</button></div>-->
+
+<!--</div>-->
+<!--</div>-->
+<!---跟投--->
+<audio style="display:none" id="room_play" src="" controls="controls" autoplay="autoplay"></audio>
+<input id="wsPort" type="hidden" data-port="{$port}"/>
+</body>
+</html>
+<script>
+
+</script>
+<script src="/statics/web/js/style.js"></script>
+<script src="/statics/web/js/ws-client.js"></script>
+<script src="/statics/web/js/store.js"></script>
+<script src="/statics/web/js/room.js"></script>
+<script>
+    if(userinfo.nickname ==""){
+        $(".popup").show();
+        $(".popup").html('<div class="config-confirm"><h3>修改昵称</h3><div class="configInput"><input type="text" name="nickname" placeholder="请输入新的昵称"></div><div class="btn"><button class="cancel" id="ncquxiao">取消</button><button class="confirm" id="keepName">保存</button></div></div>')
+    }else{
+        initWebSocket();
+        recentlyIssue = {$list[0]['issue']};
+    }
+
+    //键盘
+    var oDiv =$(".bettingKey");
+
+    //    var oUl =$(".bettingKey>ul");
+    //    var oLi=$(".bettingKey>ul>li");
+    //    oUl.css("width",100*oLi.length+"%");
+    //    oLi.css("width",100/oLi.length+"%");
+    var rightArrow =$(".rightAr");
+    var leftArrow =$(".leftAr");
+
+    //清除所有.pit
+    function reset(){
+        $(".play ul li div").each(function(){
+            $(this).removeClass("pit");
+        });
+    }
+
+    //聊天室投注部分轮播控制
+    function lunbo(){
+//        var oEm ='<div class="arrow">';
+//        for(var i=0; i<oLi.length; i++){
+//            if(i ==0){
+//                oEm+="<em class='active'></em>";
+//            }else{
+//                oEm+="<em></em>";
+//            }
+//
+//        }
+//        oEm +="</div>";
+        //oDiv.append(oEm);
+        // var carousel =true;//判断是否需要轮播
+        var oIndex =0;//全局值，判断当前在第一个index
+        $('.arrow em').on("click", function(){
+
+            var emIndex =$(this).index();
+            oIndex = emIndex;
+            Onclick();
+        });
+//        function time(carousel){
+//            if(carousel){
+//                setInterval(Onclick,1000);
+//            }
+//
+//        }
+//        oDiv.mousemove(function(){
+//            clearInterval(time);
+//        });
+//        oDiv.mouseout(function(){
+//            setInterval(time);
+//        })
+
+        function Onclick(index){
+            var oUl =$(".bettingKey>ul");
+            var oLi=$(".bettingKey>ul>li");
+            oUl.css("width",100*oLi.length+"%");
+            oLi.css("width",100/oLi.length+"%");
+
+            if(index){
+                if(index=="0"){
+                    oIndex++;
+                }else if(index=="1"){
+                    oIndex--;
+                }
+            }else{
+                oIndex++;
+            }
+            if(oIndex==oLi.length){
+                oIndex=oLi.length-1;
+
+            }else if(oIndex < 0){
+                oIndex=0;
+
+            }
+            if(oIndex ==1){
+                $(".jianpanTitle h4").html("猜冠军");
+            }else if(oIndex ==0){
+                $(".jianpanTitle h4").html("冠军双面");
+            }else{
+                $(".jianpanTitle h4").html("冠亚和");
+            }
+
+            oUl.animate({right:100*oIndex+"%"},300);
+            $(".arrow em").eq(oIndex).addClass("active").siblings().removeClass("active");
+        }
+        rightArrow.on("click", function(){
+            Onclick(0);
+        })
+        leftArrow.on("click", function(){
+            Onclick(1)
+        })
+        //返回角度
+        function GetSlideAngle(dx) {
+            return Math.atan(dx) * 180 / Math.PI;
+        }
+
+        //根据起点和终点返回方向 1：向上，2：向下，3：向左，4：向右,0：未滑动
+        function GetSlideDirection(startX, endX) {
+            //var dy = startY - endY;
+            var dx = endX - startX;
+            var result = -1;
+            //如果滑动距离太短
+            if (Math.abs(dx) < 2) {
+                return result;
+            }
+            var angle =dx; //GetSlideAngle(dx);
+            if (angle <= -45 ) {
+                result = 0;
+            }else if (angle >=45) {
+                result = 1;
+            }
+            return result;
+        }
+
+//        var startX, startY;
+//        roomWayUl.addEventListener('touchstart', function (ev) {
+//            startX = ev.touches[0].pageX;
+//            startY = ev.touches[0].pageY;
+//        }, false);
+//        roomWayUl.addEventListener('touchmove', function (ev) {
+//
+//        });
+//        roomWayUl.addEventListener('touchend', function (ev) {
+//            var endX;
+//            endX = ev.changedTouches[0].pageX;
+//            // endY = ev.changedTouches[0].pageY;
+//            var direction = GetSlideDirection(startX,endX);
+//            Onclick(direction);
+//        }, false);
+        
+        Onclick('-1'); //默认进入调用一次
+    }
+    //添加圆点
+
+    lunbo();
+
+    $("#video").on("click",function(){
+        var video_post =$(".video_post");
+        if(userinfo.lottery_type ==2){
+            video_post.children("iframe").attr("src","http://www.1818kai.com/vbjpk10/");
+        }else if(userinfo.lottery_type ==4){
+            video_post.children("iframe").attr("src","http://www.1818kai.com/vxyft/");
+        }
+        video_post.show();
+        $("#video").hide();
+    })
+    $(".video_post").on("click",".video_colse",function(){
+        $(this).parent().hide();
+        $(".video_post").children("iframe").attr("src","");
+        $("#video").show();
+    })
+
+
+
+
+    //重置玩法赔率的数据
+    var wanfOdds=[
+        {
+            name:"大小单双",
+            set:['冠军','亚军','第三名','第四名','第五名','第六名','第七名','第八名','第九名','第十名'],
+            panel:[]
+        },
+        {
+            name:"猜车号",
+            set:['冠军','亚军','第三名','第四名','第五名','第六名','第七名','第八名','第九名','第十名'],
+            panel:[]
+        },
+        {
+            name:"猜龙虎",
+            set:['冠军','亚军','第三名','第四名','第五名'],
+            panel:[]
+        },
+        {
+            name:"猜庄闲",
+            panel:[]
+        },
+        {
+            name:"猜冠亚",
+            panel:[]
+        },
+        {
+            name:"冠亚和",
+            panel:[]
+        }
+    ];
+    fnSet.oddsUpdatePk10 = function (msg) {
+        for(var i =0 ; i<wanfOdds.length; i++){
+            if(wanfOdds[i].name =="大小单双"){
+                wanfOdds[i].panel =msg.data.panel_1;
+            }
+            if(wanfOdds[i].name =="猜车号"){
+                wanfOdds[i].panel =msg.data.panel_2;
+            }
+            if(wanfOdds[i].name =="猜龙虎"){
+                wanfOdds[i].panel =msg.data.panel_6;
+            }
+        }
+    }
+    fnSet.oddsUpdatePk10_2 = function (msg) {
+        for(var i =0 ; i<wanfOdds.length; i++){
+            if(wanfOdds[i].name =="猜庄闲"){
+                wanfOdds[i].panel =msg.data.panel_4;
+            }
+            if(wanfOdds[i].name =="猜冠亚"){
+                wanfOdds[i].panel =msg.data.panel_5;
+            }
+            if(wanfOdds[i].name =="冠亚和"){
+                wanfOdds[i].panel =msg.data.panel_3;
+            }
+        }
+        console.log(wanfOdds);
+    }
+
+</script>
+
+<style type="text/css">
+    .point-outer.point-pre {
+        display: none;
+    }
+    .point-outer {
+        position: absolute;
+        z-index: 9999;
+        -webkit-transition: all 0.5s cubic-bezier(0.39,-0.4,0.83,0.23) 0s;
+        transition: all 0.5s cubic-bezier(0.39,-0.4,0.83,0.23) 0s;
+    }
+    .point-inner {
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        border-radius: 50%;
+        background-color: #eb1212;
+        -webkit-transition: all 0.5s linear 0s;
+        color: #ffffff;
+        text-align: center;
+        font-size: 0.7rem;
+    }
+
+    /*猜冠军颜色样式*/
+/*.play2 li div span{ font-size: 24px; text-shadow: 1px 1px 5px #000;}*/
+/*.play2 li div.color p{color:white;}*/
+/*.play2 li div.color1{background-color:#fcf53c;color:white}*/
+/*.play2 li div.color2{background-color:#4990e2;color:white}*/
+/*.play2 li div.color3{background-color:#4a4a4a;color:white}*/
+/*.play2 li div.color4{background-color:#f6a623;color:white}*/
+/*.play2 li div.color5{background-color:#50b8e3;color:white}*/
+/*.play2 li div.color6{background-color:#5d12fe;color:white}*/
+/*.play2 li div.color7{background-color:#b4b3b3;color:white}*/
+/*.play2 li div.color8{background-color:#d0011b;color:white}*/
+/*.play2 li div.color9{background-color:#801111;color:white}*/
+/*.play2 li div.color10{background-color:#7ed321;color:white}  */
+
+.roomHead2 i{color:white; text-shadow: 0 0 1px #000;  }
+.color1{background-color:#fcf53c;}
+.color2{background-color:#4990e2;}
+.color3{background-color:#4a4a4a;}
+.color4{background-color:#f6a623;}
+.color5{background-color:#50b8e3;}
+.color6{background-color:#5d12fe;}
+.color7{background-color:#b4b3b3;}
+.color8{background-color:#d0011b;}
+.color9{background-color:#801111;}
+.color10{background-color:#7ed321;}
+.colorjieguo{
+    width: 16px;
+    display: inline-block;
+    margin-right: 2px;
+}
+
+.colorjieguo_down i{
+    display: inline-block;
+    margin-bottom: 2px;
+	width: 16px;
+    line-height: 16px;
+    font-style: normal;
+    color:white;
+    text-align: center;
+    text-shadow: 0 0 1px #000;
+}
+.colorjieguo_down i:nth-of-type(1){ margin-left: 10px;}
+
+@media screen and (max-width: 320px) {
+    .colorjieguo_down i{
+        width: 15px;
+        line-height: 15px;
+        display: inline-block;
+        font-size: 12px;
+    }
+    .colorjieguo{
+        width: 17px;
+        display: inline-block;
+        margin-right: 2px;
+    }
+}
+    .bettingKey-pkft ul li{ float: none;}
+</style>
+<script type="text/javascript">
+    //头部右侧消息部分
+    $(function(){
+
+        //投注面板选项卡
+        $(".nav-title h4").click(function() {
+            $(this).addClass("active").siblings().removeClass("active");
+            var index = $(this).index()
+            $(".roomWay .play").eq(index).show().parent().siblings().find(".play").hide();
+            $(".wanfa-title").html($(this).text());
+            reset()
+//            $(".roomWay .play").eq(index).find("div").eq(0).addClass("pit");
+        });
+
+        getMessage();
+    })
+    //清除所有.pit
+    function reset(){
+        $(".play ul li div").each(function(){
+            $(this).removeClass("pit");
+        });
+    }
+    function getMessage ()
+    {
+        var data = {
+            "token": "{$_SESSION['SN_']['token']}"
+        }
+        $.ajax({
+            url : "?m=api&c=lobby&a=getMessageNum",
+            type : 'POST',
+            data : data,
+            dataType:"json",
+            success: function(data){
+                $(".icoNews").attr("data-new",data['msg_num'])
+                if($(".headerRight li.icoNews").attr("data-new") > 0){
+                    $(".headerRight li.icoNews").addClass("oAfter")
+                }
+                console.log(data);
+            }
+        });
+    }
+</script>
+<style>
+    /*.bettingWarp {display: block; position: fixed; top: 500px; width: auto; height: auto; padding: 0;}*/
+    /*.bottomWarp{ position: absolute;}*/
+    /*.transition{*/
+        /*transition: top 1s;*/
+        /*-moz-transition: top 1s;	!* Firefox 4 *!*/
+        /*-webkit-transition: top 1s;	!* Safari 和 Chrome *!*/
+        /*-o-transition: top 1s;	!* Opera *!*/
+    /*}*/
+</style>

@@ -1,0 +1,89 @@
+{template header}
+  <!-- Investor_center -->
+  <link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+  
+  <!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+      <li class="active">我的账户</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->
+  {template member-nav-left}
+
+    <!-- 右边正文 -->
+    <div class="investor-right pull-right border-radius">
+      <ul class="nav nav-tabs" role="tablist" id="myTab">
+        <li {if ROUTE_A=='index'}class="active"{/if}><a href="<?=url('member','borrow','index')?>" >正在招标的借款</a></li>
+        <li {if ROUTE_A=='repayno'}class="active"{/if}><a href="<?=url('member','borrow','repayno')?>" >尚未发布的借款</a></li>
+        <li {if ROUTE_A=='repaywill'}class="active"{/if}><a href="<?=url('member','borrow','repaywill')?>" >正在还款的借款</a></li>
+        <li {if ROUTE_A=='repayyes'}class="active"{/if}><a href="<?=url('member','borrow','repayyes')?>" >已还完的借款</a></li>
+        <li {if ROUTE_A=='credit'}class="active"{/if}><a href="<?=url('member','borrow','credit')?>">额度申请</a></li>
+      </ul>
+
+      <div class="tab-content">
+        <!-- 正在招标的借款 -->
+        <div class="tab-pane active" id="investde1">
+          <form action="<?=url('','','')?>" method="post" id='myform'>
+            <ul class="investor-fund-form unlist">
+              <li>生效时间：</li>
+              <li><?=form::date('starttime',$data['starttime'])?></li>
+              <li>到</li>
+              <li><?=form::date('endtime',$data['endtime'])?></li>
+              <li>关键字：</li>
+              <li><input class="fund-form-input2 form-control" type="text" name="keywords" value="{$data['keywords']}"></li>
+              <li><input name="" type="submit" class="btn btn-warning btn-sm" value="搜索" /></li>
+            </ul>
+          </form>
+          
+          <table class="table table-bordered table-hover">
+            <tr class="text-center">
+              <td>标题</td>
+              <td>类型</td>
+              <td>金额（元）</td>
+              <td>年利率</td>
+              <td>期限</td>
+              <td>发布时间</td>
+              <td>状态</td>
+              <td>操作</td>
+            </tr>
+            <tr>
+            {if isset($list) && !empty($list)}
+            {loop $list $vo}
+              <td>
+                <div style="width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" class="itooltip text-center" data-toggle="tooltip" data-trigger="hover" data-placement="top" title="<?=$vo['title']?>">
+                  {if !empty($vo['zhuanrangren'])}
+                        <span class="flg-tuo"></span>
+                    {/if}
+                    <a href='<?=url('borrow','default','info')?>' target="_blank">{if !empty($vo['zhuanrangren'])}<span style="color:red;">{else}<span>{/if}<?=$vo['title']?></span></a>
+                </div>
+              </td>
+              <td class="text-center">{$borrow_type[$vo['borrow_type']]['name']}</td>
+              <td class="text-right">￥<?=empty($vo['account'])?'0.00':$vo['account']?></td>
+              <td class="text-center"><?=$vo['apr']*100?>%</td>
+              <td class="text-center">{$vo['time_limit']}<?=empty($vo['is_datetype'])?'月':'天'?></td>
+              <td class="text-center f12"><?=date('Y-m-d',$vo['addtime'])?></td>
+              <td class="text-center">{$borrowstatus[$vo['status']]}</td>
+              <td class="text-center"></td>
+            </tr>
+            {/loop}
+            {else}
+            <tr class="text-center font12px color999"><td colspan="8">查无此记录</td></tr>
+            {/if}
+          </table>
+          
+        </div>
+        <div class="page-box text-center">
+        <?php echo $page['html'];?>
+        </div>
+        <!-- /正在招标的借款 -->
+      </div>
+      
+      
+    </div>
+    <!-- /右边正文 -->
+  </div>
+{template footer}

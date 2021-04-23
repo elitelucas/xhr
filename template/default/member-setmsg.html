@@ -1,0 +1,112 @@
+{template header}
+  <!-- Investor_center -->
+  <link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+  
+  <!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+      <li class="active">我的账户</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->
+  {template member-nav-left}
+
+    
+    <!-- 右边正文 -->
+    <div class="investor-right pull-right border-radius">
+      <div class="investor-title">设置提醒</div>
+      <div class="withdraw-info bg-warning">系统默认是全部开启,您若不想有相应提醒信息，请选择关闭设置。</div>
+      <form id="myform">
+      <table class="table">
+        <tr>
+          <td>还款短信提醒</td>
+          <td>设置关闭,您将不能收到还款的短信!</td>
+          <td>
+              <input type='hidden' name="borrow_status" value="{$data['borrow_status']}">
+                {if $data['borrow_status']==1}
+                        <span class="glyphicon glyphicon-ban-circle text-danger"></span> 已关闭
+                        <a class="btn btn-warning kq" autostatusname="borrow_status">关闭</a>
+                {else}
+                <span class="glyphicon glyphicon-ok-circle color-main"></span>已开启
+                <a class="btn btn-warning gb" autostatusname="borrow_status">开启</a>
+                {/if}
+          </td>
+        </tr>
+        <tr>
+          <td>借款协议设置提醒</td>
+          <td>设置关闭,您将不能收到借款协议书!</td>
+          <td>
+              <input type='hidden' name="proto_status" value="{$data['proto_status']}">
+                {if $data['proto_status']==1}
+                <input type="hidden" name="proto"/>
+                 <span class="glyphicon glyphicon-ban-circle text-danger"></span> 已关闭
+                <a class="btn btn-warning kq" autostatusname="proto_status">关闭</a>         
+                {else}
+               <span class="glyphicon glyphicon-ok-circle color-main"></span>已开启
+                <a class="btn btn-warning gb" autostatusname="proto_status">开启</a>
+                {/if}
+          </td>
+        </tr>
+        <tr>
+          <td>自动投标短信提醒</td>
+          <td>设置关闭,您自动投标后不能收到短信!</td>
+          <td>
+              <input type='hidden' name="tender_status" value="{$data['tender_status']}">
+            {if $data['tender_status']==1}
+             <span class="glyphicon glyphicon-ban-circle text-danger"></span>已关闭
+            <a class="btn btn-warning kq" autostatusname="tender_status">关闭</a>
+            {else}
+             <span class="glyphicon glyphicon-ok-circle color-main"></span>已开启
+            <a class="btn btn-warning gb" autostatusname="tender_status">开启</a>                  
+            {/if}
+          </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+              <input type='hidden' name='formhash' value='<?=formhash()?>' >
+            <input type="button" class="btn btn-warning" value="提交设置" id="myform_button">
+          </td>
+        </tr>
+      </table>
+          </form>
+    </div>
+    <!-- /右边正文 -->
+  </div>
+  <script>
+    $('.gb,.kq').click(function() {
+        var autostatusname = $(this).attr('autostatusname');
+        var status = $("[name='" + autostatusname + "']").val();
+        if (status == 1)
+            status = 0;
+        else
+            status = 1;
+
+        $(this).removeClass('gb').removeClass('kq');
+        if (status == 0) {
+            $("[name='" + autostatusname + "']").val(status);
+            $(this).addClass('btn btn-warning kq');
+            $(this).text('开启');
+        } else {
+            $("[name='" + autostatusname + "']").val(status);
+            $(this).addClass('btn btn-warning gb');
+            $(this).text('关闭');
+        }
+    });
+
+    $('#myform_button').click(function() {
+        $.ajax({url: "<?=url('member','setmsg','remind')?>", data: $('#myform').serialize(), dataType: 'json', type: 'post', success: function(data) {  
+        	if (data) {
+                    alert('恭喜您,您已经成功保存设置!');
+                    window.location.href="<?=url('','','remind')?>";
+                }
+                else {
+                     alert('很抱歉,您保存设置失败!');
+                }
+                return data;
+            }});
+    });
+</script>
+{template footer}

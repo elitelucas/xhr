@@ -1,0 +1,362 @@
+{template header}
+  <!-- Investor_center -->
+  <link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+  <script src="../../statics/resource/js/placeholder/2.0.8/jquery.placeholder.min.js"></script>
+  <!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+      <li class="active">我的账户</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->
+  {template member-nav-left}
+    <!-- 右边正文 -->
+    <div class="investor-right pull-right border-radius">
+      <ul class="nav nav-tabs" role="tablist" id="myTab">
+        <li class="{if ROUTE_A=='real'}active{/if}"><a href="<?=url('member','verify','real')?>">实名认证</a></li>
+        <li class="{if ROUTE_A=='email'}active{/if}"><a href="<?=url('member','verify','email')?>">邮箱认证</a></li>
+        <li class="{if ROUTE_A=='phone'}active{/if}"><a href="<?=url('member','verify','phone')?>">手机认证</a></li>
+        <li class="{if ROUTE_A=='vip'}active{/if}"><a href="<?=url('member','verify','vip')?>">VIP认证</a></li>
+      </ul>
+
+      <div class="tab-content">
+        <!-- 实名认证 -->
+        <div class="tab-pane active" id="investde1">
+          <div class="withdraw-info bg-warning fbold">
+    		<!-- （0：未申请认证，1：申请中，2：已经认证,3未通过认证） -->
+   			{if isset($data['real_status']) && $data['real_status']==1}
+            提醒：您的实名认证信息已经提交,请等待审核。
+            {else}
+            提醒：投资前，请先完成实名验证以及第三方开户，验证开通第三方资金托管账户的信息将提交至丰付支付网站执行；身份证信息认证后将不可更改，请您仔细填写。
+            {/if}
+          </div>
+    {if isset($data['real_status']) && ($data['real_status']==2 || $data['real_status']==1)}
+    <!--申请中,或 已认证,将不修改-->
+              <div class="form-group">
+                <label for="inputUser" class="col-sm-3 control-label">真实姓名：</label>
+                <div class="col-sm-4">
+                    <?php if(!empty($user['realname'])){
+                    	echo f_realname($user['realname']);
+                    }?>
+                </div>
+                <div class="help-block">{if $data['real_status']==2}通过验证{else}申请中{/if} </div>
+              </div>
+    {else}
+          <form id="verify_real" class="form-horizontal has-feedback" action="<?=url('','','real')?>" method="post" role="form">
+              <div class="form-group has-feedback">
+                <label for="inputUser" class="col-sm-3 control-label">真实姓名：</label>
+                <div class="col-sm-4">
+                  <input type="text" name="realname" class="form-control" id="inputUser" placeholder="请输入真实姓名" value="{$user['realname']}">
+                  <span class="glyphicon  form-control-feedback"></span>
+                </div>
+                <div class="help-block">{if (!isset($valid_))}{else}<?=$valid_->error('realname')?>{/if}</div>
+              </div>
+
+              <div class="form-group has-feedback" style="display:none">
+                <label for="inputSex" class="col-sm-3 control-label">性别：</label>
+                <div class="col-sm-4">
+                  <label class="radio-inline">
+                    <input type="radio" name="sex" id="inputSex0" value="0" <?=$user['sex']==0?'checked':''?>> 保密
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" name="sex" id="inputSex1" value="1" <?=$user['sex']==1?'checked':''?>> 男
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" name="sex" id="inputSex2" value="2" <?=$user['sex']==2?'checked':''?>> 女
+                  </label>
+                  <span class="glyphicon  form-control-feedback"></span>
+                </div>
+                <div class="help-block">{if (!isset($valid_))}{else}<?=$valid_->error('sex')?>{/if}</div>
+              </div>
+
+              <div class="form-group has-feedback" style="display:none">
+                <label for="inputMinzu" class="col-sm-3 control-label">民族：</label>
+                <div class="col-sm-4">
+                  <select name="nation" class="form-control">
+                  {loop $nation $vo}
+                            <option value="{$vo['id']}" {if $vo['id']=='329'}selected="selected"{/if}>{$vo['name']}</option>
+                  {/loop}
+                  </select>
+                </div>
+                <div class="help-block">{if (!isset($valid_))}{else}<?=$valid_->error('nation')?>{/if}</div>
+              </div>
+
+              <div class="form-group has-feedback" style="display:none">
+                <label for="inputBirth" class="col-sm-3 control-label">出生日期：</label>
+                <div class="col-sm-4">
+                  <input type="text" name="birthday" class="form-control" id="birthday" placeholder="出生日期" value="<?=date('Y-m-d',$user['birthday'])?>">
+                  <span class="glyphicon  form-control-feedback"></span>
+                </div>
+                <div class="help-block">{if (!isset($valid_))}{else}<?=$valid_->error('birthday')?>{/if}</div>
+              </div>
+
+              <div class="form-group has-feedback" style="display:none">
+                <label for="inputZhengjian" class="col-sm-3 control-label">证件类型：</label>
+                <div class="col-sm-4">
+                  <select name="card_type" class="form-control">
+                  {loop $card_type $vo}
+                  {if $vo['id']=='385'}<option value="{$vo['id']}" selected="selected">{$vo['name']}</option>{/if}
+                  {/loop}
+                  </select>
+                </div>
+                <div class="help-block">{if (!isset($valid_))}{else}<?=$valid_->error('card_type')?>{/if}</div>
+              </div>
+
+              <div class="form-group has-feedback">
+                <label for="inputId" class="col-sm-3 control-label">证件号码：</label>
+                <div class="col-sm-4">
+                  <input type="text" name="card_id" class="form-control" id="inputId" placeholder="请输入证件号码" value="{$data['card_id']}">
+                  <span class="glyphicon  form-control-feedback"></span>
+                </div>
+                <div class="help-block">{if (!isset($valid_))}{else}<?=$valid_->error('card_id')?>{/if}</div>
+              </div>
+
+<!--              <div class="form-group has-feedback">
+                <label for="inputCity" class="col-sm-3 control-label">籍贯：</label>
+                <div class="col-sm-4">
+                    	<select id="province" name="province" class="form-control"><option value="0">请选择省市</option></select>
+                        <select id="city" name="city" class="form-control mt15"><option value="0">请选择城市</option></select>
+                        <select id="area" name="area" class="form-control mt15"><option value="0">请选择区/县</option></select>
+                  <span class="glyphicon  form-control-feedback"></span>
+                </div>
+                <div class="help-block"></div>
+              </div>
+
+              <div class="form-group has-feedback">
+                <label for="inputIdimg1" class="col-sm-3 control-label">上传身份证正面照：</label>
+                <div class="col-sm-4">
+                	<input type="text" name="card_pic1" class="form-control" id="card_pic1" placeholder="请上传身份证正面照" value="{$data['card_pic1']}" data-toggle="modal" data-target="#myModal" onclick="set_flds_id(this)">
+                </div>
+                <div class="help-block">{if (!isset($valid_))}{else}<?=$valid_->error('card_pic1')?>{/if}</div>
+              </div>
+
+              <div class="form-group has-feedback">
+                <label for="inputIdimg2" class="col-sm-3 control-label">上传身份证反面照：</label>
+                <div class="col-sm-4">
+ 	            	<input type="text" name="card_pic2" class="form-control" id="card_pic2" placeholder="请上传身份证正面照" value="{$data['card_pic2']}" data-toggle="modal" data-target="#myModal" onclick="set_flds_id(this)">
+                </div>
+                <div class="help-block">{if (!isset($valid_))}{else}<?=$valid_->error('card_pic2')?>{/if}</div>
+              </div>-->
+
+            <input type='hidden' name='save' value='save'>
+            <input type='hidden' name='formhash' value='<?=formhash()?>' >
+              <div class="form-group has-feedback">
+                <label for="inputBtn1" class="col-sm-3 control-label"></label>
+                <div class="col-sm-4">
+                  <input class="btn btn-warning form-control" type="submit" id="inputBtn1" value="立即开通丰付托管账户">
+                </div>
+              </div>
+          </form>
+{template upload-modal}
+<link rel="stylesheet" type="text/css" href="../../statics/js/calendar/jscal2.css"/>
+<link rel="stylesheet" type="text/css" href="../../statics/js/calendar/border-radius.css"/>
+<link rel="stylesheet" type="text/css" href="../../statics/js/calendar/win2k.css"/>
+<script type="text/javascript" src="../../statics/js/district.js" charset="UTF-8"></script>
+<script type="text/javascript" src="../../statics/js/calendar/calendar.js"></script>
+<script type="text/javascript" src="../../statics/js/calendar/lang/en.js"></script>
+<script type="text/javascript">
+Calendar.setup({
+	weekNumbers: true,
+	inputField : "birthday",
+	trigger : "birthday",
+	dateFormat: "%Y-%m-%d",
+	showTime: false,
+	onSelect : function() {
+		this.hide();
+	}
+});
+</script>
+<script type="text/javascript">
+//function set_flds_id(self) {
+//	$(".pic_list_upload").attr("classid",$(self).attr("id"));
+//	$("#upload-modal-submit").hide();
+//};
+//function upfile_submit() {
+//	var val = $('#upfile-input').val();
+//	if(/^.+\.(jpg|png|jpeg|gif|bmp)$/.test(val.toLowerCase())){
+//		$('#upfile-form').submit();
+//	}
+//};
+////监听iframe事件onload
+//$(function(){
+//	$("#upload-modal-submit").hide();
+//	$("#upfile-iframe").bind("load", function(){
+//		var json_str = document.getElementById("upfile-iframe").contentDocument.body.innerHTML;
+//		var json = JSON.parse(json_str);		//or $.parseJSON(json_str);
+//		if (json && json.status != 'x') {
+//			//更新input的值
+//			$("#"+$(".pic_list_upload").attr("classid")).attr("value",json.url);
+//			$(".close").click();
+//		}
+//	});
+//});
+//省市区初始化
+//$(function() {
+//	addressInit('province', 'city', 'area');
+//});
+//function pic_list_add() {
+//};
+//var addressInit = function(_cmbProvince, _cmbCity, _cmbArea, defaultProvince, defaultCity, defaultArea){
+//    var cmbProvince = document.getElementById(_cmbProvince);
+//    var cmbCity = document.getElementById(_cmbCity);
+//    var cmbArea = document.getElementById(_cmbArea);
+//     
+//    function cmbSelect(cmb, str){
+//		if(str){
+//	        $(cmb).attr("value",str);
+//		}
+//    }
+//    function cmbAddOption(cmb, str, val)    {
+//        var option = document.createElement("OPTION");
+//        cmb.options.add(option);
+//        option.innerHTML = val;
+//        option.value = str;
+//    }
+//     
+//    function changeCity()    {
+//        cmbArea.options.length = 0;
+//        if(cmbCity.selectedIndex == -1)return;
+//        var item = cmbCity.options[cmbCity.selectedIndex].value;
+//		$.each(area[item],function(key,val){
+//			cmbAddOption(cmbArea, key, val[0]);
+//		});
+//        cmbSelect(cmbArea, defaultArea);
+//    }
+//    function changeProvince()    {
+//        cmbCity.options.length = 0;
+//        cmbCity.onchange = null;
+//        if(cmbProvince.selectedIndex == -1)return;
+//        var item = cmbProvince.options[cmbProvince.selectedIndex].value;
+//		$.each(city[item],function(key,val){
+//			cmbAddOption(cmbCity, key, val[0]);
+//		});
+//        cmbSelect(cmbCity, defaultCity);
+//        changeCity();
+//        cmbCity.onchange = changeCity;
+//		if(cmbProvince.options[0].value==0){
+//			cmbProvince.options.remove(0);
+//		}
+//    }
+//    $.each(province,function(key,val){
+//		cmbAddOption(cmbProvince, key, val[0]);
+//	});
+//	cmbProvince.onchange = changeProvince;
+//    cmbSelect(cmbProvince, defaultProvince);
+//};
+</script>
+<script type="text/javascript" src="../../statics/resource/js/jquery.validate.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('input, textarea').placeholder();
+	$.validator.addMethod("chinese", function(value, element) {
+		var regexp = /^[\u4e00-\u9fa5]+$/;
+		return this.optional(element) || (regexp.test(value));
+	}, "只允许输入中文");
+	$.validator.addMethod("id_card", function(value, element) {
+		var regexp = /^\d{17}[\dXx]$/;
+		return this.optional(element) || (regexp.test(value));
+	}, "身份证号码格式不正确");
+	$("#verify_real").validate({
+	    errorPlacement:function(error,element) {
+			error.appendTo(element.parent().parent().children(".help-block"));
+		},
+		rules: {
+			realname: {
+				required: true,
+				chinese: true
+			},
+			nation: {
+				required: true,
+				min: 1
+			},
+			birthday: {
+				required: true
+				/*date: true*/
+			},
+			sex: {
+				required: true
+			},
+//			province: {
+//				required: true ,
+//				min: 1
+//			},
+//			city: {
+//				required: true ,
+//				min: 1
+//			},
+//			area: {
+//				required: true ,
+//				min: 1
+//			},
+			card_type: {
+				required: true,
+				min: 1
+			},
+			card_id: {
+				required: true,
+				id_card: true
+			}
+//			card_pic1: {
+//				required: true
+//			},
+//			card_pic2: {
+//				required: true
+//			}
+		},
+		messages: {
+			realname: {
+				required: "真实姓名不能为空，请输入"
+			},
+			nation: {
+				required: "请选择民族",
+				min: "请选择民族"
+			},
+			birthday: {
+				required: "请输入出生日期"
+				/*date: "格式错误，请重新输入"*/
+			},
+			sex: {
+				required: "请选择性别"
+			},
+//			province: {
+//				required: "请选择省份" ,
+//				min: "请选择省份"
+//			},
+//			city: {
+//				required: "请选择城市" ,
+//				min: "请选择城市"
+//			},
+//			area: {
+//				required: "请选择区/县" ,
+//				min: "请选择区/县"
+//			},
+			card_type: {
+				required: "请选择证件类型",
+				min: "请选择证件类型"
+			},
+			card_id: {
+				required: "证件号码不能为空，请输入"
+			}
+//			card_pic1: {
+//				required: "身份证正面照不能为空，请输入"
+//			},
+//			card_pic2: {
+//				required: "身份证反面照不能为空，请输入"
+//			}
+		}
+	});
+});
+</script>
+          {/if}
+        </div>
+        <!-- /实名认证 -->
+      </div>
+
+
+    </div>
+    <!-- /右边正文 -->
+  </div>
+{template footer}

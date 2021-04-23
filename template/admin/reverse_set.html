@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+        <script src="statics/admin/js/pintuer.js"></script>  
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>  
+        <script src="statics/admin/js/jquery.date_input.pack.js"></script> 
+        {template public-new-ui-header}
+        <style>
+            #page{height: 60px;margin-top: 20px;text-align: center;}
+            #page ul li{float: left;margin-right:10px;}
+            #page ul .current{ background-color:#0099ff;text-align:center;}
+            .my_css li{
+                line-height: 30px;
+            }
+        </style>
+    </head>
+    <body class="new_ui_body">
+    <div class="ibox float-e-margins">
+	    <div class="ibox-title iboxWTitle">
+	        <h5>
+	        	{if $id == 1}幸运28逆向投注设置
+	        	{elseif $id == 2}北京PK10逆向投注设置
+	        	{elseif $id == 3}加拿大28逆向投注设置
+	        	{elseif $id == 4}幸运飞艇逆向投注设置
+	        	{elseif $id == 5}重庆时彩逆向投注设置
+	        	{elseif $id == 6}三分彩逆向投注设置
+	        	{elseif $id == 7}六合彩逆向投注设置
+            	{elseif $id == 8}急速六合彩逆向投注设置
+		        {elseif $id == 9}急速赛车逆向投注设置
+		        {elseif $id == 10}牛牛逆向投注设置
+				{elseif $id == 11}分分彩逆向投注设置
+				{elseif $id == 13}欢乐骰宝逆向投注设置
+				{elseif $id == 14}分分PK10逆向投注设置
+		        {/if}
+	        </h5>
+	         <div class="ibox-tools">
+                    <button class="btn btn-white btn-bitbucket btn_set_all" id="btn_open" data-btn="1">
+                        一键开启
+                    </button>
+                    <button class="btn btn-white btn-bitbucket btn_set_all" id="btn_close" data-btn="0">
+                        一键关闭
+                    </button>
+                </div>
+	    </div>
+	    <div class="ibox-content bagCol">
+           <div class="row">
+               <div class="col-sm-3">
+       			  <div class="input-group m-b"><span class="input-group-addon">彩种类型</span>
+              			<select class="form-control" id='lottery_id' name="lottery_id">
+		                    {loop $lottery_info $k $v}
+		                        <option value="{$v['id']}" {if $v['id'] == $id}selected{/if} >{$v['name']}</option>
+		                    {/loop}
+		                </select>
+                  </div>
+              </div>
+           </div>
+	       {if $id == 1 || $id == 3}
+	       <div class="ibox-title ">
+	            <h5>逆向投注设置信息</h5>
+           </div>
+           <div class="ibox-content m-b" style="width: 100%;">
+           		<div class="row">
+	         		{loop $list $k $v}	
+	           	    <div class="col-sm-4 m-b">
+	                    <span class="col-sm-6 back-page text-right" style="padding-left: 0px;">{$v['name']} </span>
+	                 	<span style="float:left;"><input class="form-control" {if $v['state'] == '1'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},1)"/></span> 
+	                 	<span style="float:left;">开启</span>
+	                 	<span style="float:left;padding-left: 10px;"><input class="form-control" {if $v['state'] == '0'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},0)"/></span>
+	                 	<span style="float:left;">关闭</span> 
+	               </div>
+	               {/loop}
+               </div>
+           </div>
+     		{elseif $id == 2 || $id == 4 || $id == 9 || $id == 14}
+      		<div class="ibox-title ">
+	            <h5>排名逆向投注设置信息</h5>
+           	</div>
+           	<div class="ibox-content m-b" style="width: 100%;">
+            	 <div class="row">
+            	 	 {loop $list $k $v}
+            	     {if $k < 10}
+	             	 <div class="col-sm-4 m-b">
+	                    <span class="col-sm-6 back-page text-right" style="padding-left: 0px;">{$v['name']} </span>
+	                      	<span style="float:left;"><input class="form-control" {if $v['state'] == '1'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},1)"/></span> 
+	                      	<span style="float:left;">开启</span>
+	                      	<span style="float:left;padding-left: 10px;"><input class="form-control" {if $v['state'] == '0'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},0)"/></span>
+	                      	<span style="float:left;">关闭</span> 
+	                 </div>
+	                 {/if}
+	                 {/loop}
+                </div>
+            </div>
+             <div class="ibox-title ">
+	            <h5>单双逆向投注设置信息</h5>
+           	 </div>
+      		 <div class="ibox-content m-b" style="width: 100%;">
+            	 <div class="row">
+            	 	 {loop $list $k $v}	
+            	     {if $k > 9 && $k < 20}	
+	             	 <div class="col-sm-4 m-b">
+	                    <span class="col-sm-7 back-page text-right" style="padding-left: 0px;">{$v['name']} </span>
+	                      	<span style="float:left;"><input class="form-control" {if $v['state'] == '1'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},1)"/></span> 
+	                      	<span style="float:left;">开启</span>
+	                      	<span style="float:left;padding-left: 10px;"><input class="form-control" {if $v['state'] == '0'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},0)"/></span>
+	                      	<span style="float:left;">关闭</span> 
+	                 </div>
+	                 {/if}
+	                 {/loop}
+                </div>
+             </div>
+			<div class="ibox-title ">
+	            <h5>极单双逆向投注设置信息</h5>
+           	</div>
+      		<div class="ibox-content m-b" style="width: 100%;">
+            	 <div class="row">
+            	     {loop $list $k $v}	
+            	     {if $k > 24 && $k < 35}
+	             	 <div class="col-sm-4 m-b">
+	                    <span class="col-sm-6 back-page text-right" style="padding-left: 0px;">{$v['name']} </span>
+	                      	<span style="float:left;"><input class="form-control" {if $v['state'] == '1'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},1)"/></span> 
+	                      	<span style="float:left;">开启</span>
+	                      	<span style="float:left;padding-left: 10px;"><input class="form-control" {if $v['state'] == '0'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},0)"/></span>
+	                      	<span style="float:left;">关闭</span> 
+	                 </div>
+	                 {/if}
+	                 {/loop}
+                </div>
+            </div>
+			<div class="ibox-title ">
+	            <h5>冠亚和龙虎逆向投注设置信息</h5>
+           	</div>
+      		 <div class="ibox-content m-b" style="width: 100%;">
+            	 <div class="row">
+            	     {loop $list $k $v}	
+            	     {if $k > 19 && $k < 25}
+	             	 <div class="col-sm-4 m-b">
+	                    <span class="col-sm-6 back-page text-right" style="padding-left: 0px;">{$v['name']} </span>
+	                      	<span style="float:left;"><input class="form-control" {if $v['state'] == '1'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},1)"/></span> 
+	                      	<span style="float:left;">开启</span>
+	                      	<span style="float:left;padding-left: 10px;"><input class="form-control" {if $v['state'] == '0'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},0)"/></span>
+	                      	<span style="float:left;">关闭</span> 
+	                 </div>
+	                 {/if}
+	                 {if $k > 34}
+	                <div class="col-sm-4 m-b">
+	                    <span class="col-sm-6 back-page text-right" style="padding-left: 0px;">{$v['name']} </span>
+	                      	<span style="float:left;"><input class="form-control" {if $v['state'] == '1'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},1)"/></span> 
+	                      	<span style="float:left;">开启</span>
+	                      	<span style="float:left;padding-left: 10px;"><input class="form-control" {if $v['state'] == '0'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},0)"/></span>
+	                      	<span style="float:left;">关闭</span> 
+	                 </div>
+	                {/if}
+                    {/loop}
+                </div>
+            </div>
+            {elseif $id == 5 || $id == 6 || $id == 11}
+            <div class="ibox-title ">
+	            <h5>球大小逆向投注设置信息</h5>
+           	</div>
+      		 <div class="ibox-content m-b" style="width: 100%;">
+            	 <div class="row">
+            	     {loop $list $k $v}	
+            	     {if $k < 5}
+	             	 <div class="col-sm-4 m-b">
+	                    <span class="col-sm-6 back-page text-right" style="padding-left: 0px;">{$v['name']} </span>
+	                      	<span style="float:left;"><input class="form-control" {if $v['state'] == '1'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},1)"/></span> 
+	                      	<span style="float:left;">开启</span>
+	                      	<span style="float:left;padding-left: 10px;"><input class="form-control" {if $v['state'] == '0'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},0)"/></span>
+	                      	<span style="float:left;">关闭</span> 
+	                 </div>
+	                {/if}
+                    {/loop}
+                </div>
+            </div>
+            <div class="ibox-title ">
+	            <h5>球单双逆向投注设置信息</h5>
+           	</div>
+      		 <div class="ibox-content m-b" style="width: 100%;">
+            	 <div class="row">
+            	     {loop $list $k $v}	
+            	     {if $k > 4 && $k < 10}
+	             	 <div class="col-sm-4 m-b">
+	                    <span class="col-sm-6 back-page text-right" style="padding-left: 0px;">{$v['name']} </span>
+	                      	<span style="float:left;"><input class="form-control" {if $v['state'] == '1'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},1)"/></span> 
+	                      	<span style="float:left;">开启</span>
+	                      	<span style="float:left;padding-left: 10px;"><input class="form-control" {if $v['state'] == '0'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},0)"/></span>
+	                      	<span style="float:left;">关闭</span> 
+	                 </div>
+	                {/if}
+                    {/loop}
+                </div>
+            </div>
+            <div class="ibox-title ">
+	            <h5>球质合逆向投注设置信息</h5>
+           	</div>
+      		 <div class="ibox-content m-b" style="width: 100%;">
+            	 <div class="row">
+            	     {loop $list $k $v}	
+            	     {if $k > 9 && $k < 15}
+	             	 <div class="col-sm-4 m-b">
+	                    <span class="col-sm-6 back-page text-right" style="padding-left: 0px;">{$v['name']} </span>
+	                      	<span style="float:left;"><input class="form-control" {if $v['state'] == '1'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},1)"/></span> 
+	                      	<span style="float:left;">开启</span>
+	                      	<span style="float:left;padding-left: 10px;"><input class="form-control" {if $v['state'] == '0'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},0)"/></span>
+	                      	<span style="float:left;">关闭</span> 
+	                 </div>
+	                {/if}
+                    {/loop}
+                </div>
+            </div>
+            <div class="ibox-title ">
+	            <h5>总和龙虎逆向投注设置信息</h5>
+           	</div>
+      		 <div class="ibox-content m-b" style="width: 100%;">
+            	 <div class="row">
+            	     {loop $list $k $v}	
+   	                 {if $k > 14}
+	             	 <div class="col-sm-4 m-b">
+	                    <span class="col-sm-6 back-page text-right" style="padding-left: 0px;">{$v['name']} </span>
+	                      	<span style="float:left;"><input class="form-control" {if $v['state'] == '1'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},1)"/></span> 
+	                      	<span style="float:left;">开启</span>
+	                      	<span style="float:left;padding-left: 10px;"><input class="form-control" {if $v['state'] == '0'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},0)"/></span>
+	                      	<span style="float:left;">关闭</span> 
+	                 </div>
+	                {/if}
+                    {/loop}
+                </div>
+            </div>
+            {elseif $id == 7 || $id == 8}
+            <div class="ibox-title ">
+	            <h5>特码逆向投注设置信息</h5>
+           	</div>
+      		 <div class="ibox-content m-b" style="width: 100%;">
+            	 <div class="row">
+            	     {loop $list $k $v}	
+            	     {if $k < 16}
+	             	 <div class="col-sm-4 m-b">
+	                    <span class="col-sm-6 back-page text-right" style="padding-left: 0px;">{$v['name']} </span>
+	                      	<span style="float:left;"><input class="form-control" {if $v['state'] == '1'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},1)"/></span> 
+	                      	<span style="float:left;">开启</span>
+	                      	<span style="float:left;padding-left: 10px;"><input class="form-control" {if $v['state'] == '0'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},0)"/></span>
+	                      	<span style="float:left;">关闭</span> 
+	                 </div>
+	                {/if}
+                    {/loop}
+                </div>
+            </div>
+            <div class="ibox-title ">
+	            <h5>正码AB逆向投注设置信息</h5>
+           	</div>
+      		 <div class="ibox-content m-b" style="width: 100%;">
+            	 <div class="row">
+            	     {loop $list $k $v}	
+            	     {if $k > 15 && $k < 24}
+	             	 <div class="col-sm-4 m-b">
+	                    <span class="col-sm-6 back-page text-right" style="padding-left: 0px;">{$v['name']} </span>
+	                      	<span style="float:left;"><input class="form-control" {if $v['state'] == '1'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},1)"/></span> 
+	                      	<span style="float:left;">开启</span>
+	                      	<span style="float:left;padding-left: 10px;"><input class="form-control" {if $v['state'] == '0'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},0)"/></span>
+	                      	<span style="float:left;">关闭</span> 
+	                 </div>
+	                {/if}
+                    {/loop}
+                </div>
+            </div>
+            <div class="ibox-title ">
+	            <h5>正特逆向投注设置信息</h5>
+           	</div>
+      		 <div class="ibox-content m-b" style="width: 100%;">
+            	 <div class="row">
+            	     {loop $list $k $v}	
+            	     {if $k > 23 && $k < 54}
+	             	 <div class="col-sm-4 m-b">
+	                    <span class="col-sm-6 back-page text-right" style="padding-left: 0px;">{$v['name']} </span>
+	                      	<span style="float:left;"><input class="form-control" {if $v['state'] == '1'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},1)"/></span> 
+	                      	<span style="float:left;">开启</span>
+	                      	<span style="float:left;padding-left: 10px;"><input class="form-control" {if $v['state'] == '0'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},0)"/></span>
+	                      	<span style="float:left;">关闭</span> 
+	                 </div>
+	                {/if}
+                    {/loop}
+                </div>
+            </div>
+            <div class="ibox-title ">
+	            <h5>半波逆向投注设置信息</h5>
+           	</div>
+      		<div class="ibox-content m-b" style="width: 100%;">
+            	 <div class="row">
+            	     {loop $list $k $v}	
+            	     {if $k > 53 && $k < 63}
+	             	 <div class="col-sm-4 m-b">
+	                    <span class="col-sm-6 back-page text-right" style="padding-left: 0px;">{$v['name']} </span>
+	                      	<span style="float:left;"><input class="form-control" {if $v['state'] == '1'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},1)"/></span> 
+	                      	<span style="float:left;">开启</span>
+	                      	<span style="float:left;padding-left: 10px;"><input class="form-control" {if $v['state'] == '0'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},0)"/></span>
+	                      	<span style="float:left;">关闭</span> 
+	                 </div>
+	                {/if}
+                    {/loop}
+                </div>
+            </div>
+            <div class="ibox-title ">
+	            <h5>正码数字逆向投注设置信息</h5>
+           	</div>
+      		<div class="ibox-content m-b" style="width: 100%;">
+            	 <div class="row">
+            	     {loop $list $k $v}	
+            	     {if $k > 62 && $k < 99}
+	             	 <div class="col-sm-4 m-b">
+	                    <span class="col-sm-6 back-page text-right" style="padding-left: 0px;">{$v['name']} </span>
+	                      	<span style="float:left;"><input class="form-control" {if $v['state'] == '1'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},1)"/></span> 
+	                      	<span style="float:left;">开启</span>
+	                      	<span style="float:left;padding-left: 10px;"><input class="form-control" {if $v['state'] == '0'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},0)"/></span>
+	                      	<span style="float:left;">关闭</span> 
+	                 </div>
+	                {/if}
+                    {/loop}
+                </div>
+            </div>
+            <div class="ibox-title ">
+	            <h5>龙虎逆向投注设置信息</h5>
+           	</div>
+      		<div class="ibox-content m-b" style="width: 100%;">
+            	 <div class="row">
+            	     {loop $list $k $v}	
+            	     {if $k > 98}
+	             	 <div class="col-sm-4 m-b">
+	                    <span class="col-sm-6 back-page text-right" style="padding-left: 0px;">{$v['name']} </span>
+	                      	<span style="float:left;"><input class="form-control" {if $v['state'] == '1'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},1)"/></span> 
+	                      	<span style="float:left;">开启</span>
+	                      	<span style="float:left;padding-left: 10px;"><input class="form-control" {if $v['state'] == '0'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},0)"/></span>
+	                      	<span style="float:left;">关闭</span> 
+	                 </div>
+	                {/if}
+                    {/loop}
+                </div>
+            </div>
+            {elseif $id == 10}
+            <div class="ibox-title ">
+	            <h5>大小单双逆向投注设置信息</h5>
+           	</div>
+      		 <div class="ibox-content m-b" style="width: 100%;">
+            	 <div class="row">
+            	     {loop $list $k $v}	
+            	     {if $k < 15}
+	             	 <div class="col-sm-4 m-b">
+	                    <span class="col-sm-6 back-page text-right" style="padding-left: 0px;">{$v['name']} </span>
+	                      	<span style="float:left;"><input class="form-control" {if $v['state'] == '1'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},1)"/></span> 
+	                      	<span style="float:left;">开启</span>
+	                      	<span style="float:left;padding-left: 10px;"><input class="form-control" {if $v['state'] == '0'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},0)"/></span>
+	                      	<span style="float:left;">关闭</span> 
+	                 </div>
+	                {/if}
+                    {/loop}
+                </div>
+            </div>
+            <div class="ibox-title ">
+	            <h5>牌花色逆向投注设置信息</h5>
+           	</div>
+      		 <div class="ibox-content m-b" style="width: 100%;">
+            	 <div class="row">
+            	     {loop $list $k $v}	
+            	     {if $k > 14 && $k < 20}
+	             	 <div class="col-sm-4 m-b">
+	                    <span class="col-sm-6 back-page text-right" style="padding-left: 0px;">{$v['name']} </span>
+	                      	<span style="float:left;"><input class="form-control" {if $v['state'] == '1'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},1)"/></span> 
+	                      	<span style="float:left;">开启</span>
+	                      	<span style="float:left;padding-left: 10px;"><input class="form-control" {if $v['state'] == '0'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},0)"/></span>
+	                      	<span style="float:left;">关闭</span> 
+	                 </div>
+	                {/if}
+                    {/loop}
+                </div>
+            </div>
+            <div class="ibox-title ">
+	            <h5>总和龙虎逆向投注设置信息</h5>
+           	</div>
+      		 <div class="ibox-content m-b" style="width: 100%;">
+            	 <div class="row">
+            	     {loop $list $k $v}	
+            	     {if $k > 19}
+	             	 <div class="col-sm-4 m-b">
+	                    <span class="col-sm-6 back-page text-right" style="padding-left: 0px;">{$v['name']} </span>
+	                      	<span style="float:left;"><input class="form-control" {if $v['state'] == '1'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},1)"/></span> 
+	                      	<span style="float:left;">开启</span>
+	                      	<span style="float:left;padding-left: 10px;"><input class="form-control" {if $v['state'] == '0'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},0)"/></span>
+	                      	<span style="float:left;">关闭</span> 
+	                 </div>
+	                {/if}
+                    {/loop}
+                </div>
+            </div>
+			{elseif $id == 13}
+			<div class="ibox-title ">
+				<h5>猜双面大小逆向投注设置信息</h5>
+			</div>
+			<div class="ibox-content m-b" style="width: 100%;">
+				<div class="row">
+					{loop $list $k $v}
+					{if $k < 3}
+					<div class="col-sm-4 m-b">
+						<span class="col-sm-6 back-page text-right" style="padding-left: 0px;">{$v['name']} </span>
+						<span style="float:left;"><input class="form-control" {if $v['state'] == '1'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},1)"/></span>
+						<span style="float:left;">开启</span>
+						<span style="float:left;padding-left: 10px;"><input class="form-control" {if $v['state'] == '0'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},0)"/></span>
+						<span style="float:left;">关闭</span>
+					</div>
+					{/if}
+					{/loop}
+				</div>
+			</div>
+			<div class="ibox-title ">
+				<h5>猜双面单双逆向投注设置信息</h5>
+			</div>
+			<div class="ibox-content m-b" style="width: 100%;">
+				<div class="row">
+					{loop $list $k $v}
+					{if $k >= 3 && $k < 6}
+					<div class="col-sm-4 m-b">
+						<span class="col-sm-6 back-page text-right" style="padding-left: 0px;">{$v['name']} </span>
+						<span style="float:left;"><input class="form-control" {if $v['state'] == '1'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},1)"/></span>
+						<span style="float:left;">开启</span>
+						<span style="float:left;padding-left: 10px;"><input class="form-control" {if $v['state'] == '0'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},0)"/></span>
+						<span style="float:left;">关闭</span>
+					</div>
+					{/if}
+					{/loop}
+				</div>
+			</div>
+			<div class="ibox-title ">
+				<h5>总和大小逆向投注设置信息</h5>
+			</div>
+			<div class="ibox-content m-b" style="width: 100%;">
+				<div class="row">
+					{loop $list $k $v}
+					{if $k >= 6 && $k < 7}
+					<div class="col-sm-4 m-b">
+						<span class="col-sm-6 back-page text-right" style="padding-left: 0px;">{$v['name']} </span>
+						<span style="float:left;"><input class="form-control" {if $v['state'] == '1'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},1)"/></span>
+						<span style="float:left;">开启</span>
+						<span style="float:left;padding-left: 10px;"><input class="form-control" {if $v['state'] == '0'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},0)"/></span>
+						<span style="float:left;">关闭</span>
+					</div>
+					{/if}
+					{/loop}
+				</div>
+			</div>
+			<div class="ibox-title ">
+				<h5>总和单双逆向投注设置信息</h5>
+			</div>
+			<div class="ibox-content m-b" style="width: 100%;">
+				<div class="row">
+					{loop $list $k $v}
+					{if $k >= 7}
+					<div class="col-sm-4 m-b">
+						<span class="col-sm-6 back-page text-right" style="padding-left: 0px;">{$v['name']} </span>
+						<span style="float:left;"><input class="form-control" {if $v['state'] == '1'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},1)"/></span>
+						<span style="float:left;">开启</span>
+						<span style="float:left;padding-left: 10px;"><input class="form-control" {if $v['state'] == '0'} checked {/if} type="radio" name="status_{$k}" onclick="upState({$k},0)"/></span>
+						<span style="float:left;">关闭</span>
+					</div>
+					{/if}
+					{/loop}
+				</div>
+			</div>
+        {/if}
+       </div>
+     </div>
+        <script type="text/javascript">
+            var loading = ""; //加载中......
+
+            //开关
+            function upState(type,state){
+                var id = '{$id}';
+                $.ajax({
+                    url: '?m=admin&c=role&a=reverseSet&do=1&id=' + id,
+                    data: {type:type,state:state},
+                    dataType: 'json',
+                    type: 'post',
+                    beforeSend: function () {
+                        loading = layer.load(1);
+                    },
+                    error: function () {
+                        layer.close(loading);
+                        layer.msg('网络异常，请稍后再试！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        location.reload();
+                    },
+                    success: function (result) {
+                        layer.close(loading);
+                        if (result.status = 0) {
+                            layer.msg(result.msg, {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                location.reload();
+                            });
+                        }else{
+                            layer.msg(result.msg, {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                location.reload();
+                            });
+                        }
+                    }
+                });
+            }
+            $(function () {
+                $("#lottery_id").change(function(){
+                    var val = $(this).val();
+                    var url = '?m=admin&c=role&a=reverseSet&id=' + val;
+                    location.href = url;
+                });
+                $('.btn_set_all').click(function(){
+                        var id = '{$id}';
+                        var str = '';
+                        var status = $(this).data('btn');
+                        if (status != 1) {
+                        	status = 0;
+                        	str = '确定关闭所有逆向投注？';
+                        }else {
+                        	str = '确定开启所有逆向投注？';
+                        }
+                        
+                        layer.confirm(str, {
+                            btn: ['确定','取消'] //按钮
+                        }, function(){
+	                        $.ajax({
+	                            url: '?m=admin&c=role&a=reverseSetAll&id=' + id,
+	                            data: {status:status},
+	                            dataType: 'json',
+	                            type: 'post',
+	                            beforeSend: function () {
+	                                loading = layer.load(1);
+	                            },
+	                            error: function () {
+	                                layer.close(loading);
+	                                layer.msg('网络异常，请稍后再试！！！', {icon: 5, shade: [0.5, '#393D49']});
+	                                location.reload();
+	                            },
+	                            success: function (result) {
+	                                layer.close(loading);
+	                                if (result.status = 0) {
+	                                    layer.msg(result.msg, {icon: 6, shade: [0.5, '#393D49']}, function () {
+	                                        location.reload();
+	                                    });
+	                                }else{
+	                                    layer.msg(result.msg, {icon: 6, shade: [0.5, '#393D49']}, function () {
+	                                        location.reload();
+	                                    });
+	                                }
+	                            }
+	                        });
+                        },function(){
+                            return true;
+                        });
+                });
+            });
+        </script>
+    </body>
+</html>

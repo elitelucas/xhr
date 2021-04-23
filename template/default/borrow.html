@@ -1,0 +1,205 @@
+{template header}
+  <link rel="stylesheet" href="../../statics/resource/css/invest/invest.css">
+  <!--<link rel="stylesheet" href="<?=SITE_PROTOCOL.C('cdn_path')?>cxb/css/cxb.css"> -->
+<style type="text/css">
+.act-img{ width:81px; height:50px; background:url(../../statics/resource/images/huodongbiao.png) no-repeat; position:absolute; top:50%; right:0; margin-top:-25px;}
+</style>
+  <div class="container">
+    <!-- 路径导航 -->
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('borrow','default','index')?>">我要理财</a></li>
+      <li class="active">优选专区</li>
+    </ol>
+    <!-- /路径导航 -->
+    <div class="invest-box">
+      <!-- 标的分类标题 -->
+       <ul class="invest-title unlist text-center font18px">
+        <li class="invest-active">优选专区</li>
+        <!--<li><a href="<?=url('borrow','factoring','index')?>">保理专区</a></li>-->
+      </ul>
+<!--      <div class="container">
+            <div class="cxb-title">
+                <div class="item active">优选专区</div>
+              <a class="item" href="<?=url('chtpay','default','index')?>">活期宝</a>
+            </div>
+        </div>-->
+      <!-- /标的分类标题 -->
+      <!-- 搜索条件 -->
+      <div class="invest-search-box">
+        <!-- 还款期限 -->
+        <div class="invest-search">
+          <div class="invest-search-left pull-left">还款期限:</div>
+          <div class="invest-search-right pull-right">
+            <a class="{if $param['time_limit']==0}invest-search-active{/if} invest-search-item pull-left" href="<?=url('','','',array_merge($param,array('time_limit'=>0)))?>">全部</a>
+            <a class="{if $param['time_limit']==1}invest-search-active{/if} invest-search-item pull-left" href="<?=url('','','',array_merge($param,array('time_limit'=>1)))?>">一月</a>
+            <a class="{if $param['time_limit']==2}invest-search-active{/if} invest-search-item pull-left" href="<?=url('','','',array_merge($param,array('time_limit'=>2)))?>">二月</a>
+            <a class="{if $param['time_limit']==3}invest-search-active{/if} invest-search-item pull-left" href="<?=url('','','',array_merge($param,array('time_limit'=>3)))?>">三月</a>
+            <a class="{if $param['time_limit']==6}invest-search-active{/if} invest-search-item pull-left" href="<?=url('','','',array_merge($param,array('time_limit'=>6)))?>">六月</a>
+            <a class="{if $param['time_limit']==12}invest-search-active{/if} invest-search-item pull-left" href="<?=url('','','',array_merge($param,array('time_limit'=>12)))?>">十二月</a>
+          </div>
+        </div>
+        <!-- /还款期限 -->　　　　　　
+        <!-- 还款方式 -->
+        <div class="invest-search">
+          <div class="invest-search-left pull-left">还款方式:</div>
+          <div class="invest-search-right pull-right">
+            <a class="{if !isset($param['style'])}invest-search-active{/if} invest-search-item pull-left" href="<?=url('','','',array_merge($param,array('style'=>-1)))?>">全部</a>
+            <a class="{if isset($param['style']) && $param['style']==0}invest-search-active{/if} invest-search-item pull-left" href="<?=url('','','',array_merge($param,array('style'=>0)))?>">按月分期等额本息</a>
+            <a class="{if $param['style']==3}invest-search-active{/if} invest-search-item pull-left" href="<?=url('','','',array_merge($param,array('style'=>3)))?>">按月付息到期还本</a>
+          </div>
+        </div>
+        <!-- /还款方式 -->　
+        <!-- 标种类型 -->
+        <div class="invest-search" style="margin-bottom:22px;">
+          <div class="invest-search-left pull-left">标种类型:</div>
+          <div class="invest-search-right pull-right">
+            <a class="{if $param['type']==0}invest-search-active{/if} invest-search-item pull-left" href="<?=url('','','',array_merge($param,array('type'=>0)))?>">全部</a>
+                {loop $borrow_type $v}
+            <a class="{if $param['type']==$v['id']}invest-search-active{/if} invest-search-item pull-left" href="<?=url('','','',array_merge($param,array('type'=>$v['id'])))?>">{$v['name']}</a>
+                {/loop}
+          </div>
+        </div>
+        <!-- /标种类型 -->
+        <!-- 还款状态 -->
+        <div class="invest-search">
+          <div class="invest-search-left pull-left">还款状态:</div>
+          <div class="invest-search-right pull-right">
+            <a class="{if $param['status']==0}invest-search-active{/if} invest-search-item pull-left" href="<?=url('','','',array_merge($param,array('status'=>0)))?>">全部</a>
+            <a class="{if $param['status']==2}invest-search-active{/if} invest-search-item pull-left" href="<?=url('','','',array_merge($param,array('status'=>2)))?>">正在借款</a>
+            <a class="{if $param['status']==6}invest-search-active{/if} invest-search-item pull-left" href="<?=url('','','',array_merge($param,array('status'=>6)))?>">正在还款</a>
+            <!--<a class="{if $param['status']==7}invest-search-active{/if} invest-search-item pull-left" href="<?=url('','','',array_merge($param,array('status'=>7)))?>">已还款</a>-->
+            <a class="{if $param['status']==9}invest-search-active{/if} invest-search-item pull-left" href="<?=url('','','',array_merge($param,array('status'=>9)))?>">逾期</a>
+          </div>
+        </div>
+        <!-- /还款状态 -->
+      </div>
+      <div class="clearfix"></div>
+      <!-- /搜索条件 -->
+      <!-- 发标预告 -->
+      <div class="fabiao-box">
+          <div class="fabiao-title">发标预告</div>
+          <div id="fabiaoContent" class="fabiao-content">
+            <div class="fabiao pull-left">
+              <div id="fabiaoItem" class="pull-left">
+          {if empty($Borrownotice['content'])}
+      			<center>暂无公告</center>
+      	  {else}
+      			{$Borrownotice['content']}
+      	  {/if}
+              </div>
+            </div>
+          </div>
+      </div>
+      <!-- /发标预告 -->
+      <!-- 标的列表 -->
+      <div class="invest-list-box">
+        <div class="invest-list-title-box">
+          <div class="ilist-title1" style="text-align:center;">借款标题</div>
+          <div class="ilist-title2">借款金额</div>
+          <div class="ilist-title3">年利率</div>
+          <div class="ilist-title4">借款期限</div>
+          <div class="ilist-title5">还款方式</div>
+          <div class="ilist-title6">进度</div>
+          <div class="ilist-title7">操作</div>
+        </div>
+        {if !empty($list)}
+        {loop $list $v}
+        <div class="invest-list-content-box">
+          <div class="ilist-title1" style="position:relative;">
+            <!-- 七夕活动标签 -->
+            {if !empty($v['huodong'])}
+            <?php if(time()>= strtotime("2015-08-18 09:30:00") && time() < strtotime("2015-08-21") ){?>
+                <div class="qixi-proj-list" title="逢7额外赠送0.7%投标奖励"></div>
+                <?php }?>
+            {/if}
+            <!-- /七夕活动标签 -->
+            <span class="{if $v['borrow_type'] == 1}flg-xin{/if}{if $v['borrow_type'] == 2}flg-ya{/if}{if $v['borrow_type'] == 3}flg-xin{/if}{if $v['borrow_type'] == 4}flg-xin{/if}{if $v['borrow_type'] == 5}flg-xin{/if}"></span>
+            {if $v['is_dxb'] == 1}
+            <span class="flg-yue"></span>
+            {/if}
+            {if !empty($v['zhuanrangren'])}
+            <span class="flg-tuo"></span>
+            {/if}
+            {if $v['is_dxb'] == 1}
+			{if $v['bonus'] != '0.00'}
+            <span class="itooltip flg-jiang" data-toggle="tooltip" data-trigger="hover" data-placement="top" title="含约标另赠奖励">{$v['bonus']}%</span>
+			{/if}
+            {elseif $v['award']==1}
+			{if $v['bonus'] != '0.00'}
+            <span class="itooltip flg-jiang" data-toggle="tooltip" data-trigger="hover" data-placement="top" title="投标奖励{$v['bonus']}元">{$v['bonus']}</span>
+			{/if}
+            {elseif $v['award']==2}
+			{if $v['bonus'] != '0.00'}
+            <span class="itooltip flg-jiang" data-toggle="tooltip" data-trigger="hover" data-placement="top" title="投标奖励{$v['bonus']}%">{$v['bonus']}%</span>
+			{/if}
+            {/if}
+            <a href="<?=url('borrow','default','info',array('id'=>$v['id']))?>" title="{$v['title']}">{if !empty($v['zhuanrangren'])}<span style="color:red;">{else}<span>{/if}<?php echo getstr($v['title'], 100);?></span></a>
+
+          </div>
+          <div class="ilist-title2">￥<?=number_format($v['account'],2)?></div>
+          <div class="ilist-title3"><?=$v['apr']*100?>%</div>
+          <div class="ilist-title4">{$v['time_limit']}{if $v['is_datetype']==0}个月{else} 天{/if}</div>
+          <div class="ilist-title5">{if !empty($v['style'])}<bdo class="text-info">{$borrow_style[$v['style']]['name']}</bdo>{else}{$borrow_style[$v['style']]['name']}{/if}</div>
+          <div class="ilist-title6 {if round(($v['account_tender']/$v['account'])*100,2)==100} text-danger {/if}"><?=round(($v['account_tender']/$v['account'])*100,2)?>%</div>
+          <div class="ilist-title7">
+          {if $v['status']==2}<a class="btn btn-warning" href="<?=url('borrow','default','info',array('id'=>$v['id']))?>">我要投资</a>
+          {elseif $v['status']==3}<a class="btn btn-primary" href="<?=url('borrow','default','info',array('id'=>$v['id']))?>">等待复审</a>
+          {elseif $v['status']==5}<a class="btn btn-warning" href="<?=url('borrow','default','info',array('id'=>$v['id']))?>">流标</a>
+          {elseif $v['status']==6}<a class="btn btn-primary" href="<?=url('borrow','default','info',array('id'=>$v['id']))?>">还款中</a>
+          {elseif $v['status']==7}<a class="btn btn-default" href="<?=url('borrow','default','info',array('id'=>$v['id']))?>">已完成</a>{/if}
+          </div>
+        </div>
+        {/loop}
+        {else}
+          无符合条件的产品
+        {/if}
+      </div>
+      <!-- /标的列表 -->
+      <!-- 分页 -->
+      <div class="page-box mt25 mb30">{$pages['html']}</div>
+      <!-- /分页 -->
+    </div>
+  </div>
+
+  <div class="qyth-flt">
+    <a class="qyth-one" href="https://www.chenghuitong.net/zhuanti/qiyuetehui_/index.html#two"></a>
+    <a class="qyth-two" href="https://www.chenghuitong.net/zhuanti/qiyuetehui_/index.html#three"></a>
+    <a class="qyth-three" href="https://www.chenghuitong.net/zhuanti/qiyuetehui_/index.html#four"></a>
+    <a class="qyth-four" href="https://www.chenghuitong.net/zhuanti/qiyuetehui_/index.html#five"></a>
+    <a class="qyth-five" href="https://www.chenghuitong.net/zhuanti/qiyuetehui_/index.html#six"></a>
+    <a class="qyth-six" href="https://www.chenghuitong.net/zhuanti/qiyuetehui_/index.html#seven"></a>
+  </div>
+
+  <script type="text/javascript">
+    $(function() {
+      // 发标预告滚动
+	  var speed = 20;
+	  $(".fabiao").append('<div id="fabiaoItem2" class="pull-left"></div>');
+	  var div = document.getElementById("fabiaoContent");
+	  var div1 = document.getElementById("fabiaoItem");
+	  var div2 = document.getElementById("fabiaoItem2");
+	  div2.innerHTML = div1.innerHTML;
+	  function Marquee() {
+        if (div2.offsetWidth - div.scrollLeft <= 0) {
+          div.scrollLeft -= div1.offsetWidth;
+        } else {
+          div.scrollLeft++;
+        }
+      }
+      var MyMarquee = setInterval(Marquee, speed);
+      div.onmouseover = function() { clearInterval(MyMarquee) };
+      div.onmouseout = function() { MyMarquee = setInterval(Marquee, speed) };
+	  // 弹出发标预告全文
+	  $(".fabiao-box").hover( function() {
+		  $(".fabiao-content").addClass("c999");
+		  $(".fabiao-box").prepend('<div class="fabiao-float-box"></div>');
+		  $(".fabiao-float-box").text($("#fabiaoItem").text());
+	  }, function() {
+		  $(".fabiao-content").removeClass("c999");
+		  $("div").remove(".fabiao-float-box");
+	  }); // end
+
+	});
+  </script>
+  {template footer}

@@ -1,0 +1,207 @@
+{template header}
+  <!-- Investor_center -->
+  <link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+
+  <!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+      <li class="active">我的账户</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->
+  {template member-nav-left}
+
+
+    <!-- 右边正文 -->
+    <div class="investor-right pull-right border-radius">
+      <ul class="nav nav-tabs" role="tablist" id="myTab">
+        <li {if ROUTE_A=='pass'}class="active"{/if}><a href="<?=url('member','security','pass')?>">修改登录密码</a></li>
+        <li {if ROUTE_A=='paypass'}class="active"{/if}><a href="<?=url('member','security','paypass')?>">修改交易密码</a></li>
+      </ul>
+
+      <div class="tab-content">
+
+        <!-- 修改交易密码 -->
+        <div class="tab-pane active" id="investde2">
+          <div class="withdraw-info bg-warning">
+            <div>温馨提示:</div>
+            <div>1.我们将严格对用户的所有资料进行保密</div>
+            <div>2.密码请不要太简单，设成复杂一点，最好字母加符号</div>
+          </div>
+          <form id="paypswd" class="form-horizontal has-feedback" action="<?=url('','','paypass')?>" method="post" role="form">
+          	  <div class="form-group has-feedback">
+                <label for="inputPhone" class="col-sm-3 control-label">手机号码：</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="inputPhone" value="<?php if(!empty($phone)){ echo f_bank($phone);}?>" disabled>
+                </div>
+                <div class="help-block"></div>
+              </div>
+
+              <div class="form-group has-feedback">
+                <label for="inputBtn3" class="col-sm-3 control-label"></label>
+                <div class="col-sm-4">
+                  <input type="button" class="btn btn-warning form-control" value=' 获取短信验证码 ' id="smdbutton">
+                </div>
+                <div class="help-block"></div>
+              </div>
+
+              <div class="form-group has-feedback">
+                <label for="inputCode" class="col-sm-3 control-label">验证码：</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="attachment" name='attachment' placeholder="请输入验证码">
+                  <span class="glyphicon form-control-feedback"></span>
+                </div>
+                <div class="help-block"></div>
+              </div>
+
+              <div class="form-group has-feedback">
+                <label for="inputPwd4" class="col-sm-3 control-label">新密码：</label>
+                <div class="col-sm-4">
+                  <input type="password" class="form-control" name='password' id="password" placeholder="请输入6-20位新密码">
+                  <span class="glyphicon form-control-feedback"></span>
+                </div>
+                <div class="help-block"></div>
+              </div>
+
+              <div class="form-group has-feedback">
+                <label for="inputPwd5" class="col-sm-3 control-label">确认新密码：</label>
+                <div class="col-sm-4">
+                  <input type="password" class="form-control" name='conpassword' id="conpassword" placeholder="请重复输入新密码">
+                  <span class="glyphicon form-control-feedback"></span>
+                </div>
+                <div class="help-block"></div>
+              </div>
+
+              <div class="form-group has-feedback">
+                <label for="inputBtn2" class="col-sm-3 control-label"></label>
+                <div class="col-sm-4">
+                    <input type='hidden' name='save' value='save'>
+                    <input type='hidden' name='formhash' value='<?=formhash()?>' >
+                  <input type="hidden" name="id" id="id" value='0'>
+                  <input type="hidden"  name='send_to' id='send_to'  value="{$phone}">
+                  <input type="submit" class="btn btn-warning form-control" id="verybutton" value="确认提交">
+                </div>
+                <div class="help-block"></div>
+              </div>
+          </form>
+        </div>
+        <!-- /修改交易密码 -->
+
+      </div>
+
+    </div>
+    <!-- /右边正文 -->
+  </div>
+<script language="JavaScript" type="text/javascript">
+var i_sec=0;
+//self.setInterval("clock()",1000);
+//function clock()
+//{
+//	if(i_sec>0){
+//		i_sec--;
+//		$('#smdbutton').attr("disabled","disabled");
+//		$('#smdbutton').val(' 如未收到,请等待 '+i_sec+' 秒重发 ');
+//	}else{
+//		$('#smdbutton').removeAttr("disabled");
+//		$('#smdbutton').val(' 发送手机验证码 ');
+//	}
+//}
+
+$('#smdbutton').click(function(){
+    i_sec=60;
+    $('#smdbutton').attr("disabled","disabled");
+    $.ajax({
+//            url: "<?=url('','','paypassveryphone_ajax')?>",
+            url: "<?=C('app_home')?>/member/security-paypassveryphone_ajax.html?"+Math.random(),
+            success: function(data){
+                    if(data=='-1'){
+                            i_sec=0;
+                            alert("您还没有做手机认证，请先认证手机。",function(){
+                                    $('#smdbutton').attr("disabled","disabled");
+                                    $('#verybutton').attr("disabled","disabled");
+                            });
+                    }else if(data=='-2'){
+                            i_sec=0;
+                            alert("请稍后再重试。",function(){
+                                    $('#verybutton').attr("disabled","disabled");
+                            });
+                    }else{
+                        i_sec=0;
+                            $('#id').val(data);
+                            $('#verybutton').removeAttr("disabled");
+                    }
+            }
+    });
+});
+</script>
+<script type="text/javascript" src="../../statics/resource/js/jquery.validate.min.js"></script>
+<script src="../../statics/resource/js/placeholder/2.0.8/jquery.placeholder.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('input, textarea').placeholder();
+     $("#paypswd").validate({
+         errorPlacement:function(error,element) {
+               error.appendTo(element.parent().parent().children(".help-block"));
+          },
+          rules: {
+        	  attachment: {
+                    required: true,
+            	   minlength: 6,
+            	   maxlength: 6
+               },
+               password: {
+            	    required: true,
+            	   minlength: 6,
+            	   maxlength: 20
+               },
+               conpassword: {
+            	    required: true,
+            	   minlength: 6,
+            	   maxlength: 20,
+            	     equalTo: "input[name='password']"
+               }
+          },
+          messages: {
+        	  attachment: {
+                    required: "必选字段, 请输入您收到的6位短信验证码",
+           	   	   minlength: "必选字段, 请输入您收到的6位短信验证码",
+           	   	   maxlength: "必选字段, 请输入您收到的6位短信验证码"
+           	   },
+               password: {
+            	    required: "必选字段, 请输入6到20位的密码",
+            	   minlength: "必选字段, 请输入6到20位的密码",
+            	   maxlength: "必选字段, 请输入6到20位的密码"
+               },
+               conpassword: {
+            	    required: "必须字段, 请重复您输入的密码",
+            	   minlength: "必选字段, 请输入6到20位的密码",
+            	   maxlength: "必选字段, 请输入6到20位的密码",
+            	     equalTo: "确认密码必须与输入密码保持一致"
+               }
+          }
+     });
+});
+/*jQuery.extend(jQuery.validator.messages, {
+    required: "必选字段",
+     remote: "字段非法或者已经存在",
+     email: "请输入正确格式的电子邮件",
+     url: "请输入合法的网址",
+     date: "请输入合法的日期",
+     dateISO: "请输入合法的日期 (ISO).",
+     number: "请输入合法的数字",
+     digits: "只能输入整数",
+     creditcard: "请输入合法的信用卡号",
+     equalTo: "请再次输入相同的值",
+     accept: "请输入拥有合法后缀名的字符串",
+     maxlength: jQuery.validator.format("请输入一个 长度最多是 {0} 的字符串"),
+     minlength: jQuery.validator.format("请输入一个 长度最少是 {0} 的字符串"),
+     rangelength: jQuery.validator.format("请输入 一个长度介于 {0} 和 {1} 之间的字符串"),
+     range: jQuery.validator.format("请输入一个介于 {0} 和 {1} 之间的值"),
+     max: jQuery.validator.format("请输入一个最大为{0} 的值"),
+     min: jQuery.validator.format("请输入一个最小为{0} 的值")
+});*/
+</script>
+{template footer}

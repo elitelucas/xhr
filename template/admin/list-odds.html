@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <script src="statics/admin/js/pintuer.js"></script>
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>  
+        <script src="statics/admin/js/jquery.date_input.pack.js"></script> 
+        {template public-new-ui-header}
+        <style>
+        .input.form-control{
+            width:100px;text-align: center; margin-left: 38%;
+        }
+        </style>
+    </head>
+    <body class="new_ui_body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title iboxWTitle">
+                        <h5>赔率列表</h5>
+                        <div class="ibox-tools">
+                        </div>
+                    </div>
+                    <div class="ibox-content" style="width: 100%;">
+                        <div class="row">
+                            <form method="post" id="form" action="">
+                                <!--  -->
+
+                                <div class="col-sm-2">
+                                    <div class="input-group m-b"><span class="input-group-addon">选择房间</span>
+                                        <select class="form-control" id="room" name="room">
+                                            <option value="">请选择房间</option>
+                                            {loop $rooms $v}
+                                            <option value="{$v['id']}" {if $roomid == $v['id']}selected="selected"{/if}>{$v['lottery_title']}--{$v['title']}</option>
+                                            {/loop}
+                                        </select>
+                                    </div>
+                                </div>
+								{if $way_arr_zh}
+									<div class="col-sm-2">
+										<div class="input-group m-b"><span class="input-group-addon">选择玩法</span>
+											<select class="form-control" id="odds_type" name="odds_type">
+												<option value="">全部</option>
+												{loop $way_arr_zh $k=>$v}
+												<option value="{$k}">{$v}</option>
+												{/loop}
+											</select>
+										</div>
+									</div>
+								{/if}
+								
+								<div class="col-sm-2">
+									<div class="input-group m-b"><span class="input-group-addon">玩法</span>
+										<input type="text" name="way" placeholder="输入玩法" class="form-control" id="way" value="">
+									</div>
+								</div>
+								
+                                <div class="col-sm-2">
+                                    <span style="color:#8080C0;">
+                                        不同的颜色块用于区分不同的玩法；赔率支持小数点后两位，超出部分直接舍弃
+                                    </span>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group m-b">
+                                        <button type="button" class="btn btn-primary" onclick="upAll()">一键设置</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <button type="button" class="btn btn-primary check_format">一键检测</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                        {if $lottery_type['lottery_type'] == 12}
+                                        <a class="btn btn-primary" onclick="allAuto(1,'{$lottery_type['match_id']}')">手动赔率</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a class="btn btn-primary" onclick="allAuto(0,'{$lottery_type['match_id']}')">自动赔率</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a type="button" class="btn btn-primary" onclick="startOrStop('','{$lottery_type['match_id']}',1)">一键停售</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a type="button" class="btn btn-primary" onclick="startOrStop('','{$lottery_type['match_id']}',0)">一键开售</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                        {/if}
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+
+                        <table class="table table-striped table-bordered table-hover" id="editable" aria-describedby="editable_info">
+                            <thead>
+                                <tr>
+                                    <th>玩法</th>
+                                    <th>当前赔率</th>
+                                    {if $lottery_type['lottery_type'] == 12}
+                                    <th>当前盘口</th>
+                                    {/if}
+                                    <th>当前排序</th>
+                                    <th>修改赔率</th>
+                                    {if $lottery_type['lottery_type'] == 12}
+                                    <th>修改盘口</th>
+                                    {/if}
+                                    <th>排序</th>
+                                    <th style="width:15%;">类型</th>
+                                    <th>操作</th>
+                                </tr>      
+                            </thead>
+                            <tbody id="list_tb">
+                                {loop $list $v}
+                                <tr class="list_tb_tr <?php if(isset($v['way_type']))echo implode(" ", $v['way_type']);?>" xstyle="background-color: {if $v['type'] == 1}#FFFFFF{/if}{if $v['type'] == 2}#F0F0F0{/if}{if $v['type'] == 3}#d0d0d0{/if};">
+                                    <td>{$v['way']}</td>
+                                    <td>{$v['odds']}</td>
+                                    {if $lottery_type['lottery_type'] == 12}
+                                    <td>{if !in_array($v['way'],['半场让球_A','半场让球_B','半场大小_大','半场大小_小','全场让球_A','全场让球_B','全场大小_大','全场大小_小','加时让球_A','加时让球_B','加时大小_大','加时大小_小','点球让球_A','点球让球_B','点球大小_大','点球大小_小'])}-{else}{$v['handicap']}{/if}</td>
+                                    {/if}
+                                    <td>{$v['sort']}</td>
+                                    <td>
+                                        <input type="text" value="" class="input odds form-control" name="odds" placeholder="请输入赔率">
+                                    </td>
+                                    {if $lottery_type['lottery_type'] == 12}
+                                    <td>
+                                        <input type="text" value="" {if !in_array($v['way'],['半场让球_A','半场让球_B','半场大小_大','半场大小_小','全场让球_A','全场让球_B','全场大小_大','全场大小_小','加时让球_A','加时让球_B','加时大小_大','加时大小_小','点球让球_A','点球让球_B','点球大小_大','点球大小_小'])}disabled='disabled'{/if} class="input handicap form-control" name="handicap" placeholder="请输入盘口">
+                                    </td>
+                                    {/if}
+                                    <td>
+                                        <input type="text" value="" class="input sort form-control" name="sort" placeholder="请输入排序">
+                                    </td>
+
+                                    <td>
+                                        {if $v['type'] == 1}<span style="color:#0099ff;">数字</span>{/if}
+                                        {if $v['type'] == 2}<span style="color: red">文字</span>{/if}
+                                        {if $v['type'] == 3}<span style="color: green">特殊玩法</span>{/if}
+                                    </td>
+                                    <td>
+                                        <input type='hidden' name='id' value="{$v['id']}" class="hide_id" />
+
+                                        <a href="javascript:;" style="color: #0099ff;" onclick="dealCharge(this)">确认</a>
+                                        &nbsp;&nbsp;&nbsp;
+                                        {if $lottery_type['lottery_type'] == 12}
+                                        <a href="javascript:;" style="color: #0099ff;" onclick="autoCharge({$v['id']},{$v['match_id']},{$v['is_auto']})">{if $v['is_auto'] == 0}修改为手动赔率{else}修改自动赔率{/if}</a>
+                                        &nbsp;&nbsp;&nbsp;
+                                        <a href="javascript:;" style="color: #0099ff;" onclick="startOrStop({$v['id']},{$v['match_id']},{$v['state']})">{if $v['state'] == 0}停售{else}开售{/if}</a>
+                                        &nbsp;&nbsp;&nbsp;
+                                        <a href="?m=admin&c=odds&a=cupOddsLog&match_id={$v['match_id']}&way={$v['way']}" >详情</a>
+                                        {/if}
+
+                                    </td>
+                                </tr>
+                                {/loop}
+                            </tbody>
+                        </table>
+                        <div class="row foot_page">
+                            <div class="col-sm-12" style="{if $show == ''}display:none;{/if}">
+                                {$show}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            var loading = "";//加载中......
+
+            function dealCharge(note) {
+                var odds = $(note).closest("tr").find(".odds").val();
+                var sort = $(note).closest("tr").find(".sort").val();
+                var handicap = $(note).closest("tr").find(".handicap").val();
+                var id = $(note).closest("tr").find(".hide_id").val();
+                var text = $(note).closest("tr").find("td").eq(0).text();
+                var lottery_type = "{$lottery_type['lottery_type']}";
+                if(text =="大" || text=="小"|| text=="单"|| text=="双"){
+                    if(Number(odds) >2.5){
+                        layer.msg('赔率不能大于 2.5 ', {icon: 5, shade: [0.5, '#393D49']});
+                        return false;
+                    }
+                }
+                if(text =="大单" || text=="大双"|| text=="小单"|| text=="小双"){
+                    if(Number(odds) >5.5){
+                        layer.msg('赔率不能大于 5.5 ', {icon: 5, shade: [0.5, '#393D49']});
+                        return false;
+                    }
+                }
+
+                if($.trim(lottery_type) == 12){
+                    if($.trim(odds) =='' && $.trim(sort) =='' && $.trim(handicap) == ''){
+                        layer.msg('赔率、排序、盘口至少输入一个！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        return false;
+                    }
+                } else {
+                    if($.trim(odds) =='' && $.trim(sort) ==''){
+                        layer.msg('赔率、排序至少输入一个！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        return false;
+                    }
+                }
+
+
+                $.ajax({
+                    url: '?m=admin&c=odds&a=doOdds',
+                    data: {id: id, odds: odds, sort: sort, handicap: handicap, lottery_type: lottery_type},
+                    dataType: 'json',
+                    type: 'post',
+                    beforeSend: function () {
+                        loading = layer.load(1);
+                    },
+                    error: function () {
+                        layer.close(loading);
+                        layer.msg('网络错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                    },
+                    success: function (result) {
+                        layer.close(loading);
+                        if (result.rt > 0) {
+                            layer.msg('操作成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                location.reload();
+                            });
+                        }
+                        if (result.rt == -100) {
+                            layer.msg(result.ret_msg, {icon: 5, shade: [0.5, '#393D49']}, function () {
+                                return false;
+                            });
+                        }                        
+                    }
+                });
+            }
+			
+            //一键设置
+            function upAll(){
+                layer.confirm('确认执行操作？<br>保证每个空格数据的有效性，空为不修改', {
+                    btn: ['确认', '取消'] //可以无限个按钮
+                }, function () {
+                    var str = "";
+                    var oddsYc =0;
+                    var lottery_type = "{$lottery_type['lottery_type']}";
+                    $.each($("#list_tb tr"),function(){
+                        var odds = $(this).find("input[name='odds']").val();
+                        var sort = $(this).find("input[name='sort']").val();
+                        var handicap = $(this).find("input[name='handicap']").val();
+                        var id = $(this).find("input[name='id']").val();
+                        var text = $(this).find("td").eq(0).text();
+
+                        if(text =="大" || text=="小"|| text=="单"|| text=="双"){
+                            if(Number(odds) >2.5){
+                                return oddsYc =2.5;
+                            }
+                        }
+                        if(text =="大单" || text=="大双"|| text=="小单"|| text=="小双"){
+                            if(Number(odds) >5.5){
+                                return oddsYc =5.5;
+                            }
+                        }
+                        if (lottery_type == 12) {
+                            if(odds != "" || sort != "" || handicap != ""){
+                                str += id + "-" + odds + "-" + sort + "-" + handicap + "|";
+                            }
+                        } else {
+                            if(odds != "" || sort != ""){
+                                str += id + "-" + odds + "-" + sort + "|";
+                            }
+                        }
+
+                    });
+                    if(oddsYc ==2.5 || oddsYc ==5.5){
+                        layer.msg('赔率不能大于 '+oddsYc, {icon: 5, shade: [0.5, '#393D49']});
+                        return false;
+                    }
+                    if(str == ""){
+                        layer.msg('至少选择一条记录修改', {icon: 5, shade: [0.5, '#393D49']});
+                        return false;
+                    }
+                    $.ajax({
+                        url: '?m=admin&c=odds&a=doOddsAll',
+                        data: {str: str, lottery_type: lottery_type},
+                        dataType: 'json',
+                        type: 'post',
+                        beforeSend: function () {
+                            loading = layer.load(1);
+                        },
+                        error: function (e) {
+                            layer.close(loading);
+                            console.log(e);
+                            layer.msg('网络错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        },
+                        success: function (result) {
+                            layer.close(loading);
+                            if (result.rt > 0) {
+                                layer.msg('操作成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                    location.reload();
+                                });
+                            }else {
+                                layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']}, function () {
+                                    location.reload();
+                                });
+                            }
+                        }
+                    });
+                }, function () {
+                });
+            }
+
+            function startOrStop(id,match_id,state){
+                var data = {
+                    'id': id,
+                    'match_id' : match_id,
+                    'state' : state
+                }
+                layer.confirm('确认执行操作?', {
+                    btn: ['确认', '取消'] //可以无限个按钮
+                }, function () {
+                    $.ajax({
+                        url: '?m=admin&c=odds&a=startOrStop',
+                        data: data,
+                        dataType: 'json',
+                        type: 'post',
+                        beforeSend: function () {
+                            loading = layer.load(1);
+                        },
+                        error: function (e) {
+                            layer.close(loading);
+                            console.log(e);
+                            layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        },
+                        success: function (result) {
+                            layer.close(loading);
+                            if (result.code == 0) {
+                                layer.msg('操作成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                    location.reload();
+                                });
+                            }else {
+                                layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']}, function () {
+                                    location.reload();
+                                });
+                            }
+                        }
+                    });
+                })
+            }
+
+            function autoCharge(id,match_id,is_auto){
+                var data = {
+                    'id': id,
+                    'match_id' : match_id,
+                    'is_auto' : is_auto
+                }
+                layer.confirm('确认执行操作？', {
+                    btn: ['确认', '取消'] //可以无限个按钮
+                }, function () {
+                    $.ajax({
+                        url: '?m=admin&c=odds&a=autoCharge',
+                        data: data,
+                        dataType: 'json',
+                        type: 'post',
+                        beforeSend: function () {
+                            loading = layer.load(1);
+                        },
+                        error: function (e) {
+                            layer.close(loading);
+                            console.log(e);
+                            layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        },
+                        success: function (result) {
+                            layer.close(loading);
+                            if (result.code == 0) {
+                                layer.msg('操作成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                    location.reload();
+                                });
+                            }else {
+                                layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']}, function () {
+                                    location.reload();
+                                });
+                            }
+                        }
+                    });
+                })
+
+            }
+
+            function allAuto(type,match_id){
+                var data = {
+                    'type': type,
+                    'match_id' : match_id,
+                }
+                layer.confirm('确认执行操作？', {
+                    btn: ['确认', '取消'] //可以无限个按钮
+                }, function () {
+                    $.ajax({
+                        url: '?m=admin&c=odds&a=allAuto',
+                        data: data,
+                        dataType: 'json',
+                        type: 'post',
+                        beforeSend: function () {
+                            loading = layer.load(1);
+                        },
+                        error: function (e) {
+                            layer.close(loading);
+                            console.log(e);
+                            layer.msg('网络错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        },
+                        success: function (result) {
+                            layer.close(loading);
+                            if (result.code == 0) {
+                                layer.msg('操作成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                    location.reload();
+                                });
+                            }else {
+                                layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']}, function () {
+                                    location.reload();
+                                });
+                            }
+                        }
+                    });
+                });
+
+            }
+			
+            $(function () {
+                $(".odds").val("");
+                $(".sort").val("");
+				
+				$(".check_format").click(function() {
+					if(!$("[name='room']").val()) {
+						layer.msg('请先选择房间', {icon: 5, shade: [0.5, '#393D49']});
+						return false;
+					}
+				
+					var _list = $("#list_tb").find("tr");
+					
+					var preg = /^\d+(\.\d{1,2})?$/;
+					var errOdds = '';
+					$.each(_list,function(k, v) {
+						if($(this).css('display') == 'none') {
+							
+						}else {
+							var odds_t = $(this).find('td').eq(0).text();
+							var odds_v = $(this).find('td').eq(1).text();
+							if(!preg.test(odds_v)) errOdds += odds_t+',';
+						}
+					});
+					if(errOdds) {
+						layer.msg(errOdds+'赔率设置格式不正确', {icon: 5, shade: [0.5, '#393D49']});
+					}else {
+						layer.msg('当前玩法所有赔率设置正确', {icon: 1, shade: [0.5, '#393D49']});
+					}
+					return false;
+				});
+				
+                $("#room").change(function(){
+                    var val = $(this).val();
+                    var url = '?m=admin&c=odds&a=odds&room=' + val;
+                    location.href = url;                    
+                });
+
+				$("#odds_type").change(function() {
+					var odds_type = $(this).val();
+					var _way = $("#way").val();
+					if(odds_type) {
+						var _list = $("#list_tb").find("."+odds_type);
+					}else {
+						var _list = $("#list_tb").find("tr");
+					}
+					
+					$("#list_tb").find('tr').hide();			//默认全部隐藏
+					
+					if(!_way) {
+						_list.show();
+						return;
+					}
+					
+					var _this_way = '';
+					$.each(_list, function(k, v) {
+						_this_way = $(this).find('td').eq(0).html();
+						if(_this_way.indexOf(_way) >= 0) {
+							$(this).show();
+						}
+					});
+				});
+				
+				$("#way").bind('input propertychange', function() {
+					var _way = $(this).val();
+					var odds_type = $("#odds_type").val();
+					if(odds_type) {
+						var _list = $("#list_tb").find("."+odds_type);
+					}else {
+						var _list = $("#list_tb").find("tr");
+					}
+					
+					if(!_way) {
+						_list.show();
+						return;
+					}
+					
+					var _this_way = '';
+					$.each(_list, function(k, v) {
+						_this_way = $(this).find('td').eq(0).html();
+						if(_this_way.indexOf(_way) >= 0) {
+							$(this).show();
+						}else {
+							$(this).hide();
+						}
+					});
+				});
+            });
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+        <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+        <script src="statics/admin/js/jquery.js"></script>
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>
+        <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+        <script src="statics/admin/js/bootstrap.min.js"></script>
+        {template public-new-ui-header} 
+        <!-- 图片上传 引入插件 -->
+        <script src="statics/admin/fileupload/js/vendor/jquery.ui.widget.js"></script>
+        <script src="statics/admin/fileupload/js/jquery.fileupload.js"></script>
+        <style>
+            #page{height: 60px;margin-top: 20px;text-align: center;}
+            #page ul li{float: left;margin-right:10px;}
+            #page ul .current{ background-color:#0099ff;text-align:center;}
+            .hide_something{
+                display:none;
+            }
+            .show_something{
+                display:inline-block;
+            }
+            .pic_size_tips {
+                margin-top: 12px;
+                margin-left: 8px;
+            }
+
+        </style>
+    </head>
+    <body class="new_ui_body">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title iboxWTitle">
+            <h5>PC下载页面设置</h5>
+         
+            
+        </div>
+        <div class="ibox-content bagCol">
+            <div class="ibox-title ">
+                <h5>页面信息</h5>
+            </div>
+            <div class="ibox-content m-b" style="width: 100%;">
+                <form id='form_update' method="post" class="form-horizontal">
+				
+					<div class="hr-line-dashed"></div>
+					<div class="form-group">
+                        <label class="col-sm-2 control-label">页面title</label>
+                        <div class="col-sm-8">
+                            <span class="col-sm-8" style="padding-left: 0px;">
+                                <input type="text" class="form-control"  value="{$data['page_title']}" name="page_title" id="page_title"/>
+                            </span>
+                            <span class="col-sm-4 help-block m-b-none"></span>
+                        </div>
+                    </div>
+				
+					<div class="form-group">
+						<p style="text-align:center;" class="control-label col-sm-8">第一屏</p>
+					</div>
+					 
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">LOGO</label>
+                        <div class="col-sm-7">
+                            {if $data['logo'] != ''}
+                                <img class="imag_pic" src="{$data['logo']}" style="width:350px;height:160px; cursor:pointer;"><br/>
+                            {/if}
+                            <input type="hidden" value="{$data['logo']}" id="logo" name="logo">
+                            <input class="file_upload" type="file"  name="pc_logo" data-validate="required:请选择文件" />
+                            建议上传宽度为350px，高度为160px的图片
+                        </div>
+                    </div>
+
+					<div class="form-group">
+                        <label class="col-sm-2 control-label">图片</label>
+                        <div class="col-sm-7">
+                            {if $data['home_pic'] != ''}
+                                <img class="imag_pic" src="{$data['home_pic']}" style="width:420px;height:120px; cursor:pointer;"><br/>
+                            {/if}
+                            <input type="hidden" value="{$data['home_pic']}" id="home_pic" name="home_pic">
+                            <input class="file_upload" type="file"  name="pc_home_pic" data-validate="required:请选择文件" />
+                            建议上传宽度为420px，高度为120px的图片
+                        </div>
+                    </div>
+					
+					<div class="form-group">
+                        <label class="col-sm-2 control-label">下载二维码</label>
+                        <div class="col-sm-7">
+                            {if $data['qrcode_pic'] != ''}
+                                <img class="imag_pic" src="{$data['qrcode_pic']}" style="width:180px;height:180px; cursor:pointer;"><br/>
+                            {/if}
+                            <input type="hidden" value="{$data['qrcode_pic']}" id="qrcode_pic" name="qrcode_pic">
+                            <input class="file_upload" type="file"  name="qrcode_pic" data-validate="required:请选择文件" />
+                            建议上传宽度为180px，高度为180px的图片
+                        </div>
+                    </div>
+					
+                    <div class="hr-line-dashed"></div>
+					<div class="form-group">
+                        <label class="col-sm-2 control-label">首页链接</label>
+                        <div class="col-sm-8">
+                            <span class="col-sm-8" style="padding-left: 0px;">
+                                <input type="text" class="form-control"  value="{$data['home_link']}" name="home_link" id="home_link"/>
+                            </span>
+                            <span class="col-sm-4 help-block m-b-none"></span>
+                        </div>
+                    </div>
+                   
+                    <div class="hr-line-dashed"></div>
+					
+					<div class="form-group">
+                        <label class="col-sm-2 control-label">文字描述</label>
+                        <div class="col-sm-8">
+                            <span class="col-sm-8" style="padding-left: 0px;">
+                                <input type="text" class="form-control"  value="{$data['one_desc']}" name="one_desc" id="one_desc"/>
+                            </span>
+                            <span class="col-sm-4 help-block m-b-none"></span>
+                        </div>
+                    </div>
+                   
+				   
+                    <div class="hr-line-dashed"></div>
+					
+					<div class="form-group">
+						<p style="text-align:center;" class="control-label col-sm-8">第二屏</p>
+					</div>
+					
+					<div class="form-group">
+                        <label class="col-sm-2 control-label">图片</label>
+                        <div class="col-sm-7">
+                            {if $data['two_home_pic'] != ''}
+                                <img class="imag_pic" src="{$data['two_home_pic']}" style="width:420px;height:120px; cursor:pointer;"><br/>
+                            {/if}
+                            <input type="hidden" value="{$data['two_home_pic']}" id="two_home_pic" name="two_home_pic">
+                            <input class="file_upload" type="file"  name="pc_two_home_pic" data-validate="required:请选择文件" />
+                            建议上传宽度为350px，高度为160px的图片
+                        </div>
+                    </div>
+
+					<div class="hr-line-dashed"></div>
+
+					<div class="form-group">
+                        <label class="col-sm-2 control-label">下载连接</label>
+                        <div class="col-sm-8">
+                            <span class="col-sm-8" style="padding-left: 0px;">
+                                <input type="text" class="form-control"  value="{$data['download_link']}" name="download_link" id="download_link"/>
+                            </span>
+                            <span class="col-sm-4 help-block m-b-none"></span>
+                        </div>
+                    </div>
+					
+				   
+                    <div class="hr-line-dashed"></div>
+					<div class="form-group">
+						<p style="text-align:center;" class="control-label col-sm-8">第三屏</p>
+					</div>
+					<div class="form-group">
+                        <label class="col-sm-2 control-label">图片</label>
+                        <div class="col-sm-7">
+                            {if $data['three_home_pic'] != ''}
+                                <img class="imag_pic" src="{$data['three_home_pic']}" style="width:420px;height:120px; cursor:pointer;"><br/>
+                            {/if}
+                            <input type="hidden" value="{$data['three_home_pic']}" id="three_home_pic" name="three_home_pic">
+                            <input class="file_upload" type="file"  name="pc_three_home_pic" data-validate="required:请选择文件" />
+                            建议上传宽度为420px，高度为120px的图片
+                        </div>
+                    </div>
+					
+				   
+                    <div class="hr-line-dashed"></div>
+					<div class="form-group">
+                        <label class="col-sm-2 control-label">文字</label>
+                        <div class="col-sm-8">
+                            <span class="col-sm-8" style="padding-left: 0px;">
+                                <input type="text" class="form-control"  value="{$data['three_desc']}" name="three_desc" id="three_desc"/>
+                            </span>
+                            <span class="col-sm-4 help-block m-b-none"></span>
+                        </div>
+                    </div>
+                   
+                    <div class="hr-line-dashed"></div>
+					<div class="form-group">
+						<p style="text-align:center;" class="control-label col-sm-8">第四屏</p>
+					</div>
+					<div class="form-group">
+                        <label class="col-sm-2 control-label">文字（title）</label>
+                        <div class="col-sm-8">
+                            <span class="col-sm-8" style="padding-left: 0px;">
+                                <input type="text" class="form-control"  value="{$data['four_desc_title']}" name="four_desc_title" id="four_desc_title"/>
+                            </span>
+                            <span class="col-sm-4 help-block m-b-none"></span>
+                        </div>
+                    </div>
+                   
+                    <div class="hr-line-dashed"></div>
+					<div class="form-group">
+                        <label class="col-sm-2 control-label">文字（网址）</label>
+                        <div class="col-sm-8">
+                            <span class="col-sm-8" style="padding-left: 0px;">
+                                <input type="text" class="form-control"  value="{$data['four_desc_site']}" name="four_desc_site" id="four_desc_site"/>
+                            </span>
+                            <span class="col-sm-4 help-block m-b-none"></span>
+                        </div>
+                    </div>
+                   
+                    <div class="hr-line-dashed"></div>
+					<div class="form-group">
+                        <label class="col-sm-2 control-label">文字（标语）</label>
+                        <div class="col-sm-8">
+                            <span class="col-sm-8" style="padding-left: 0px;">
+                                <input type="text" class="form-control"  value="{$data['four_desc_banner']}" name="four_desc_banner" id="four_desc_banner"/>
+                            </span>
+                            <span class="col-sm-4 help-block m-b-none"></span>
+                        </div>
+                    </div>
+                   
+                    <div class="hr-line-dashed"></div>
+					
+					<div class="form-group">
+						<p style="text-align:center;" class="control-label col-sm-8">联系方式</p>
+					</div>
+					
+					<div class="form-group">
+                        <label class="col-sm-2 control-label">在线客服连接</label>
+                        <div class="col-sm-8">
+                            <span class="col-sm-8" style="padding-left: 0px;">
+                                <input type="text" class="form-control"  value="{$data['online_service_link']}" name="online_service_link" id="online_service_link"/>
+                            </span>
+                            <span class="col-sm-4 help-block m-b-none"></span>
+                        </div>
+                    </div>
+					
+					<div class="form-group">
+                        <label class="col-sm-2 control-label">QQ</label>
+                        <div class="col-sm-8">
+                            <span class="col-sm-8" style="padding-left: 0px;">
+                                <input type="text" class="form-control"  value="{$data['qq']}" name="qq" id="qq"/>多个,号分割
+                            </span>
+                            <span class="col-sm-4 help-block m-b-none"></span>
+                        </div>
+                    </div>
+                   
+                    <div class="hr-line-dashed"></div>
+					<div class="form-group">
+                        <label class="col-sm-2 control-label">微信</label>
+                        <div class="col-sm-8">
+                            <span class="col-sm-8" style="padding-left: 0px;">
+                                <input type="text" class="form-control"  value="{$data['wx']}" name="wx" id="wx"/>多个,号分割
+                            </span>
+                            <span class="col-sm-4 help-block m-b-none"></span>
+                        </div>
+                    </div>
+                   
+                    <div class="hr-line-dashed"></div>
+					<div class="form-group">
+                        <label class="col-sm-2 control-label">地址</label>
+                        <div class="col-sm-8">
+                            <span class="col-sm-8" style="padding-left: 0px;">
+                                <input type="text" class="form-control"  value="{$data['address']}" name="address" id="address"/>
+                            </span>
+                            <span class="col-sm-4 help-block m-b-none"></span>
+                        </div>
+                    </div>
+                   
+                    <div class="hr-line-dashed"></div>
+					
+					<div class="form-group">
+                        <label class="col-sm-2 control-label">关注二维码</label>
+                        <div class="col-sm-7">
+                            {if $data['focus_qrcode'] != ''}
+                                <img class="imag_pic" src="{$data['focus_qrcode']}" style="width:120px;height:120px; cursor:pointer;"><br/>
+                            {/if}
+                            <input type="hidden" value="{$data['focus_qrcode']}" id="focus_qrcode" name="focus_qrcode">
+                            <input class="file_upload" type="file"  name="pc_focus_qrcode" data-validate="required:请选择文件" />
+                            建议上传宽度为120px，高度为120px的图片
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+					
+					<div class="form-group">
+						<p style="text-align:center;" class="control-label col-sm-8">备案信息</p>
+					</div>
+					<div class="form-group">
+                        <label class="col-sm-2 control-label">备案信息</label>
+                        <div class="col-sm-8">
+                            <span class="col-sm-8" style="padding-left: 0px;">
+                                <input type="text" class="form-control"  value="{$data['website_records']}" name="website_records" id="website_records"/>
+                            </span>
+                            <span class="col-sm-4 help-block m-b-none"></span>
+                        </div>
+                    </div>
+					<input type="hidden" name='ispost' value='1'>
+                </form>
+                <div class="form-group">
+                    <div class="col-sm-4 col-sm-offset-2">
+                        <button class="btn btn-primary" type="submit" id="btn_submit">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <script type="text/javascript">
+            var loading = "";//加载中......
+
+            $(function () {
+                //初始化上传提示尺寸，并绑定change事件
+                var $pic_type = $('#pic_type');
+                var tmp_selector = '.' + $('#pic_type').find(':selected').data('size-type');
+                $(tmp_selector).removeClass('hide_something').addClass('show_something');
+                
+                $pic_type.change(function () {
+                    var tmp_selector = '.' + $(this).find(':selected').data('size-type');
+                    $('.pic_size_tips').removeClass('show_something').addClass('hide_something');
+                    $(tmp_selector).addClass('show_something');
+
+                    //实时改变预览图片尺寸
+                    if (this.value == '1') {
+                        $('#img_pic_url').css({'width':'200px', 'height':'100px'});
+                    } else {
+                        $('#img_pic_url').css({'width':'420px', 'height':'120px'});
+                    }
+                });
+
+                //上传图片
+                $('.file_upload').fileupload({
+                    url: "?m=admin&c=message&a=uploadImg",
+                    sequentialUploads: true
+                }).bind('fileuploaddone', function(e, data) {
+                    var data_index = $(this).data('index');
+                    var div_id = $(this).parent().attr('id');
+                    var res = $.parseJSON(data.result);
+
+                    if (res.status == 0) {
+						$(this).parent().find('.imag_pic').attr({'src': res.data+'?'+Math.random()});
+						$(this).prev().val(res.data);
+                    } else {
+                        layer.msg(res.data,{icon:5, shade: [0.5, '#393D49']}); //弹出错误信息
+                        return false;
+                    }
+                });
+                $('.imag_pic').click(function () {
+                    $(this).siblings('.file_upload').click();
+                });
+
+                $("#btn_submit").click(function () {
+                    //var article_id = $('#article_id').val();
+                    
+                    //if (article_id == '') {
+                    //  layer.msg('请选择彩种玩法！',{icon:5, shade: [0.5, '#393D49']});
+                    //    return false;
+                    //}
+                    
+                    var star_level = $('#star_level').val();
+                    
+                    if (star_level == '') {
+                      layer.msg('请选择星级评价！',{icon:5, shade: [0.5, '#393D49']});
+                        return false;
+                    }
+                    
+                    var formData = new FormData($("#form_update")[0]);
+                    $.ajax({
+                        url: '?m=admin&c=message&a=download_page_set&type=2',
+                        data: formData,
+                        dataType: 'json',
+                        processData: false,
+                        contentType: false,
+                        type: 'post',
+                        beforeSend: function () {
+                            loading = layer.load(1);
+                        },
+                        error: function () {
+                            layer.close(loading);
+                            layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        },
+                        success: function (result) {
+                            layer.close(loading);
+                            
+                            if (parseInt(result.status) == 0) {
+
+                                layer.msg('保存成功！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                    window.location.reload();
+                                });
+                            } else {
+                                layer.msg(result.ret_msg, {icon: 5, shade: [0.5, '#393D49']});
+                            }
+                        }
+                    });
+                });
+
+            });
+
+        </script>
+    </body>
+</html>

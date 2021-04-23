@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>银行卡管理</title>
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+</head>
+<body>
+<header>
+    <em onclick="history.go(-1)">返回</em>
+    <h1>银行卡管理</h1>
+    <!---->
+</header>
+<section class="modify pb-0">
+
+{if $flag == 1}
+    <div class="card_has">
+        <?php if(!empty($list['QQ'])){ ?>
+        <div class="details QQ">
+            <p><?php echo interceptChinese($list['QQ']['account']);  ?>（QQ钱包）</p>
+            {if $list['QQ']['is_setBank'] == 1}
+            <div class="bankCard6" data-href="<?=url('web','bank','getBindBankInfo')?>&bank_id={$list['QQ']['id']}" >更改银行卡</div>
+            <p class="xe"><span class="space"></span></p>
+            {else}
+            <div></div>
+            <p class="xe">银行卡更改被限制，如需更改银行卡信息，请联系客服。<span class="space"></span></p>
+            {/if}
+
+        </div>
+
+        <?php } ?>
+
+        <?php if(!empty($list['WeChat'])){ ?>
+        <div class="details WeChat">
+            <span  class="name">微信</span>
+            <p><?php echo interceptChinese($list['WeChat']['account']);  ?></p>
+            {if $list['WeChat']['is_setBank'] == 1}
+            <div class="bankCard6" data-href="<?=url('web','bank','getBindBankInfo')?>&bank_id={$list['WeChat']['id']}" >更改银行卡</div>
+            <p class="xe"><span class="space"></span></p>
+            {else}
+            <div></div>
+            <p class="xe">银行卡更改被限制，如需更改银行卡信息，请联系客服。<span class="space"></span></p>
+            {/if}
+        </div>
+
+        <?php } ?>
+
+        <?php if(!empty($list['Alipay'])){ ?>
+        <div class="details Alipay">
+            <span class="name">支付宝</span>
+            <p><?php echo interceptChinese($list['Alipay']['account']);  ?></p>
+            {if $list['Alipay']['is_setBank'] == 1}
+            <div class="bankCard6" data-href="<?=url('web','bank','getBindBankInfo')?>&bank_id={$list['Alipay']['id']}" >更改银行卡</div>
+            <p class="xe"><span class="space"></span></p>
+            {else}
+            <div></div>
+            <p class="xe">银行卡更改被限制，如需更改银行卡信息，请联系客服。<span class="space"></span></p>
+            {/if}
+        </div>
+
+        <?php } ?>
+
+        <?php if(!empty($list['UnionPay'])){ ?>
+        <div class="details UnionPay">
+            <span class="name">银行卡</span>
+            <p> **** **** **** <?=substr($list['UnionPay']['account'],-4)?></p>
+            {if $list['UnionPay']['is_setBank'] == 1}
+            <div class="bankCard6" data-href="<?=url('web','bank','getBindBankInfo')?>&bank_id={$list['UnionPay']['id']}" >更改银行卡</div>
+            <p class="xe"><span class="space"></span></p>
+            {else}
+            <div></div>
+            <p class="xe">银行卡更改被限制，如需更改银行卡信息，请联系客服。<span class="space"></span></p>
+            {/if}
+        </div>
+
+        <?php } ?>
+        <div class="warm-tips">
+            <p>温馨提示:</p>
+            <p>1.只能绑定一张卡</p>
+            <p>2.绑定后可以使用该卡提现</p>
+        </div>
+        <div class="button" style="margin-top: 50px"><button class="bgCol bgCol red-btn" data-href="{$JumpUrl[27]}">我要提现</button></div>
+    </div>
+{else}
+    <div class="card_no">
+        <div class="bankCard_manage">
+            <div class="bankCard_manage_con">
+                <div class="tit_img_card"></div>
+                <!--<div class="tit_bind">未设置资金密码</div>-->
+                <div class="info_card">添加银行卡</div>
+                <div class="info_card">即可享受安全快捷的资金提现</div>
+                <a href="?m=web&c=bank&a=bindBank"><p>+ 添加银行卡</p></a>
+            </div>
+        </div>
+    </div>
+{/if}
+</section>
+</body>
+</html>

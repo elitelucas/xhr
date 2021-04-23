@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+	    <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+	    <link type="text/css" href="statics/admin/new_ui/bootstrap.min.css" rel="stylesheet">
+	    <link type="text/css" href="statics/admin/new_ui/font-awesome.css" rel="stylesheet">
+   	    <link type="text/css" href="statics/admin/new_ui/style.css" rel="stylesheet">
+	    <script src="statics/admin/js/jquery.js"></script>
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>
+        <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+        <script src="statics/admin/js/bootstrap.min.js"></script>
+		<style type='text/css'>
+			.rules-1{
+				float: left;
+				height: 35px;
+				line-height: 35px;
+				padding-right:10px;
+			}
+			.rules-2{
+				float: left;
+				height: 35px;
+				line-height: 35px;
+				padding:0 10px 0 10px;
+			}
+			.rules-3{
+				float: left;
+				width: 20%;
+			}
+		</style>
+    </head>
+    <body class="new_ui_body">
+    <div class="ibox float-e-margins">
+	    <div class="ibox-title iboxWTitle">
+	        <h5>永久禁言设置</h5>
+	        <div class="ibox-tools">
+	            <a  class="btn btn-white btn-bitbucket" id="btn_back">
+	                <i class="fa fa-reply"></i> 返回
+	            </a>
+	        </div>
+	        
+	    </div>
+	    <div class="ibox-content bagCol">
+	        <div class="ibox-title ">
+	            <h5>永久禁言信息</h5>
+	            <div class="ibox-tools">
+	            	<a class="btn btn-white btn-bitbucket btn_sure" id="update" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+	        <div class="ibox-content">
+				<form id='form_update' method="post" class="form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-1 control-label"></label>
+						<div class="col-sm-7">
+							<span class="rules-1"></span>
+							<input type="text" class="form-control rules-3"  value="{$value['time']}" name="time" id="time" data-validate="required:请输入时长限制" readonly/>
+							<span class="rules-2">分钟内，发言超过</span>
+							<input type="text" class="form-control rules-3"  value="{$value['cnt']}" name="cnt" id="cnt" data-validate="required:请输入次数限制" readonly/>
+							<span class="rules-2">次，将被永久禁言</span>
+						</div>
+					</div>
+				</form>
+            </div>
+        </div>
+    </div>
+        <script type="text/javascript">
+            var loading = "";//加载中......
+
+            $(function () {
+                $(".btn_sure").click(function () {
+                	var form_id = 'form_' + $(this).attr('id');
+            		var i_class = $(this).children('i').attr('class');
+            		if (i_class == 'fa fa-pencil') {
+            			$(this).attr('data-title', '保存');
+            			$(this).children('i').attr('class', 'fa fa-save');
+            			$('#' + form_id).find('input').each(function() {
+            				$(this).attr('readonly', false);
+           				});
+            		}else {
+                        //数据
+                        var data = new Object();
+                        data.time = $.trim($("input[name=time]").val());
+                        data.cnt = $.trim($("input[name=cnt]").val());
+                        //提示信息
+                        var msg = new Object();
+                        msg.time = '请填写要禁言的时长';
+                        msg.cnt = '请填写要禁言的次数';
+                        msg.v_time = '禁言时长只能为整数';
+                        msg.v_cnt = '禁言次数只能为整数';
+                        //检查的值
+                        var arr = [ 'time', 'cnt'];
+                        //正则表达式
+                        var vNum = /^[0-9]*$/;
+                        var onOff = true;
+                        $.each(data, function(k, v){
+                            if($.inArray(k,arr) != -1){
+                                if(v==''){
+                                    layer.open({
+                                        content: "<p class='alert_msg'>"+msg[k]+"</p>",
+                                        btn: '<p class="alert_buttom">我知道了</p>'
+                                    });
+                                    onOff = false;
+                                    return false;
+                                }
+                                if(!vNum.test(v)){
+                                    k ='v_'+ k;
+                                    layer.open({
+                                        content: "<p class='alert_msg'>"+msg[k]+"</p>",
+                                        btn: '<p class="alert_buttom">我知道了</p>'
+                                    });
+                                    onOff = false;
+                                    return false;
+                                }
+                            }
+                        });
+                        if(!onOff){
+                            return false;
+                        }
+
+                        $.ajax({
+                            url: '?m=admin&c=message&a=doAddTalkever',
+                            data: $('#' + form_id).serialize(),
+                            dataType: 'json',
+                            type: 'post',
+                            beforeSend: function () {
+                                loading = layer.load(1);
+                            },
+                            error: function () {
+                                layer.close(loading);
+                                layer.msg('网络错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                            },
+                            success: function () {
+                                layer.close(loading);
+                                layer.msg('提交成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                    location.href = '?m=admin&c=message&a=addTalkever';
+                                });
+                            }
+                        });
+            		}
+                });
+
+
+                $("#btn_cancel").click(function () {
+                    location.href = '?m=admin&c=message&a=untalk';
+                });
+                
+                $("#btn_back").click(function () {
+                    location.href = '?m=admin&c=message&a=untalk';
+                });
+            });
+
+        </script>
+    </body>
+</html>

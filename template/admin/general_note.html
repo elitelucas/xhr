@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>网站信息</title>
+    <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+    <script src="statics/admin/js/pintuer.js"></script>  
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>  
+    <script src="statics/admin/js/jquery.date_input.pack.js"></script> 
+    {template public-new-ui-header}
+</head>
+<body class="new_ui_body">
+    <div class="ibox float-e-margins">
+	    <div class="ibox-title iboxWTitle">
+	        <h5>下注限额设置</h5>
+	        <div class="ibox-tools">
+	            <a href="javascript:history.go(-1)" class="btn btn-white btn-bitbucket" id="btn_back">
+	                <i class="fa fa-reply"></i> 返回
+	            </a>
+	        </div>
+	    </div>
+        <div class="ibox-content bagCol">
+        <input type="hidden" id="room_id" name="room_id"  value="{$roomId}" />
+        {if $bettingData['lottery_type'] == 1 || $bettingData['lottery_type'] == 3}
+	        <div class="ibox-title">
+	            <h5>总注数</h5>
+	            <div class="ibox-tools">
+	            <a class="btn btn-white btn-bitbucket btn_sure" id="total_amount" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+            <div class="ibox-content m-b">
+         		<form id='form_total_amount' method="post" class="form-horizontal">
+	         		<div class="form-group">
+	                    <label class="col-sm-2 control-label" style="margin-top:10px;">总注数</label>
+	                    <div class="col-sm-4" style="padding:10px 0px;">
+	                        <span class="col-sm-4" style="padding-left: 0px;"><input type="number" class=" form-control" name="total_amount" value="{$bettingData['upper']['total_amount']}" readonly/></span>
+	                        <span class="help-block m-b-none">元，封顶 (0为不限制)</span>
+	                    </div>
+                 </div>
+               </form>
+            </div>
+            <div class="ibox-title">
+	            <h5>单点数字</h5>
+	            <div class="ibox-tools">
+	            <a class="btn btn-white btn-bitbucket btn_sure" id="id_0" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+            <div class="ibox-content m-b">
+         		<form id='form_id_0' method="post" class="form-horizontal">
+	         		<div class="form-group">
+	         		{loop $bettingData['upper']['limit'] $kb $vb}
+	            		{if $kb == 0}
+			         		{loop $vb['contact'] $kbc $vbc}
+			                    <div class="col-sm-2 m-b">
+			                        <span class="col-sm-4 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vbc}</span>
+			                        <span class="col-sm-8" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_{$kb}_data_{$kbc}" value="{$vb['data'][$kbc]}" readonly/></span>
+			                    </div>
+		                    {/loop}
+	                    {/if}
+                    {/loop}
+                 </div>
+               </form>
+            </div>
+            <div class="ibox-title">
+	            <h5>猜双面</h5>
+	            <div class="ibox-tools">
+	            <a class="btn btn-white btn-bitbucket btn_sure" id="id_1" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+            <div class="ibox-content m-b">
+         		<form id='form_id_1' method="post" class="form-horizontal">
+	         		<div class="form-group">
+	         		{loop $bettingData['upper']['limit'] $kb $vb}
+	            		{if $kb > 0 && $kb < 4}
+		                    <div class="col-sm-3 m-b">
+		                        <span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vb['remark']}</span>
+		                        <span class="col-sm-6" padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_{$kb}_data_0" value="{$vb['data'][0]}" readonly/></span>
+		                    </div>
+	                    {/if}
+                    {/loop}
+                 </div>
+               </form>
+            </div>
+            <div class="ibox-title">
+	            <h5>特殊玩法</h5>
+	            <div class="ibox-tools">
+	            <a class="btn btn-white btn-bitbucket btn_sure" id="id_2" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+            <div class="ibox-content m-b">
+         		<form id='form_id_2' method="post" class="form-horizontal">
+	         		<div class="form-group">
+	         		{loop $bettingData['upper']['limit'] $kb $vb}
+	            		{if $kb > 3}
+		                    <div class="col-sm-3 m-b">
+		                        <span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vb['remark']}</span>
+		                        <span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_{$kb}_data_0" value="{$vb['data'][0]}" readonly/></span>
+		                    </div>
+	                    {/if}
+                    {/loop}
+                 </div>
+               </form>
+            </div>
+
+            {elseif $bettingData['lottery_type'] == 2 || $bettingData['lottery_type'] == 4 || $bettingData['lottery_type'] == 9 || $bettingData['lottery_type'] == 14}
+			<div class="ibox-title">
+				<h5>总注数</h5>
+				<div class="ibox-tools">
+					<a class="btn btn-white btn-bitbucket btn_sure" id="total_amount" data-title="修改"><i class="fa fa-pencil"></i> </a>
+				</div>
+			</div>
+			<div class="ibox-content m-b">
+				<form id='form_total_amount' method="post" class="form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-2 control-label" style="margin-top:10px;">总注数</label>
+						<div class="col-sm-4" style="padding:10px 0px;">
+							<span class="col-sm-4" style="padding-left: 0px;"><input type="number" class=" form-control" name="total_amount" value="{$bettingData['upper']['total_amount']}" readonly/></span>
+							<span class="help-block m-b-none">元，封顶 (0为不限制)</span>
+						</div>
+					</div>
+				</form>
+			</div>
+			{loop $bettingData['upper']['limit'] $kb $vb}
+			{if $kb < 11 || $kb == 37 }
+			<div class="ibox-title">
+				<h5>{$vb['remark']}</h5>
+				<div class="ibox-tools">
+					<a class="btn btn-white btn-bitbucket btn_sure" id="id_{$kb}" data-title="修改"><i class="fa fa-pencil"></i> </a>
+				</div>
+			</div>
+			<div class="ibox-content m-b">
+				<form id="form_id_{$kb}" method="post" class="form-horizontal">
+					<div class="form-group">
+						{loop $vb['contact'] $kbc $vbc}
+						<div class="col-sm-3 m-b">
+							<span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vbc}</span>
+							<span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_{$kb}_data_{$kbc}" value="{$vb['data'][$kbc]}" readonly/></span>
+						</div>
+						{/loop}
+					</div>
+				</form>
+			</div>
+			{elseif $kb == 36 || $kb == 38 || $kb == 39 || $kb == 40}
+			<div class="ibox-title">
+				<h5>{$vb['remark']}</h5>
+				<div class="ibox-tools">
+					<a class="btn btn-white btn-bitbucket btn_sure" id="id_{$kb}" data-title="修改"><i class="fa fa-pencil"></i> </a>
+				</div>
+			</div>
+			<div class="ibox-content m-b">
+				<form id="form_id_{$kb}" method="post" class="form-horizontal">
+					<div class="form-group">
+						<div class="col-sm-3 m-b">
+							<span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vb['remark']}</span>
+							<span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_{$kb}_data_0" value="{$vb['data'][0]}" readonly/></span>
+						</div>
+					</div>
+				</form>
+			</div>
+			{/if}
+			{/loop}
+			<div class="ibox-title">
+				<h5>大小单双</h5>
+				<div class="ibox-tools">
+					<a class="btn btn-white btn-bitbucket btn_sure" id="id_15" data-title="修改"><i class="fa fa-pencil"></i> </a>
+				</div>
+			</div>
+			<div class="ibox-content m-b">
+				<form id='form_id_15' method="post" class="form-horizontal">
+					<div class="form-group">
+						{loop $bettingData['upper']['limit'] $kb $vb}
+						{if $kb > 10 && $kb < 21}
+						<div class="col-sm-3 m-b">
+							<span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vb['remark']}</span>
+							<span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_{$kb}_data_0" value="{$vb['data'][0]}" readonly/></span>
+						</div>
+						{/if}
+						{/loop}
+					</div>
+				</form>
+			</div>
+
+			<div class="ibox-title">
+				<h5>组合</h5>
+				<div class="ibox-tools">
+					<a class="btn btn-white btn-bitbucket btn_sure" id="id_25" data-title="修改"><i class="fa fa-pencil"></i> </a>
+				</div>
+			</div>
+			<div class="ibox-content m-b">
+				<form id='form_id_25' method="post" class="form-horizontal">
+					<div class="form-group">
+						{loop $bettingData['upper']['limit'] $kb $vb}
+						{if $kb > 20 && $kb < 31}
+						<div class="col-sm-3 m-b">
+							<span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vb['remark']}</span>
+							<span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_{$kb}_data_0" value="{$vb['data'][0]}" readonly/></span>
+						</div>
+						{/if}
+						{/loop}
+					</div>
+				</form>
+			</div>
+
+			<div class="ibox-title">
+				<h5>龙虎</h5>
+				<div class="ibox-tools">
+					<a class="btn btn-white btn-bitbucket btn_sure" id="id_35" data-title="修改"><i class="fa fa-pencil"></i> </a>
+				</div>
+			</div>
+			<div class="ibox-content m-b">
+				<form id='form_id_35' method="post" class="form-horizontal">
+					<div class="form-group">
+						{loop $bettingData['upper']['limit'] $kb $vb}
+						{if $kb > 30 && $kb < 36}
+						<div class="col-sm-3 m-b">
+							<span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vb['remark']}</span>
+							<span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_{$kb}_data_0" value="{$vb['data'][0]}" readonly/></span>
+						</div>
+						{/if}
+						{/loop}
+					</div>
+				</form>
+			</div>
+            {elseif $bettingData['lottery_type'] == 5 || $bettingData['lottery_type'] == 6 || $bettingData['lottery_type'] == 11}
+            <div class="ibox-title">
+	            <h5>总注数</h5>
+	            <div class="ibox-tools">
+	            <a class="btn btn-white btn-bitbucket btn_sure" id="total_amount" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+            <div class="ibox-content m-b">
+         		<form id='form_total_amount' method="post" class="form-horizontal">
+	         		<div class="form-group">
+	                    <label class="col-sm-2 control-label" style="margin-top:10px;">总注数</label>
+	                    <div class="col-sm-4" style="padding:10px 0px;">
+	                        <span class="col-sm-4" style="padding-left: 0px;"><input type="number" class=" form-control" name="total_amount" value="{$bettingData['upper']['total_amount']}" readonly/></span>
+	                        <span class="help-block m-b-none">元，封顶 (0为不限制)</span>
+	                    </div>
+                 </div>
+               </form>
+            </div>
+            <div class="ibox-title">
+	            <h5>猜总和</h5>
+	            <div class="ibox-tools">
+	            <a class="btn btn-white btn-bitbucket btn_sure" id="id_{$kb}" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+            <div class="ibox-content m-b">
+         		<form id="form_id_{$kb}" method="post" class="form-horizontal">
+	         		<div class="form-group">
+	                    <div class="col-sm-3 m-b">
+	                        <span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$bettingData['upper']['limit'][0]['remark']}</span>
+	                        <span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_0_data_0" value="{$bettingData['upper']['limit'][0]['data'][0]}" readonly/></span>
+	                    </div>
+                 </div>
+               </form>
+            </div>
+            {loop $bettingData['upper']['limit'] $kb $vb}
+        	{if $kb > 0 }
+            <div class="ibox-title">
+	            <h5>{$vb['remark']}</h5>
+	            <div class="ibox-tools">
+	            <a class="btn btn-white btn-bitbucket btn_sure" id="id_{$kb}" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+            <div class="ibox-content m-b">
+         		<form id="form_id_{$kb}" method="post" class="form-horizontal">
+	         		<div class="form-group">
+	         		{loop $vb['contact'] $kbc $vbc}
+	                    <div class="col-sm-3 m-b">
+	                        <span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vbc}</span>
+	                        <span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_{$kb}_data_{$kbc}" value="{$vb['data'][$kbc]}" readonly/></span>
+	                    </div>
+                    {/loop}
+                 </div>
+               </form>
+            </div>
+            {/if}
+            {/loop}
+            {elseif $bettingData['lottery_type'] == 7 || $bettingData['lottery_type'] == 8}
+            <div class="ibox-title">
+	            <h5>总注数</h5>
+	            <div class="ibox-tools">
+	            <a class="btn btn-white btn-bitbucket btn_sure" id="total_amount" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+            <div class="ibox-content m-b">
+         		<form id='form_total_amount' method="post" class="form-horizontal">
+	         		<div class="form-group">
+	                    <label class="col-sm-2 control-label" style="margin-top:10px;">总注数</label>
+	                    <div class="col-sm-4" style="padding:10px 0px;">
+	                        <span class="col-sm-4" style="padding-left: 0px;"><input type="number" class=" form-control" name="total_amount" value="{$bettingData['upper']['total_amount']}" readonly/></span>
+	                        <span class="help-block m-b-none">元，封顶 (0为不限制)</span>
+	                    </div>
+                 </div>
+               </form>
+            </div>
+            <div class="ibox-title">
+	            <h5>特码A数字</h5>
+	            <div class="ibox-tools">
+	            <a class="btn btn-white btn-bitbucket btn_sure" id="id_0" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+            <div class="ibox-content m-b">
+         		<form id="form_id_0" method="post" class="form-horizontal">
+	         		<div class="form-group">
+	         		{loop $bettingData['upper']['limit'][0]['contact'] $kbc $vbc}
+	                    <div class="col-sm-3 m-b">
+	                        <span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vbc}</span>
+	                        <span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_0_data_{$kbc}" value="{$bettingData['upper']['limit'][0]['data'][$kbc]}" readonly/></span>
+	                    </div>
+                    {/loop}
+                 </div>
+               </form>
+            </div>
+            
+            <div class="ibox-title">
+	            <h5>特码A文字</h5>
+	            <div class="ibox-tools">
+	            <a class="btn btn-white btn-bitbucket btn_sure" id="id_3" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+            <div class="ibox-content m-b">
+         		<form id="form_id_3" method="post" class="form-horizontal">
+	         		<div class="form-group">
+	         		{loop $bettingData['upper']['limit'] $kb $vb}
+	        	        {if $kb > 0 && $kb < 7 }
+		                    <div class="col-sm-3 m-b">
+		                        <span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vb['remark']}</span>
+		                        <span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_{$kb}_data_0" value="{$vb['data'][0]}" readonly/></span>
+		                    </div>
+	                    {/if}
+            		{/loop}
+                 </div>
+               </form>
+            </div>
+           
+            <div class="ibox-title">
+	            <h5>特码B数字</h5>
+	            <div class="ibox-tools">
+	            <a class="btn btn-white btn-bitbucket btn_sure" id="id_7" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+            <div class="ibox-content m-b">
+         		<form id="form_id_7" method="post" class="form-horizontal">
+	         		<div class="form-group">
+	         		{loop $bettingData['upper']['limit'][7]['contact'] $kbc $vbc}
+	                    <div class="col-sm-3 m-b">
+	                        <span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vbc}</span>
+	                        <span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_7_data_{$kbc}" value="{$bettingData['upper']['limit'][7]['data'][$kbc]}" readonly/></span>
+	                    </div>
+                    {/loop}
+                 </div>
+               </form>
+            </div>
+            <div class="ibox-title">
+	            <h5>特码B文字</h5>
+	            <div class="ibox-tools">
+	            <a class="btn btn-white btn-bitbucket btn_sure" id="id_8" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+            <div class="ibox-content m-b">
+         		<form id="form_id_8" method="post" class="form-horizontal">
+	         		<div class="form-group">
+	         		{loop $bettingData['upper']['limit'] $kb $vb}
+	        			{if $kb > 7 && $kb < 14 }
+		                    <div class="col-sm-3 m-b">
+		                        <span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vb['remark']}</span>
+		                        <span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_{$kb}_data_0" value="{$vb['data'][0]}" readonly/></span>
+		                    </div>
+	                    {/if}
+                    {/loop}
+                 </div>
+               </form>
+            </div>
+            <div class="ibox-title">
+	            <h5>正码A数字</h5>
+	            <div class="ibox-tools">
+	            <a class="btn btn-white btn-bitbucket btn_sure" id="id_14" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+            <div class="ibox-content m-b">
+         		<form id="form_id_14" method="post" class="form-horizontal">
+	         		<div class="form-group">
+	         		{loop $bettingData['upper']['limit'][14]['contact'] $kbc $vbc}
+	                    <div class="col-sm-3 m-b">
+	                        <span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vbc}</span>
+	                        <span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_14_data_{$kbc}" value="{$bettingData['upper']['limit'][14]['data'][$kbc]}" readonly/></span>
+	                    </div>
+                    {/loop}
+                 </div>
+               </form>
+            </div>
+            <div class="ibox-title">
+	            <h5>正码B数字</h5>
+	            <div class="ibox-tools">
+	            <a class="btn btn-white btn-bitbucket btn_sure" id="id_18" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+            <div class="ibox-content m-b">
+         		<form id="form_id_18" method="post" class="form-horizontal">
+	         		<div class="form-group">
+	         		{loop $bettingData['upper']['limit'][18]['contact'] $kbc $vbc}
+	                    <div class="col-sm-3 m-b">
+	                        <span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vbc}</span>
+	                        <span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_18_data_{$kbc}" value="{$bettingData['upper']['limit'][18]['data'][$kbc]}" readonly/></span>
+	                    </div>
+                    {/loop}
+                 </div>
+               </form>
+            </div>
+            <div class="ibox-title">
+	            <h5>正码A、B总和龙虎</h5>
+	            <div class="ibox-tools">
+	            <a class="btn btn-white btn-bitbucket btn_sure" id="id_15" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+            <div class="ibox-content m-b">
+         		<form id="form_id_15" method="post" class="form-horizontal">
+	         		<div class="form-group">
+	         		{loop $bettingData['upper']['limit'] $kb $vb}
+	        	        {if $kb > 14 && $kb < 18 || $kb > 18 && $kb < 22 }
+		                    <div class="col-sm-4 m-b">
+		                        <span class="col-sm-4 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vb['remark']}</span>
+		                        <span class="col-sm-4" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_{$kb}_data_0" value="{$vb['data'][0]}" readonly/></span>
+		                    </div>
+	                    {/if}
+            		{/loop}
+                 </div>
+               </form>
+            </div>
+            {loop $bettingData['upper']['limit'] $kb $vb}
+            {if in_array($kb, [22,27,32,37,42,47])}
+            <div class="ibox-title">
+	            <h5>{$vb['remark']}数</h5>
+	            <div class="ibox-tools">
+	            <a class="btn btn-white btn-bitbucket btn_sure" id="id_{$kb}" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+            <div class="ibox-content m-b">
+         		<form id="form_id_{$kb}" method="post" class="form-horizontal">
+	         		<div class="form-group">
+	         		{loop $vb['contact'] $kbc $vbc}
+	                    <div class="col-sm-3 m-b">
+	                        <span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vbc}</span>
+	                        <span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_{$kb}_data_{$kbc}" value="{$vb['data'][$kbc]}" readonly/></span>
+	                    </div>
+                    {/loop}
+                 </div>
+               </form>
+            </div>
+            {/if}
+            {/loop}
+            <div class="ibox-title">
+	            <h5>正特文字</h5>
+	            <div class="ibox-tools">
+	            <a class="btn btn-white btn-bitbucket btn_sure" id="id_25" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+            <div class="ibox-content m-b">
+         		<form id="form_id_25" method="post" class="form-horizontal">
+	         		<div class="form-group">
+	         		{loop $bettingData['upper']['limit'] $kb $vb}
+	        	        {if $kb > 22 && $kb < 27 || $kb > 27 && $kb < 32 || $kb > 32 && $kb < 37 || $kb > 37 && $kb < 42 || $kb > 42 && $kb < 47 || $kb > 47 && $kb < 52}
+		                    <div class="col-sm-3 m-b">
+		                        <span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vb['remark']}</span>
+		                        <span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_{$kb}_data_0" value="{$vb['data'][0]}" readonly/></span>
+		                    </div>
+	                    {/if}
+            		{/loop}
+                 </div>
+               </form>
+            </div>
+            <div class="ibox-title">
+	            <h5>连码</h5>
+	            <div class="ibox-tools">
+	            <a class="btn btn-white btn-bitbucket btn_sure" id="id_54" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+            <div class="ibox-content m-b">
+         		<form id="form_id_54" method="post" class="form-horizontal">
+	         		<div class="form-group">
+	         		{loop $bettingData['upper']['limit'] $kb $vb}
+	        	        {if $kb > 51 && $kb < 57 }
+		                    <div class="col-sm-3 m-b">
+		                        <span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vb['remark']}</span>
+		                        <span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_{$kb}_data_0" value="{$vb['data'][0]}" readonly/></span>
+		                    </div>
+	                    {/if}
+            		{/loop}
+                 </div>
+               </form>
+            </div>
+            <div class="ibox-title">
+	            <h5>半波</h5>
+	            <div class="ibox-tools">
+	            <a class="btn btn-white btn-bitbucket btn_sure" id="id_60" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+            <div class="ibox-content m-b">
+         		<form id="form_id_60" method="post" class="form-horizontal">
+	         		<div class="form-group">
+	         		{loop $bettingData['upper']['limit'] $kb $vb}
+	        	        {if $kb > 56 && $kb < 63 }
+		                    <div class="col-sm-3 m-b">
+		                        <span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vb['remark']}</span>
+		                        <span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_{$kb}_data_0" value="{$vb['data'][0]}" readonly/></span>
+		                    </div>
+	                    {/if}
+            		{/loop}
+                 </div>
+               </form>
+            </div>
+            <div class="ibox-title">
+	            <h5>尾数</h5>
+	            <div class="ibox-tools">
+	            <a class="btn btn-white btn-bitbucket btn_sure" id="id_63" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+            <div class="ibox-content m-b">
+         		<form id="form_id_63" method="post" class="form-horizontal">
+	         		<div class="form-group">
+	         		{loop $bettingData['upper']['limit'][63]['contact'] $kbc $vbc}
+	                    <div class="col-sm-3 m-b">
+	                        <span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vbc}</span>
+	                        <span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_63_data_{$kbc}" value="{$bettingData['upper']['limit'][63]['data'][$kbc]}" readonly/></span>
+	                    </div>
+                    {/loop}
+                 </div>
+               </form>
+            </div>
+            <div class="ibox-title">
+	            <h5>尾值</h5>
+	            <div class="ibox-tools">
+	            <a class="btn btn-white btn-bitbucket btn_sure" id="id_68" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+            <div class="ibox-content m-b">
+         		<form id="form_id_68" method="post" class="form-horizontal">
+	         		<div class="form-group">
+	         		{loop $bettingData['upper']['limit'] $kb $vb}
+	        	        {if $kb > 63 && $kb < 70 }
+		                    <div class="col-sm-3 m-b">
+		                        <span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vb['remark']}</span>
+		                        <span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_{$kb}_data_0" value="{$vb['data'][0]}" readonly/></span>
+		                    </div>
+	                    {/if}
+            		{/loop}
+                 </div>
+               </form>
+            </div>
+            <div class="ibox-title">
+	            <h5>一肖</h5>
+	            <div class="ibox-tools">
+	            <a class="btn btn-white btn-bitbucket btn_sure" id="id_70" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+            <div class="ibox-content m-b">
+         		<form id="form_id_70" method="post" class="form-horizontal">
+	         		<div class="form-group">
+	         		{loop $bettingData['upper']['limit'][70]['contact'] $kbc $vbc}
+	                    <div class="col-sm-3 m-b">
+	                        <span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vbc}</span>
+	                        <span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_70_data_{$kbc}" value="{$bettingData['upper']['limit'][70]['data'][$kbc]}" readonly/></span>
+	                    </div>
+                    {/loop}
+                 </div>
+               </form>
+            </div>
+            <div class="ibox-title">
+	            <h5>连肖</h5>
+	            <div class="ibox-tools">
+	            <a class="btn btn-white btn-bitbucket btn_sure" id="id_74" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+            <div class="ibox-content m-b">
+         		<form id="form_id_74" method="post" class="form-horizontal">
+	         		<div class="form-group">
+	         		{loop $bettingData['upper']['limit'] $kb $vb}
+	        	        {if $kb > 70 && $kb < 77 }
+		                    <div class="col-sm-3 m-b">
+		                        <span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vb['remark']}</span>
+		                        <span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_{$kb}_data_0" value="{$vb['data'][0]}" readonly/></span>
+		                    </div>
+	                    {/if}
+            		{/loop}
+                 </div>
+               </form>
+            </div>
+            <div class="ibox-title">
+	            <h5>特肖</h5>
+	            <div class="ibox-tools">
+	            <a class="btn btn-white btn-bitbucket btn_sure" id="id_77" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+            <div class="ibox-content m-b">
+         		<form id="form_id_77" method="post" class="form-horizontal">
+	         		<div class="form-group">
+	         		{loop $bettingData['upper']['limit'][77]['contact'] $kbc $vbc}
+	                    <div class="col-sm-3 m-b">
+	                        <span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vbc}</span>
+	                        <span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_77_data_{$kbc}" value="{$bettingData['upper']['limit'][77]['data'][$kbc]}" readonly/></span>
+	                    </div>
+                    {/loop}
+                 </div>
+               </form>
+            </div>
+            <div class="ibox-title">
+	            <h5>不中</h5>
+	            <div class="ibox-tools">
+	            <a class="btn btn-white btn-bitbucket btn_sure" id="id_80" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+            <div class="ibox-content m-b">
+         		<form id="form_id_80" method="post" class="form-horizontal">
+	         		<div class="form-group">
+	         		{loop $bettingData['upper']['limit'] $kb $vb}
+	        	        {if $kb > 77 && $kb < 84 }
+		                    <div class="col-sm-3 m-b">
+		                        <span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vb['remark']}</span>
+		                        <span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_{$kb}_data_0" value="{$vb['data'][0]}" readonly/></span>
+		                    </div>
+	                    {/if}
+            		{/loop}
+                 </div>
+               </form>
+            </div>
+            <div class="ibox-title">
+	            <h5>正码1-6</h5>
+	            <div class="ibox-tools">
+	            <a class="btn btn-white btn-bitbucket btn_sure" id="id_100" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+            <div class="ibox-content m-b">
+         		<form id="form_id_100" method="post" class="form-horizontal">
+	         		<div class="form-group">
+	         		{loop $bettingData['upper']['limit'] $kb $vb}
+	        	        {if $kb > 83 && $kb < 108 }
+		                    <div class="col-sm-3 m-b">
+		                        <span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vb['remark']}</span>
+		                        <span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_{$kb}_data_0" value="{$vb['data'][0]}" readonly/></span>
+		                    </div>
+	                    {/if}
+            		{/loop}
+                 </div>
+               </form>
+            </div>
+            <div class="ibox-title">
+	            <h5>正1-6龙虎</h5>
+	            <div class="ibox-tools">
+	            <a class="btn btn-white btn-bitbucket btn_sure" id="id_120" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+            <div class="ibox-content m-b">
+         		<form id="form_id_120" method="post" class="form-horizontal">
+	         		<div class="form-group">
+	         		{loop $bettingData['upper']['limit'] $kb $vb}
+	        	        {if $kb > 107}
+		                    <div class="col-sm-3 m-b">
+		                        <span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vb['remark']}</span>
+		                        <span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_{$kb}_data_0" value="{$vb['data'][0]}" readonly/></span>
+		                    </div>
+	                    {/if}
+            		{/loop}
+                 </div>
+               </form>
+            </div>
+            {elseif $bettingData['lottery_type'] == 10}
+	            <div class="ibox-title">
+		            <h5>总注数</h5>
+		            <div class="ibox-tools">
+		            <a class="btn btn-white btn-bitbucket btn_sure" id="total_amount" data-title="修改"><i class="fa fa-pencil"></i> </a>
+		        	</div>
+		        </div>
+	            <div class="ibox-content m-b">
+	         		<form id='form_total_amount' method="post" class="form-horizontal">
+		         		<div class="form-group">
+		                    <label class="col-sm-2 control-label" style="margin-top:10px;">总注数</label>
+		                    <div class="col-sm-4" style="padding:10px 0px;">
+		                        <span class="col-sm-4" style="padding-left: 0px;"><input type="number" class=" form-control" name="total_amount" value="{$bettingData['upper']['total_amount']}" readonly/></span>
+		                        <span class="help-block m-b-none">元，封顶 (0为不限制)</span>
+		                    </div>
+	                 </div>
+	               </form>
+	            </div>
+            {loop $bettingData['upper']['limit'] $kb $vb}
+            {if $kb < 6 || ($kb >15 && $kb < 21)}
+            <div class="ibox-title">
+	            <h5>{$vb['remark']}</h5>
+	            <div class="ibox-tools">
+	            <a class="btn btn-white btn-bitbucket btn_sure" id="id_{$kb}" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+            <div class="ibox-content m-b">
+         		<form id="form_id_{$kb}" method="post" class="form-horizontal">
+	         		<div class="form-group">
+	         		{loop $vb['contact'] $kbc $vbc}
+	                    <div class="col-sm-3 m-b">
+	                        <span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vbc}</span>
+	                        <span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_{$kb}_data_{$kbc}" value="{$vb['data'][$kbc]}" readonly/></span>
+	                    </div>
+                    {/loop}
+                 </div>
+               </form>
+            </div>
+            {/if}
+            {/loop}
+            <div class="ibox-title">
+	            <h5>猜双面</h5>
+	            <div class="ibox-tools">
+	            <a class="btn btn-white btn-bitbucket btn_sure" id="id_10" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+            <div class="ibox-content m-b">
+         		<form id='form_id_10' method="post" class="form-horizontal">
+	         		<div class="form-group">
+	         		{loop $bettingData['upper']['limit'] $kb $vb}
+	            		{if $kb > 5 && $kb < 16}
+		                    <div class="col-sm-3 m-b">
+		                        <span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vb['remark']}</span>
+		                        <span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_{$kb}_data_0" value="{$vb['data'][0]}" readonly/></span>
+		                    </div>
+	                    {/if}
+                    {/loop}
+                 </div>
+               </form>
+            </div>
+            <div class="ibox-title">
+	            <h5>猜胜负、猜总和、猜龙虎、猜公牌</h5>
+	            <div class="ibox-tools">
+	            <a class="btn btn-white btn-bitbucket btn_sure" id="id_24" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+            <div class="ibox-content m-b">
+         		<form id='form_id_24' method="post" class="form-horizontal">
+	         		<div class="form-group">
+	         		{loop $bettingData['upper']['limit'] $kb $vb}
+	            		{if $kb > 20}
+		                    <div class="col-sm-3 m-b">
+		                        <span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vb['remark']}</span>
+		                        <span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_{$kb}_data_0" value="{$vb['data'][0]}" readonly/></span>
+		                    </div>
+	                    {/if}
+                    {/loop}
+                 </div>
+               </form>
+            </div>
+			{elseif $bettingData['lottery_type'] == 12}
+			<div class="ibox-title">
+				<h5>总注数</h5>
+				<div class="ibox-tools">
+					<a class="btn btn-white btn-bitbucket btn_sure" id="total_amount" data-title="修改"><i class="fa fa-pencil"></i> </a>
+				</div>
+			</div>
+			<div class="ibox-content m-b">
+				<form id='form_total_amount' method="post" class="form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-2 control-label" style="margin-top:10px;">总注数</label>
+						<div class="col-sm-4" style="padding:10px 0px;">
+							<span class="col-sm-4" style="padding-left: 0px;"><input type="number" class=" form-control" name="total_amount" value="{$bettingData['upper']['total_amount']}" readonly/></span>
+							<span class="help-block m-b-none">元，封顶 (0为不限制)</span>
+						</div>
+					</div>
+				</form>
+			</div>
+			{loop $bettingData['upper']['limit'] $kb $vb}
+			<div class="ibox-title">
+				<h5>{$vb['remark']}</h5>
+				<div class="ibox-tools">
+					<a class="btn btn-white btn-bitbucket btn_sure" id="id_{$kb}" data-title="修改"><i class="fa fa-pencil"></i> </a>
+				</div>
+			</div>
+			<div class="ibox-content m-b">
+				<form id="form_id_{$kb}" method="post" class="form-horizontal">
+					<div class="form-group">
+						{loop $vb['contact'] $kbc $vbc}
+						<div class="col-sm-3 m-b">
+							<span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vbc}</span>
+							<span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_{$kb}_data_{$kbc}" value="{$vb['data'][$kbc]}" readonly/></span>
+						</div>
+						{/loop}
+					</div>
+				</form>
+			</div>
+			{/loop}
+			{elseif $bettingData['lottery_type'] == 13}
+			<div class="ibox-title">
+				<h5>总注数</h5>
+				<div class="ibox-tools">
+					<a class="btn btn-white btn-bitbucket btn_sure" id="total_amount" data-title="修改"><i class="fa fa-pencil"></i> </a>
+				</div>
+			</div>
+			<div class="ibox-content m-b">
+				<form id='form_total_amount' method="post" class="form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-2 control-label" style="margin-top:10px;">总注数</label>
+						<div class="col-sm-4" style="padding:10px 0px;">
+							<span class="col-sm-4" style="padding-left: 0px;"><input type="number" class=" form-control" name="total_amount" value="{$bettingData['upper']['total_amount']}" readonly/></span>
+							<span class="help-block m-b-none">元，封顶 (0为不限制)</span>
+						</div>
+					</div>
+				</form>
+			</div>
+			{loop $bettingData['upper']['limit'] $kb $vb}
+			<div class="ibox-title">
+				<h5>{$vb['remark']}</h5>
+				<div class="ibox-tools">
+					<a class="btn btn-white btn-bitbucket btn_sure" id="id_{$kb}" data-title="修改"><i class="fa fa-pencil"></i> </a>
+				</div>
+			</div>
+			<div class="ibox-content m-b">
+				<form id="form_id_{$kb}" method="post" class="form-horizontal">
+					<div class="form-group">
+						{loop $vb['contact'] $kbc $vbc}
+						<div class="col-sm-3 m-b">
+							<span class="col-sm-6 back-page text-right" style="padding-right: 0px;padding-top: 6px;" >{$vbc}</span>
+							<span class="col-sm-6" style="padding-left: 0px;"><input type="number" style="float:left;margin-left: 15px;" class="form-control" name="limit_{$kb}_data_{$kbc}" value="{$vb['data'][$kbc]}" readonly/></span>
+						</div>
+						{/loop}
+					</div>
+				</form>
+			</div>
+			{/loop}
+            {/if}
+        </div>
+   </div>
+   
+   
+<script>
+    var loading = "";
+    $(function (){
+    	$(".btn_sure").click(function (){
+    		var form_id = 'form_' + $(this).attr('id');
+    		var i_class = $(this).children('i').attr('class');
+    		if (i_class == 'fa fa-pencil') {
+    			$(this).attr('data-title', '保存');
+    			$(this).children('i').attr('class', 'fa fa-save');
+    			$('#' + form_id).find('input').each(function() {
+    				$(this).attr('readonly', false);
+   				});
+    		} else {
+    			var form_data = $('#' + form_id).serialize();
+    			var room_id = $("#room_id").val();
+    			form_data += '&room_id=' + room_id; 
+        		$.ajax({
+                    type: 'POST',
+                    data: form_data,
+                    url: '?m=admin&c=message&a=doOddsRecord',
+                    dataType: 'json',
+                    beforeSend:function(){
+                        loading = layer.load(1);
+                    },
+                    success: function (msg) {
+                        layer.close(loading);
+                        if (msg.rt) {
+                            layer.msg('设置成功！！！', {icon: 6, shade: [0.5, '#393D49']},function(){
+                                //location.href = '?m=admin&c=message&a=room';
+                                location.reload();
+                            });
+                            $(this).attr('title', '修改');
+                			$(this).children('i').attr('class', '<i class="fa fa-pencil">');
+                			$('#' + form_id).find('input').each(function() {
+                				$(this).attr('readonly', true);
+               				});
+                        } else {
+                            layer.msg('设置失败！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        }
+                    }
+                });
+    		}
+    	});
+    	$(".btn_submit").click(function (){
+    		var from_id = this.attr('id');
+    		$.ajax({
+                type: 'POST',
+                data: $(from_id).serialize(),
+                url: '?m=admin&c=message&a=doOddsRecord',
+                dataType: 'json',
+                beforeSend:function(){
+                    loading = layer.load(1);
+                },
+                success: function (msg) {
+                    layer.close(loading);
+                    if (msg.rt) {
+                        layer.msg('设置成功！！！', {icon: 6, shade: [0.5, '#393D49']},function(){
+                            //location.href = '?m=admin&c=message&a=room';
+                            location.reload();
+                        });
+                    } else {
+                        layer.msg('设置失败！！！', {icon: 5, shade: [0.5, '#393D49']});
+                    }
+                }
+            });
+    		
+    	});
+    	
+    	
+    	//$("#btn_back").click(function () {
+        //    location.href = '?m=admin&c=message&a=room';
+        //});
+    	
+    });
+
+    function general() {
+        $.ajax({
+            type: 'POST',
+            data: $("#form").serialize(),
+            url: '?m=admin&c=message&a=doOddsRecord',
+            dataType: 'json',
+            beforeSend:function(){
+                loading = layer.load(1);
+            },
+            success: function (msg) {
+                layer.close(loading);
+                if (msg.rt) {
+                    layer.msg('设置成功！！！', {icon: 6, shade: [0.5, '#393D49']},function(){
+                        location.href = '?m=admin&c=message&a=room';
+                    });
+                } else {
+                    layer.msg('设置失败！！！', {icon: 5, shade: [0.5, '#393D49']});
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>

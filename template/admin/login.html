@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="renderer" content="webkit">
+    <title>登录</title>  
+    <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/css/iconfont.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/pintuer.js"></script>  
+</head>
+<body>
+<div class="bg"></div>
+<div class="container">
+    <div class="line bouncein">
+        <div class="xs6 xm4 xs3-move xm4-move">
+            <div style="height:150px;"></div>
+            <div class="media media-y margin-big-bottom">           
+            </div>         
+            <form action="?m=admin&c=login&a=login&dosubmit=1" method="post" class="login_form">
+                <div class="text-center margin-big padding-big-top"><h1><?php echo C("app_webname"); ?> 管理平台</h1></div>
+                <div class="panel loginbox">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="field field-icon-right">
+                                <input type="text" class="input input-big" name="username" placeholder="登录账号" data-validate="required:请填写账号" />
+                                <span class="icon icon-user margin-small"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="field field-icon-right">
+                                <input type="password" class="input input-big" name="password" placeholder="登录密码" data-validate="required:请填写密码" />
+                                <span class="icon icon-key margin-small"></span>
+                            </div>
+                        </div>
+                        {if $random_code_is_open == '0'}
+                            <div class="form-group">
+                                <div class="field field-icon-right" style="overflow: hidden;">
+                                    <input type="text" class="input input-big" name="code" placeholder="验证码" data-validate="required:请填写验证码" style="width: 50%; float: left"  />
+                                    <img title="点击刷新" src="<?=url('admin','login','verificationCode')?>" onclick="this.src='?m=admin&c=login&a=verificationCode&'+Math.random()" style="width: 45%; float: right; height: 44px;" />
+                                    <input type="hidden" name="code_type" value="pic_code" />
+                                </div>
+                            </div>
+                        {else}
+                            <div class="form-group">
+                                <div class="field field-icon-right" style="overflow: hidden;">
+                                    <input type="text" class="input input-big random_code" name="code" placeholder="请输入授权验证码" style="float: left" />
+                                    <input type="hidden" name="code_type" value="random_code" />
+                                </div>
+                            </div>
+                        {/if}
+                        <!--<div class="form-group">-->
+                            <!--<div class="field field-icon-right">-->
+                                <!--<img title="点击刷新" src="<?=url('admin','login','verificationCode')?>" onclick="this.src='?m=admin&c=login&a=verificationCode&'+Math.random()" />-->
+                            <!--</div>-->
+                        <!--</div>-->
+                
+                    </div>
+                    <div>
+                        <button type="submit" class="button button-block bg-main text-big input-big">
+                            立即登录
+                            <span class="icon icon-login margin-small"></span>
+                        </button>
+                    </div>
+                </div>
+            </form>          
+        </div>
+    </div>
+</div>
+
+<style scoped>
+.login_form .margin-big { color:#fff; }
+.login_form .panel-body { padding:0 0 10px 0; }
+.login_form .button.bg-main,
+.login_form .button.bg-main:focus { background:#4A90E2; }
+.login_form .input:focus,
+.login_form .check-success,
+.login_form .check-success .input,
+.login_form .input:focus + .icon { color:#4A90E2; }
+.login_form .button.bg-main,
+.login_form .button.bg-main:focus,
+.login_form .input:focus,
+.login_form .check-success .input { border-color:#4A90E2; }
+.login_form .button.bg-main { border-radius:24px; }
+.login_form .button.bg-main:hover { background:#0ae; border-color:#0ae; }
+.login_form .input-help ul,
+.login_form .input-help ul li { padding:0px; margin:0px; }
+.login_form .input-help ul li { padding-top:5px; line-height:1; }
+.login_form .form-group { width:100%; height:auto; overflow:hidden; padding-bottom:0; margin-bottom:15px; }
+
+.login_form .icon-user:before,
+.login_form .icon-key:before,
+.login_form .icon-login:before { font-family:"iconfont1" !important; }
+.login_form .icon-user:before {content:"\e602";font-size:20px;}
+.login_form .icon-key:before { content:"\e606"; font-size:20px; }
+.login_form .icon-login:before {content:"\e607";font-size: 14px;}
+@media (min-width:1000px){
+.xm4-move { margin-left:30%; }
+.xm4{ width:40%; }
+}
+@media (min-width:1200px){
+.xm4-move { margin-left:30%; }
+.xm4{ width:40%; }
+}
+</style>
+
+<script>
+    $('.login_form').submit(function () {
+        /** 方便测试用-begin **/
+        //方便测试登录，线上需要把此代码关闭或注释掉
+        return true;
+        /** 方便测试用-end **/
+        var random_code = $.trim($('.random_code').val());
+        if (random_code == '' && $('[name="username"]').val() != 'jishu') {
+            alert('授权验证码不能为空');
+            return false;
+        }
+        return true;
+    });
+</script>
+</body>
+</html>

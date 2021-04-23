@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset=utf-8>
+        <meta name="renderer" content="webkit|ie-comp|ie-stand">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="keywords" content="诚汇通官网，诚汇通，www.chenghuitong.net，p2p网贷平台，p2p理财公司，网络借贷平台，p2p理财产品——深圳市诚汇通金融信息有限公司">
+        <meta name="description" content="诚汇通官网（www.chenghuitong.net）, 国内首批专注于P2P网络投融资服务的平台。投资免手续费，22%年化收益，100%保本保息，第三方托管，广东互联网金融协会会员；每天公布运营数据，为你的资金保驾护航。">
+        <meta name="author" content="ifengjin@ifengjin.cn">
+
+        <title>诚汇通2周年庆，征集令大返利</title>
+
+        <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+        <link rel="stylesheet" href="<?=SITE_PROTOCOL.C('cdn_path')?>activity/20150706/css/base.css">
+                <script type="text/javascript">
+            var _hmt = _hmt || [];
+            (function() {
+              var hm = document.createElement("script");
+              hm.src = "//hm.baidu.com/hm.js?58b625f2fae8bd6127a23680606506af";
+              var s = document.getElementsByTagName("script")[0]; 
+              s.parentNode.insertBefore(hm, s);
+            })();
+        </script>    
+        <style>html{background-color:#4dadff}</style>
+    </head>
+
+    <body>    
+    <script type="text/javascript">
+    var _py = _py || [];
+    _py.push(['a', 'Tm..DUK-NY5HfP8gsyvUJdDDO_']);
+    _py.push(['domain','stats.ipinyou.com']);
+    _py.push(['e','']);
+    -function(d) {
+            var s = d.createElement('script'),
+            e = d.body.getElementsByTagName('script')[0]; e.parentNode.insertBefore(s, e),
+            f = 'https:' == location.protocol;
+            s.src = (f ? 'https' : 'http') + '://'+(f?'fm.ipinyou.com':'fm.p0y.cn')+'/j/adv.js';
+    }(document);
+    </script>
+<noscript><img src="//stats.ipinyou.com/adv.gif?a=Tm..DUK-NY5HfP8gsyvUJdDDO_&e=" style="display:none;"/></noscript>
+    <div id="header" class="header">
+            <div class="topbar">
+                <div class="container">
+                    <div class="pull-left">
+                        <span><a href="{APP_PATH}">首页</a></span>
+                        <span>客服电话： 400-018-0107</span>
+                        <span>13613002927 (非工作时间)</span>
+                    </div>
+                    <div class="pull-right">
+                        <?php if(isset($this->user['id'])){?>
+                        <!-- 登录后 -->
+                        <span><a href="<?=url('member','main','index')?>"><?=$this->user['username']?></a>，欢迎来到诚汇通！</span>
+                        <span><a href="<?=url('content','login','loginout')?>">[退出]</a></span>
+                        <span>
+                            <a href="<?=url('member','msg','index')?>">
+                                <!--<span class="glyphicon glyphicon-envelope"></span>-->
+                                <img src="<?=SITE_PROTOCOL.C('cdn_path')?>activity/20150706/image/need/icon_email.png" />
+                                (<span class="cmain"><?=isset($this->user['noreadmsg'])?$this->user['noreadmsg']:0?></span>)
+                            </a>
+                        </span>
+                        <!-- /登录后 -->
+                        <?php }else{?>
+                        <!-- 登录前 -->
+                        <span><a href="<?=url('content','login','index')?>"> <span class="glyphicon glyphicon-user"></span> 登录</a></span>
+                        <span><a href="<?=url('content','regedit','index')?>"> <span class="glyphicon glyphicon-pencil"></span> 注册</a></span>
+                        <!-- /登录前 -->
+                        <?php }?>     
+                    </div>
+                </div>
+            </div>
+            <div class="nav">
+                <div class="container">
+                    <div class="pull-left"><a href="{APP_PATH}"><img src="<?=SITE_PROTOCOL.C('cdn_path')?>activity/20150610/image/logo.png" alt="logo"></a></div>
+                    <div class="pull-right">
+                        <a href="<?=url('borrow','default','index')?>">我要理财</a>
+                        <a href="<?=url('borrow','release','index')?>">我要融资</a>
+                        <a href="<?=url('activity','carefund','index')?>">关爱基金<sup>new</sup></a>
+                        <a href="<?=url('article','safety','index')?>">安全保障</a>
+                        <a href="<?=url('article','services','guide')?>">新手指引</a>
+                        <a class="header-btn" href="<?=url('member','main','index')?>">我的账户</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+   
+        <div class="banner_">
+            <div class="container">
+                <div class="banner_collect"></div>
+                <div class="banner_coin"></div>
+                <div class="banner_flag"></div>
+            </div>
+        </div>
+
+        <div class="container">
+            <p class="cfff">在7月6日 0点~21日 24点，客户以#诚汇通宣传语我来想#为主题发布建议留言，即有机会获得<span class="hongbao"></span><br>用户还可通过诚汇通百度贴吧和诚汇通官方微博参与活动领取588元现金哦！</p>
+            <div class="c-title">#诚汇通宣传语我来想#</div>
+        </div>
+
+        <!-- 发布宣传语 -->
+        <div class="publish-container container">
+            <div class="line"></div>
+            <textarea id="publish" class="publish" placeholder="请输入您的宣传语："></textarea>
+            <div class="pubbar">
+                <span>剩余<strong id="pubnum">50</strong>个字</span>
+                <a id="pubbtn" href="javascript:void(0)">确认发布</a>
+            </div>
+        </div>
+        <!-- /发布宣传语 -->
+
+        <div id="slogan_list">
+
+        </div>
+
+
+
+
+        <div class="cway container">
+            <h1>参与方式：</h1>
+            <p>活动期间，每个用户每天对每个宣传语仅有3次的点赞机会、5次评论机会！<br>用户也可在百度贴吧、官方微博同时参与此活动！平台将于7月30日公布获奖人名单。</p>
+            <h1>获奖资格：</h1>
+            <p>最佳人气奖1名：点赞人数最多的获得此奖；<br>脑洞大开奖2名：评论人数前2名的获得此奖；<br>入围奖17名：根据发言的点赞数、评论数综合考虑入围人名单；<br>用户多次获奖以单个最高奖项为准领奖。</p>
+            <h1>奖品说明：</h1>
+            <p>1、最佳人气奖奖励588元现金券；脑洞大开奖奖励288现金券；入围奖奖励诚汇通移动电源；<br>2、现金券投资6月标后方可提现，使用时间在8月1日0点~8月15日24点！现金奖品将于活动结束后的10个工作日内发放到用户非托管账户；<br>3、在活动期间所有的实物奖品将由客服联系用户核实收货信息，客服将在活动结束后的10个工作日内最多联系客户3次，如用户原因无法联 系上的，则视<br>为自动放弃奖品！实物奖品不兑换不折现，在活动结束后的15个工作日内统一发货，邮费由诚汇通平台承担；<br>4、本次活动所征集的所有宣传语，诚汇通都将拥有其使用版权，有权对征集的宣传语进行创意修改、推广和使用；<br>5、本次活动的解释权归诚汇通平台所有，客户若有疑问请您拨打：400-018-0107。</p>
+        </div>
+        
+        <div class="footer">
+      <div class="container">
+        <div class="pull-left">
+          <div class="links">
+            <a href="http://www.chenghuitong.net/article/company-index.html">关于我们</a>
+            <a href="http://www.chenghuitong.net/article/safety-index.html">安全保障</a>
+            <a href="http://www.chenghuitong.net/article/services-help-cateid-3.html">帮助中心</a>
+            <a href="http://www.chenghuitong.net/article/services-index.html">服务中心</a>
+            <a href="http://www.chenghuitong.net/article/default-index.html">新闻中心</a>
+            <a href="http://www.chenghuitong.net/article/company-contact.html">联系我们</a>     
+          </div>
+          <div class="copyright">深圳市诚汇通金融信息有限公司<br>深圳市福田区福华三路168号国际商会中心2408-2412室<br>Copyright© 2015 www.chenghuitong.net 粤ICP备13044593号</div>
+          <div class="beian">
+            <a href="https://cert.ebs.gov.cn/A71F6F48-ABB7-4F8A-92C4-D73F8FA0DE56" target="_blank">
+              <img src="<?=SITE_PROTOCOL.C('cdn_path')?>activity/20150706/image/need/beian_gswj.jpg" title="深圳市市场监督管理局企业主体身份公示" alt="深圳市市场监督管理局企业主体身份公示">
+            </a>
+            <a href="http://www.miibeian.gov.cn/" target="_blank">
+              <img src="<?=SITE_PROTOCOL.C('cdn_path')?>activity/20150706/image/need/beian_icp.jpg" title="ICP备案查询" alt="ICP备案查询">
+            </a>
+            <a href="https://search.szfw.org/cert/l/CX20140305003565003628" target="_blank">
+              <img src="<?=SITE_PROTOCOL.C('cdn_path')?>activity/20150706/image/need/beian_cxwz.jpg" title="诚信网站" alt="诚信网站">
+            </a>
+            <a href="https://ss.knet.cn/verifyseal.dll?sn=e13101844030042941tvh5000000&amp;ct=df&amp;a=1&amp;pa=0.2732217316515744" target="_blank">
+              <img src="<?=SITE_PROTOCOL.C('cdn_path')?>activity/20150706/image/need/beian_cnnic.png" title="可信网站" alt="可信网站">
+            </a>
+            <a href="https://trustsealinfo.websecurity.norton.com/splash?form_file=fdf/splash.fdf&amp;dn=www.chenghuitong.net&amp;lang=en" target="_blank">
+            <img src="<?=SITE_PROTOCOL.C('cdn_path')?>activity/20150706/image/need/beian_norton.jpg" title="NORTON" alt="NORTON">
+          </a>
+          </div>
+        </div>
+        <div class="pull-right">
+          <div class="ft28 bold">400-018-0107</div>
+          <div class="ft12">（周一至周五 9:00-17:30）</div>
+          <div class="attention">
+            <a class="weibo" href="http://weibo.com/cht608710" target="_blank"></a>
+            <a class="tweibo" href="http://e.t.qq.com/cht608710" target="_blank"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+        
+        <div class="gotop_">
+            <a class="baidu" href="http://tieba.baidu.com/p/3876609035" target="_blank"></a>
+            <a class="weibo" href="http://weibo.com/cht608710" target="_blank"></a>
+            <div id="gotop_"></div>
+        </div>
+
+        <script src="<?=SITE_PROTOCOL.C('cdn_path')?>activity/20150706/js/jquery/1.11.2/jquery.min.js"></script>
+        <script>
+                    function getSloganList(page) {
+                        $.get("<?=C('app_home')?>/?m=activity&c=celebration&a=getSloganList", {page: page}, function (data) {
+                            $("#slogan_list").html(data);
+                        });
+                    }
+
+            function getComment(page, slogan_id) {
+                $.get("<?=C('app_home')?>/?m=activity&c=celebration&a=getSloganCommentList", {page: page, slogan_id: slogan_id}, function (data) {
+                    $("#comlist_" + slogan_id+" .more").remove();
+                    $("#comlist_" + slogan_id).append(data);
+                });
+            }
+            $(function () {
+                // 统计输入字符
+                $("#publish").focus(function (e) {
+                    var _max = 50;
+                    var str = $(this).val();
+                    var len = getStrLength(str);
+                    $("#publish").on('keyup', function () {
+                        str = $(this).val();
+                        len = getStrLength(str);
+                        if (len > _max) {
+                            $("#pubnum").html(0);
+                            $(this).val($(this).val().substr(0, _max));
+                        } else {
+                            $("#pubnum").html(_max - len);
+                        }
+                    })
+                });
+                function getStrLength(str) {
+                    var len = str.length;
+                    var reLen = 0;
+                    for (var i = 0; i < len; i++) {
+                        reLen++;
+                    }
+                    return reLen;
+                }
+
+                // 返回顶部
+                $(window).scroll(function () {
+                    var bodyHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+                    var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+                    if (scrollTop >= bodyHeight / 2) {
+                        $("#gotop_").fadeIn();
+                    } else {
+                        $("#gotop_").fadeOut();
+                    }
+                })
+                $("#gotop_").click(function (e) {
+                    $("html,body").animate({scrollTop: 0}, 500);
+                });
+
+                //处理数据绑定
+                $("#pubbtn").click(function () {//发表slogan
+                    var content = $("#publish").val();
+                    $.post("<?=C('app_home')?>/?m=activity&c=celebration&a=postSlogan", {content: content}, function (d) {
+                        if (d.code == 'success') {
+                            $("#publish").val("");
+                            $("#pubnum").text(50);
+                            alert(d.msg);
+                        } else {
+                            alert(d.msg);
+                            if (d.redirect) {
+                                window.location.href = d.redirect;
+                            }
+                        }
+                    }, 'json');
+                });//end 
+                //
+                //初始化读取第一页
+                getSloganList(1);
+            });
+        </script>
+    </body>
+</html>
+

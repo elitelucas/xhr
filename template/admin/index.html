@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="renderer" content="webkit">
+        <title><?php echo C("app_webname"); ?> 管理平台</title>
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="/statics/admin/new_ui/style.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <script src="statics/admin/js/pintuer.js"></script>   
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>
+        <script src="/statics/admin/js/jquery.min.js"></script>
+        <script src="/statics/admin/js/ws-client.js"></script>
+        <script src="/statics/admin/js/store.js"></script>
+        <script src="/statics/admin/js/service.js"></script>
+        <script src="/statics/admin/js/kf.js"></script>
+        <script src="/statics/admin/js/yp-admin.js"></script>
+        
+        <script type="text/javascript">
+            var kfinfo = {userid: "<?=$user['userid']?>"};
+        </script>
+        <style>
+            .hide{
+                display: none;
+            }
+            .show-user {
+                display: block;
+            }
+            #userList {
+                color: #fff;
+                padding: 0;
+                text-align: center;
+                background-color: #aed;
+            }
+            #userList li {
+                height: 25px;
+                line-height: 25px;
+            }
+
+            .menu {
+                width: 100px;
+                background: #fff;
+                box-shadow: 1px 1px 8px #ccc;
+                position: absolute;
+                border-radius: 10px;
+                z-index: 9999;
+                top:44px;
+            }
+            .menu ul{ padding-left: 0;}
+            .menu li {
+                border-bottom: 1px solid #f5f5f5;
+                color: #565656;
+                font-size: 12px;
+                text-align: center;
+                line-height: 30px;
+            }
+            .menu:before {
+                width: 0;
+                height: 0;
+                content: "";
+                position: absolute;
+                border: 10px solid transparent;
+                border-bottom: 10px solid #e5e5e5;
+                top: -20px;
+                right: 40px;
+            }
+            .menu:after {
+                width: 0;
+                height: 0;
+                content: "";
+                position: absolute;
+                border: 10px solid transparent;
+                border-bottom: 10px solid #fff;
+                top: -19px;
+                right: 40px;
+            }
+            
+            .header{ overflow: inherit;background: url(statics/admin/images/bg.jpg)no-repeat;background-position:0px 100%; background-size:cover; color:white;}
+            .head-l>a{color: white;}
+            .logo{color: white;}
+            .fadein-top a{color: white}
+            .show_iframe{height: 100%;}
+        </style>
+        <link rel="stylesheet" href="/statics/admin/css/iconfont.css">
+    </head>
+    <body>
+        <div class="header bg-main">
+            <div class="logo margin-big-left fadein-top">
+                <h1><img src="statics/admin/images/y.jpg" class="radius-circle rotate-hover" height="50" alt="" /><?php echo C("app_webname"); ?> 管理平台</h1>
+            </div>
+            <div class="logo fadein-top" style="float: right; margin-right: 20px">
+                <h3 style=" margin-top: -10px">{$user['username']}</h3>
+                <a style="display: inline-block; float: right ; margin-top: -20px" href="?m=admin&c=login&a=logout">
+                    <span class="icon-power-off"></span> 退出登录</a>
+            </div>
+            <div class="head-l">
+                <a id="button" href="#" title data-title="进入首页">
+                    <span class="icon iconfont icon-homepage_fill"></span>首页
+                </a> &nbsp;&nbsp;
+                <div class="menu" style="display: none">
+                    <ul>
+                        <?php
+                        if(empty($home_arr)){
+                            echo '没有设置前后';
+                        }else{
+                            foreach($home_arr as $k=>$v){
+                                if(is_home($k)){  //要陫除后台统计的
+                                    echo '<li><a target="_blank" href="'.$v.'">'.$k.'</a></li>';
+                                }
+                            }
+                        }
+                        ?>
+                    </ul>
+                </div>
+                <script>
+                    $(function () {
+                        $("#button").click(function(){
+                            if($(this).siblings(".menu").css("display") =="none"){
+                                $(this).siblings(".menu").show();
+                            }else{
+                                $(this).siblings(".menu").hide();
+                            }
+
+                        })
+                        $(".menu li").click(function () {
+                            $(this).parents(".menu").hide();
+                        })
+                    })
+                </script>
+
+                <a href="<?=url('','default','refresh&action=all&param=all')?>" target="_blank" title data-title="清除历史缓存"><span class="icon iconfont icon-qinglihuancun"></span>清除缓存</a> &nbsp;&nbsp;
+                <a data-title="提现" onclick="withdraw()"><span class="icon iconfont icon-changwandeyouxi"></span>提现<font style="background: #0188C0" id="withdraw">0</font></a> &nbsp;&nbsp;
+                <a data-title="充值" onclick="recharge()"><span class="icon iconfont icon-changwandeyouxi"></span>充值<font style="background: #0188C0" id="recharge">0</font></a> &nbsp;&nbsp;
+                <a title data-title="会员今日历史第一次充值" onclick="todayRechargeUser()"><span class="icon iconfont icon-changwandeyouxi"></span>今日历史首存人数<font style="background: #0188C0" id="online-cnt3">0</font></a> &nbsp;&nbsp;
+                <a title data-title="投注房间总会员人数" onclick="roomUser()"><span class="icon iconfont icon-changwandeyouxi"></span>房间人数<font style="background: #0188C0" id="online-cnt2">0</font></a> &nbsp;&nbsp;
+                <a title data-title="当前在线会员数" onclick="onlineUser(0)"><span class="icon iconfont icon-vip"></span>在线会员<font style="background: #C08401" id="online-cnt">0</font></a>&nbsp;&nbsp;
+                <a title data-title="在线游客或假人数" onclick="onlineUser('8,9')"><span class="icon iconfont icon-visitor"></span>游客<font style="background: #C08401" id="online-cnt1">0</font></a> &nbsp;&nbsp;
+                <!-- <a title data-title="充值入款通知" id="ru_kuan" data-tit="线下充值" href="?m=admin&c=finance&a=charge" target="right"><span class="icon iconfont icon-diyu"></span>入账<font style="background: #01C060" class="message-income">0</font></a>
+                <a title data-title="提现出款通知" id="chu_kuan" data-tit="提现管理" href="?m=admin&c=finance&a=drawal" target="right"><span class="icon iconfont icon-gaoyu"></span>出账<font style="background: #C0013E" class="message-payment">0</font></a> -->
+                <!--<a title data-title="在线客服服务" target="_blank" href="<?php echo C('admin_kefu');?>"><span class="icon iconfont icon-customerservice_fill"></span>客服</a>-->
+            </div>
+        </div>
+        <div class="leftnav" style="overflow: auto;">
+            <?php
+                echo "<h2><span class='icon iconfont icon-leftBar9'></span>常用菜单<img class='xlImg' src='statics/admin/images/xiala.png'/></h2>";
+                echo '<ul class="stock_menu_ul">';
+                    foreach($stock_menu as $x){
+                        if(in_array($x['id'],$auth_list)){
+                            echo '<li data-id='.$x['id'].' style="cursor:pointer;"><a _href="'.$x['url'].'" target="right"><span class="icon-caret-right"></span>'.$x['name'].'<img class="addUseful xzAdd removeStock" src="statics/admin/images/jiahao.png"/></a></li>';
+                        }
+                    }
+                echo '</ul>';
+                $i=1;
+                foreach($menu as $key=>$value){
+                    if(in_array($key,$auth_list)){
+                        //一级菜单
+                        echo "<h2><span class='icon iconfont icon-leftBar{$i}'></span>".$value['name'].'<img class="xlImg" src="statics/admin/images/xiala.png"/></h2>';
+                        echo '<ul>';
+                        foreach($value["child"] as $k=>$v){
+                            if(empty($v['child'])){
+                                if(in_array($k,$auth_list)){
+                                    $hide = '';
+                                    if(in_array($k, $stock_menu_id_arr)) $hide = "style='display:none;'";
+                                    //二级菜单
+                                    echo '<li class="menu_'.$k.'" data-id='.$k.' style="cursor:pointer;"><a _href="'.$v['url'].'" target="right"><span class="icon-caret-right"></span>'.$v['name'].'<img '.$hide.' class="addUseful addStock" src="statics/admin/images/jiahao.png"/></a></li>';
+                                }
+                            }else{
+                                if(in_array($k,$auth_list)){
+                                    echo '<li class="li" style="cursor:pointer;"><a target="right"><span class="icon-caret-right"></span>'.$v['name'].'</a>';
+                                }
+                                echo '<ul style="padding-left: 10px; display: none;">';
+                                foreach($v['child'] as $x){
+                                    if(in_array($x['id'],$auth_list)){
+                                        $hide = '';
+                                        if(in_array($x['id'], $stock_menu_id_arr)) $hide = "style='display:none;'";
+                                        //三级菜单
+                                        echo '<li class="menu_'.$x['id'].'" data-id='.$x['id'].' style="cursor:pointer;"><a _href="'.$x['url'].'" target="right"><span class="icon-caret-right"></span>'.$x['name'].'<img class="addUseful addStock" src="statics/admin/images/jiahao.png" '.$hide.'/></a></li>';
+                                    }
+                                }
+                                echo '</ul></li>';
+                            }                            
+                        }     
+                        echo '</ul>';
+                    }
+                    $i++;
+                }
+            ?>
+        </div>
+        <script type="text/javascript">
+			
+            $(function () {
+				//移除常用菜单
+				$(".stock_menu_ul").delegate(".removeStock","click",function(){
+				<!-- $(".removeStock").click(function() { -->
+					cancelBubble();
+					var o = $(this);
+					var menu_id = o.parents('li').data('id');
+					layer.confirm('确定要移出常用菜单？', {icon: 3, title:'提示信息'}, function(index){
+							$.ajax({
+								url: '?m=admin&c=default&a=saveStockMenu',
+								data: {menu_id:menu_id, type:2},
+								dataType: 'json',
+								type: 'post',
+								beforeSend: function () {
+									loading = layer.load(1);
+								},
+								error: function () {
+									layer.close(loading);
+									layer.msg('参数或网络错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+								},
+								success: function (result) {
+									layer.close(loading);
+									if (result.code == 200) {
+										layer.msg('操作成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+											<!-- location.reload(); -->
+											o.parents('li').hide();
+
+											$(".menu_"+menu_id).find('img').show();
+										});
+									} else {
+										layer.msg('操作失败！！！', {icon: 5, shade: [0.5, '#393D49']});
+									}
+								}
+							});
+					  
+						layer.close(index);
+					});
+				});
+
+				//添加常用菜单
+				$(".addStock").click(function() {
+					cancelBubble();
+					var o = $(this);
+					var menu_id = o.parents('li').data('id');
+					
+					layer.confirm('确定要添加到常用菜单？', {icon: 3, title:'提示信息'}, function(index){
+							$.ajax({
+								url: '?m=admin&c=default&a=saveStockMenu',
+								data: {menu_id:menu_id, type:1},
+								dataType: 'json',
+								type: 'post',
+								beforeSend: function () {
+									loading = layer.load(1);
+								},
+								error: function () {
+									layer.close(loading);
+									layer.msg('参数或网络错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+								},
+								success: function (result) {
+									layer.close(loading);
+									if (result.code == 200) {
+										layer.msg('操作成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+										
+											var a = o.parents('li').eq(0).clone();
+											a.appendTo('.stock_menu_ul');
+											a.find('img').removeClass('addStock').addClass('removeStock xzAdd');
+											o.hide();
+								
+										});
+									} else {
+										layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']});
+									}
+								}
+							});
+					  
+						layer.close(index);
+					});
+				});
+			
+                $(".leftnav h2").click(function () {
+                    var visible = $(this).next().is(":visible");
+                    $(this).siblings("ul").slideUp(300);
+                    $(this).siblings("h2").removeClass();
+                    if($(this).hasClass("on")){
+                        $(this).removeClass("on")  
+                    }else{
+                        $(this).addClass("on");
+                    }
+                    if(visible){
+                        $(this).next().slideUp(300);
+                    }else{
+                        $(this).next().slideDown(300);
+                    }
+                });
+				
+				$(".leftnav").delegate("ul li a","click",function(){
+                <!-- $(".leftnav ul li a").click(function () { -->
+                    $("#a_leader_txt").text($(this).text());
+                    $(".leftnav ul li a").removeClass("on");
+                    $(this).addClass("on");
+
+                    /*var array = ['?m=admin&c=user&a=lst','?m=admin&c=finance&a=drawal','?m=admin&c=finance&a=charge','?m=admin&c=topup&a=topup'];
+                    var url = $(this).attr('_href');
+                    console.log(url);
+                    if($.inArray(url,array) > -1){
+                        window.open(url);
+                    }else{
+                        yp_admin_tab(this);
+                    }*/
+                    yp_admin_tab(this);
+
+                });
+
+                $(".head-l a.top-nav").click(function () {
+//                    $("#a_leader_txt").text($(this).text());
+//                    $(".leftnav ul li a").removeClass("on");
+//                    $(this).addClass("on");
+//                    this.text='提现管理';
+                    yp_admin_tab(this);
+                });
+
+                $(".li a").bind('click', function () {
+                    if ($(this).closest("li").children('ul').css('display') == 'none') {
+                        $(this).closest("li").children('ul').show();
+                    } else {
+                        $(this).closest("li").children('ul').hide();
+                    }
+                });
+            });
+        </script>
+<!--        <ul class="bread">
+            <li><a href="?m=admin&c=default&a=lst" target="right" class="icon-home"> 首页</a></li>
+            <li><a href="##" id="a_leader_txt">网站信息</a></li>
+
+        </ul>-->
+        <div class="yp-tabNav">
+            <div class="title-list">
+                <ul id="min_title_list" class="acrossTab">
+                    <li class="active"><span data-href="?m=admin&c=default&a=lst"> 首页</span><em></em></li>
+                    <!--<li><span _href="">网站信息</span><em class="close"></em></li>-->
+                </ul>    
+            </div>
+            <div class="guna" style="display: none;">
+                <div class="yp-tabNav-more">
+                    <span class="leftBtn" id="js-tabNav-next"><</span>
+                    <span class="rightBtn" id="js-tabNav-prev">></span>
+                </div> 
+            </div>
+        </div>
+        <div class="admin">
+            <div class="show_iframe">
+            <iframe scrolling="auto" rameborder="0" src="?m=admin&c=default&a=main" name="right" width="100%" height="100%"></iframe>
+            </div>
+            <script type="text/javascript">
+                function clickMusic(id,e) {
+//                    $.post("?m=admin&c=default&a=setMusicTipsUid", {id: id});
+                    var obj = $(e);
+
+                    $.ajax({
+                        url: '?m=admin&c=default&a=setMusicTipsUid',
+                        data: {id: id},
+                        dataType: 'json',
+                        type: 'post',
+                        beforeSend: function () {
+//                            loading = layer.load(1);
+                        },
+                        success: function (result) {
+                            obj.parents('li').remove();
+                            if ($("#info_boxs li").length == 0) {
+                                $("#info_boxs").css("display", "none");
+                            }
+                            yp_admin_tab(obj);
+                        }
+                    });
+                }
+                $(window).resize(function () { //当浏览器大小变化时
+                    $('.leftnav').height($(window).height()-$('.header').height());
+                });
+                $(function () {
+                    $('.leftnav').height($(window).height()-$('.header').height());
+                    
+                    // $(".leftnav h2:last").append("(<em class='message-total'>0</em>)");
+                    //刷新iframe
+                    function refreshFun() {
+                        $(".show_iframe iframe").each(function () {
+                            if ($(this).css("display") !== "none") {
+                                var iframeSrc = $(this).attr("src");
+                                $(".show_iframe iframe").eq($(this).index()).attr("src", iframeSrc);
+                            }
+                        })
+                    }
+
+//                    var timer2 = setInterval(getMsg, 5000);
+
+                    //获取最新提醒消息
+                    function getMsg() {
+                        $.ajax({
+                            url: "<?=url('','default','msgCue')?>",
+                            timeout: 4000, //超时时间设置，单位毫秒 防止重复数据
+                            dataType: "json",
+                            success: function (data) {
+                                //console.log(data);
+                                if (data.length > 0) {
+//                            clearInterval(timer);//关闭
+                                    for (var a = 0; a < data.length; a++) {
+                                        if (data[a]['url']) {
+                                            $("#info_boxs").append("<li>" + data[a]['msg'] + " " + data[a]['time'] + "<span style='position: relative'  class='msg_span' data-tit=+data[a]['msg']+>点击处理<a style='position: absolute; left: 0; right: 0; opacity: 0; bottom: 0; top: 0;' id='msg_do' _href='" + data[a]['url'] + "' target=right' " + "onclick=clickMusic(" + data[a]['id']+",this)" +">" + data[a]['title'] + "</a></span>&nbsp;&nbsp;&nbsp;<a class='msg_span' id='hidden_msg' title='点击隐藏并停止播放提示音'>X</a></li>");
+                                        }
+                                        else {
+                                            $("#info_boxs").append("<li>" + data[a]['msg'] + " " + data[a]['time'] + "<span class='msg_span' id='hidden_msg'>×</span></li>");
+                                        }
+
+                                        $("#info_boxs").css("display", "block");
+                                        $("#play").attr("src", data[a]['music']);
+                                    }
+                                }
+                            }
+                        });
+
+                    }
+
+//                    getMsg();
+
+                    function getNewMsg() {
+                        $.ajax({
+                            url: "?m=admin&c=default&a=new_msg_cue",
+                            timeout: 4000, //超时时间设置，单位毫秒 防止重复数据
+                            dataType: "json",
+                            success: function (data) {
+                                console.log(data);
+                                if (data.role > 0) {
+                                    //消息提醒条数
+                                    $(".message-income").html(data.income.total);
+                                    $(".message-payment").html(data.outcome.total);
+                                    // $(".message-total").html(data.total);
+                                    // $(".message-total").parent("h2").show();
+                                    var inarr=['withdraw','recharge','open_award','cash_limit','first_recharge','first_withdraw','call_back'];
+                                    for(var i in data){
+                                        if($.inArray(i,inarr)>=0 && data[i]['total']>0){
+                                            $('#play').attr('src', data[i]['music']);
+                                        }
+                                    }
+                                } else {
+                                    // $(".message-total").parent("h2").hide();
+                                    $(".message-income").parent("a").hide();
+                                    $(".message-payment").parent("a").hide();
+                                }
+                            }
+                        });
+                    }
+
+//                    getNewMsg();
+//                    var timer2 = setInterval(getNewMsg, 5000);
+
+                    $("#hidden_msg").live("click", function () {
+                        var obj = $(this);
+                        obj.parent().remove();
+                        if ($("#info_boxs li").length == 0) {
+                            $("#info_boxs").css("display", "none");
+                        }
+                        $("#play").attr("src", "");
+                    });
+
+//                    $("#msg_do").live("click", function () {
+//                        $("#a_leader_txt").text($(this).text());
+//                        $(".leftnav ul li a").removeClass("on");
+//                        $(this).addClass("on");
+//                        yp_admin_tab(this);
+//                    });
+
+                    //10S请求一次后台获取在线人数
+                    // setInterval(initOnlineUser, 10000);
+                    // initOnlineUser();
+                    //菜单滚动条   窗口缩放变化
+                    // var h = $(window).height() - 100;
+                    // h += "px";
+                    // $(".leftnav").css("height", h);
+                    // $(window).resize(function () {
+                    //     var h = $(window).height() - 100;
+                    //     h += "px";
+                    //     $(".leftnav").css("height", h);
+                    // });
+
+                    var hostname = window.location.hostname;
+//                    var protocolStr = document.location.protocol;
+//                    if(protocolStr == "http:")
+//                    {
+//                        console.log("protocol = " + protocolStr);
+//                        var ws = new WebSocket("ws://"+hostname+':9501');
+//                    }
+//                    else if(protocolStr == "https:")
+//                    {
+//                        console.log("protocol = " + protocolStr);
+//                        var ws = new WebSocket("ws://"+hostname+':9501');
+//                    }
+                    function wsConncet() {
+                        var ws = new WebSocket("wss://"+hostname+':9501');
+                        var timer = {};
+                        ws.addEventListener('open', function(res){
+                            timer = setInterval(function () {
+                                ws.send('{"commandid":4000,"user_id":"{$userid}"}');
+                            },3000);
+                        });
+                        ws.addEventListener('message', function(res){
+                            var data = JSON.parse(res.data);
+                            if(data.commandid==4002){
+                                var onlineData = JSON.parse(data.content);
+                                console.log(onlineData,'onlineData');
+                                $("#online-cnt2").html(onlineData.cnt2);
+                                $("#online-cnt").html(onlineData.cnt);
+                                $("#online-cnt1").html(onlineData.cnt1);
+                                $("#online-cnt3").html(onlineData.cnt3);
+                                $("#withdraw").html(onlineData.cash_count);
+                                $("#recharge").html(onlineData.charge_count);
+                            }
+                            if(data.commandid==4001){
+                                var data = data.list;
+                                for (var a = 0; a < data.length; a++) {
+                                    if (data[a]['url']) {
+                                        $("#info_boxs").append("<li>" + data[a]['msg'] + " " + data[a]['time'] + "<span style='position: relative'  class='msg_span' data-tit=+data[a]['msg']+>点击处理<a style='position: absolute; left: 0; right: 0; opacity: 0; bottom: 0; top: 0;' id='msg_do' _href='" + data[a]['url'] + "' target=right' " + "onclick=clickMusic(" + data[a]['id']+",this)" +">" + data[a]['title'] + "</a></span>&nbsp;&nbsp;&nbsp;<a class='msg_span' id='hidden_msg' title='点击隐藏并停止播放提示音'>X</a></li>");
+                                    }
+                                    else {
+                                        $("#info_boxs").append("<li>" + data[a]['msg'] + " " + data[a]['time'] + "<span class='msg_span' id='hidden_msg'>×</span></li>");
+                                    }
+
+                                    $("#info_boxs").css("display", "block");
+                                    $("#play").attr("src", data[a]['music']);
+                                }
+                            }
+                        });
+                        ws.addEventListener('close', function(res){
+                            clearInterval(timer);
+                            wsConncet()
+                        })
+                    }
+                    wsConncet()
+
+
+                })
+                //点击在线人数,跳转会员列表--筛选在线状态
+                function onlineUser(type) {
+                    //父级菜单是否展开
+                    if (!$("h2:contains('会员管理')").next("ul").is(":visible")) {
+                        $("h2:contains('会员管理')").trigger("click");
+                    }
+                    var url = $("a:contains('会员列表')").attr("_href");
+                    $("a:contains('会员列表')").attr("_href", url + "&online=1&rg_type=" + type).trigger("click"); //改变url
+                    $("a:contains('会员列表')").attr("_href", url); //改回url
+                }
+				
+				
+				function roomUser() {
+					var _href = '?m=admin&c=default&a=main';
+					
+					var topWindow=$(window.parent.document);
+					var show_navLi=topWindow.find("#min_title_list li");
+					var bStop = false;
+					show_navLi.each(function() {
+						if($(this).find('span').attr("data-href")==_href){
+								bStop=true;
+								bStopIndex=show_navLi.index($(this));
+								return false;
+						}
+					});
+					if(!bStop){
+						creatIframe(_href, '房间人数');
+					}else{
+						var active_navLi=topWindow.find("#min_title_list .active");
+						show_navLi.removeClass("active").eq(bStopIndex).addClass("active");
+						var iframe_box=topWindow.find(".admin");
+						iframe_box.find(".show_iframe").hide().eq(bStopIndex).show().find("iframe").attr("src",_href);
+					}
+				}
+				
+				function todayRechargeUser() {
+					if (!$("h2:contains('会员管理')").next("ul").is(":visible")) {
+                        $("h2:contains('会员管理')").trigger("click");
+                    }
+                    var url = $("a:contains('会员列表')").attr("_href");
+                    $("a:contains('会员列表')").attr("_href", url + "&filter=1").trigger("click"); //改变url
+                    $("a:contains('会员列表')").attr("_href", url); //改回url
+				}
+
+                function withdraw() {
+                    var url = $("a:contains('提现管理')").attr("_href");
+                    $("a:contains('提现管理')").attr("_href", url + "&status=0").trigger("click"); //改变url
+                    $("a:contains('提现管理')").attr("_href", url); //改回url
+                }
+
+
+                function recharge() {
+                    var index = 0;
+                    var url = "";
+                    $("a:contains('线下充值')").each(function (i) {
+                        url = $(this).attr("_href");
+                        if(url=="?m=admin&c=finance&a=charge") index = i;
+                    });
+                    url = $("a:contains('线下充值')").eq(index).attr("_href");
+                    $("a:contains('线下充值')").eq(index).attr("_href", url + "&status=0").trigger("click"); //改变url
+                    $("a:contains('线下充值')").eq(index).attr("_href", url); //改回url
+                }
+            </script>
+        </div>
+        <ul id="info_boxs">
+
+        </ul>
+        <!--<div id="info_boxs" title="双击暂时隐藏并停止播放提示音">-->
+
+        <!--</div>-->
+	<audio style="display:none" id="play" src="" controls="controls" autoplay="autoplay"></audio>
+	    <style type="text/css">
+            #info_boxs {
+                display: none;
+                color: black;
+                text-align: center;
+                padding: 0;
+                min-height: 100px;
+                width: 300px;
+                position: absolute;
+                bottom: 0px;
+                right: 20px;
+                z-index: 99999;
+            }
+            #info_boxs li{
+                border-radius: 5px;
+                padding: 10px 30px;
+                background: #73B573;
+                margin-bottom: 2px;
+                position: relative;
+                color: #fff;
+            }
+            #info_boxs li:hover{
+                background: #51a351;
+            }
+            #hidden_msg {
+                position: absolute;
+                right: 10px;
+                top: 30px; 
+                color: #FFF;
+            }
+            #hidden_msg:hover{
+                color: #bbb;
+            }
+            .msg_span
+            {
+                cursor: pointer;
+                color: #FFFB6B;
+            }
+
+        </style>
+        <script src="/statics/admin/js/style.js"></script>
+    </body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>更改绑定方式</title>
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+</head>
+<body>
+<header>
+    <em onclick="history.go(-1)">返回</em>
+    <h1>更改绑定方式</h1>
+</header>
+<section>
+    <!--<div class="binding" data-href="{$JumpUrl[28]}&flag_b=3"><i class="icoAdd1"></i>绑定新的银行卡</div>-->
+    <div class="bankCard">
+        <div class="wordText">
+        <?php
+            //不使用QQ钱包提现
+        	//if($list['QQ'] == 0 && $conf['Alipay'] == 1){
+            //    echo '<a href="'.$JumpUrl[28].'&flag_b=124&bank_id='.$bank_id.'"><div><img src="/up_files/room/weixin1.png" height="124" /></div></a>';
+            //}
+            if($list['UnionPay'] == 0 && $conf['UnionPay'] == 1){
+                echo '<a href="'.$JumpUrl[28].'&flag_b=3&bank_id='.$bank_id.'"><div><img src="/up_files/room/yinlian1.png" height="260" /></div></a>';
+            }
+            if($list['WeChat'] == 0 && $conf['WeChat'] == 1){
+                echo '<a href="'.$JumpUrl[28].'&flag_b=1&bank_id='.$bank_id.'"><div><img src="/up_files/room/weixin1.png" height="260" /></div></a>';
+            }
+            if($list['Alipay'] == 0 && $conf['Alipay'] == 1){
+                echo '<a href="'.$JumpUrl[28].'&flag_b=2&bank_id='.$bank_id.'"><div><img src="/up_files/room/zhifubao1.png" height="260" /></div></a>';
+            }
+        ?>
+    </div>
+    </div>
+</section>
+</body>
+</html>

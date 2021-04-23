@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<!--说明网站开启webapp 程序的支持-->
+		<meta name="apple-touch-fullscreen" content="yes" />
+		<!--添加到主屏幕后，全屏显示-->
+		<meta name="apple-mobile-web-app-status-bar-style" content="#f96a36" />
+		<!--在web app应用下状态条（屏幕顶部条）的颜色-->
+		<meta name="format-detection" content="telephone=no" />
+		<title>托管提现</title>
+		<link rel="stylesheet" href="../../statics/app/css/style.css">
+		<link rel="stylesheet" href="../../statics/app/css/plugs/amazeui.min.css" />
+		<script type="text/javascript" src="../../statics/app/js/plugs/jquery-2.1.3.min.js"></script>
+		<script type="text/javascript" src="../../statics/app/js/plugs/amazeui.min.js"></script>
+		<script type="text/javascript" src="../../statics/app/js/fontSize.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../statics/app/css/plugs/mui.css" />
+	</head>
+
+	<body class="cht-bg">
+		<!--提现-->
+		<div class="cht-box-change cht-box-tx">
+			<form class="mui-input-group am-form" action="<?=url('','','cashDeal')?>" method="post">
+				<div class="cht-form-block">
+					<section class="cht-form">
+						<div class="cht-form-pepoleInfo">
+							<div class="mui-input-row" style="padding-bottom: 1em;">
+								<div class="cht-tx">
+									<p class="title c96">为提高取现速度，请尽量不要分笔提现</p>
+								</div>
+
+								<div class="cht-tx">
+									<label class="cht-txMnoey">提现金额(￥)</label>
+									<input name="money" class="cht-inputBorder" type="text" id="money" autocomplete="off">
+								</div>
+							</div>
+						</div>
+					</section>
+				</div>
+
+                                <div class="col-12">
+                                    <p style="padding:8px 0; line-height:22px; color:#ff0000" id="info"></p>
+                                </div>
+                                <input type='hidden' name='save' value='save'>
+                                <input type='hidden' name='formhash' value='<?=formhash()?>' >
+                                <button type="submit" class="am-btn am-btn-default am-btn-block cht-btn-submit" id="button" value="" disabled>提交申请</button>
+			</form>
+			<?php if(date('Y-m-d')<'2016-02-14'){ ?>
+			<div class="am-container cht-tx-modify">
+				<div class="cht-hint">
+					<p>温馨提示：<br>汇付天下2月6-13日不处理提现申请，将延至2月14日处理。如有不便，敬请谅解。</p>
+				</div>
+			</div>
+			<?php } ?>
+		</div>
+                <script type="text/javascript">
+                    $("input[name='money']").keyup(function(){
+                        if ($(this).val() == '') {
+                            $("#button").attr("disabled",true);
+                        }else{
+                            $("#button").attr('disabled',false);
+                        }
+                    });
+
+
+                    $('#button').click(function(){
+                        var money = $('#money').val();
+                        if (!/^\d+\.?\d*$/.test(money)) {
+                                layer.open({type: 0, content: '请输正确的入充值金额！', time: 2, shade: false});
+                                return false;
+                        }
+                    });
+              </script>
+	</body>
+
+</html>

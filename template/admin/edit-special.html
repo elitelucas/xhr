@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+        <script src="statics/admin/js/pintuer.js"></script>  
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>  
+        <script src="statics/admin/js/jquery.date_input.pack.js"></script> 
+        {template public-new-ui-header}
+        <style>
+            #page{height: 60px;margin-top: 20px;text-align: center;}
+            #page ul li{float: left;margin-right:10px;}
+            #page ul .current{ background-color:#0099ff;text-align:center;}
+        </style>
+    </head>
+    <body class="new_ui_body">
+    <div class="ibox float-e-margins">
+	    <div class="ibox-title iboxWTitle">
+	        <h5>特殊玩法信息设置</h5>
+	        <div class="ibox-tools">
+	            <a  class="btn btn-white btn-bitbucket" id="btn_back">
+	                <i class="fa fa-reply"></i> 返回
+	            </a>
+	        </div>
+	        
+	    </div>
+	    <div class="ibox-content bagCol">
+	        <div class="ibox-title ">
+	            <h5>特殊玩法信息</h5>
+	        </div>
+	        <div class="ibox-content">
+	            <form id='form_update' method="post" class="form-horizontal">
+	           		<div class="form-group">
+	                    <label class="col-sm-2 control-label">彩种名称</label>
+	                    <div class="col-sm-2">
+	                        <input type="text" class="form-control"  value="{$lottery_title}" id="lottery_title" readonly>
+	                        <span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">房间名称</label>
+	                    <div class="col-sm-2">
+	                    	<input type='hidden' name="room_id" id="room_id" value="{$croom['id']}" />
+	                        <input type="text" class="form-control"  value="{$croom['title']}" id="title" readonly>
+	                        <span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">玩法</label>
+	                    <div class="col-sm-2">
+	                        <input type="text" class="form-control"  value="{$way_name}" name="way_name" id="way_name" readonly>
+	                        <span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">对应数字</label>
+	                    <div class="col-sm-2">
+	                        <input type="text" class="form-control" style="color:{$croomSWSet['list'][$way_name]['color']};"  value="{$croomSWSet['list'][$way_name]['way']}" name="way" id="way" readonly>
+	                        <span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">颜色</label>
+	                    <div class="col-sm-4">
+	                    	<span class="col-sm-6" style="padding-left: 0px;">
+	                        	<input type="text" class="form-control" style="color:{$croomSWSet['list'][$way_name]['color']};"  value="{$croomSWSet['list'][$way_name]['color']}" name="color" id="color">
+                        	</span>
+	                        <span class="col-sm-6 help-block m-b-none"><span class="help-block m-b-none"><a target="blank" href="http://www.qqai.net/tool/yansedaima/" style="color: #0099ff;">查看颜色码</a></span></span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">描述</label>
+	                    <div class="col-sm-5">
+	                        <textarea class="col-sm-10" style="height:140px;" name="contents" id='desc'>{$croomSWSet['list'][$way_name]['desc']}</textarea>
+	                        <span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">状态</label>
+	                    <div class="col-sm-1">
+	                     	<select name="state" class="form-control" id="state">
+                          		 <option {if $croomSWSet['list'][$way_name]['is_disable'] == '1'} selected {/if} value="1">开启</option>
+                          		 <option {if $croomSWSet['list'][$way_name]['is_disable'] == '0'} selected {/if} value="0">关闭</option>
+                           	</select>
+                           	<span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	            </form>
+	            <div class="form-group">
+	            	<div class="col-sm-4 col-sm-offset-2">
+	                	<button class="btn btn-primary" type="submit" id="btn_submit">保存</button>
+	                	<button class="btn btn-white" id="btn_cancel" type="submit">取消</button>
+	            	</div>
+	       		</div>
+   			</div>
+		</div>
+	</div>
+        <script type="text/javascript">
+            var loading = "";//加载中......
+
+            $(function () {
+                $("#btn_submit").click(function () {
+                	 var color = $("#color").val();
+                	 var room_id = $('#room_id').val();
+                	 var desc = $('#desc').val();
+                     var state = $('#state option:selected').val();
+                     var way_name = $('#way_name').val();
+                     $.ajax({
+                         url: '?m=admin&c=odds&a=doSpecial',
+                         data: {room_id:room_id,special:way_name,state:state,color:color,desc:desc},
+                         dataType: 'json',
+                         type: 'post',
+                         beforeSend: function () {
+                             loading = layer.load(1);
+                         },
+                         error: function () {
+                             layer.close(loading);
+                             layer.msg('网络异常，请手动刷新！！！', {icon: 5, shade: [0.5, '#393D49']});
+                         },
+                         success: function (result) {
+                             layer.close(loading);
+                             if (result.rt > 0) {
+                                 layer.msg('操作成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                     location.reload();
+                                 });
+                             }
+                         }
+                     });
+                    
+                });
+
+                $("#btn_cancel").click(function () {
+                    location.href = "?m=admin&c=odds&a=special&room_id={$croom['id']}&room={$croom['title']}&lottery_type={$croom['lottery_type']}";
+                });
+                $("#btn_back").click(function () {
+                    location.href = "?m=admin&c=odds&a=special&room_id={$croom['id']}&room={$croom['title']}&lottery_type={$croom['lottery_type']}";
+                });
+            });
+
+        </script>
+    </body>
+</html>

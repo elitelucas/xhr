@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset=utf-8>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="author" content="ifengjin@ifengjin.cn">
+    
+    <title>注册成功</title>
+    
+	<style>
+	  * { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box }
+	  html { margin: 0; padding: 0; background: #f7f7f7 }
+      body { margin: 0 auto; padding: 25px 15px; min-width: 320px; max-width: 640px; background: #fff; font-size: 14px; font-family: Helvetica, STHeiti STXihei, Microsoft JhengHei, Microsoft YaHei, Arial; line-height: 1.5; color: #333; -webkit-text-size-adjust: 100% !important; -webkit-user-select: none; user-select: none }
+	  .tips { margin-bottom: 30px }
+	  .container { display: inline-table; width: 100% }
+	  .container:before, container:after {display: table; content: " " }
+	  .container:after { clear: both }
+	  .container .left { width: 40%; float: left }
+	  .container .left img, .container .right img { width: 100% }
+	  .container .right { width: 60%; float: right }
+	  .container .right div { margin: 10px auto }
+	  .container .right p { padding: 0 30px }
+	  article h3 { margin: 0; padding: 0; border-left: 2px solid #ebbd00; padding-left: 10px }
+	  article p { margin: 10px 0 15px 0; padding: 0; color: #999 }
+    </style>
+  </head>
+
+  <body>
+    <div class="tips">亲，小诚等您好久了，奉上维他柠檬茶250ml一盒!!</div>
+    <div class="container">
+      <div class="left"><img src="<?=SITE_PROTOCOL.C('cdn_path')?>images/vita.jpg" alt=""></div>
+      <div class="right">
+          <div><img src="<?=SITE_PROTOCOL.C('cdn_path')?>activity/20150615/exchangecode/<?php echo $lemo_info['exchange_code']?>.png" alt=""></div>
+        <p>凭此兑换券在广东任何一家7-11可以免费领取维他柠檬茶250ml一盒哦！<br>温馨提示：请截图保存此页面。</p>
+      </div>
+    </div>
+    <article>
+      <h3>免费券兑换有效期：</h3>
+      <p>2015.06.18-2015.07.23</p>
+    </article>
+    <article>
+      <h3>兑券服务热线：</h3>
+      <p>020- 38010549-601</p>
+    </article>
+    <p>记得回复 “百元红包” 领取现金哦！</p>
+  </body>
+</html>
+

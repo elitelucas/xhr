@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <!--  <link rel="stylesheet" href="statics/admin/css/pintuer.css"> -->
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+
+    <!-- template-begin+++ -->
+    {template public-new-ui-header}
+    <script src="statics/admin/fileupload/js/vendor/jquery.ui.widget.js"></script>
+    <script src="statics/admin/fileupload/js/jquery.fileupload.js"></script>
+    <!-- template-end+++ -->
+
+
+
+</head>
+<body style="margin: 15px;background-color: #f3f3f4;">
+<div class="ibox float-e-margins">
+    <div class="ibox-title iboxWTitle">
+        <h5>活动背景图配置</h5>
+        <div class="ibox-tools">
+            <a href="javascript:void(0)" class="btn btn-white btn-bitbucket" onclick="javascript:history.go(-1);">
+                <i class="fa fa-reply"></i> 返回
+            </a>
+        </div>
+    </div>
+    <div class="ibox-content bagCol">
+        <div class="ibox-title">
+            <h5>详情</h5>
+            <div class="ibox-tools">
+                <a class="btn btn-white btn-bitbucket btn_sure" id="update" data-title="修改"><i class="fa fa-pencil"></i> </a>
+            </div>
+        </div>
+        <div class="ibox-content m-b">
+            <form method="post" class="form-horizontal" id="form">
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">模板模式</label>
+                    <div class="col-sm-3">
+                        <select name="back-type" class="form-control m-b" disabled="disabled">
+                            <option value="1" {if $back_type == 1}selected="selected"{/if}>默认模板</option>
+                            <option value="2" {if $back_type == 2}selected="selected"{/if}>端午节模板</option>
+                            {if $type != 3}<option value="3" {if $back_type == 3}selected="selected"{/if}>世界杯模板</option>{/if}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="back-ground-img"></div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    var loading = "";//加载中
+    $(function(){
+        $("[name='back-type']").change();
+
+    })
+
+    $("#update").click(function(){
+        $(this).parent().html('<a class="btn btn-white btn-bitbucket btn_sure" id="btn_submit" data-title="保存"><i class="fa fa-save"></i></a>')
+        $(this).remove();
+        $("select").attr("disabled",false);
+        $("input").attr("disabled",false);
+    })
+
+    $("[name='back-type']").change(function(){
+        $(".back-ground-img").empty();
+        var value = $(this).val();
+        var type = "{$type}";
+        var doem = $(".back-ground-img");
+        doem.empty();
+        var img_app_path = "";
+        var img_pc_path = ""
+        if (type == 1) {
+            img_pc_path = "/statics/web/images/turntable/turntable_pc_background_"+value+".jpg";
+            img_app_path = "/statics/web/images/turntable/turntable_app_background_"+value+".jpg";
+        } else if (type == 2) {
+            img_pc_path = "/statics/web/images/nine/nine_pc_background_"+value+".jpg";
+            img_app_path = "/statics/web/images/nine/nine_app_background_"+value+".jpg";
+        } else if (type == 3) {
+            img_pc_path = "/statics/web/images/luckybag/luckybag_pc_background_"+value+".jpg";
+            img_app_path = "/statics/web/images/luckybag/luckybag_app_background_"+value+".jpg";
+        } else if (type == 4) {
+            img_pc_path = "/statics/web/images/scratch/scratch_pc_background_"+value+".jpg";
+            img_app_path = "/statics/web/images/scratch/scratch_app_background_"+value+".jpg";
+        }
+        var html = '<div class="form-group">' +
+            '<label class="col-sm-2 control-label">PC效果预览</label>' +
+            '<div class="col-sm-3">' +
+            '<a href="'+ img_pc_path +'" target="_blank">' +
+            '<img src="'+ img_pc_path +'" width="150" />' +
+            '</a></div>' +
+            '</div>';
+        html += '<div class="form-group">' +
+            '<label class="col-sm-2 control-label">APP效果预览</label>' +
+            '<div class="col-sm-3">' +
+            '<a href="'+ img_app_path +'" target="_blank">' +
+            '<img src="'+ img_app_path +'" width="150" />' +
+            '</a></div>' +
+            '</div>';
+        doem.html(html);
+    })
+
+
+
+    $("body").on("click","#btn_submit",function(){
+        var data = {
+            'activity_type':"{$type}",
+            'back_type':$("[name='back-type']").val(),
+        }
+        $.ajax({
+            type: 'POST',
+            url: '?m=admin&c=activity&a=backConfAct',
+            data:data,
+            dataType: 'json',
+            beforeSend:function(){
+                loading = layer.load(1);
+            },
+            success: function (msg) {
+                layer.close(loading);
+                if (msg.code == 0) {
+                    layer.msg(msg.msg, {icon: 6, shade: [0.5, '#393D49']},function(){
+                        location.reload();
+                    });
+
+                } else {
+                    layer.msg(msg.msg, {icon: 5, shade: [0.5, '#393D49']})
+                }
+            }
+        });
+    })
+
+</script>
+</body>
+</html>

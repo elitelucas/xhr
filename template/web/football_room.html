@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>{$lottery_title}</title>
+    <meta name="referrer" content="always" />
+    <meta charset='utf-8' />
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="x-dns-prefetch-control" content="on"/>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"/>
+    <title>
+        <?php echo C("app_webname"); ?>
+    </title>
+    <!--{template public-header}-->
+    <link href="/statics/web/css/room.css" rel="stylesheet" type="text/css">
+    <link href="/statics/web/css/red.css" rel="stylesheet" type="text/css">
+    <link href="/statics/web/css/sjbRoom.css" rel="stylesheet" type="text/css">
+    <script src="/statics/web/js/jquery.1.8.2.min.js"></script>
+    <script src="/statics/web/extend/layer/mobile/layer.js"></script>
+    <script>
+        var userinfo = {$userInfo};
+        var btn_url = "<?=url('', 'user', 'setInfo')?>";
+        var aWanf = new Array();
+        var aJine = new Array();
+        var fag1 = true; //防止重复提交投注
+        var tz_record = "{$JumpUrl[5]}"; //投注记录
+//        var qihao = {$list[0]['issue']}; //上期期号
+    </script>
+</head>
+
+<body>
+    <div class="rhHead">
+        <div class="rhTitle">
+            <img src="/statics/web/images/return.png" alt="" onclick="history.go(-1)">
+            <div>
+                <div class="gdTitle">
+                    <div>{$lottery_title}</div>
+                    <div class="subTitle">{$room_name['title']}</div>
+                </div>
+                <p class="titleTime">比赛时间：<?php echo date('Y-m-d H:i',$fb_info['match_date']); ?></p>
+            </div>
+        </div>
+        <div class="rhMoney">
+            <img src="/statics/web/images/balance_icon@2x.png" alt="">{$ybMoney}
+        </div>
+        <div class="rhGrpPanel">
+            <div class="rhGrpBox">
+                <img src="{$fb_info['team_1_logo']}" alt="">
+                {$fb_info['team_1_name']}
+                <div>A</div>
+            </div>
+            <div class="rhMid">
+                <div class="rhState">{$fb_info['status']}</div>
+                <div class="rhFenShu">{$fb_info['match_score']}
+                    <!--<p>（3-2）</p>-->
+                </div>
+                {if $video_address}
+                    <div class="rhLive">
+                        <a href="{$video_address}">
+                            <img src="/statics/web/images/sjb/onlineplay_icon.png" alt="">视频直播
+                        </a>
+                    </div>
+                {/if}
+            </div>
+            <div class="rhGrpBox">
+                <img src="{$fb_info['team_2_logo']}" alt="">
+                {$fb_info['team_2_name']}
+                <div>B</div>
+            </div>
+        </div>
+    </div>
+    
+    <!--开奖结果-->
+    <div class="lottery lottery_lhc" style="display: none;">
+        <dl>
+            <dt>
+        </dt>
+            <dd>
+                {loop $list $v}
+                <ul>
+                    <li>
+                        <div>第<span class="issueStyle">{$v['issue']}</span>期</div>
+                        <div class="rstPanel">
+                            {loop $v['pai_url'] $puv}
+                                <div class="{$puv}"></div>
+                            {/loop}
+                        </div>
+                        <div>{$v['open_result']}</div>
+                    </li>
+                </ul>
+                {/loop}
+            </dd>
+        </dl>
+        <!--<div class="lotteryBut"><button data-href="{$JumpUrl[11]}">更多开奖结果</button></div>-->
+    </div>
+    <!--开奖结果-->
+    <section>
+
+
+        <!--房间开始-->
+        <div class="room" id="wrapper">
+            <div class="roomContent" id="scroller">
+                <div class="betTixing" style="display: none">
+                    <span><em>本期已下0注</em></span>
+                    <span id="quxiaoXz">查看本期下注</span>
+                    <em class="arrow"></em>
+                    <em class="jt"></em>
+                    <div class="quxiao" style="display: none">
+                        <ul>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--房间结束-->
+
+
+        <!--客服开始-->
+        <!--<div class="customer" id="drag" data-href="<?php echo C('kefu');?>&username=<?php echo $_SESSION['SN_']['username'];  ?>"></div>-->
+        <!--客服结束-->
+        <div class="customNews roomNews">
+            <em class="bgCol" id="bettingBtu">投注</em>
+            <em class="bgCol keyboard" style="display: none">取消</em>
+            <div class="textArea">
+                <div contenteditable="true" data-content="true"></div>
+            </div>
+            <button id="speak">发送</button>
+        </div>
+        <div class="betWarp">
+            <div class="betCon">
+                <div class="betLeftNav">
+                    <ul>
+                        <li data-title="独赢盘">独赢盘</li>
+                        <li data-title="全场">全场</li>
+                        <li data-title="半场">半场</li>
+                        <li data-title="单双">单双</li>
+                        <li class="active" data-title="总入球">总入球</li>
+                        <li data-title="半/全场">半/全场</li>
+                        <li data-title="波胆">波胆</li>
+                        <li data-title="加时">加时</li>
+                        <li data-title="点球">点球</li>
+                    </ul>
+                </div>
+                <div class="betRight">
+                    <h4 id="betTitle">猜牛牛</h4>
+                    <p class="desc"></p>
+                    <div class="data-con">
+                       
+                    </div>
+                </div>
+                <div class="betListWarp">
+                    <!--注单-->
+                    <div class="betList">
+                        <div class="list-tit">
+                            <p><span>投注内容</span><span class="list-empty"><i class="clear-all"></i>清空</span></p>
+                        </div>
+                        <div class="list-con"></div>
+                        <!--<div class="list-bet"><i class="list-confirm"></i><span>确认投注</span></div>-->
+                    </div>
+                </div>
+
+                <div class="operate" style="display: none">
+                    <input type="tel" id="inputNumber" pattern="\d*" class="moneyInput">
+                    <button class="add-list" id="butJp">确定</button>
+                    <button class="bet-cancel" id="cancelJp">取消</button>
+                </div>
+            </div>
+        </div>
+        <!--投注操作区-->
+        <div class="bettPanel">
+            <div class="bpTop">
+                
+                <button class="bet-min">最小投注</button>
+                <p>已选<span class="zhuMany">0</span>注，共计<span class="moneyMany">0</span>元宝</p>
+            </div>
+            <div class="bpBottom">
+                <div class="moneyInput"><input type="number" id="moneyInput1"></div>
+                <div class="bpBtnPanel">
+                    <button class="bettBtn" id="bettingBtn1">投注</button>
+                    <button class="bettCancel">取消</button>
+                </div>
+            </div>
+        </div>
+        <div class="popup" style="display:none"></div> 
+        <div class="cmPanel">
+            <div class="ybBg5">梭哈</div>
+        </div>
+        <!--追号操作区-->
+        <div class="chaseWarp">
+            <div class="zhuiHao" style="display: none;">
+                <div class="bgffShow"></div>
+                <div class="chase-form">
+                    <ul>
+                        <li>
+                            <div class="chase-form-left">
+                                <span class="chase-wanf"></span>
+                            </div>
+                            <div class="chase-form-right">
+                                投注金额：
+                                <input class="money-text" placeholder="请输入金额" type="number">
+                            </div>
+                        </li>
+                        <li>
+                            <div class="chase-form-left">
+                                <em class="">追号：</em>
+                                <div class="input-main">
+                                    <!--<i class="icon-size lessB">-</i>-->
+                                    <input type="text" id="zhuiQs" class="input-c" value="1">
+                                    <!--<i class="icon-size add">+</i>-->
+                                </div>
+                            </div>
+                            <div class="chase-form-right">
+                                <em class="">翻倍：</em>
+                                <div class="input-main">
+                                    <!--<i class="icon-size lessB">-</i>-->
+                                    <input type="text" id="zhuiBs" class="input-c" value="1">
+                                    <!--<i class="icon-size add">+</i>-->
+                                </div>
+                                <!--<em class="left">倍</em>-->
+                                <button class="generate">创建</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!--追号清单-->
+                <div class="zhuiHaoList">
+                    <div class="chase-table">
+                        <table class="tit">
+                            <thead>
+                                <tr>
+                                    <th width="34%">期号</th>
+                                    <th width="33%">投注金额</th>
+                                    <th width="33%">翻倍</th>
+                                    <!--<th>是否中奖</th>-->
+                                </tr>
+                            </thead>
+                            <tbody></tbody>                            
+                        </table>
+                        <div class="listQs">
+                            <table class="list">
+                                <tbody id="zhuiHList">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="Stop">
+                        <div class="squaredThree">
+                            <input type="checkbox" value="None" id="if_win_stop" name="check" checked="checked">
+                            <label for="if_win_stop"> &nbsp;</label>
+                        </div>
+                        是否追停
+                        <button class="Stop-btn" id="querenTz">确认投注</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <audio style="display:none" id="room_play" src="" controls="controls" autoplay="autoplay"></audio>
+    <input id="wsPort" type="hidden" data-port="{$port}" />
+</body>
+
+</html>
+<script>
+</script>
+<script src="/statics/web/js/style.js"></script>
+<script src="/statics/web/js/ws-client.js"></script>
+<script src="/statics/web/js/store.js"></script>
+<script src="/statics/web/js/sjbRoom.js"></script>
+<script>
+    
+    if (userinfo.nickname == "") {
+        $(".popup").show();
+        $(".popup").html('<div class="config-confirm"><h3>修改昵称</h3><div class="configInput"><input type="text" name="nickname" placeholder="请输入新的昵称"></div><div class="btn"><button class="cancel" id="ncquxiao">取消</button><button class="confirm" id="keepName">保存</button></div></div>')
+    } else {
+        initWebSocket();
+//        recentlyIssue = {$list[0]['issue']};
+    }
+</script>
+
+<style type="text/css">
+    .minirefresh-wrap{
+        position: static;
+    }
+    .betLeftNav{
+        overflow: auto;
+    }
+    .point-outer.point-pre {
+        display: none;
+    }
+    
+    .point-outer {
+        position: absolute;
+        z-index: 9999;
+        -webkit-transition: all 0.5s cubic-bezier(0.39, -0.4, 0.83, 0.23) 0s;
+        transition: all 0.5s cubic-bezier(0.39, -0.4, 0.83, 0.23) 0s;
+    }
+    
+    .point-inner {
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        border-radius: 50%;
+        background-color: #eb1212;
+        -webkit-transition: all 0.5s linear 0s;
+        color: #ffffff;
+        text-align: center;
+        font-size: 0.7rem;
+    }
+    
+    .roomHead2 i {
+        color: white;
+        text-shadow: 0 0 1px #000;
+    }
+    
+    .color1 {
+        background-color: #fcf53c;
+    }
+    
+    .color2 {
+        background-color: #4990e2;
+    }
+    
+    .color3 {
+        background-color: #4a4a4a;
+    }
+    
+    .color4 {
+        background-color: #f6a623;
+    }
+    
+    .color5 {
+        background-color: #50b8e3;
+    }
+    
+    .color6 {
+        background-color: #5d12fe;
+    }
+    
+    .color7 {
+        background-color: #b4b3b3;
+    }
+    
+    .color8 {
+        background-color: #d0011b;
+    }
+    
+    .color9 {
+        background-color: #801111;
+    }
+    
+    .color10 {
+        background-color: #7ed321;
+    }
+    
+    .colorjieguo {
+        width: 16px;
+        display: inline-block;
+        margin-right: 2px;
+    }
+    
+    .colorjieguo_down i {
+        display: inline-block;
+        margin-bottom: 2px;
+        width: 16px;
+        line-height: 16px;
+        font-style: normal;
+        color: white;
+        text-align: center;
+        text-shadow: 0 0 1px #000;
+    }
+    
+    .colorjieguo_down i:nth-of-type(1) {
+        margin-left: 10px;
+    }
+    
+    @media screen and (max-width: 320px) {
+        .colorjieguo_down i {
+            width: 15px;
+            line-height: 15px;
+            display: inline-block;
+            font-size: 12px;
+        }
+        .colorjieguo {
+            width: 17px;
+            display: inline-block;
+            margin-right: 2px;
+        }
+    }
+    
+    .bettingKey-pkft ul li {
+        float: none;
+    }
+</style>
+<script type="text/javascript">
+    //头部右侧消息部分
+    $(function() {
+
+        //投注面板选项卡
+        $(".nav-title h4").click(function() {
+            $(this).addClass("active").siblings().removeClass("active");
+            var index = $(this).index()
+            $(".roomWay .play").eq(index).show().parent().siblings().find(".play").hide();
+            $(".wanfa-title").html($(this).text());
+            reset()
+        });
+
+        getMessage();
+        getLhcOdds();
+
+    });
+
+    function getLhcOdds() {
+        var loading = '';
+        $.ajax({
+            url: '/?m=web&c=odds&a=getOdds',
+            data: {
+                room_id: {$room_id}
+            },
+            dataType: 'json',
+            type: 'post',
+            beforeSend: function() {
+                loading = layer.open({
+                    type: 2,
+                    content: '玩法加载中...'
+                });
+            },
+            error: function() {
+                layer.close(loading);
+                layer.msg('网络异常，稍后再试！！！', {
+                    icon: 5,
+                    shade: [0.5, '#393D49']
+                });
+            },
+            success: function(result) {
+                layer.close(loading);
+                console.log(result.data);
+                if (result.code == 0) {
+                } else {
+                    if (result.msg) {
+                    }
+                }
+            }
+        });
+    }
+
+    //清除所有.pit
+    function reset() {
+        $(".play ul li div").each(function() {
+            $(this).removeClass("pit");
+        });
+    }
+
+    function getMessage() {
+        var data = {
+            "token": "{$_SESSION['SN_']['token']}"
+        }
+        $.ajax({
+            url: "?m=api&c=lobby&a=getMessageNum",
+            type: 'POST',
+            data: data,
+            dataType: "json",
+            success: function(data) {
+                $(".icoNews").attr("data-new", data['msg_num'])
+                if ($(".headerRight li.icoNews").attr("data-new") > 0) {
+                    $(".headerRight li.icoNews").addClass("oAfter")
+                }
+                console.log(data);
+            }
+        });
+    }
+</script>

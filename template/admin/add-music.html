@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+        <script src="statics/admin/js/pintuer.js"></script>  
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>  
+        <script src="statics/admin/js/jquery.date_input.pack.js"></script> 
+        <style>
+            #page{height: 60px;margin-top: 20px;text-align: center;}
+            #page ul li{float: left;margin-right:10px;}
+            #page ul .current{ background-color:#0099ff;text-align:center;}
+        </style>
+    </head>
+    <body>
+        <div class="panel admin-panel">
+            <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>新增提示音</strong></div>
+            <div class="body-content">
+                <form method="post" class="form-x" action="" id='form'>  
+                    <div class="form-group">
+                        <div class="label">
+                            <label>消息：</label>
+                        </div>
+                        <div class="field">
+                            <input type="text" class="input w50" value="" name="title" id="title" placeholder="此名称不能重复" data-validate="required:请输入消息" />
+                            <div class="tips"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="label">
+                            <label>提示音：</label>
+                        </div>
+                        <div class="field">
+                            <select style=" line-height:17px;display:inline-block" class="input w50" id='music' name="music">
+                                <option value="">选择</option>
+                                <option value="0.mp3|还有谁">还有谁</option>
+                                <option value="1.mp3|警报1">警报1</option>
+                                <option value="2.mp3|警报2">警报2</option>
+                                <option value="3.mp3|警报3">警报3</option>
+                                <option value="4.mp3|拉人">拉人</option>
+                                <option value="5.mp3|老板查钱">老板查钱</option>
+                                <option value="6.mp3|上分">上分</option>
+                                <option value="7.mp3|我发财了">我发财了</option>
+                                <option value="8.mp3|我一定会回来的">我一定会回来的</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="label">
+                            <label>备注：</label>
+                        </div>
+                        <div class="field">
+                            <textarea class="input w50" placeholder="请输入备注" style="height:120px" name="remark" id='remark' data-validate="required:请输入备注"></textarea>
+                            <div class="tips"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="label">
+                            <label></label>
+                        </div>
+                        <div class="field">
+                            <button class="button bg-main icon-check-square-o" type="button" id="btn_submit"> 提交</button>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <button class="button bg-main icon-check-square-o" type="button" id="btn_cancel"> 返回</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script type="text/javascript">
+            var loading = "";//加载中......
+
+            $(function () {
+                var onOff = false;
+                $('#s_time').date_input();
+                $('#e_time').date_input();
+                $("#btn_submit").click(function () {
+                    var title = $("#title").val();
+                    var music = $("#music").val();
+                    if($.trim(title) == ""){
+                        layer.msg('请输入消息！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        return false;
+                    }
+                    if($.trim(music) == ""){
+                        layer.msg('请选择提示音！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        return false;
+                    }
+                    if(!onOff){
+                        layer.msg('消息名重复！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        return false;
+                    }
+                    $.ajax({
+                        url: '?m=admin&c=message&a=doAddMusic',
+                        data: $("#form").serialize(),
+                        dataType: 'json',
+                        type: 'post',
+                        beforeSend: function () {
+                            loading = layer.load(1);
+                        },
+                        error: function () {
+                            layer.close(loading);
+                            layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        },
+                        success: function (result) {
+                            layer.close(loading);
+                            if (result.rt) {
+                                layer.msg('提交成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                    layer.confirm('', {
+                                        btn: ['继续添加', '返回列表'] //可以无限个按钮
+                                    }, function () {
+                                        location.href = '?m=admin&c=message&a=addMusic';
+                                    }, function () {
+                                        location.href = '?m=admin&c=message&a=music';
+                                    });
+                                });
+                            }else if(result.rt == -1){
+                                layer.msg('消息名重复！！！', {icon: 5, shade: [0.5, '#393D49']});
+                            }else{
+                                layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                            }
+                        }
+                    })
+                });
+                $("#title").blur(function () {
+                    $.get("?m=admin&c=message&a=selectMusic", { title: $.trim($(this).val())},
+                            function(data){
+                                var data = $.parseJSON(data);
+                                if(data.status == 0){
+                                    onOff = false;
+                                    layer.open({
+                                        content: "<p class='alert_msg'>消息名重复！！！</p>",
+                                        btn: '<p class="alert_buttom">我知道了</p>'
+                                    });
+                                }else {
+                                    onOff = true;
+                                }
+                            });
+                })
+                $("#btn_cancel").click(function () {
+                    location.href = '?m=admin&c=message&a=music';
+                });
+            });
+
+        </script>
+    </body>
+</html>

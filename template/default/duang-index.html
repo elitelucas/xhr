@@ -1,0 +1,641 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width">
+  <meta name="keywords" content="诚汇通官网，诚汇通，www.chenghuitong.net，p2p网贷平台，p2p理财公司，网络借贷平台，p2p理财产品——深圳市诚汇通金融信息有限公司">
+  <meta name="description" content="诚汇通官网（www.chenghuitong.net）, 国内首批专注于P2P网络投融资服务的平台。投资免手续费，22%年化收益，100%保本保息，第三方托管，广东互联网金融协会会员；每天公布运营数据，为你的资金保驾护航。">
+  <meta name="author" content="ifengjin@ifengjin.cn">
+  
+  <title>诚汇通-口碑很好的P2P网络借贷投资理财平台</title>
+  
+  <link rel="shortcut icon" href="favicon.ico" mce_href="favicon.ico" type="image/x-icon">
+  <link href="../../statics/duang/css/css.css" rel="stylesheet" type="text/css">
+  <link href="../../statics/duang/js/owlcarousel/v2.0.0/owl.carousel.min.css" rel="stylesheet" type="text/css">
+  
+  <script src="../../statics/duang/js/jquery/1.10.2/jquery-1.10.2.min.js"></script>
+  <script src="../../statics/duang/js/validate/1.13.1/jquery.validate.min.js"></script>
+  <script src="../../statics/duang/js/validate/1.13.1/localization/messages_zh.min.js"></script>
+  <script src="../../statics/duang/js/owlcarousel/v2.0.0/owl.carousel.min.js"></script>
+  <script type="text/javascript" src="//stat.tf.360.cn/search/c.js?u=1339090459" charset="utf-8"></script>
+  <script type="text/javascript">
+    (function() {
+        var obj = document.createElement('script');
+        obj.src = '//s.va.cn/va.js?id=18388';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(obj, s);
+    })();
+  </script>
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?fcea50ed98bbb8dbc8dc4834e1024dfd";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+</head>
+
+<body>
+{template kefu-list-box}
+  <!-- 弹出注册框 -->
+  <div class="dialog hidden">
+    <div class="dialog-box">
+      <div class="close"></div>
+      <div class="pull-left"><img src="../../statics/duang/image/pic_12.gif" alt=""></div>
+      <div class="pull-right">
+      
+      <div class="_reg-box" id="_regBox" name="_regBox">
+        <div class="title">
+          <div class="pull-left">快速注册</div>
+          <div class="pull-right"><span style="color:#555;">已有帐号？</span><a href="http://www.chenghuitong.net/content/login-index.html" target="_blank">登录</a></div>
+        </div><!-- /.title-->
+        <form id="_regForm" action="" method="post">
+          <div class="form-item">
+            <div class="pull-left">用户名：</div>
+            <div class="pull-right">
+              <input type="text" id="_uname" name="_uname" >
+              <label class="error" id="_uname-error" for="_uname"></label>
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="pull-left">设置密码：</div>
+            <div class="pull-right">
+              <input type="password" id="_pwd" name="_pwd" >
+              <label class="error" id="_pwd-error" for="_pwd"></label>
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="pull-left">确认密码：</div>
+            <div class="pull-right">
+              <input type="password" id="_pwd2" name="_pwd2" >
+              <label class="error" id="_pwd2-error" for="_pwd2"></label>
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="pull-left">手机号码：</div>
+            <div class="pull-right">
+              <input type="text" id="_phone" name="_phone" >
+              <label class="error" id="_phone-error" for="_phone"></label>
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="pull-left">验证码：</div>
+            <div class="pull-right">
+              <input type="text" id="_pcode" name="_pcode">
+              <a id="_getPcode" href="javascript:formTimer('_getPcode',60);">点击获取验证码</a>
+              <label class="error" id="_pcode-error" for="_pcode"></label>
+            </div>
+          </div>
+          <div class="form-item">
+            <label>
+              <input type="checkbox" id="_agreement" name="_agreement" value="1" checked> 阅读并同意服务协议<a href="http://www.chenghuitong.net/article/default-xieyi.html" target="_blank">《诚汇通协议书》</a>
+              <label class="error" id="_agreement-error" for="_agreement"></label>
+            </label>
+          </div>
+          <div class="form-item">
+              <input type="hidden" value="{$source}" id="source2" name="source2" />
+            <input type="button" onclick="do_add();" id="_subBtn" value="注册领红包">
+          </div>
+        </form>
+      </div>
+      
+      </div>
+    </div>
+  </div>
+  <!-- /弹出注册框 -->
+
+  <div class="header">
+    <div class="container">
+      <div class="logo"><a href="http://www.chenghuitong.net/" target="_blank"><img src="../../statics/duang/image/logo.png" alt="诚汇通LOGO"></a></div>
+      <div class="tel">
+        <div class="_tel">400-018-0107</div>
+        <div class="home">
+          <a href="http://www.chenghuitong.net/" target="_blank">返回首页</a>
+          <div class="icon-go"></div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /.header -->
+  <div class="banner">
+    <div class="container">
+      <div class="reg-box" id="regBox" name="regBox">
+        <div class="title">
+          <div class="pull-left">快速注册</div>
+          <div class="pull-right"><span style="color:#555;">已有帐号？</span><a href="http://www.chenghuitong.net/content/login-index.html" target="_blank">登录</a></div>
+        </div><!-- /.title-->
+        <form id="regForm" action="<?=url('','','add')?>" method="post">
+          <div class="form-item">
+            <div class="pull-left">用户名：</div>
+            <div class="pull-right">
+              <input type="text" id="username" name="username" type="text" value="{$data['username']}">
+              <label class="error" id="uname-error" for="username">{$info_arr['username']}</label>
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="pull-left">设置密码：</div>
+            <div class="pull-right">
+              <input type="password" id="password" name="password"  value="{$data['password']}">
+              <label class="error" id="pwd-error" for="password">{$info_arr['password']}</label>
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="pull-left">确认密码：</div>
+            <div class="pull-right">
+              <input type="password" id="compassword" name="compassword"  value="{$data['compassword']}">
+              <label class="error" id="pwd2-error" for="compassword">{$info_arr['compassword']}</label>
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="pull-left">手机号码：</div>
+            <div class="pull-right">
+              <input type="text" id="phone" name="phone" type="text" value="{$data['phone']}">
+              <label class="error" id="phone-error" for="phone">{$info_arr['phone']}</label>
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="pull-left">验证码：</div>
+            <div class="pull-right">
+              <input type="text" id="pcode" name="pcode">
+              <a id="getPcode" href="javascript:formTimer('getPcode',60);">点击获取验证码</a>
+              <label class="error" id="pcode-error" for="pcode">{$info_arr['pcode']}</label>
+            </div>
+          </div>
+          <div class="form-item">
+            <label>
+              <input type="checkbox" id="xieyi" name="xieyi" value="1" checked> 阅读并同意服务协议<a href="http://www.chenghuitong.net/article/default-xieyi.html" target="_blank">《诚汇通协议书》</a>
+              <label class="error" id="agreement-error" for="xieyi">{$info_arr['xieyi']}</label>
+            </label>
+          </div>
+          <div class="form-item">
+              <input type="hidden" value="{$source}" name="source" />
+            <input type="submit" id="subBtn" value="注册领红包">
+          </div>
+        </form>
+      </div>
+    </div><!-- /.container -->
+  </div><!-- /.banner -->
+  <div id="mainContainer" class="container">
+    <div class="step1">
+      <div class="pic_01"></div>
+      <div class="pic_01_01"></div>
+      <div class="step1-text">
+        <div class="step-h1">注册送10元现金</div>
+        <div class="step-h1">实名认证送10元</div>
+        <div class="step-note">注：投标满500元即可提现</div>
+        <a href="#regBox" class="cht-btn step1-btn">我要注册</a>
+      </div>
+    </div><!-- /.step1 -->
+    <div class="step2">
+      <div class="pic_02"></div>
+      <div class="pic_02_01"></div>
+      <div class="step2-text">
+        <div class="step-h1">首次投标奖0.2%</div>
+        <div class="step-note">注：首次投标，奖励首次投标金额0.2%，<br/>即投即送。</div>
+        <a href="{if empty($user)}#regBox{else}https://www.chenghuitong.net/borrow/default-index.html{/if}" {if empty($user)}{else}target="_blank"{/if} class="cht-btn step2-btn">我要投资</a>
+      </div>
+    </div><!-- /.step2 -->
+    <div class="step3">
+      <div class="pic_03"></div>
+      <div class="pic_03_01"></div>
+      <div class="step3-text">
+        <div class="step-h1">回款续投奖0.23%</div>
+        <div class="step-note">注：即投标回款后未提现直接投标的客户，或<br/>回款后剩余未提现部分再次投标的客户，将奖<br/>励投标金额的 0.23%，投标满标复审之后，系<br/>统自动发放。</div>
+        <a href="{if empty($user)}#regBox{else}https://www.chenghuitong.net/borrow/default-index.html{/if}" {if empty($user)}{else}target="_blank"{/if} class="cht-btn step3-btn">我要续投</a>
+      </div>
+    </div><!-- /.step3 -->
+    <div class="step4">
+      <div class="pic_04"></div>
+      <div class="pic_04_01"></div>
+      <div class="step4-text">
+        <div class="step-h1">推荐亲友奖励0.1%</div>
+        <div class="step-note">注：1、推荐人将“邀请链接“发送给亲友，亲<br/>友在“邀请链接”页面注册，或者亲友在注册<br/>页面“推荐人”一栏，填写推荐人的注册用户<br/>名，则邀请成功；<br/>2、推荐有效期：被推荐人自注册日期当天算起，<br/>在30天以内（含30天），属于推荐有效期；<br/>3、推荐人的奖励：按照被推荐人在推荐有效期<br/>内投标金额0.1%的比例进行奖励。</div>
+        <a href="{if empty($user)}#regBox{else}https://www.chenghuitong.net/member/thankful-people.html{/if}" {if empty($user)}{else}target="_blank"{/if} class="cht-btn step4-btn">推荐好友</a>
+      </div>
+    </div><!-- /.step4 -->
+    <div class="step5">
+      <div class="pic_05"></div>
+      <div class="pic_05_01"></div>
+    </div><!-- /.step5 -->
+    <div class="step6">
+      <div class="pic_06"></div>
+      <div class="pic_06_01"></div>
+    </div><!-- /.step5 -->
+  </div><!-- /.container -->
+  <div class="bottom">
+    <div class="container">
+      <p class="decr">活动说明：<br/>1.以上奖励请登录：我的帐户-可用余额进行查询。<br/>2.禁止恶意刷奖行为，对于恶意刷奖的行为，诚汇通有权取消用户领取奖励权利。<br/>3.本活动最终解释权归深圳市诚汇通金融信息有限公司所有。<br/>4.如有疑问，请咨询诚汇通客服400-018-0107。</p>
+    </div><!-- /.container -->
+  </div><!-- /.bottom -->
+  <div class="bottom-box">
+    <div class="container">
+      <div class="pic_07"></div>
+      <div class="pic_08"></div>
+      <div class="pic_09"></div>
+      <div class="pic_10"></div>
+    </div><!-- /.container -->
+  </div><!-- /.bottom-box -->
+  <div class="bottom-box2">
+    <div class="container">
+      <div class="pic_11"></div>
+      <button class="reg-btn-lg">注册领红包</button>
+    </div><!-- /.container -->
+  </div><!-- /.bottom-box2 -->
+  
+  
+  <div class="footer">
+    <div class="container">
+      <div class="bottom-left pull-left">
+        <div class="erweima"></div>
+        <div class="clearfix"></div>
+        <div class="mt10">深圳市诚汇通金融信息有限公司</div>
+        <div>深圳市福田区福华三路168号国际商会中心2408-2412室</div>
+      </div>
+      <div class="bottom-right pull-right">
+        <div class="f18 mb10">客服热线</div>
+        <div class="f12">（周一至周五 9:00-18:00）</div>
+        <div class="mb10 mt10 f24">400-018-0107</div>
+        <div class="links mt10">
+          <a class="pull-left bottom-weibo" href="http://weibo.com/cht608710" target="_blank"></a>
+          <a class="pull-left bottom-tqq" href="http://e.t.qq.com/cht608710" target="_blank"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="copyright-box">
+  <div class="copyright container">
+    <div>Copyright © 2014 Www.ChengHuiTong.Net, 深圳市诚汇通金融信息有限公司 Inc. All Rights Reserved. 粤ICP备13044593号</div>
+    <div class="mt20">
+      <a class="margin-left10px margin-left10px" href="https://cert.ebs.gov.cn/a71f6f48-abb7-4f8a-92c4-d73f8fa0de56" target="_blank">
+        <img src="../../statics/duang/image/bottom/newGovIcon.gif" alt="工商网商电子标示" height="30">
+      </a>
+      <a class="margin-left10px margin-left10px" href="http://www.miibeian.gov.cn/" target="_blank">
+        <img src="../../statics/duang/image/bottom/bottom_23.jpg" alt="ICP备案查询" height="30">
+      </a>
+      <a class="margin-left10px margin-left10px" href="https://search.szfw.org/cert/l/CX20140305003565003628" target="_blank">
+        <img src="../../statics/duang/image/bottom/bottom_25.jpg" alt="诚信网站" height="30">
+      </a>
+      <a class="margin-left10px margin-left10px" href="https://ss.knet.cn/verifyseal.dll?sn=e13101844030042941tvh5000000&ct=df&a=1&pa=0.2732217316515744" target="_blank">
+        <img src="../../statics/duang/image/bottom/cnnic.png" alt="可信网站" height="30">
+      </a>
+      <a class="margin-left10px margin-left10px" href="https://ss.knet.cn/verifyseal.dll?sn=e13101844030042941tvh5000000&ct=df&a=1&pa=0.2732217316515744" target="_blank">
+        <img src="../../statics/duang/image/bottom/bottom_24.jpg" alt="NORTON" height="30">
+      </a>
+    </div>
+  </div>
+  </div>
+  
+  <script type="text/javascript">
+    $(function(){
+	  $(".close").click(function(e) {
+        $(".dialog").addClass("hidden");
+      });
+	  $(".reg-btn-lg").click(function(e) {
+        $(".dialog").removeClass("hidden");
+      });
+	  
+	  // 客服
+	  $(".rightbar-qq").click( function() {
+		  $(".kefu-box").toggle( function() {
+			  $(".kefu-box").addClass("hidden");
+		  }, function() {
+			  $(".kefu-box").removeClass("hidden");
+			  $('.kefu-list').owlCarousel({
+				center: false,
+				items: 5,
+				loop: true,
+				merge: true,
+				nav: true,
+				navText: ['',''],
+				lazyLoad: true,
+				margin: 6
+			  });
+		  });
+		});
+		
+	var kefu = function(iclass) {
+		$(iclass).hover( function() {
+			$(this).children("div").children("div").children("img").addClass("hidden");
+			$(this).children("div").children("div").children(".kefu-qq").removeClass("hidden");
+		}, function() {
+			$(this).children("div").children("div").children("img").removeClass("hidden");
+			$(this).children("div").children("div").children(".kefu-qq").addClass("hidden");
+		})
+	}
+	var kefu2 = function(iclass) {
+		$(iclass).hover( function() {
+			$(this).children("div").children("img").addClass("hidden");
+			$(this).children("div").children(".kefu-qq").removeClass("hidden");
+		}, function() {
+			$(this).children("div").children("img").removeClass("hidden");
+			$(this).children("div").children(".kefu-qq").addClass("hidden");
+		})
+	}
+	kefu(".kefu-left");
+	kefu2(".kefu-item");
+	  
+	  // 表单验证
+	  $("#_regForm").validate({
+	    rules: {
+		  _uname: {
+		    required: true,
+			minlength: 3,
+			maxlength: 20
+		  },
+		  _pwd: {
+		    required: true,
+			minlength: 6,
+			maxlength: 20
+		  },
+		  _pwd2: {
+		    required: true,
+			equalTo: "#_pwd",
+			minlength: 6,
+			maxlength: 20
+		  },
+		  _phone: {
+		    required: true,
+			digits: true,
+			minlength: 11,
+			maxlength: 11
+		  },
+		  _pcode: {
+		    required: true
+		  },
+		  _agreement: {
+		    required: true
+		  }
+		},
+		messages: {
+		  _uname: {
+		    required: "请输入登录名",
+			minlength: "登录名长度不对，至少3位",
+			maxlength: "登录名长度不对，至多20位"
+		  },
+		  _pwd: {
+		    required: "请输入登录密码",
+			minlength: "密码长度不对，至少6位",
+			maxlength: "密码长度不对，至多20位"
+		  },
+		  _pwd2: {
+		    required: "请输入确认密码",
+			equalTo: "两次输入密码不一致，请重新输入",
+			minlength: "密码长度不对，至少6位",
+			maxlength: "密码长度不对，至多20位"
+		  },
+		  _phone: {
+		    required: "手机号码不能为空",
+			digits: "手机号码为数字字符，请勿输入其他字符",
+			minlength: "手机号码为11位数，请确认后输入",
+			maxlength: "手机号码为11位数，请确认后输入"
+		  },
+		  _pcode: {
+		    required: "请输入手机收到的短信验证码"
+		  },
+		  _agreement: {
+		    required: "您必须同意服务协议才能注册本站会员"
+		  }
+		},
+		submitHandler:function(form){
+            form.submit();
+			$("#_subBtn").addClass("disabled").val("注册中...");
+        },
+	  }); // end validate()
+	  
+	  // 表单验证
+	  $("#regForm").validate({
+	    rules: {
+		  username: {
+		    required: true,
+			minlength: 3,
+			maxlength: 20
+		  },
+		  password: {
+		    required: true,
+			minlength: 6,
+			maxlength: 20
+		  },
+		  compassword: {
+		    required: true,
+			equalTo: "#password",
+			minlength: 6,
+			maxlength: 20
+		  },
+		  phone: {
+		    required: true,
+			digits: true,
+			minlength: 11,
+			maxlength: 11
+		  },
+		  pcode: {
+		    required: true
+		  },
+		  agreement: {
+		    required: true
+		  }
+		},
+		messages: {
+		  username: {
+		    required: "请输入登录名",
+			minlength: "登录名长度不对，至少3位",
+			maxlength: "登录名长度不对，至多20位"
+		  },
+		  password: {
+		    required: "请输入登录密码",
+			minlength: "密码长度不对，至少6位",
+			maxlength: "密码长度不对，至多20位"
+		  },
+		  compassword: {
+		    required: "请输入确认密码",
+			equalTo: "两次输入密码不一致，请重新输入",
+			minlength: "密码长度不对，至少6位",
+			maxlength: "密码长度不对，至多20位"
+		  },
+		  phone: {
+		    required: "手机号码不能为空",
+			digits: "手机号码为数字字符，请勿输入其他字符",
+			minlength: "手机号码为11位数，请确认后输入",
+			maxlength: "手机号码为11位数，请确认后输入"
+		  },
+		  pcode: {
+		    required: "请输入手机收到的短信验证码"
+		  },
+		  xieyi: {
+		    required: "您必须同意服务协议才能注册本站会员"
+		  }
+		},
+		submitHandler:function(form){
+            form.submit();
+			$("#subBtn").addClass("disabled").val("注册中...");
+        },
+	  }); // end validate()
+	  
+	});
+	  
+	// 注册时手机验证 60秒重新获取手机验证码倒计时
+	function formTimer(id,time) {
+	  var h = $("#"+id).attr("href"); // 获取当前href的值
+	  var t = time;
+	  
+	  $("#"+id).addClass("disabled"); // 修改按钮样式为不可用状态
+	  $("#"+id).attr("href","javascript:void(0);"); // 禁用点击事件
+	  
+	  down(t); // 执行倒计时
+	  var tt;
+	  // 倒计时
+	  function down(t) {
+		if(t==0) {
+		  $("#"+id).attr("href",h); // 开启点击获取手机验证码事件
+		  $("#"+id).removeClass("disabled"); // 恢复按钮样式为可用状态
+		  $("#"+id).html("点击获取验证码");
+		} else {
+		  $("#"+id).html(t+"秒后重新获取");
+		  t--;
+		  tt = setTimeout(function() {
+			down(t);
+		  },1000);
+		  $("#subBtn").click(function(e) {
+			clearTimeout(tt);
+		  });
+		} // end else
+	  } // end down()
+          var mobile;
+          if(id == "_getPcode"){
+              mobile = $("#_phone").val();
+          }else{
+              mobile = $("#phone").val();
+          }
+          $.ajax({
+                url: "http://www.chenghuitong.net/activity/marketing-public_phonesend_ajax.html",
+                data: {mobile:mobile},
+                success: function(data){
+                        if(data=='0'){
+                            clearTimeout(tt);
+                            $("#"+id).removeClass("disabled"); // 恢复按钮样式为可用状态
+                            $("#"+id).html("点击获取验证码");
+                            if(id == "_getPcode"){
+                                $("#_phone-error").html("手机号码不能为空！");
+                            }else{
+                                $("#phone-error").html("手机号码不能为空！");
+                            }
+                        }else if(data=='-1'){
+                            clearTimeout(tt);
+                            $("#"+id).removeClass("disabled"); // 恢复按钮样式为可用状态
+                            $("#"+id).html("点击获取验证码");
+                            if(id == "_getPcode"){
+                                $("#_phone-error").html("手机号码格式不对！");
+                            }else{
+                                $("#phone-error").html("手机号码格式不对！");
+                            }
+                        }else if(data=='-2'){
+                            clearTimeout(tt);
+                            $("#"+id).removeClass("disabled"); // 恢复按钮样式为可用状态
+                            $("#"+id).html("点击获取验证码");
+                            if(id == "_getPcode"){
+                                $("#_pcode-error").html("60秒后再点击获取验证码！");
+                            }else{
+                                $("#pcode-error").html("60秒后再点击获取验证码！");
+                            }
+                        }else if(data=='-3'){
+                            clearTimeout(tt);
+                            $("#"+id).removeClass("disabled"); // 恢复按钮样式为可用状态
+                            $("#"+id).html("点击获取验证码");
+                            if(id == "_getPcode"){
+                                $("#_phone-error").html("该手机号码已被使用！");
+                            }else{
+                                $("#phone-error").html("该手机号码已被使用！");
+                            }
+                        }
+                }
+        });
+	} // end formTimer()
+	
+//    $(function() {
+//        $('#getPcode').click(function(){
+//                $.ajax({
+//                        url: "<?=url('','','public_phonesend_ajax')?>",
+//                        data: {mobile:$("#phone").val()},
+//                        success: function(data){
+//                                if(data=='0'){
+//                                    $("#phone-error").html("手机号码不能为空！");
+//                                }else if(data=='-1'){
+//                                    $("#phone-error").html("手机号码格式不对！");
+//                                }else if(data=='-2'){
+//                                    $("#pcode-error").html("请刷新，60秒后再点击获取验证码！");
+//                                }else if(data=='-3'){
+//                                    $("#phone-error").html("该手机号码已被使用！");
+//                                }
+//                        }
+//                });
+//        });
+//        $('#_getPcode').click(function(){
+//                $.ajax({
+//                        url: "<?=url('','','public_phonesend_ajax')?>",
+//                        data: {mobile:$("#_phone").val()},
+//                        success: function(data){
+//                                if(data=='0'){
+//                                    $("#_phone-error").html("手机号码不能为空！");
+//                                }else if(data=='-1'){
+//                                    $("#_phone-error").html("手机号码格式不对！");
+//                                }else if(data=='-2'){
+//                                    $("#_pcode-error").html("请刷新，60秒后再点击获取验证码！");
+//                                }else if(data=='-3'){
+//                                    $("#_phone-error").html("该手机号码已被使用！");
+//                                }
+//                        }
+//                });
+//        });
+//    });
+    
+    function do_add() {
+        var _uname = $("#_uname").val();
+        var _pwd = $("#_pwd").val();
+        var _pwd2 = $("#_pwd2").val();
+        var _phone = $("#_phone").val();
+        var _pcode = $("#_pcode").val();
+        var _agreement = $("#_agreement").val();
+        var source = $("#source2").val();
+        $.ajax({
+                url:"?m=activity&c=marketing&a=add2",
+                type:"POST",
+                data:{"_uname":_uname,"_pwd":_pwd,"_pwd2":_pwd2,"_phone":_phone,"_pcode":_pcode,"_agreement":_agreement,"source":source},
+                success:function(data){
+                   if(data){
+                        var t = eval('('+data+')');
+                        if (t._succ == 1) {
+                            alert("恭喜您，已注册成功！");
+                            window.location.href = '<?=url('member','verify','real')?>'; 
+                        }else{
+                            if (t._uname != '') {
+                                $("#_uname-error").html(t._uname);
+                            }
+                            if (t._pwd != '') {
+                                $("#_pwd-error").html(t._pwd);
+                            }
+                            if (t._pwd2 != '') {
+                                $("#_pwd2-error").html(t._pwd2);
+                            }
+                            if (t._phone != '') {
+                                $("#_phone-error").html(t._phone);
+                            }
+                            if (t._pcode != '') {
+                                $("#_pcode-error").html(t._pcode);
+                            }
+                            if (t._agreement != '') {
+                                $("#_agreement-error").html(t._agreement);
+                            }
+                        }
+                    }else{
+                        alert('系统繁忙，请重试！');
+                        XHR = null ;
+                    }
+                },
+                complete: function (XHR, TS) { XHR = null ;t = null ;obj = null ; }
+        });
+    }
+  </script>
+</body>
+</html>

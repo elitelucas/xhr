@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="renderer" content="webkit">
+        <title>网站信息</title>  
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>
+        <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+        <script src="statics/admin/js/pintuer.js"></script>
+        {template public-new-ui-header}
+        <style>
+            .form-group{
+                overflow: auto;
+            }
+        </style>
+    </head>
+    <body class="new_ui_body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title iboxWTitle">
+                        <h5>白名单</h5>
+                        <div class="ibox-tools">
+                            <a href="javascript:;" class="btn btn-white btn-bitbucket" onclick="history.go(-1);">
+                                <i class="fa fa-reply"></i>返回
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content bagCol" style="width: 100%;">
+                        <div class="ibox-title">
+                            <h5>白名单修改</h5>
+                        </div>
+                        <div class="ibox-content m-b" style="width: 100%;">
+                            <form method="post" class="form-x"  id="forms">
+                                <div class="row">
+                                    <input type="hidden" class="input w50" name="id" value="{$data['id']}"/>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>ip地址</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="input w50" name="ip" value="{$data['ip']}"/>
+                                            <div class="tipss"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title">ip归属地</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" readonly="readonly" class="input w50" name="ip_attribution" value="{$data['ip_attribution']}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title">操作</label>
+                                        <div class="col-sm-4" style="margin-top: 6px;">
+                                            <input type="radio" id="url1" name="status"  value="0" {if $data['status']==0 }checked {/if}/>开启
+                                            <input type="radio" id="url1" name="status"  value="1" {if $data['status']==1} checked {/if}/>禁用
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title">备注</label>
+                                        <div class="col-sm-4">
+                                            <textarea type="text" class="input" name="beizhu" style="height:100px;width:363px;" >{$data['beizhu']}</textarea>
+                                        </div>
+                                        <div class="tipss"></div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title">备注</label>
+                                        <div class="col-sm-4">
+                                            <button class="btn btn-primary" type="button" id='btn' onclick='dis()'> 提交</button>
+                                            <button class="btn btn-white" type="button" id='btn' onclick='back()'> 取消</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        $(function () {
+            var a = $('.padding').find('a');
+            a.bind('click', function () {
+                var i = $(this).index();
+                $('.list').css('display', 'none');
+                $(".list:eq(" + i + ")").css('display', 'block');
+            });
+        });
+
+        function dis() {
+            //数据
+            var data = new Object();
+            data.ip = $.trim($("input[name=ip]").val());
+            data.beizhu = $.trim($("textarea[name=beizhu]").val());
+            //提示信息
+            var msg = new Object();
+            msg.ip = 'ip不能为空';
+            msg.beizhu = '备注不能为空';
+            //检查的值
+            var arr = [ 'ip', 'beizhu'];
+
+            var onOff = true;
+            $.each(data, function(k, v){
+                if($.inArray(k,arr) != -1){
+                    if(v==''){
+                        layer.open({
+                            content: "<p class='alert_msg'>"+msg[k]+"</p>",
+                            btn: '<p class="alert_buttom">我知道了</p>'
+                        });
+                        onOff = false;
+                        return false;
+                    }
+                }
+            });
+            if(!onOff){
+                return false;
+            }
+            var data = $('#forms').serialize();
+            $.ajax({
+                type: 'GET',
+                url: '?m=admin&c=role&a=up_whitelist_ok',
+                data: data,
+                dataType: 'json',
+                beforeSend: function () {
+                    loading = layer.load(1);
+                },
+                error: function () {
+                    layer.close(loading);
+                    layer.msg('网络异常，稍后再试！！！', {icon: 5, shade: [0.5, '#393D49']});
+                },
+                success: function (msg) {
+                    layer.close(loading);
+                    if (msg.state) {
+                        layer.msg('修改成功', {icon: 6}, function () {
+                            location.href = "?m=admin&c=role&a=whitelist";
+                        });
+                    } else {
+                        layer.msg('修改失败', {icon: 5, shade: [0.5, '#393D49']})
+                    }
+                }
+            });
+        }
+
+        function back(){
+            location.href = '?m=admin&c=role&a=whitelist';
+        }
+
+    </script>
+</html>

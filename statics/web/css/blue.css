@@ -1,0 +1,53 @@
+header{ background: #5e97fe; }
+.wallet{background: #5e97fe;}
+.loginWarp li button { background: #5e97fe;}
+.loginWarp li.butC button.bgCol { background: #ff4f4f;}
+button{ background: #5e97fe;}
+.bgCol2 { background: #ff5353;}
+.bgCol { background: #f20303;}
+.jianpanTitle { background: #5e97fe;}
+.play1 li p,.play2 li p { background: #9ec1ff;}
+.cenMoney h1{color: #fb4300;}
+.text-ul li {background: #e55600;}
+.userBetting dd div{background: #afafaf;}
+.userBetting dd{background: #dedede;}
+.teamSearchW{ background: #5e97fe;}
+
+
+.horn{ background: url(../images/imgBule/ico-horn.png) no-repeat 20px center #fff;}
+.indexContent { background: url(../images/imgBule/indexBg.png) no-repeat;}
+.indexTab li { background: url(../images/imgBule/button.png) no-repeat;}
+.indexTab li.active{ background: url(../images/imgBule/button1.png) no-repeat;}
+
+nav li:nth-child(1){ background-image: url("../images/imgBule/navHome.png?v=1");}
+nav li:nth-child(1).active{ background-image: url("../images/imgBule/navHome1.png");}
+nav li:nth-child(2){ background-image: url("../images/imgBule/navWallet.png");}
+nav li:nth-child(2).active{ background-image: url("../images/imgBule/navWallet1.png?v=1");}
+nav li:nth-child(3){ background-image: url("../images/imgBule/navArt.png");}
+nav li:nth-child(3).active{ background-image: url("../images/imgBule/navArt1.png?v=1");}
+nav li:nth-child(4){ background-image: url("../images/imgBule/navMy.png");}
+nav li:nth-child(4).active{ background-image: url("../images/imgBule/navMy1.png?v=1");}
+nav li.active{ color:#5e97fe;}
+
+.newsTitle{background-color: #6199fe; }
+
+.icoAboutUs {background-image: url(../images/imgBule/about@2x.png);}
+
+.configClose,.configClose2 {background: url(../images/imgBule/configClose.png) no-repeat; background-size: 100%;}
+
+.guanbing{ background: url("../images/imgBule/configClose.png") no-repeat; background-size: 100%;}
+
+.icoTime{ background-image: url("../images/imgBule/ico-time.png")}
+
+.iocKf{ background: url("../images/imgBule/ico-kf.png") no-repeat;}
+
+.customer{ background: url("../images/imgBule/kefu@2x.png") no-repeat center #fff; background-size: 100%;}
+
+/***********************支付安全 wallet/paymentSecurity.html**********************************/
+.icoNavArt2{ background-image: url("../images/imgBule/navArt2.png");}
+
+.ioc_zhuihao{ background: url("../images/imgBule/zhuihao.png") no-repeat; background-size: 100%;}
+
+.userBetting h3 em,pre em{background: #5e97fe;}
+
+.config h3{    background: #5e97fe;}

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="renderer" content="webkit">
+    <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+    <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+    <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+    <script src="statics/admin/js/bootstrap.min.js"></script>
+    {template public-new-ui-header}
+    <script src="statics/web/js/clipboard.min.js"></script>
+    <style type='text/css'>
+
+        #page {
+            height: 60px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #page ul li {
+            float: left;
+            margin-right: 10px;
+        }
+
+        #page ul .current {
+            background-color: #0099ff;
+            text-align: center;
+        }
+
+        #table tr td {
+
+            text-align: left;
+            border: 1px solid #ccc;
+        }
+
+        #table tr td a {
+            color: #2fa4e7;
+        }
+
+        #table tr td {
+
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body class="new_ui_body">
+<div class="ibox float-e-margins">
+    <div class="ibox-title iboxWTitle">
+        <h5>提现信息</h5>
+        <div class="ibox-tools">
+            <a  class="btn btn-white btn-bitbucket" id="btn_back">
+                <i class="fa fa-reply"></i> 返回
+            </a>
+        </div>
+    </div>
+    <div class="ibox-content bagCol">
+        <div class="ibox-title ">
+            <h5>账号信息</h5>
+        </div>
+        <div class="ibox-content m-b" style="width: 100%;">
+            <div class="row">
+                <div class="col-sm-4 m-b">
+                    <span class="col-sm-6 back-page text-right">账号 </span>
+                    <span class="col-sm-6"> {$user['username']} </span>
+                </div>
+                <div class="col-sm-4 m-b ">
+                    <span class="col-sm-6 back-page text-right">真实姓名 </span>
+                    <span class="col-sm-6">{if in_array(1,$show_user_info)}{$user['realname']}{/if}  <em class="icoCopy" id="realnamecopy" data-clipboard-text="{$user['realname']}" style="cursor:pointer;"></em></span>
+
+                </div>
+                <div class="col-sm-4 m-b ">
+                    <span class="col-sm-6 back-page text-right">手机号 </span>
+                    <span class="col-sm-6">{if in_array(3,$show_user_info)}{$user['mobile']}{/if}</span>
+                </div>
+                <div class="col-sm-4 m-b ">
+                    <span class="col-sm-6 back-page text-right">余额 </span>
+                    <span class="col-sm-6"> {$payConfigs['balance']} </span>
+                </div>
+                <div class="col-sm-4 m-b ">
+                    <span class="col-sm-6 back-page text-right">洗码量 </span>
+                    <span class="col-sm-6"> {$money} </span>
+                </div>
+                <div class="col-sm-4 m-b ">
+                    <span class="col-sm-6 back-page text-right">限额 </span>
+                    <span class="col-sm-6"> {$payConfigs['lower_limit']}-{$payConfigs['upper_limit']} </span>
+                </div>
+                <div class="col-sm-4 m-b ">
+                    <span class="col-sm-6 back-page text-right">提现账户 </span>
+                    <span class="col-sm-6"> {$userBank['account']}<em class="icoCopy" id="userbankcopy" data-clipboard-text="{$userBank['account']}" style="cursor:pointer;"></em> </span>
+                </div>
+                <div class="col-sm-4 m-b ">
+                    <span class="col-sm-6 back-page text-right">提现银行 </span>
+                    <span class="col-sm-6"> {$userBank['bank']} </span>
+                </div>
+                <div class="col-sm-4 m-b ">
+                    <span class="col-sm-6 back-page text-right">提现支行 </span>
+                    <span class="col-sm-6"> {$userBank['branch']} </span>
+                </div>
+            </div>
+        </div>
+        <div class="ibox-title ">
+            <h5>提现信息</h5>
+        </div>
+        <div class="ibox-content m-b">
+            <form id='form_update' method="post" class="form-horizontal">
+                <div class="row">
+                    <div class="col-sm-4 m-b">
+                        <span class="col-sm-6 back-page text-right">流水号 </span>
+                        <span class="col-sm-6"> {$withdraw['order_sn']} </span>
+                    </div>
+                    <div class="col-sm-4 m-b ">
+                        <span class="col-sm-6 back-page text-right" style="color:red;">提现金额 </span>
+                        <span class="col-sm-6" style="color:red;"> {$withdraw['money']} <em class="icoCopy" id="moneycopy" data-clipboard-text="{$withdraw['money']}" style="cursor:pointer;"></em></span>
+
+                    </div>
+                    <div class="col-sm-4 m-b ">
+                        <span class="col-sm-6 back-page text-right">提现时间 </span>
+                        <span class="col-sm-6"> {$withdraw['addtime']} </span>
+                    </div>
+
+                    {if $withdraw['status'] != 4}
+                    <div class="col-sm-4 m-b">
+                        <span class="col-sm-6 back-page text-right" id="paymentId" data-id ="{$payConfigs['id']}">汇款银行</span>
+                        <span class="col-sm-6"> {$payConfigs['bankname']} </span>
+                    </div>
+                    <div class="col-sm-4 m-b ">
+                        <span class="col-sm-6 back-page text-right">开户支行 </span>
+                        <span class="col-sm-6"> {$payConfigs['branch']} </span>
+                    </div>
+                    <div class="col-sm-4 m-b ">
+                        <span class="col-sm-6 back-page text-right">汇款卡号 </span>
+                        <span class="col-sm-6"> {$payConfigs['account']} </span>
+                    </div>
+                    <div class="col-sm-4 m-b ">
+                        <span class="col-sm-6 back-page text-right">汇款开户人 </span>
+                        <span class="col-sm-6"> {$payConfigs['account_name']} </span>
+                    </div>
+                    {/if}
+                    {if $withdraw['status'] == 4 || $withdraw['status'] ==6 || $withdraw['status'] ==7 }
+                    <div class="col-sm-4 m-b">
+                        <span class="col-sm-6 back-page text-right" id="withdrawName" data-id ="{$withdrawName['id']}">代付名称</span>
+                        <span class="col-sm-6"> {$withdrawName} </span>
+                    </div>
+
+                    {/if}
+                    <div class="col-sm-4 m-b ">
+                        <span class="col-sm-6 back-page text-right">状态 </span>
+                        <span class="col-sm-6"> {$withdraw['statusStr']} </span>
+                    </div>
+                    {if $withdraw['status'] != 4 || $withdraw['status'] != 6 || $withdraw['status'] != 7}
+                    <div class="col-sm-4 m-b ">
+                        <span class="col-sm-6 back-page text-right">最后处理时间 </span>
+                        <span class="col-sm-6"> {$withdraw['verify_time']} </span>
+                    </div>
+                    {/if}
+                    {if $remarks['status'] == 0 || $remarks['status'] == 6 || $remarks['status'] == 5 }
+                    <div class="col-sm-4 m-b ">
+                        <span class="col-sm-6 back-page text-right">银行手续费 </span>
+                        <span class="col-sm-6"><input class="col-sm-7" type="number" id="fee" disabled value="{$payConfigs['fee']}"></span>
+                    </div>
+                    <div class="col-sm-4 m-b">
+                        <span class="col-sm-6 back-page text-right">提现手续费</span>
+                        <span class="col-sm-6"><input class="col-sm-7" type="number" id="extra_fee" disabled value="{$withdraw['extra_fee']}"></span>
+                    </div>
+                    <div class="col-sm-4 m-b ">
+                        <span class="col-sm-6 back-page text-right">备注 </span>
+                        <span class="col-sm-6"> <input type="text" id="remark"> </span>
+                    </div>
+                    {/if}
+                    {if $remarks['status'] == 3}
+                    <div class="col-sm-4 m-b ">
+                        <span class="col-sm-6 back-page text-right">银行手续费 </span>
+                        <span class="col-sm-6"><input class="col-sm-7" type="number" id="fee" disabled value="{$payConfigs['fee']}"></span>
+                    </div>
+                    <div class="col-sm-4 m-b">
+                        <span class="col-sm-6 back-page text-right">提现手续费</span>
+                        <span class="col-sm-6"><input class="col-sm-7" type="number" id="extra_fee" disabled value="{$withdraw['extra_fee']}"></span>
+                    </div>
+                    <div class="col-sm-4 m-b ">
+                        <span class="col-sm-6 back-page text-right">备注 </span>
+                        <span class="col-sm-6"> <input class="col-sm-8" type="text" id="remark"> </span>
+                    </div>
+                    {/if}
+                    {if $bankcode == 1}
+                    <div class="col-sm-2">
+                        <div class="input-group m-b"><span class="input-group-addon">处理状态</span>
+                            <select class="form-control" id='bankcode' name="bankcode">
+                                <option value=""  >选择</option>
+                                {loop $bank $k $b}
+                                <option value="{$k}" >{$b}</option>
+                                {/loop}
+                            </select>
+                        </div>
+                    </div>
+                    {/if}
+                    <!--{if $withdraw['status'] != 0}-->
+                    <!--<div class="col-sm-4 m-b ">-->
+                    <!--<span class="col-sm-6 back-page text-right">银行手续费 </span>-->
+                    <!--<span class="col-sm-6"><input class="col-sm-7" type="number" id="fee" disabled value="{$payConfigs['fee']}"></span>-->
+                    <!--</div>-->
+                    <!--<div class="col-sm-4 m-b">-->
+                    <!--<span class="col-sm-6 back-page text-right">提现手续费</span>-->
+                    <!--<span class="col-sm-6"><input class="col-sm-7" type="number" id="extra_fee" disabled value="{$withdraw['extra_fee']}"></span>-->
+                    <!--</div>-->
+                    <!--{/if}-->
+                    {loop $remarks['remark'] $vv}
+                    <div class="col-sm-4 m-b ">
+                        <span class="col-sm-6 back-page text-right">处理人 </span>
+                        <span class="col-sm-6"> {$vv['admin']} </span>
+                    </div>
+                    <div class="col-sm-4 m-b ">
+                        <span class="col-sm-6 back-page text-right">备注</span>
+                        <span class="col-sm-6"> {$vv['remark']} </span>
+                    </div>
+                    {/loop}
+                    <input type="hidden" value="{$logId}" id="logId" data-status="{$withdraw['status']}">
+                </div>
+            </form>
+            <div class="form-group">
+                <div class="col-sm-7 col-sm-offset-2">
+                    {if $withdraw['status'] == 0 || $withdraw['status'] == 5 || $withdraw['status'] ==6}
+                    <button class="btn btn-primary" type="submit" id="btn_submit">同意</button>
+                    <button class="btn btn-primary" type="submit" id="btn_cancel">拒绝</button>
+                    <!-- <button class="btn btn-white"   type="submit" id="btn_backs">返回</button>  -->
+                    {/if}
+					{if $withdraw['status'] == 8}
+                    <button class="btn btn-primary" type="submit" id="follow_up">查询进度</button>
+                    {/if}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        var loading = ""
+        var clipboard = new Clipboard('.icoCopy');
+        clipboard.on('success', function(e) {
+            console.info('Action:', e.action);
+            console.info('Text:', e.text);
+            console.info('Trigger:', e.trigger);
+            layer.msg('已复制到粘贴板',{offset: 'b'});
+
+            e.clearSelection();
+        });
+
+        $(function (){
+            $('.icoCopy').mouseover(function (){
+                var text = $(this).data('clipboard-text');
+                var ids = $(this).attr('id');
+                layer.tips(text, '#' + ids, {
+                    tips: [4, '#78BA32']
+                });
+            })
+        });
+		
+		/*
+		*	第三方代付  处理中   查询订单状态
+		*/
+		$("#follow_up").click(function() {
+			loading = layer.load(1);
+			var url = '?m=admin&c=finance&a=autoDrawal';
+			$.ajax({
+				url: url,
+				data: {id: $('#logId').val()},
+				dataType: 'json',
+				type: 'post',
+				beforeSend: function () {
+					loading = layer.load(1);
+				},
+				error: function (e) {
+					layer.close(loading);
+					console.log(e);
+					layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+				},
+				success: function (result) {
+					layer.close(loading);
+
+					if (result.code == 1) {			//提现成功
+						layer.msg(result.msg, {icon: 6, shade: [0.5, '#393D49']}, function () {
+							window.location.href = '?m=admin&c=finance&a=drawal'
+						});
+					}
+					if(result.code == 2) {		//提现失败
+						layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']}, function () {
+							window.location.href = '?m=admin&c=finance&a=drawal'
+						});
+					}
+					if(result.code == 3) {		//提现中
+						layer.msg(result.msg, {icon: 6, shade: [0.5, '#393D49']});
+					}
+					
+					if(result.code == 0){			//操作失败 回滚 重试
+						layer.msg(result.msg, {icon: 6, shade: [0.5, '#393D49']});
+					}
+				}
+			});
+		});
+		
+        $('#btn_submit').click(function () {
+            var url = '';
+            var paymentId=$('#paymentId').attr('data-id');
+            var cashStatus = $('#logId').attr('data-status');
+
+            if (cashStatus != 6) {
+                if(paymentId==null||paymentId==''){
+                    alert('没有满足条件的银行卡');
+                    return;
+                }
+            }
+
+            if (cashStatus == 6) {
+                url = '?m=admin&c=finance&a=autoDrawal';
+            } else {
+                var fee = $.trim($('#fee').val());
+                var re = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+                if(fee=='' || !re.test(fee)){
+                    layer.msg('手续费必须为整数', {icon: 5, shade: [0.5, '#393D49'],time:3000});
+                    return false;
+                }
+                url = '?m=admin&c=finance&a=agreeWithdraw';
+            }
+
+            layer.open({
+                content: '确认同意该提现请求吗？'
+                ,btn: ['确认', '取消']
+                ,yes: function(index){
+                    layer.close(index);
+                    $.ajax({
+                        url: url,
+                        data: {id: $('#logId').val(),paymentId:paymentId, remark: $('#remark').val(),fee:$('#fee').val(),bankcode:$('#bankcode').val()},
+                        dataType: 'json',
+                        type: 'post',
+                        beforeSend: function () {
+                            loading = layer.load(1);
+                        },
+                        error: function (e) {
+                            layer.close(loading);
+                            console.log(e);
+                            layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        },
+                        success: function (result) {
+                            layer.close(loading);
+                            if (result.code > 0) {
+                                layer.msg('操作成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                    window.location.href = '?m=admin&c=finance&a=drawal'
+                                });
+                            }else {
+                                if (cashStatus == 6) {
+                                    layer.msg(result.msg, {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                        window.location.href = '?m=admin&c=finance&a=drawal'
+                                    });
+                                } else {
+                                    layer.msg(result.msg, {icon: 6, shade: [0.5, '#393D49']});
+                                }
+
+                            }
+                        }
+                    });
+                }
+            });
+
+        });
+
+        $('#btn_cancel').click(function () {
+            var url = '';
+            url = '?m=admin&c=finance&a=refuseWithDrawl';
+            var paymentId=$('#paymentId').attr('data-id');
+
+            layer.open({
+                content: '确认驳回该提现请求吗？'
+                ,btn: ['确认', '取消']
+                ,yes: function(index){
+                    layer.close(index);
+                    $.ajax({
+                        url: url,
+                        data: {id: $('#logId').val(), verify_remark: $('#remark').val(),paymentId:paymentId},
+                        dataType: 'json',
+                        type: 'post',
+                        beforeSend: function () {
+                            loading = layer.load(1);
+                        },
+                        error: function (e) {
+                            layer.close(loading);
+                            console.log(e);
+                            layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        },
+                        success: function (result) {
+                            console.log(result);
+                            layer.close(loading);
+                            if (result.rt > 0) {
+                                layer.msg('操作成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                    window.location.href = '?m=admin&c=finance&a=drawal'
+                                });
+                            }else{
+                                layer.msg('此单已经处理', {icon: 5, shade: [0.5, '#393D49']}, function () {
+                                    location.reload();
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        });
+        $('#btn_back').click(function () {
+            location.href='?m=admin&c=finance&a=drawal';
+        });
+        $('#btn_backs').click(function () {
+            location.href='?m=admin&c=finance&a=drawal';
+        });
+
+
+    </script>
+</body>
+</html>

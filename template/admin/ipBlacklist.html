@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="renderer" content="webkit">
+        <title>IP黑名单</title>  
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>
+        <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+        <script src="statics/admin/js/pintuer.js"></script>
+        {template public-new-ui-header}
+        <style>
+            #page{height: 60px;margin-top: 20px;text-align: center;}
+            #page ul li{float: left;margin-right:10px;}
+            #page ul .current{ background-color:#0099ff;text-align:center;}
+        </style>
+    </head>
+    <body class="new_ui_body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title iboxWTitle">
+                        <h5>IP黑名单</h5>
+                        <div class="ibox-tools">
+                            <a href="?m=admin&c=role&a=editIpBlack" class="btn btn-white btn-bitbucket addRole" data-i="1"><i class="fa fa-plus-square-o"> </i>添加黑名单</a>
+                        </div>
+                    </div>
+                    <div class="ibox-content list" style="width: 100%;">
+                        <table class="table table-striped table-bordered table-hover  dataTable" aria-describedby="editable_info">
+                            <thead>
+                            <tr>
+                                <th width="15%">IP</th>
+                                <th width="15%">IP归属地</th>
+                                <th width="5%">状态</th>
+                                <th width="10%">URL</th>
+                                <th width="10%">mac</th>
+                                <th width="20%">添加时间</th>
+                                <th width="10%">备注</th>
+                                <th width="20%">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {loop $data $v}
+                                <tr>
+                                    <td>{$v['ip']}</td>
+                                    <td>{$v['ip_attribution']}</td>
+                                    <td>{if $v['status']==0} 启用 {else} 禁用{/if}</td>
+                                    <td>{$v['url_content']}</td>
+                                    <td>{$v['mac']}</td>
+                                    <td><?php echo date('Y-m-d H:i:s',$v['addtime']);?></td>
+                                    <td>{$v['remark']}</td>
+                                    <td class="font-icon">
+                                        <div class="button-group">
+                                            <a type="button" data-title="编辑" class="" href="?m=admin&c=role&a=editIpBlack&id={$v['id']}"><i class="fa fa-pencil"></i></a>
+                                            <a class="" data-title="删除" href="#" onclick="del({$v['id']});"><i class="fa fa-trash-o"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {/loop}
+                            </tbody>
+                        </table>
+                        <script>
+                            function del(id) {
+                                $.ajax({
+                                    type: 'GET',
+                                    url: '?m=admin&c=role&a=ipBlackAct&type=2&id=' + id,
+                                    dataType: 'json',
+                                    success: function (data) {
+                                        if (data.code == 0) {
+                                            layer.msg(data.msg, {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                                location.href = "?m=admin&c=role&a=ipBlacklist";
+                                            });
+                                        } else {
+                                            layer.msg(data.msg, {icon: 5, shade: [0.5, '#393D49']})
+                                        }
+                                    }
+                                });
+                            }
+                        </script>
+                    </div>
+                    <div class="pagelist" id='page' style="{if $show == ''}display:none;{/if}">{$show}</div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        function dis() {
+            //数据
+            var data = new Object();
+            data.ip = $.trim($("input[name=ip]").val());
+            data.url_content = $.trim($("textarea[name=url_content]").val());
+            //提示信息
+            var msg = new Object();
+            msg.ip = 'ip不能为空';
+            msg.url_content = '禁用URL不能为空';
+            //检查的值
+            var arr = [ 'ip', 'url_content'];
+
+            var onOff = true;
+            $.each(data, function(k, v){
+                if($.inArray(k,arr) != -1){
+                    if(v==''){
+                        layer.open({
+                            content: "<p class='alert_msg'>"+msg[k]+"</p>",
+                            btn: '<p class="alert_buttom">我知道了</p>'
+                        });
+                        onOff = false;
+                        return false;
+                    }
+                }
+            });
+            if(!onOff){
+                return false;
+            }
+            var data = $('#forms').serialize();
+            console.log(data);
+            $.ajax({
+                type: 'GET',
+                url: '?m=admin&c=role&a=add_ipBlacklist',
+                data: data,
+                dataType: 'json',
+                success: function (msg) {
+                    console.log(msg);
+                    if (msg.state) {
+                        layer.msg('添加成功', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                            location.href = "?m=admin&c=role&a=ipBlacklist";
+                        });
+                    } else {
+                        if(msg.msg){
+                            xinxi=msg.msg;
+                        }else{
+                            xinxi='添加失败';
+                        }
+                        layer.msg(xinxi, {icon: 5, shade: [0.5, '#393D49']});
+                    }
+                }
+            });
+
+        }
+    </script>
+</html>

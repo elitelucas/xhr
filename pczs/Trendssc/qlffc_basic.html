@@ -1,0 +1,161 @@
+
+				<div class="trend_numstat">
+					
+					<div class="trend_numstat_tab">
+						<table class="ssc_table omit_table double_th sub_table" cellpadding="0" cellspacing="0" border="0">
+							<thead>
+								<tr>
+									<th rowspan="2">{{english.期号}}</th>
+									<th rowspan="2">{{english.开奖号码}}</th>
+									<th colspan="10" class="len">{{english.万位}}({{english.第一球}})</th>
+									<th colspan="10" class="len">{{english.千位}}({{english.第二球}})</th>
+									<th colspan="10" class="len">{{english.百位}}({{english.第三球}})</th>
+									<th colspan="10" class="len">{{english.十位}}({{english.第四球}})</th>
+									<th colspan="10" class="len">{{english.个位}}({{english.第五球}})</th>
+								</tr>
+								<tr>
+									<td>0</td>
+									<td>1</td>
+									<td>2</td>
+									<td>3</td>
+									<td>4</td>
+									<td>5</td>
+									<td>6</td>
+									<td>7</td>
+									<td>8</td>
+									<td>9</td>
+
+									<td>0</td>
+									<td>1</td>
+									<td>2</td>
+									<td>3</td>
+									<td>4</td>
+									<td>5</td>
+									<td>6</td>
+									<td>7</td>
+									<td>8</td>
+									<td>9</td>
+
+									<td>0</td>
+									<td>1</td>
+									<td>2</td>
+									<td>3</td>
+									<td>4</td>
+									<td>5</td>
+									<td>6</td>
+									<td>7</td>
+									<td>8</td>
+									<td>9</td>
+
+									<td>0</td>
+									<td>1</td>
+									<td>2</td>
+									<td>3</td>
+									<td>4</td>
+									<td>5</td>
+									<td>6</td>
+									<td>7</td>
+									<td>8</td>
+									<td>9</td>
+
+									<td>0</td>
+									<td>1</td>
+									<td>2</td>
+									<td>3</td>
+									<td>4</td>
+									<td>5</td>
+									<td>6</td>
+									<td>7</td>
+									<td>8</td>
+									<td>9</td>
+								</tr>
+							</thead>
+							<tbody id="getResultesult">
+								<tr>
+									<td>
+										<table id="issue">
+											<tbody>
+												<tr></tr>
+											</tbody>
+										</table>
+									</td>
+									<td class="col_count">
+										<table id="result">
+											<tbody>
+											<tr></tr>
+											</tbody>
+										</table>
+									</td>
+									<td colspan="10" class="hide_td">
+										<table id="zstable4" style="background:rgb(242, 230, 255);">
+											<tbody></tbody>
+										</table>
+										<div id="canvasdiv4">
+										</div>
+										<!--<i class="omit omit_hide">0</i>-->
+									</td>
+									<td colspan="10" class="hide_td">
+										<table id="zstable3" style="background: rgb(249, 244, 223);">
+											<tbody></tbody>
+										</table>
+										<div id="canvasdiv3">
+										</div>
+										<!--<i class="omit omit_hide">0</i>-->
+									</td>
+									<td colspan="10" class="hide_td">
+										<table id="zstable2" style="background:rgb(242, 230, 255);">
+											<tbody></tbody>
+										</table>
+										<div id="canvasdiv2">
+										</div>
+										<!--<i class="omit omit_hide">0</i>-->
+									</td>
+									<td colspan="10" class="hide_td">
+										<table id="zstable1" style="background: rgb(249, 244, 223);">
+											<tbody></tbody>
+										</table>
+										<div id="canvasdiv1">
+										</div>
+										<!--<i class="omit omit_hide">0</i>-->
+									</td>
+									<td colspan="10" class="hide_td">
+										<table id="zstable0" style="background:rgb(242, 230, 255);">
+											<tbody></tbody>
+										</table>
+										<div id="canvasdiv0">
+										</div>
+										<!--<i class="omit omit_hide">0</i>-->
+									</td>
+								</tr>
+								
+								<tr class="total_times" delay="false">
+									<td colspan="2">{{english.出现总次数}}</td>
+								</tr>
+								<tr class="average" delay="false">
+									<td colspan="2">{{english.平均遗漏值}}</td>
+
+								</tr>
+								<tr class="max" delay="false">
+									<td colspan="2">{{english.最大遗漏值}}</td>
+								</tr>
+								<tr class="max_continue" delay="false">
+									<td colspan="2">{{english.最大连出值}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<script type="text/javascript" src="../js/English.js"></script>
+				<script type="text/javascript">
+					(function(exports) {
+						exports.app = new Vue({
+							el: '.trend_numstat',
+							data: function() {
+								return {
+									english: english
+								}
+							}
+						})
+					})(window);
+				</script>

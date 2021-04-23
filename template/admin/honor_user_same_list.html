@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <title></title>
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>
+        <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+        <script src="statics/admin/js/pintuer.js"></script>
+        <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+        <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+        <script src="statics/admin/js/jquery.date_input.pack.js"></script>   	
+        <style type='text/css'>
+            #page{height: 60px;margin-top: 20px;text-align: center;}
+            #page ul li{float: left;margin-right:10px;}
+            #page ul .current{ background-color:#0099ff;text-align:center;}
+            .table td div.username{
+                height: 23px;
+                overflow: hidden;
+                white-space:nowrap;
+                text-overflow: ellipsis;
+            }
+        </style>
+    </head>
+    <body>
+        <form action='' id="form">
+            <div class="panel admin-panel">
+                <table class="table table-hover text-center table-bordered">
+                    <thead>
+                    <tr>
+                    	<th width="8%">同名字符串</th>
+                        <th width="8%">相同用用户名id集</th>
+                        <th width="8%">修改用户id</th>
+                        <th width="8%">修改前用户名</th>
+                        <th width="8%">修改后用户名</th>
+                    </tr>
+                    </thead>
+                    <tbody id="list">
+                    {loop $listData $k $v}
+                     	<tr>
+			                <td>{$v['same_str']}</td>
+			                <td>{$v['user_id_str']}</td>
+	                        <td>{$v['user_id']}</td>
+	                        <td>{$v['b_username']}</td>
+			                <td>{$v['a_username']}</td>
+	                    </tr>
+	                    <!-- {loop $v $value}
+	                    <tr>
+			                <td>{$k}</td>
+			                <td>{$value['id']}</td>
+	                        <td>{$value['username']}</td>
+	                    </tr>
+	                    {/loop}
+	                     -->
+                    {/loop}
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </body>
+</html>

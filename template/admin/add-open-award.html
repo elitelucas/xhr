@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+    <link rel="stylesheet" href="statics/admin/jedate/skin/jedate.css">
+    <script type="text/javascript" src="statics/admin/jedate/jquery.jedate.min.js"></script>
+
+    <!-- template-begin+++ -->
+    {template public-new-ui-header}
+    <!-- template-end+++ -->
+
+
+
+</head>
+<body style="margin: 15px;background-color: #f3f3f4;">
+<div class="ibox float-e-margins">
+    <div class="ibox-title iboxWTitle">
+        <h5>手动开奖</h5>
+    </div>
+    <div class="ibox-content bagCol">
+        <div class="ibox-title">
+            <h5>详情</h5>
+        </div>
+        <div class="ibox-content">
+            <form method="post" class="form-horizontal" id="form">
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><i class="red_star">*</i>开奖期号</label>
+                    <div class="col-sm-3">
+                        <input type="text" value="{$issue}" name="issue" class="form-control" readonly="readonly" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><i class="red_star">*</i>开奖时间</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" name="open_time" id="open_time" value="" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><i class="red_star">*</i>开奖号码A</label>
+                    <div class="col-sm-3">
+                        <input type="number" class="form-control" value="" name="numberA" id="numberA"
+                               data-validate="required:请输入号码A"/>
+                        <div class="tips"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><i class="red_star">*</i>开奖号码B</label>
+                    <div class="col-sm-3">
+                        <input type="number" class="form-control" value="" name="numberB" id="numberB"
+                               data-validate="required:请输入号码B"/>
+                        <div class="tips"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><i class="red_star">*</i>开奖号码C</label>
+                    <div class="col-sm-3">
+                        <input type="number" class="form-control" value="" name="numberC" id="numberC"
+                               data-validate="required:请输入号码C"/>
+                        <div class="tips"></div>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label"></label>
+                    <div class="col-sm-2 col-sm-offset-1">
+                        <input type="hidden" name="lottery_type" value="{$lottery_type}"/>
+                        <button class="btn btn-primary" type="button" id="btn_submit">提交</button>
+                        &nbsp;&nbsp;
+                        <button class="btn btn-white" type="button" style="border: 1px solid #e7eaec" onclick="javascript:history.go(-1);" id="qx_submit">取消</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var loading = "";//加载中......
+    var type = 1;
+    var numberA,numberB,numberC;
+    $(function () {
+        $("#open_time").jeDate({
+            isinitVal:true,
+            zIndex:3000,
+        })
+        $("#btn_submit").click(function () {
+            //合理校验
+            if ($("#numberA").val() == "" || $("#numberB").val() == "" || $("#numberC").val() == "") {
+                layer.msg('开奖号码不能为空', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+
+            if ($("#open_time").val() == "") {
+                layer.msg('开奖时间不能为空', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+
+
+
+            var reg = /^\d{1}$/;
+
+            if (!reg.test($("#numberA").val()) || !reg.test($("#numberB").val()) || !reg.test($("#numberC").val())) {
+                layer.msg('请输入0-9的数字', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+
+            if (type === 1) {
+                numberA = $("#numberA").val();
+                numberB = $("#numberB").val();
+                numberC = $("#numberC").val();
+
+                $("#numberA").val("");
+                $("#numberB").val("");
+                $("#numberC").val("");
+                $("#btn_submit").text("再次确认");
+                type = 2;
+                return false;
+            }
+
+            //校验两次输入是否一致
+            if (numberA !== $("#numberA").val() || numberB !== $("#numberB").val() || numberC !== $("#numberC").val()) {
+                layer.msg('两次输入的开奖号不一致', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+
+            loading = layer.load(1);
+            $.ajax({
+                url: '?m=admin&c=openAward&a=dealOpendaWard',
+                type: 'POST',
+                data: $("#form").serialize(),
+                dataType: 'JSON',
+            }).done(function (result) {
+                console.log(result);
+                layer.close(loading);
+                if (result.status === 0) {
+                    layer.msg('提交成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                        window.location.href = document.referrer;//返回上一页并刷新
+                    });
+                } else {
+                    layer.msg(result.ret_msg, {icon: 5, shade: [0.5, '#393D49']});
+                }
+            }).fail(function (err) {
+                layer.close(loading);
+                layer.msg('网络异常！开奖需要时间，请到开奖列表检查结果！', {icon: 5, shade: [0.5, '#393D49']});
+            });
+        });
+    });
+
+</script>
+</body>
+</html>

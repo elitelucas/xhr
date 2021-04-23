@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>客服</title>
+    <script src="/statics/admin/js/jquery.min.js"></script>
+    <script type="text/javascript">
+        var client_id = "<?=$client_id?>";
+        var kfinfo = {userid: "<?=$user['userid']?>"};
+        var userinfo = {client_id: "<?=$client_id?>", username: "<?=$username?>", userid: "<?=$userInfoArr['id']?>"};
+    </script>
+</head>
+<style>
+ *{ padding: 0; margin: 0; font-size: 12px;}
+    .serCen{ width: 856px; position: absolute;margin: auto; top: 50px; left: 0px; right: 0px; border:1px solid #787878;}
+    .serTitle{height: 50px; background: #f3f3f3; line-height: 50px; padding-left: 30px;}
+    .serTitle ul{ float: right;}
+    .serTitle ul li{ float: left; margin-right: 10px;}
+    .serWarpRight{ width: 265px; height: auto; float: right;}
+    dl,dd,dt,ul,li{ list-style: none; margin: 0; padding: 0;}
+    .serWarpRight dl dd{line-height: 24px; padding: 0 10px;}
+    .serWarpRight dl dt{background: #f3f3f3; line-height: 32px;padding: 0 10px; }
+    .serWarpRight span{ width: 100px; text-align: center; float: right; }
+    /*.serWarpLeft{ padding-right: 265px;}*/
+    .serContent{ width: 100%; height: 80px; border-right: 1px solid #cecdce; padding:20px; box-sizing: border-box; min-height: 500px; overflow-y: auto;}
+    .serContent li{ margin-bottom: 20px;}
+    .serContent li h3{ overflow: hidden;}
+    .serContent li h3 label{ font-size: 16px; font-weight:bold; line-height: 32px;}
+    .serContent li h3 span{ font-size: 10px; font-weight: normal; display: inline-block;}
+    .serContent li p{ line-height: 28px;font-size: 14px;}
+    .serContent li div.left{ text-align: left;}
+    .serContent li div.left label{ margin-right: 10px;}
+    .serContent li div.right{ text-align: right;}
+    .serContent li div.right label{ margin-left: 10px;}
+    .serFs{ height: 170px; border: 1px solid #cecdce; border-left:0; border-bottom:0;}
+    .serFs .textArea{ height: 140px; overflow: auto;}
+    .serButton{ height: 30px; padding:5px; text-align: right}
+    .serButton button {cursor: pointer;}
+    .serButton button{ width: 80px; height: 20px; background: #0066cd; border: 1px solid #787878; background-size: 4px; margin-right: 10px; color: #fff;}
+</style>
+<body>
+    <div class="serCen">
+        <div class="serTitle">{$username}用户沟通
+<!--        <ul><li>缩小</li><li>放大</li><li>关闭</li></ul>-->
+        </div>
+        <div class="serWarp">
+<!--            <div class="serWarpRight">
+                <dl>
+                    <dt>用户列表<span>最后更新时间</span></dt>
+                    <dd>用户账号<span>2016/12/8</span></dd>
+                    <dd>用户账号<span>2016/12/8</span></dd>
+                </dl>
+            </div>-->
+            <div class="serWarpLeft">
+                <div class="serContent">
+                    <ul>
+                    </ul>
+                </div>
+                <div class="serFs">
+                        <div class="textArea" contenteditable="true"></div>
+                        <input type="hidden" id="client_id" value="{$client_id}"/>
+                        <div class="serButton"><button onclick="javascript:window.opener=null;window.close();">关闭</button><button id="sUpdate">发送</button></div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <script src="/statics/admin/js/ws-client.js"></script>
+    <script src="/statics/admin/js/store-kf.js"></script>
+    <script src="/statics/admin/js/service.js"></script>
+    <script src="/statics/admin/js/chat.kf.js"></script>
+</body>
+</html>

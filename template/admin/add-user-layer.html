@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <!--  <link rel="stylesheet" href="statics/admin/css/pintuer.css"> -->
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+    <script src="statics/admin/js/pintuer.js"></script>
+    <script src="statics/admin/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- template-begin+++ -->
+    {template public-new-ui-header}
+    <!-- template-end+++ -->
+
+    <!-- 图片上传 引入插件 -->
+    <link href="statics/admin/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="statics/admin/webuploader/0.1.5/webuploader.min.js"></script>
+
+</head>
+<body style="margin: 15px;background-color: #f3f3f4;">
+<div class="ibox float-e-margins">
+    <div class="ibox-title iboxWTitle">
+        <h5>{$_REQUEST['title']}</h5>
+        <div class="ibox-tools">
+            <a href="javascript:void(0)" class="btn btn-white btn-bitbucket" onclick="javascript:history.go(-1);">
+                <i class="fa fa-reply"></i> 返回
+            </a>
+        </div>
+    </div>
+    <div class="ibox-content bagCol">
+        <div class="ibox-title">
+            <h5>详情</h5>
+        </div>
+        <div class="ibox-content">
+            <form method="get" class="form-horizontal form-x" id="form">
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">层级</label>
+                    <div class="col-sm-4">
+                        <input type="hidden" id="max_layer" value="255">
+                        <input type="text" class="form-control" value="{$res['layer']}" name="layer" id="layer"
+                               {if empty($res['layer'])}nullmsg="请输入层级" datatype="/^(0|[1-9][0-9]*)$/" errormsg="只能输入正整数！" ajaxurl="<?=url('','',getLayer)?>"   recheck="elt:max_layer:最大会员层级必须小于等于255"{/if} {if !empty($res['layer'])}readonly{/if}/>
+                        <div style="padding-top: 5px;" class="tips"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">备注</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" value="{$res['remark']}" name="remark" id="remark"/>
+                        <div style="padding-top: 5px;" class="tips"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">返水类型</label>
+                    <div class="col-sm-4">
+                        <select name="type" class="form-control">
+                            <option value="1" {if $res['type']==1}selected="selected"{/if}>投注额</option>
+                            <option value="2" {if $res['type']==2}selected="selected"{/if} >输分</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">开启/关闭</label>
+                    <div class="col-sm-4">
+                        <select name="status" class="form-control">
+                            <option value="1" {if $res['status']==1}selected="selected"{/if}>禁用</option>
+                            <option value="2" {if $res['status']==2}selected="selected"{/if}>启用</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">图标</label>
+                    <div class="col-sm-4">
+                        <!--dom结构部分-->
+                        <div id="uploader-demo">
+                            <!--用来存放item-->
+                            <div id="fileList" class="uploader-list">{if !empty($res['logo'])}<img src="{$res['logo']}" width="100" height="100">{/if}</div>
+                            <div id="filePicker">选择图片</div>
+                            <input type="hidden" name="logo" value="{$res['logo']}"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label"></label>
+                    <div class="col-sm-2 col-sm-offset-1">
+                        <button class="btn btn-primary" type="button" id="btn_submit">保存内容</button>
+                        <button class="btn btn-white" type="button" style="border: 1px solid #e7eaec" onclick="javascript:history.go(-1);" id="qx_submit">取消</button>
+                    </div>
+                </div>
+                <input value="{$res['id']}" type="hidden" id="id" name="id">
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function validate(name,value) {
+        //空值验证
+        var nullmsg = $("#"+name).attr("nullmsg");
+        if(nullmsg!=undefined){
+            if(value == ''){
+                $("#"+name).siblings('.tips').text(nullmsg);
+                return false;
+            }
+        }
+        //正则验证
+        var datatype = eval($("#"+name).attr("datatype"));
+        if(datatype!=undefined){
+            if(!datatype.test(value)){
+                var errormsg = $("#"+name).attr("errormsg");
+                $("#"+name).siblings('.tips').text(errormsg);
+                return false;
+            }
+        }
+        //比较验证
+        var recheck = $("#"+name).attr("recheck");
+        if(recheck!=undefined){
+            var recheck_data = recheck.split(":");
+            var name2 = $.trim(recheck_data[1]);
+            var value2 = $.trim($("#"+name2).val());
+            var tags = false;
+            switch (recheck_data[0]){
+                case 'eq'://等于
+                    if(value == value2){
+                        tags = true;
+                    }
+                    break;
+                case 'neq'://不等于
+                    if(value != value2){
+                        tags = true;
+                    }
+                    break;
+                case 'gt'://大于
+                    if(Number(value) > Number(value2)){
+                        tags = true;
+                    }
+                    break;
+                case 'egt'://大于等于
+                    if(Number(value) >= Number(value2)){
+                        tags = true;
+                    }
+                    break;
+                case 'lt'://小于
+                    if(Number(value) < Number(value2)){
+                        tags = true;
+                    }
+                    break;
+                case 'elt'://小于等于
+                    if(Number(value) <= Number(value2)){
+                        tags = true;
+                    }
+                    break;
+                case 'heq'://恒等于
+                    if(value === value2){
+                        tags = true;
+                    }
+                    break;
+                case 'nheq'://不恒等于
+                    if(value !== value2){
+                        tags = true;
+                    }
+                    break;
+            }
+            if(tags == false){
+                $("#"+name).siblings('.tips').text(recheck_data[2]);
+                return false;
+            }
+        }
+        //ajax验证
+        var ajaxurl = $("#"+name).attr("ajaxurl");
+        if(ajaxurl!=undefined){
+            $.ajax({
+                type: "POST",
+                url: ajaxurl,
+                data: {name:value},
+                beforeSend: function () {
+                    //loading层
+                    index = layer.load(0, {
+                        shade: [0.1, '#fff'] //0.1透明度的白色背景
+                    });
+                },
+                error: function () {
+                    layer.close(index);
+                    layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                    return false;
+                },
+                success: function (data) {
+                    data= JSON.parse(data);
+                    if (data.status == 0) {
+                        $("#"+name).siblings('.tips').text(data.msg).css({color:"#77ea87"});
+                        return true;
+                    }else {
+                        $("#"+name).siblings('.tips').text(data.msg).css({color:"#ea230d"});
+                        console.log(data.msg);
+                        return false;
+                    }
+
+                },
+                complete: function () {
+                    layer.close(index);
+                }
+            });
+        }
+        return true;
+    }
+    $(function () {
+        //失去焦点
+        $("*[nullmsg]").blur(function () {
+            var name = $(this).attr("id");
+            //空值验证
+            var value = $.trim($("#"+name).val());
+            var v = validate(name,value);
+            console.log(v);
+            if(v == false){
+                return false;
+            }
+        })
+
+        //获取焦点
+        $("*[nullmsg]").focus(function () {
+            var name = $(this).attr("id");
+            $("#"+name).siblings('.tips').text("").css({color:"#ea230d"});
+        })
+
+        //提交数据
+        $("#btn_submit").click(function () {
+            var res = $(".form-x").serializeArray();
+            var flag = true;
+            $.each( res, function(i, n){
+                var name = n['name'];
+                var value = $.trim(n['value']);
+                var v = validate(name,value);
+                console.log(v);
+                if(!validate(name,value)){
+                    flag = false;
+                    return false;
+                }
+            });
+            if(flag == false){
+                return false;
+            }
+            //提交数据
+            $.ajax({
+                type: "POST",
+                url: "<?=url('','',setLayer);?>",
+                data: res,
+                beforeSend: function () {
+                    index = layer.load(0, {
+                        shade: [0.1, '#fff'] //0.1透明度的白色背景
+                    });
+                },
+                success: function (data) {
+                    data= JSON.parse(data);
+                    if (data.status == 0) {
+                        layer.msg(data.msg,{icon:6, shade: [0.5, '#393D49']}, function(){
+                            location.href = "?m=admin&c=odds&a=layerBack";
+                        });
+                    }else {
+                        layer.msg(data.msg,{icon:5, shade: [0.5, '#393D49']}); //弹出错误信息
+                    }
+
+                },
+                complete: function () {
+                    layer.close(index);
+                }
+            });
+        })
+
+        //上传图片
+        $list = $("#fileList");
+//            $btn = $("#btn-star"),
+//            state = "pending",
+//            uploader;
+
+        var uploader = WebUploader.create({
+            auto: true,
+            swf: 'lib/webuploader/0.1.5/Uploader.swf',
+
+            // 文件接收服务端。
+            server: "<?=url('','',uploadImg)?>",
+
+            // 选择文件的按钮。可选。
+            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+            pick: '#filePicker',
+
+            // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+            resize: false,
+            // 只允许选择图片文件。
+            accept: {
+                title: 'Images',
+                extensions: 'gif,jpg,jpeg,bmp,png',
+                mimeTypes: 'image/*'
+            }
+        });
+        // 当有文件添加进来的时候
+        uploader.on( 'fileQueued', function( file ) {
+            var $li = $(
+                '<div id="' + file.id + '" class="file-item thumbnail">' +
+                '<img>' +
+                '<div class="info">' + file.name + '</div>' +
+                '<p class="state">等待上传...</p>'+
+                '</div>'
+                ),
+                $img = $li.find('img');
+
+
+            // $list为容器jQuery实例
+            $list.html( $li );
+
+            // 创建缩略图
+            // 如果为非图片文件，可以不用调用此方法。
+            // thumbnailWidth x thumbnailHeight 为 100 x 100
+            thumbnailWidth = 100;
+            thumbnailHeight = 100;
+            uploader.makeThumb( file, function( error, src ) {
+                if ( error ) {
+                    $img.replaceWith('<span>不能预览</span>');
+                    return;
+                }
+
+                $img.attr( 'src', src );
+            }, thumbnailWidth, thumbnailHeight );
+        });
+        // 文件上传过程中创建进度条实时显示。
+        uploader.on( 'uploadProgress', function( file, percentage ) {
+            var $li = $( '#'+file.id ),
+                $percent = $li.find('.progress span');
+
+            // 避免重复创建
+            if ( !$percent.length ) {
+                $percent = $('<p class="progress"><span></span></p>')
+                    .appendTo( $li )
+                    .find('span');
+            }
+
+            $percent.css( 'width', percentage * 100 + '%' );
+        });
+
+        // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+        uploader.on('uploadSuccess', function (file, res) {
+            console.log(res);
+            $('#' + file.id).addClass('upload-state-success').find(".state").text(res.msg);
+            if (res.status == 0) {
+                $( '#'+file.id ).find('p.state').text('已上传');
+                $("input[name=logo]").val(res.data);
+//                $('#filePicker').hide();
+//                $('#btn-star').hide();
+            }else {
+                    layer.msg(res.data,{icon:5, shade: [0.5, '#393D49']}); //弹出错误信息
+                    return false;
+            }
+        });
+
+        // 文件上传失败，显示上传出错。
+        uploader.on( 'uploadError', function( file ) {
+            var $li = $( '#'+file.id ),
+                $error = $li.find('div.error');
+
+            // 避免重复创建
+            if ( !$error.length ) {
+                $error = $('<div class="error"></div>').appendTo( $li );
+            }
+
+            $error.text('上传失败');
+        });
+
+        // 完成上传完了，成功或者失败，先删除进度条。
+        uploader.on( 'uploadComplete', function( file ) {
+            $( '#'+file.id ).find('.progress').remove();
+        });
+//        uploader.on('all', function (type) {
+//            if (type === 'startUpload') {
+//                state = 'uploading';
+//            } else if (type === 'stopUpload') {
+//                state = 'paused';
+//            } else if (type === 'uploadFinished') {
+//                state = 'done';
+//            }
+//
+//            if (state === 'uploading') {
+//                $btn.text('暂停上传');
+//            } else {
+//                $btn.text('开始上传');
+//            }
+//        });
+//
+//        $btn.on('click', function () {
+//            if (state === 'uploading') {
+//                uploader.stop();
+//            } else {
+//                uploader.upload();
+//            }
+//        });
+
+    });
+</script>
+</body>
+</html>

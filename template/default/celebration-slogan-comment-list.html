@@ -1,0 +1,9 @@
+<?php foreach($list as $v):?>
+<li>
+    <strong><?php echo $v['username'];?>：</strong>
+    <span><?php echo $v['content'];?></span>
+</li>
+<?php endforeach;?>
+<?php if($remain_num>0):?>
+<li class="more"><a href="javascript:getComment(<?php echo $now_page+1?>,'<?php echo $slogan_id;?>')">后面还有<?php echo $remain_num;?>条评论，点击查看 >></a></li>
+<?php endif;?>

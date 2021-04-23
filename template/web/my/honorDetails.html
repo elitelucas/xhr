@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>会员等级</title>
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+
+    <!-- layer -->
+    <script src="/statics/web/extend/layer/mobile/layer.js"></script>
+    <!-- layer - end -->
+</head>
+<body>
+<header>
+    <em onclick="javascript :history.go(-1);">返回</em>
+    <h1>会员等级</h1>
+</header>
+<section class="my_info">
+    <div class="honor_rule">
+        <div class="honor_rule_title">
+            等级规则
+            <div class="my_honorInfo">
+                <span class="honorInfo_score">我的积分: <em></em></span>
+                <span class="honorInfo_gap">离 <em class="next_sort"></em> 还差: <em class="gap_score"></em></span>
+            </div>
+        </div>
+        <div class="honor_rule_con">
+            <table>
+                <tr>
+                    <th width="50">荣誉等级</th><th class="50">荣誉积分</th>
+                </tr>
+                <!--<tr>-->
+                    <!--<td>青铜</td>-->
+                    <!--<td>0</td>-->
+                <!--</tr>-->
+            </table>
+
+        </div>
+    </div>
+
+    <div class="honor_grade">
+        <div class="honor_grade_title">升级宝典<span>如何快速获取积分</span></div>
+        <div class="honor_grade_con">
+            <ul>
+            	<li>
+                    <i class="grade_way_pic"><img src="/statics/web/images/upgrade2_pic@2x.png" alt=""/></i>
+                    <div class="grade_way_explain">
+                        <h2>充值升级</h2>
+                        <p class="recharge">充值<span></span>元宝 <em>+1</em>积分</p>
+                    </div>
+                    <a href="?m=web&c=recharge&a=index">去充值</a>
+                </li>
+                <li>
+                    <div class="grade_way_pic"><img src="/statics/web/images/upgrade1_pic@2x.png" alt=""/></div>
+                    <div class="grade_way_explain">
+                        <h2>投注升级</h2>
+                        <p class="bet">有效投注<span></span>元宝 <em>+1</em>积分</p>
+                    </div>
+                    <a href="?m=web&c=lobby&a=index">去投注</a>
+                </li>
+                
+                <li>
+                    <i class="grade_way_pic"><img src="/statics/web/images/upgrade3_pic@2x.png" alt=""/></i>
+                    <div class="grade_way_explain">
+                        <h2>中奖升级</h2>
+                        <p class="win">中奖<span></span>元宝 <em>+1</em>积分</p>
+                    </div>
+                    <a href="?m=web&c=lobby&a=index">去投注</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</section>
+<script type="text/javascript">
+    var token = '{$token}';
+    var id; //时间选择插件变量
+
+    $(function(){
+        var data = new Object();
+        data.token = token;
+        seach(data);
+    })
+    
+    
+
+    function seach(data){
+        $.post("?m=web&c=user&a=getHonor",data,function(ret){
+            var ret = JSON.parse(ret);
+            if(ret != ''){
+                var honorRule = ret.honor;
+                var plus_score = ret.plus_score;
+                var ruleLen = honorRule.length;
+                var ht = '';
+                if (ruleLen > 0){
+                    for(var i=0; i<ruleLen; i++){
+                        ht += '<tr><td>'+honorRule[i].name+'</td><td>'+honorRule[i].score+'</td></tr>';
+                    }
+                }
+                $(".honor_rule_con table tbody").append(ht);
+
+                $(".honorInfo_score em").html(ret.user_score);
+                if(ret.next_status == 0){
+                    var gap_score = Number(ret.next_score) - Number(ret.user_score);
+                    $(".next_sort").html(ret.next_name);
+                    $(".gap_score").html(gap_score);
+                }else{
+                    $(".honorInfo_gap").html('已达到最高等级');
+                }
+
+                $(".bet span").html(plus_score.betting.money);
+                $(".bet em").html('+'+plus_score.betting.score);
+                $(".recharge span").html(plus_score.recharge.money);
+                $(".recharge em").html('+'+plus_score.recharge.score);
+                $(".win span").html(plus_score.winning.money);
+                $(".win em").html('+'+plus_score.winning.score);
+            }else {
+                layer.open({
+                    //content: data.ret_msg,
+                    content: '服务器出错了',
+                    skin: 'msg',
+                    time: 2 //2秒后自动关闭
+                });
+            }
+        })
+    }
+
+</script>
+</body>
+</html>

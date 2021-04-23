@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- Meta, title, CSS, favglyphicons, etc. -->
+	<meta charset="utf-8">
+	<title>诚汇通</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+	<meta name="description" content="">
+
+	<!-- Bootstrap -->
+	<link href="../../statics/weixin/assets/css/bootstrap.css" rel="stylesheet" media="screen">
+	<link href="../../statics/weixin/css/cht.css" rel="stylesheet" media="screen">
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="../../assets/js/html5shiv.js"></script>
+	<script src="../../assets/js/respond/respond.min.js"></script>
+	<![endif]-->
+
+</head>
+<body>
+	<!--
+	<div class="navbar navbar-inverse dh_sy">
+		<div class="container toubu">
+
+			<ul class="nav top_cent">
+				<li>
+					提现银行帐号
+				</li>
+			</ul>
+			<a class="navbar-brand" href="#">
+				<img src="../../statics/weixin/images/fanhui.png">
+			</a>
+			<a class="nav-home" href="#">
+				<img src="../../statics/weixin/images/shouye.png">
+			</a>
+		</div>
+	</div>
+-->
+	<!-- Carousel
+	================================================== -->
+<!-- /container -->
+<form class="bs-example form-horizontal" id='myform' action="<?=url('weixin','default','cash')?>" method="post">
+	<div class="container">
+		<div class="row mt10">
+      <div class="form-group">
+        <span class="col-12 zc_mc">开户银行：</span>
+        <div class="col-12">
+          <select name="bank" id="bank" class="form-control kgref">
+		  <option value="0">请选择开户银行</option>
+           {loop $glossary $vo}
+              <option value="{$vo['id']}">{$vo['name']}</option>
+          {/loop}
+        </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <span class="col-12 zc_mc">开户地：</span>
+        <div class="col-12">
+        <div class="khd">
+         <select class="form-control kgref" id="province" name="province">
+              <option value="0">请选择省市</option>
+         </select>
+        </div>
+        <div class="khd">
+           <select class="form-control kgref" id="city" name="city"><option value="0">请选择城市</option></select>
+        </div>
+        <div class="khd">
+          <select class="form-control kgref" id="area" name="area"><option value="0">请选择区/县</option></select>
+        </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <span class="col-12 zc_mc">开户行支行名称：</span>
+        <div class="col-12">
+          <input  name='branch' id="branch" type="text" class="form-control" id="inputEmail1" placeholder="请输入开户行支行">
+        </div>
+      </div>
+      <div class="form-group">
+        <span class="col-12 zc_mc">银行帐号：</span>
+        <div class="col-12">
+          <input  name='account' id="account" type="text" class="form-control" id="inputEmail1" placeholder="请输入银行帐号">
+        </div>
+      </div>
+	</div>
+	   <div class="col-12">
+          <p style="padding:8px 0; line-height:22px; color:#ff0000" id="info"></p>
+        </div>
+	  <div class="row mt20">
+
+			<div class="col-12">
+				<p class="tcdl">
+				<input class="btn btn-primary btn-lg yanse_1" name="" type="button" id="button" value="确认提交" />
+				</p>
+			</div>
+
+	  </div>
+</div>
+</form>
+
+<!-- JavaScript plugins (requires jQuery) -->
+<script src="../../statics/weixin/assets/js/jquery.js"></script>
+<script language="javascript" type="text/javascript" src="../../statics/admin/js/formvalidator.js" charset="UTF-8"></script>
+<script language="javascript" type="text/javascript" src="../../statics/admin/js/formvalidatorregex.js" charset="UTF-8"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="../../statics/weixin/assets/js/bootstrap.min.js"></script>
+<script language="javascript" type="text/javascript" src="../../statics/js/common.js" charset="UTF-8"></script>
+<script language="javascript" type="text/javascript" src="../../statics/js/district.js" charset="UTF-8"></script>
+<script src="../../statics/weixin/assets/js/holder/holder.js"></script>
+
+<script type="text/javascript">
+$(function() {
+	addressInit('province', 'city', 'area');
+});
+var addressInit = function(_cmbProvince, _cmbCity, _cmbArea, defaultProvince, defaultCity, defaultArea){
+    var cmbProvince = document.getElementById(_cmbProvince);
+    var cmbCity = document.getElementById(_cmbCity);
+    var cmbArea = document.getElementById(_cmbArea);
+     
+    function cmbSelect(cmb, str){
+		if(str){
+	        $(cmb).attr("value",str);
+		}
+    }
+    function cmbAddOption(cmb, str, val)    {
+        var option = document.createElement("OPTION");
+        cmb.options.add(option);
+        option.innerHTML = val;
+        option.value = str;
+    }
+     
+    function changeCity()    {
+        cmbArea.options.length = 0;
+        if(cmbCity.selectedIndex == -1)return;
+        var item = cmbCity.options[cmbCity.selectedIndex].value;
+		$.each(area[item],function(key,val){
+			cmbAddOption(cmbArea, key, val[0]);
+		});
+        cmbSelect(cmbArea, defaultArea);
+    }
+    function changeProvince()    {
+        cmbCity.options.length = 0;
+        cmbCity.onchange = null;
+        if(cmbProvince.selectedIndex == -1)return;
+        var item = cmbProvince.options[cmbProvince.selectedIndex].value;
+		$.each(city[item],function(key,val){
+			cmbAddOption(cmbCity, key, val[0]);
+		});
+        cmbSelect(cmbCity, defaultCity);
+        changeCity();
+        cmbCity.onchange = changeCity;
+		if(cmbProvince.options[0].value==0){
+			cmbProvince.options.remove(0);
+		}
+    }
+    $.each(province,function(key,val){
+		cmbAddOption(cmbProvince, key, val[0]);
+	});
+	cmbProvince.onchange = changeProvince;
+    cmbSelect(cmbProvince, defaultProvince);
+};
+$("#button").click(function(){
+
+	if($("#bank").val()=='0'){
+		$("#info").text('请选择开户银行！');
+		return false;
+	}
+
+	if($("#province").val()=='0'){
+		$("#info").text('请选择省份！');
+		return false;
+	}
+
+	if($("#branch").val()==''){
+		$("#info").text('请输入开户支行名称！');
+		return false;
+	}
+	if (!/^[\u4e00-\u9fa5]+$/.test($('#branch').val())) {
+		$("#info").text('支行名称只允许填写中文');
+		return false;
+	}
+	if($("#account").val()==''){
+		$("#info").text("请输入银行帐号！");
+		return false;
+	}
+	if (!/^\d{16,19}$/.test($('#account').val())) {
+		$("#info").text('银行帐号为16-19位纯数字！');
+		return false;
+	}
+	    $("#info").text('');
+		$.post("?m=weixin&c=default&a=cash", {
+			 bank:$("#bank").val(),
+			 province:$("#province").val(),
+			 city:$("#city").val(),
+			 area:$("#area").val(),
+			 branch:$("#branch").val(),
+			 account:$("#account").val(),
+			 action: "save" },
+			   function(data){
+				 if(data=='1'){
+				 	$("#info").text('提现银行账户添加成功!');
+				 }else if(data=='2'){
+				 	$("#info").text('您还没有实名认证，请在网站实名认证！');
+				 }else if(data=='3'){
+				 	$("#info").text('您还没有邮箱认证，请在网站认证邮箱！');
+				 }else if(data=='4'){
+				 	$("#info").text('您还没有手机认证，请在网站认证手机！');
+				 }else if(data=='5'){
+				 	$("#info").text('您还没有申请VIP，请在网站申请vip！');
+				 }else if(data=='6'){
+				 	$("#info").text('您已成功绑定银行账号！');
+				 }else{
+				 	 $("#info").text('提现银行账户添加失败!');
+				 }
+				});
+});
+
+</script>
+
+</body>
+</html>

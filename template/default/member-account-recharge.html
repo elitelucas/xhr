@@ -1,0 +1,114 @@
+{template header}
+  <!-- Investor_center -->
+  <link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+
+  <!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+      <li class="active">我的账户</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->
+  {template member-nav-left}
+    <!-- 右边正文 -->
+    <div class="investor-right pull-right border-radius">
+      <ul class="nav nav-tabs" role="tablist" id="myTab">
+        <li class="active"><a href="<?=url('member','account','recharge')?>">账户充值</a></li>
+        <li><a href="<?=url('member','account','recharge_log')?>">充值记录</a></li>
+      </ul>
+
+      <div class="tab-content">
+        <!-- 账户充值 -->
+        <div class="tab-pane active" id="home">
+          <div class="withdraw-info bg-warning">
+            <div>温馨提示:</div>
+            <div>1、所有投标保证金将由第三方平台托管。</div>
+            <div>2、请注意您的银行卡充值限制，以免造成不便。</div>
+            <div>3、如果充值金额没有及时到账，请和客服联系。</div>
+            <div class="color-main">4、网上银行充值过程中请耐心等待,充值成功后，请不要关闭浏览器,充值成功后返回,充值金额才能打入您的帐号。如有问题,请与我们联系。</div>
+          </div>
+
+          <form action="<?=url('','','')?>" method="post">
+            <div class="recharge-div">
+              <div class="recharge-div-left pull-left">充值方式：</div>
+              <div class="recharge-div-right pull-right">
+                <label>
+                <input type="radio" name="type" id="online" value="0" checked> 网上充值</label>
+              </div>
+            </div>
+            <div class="recharge-div">
+              <div class="love"><a href="<?=url('activity','carefund','index')?>"><span class="glyphicon glyphicon-heart"></span> 爱心捐助</a></div>
+              <div class="recharge-div-left pull-left" style=" line-height:34px;">充值金额：</div>
+              <div class="recharge-div-right pull-right">
+                <div class="pull-left">
+                <input type="text" name="money" class="recharge-input form-control">
+                </div>
+                <div class="pull-left margin-left10px">元</div>
+              </div>
+            </div>
+
+            <!-- 网上充值 -->
+            <div id="onlineBox">
+            <div class="recharge-div">
+              <div class="recharge-div-left pull-left" style=" line-height:56px;">支付平台：</div>
+              <div class="recharge-div-right pull-right">
+              {loop $list $v}
+              {if $v['type']==0 && !in_array($v['id'],array(1,3,10))}
+              	<label class="margin-right5px">
+              	<input type="radio" name="payment{$v['type']}" value="{$v['id']}" id="payment{$v['type']}"{if $v['nid']=='llpay'} checked="true"{/if}><img src="{CDN_PATH}{$v['logo']}">
+              	</label>
+              {/if}
+              {/loop}
+              </div>
+            </div>
+
+			<div class="recharge-div">
+				<div class="recharge-div-left pull-left" style=" line-height:56px;">支付网银：</div>
+				<div class="recharge-div-right pull-right">
+					<label class="margin-right5px"><input type="radio" name="payment0" value="01020000"><img src="../../statics/resource/images/investor_center/bank_2.gif" alt="工商银行"></label>
+					<label class="margin-right5px"><input type="radio" name="payment0" value="01050000"><img src="../../statics/resource/images/investor_center/bank_3.gif" alt="建设银行"></label>
+					<label class="margin-right5px"><input type="radio" name="payment0" value="03080000"><img src="../../statics/resource/images/investor_center/bank_1.gif" alt="招商银行"></label>
+					<label class="margin-right5px"><input type="radio" name="payment0" value="03010000"><img src="../../statics/resource/images/investor_center/bank_4.gif" alt="交通银行"></label>
+					<label class="margin-right5px"><input type="radio" name="payment0" value="01040000"><img src="../../statics/resource/images/investor_center/bank_5.gif" alt="中国银行"></label>
+					<label class="margin-right5px"><input type="radio" name="payment0" value="03030000"><img src="../../statics/resource/images/investor_center/bank_8.gif" alt="光大银行"></label>
+					<label class="margin-right5px"><input type="radio" name="payment0" value="03050000"><img src="../../statics/resource/images/investor_center/bank_15.gif" alt="民生银行"></label>
+					<!--<label class="margin-right5px"><input type="radio" name="payment0" value="03090000"><img src="../../statics/resource/images/investor_center/bank_11.gif" alt="兴业银行"></label>-->
+					<label class="margin-right5px"><input type="radio" name="payment0" value="03020000"><img src="../../statics/resource/images/investor_center/bank_13.gif" alt="中信银行"></label>
+					<label class="margin-right5px"><input type="radio" name="payment0" value="03060000"><img src="../../statics/resource/images/investor_center/bank_9.gif" alt="广发银行"></label>
+					<label class="margin-right5px"><input type="radio" name="payment0" value="03100000"><img src="../../statics/resource/images/investor_center/bank_14.gif" alt="浦发银行"></label>
+					<label class="margin-right5px"><input type="radio" name="payment0" value="03070000"><img src="../../statics/resource/images/investor_center/bank_16.gif" alt="平安银行"></label>
+					<!--<label class="margin-right5px"><input type="radio" name="payment0" value="03040000"><img src="../../statics/resource/images/investor_center/bank_10.gif" alt="华夏银行"></label>-->
+					<label class="margin-right5px"><input type="radio" name="payment0" value="04083320"><img src="../../statics/resource/images/investor_center/bank_nbcb.gif" alt="宁波银行"></label>
+					<label class="margin-right5px"><input type="radio" name="payment0" value="03200000"><img src="../../statics/resource/images/investor_center/bank_bea.gif" alt="东亚银行"></label>
+					<!--<label class="margin-right5px"><input type="radio" name="payment0" value="04012900"><img src="../../statics/resource/images/investor_center/bank_shb.gif" alt="上海银行"></label>-->
+					<label class="margin-right5px"><input type="radio" name="payment0" value="01000000"><img src="../../statics/resource/images/investor_center/bank_7.gif" alt="邮政储蓄"></label>
+					<label class="margin-right5px"><input type="radio" name="payment0" value="04243010"><img src="../../statics/resource/images/investor_center/bank_nj.gif" alt="南京银行"></label>
+					<label class="margin-right5px"><input type="radio" name="payment0" value="03170000"><img src="../../statics/resource/images/investor_center/bank_cbhb.gif" alt="渤海银行"></label>
+					<label class="margin-right5px"><input type="radio" name="payment0" value="64296510"><img src="../../statics/resource/images/investor_center/bank_cd.gif" alt="成都银行"></label>
+					<label class="margin-right5px"><input type="radio" name="payment0" value="04031000"><img src="../../statics/resource/images/investor_center/bank_bjb.gif" alt="北京银行"></label>
+				</div>
+			</div>
+
+			<input type='hidden' name='save' value='save'>
+			<input type='hidden' name='formhash' value='<?=formhash()?>' >
+            <div class="recharge-div">
+              <div class="recharge-div-left pull-left"></div>
+              <div class="recharge-div-right pull-right" style="text-align:center; margin-top:5px;text-align:left">
+              <input type="submit" class="withdraw-btn btn btn-warning" value="确认提交">
+              </div>
+            </div>
+          </form>
+
+        </div>
+        <!-- /账户充值 -->
+      </div>
+
+
+    </div>
+    <!-- /右边正文 -->
+  </div>
+
+{template footer}

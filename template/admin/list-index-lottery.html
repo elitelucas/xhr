@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+       	<link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+	    <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+	    <script src="statics/admin/js/jquery.js"></script>
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>
+        <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+        <script src="statics/admin/js/bootstrap.min.js"></script>
+   	    {template public-new-ui-header} 
+        <style>
+            #page{height: 60px;margin-top: 20px;text-align: center;}
+            #page ul li{float: left;margin-right:10px;}
+            #page ul .current{ background-color:#0099ff;text-align:center;}
+        </style>
+    </head>
+    <body class="new_ui_body">
+	    <div class="ibox float-e-margins">
+	       <div class="ibox-title iboxWTitle">
+                <a href="<?=url('','message','index_lottery')?>"><h5 style="padding-right: 30px;color: #000">首页彩种列表</h5></a>
+                <a href="<?=url('','message','recommend_lottery')?>"><h5>热门彩种推荐</h5></a>
+	        </div>
+	        <div class="ibox-content" style="width: 100%;">
+	           <div id="editable_wrapper" class="dataTables_wrapper form-inline" role="grid" style="width: 100%">
+	               <table class="table table-striped table-bordered table-hover  dataTable" id="editable"
+	                      aria-describedby="editable_info">
+	                   <thead>
+	                   <tr role="row">
+	                       <th> 编号 </th>
+	                       <th> 彩种名称 </th>
+	                       <th> Logo </th>
+	                       <th> 图片类型 </th>
+	                       <th> 是否显示 </th>
+	                       <th> 排序 </th>
+	                       <th> 操作 </th>
+	                   </tr>
+	                   </thead>
+	                   <tbody>
+		                   <tr class="odd" style="display: none">
+		                   {loop $list $k $v}
+		                        <tr>
+		                            <td><?php echo $k+1;?></td>
+		                            <td>{$v['lottery_name']}</td>
+		                            <td class="img_show"><img src="{$v['pic_url']}" style="height:30px;width:50px;"/></td>
+		                            <td>{if $v['pic_type'] == '1'}小图{else}大图{/if}</td>
+		                            <td>{if $v['is_show'] == '1'}显示{else}不显示{/if}</td>
+		                            <td>{$v['sort']}</td>
+		                            <td>
+		                                <a href="javascript:void(0)" onclick="updateRecord({$v['lottery_type']})" data-title="修改"><i class="fa fa-pencil"></i></a>
+		                            </td>
+		                        </tr>
+	                        {/loop}
+                        </tbody>
+                     </table>
+                 </div>
+             </div>
+        </div>
+
+        <script type="text/javascript">
+            var loading = "";//加载中......
+            
+            //修改
+            function updateRecord(lottery_type) {
+                location.href = '?m=admin&c=message&a=edit_lottery' + '&lottery_type=' + lottery_type;
+            }
+
+            $(function () {
+                $(".img_show > img").mousemove(function () {
+                    $(this).css({"width": "200px", "height": "100px"});
+                }).mouseleave(function () {
+                    $(this).css({"width": "50px", "height": "30px"});
+                });
+            });
+        </script>
+    </body>
+</html>

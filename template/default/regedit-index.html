@@ -1,0 +1,337 @@
+{template header}
+  <!-- Register -->
+  <link href="../../statics/resource/css/register/register.css" rel="stylesheet">
+  <script src="../../statics/resource/js/placeholder/2.0.8/jquery.placeholder.min.js"></script>
+      <style>
+  .domain-mask{ position:fixed; top:0; left:0; z-index:99999999; width:100%; height:100%; background-color:#000; opacity:0; filter:alpha(opacity=0);}
+  .domain-box{ position:fixed; top:50%; left:0; z-index:99999999; width:100%; height:500px; text-align:center; margin-top:-250px;}
+  </style>
+
+  <div class="reg-container container">
+    <div class="reg-left pull-left text-center pt50"><img src="../../statics/resource/images/register/reg_03.jpg" alt="www.chenghuitong.net"></div>
+    <div class="reg-right pull-right">
+<!--      <ul class="nav nav-tabs" role="tablist">
+        <li id="reg_phone" class="active"><a href="#phone" role="tab" data-toggle="tab">用手机号注册</a></li>
+        <li id="reg_email"><a href="#phone" role="tab" data-toggle="tab">用电子邮箱注册</a></li>
+      </ul>-->
+
+      <div class="tab-content">
+        <!-- 用手机号注册 -->
+        <div class="tab-pane active" id="phone">
+          <form id="form" class="form-inline" role="form" action="<?=url('','','add')?>" method="post">
+            <div class="form-group has-feedback">
+              <div class="input-group">
+                <div class="input-group-addon">*用户名：</div>
+                <input class="reg-input form-control" type="text" name="username" placeholder="请输入中文或字母、数字（3-20位）" value="{$_POST['username']}">
+                <span class="glyphicon form-control-feedback"></span>
+              </div>
+              <div class="help-block">{if (!isset($valid_))}{else}<?=$valid_->error('username')?>{/if}</div>
+            </div>
+
+<!--            <div id="form_group_email" class="form-group has-feedback hidden">
+              <div class="input-group">
+                <div class="input-group-addon">*电子邮箱：</div>
+                <input class="reg-input form-control" type="email" name="_email_" placeholder="请输入电子邮箱" value="{$_POST['email']}">
+                <span class="glyphicon form-control-feedback"></span>
+              </div>
+              <div class="help-block">{if (!isset($valid_))}{else}<?=$valid_->error('email')?>{/if}</div>
+            </div>-->
+<!--            <div class="form-group has-feedback">
+              <div class="input-group">
+                <div class="input-group-addon">*验证码：</div>
+                <input class="form-control" type="text" name="code" placeholder="请输入收到的验证码" value="{$_POST['code']}">
+                <a id="getVcode"class="phone-btn btn btn-warning pull-left" >获取验证码</a>
+                <span class="glyphicon form-control-feedback"></span>
+              </div>
+              <div class="help-block">{if (!isset($valid_))}{else}<?=$valid_->error('code')?>{/if}</div>
+            </div>-->
+            <div class="form-group has-feedback">
+              <div class="input-group">
+                <div class="input-group-addon">*设置密码：</div>
+                <input class="reg-input form-control" type="password" name="password" placeholder="8位以上数字或字母">
+              </div>
+              <div class="help-block">{if (!isset($valid_))}{else}<?=$valid_->error('password')?>{/if}</div>
+            </div>
+            <div class="form-group has-feedback">
+              <div class="input-group">
+                <div class="input-group-addon">*确认密码：</div>
+                <input class="reg-input form-control" type="password" name="compassword" placeholder="请重复输入密码">
+              </div>
+              <div class="help-block">{if (!isset($valid_))}{else}<?=$valid_->error('compassword')?>{/if}</div>
+            </div>
+            <div id="form_group_phone" class="form-group has-feedback">
+              <div class="input-group">
+                <div class="input-group-addon">*手机号码：</div>
+                <input class="reg-input form-control" type="text" name="phone" placeholder="请输入您的手机号码" value="{$_POST['phone']}">
+                <span class="glyphicon form-control-feedback"></span>
+              </div>
+              <div class="help-block">{if (!isset($valid_))}{else}<?=$valid_->error('phone')?>{/if}</div>
+            </div>
+            <div class="form-group has-feedback">
+              <div class="input-group">
+                <div class="input-group-addon">推荐人用户名：</div>
+                <input class="reg-input form-control" type="text" name="recomend" style="width:278px !important;" placeholder="没有推荐人的可留空不填" {if $recommend_username} value="<?=$recommend_username?>" readonly {else}value="{$_POST['recomend']}"{/if}>
+              </div>
+              <div class="help-block">{if (!isset($valid_))}{else}<?=$valid_->error('recomend')?>{/if}</div>
+            </div>
+
+            <div class="form-group has-feedback">
+              <div class="input-group">
+                <div class="input-group-addon">邀请代码：</div>
+                <input class="reg-input form-control" type="text" name="invitation_code" placeholder="没有邀请代码的可留空不填" value="{$yqcode}" {if !empty($yqcode)}readonly{/if}>
+              </div>
+              <div class="help-block">{if (!isset($valid_))}{else}<?=$valid_->error('invitation_code')?>{/if}</div>
+            </div>
+<!--<div class="form-group has-feedback" style="position:relative;">
+   <div class="input-group">
+      <div class="input-group-addon">验证码：</div>
+      <input class="reg-input form-control" type="text" name="code" >
+        <a style="position:absolute;right:0;top:0;z-index:999;" href="javascript:document.getElementById('code_img').src='{APP_PATH}api/checkcode.php?code_len=4&font_size=20&width=88&height=34&font_color=&background=&time='+Math.random();void(0);" >
+            <img id="code_img" src="{APP_PATH}api/checkcode.php?code_len=4&font_size=20&width=88&height=34&font_color=&background=" alt="验证码" onclick='this.src = this.src + "&" + Math.random()'></a>
+    </div
+    <div class="help-block">{if (!isset($valid_))}{else}<?=$valid_->error('recomend')?>{/if}</div>
+  </div>-->
+         <div class="form-group has-feedback" style="width:100%;">
+                <div class="input-group" style="width:100%;">
+					<input type="checkbox" checked="checked" name="xieyi" {if (isset($_POST['xieyi']))}checked{/if}> 阅读并同意服务协议 《<a href="<?=url('article', 'default', 'xieyi')?>" target="_blank" style=" text-decoration:underline;">诚汇通协议书</a>》
+              </div>
+              <div class="help-block">{if (!isset($valid_))}{else}<?=$valid_->error('xieyi')?>{/if}</div>
+            </div>
+
+            <div class="form-group has-feedback">
+              <div class="input-group">
+              <input type="hidden" id="uid" name="uid" value="<?=$recommendid?>"/>
+                <input class="reg-btn btn btn-warning" type="submit" value="注册">
+              </div>
+              <div class="help-block"></div>
+            </div>
+          </form>
+        </div>
+        <!-- /用手机号注册 -->
+      </div>
+
+    </div>
+  </div>
+  <!--<div class="domain-mask"></div>
+  <div class="domain-box"><img src="../../statics/images/box20151019.jpg" /></div>-->
+<!-- jQuery 1.10.2 -->
+<script type="text/javascript" src="../../statics/resource/js/jquery.validate.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$("#reg_phone").click(function(e) {
+			$("#form_group_email").addClass("hidden");
+			$("input[name='email']").attr("name", '_email_');
+			$("input[name='_phone_']").attr("name", 'phone');
+			$("#form_group_phone").removeClass("hidden");
+		});
+		$("#reg_email").click(function(e) {
+			$("#form_group_phone").addClass("hidden");
+			$("input[name='_email_']").attr("name", 'email');
+			$("input[name='phone']").attr("name", '_phone_');
+			$("#form_group_email").removeClass("hidden");
+		});
+		$('input, textarea').placeholder();
+	});
+
+$(function(){
+	$("form").validate({
+	    errorPlacement:function(error,element) {
+			error.appendTo(element.parent().parent().children(".help-block"));
+		},
+		rules: {
+			username: {
+				required: true,
+				minlength: 3,
+				maxlength: 20,
+				remote: {
+					url: "<?=url('content', 'regedit', 'public_username_ajx')?>"
+				}
+			},
+ 			recomend: {
+ 				remote: {
+ 					url: "<?=url('content', 'regedit', 'public_recomend_ajx')?>",
+ 					data: {recomend: function(){return $("input[name='recomend']").val()}},
+ 					type: "GET"
+				}
+ 			},
+ 			phone: {
+				required: true,
+				digits: true,
+				minlength: 11,
+				maxlength: 11,
+				remote: {
+					url: "<?=url('content', 'regedit', 'public_phone_ajx')?>"
+				}
+ 			},
+//			email: {
+//				required: true,
+//				email: true,
+//				remote: {
+//					url: "<?=url('content', 'regedit', 'public_email_ajx')?>"
+//				}
+//			},
+			code: {
+				required: true
+			},
+			vcode: {
+				required: true
+			},
+			password: {
+				required: true,
+				minlength: 8,
+				maxlength: 20
+			},
+			compassword: {
+				required: true,
+				equalTo: "[name='password']",
+				minlength: 8,
+				maxlength: 20
+			},
+			xieyi: {
+				required: true
+			}
+		},
+		messages: {
+			username: {
+				required: "用户名不能为空，请输入",
+				minlength: "用户名至少三位，请重新输入",
+				maxlength: "用户名至多20位，请重新输入",
+				remote: "该用户名已存在，请重新输入"
+			},
+			phone: {
+				required: "电话号码不能留空",
+				digits: "请输入正确的电话号码",
+				minlength: "目前只接受11位的国内手机号码",
+				maxlength: "目前只接受11位的国内手机号码",
+				remote: "该电话号码已经存在, 请重新输入"
+ 			},
+//			email: {
+//				required: "邮箱不能为空，请输入",
+//				email: "电子邮箱地址格式错误，请重新输入",
+//				remote: "该电子邮箱已存在，请重新输入"
+//			},
+			code: {
+				required: "验证码不能为空，请输入"
+			},
+			vcode: {
+				required: ""
+			},
+			password: {
+				required: "密码不能为空，请输入",
+				minlength: "密码至少8位",
+				maxlength: "密码至多20位"
+			},
+			compassword: {
+				required: "确认密码不能为空，请输入",
+				equalTo: "两次密码输入不一致，请重新输入",
+				minlength: "密码至少8位",
+				maxlength: "密码至多20位"
+			},
+ 			recomend: {
+ 				remote: "您输入的用户名不存在"
+ 			},
+			xieyi: {
+				required: "您必须同意服务协议才能注册本站账号"
+			}
+
+		}
+	});
+});
+$("input[name='recomend']").blur(function(){
+	$.ajax({
+		url: "<?=url('content', 'regedit', 'public_getid_ajx')?>",
+		data: {recomend: function(){return $("input[name='recomend']").val()}},
+		type: "GET",
+		success: function(data){
+			if (data) {
+				$("#uid").val(data);
+			} else {
+				$("#uid").val("");
+			}
+		}
+	});
+});
+$("#getVcode").click(function(){
+	$("input[name='phone']").blur();
+	var i_sec = 60;
+	$('#getVcode').html(' 如未收到, '+i_sec+' 后秒重发 ');
+	if (!isNaN($("input[name='phone']").val()) && $("input[name='phone']").val().length == 11) {
+	var interval = setInterval(function (){
+		if(i_sec>0){
+			i_sec--;
+			$('#getVcode').attr("disabled","disabled");
+			$('#getVcode').html(' 如未收到, '+i_sec+' 后秒重发 ');
+		}else{
+			$('#getVcode').removeAttr("disabled");
+			$('#getVcode').html(' 发送验证码 ');
+		}
+	},1000);
+		$.ajax({
+			url: "<?=APP_PATH.'api/vcode.php'?>",
+			data: {
+				mobile: $("input[name='phone']").val()
+			},
+			success: function(data) {
+                if(data=='-1'){
+                    i_sec=0;
+                    	$('#getVcode').html("请检查您输入的手机号码");
+                        $('#getVcode').attr("disabled","disabled");
+	            }else if(data=='-2'){
+                    i_sec=0;
+                    	$('#getVcode').html("请稍后再重试。");
+                        $('#getVcode').attr("disabled","disabled");
+            	}else{
+            		clearInterval(interval);
+        			$('#getVcode').removeAttr("disabled");
+        			$('#getVcode').html(' 发送验证码 ');
+            	}
+			}
+		});
+	} else {
+		$("input[name='email']").blur();
+		if ($("input[name='email']").val().length > 0 && $("input[name='email']").val().indexOf("@") > 0) {
+			var interval = setInterval(function (){
+				if(i_sec>0){
+					i_sec--;
+					$('#getVcode').attr("disabled","disabled");
+					$('#getVcode').html(' 如未收到, '+i_sec+' 后秒重发 ');
+				}else{
+					$('#getVcode').removeAttr("disabled");
+					$('#getVcode').html(' 发送验证码 ');
+				}
+			},1000);
+		$.ajax({
+			url: "<?=APP_PATH.'api/vcode.php'?>",
+			data: {
+				email: $("input[name='email']").val()
+			},
+			success: function(data) {
+                if(data=='-1'){
+                    i_sec=0;
+                    	$('#getVcode').html("请检查您输入的电子邮箱");
+                        $('#getVcode').attr("disabled","disabled");
+	            }else if(data=='-2'){
+                    i_sec=0;
+                    	$('#getVcode').html("请稍后再重试。");
+                        $('#getVcode').attr("disabled","disabled");
+            	}else{
+            		clearInterval(interval);
+        			$('#getVcode').removeAttr("disabled");
+        			$('#getVcode').html(' 发送手机验证码 ');
+            	}
+			}
+		});
+		} else {
+		}
+	}
+});
+</script>
+
+<script type="text/javascript">
+var _mvq = window._mvq || [];
+window._mvq = _mvq;
+_mvq.push(['$setAccount', 'm-102374-0']);
+_mvq.push(['$setGeneral', 'register', '', '', '']);
+_mvq.push(['$logConversion']);
+</script>
+{template footer}

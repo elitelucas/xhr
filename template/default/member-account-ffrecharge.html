@@ -1,0 +1,235 @@
+{template header}
+<!-- Investor_center -->
+<link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+<style type="text/css">
+.recharge-div-right input{ margin-right:5px;}
+.bankMore{text-align:right; padding-right:20px;}
+.bankMore span{cursor:pointer; color:#FF0000;}
+.bankMore span:hover{ text-decoration:underline;}
+</style>
+<!-- 路径导航 -->
+<div class="container">
+	<ol class="breadcrumb">
+		<li><a href="{APP_PATH}">首页</a></li>
+		<li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+		<li class="active">我的账户</li>
+	</ol>
+	<div class="clearfix"></div>
+</div>
+<!-- /路径导航 -->
+{template member-nav-left}
+<!-- 右边正文 -->
+<div class="investor-right pull-right border-radius">
+	<ul class="nav nav-tabs" role="tablist" id="myTab">
+		<li {if $quick==0}class="active"{/if}><a href="<?=url('fengfu','default','recharge')?>">网银充值</a></li>
+		<li {if $quick==1}class="active"{/if}><a href="<?=url('fengfu','default','recharge',array('quick'=>1))?>">一键充值</a></li>
+	</ul>
+
+	<div class="tab-content">
+
+		<form id="myform" action="<?=url('fengfu','default','recharge')?>" method="post">
+			<br/>
+			{if $quick==1}
+			<div class="recharge-div">
+				<div class="recharge-div-left pull-left" style="line-height:23px">温馨提示：</div>
+				<div class="recharge-div-right pull-right" style="line-height:23px">
+					{if !empty($cardInfo['rechargeProtocolList'])}
+					根据同卡进出的原则，一键充值的充值提现必须使用同一张卡，您托管账户的银行卡已绑定为：<span class="cmain">{$cardInfo['rechargeProtocolList'][0]['bankAccount']}</span>（{$cardInfo['rechargeProtocolList'][0]['bankName']}）。如需变更，请提交申请：[<a class="red" href="<?=url('','','ffcard')?>">银行卡变更申请</a>]
+					{else}
+					根据丰付支付同卡进出规则，您在一键充值功能首次充值成功的银行卡将会绑定为您的托管账户唯一提现卡。
+					{/if}
+					<br/><br/>
+				</div>
+			</div>
+			{/if}
+			
+			<div class="recharge-div">
+				<div class="love"><a href="<?=url('activity','carefund','index')?>"><span class="glyphicon glyphicon-heart"></span> 爱心捐助</a></div>
+				<div class="recharge-div-left pull-left" style=" line-height:34px;">充值金额：</div>
+				<div class="recharge-div-right pull-right">
+					<div class="pull-left">
+						<input type="text" name="money" class="recharge-input form-control" placeholder="请输入100元以上的金额">
+					</div>
+					<div class="pull-left margin-left10px">元</div>
+				</div>
+			</div>
+
+			{if $quick==0}
+			<div class="recharge-div">
+				<div class="recharge-div-left pull-left" style=" line-height:56px;">选择银行：</div>
+                <div class="recharge-div-right pull-right">
+					<label style="font-weight:normal; margin-right:5px;"><input type="radio" name="bankCode" value="icbc"><img src="../../statics/resource/images/investor_center/bank_2.gif" alt="工商银行"></label>
+					<label style="font-weight:normal; margin-right:5px;"><input type="radio" name="bankCode" value="abc"><img src="../../statics/resource/images/investor_center/bank_12.gif" alt="农业银行"></label>
+					<label style="font-weight:normal; margin-right:5px;"><input type="radio" name="bankCode" value="boc"><img src="../../statics/resource/images/investor_center/bank_5.gif" alt="中国银行"></label>
+					<label style="font-weight:normal; margin-right:5px;"><input type="radio" name="bankCode" value="ccb"><img src="../../statics/resource/images/investor_center/bank_3.gif" alt="建设银行"></label>
+					<label style="font-weight:normal; margin-right:5px;"><input type="radio" name="bankCode" value="comm"><img src="../../statics/resource/images/investor_center/bank_4.gif" alt="交通银行"></label>
+					<label style="font-weight:normal; margin-right:5px;"><input type="radio" name="bankCode" value="cmb"><img src="../../statics/resource/images/investor_center/bank_1.gif" alt="招商银行"></label>
+					<label style="font-weight:normal; margin-right:5px;"><input type="radio" name="bankCode" value="ceb"><img src="../../statics/resource/images/investor_center/bank_8.gif" alt="光大银行"></label>
+					<label style="font-weight:normal; margin-right:5px;"><input type="radio" name="bankCode" value="hxb"><img src="../../statics/resource/images/investor_center/bank_10.gif" alt="华夏银行"></label>
+					<label style="font-weight:normal; margin-right:5px;"><input type="radio" name="bankCode" value="cmsb"><img src="../../statics/resource/images/investor_center/bank_15.gif" alt="民生银行"></label>
+					<label style="font-weight:normal; margin-right:5px;"><input type="radio" name="bankCode" value="spdb"><img src="../../statics/resource/images/investor_center/bank_14.gif" alt="浦发银行"></label>
+					<label style="font-weight:normal; margin-right:5px;"><input type="radio" name="bankCode" value="cgb"><img src="../../statics/resource/images/investor_center/bank_9.gif" alt="广发银行"></label>
+					<label style="font-weight:normal; margin-right:5px;"><input type="radio" name="bankCode" value="cncb"><img src="../../statics/resource/images/investor_center/bank_13.gif" alt="中信银行"></label>
+					<div class="bankMore"><span>展开更多</span></div>
+					<label class="hidden" style="font-weight:normal; margin-right:8px;"><input type="radio" name="bankCode" value="bjb"><img src="../../statics/resource/images/investor_center/bank_bjb.gif" alt="北京银行"></label>
+					<label class="hidden" style="font-weight:normal; margin-right:8px;"><input type="radio" name="bankCode" value="pab"><img src="../../statics/resource/images/investor_center/bank_16.gif" alt="平安银行"></label>
+					<label class="hidden" style="font-weight:normal; margin-right:8px;"><input type="radio" name="bankCode" value="psbc"><img src="../../statics/resource/images/investor_center/bank_7.gif" alt="邮政储蓄"></label>
+					<label class="hidden" style="font-weight:normal; margin-right:8px;"><input type="radio" name="bankCode" value="shb"><img src="../../statics/resource/images/investor_center/bank_shb.gif" alt="上海银行"></label>
+					<label class="hidden" style="font-weight:normal; margin-right:8px;"><input type="radio" name="bankCode" value="cib"><img src="../../statics/resource/images/investor_center/bank_11.gif" alt="兴业银行"></label>
+					<label class="hidden" style="font-weight:normal; margin-right:8px;"><input type="radio" name="bankCode" value="cbhb"><img src="../../statics/resource/images/investor_center/bank_cbhb.gif" alt="渤海银行"></label>
+					<label class="hidden" style="font-weight:normal; margin-right:8px;"><input type="radio" name="bankCode" value="rcb"><img src="../../statics/resource/images/investor_center/bank_rcb.gif" alt="北京农商银行"></label>
+					<label class="hidden" style="font-weight:normal; margin-right:8px;"><input type="radio" name="bankCode" value="bea"><img src="../../statics/resource/images/investor_center/bank_bea.gif" alt="东亚银行"></label>
+					<label class="hidden" style="font-weight:normal; margin-right:8px;"><input type="radio" name="bankCode" value="nbcb"><img src="../../statics/resource/images/investor_center/bank_nbcb.gif" alt="宁波银行"></label>
+					<label class="hidden" style="font-weight:normal; margin-right:8px;"><input type="radio" name="bankCode" value="hzb"><img src="../../statics/resource/images/investor_center/bank_hzb.gif" alt="杭州银行"></label>
+					<label class="hidden" style="font-weight:normal; margin-right:8px;"><input type="radio" name="bankCode" value="hsb"><img src="../../statics/resource/images/investor_center/bank_hsb.gif" alt="徽商银行"></label>
+					<label class="hidden" style="font-weight:normal; margin-right:8px;"><input type="radio" name="bankCode" value="zsb"><img src="../../statics/resource/images/investor_center/bank_zsb.gif" alt="浙商银行"></label>
+                </div>
+			</div>
+			{/if}
+
+			<input type="hidden" name="quick" value="{$quick}">
+			<input type="hidden" name="save" value="save">
+			<input type="hidden" name="formhash" value="<?=formhash()?>" >
+			<div class="recharge-div">
+				<div class="recharge-div-left pull-left"></div>
+				<div class="recharge-div-right pull-right">
+					<input type="submit" class="withdraw-btn btn btn-warning" value="确认提交">
+				</div>
+			</div>
+
+			{if $quick==1}
+			<div class="recharge-div">
+				<div class="recharge-div-left pull-left"></div>
+				<div class="recharge-div-right pull-right">
+					<style>
+						table{border:#999 solid;border-width:1px 0 0 1px;width:500px;margin-top:15px}
+						table td,table th{border:#999 solid;border-width:0 1px 1px 0;text-align:center;color:#666;line-height:30px}
+					</style>
+					<table>
+						<tr>
+							<th colspan="4">各银行一键充值受理能力</th>
+						</tr>
+						<tr>
+							<th width="20%">银行名称</th>
+							<th width="20%">单笔额度</th>
+							<th width="20%">日累计额度</th>
+							<th>说明</th>
+						</tr>
+						<tr>
+							<td>工商银行</td>
+							<td>2W</td>
+							<td>5W</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>农业银行</td>
+							<td>2W</td>
+							<td>5W</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>中国银行</td>
+							<td>2W</td>
+							<td>5W</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>建设银行</td>
+							<td>2W</td>
+							<td>5W</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>浦发银行</td>
+							<td>2W</td>
+							<td>5W</td>
+							<td>需要开通无卡支付业务</td>
+						</tr>
+						<tr>
+							<td>兴业银行</td>
+							<td>2W</td>
+							<td>5W</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>民生银行</td>
+							<td>2W</td>
+							<td>5W</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>平安银行</td>
+							<td>2W</td>
+							<td>5W</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>广发银行</td>
+							<td>2W</td>
+							<td>5W</td>
+							<td>交易时间8:00-23:00</td>
+						</tr>
+						<tr>
+							<td>光大银行</td>
+							<td>2W</td>
+							<td>5W</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>上海银行</td>
+							<td>5000</td>
+							<td>5W</td>
+							<td>需要开通无卡支付业务</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			{/if}
+
+		</form>
+
+	</div>
+	<!-- /账户充值 -->
+</div>
+
+
+</div>
+<!-- /右边正文 -->
+</div>
+
+<script type="text/javascript">
+	$(function () {
+		$('#myform').submit(function () {
+			var money = $('input[name=money]').val();
+			if (!/^\d+(\.\d{1,2})?$/.test(money)) {
+				alert('请输入正确的充值金额');
+				return false;
+			}
+			if (parseFloat(money) < 100) {
+				alert('充值金额最低100元');
+				return false;
+			}
+			{if $quick == 0}
+			if (!$('input[name=bankCode]:checked').val()) {
+				alert('请选择充值银行');
+				return false;
+			}
+			{/if}
+			return true;
+		});
+
+		var flag=true;
+		$(".bankMore span").click(function(){
+			if(flag){
+				$(".recharge-div-right label:gt(11)").removeClass("hidden");
+				$(this).html("收起");
+				flag=false;
+			}else{
+				$(".recharge-div-right label:gt(11)").addClass("hidden");
+				$(this).html("展开更多");
+				flag=true;
+			}
+		});
+	});
+</script>
+{template footer}

@@ -1,0 +1,147 @@
+{template header}
+  <!-- Investor_center -->
+  <link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+  
+  <!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+      <li class="active">我的账户</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->
+  {template member-nav-left}
+
+    
+    <!-- 右边正文 -->
+    <div class="investor-right pull-right border-radius">
+      <ul class="nav nav-tabs" role="tablist" id="myTab">
+        <li {if ROUTE_A=='pass'}class="active"{/if}><a href="<?=url('member','security','pass')?>">修改登录密码</a></li>
+        <li {if ROUTE_A=='paypass'}class="active"{/if}><a href="<?=url('member','security','paypass')?>">修改交易密码</a></li> 
+      </ul>
+
+      <div class="tab-content">
+        <!-- 修改登录密码 -->
+        <div class="tab-pane active" id="investde1">
+          <div class="withdraw-info bg-warning">
+            <div>温馨提示:</div>
+            <div>1.我们将严格对用户的所有资料进行保密</div>
+            <div>2.密码请不要太简单，设成复杂一点，最好字母加符号</div>
+          </div>
+          <form id="modify_pswd" class="form-horizontal has-feedback" action="<?=url('','','pass')?>" method="post" role="form">
+              <div class="form-group has-feedback">
+                <label for="inputPwd1" class="col-sm-3 control-label">原始密码：</label>
+                <div class="col-sm-4">
+                  <input type="password" class="form-control" id="inputPwd1" name='oldpass' placeholder="请输入原始密码">
+                  <span class="glyphicon form-control-feedback"></span>
+                </div>
+                <div class="help-block"></div>
+              </div>
+              
+              <div class="form-group has-feedback">
+                <label for="inputPwd2" class="col-sm-3 control-label">新密码：</label>
+                <div class="col-sm-4">
+                  <input type="password" class="form-control" id="inputPwd2" name='password' placeholder="请输入6-20位新密码">
+                  <span class="glyphicon form-control-feedback"></span>
+                </div>
+                <div class="help-block"></div>
+              </div>
+              
+              <div class="form-group has-feedback">
+                <label for="inputPwd3" class="col-sm-3 control-label">确认新密码：</label>
+                <div class="col-sm-4">
+                  <input type="password" class="form-control" id="inputPwd3" name='conpassword' placeholder="请重复输入新密码">
+                  <span class="glyphicon form-control-feedback"></span>
+                </div>
+                <div class="help-block"></div>
+              </div>
+              
+              <div class="form-group has-feedback">
+                <label for="inputBtn" class="col-sm-3 control-label"></label>
+                <div class="col-sm-4">
+                  <input type='hidden' name='save' value='save'>
+                  <input type='hidden' name='formhash' value='<?=formhash()?>' >
+                  <input type="submit" class="btn btn-warning form-control" id="inputBtn" value="确认提交">
+                </div>
+                <div class="help-block"></div>
+              </div>
+          </form>
+        </div>
+        <!-- /修改登录密码 -->
+        
+        
+      </div>
+      
+    </div>
+    <!-- /右边正文 -->
+  </div>
+<script type="text/javascript" src="../../statics/resource/js/jquery.validate.min.js"></script>
+<script src="../../statics/resource/js/placeholder/2.0.8/jquery.placeholder.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('input, textarea').placeholder();
+     $("#modify_pswd").validate({
+         errorPlacement:function(error,element) {
+               error.appendTo(element.parent().parent().children(".help-block"));
+          },
+          rules: {
+        	  oldpass: {
+                    required: true, 
+            	   minlength: 6, 
+            	   maxlength: 20
+               }, 
+               password: {
+            	   required: true, 
+            	   minlength: 6, 
+            	   maxlength: 20
+               }, 
+               conpassword: {
+            	   required: true, 
+            	   minlength: 6, 
+            	   maxlength: 20, 
+            	   equalTo: "input[name='password']"
+               }
+          },
+		  messages: {
+        	  oldpass: {
+                   required: "原始密码不能为空，请输入", 
+            	   minlength: "密码长度至少6位", 
+            	   maxlength: "密码长度最多20位"
+               }, 
+               password: {
+            	   required: "新密码不能为空，请输入", 
+            	   minlength: "密码长度至少6位", 
+            	   maxlength: "密码长度最多20位"
+               }, 
+               conpassword: {
+            	   required: "确认密码不能为空，请输入", 
+            	   minlength: "密码长度至少6位", 
+            	   maxlength: "密码长度最多20位", 
+            	   equalTo: "确认密码与新密码不一致，请重新输入"
+               }
+		  }
+     });
+});
+/*jQuery.extend(jQuery.validator.messages, {
+    required: "必选字段",
+     remote: "字段非法或者已经存在",
+     email: "请输入正确格式的电子邮件",
+     url: "请输入合法的网址",
+     date: "请输入合法的日期",
+     dateISO: "请输入合法的日期 (ISO).",
+     number: "请输入合法的数字",
+     digits: "只能输入整数",
+     creditcard: "请输入合法的信用卡号",
+     equalTo: "请再次输入相同的值",
+     accept: "请输入拥有合法后缀名的字符串",
+     maxlength: jQuery.validator.format("请输入一个 长度最多是 {0} 的字符串"),
+     minlength: jQuery.validator.format("请输入一个 长度最少是 {0} 的字符串"),
+     rangelength: jQuery.validator.format("请输入 一个长度介于 {0} 和 {1} 之间的字符串"),
+     range: jQuery.validator.format("请输入一个介于 {0} 和 {1} 之间的值"),
+     max: jQuery.validator.format("请输入一个最大为{0} 的值"),
+     min: jQuery.validator.format("请输入一个最小为{0} 的值")
+});*/
+</script>
+{template footer}

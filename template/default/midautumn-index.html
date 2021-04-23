@@ -1,0 +1,461 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+        <title>诚汇通中秋活动</title>
+        <meta name="keywords" content="诚汇通，诚汇通微信，微信抢红包">
+        <meta name="description" content="诚汇通为鼓励用户使用微信端进行投资理财，特举办关注诚汇通微信抢百元红包活动，用户只要关注诚汇通微信，就可以获得红包，100%有奖！">
+        <link href="../../statics/midautumn/css/style.css" rel="stylesheet" type="text/css" />
+        <script src="../../statics/js/jquery.min.js" type="text/javascript"></script> 
+        <script language="javascript" type="text/javascript" src="../../statics/js/jquery.artDialog.js?skin=green"></script>
+        <script language="javascript" type="text/javascript" src="../../statics/js/iframeTools.js"></script>
+        <script language="javascript" type="text/javascript" src="../../statics/js/common.js" charset="UTF-8"></script>
+    </head>
+    <body>
+
+        <!-- header begin-->
+        <div class="header_1">
+            <div class="pic">
+                <p>
+                    <a href="{APP_PATH}">
+                        <img src="../../statics/midautumn/images/fh_shouye.png" alt=""></a>
+                </p>
+            </div>
+        </div>
+        <!-- header end-->
+
+        <!-- body begin-->
+        <div class="content">
+            <div class="content-1">
+                <div class="biao guaj">
+                    <div class="tit">
+                        <img src="../../statics/midautumn/images/title_pic1.png" alt=""></div>
+                    <div class="cont">
+                        <p class="jishi">刮奖倒计时：{$data_show}</p>
+                        <div class="wyguaj">
+                            <div class="gjiang bgcol-1">
+                                <div class="gjjuan">
+                                    <span id="bai1">0</span>
+                                    <span class="ml12" id="shi1">0</span>
+                                    <span class="ml12" id="ge1">0</span>
+                                </div>
+                                <div class="yhguaj" id="tc1">
+                                    <img src="../../statics/midautumn/images/gjquan-pic1.jpg" alt=""></div>
+                                <?php
+                                if(!empty($user)){
+                                ?>
+                                <div class="shiy" id='sx1'>您有{$count1}张未使用</div>
+                                <?php }?>
+                                <div class="guajcen" style="display: none;" id="cj1">
+                                    <a id="gua1" onclick="do_show(1)" style="cursor: not-allowed;" >
+                                        点击刮卡</a>
+                                </div>
+                            </div>
+                            <div class="gjbnt">
+                                <p>
+                                    <button id="bt1" type="button" onclick="guajiang(1)" class="gjbnt"> </button>
+                                </p>
+                                <span>
+                                    <img src="../../statics/midautumn/images/shous.png" alt=""></span>
+                            </div>
+
+                        </div>
+                        <div class="wyguaj">
+                            <div class="gjiang bgcol-2">
+                                <div class="gjjuan">
+                                    <span id="bai2">0</span>
+                                    <span class="ml12" id="shi2">0</span>
+                                    <span class="ml12" id="ge2">0</span>
+                                </div>
+                                <div class="yhguaj" id="tc2">
+                                    <img src="../../statics/midautumn/images/gjquan-pic2.jpg" alt=""></div>
+                                <?php
+                                if(!empty($user)){
+                                ?>
+                                <div class="shiy" id='sx2'>您有{$count2}张未使用</div>
+                                <?php }?>
+                                <div class="guajcen" id="cj2" style="display: none;">
+                                    <a onclick="do_show(2)" style="cursor: pointer;" id="gua2">
+                                        点击刮卡</a>
+                                </div>
+                            </div>
+                            <div id="gj1" class="gjbnt">
+                                <p>
+                                    <button id="bt2" class="gjbnt" type="button" onclick="guajiang(2)"> </button>
+                                </p>
+                                <span>
+                                    <img src="../../statics/midautumn/images/shous.png" alt=""></span>
+                            </div>
+                        </div>
+                        <div class="wyguaj">
+                            <div class="gjiang bgcol-3">
+                                <div class="gjjuan">
+                                    <span id="bai3">0</span>
+                                    <span class="ml12" id="shi3">0</span>
+                                    <span class="ml12" id="ge3">0</span>
+                                </div>
+                                <div class="yhguaj" id="tc3">
+                                    <img src="../../statics/midautumn/images/gjquan-pic3.jpg" alt=""></div>
+                                <?php
+                                if(!empty($user)){
+                                ?>
+                                <div class="shiy" id='sx3'>您有{$count3}张未使用</div>
+                                <?php }?>
+                                <div class="guajcen" style="display: none;" id="cj3">
+                                    <a onclick="do_show(3)" style="cursor: pointer;" id="gua3" >
+                                        点击刮卡</a>
+                                </div>
+                            </div>
+                            <div class="gjbnt">
+                                <p>
+                                    <button id="bt3" type="button" onclick="guajiang(3)" class="gjbnt"> </button>
+                                </p>
+                                <span>
+                                    <img src="../../statics/midautumn/images/shous.png" alt=""></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="biao huod">
+                    <div class="tit">
+                        <img src="../../statics/midautumn/images/title_pic2.png" alt=""></div>
+                    <div class="cont">
+                        <?php
+                        if(empty($user)){
+                        ?>
+                        <div class="huod_bg">
+                            <div class="kehutz">
+                                <p>尊敬的客户：</p>
+                                <p class="txt2">
+                                    您好！诚汇通将会在9月5日至9月20日举办中秋刮刮乐奖券赠送活动，凡获得刮刮乐奖券的客户，点击 <i>“我要刮奖”</i>
+                                    ，奖券将会自动刮出奖励金额 ,奖券共有三种，新客户奖券、推荐人奖券、投标奖券。
+                                </p>
+                                <p>
+                                    <a href="<?=url('content','login','index')?>">
+                                        <img src="../../statics/midautumn/images/denglu.jpg" alt=""></a>
+                                </p>
+                            </div>
+                        </div>
+                        <?php
+                        }else{
+                        ?>
+                        <div class="huod_bg">
+                            <div class="kehutz">
+                                <p>尊敬的客户：</p>
+                                <p class="txt2">
+                                    您好！诚汇通将会在9月5日至9月20日举办中秋刮刮乐奖券赠送活动，凡获得刮刮乐奖券的客户，点击 <i>“我要刮奖”</i>
+                                    ，奖券将会自动刮出奖励金额 ,奖券共有三种，新客户奖券、推荐人奖券、投标奖券。
+                                </p>
+                                <p>
+                                    <a href="#">
+                                        <img src="../../statics/midautumn/images/huodegj.jpg" alt=""></a>
+                                </p>
+                            </div>
+                            <div class="guajquan">
+                                <p>
+
+                                    {$user['username']}，欢迎您参与刮刮乐活动，您目前拥有
+                                    <i> <?php echo empty($ret['cardtype']['cardtype'])?'0':$ret['cardtype']['cardtype'];?> </i>
+                                    张刮奖券,<br/> 其中
+                                    <i><?php echo empty($ret['newusercard']['newusercard'])?'0':$ret['newusercard']['newusercard'];?></i>
+                                    张新人刮奖券;
+                                    <i><?php echo empty($ret['recommender']['recommender'])?'0':$ret['recommender']['recommender'];?></i>
+                                    张推荐人刮奖券，
+                                    <i><?php echo empty($ret['tendertype']['tendertype'])?'0':$ret['tendertype']['tendertype'];?></i>
+                                    张投标刮奖券
+                                </p>
+                                <p>
+                                    您已使用
+                                    <i id="usecard"><?php echo empty($ret['usecard']['usecard'])?'0':$ret['usecard']['usecard'];?></i>
+                                    张刮奖券  还有
+                                    <i id="havenusecard"><?php echo empty($ret['havenusecard']['havenusecard'])?'0':$ret['havenusecard']['havenusecard'];?></i>
+                                    张刮奖券未使用
+                                </p>
+                                <p>
+                                    累计奖金
+                                    <i id="bonuscash"><?php echo empty($ret['bonuscash']['bonuscash'])?'0':$ret['bonuscash']['bonuscash'];?>元</i>
+                                    排名第
+                                    <i id="rank">{$rank}</i>
+                                    名
+
+                                    <a href="javascript:void(0)" id="info"><img src="../../statics/midautumn/images/guajiamx.jpg" alt=""></a>
+                                    
+                                </p>
+
+                                <p>
+                                    <i>(累计奖金排名前五名可额外奖励100-1000元不等)</i>
+                                </p>
+
+                            </div>
+                        </div>
+                        <?php
+                        }
+                        ?>
+                    </div>
+                </div>
+                <div class="biao jldengj">
+                    <div class="tit">
+                        <img src="../../statics/midautumn/images/title_pic3.png" alt=""></div>
+                    <div class="cont">
+                        <p>
+                            <img src="../../statics/midautumn/images/ggjdengj_pic.jpg" alt=""></p>
+                    </div>
+                </div>
+                <div class="biao jlpaim">
+                    <div class="tit">
+                        <img src="../../statics/midautumn/images/title_pic4.png" alt=""></div>
+                    <div class="cont">
+                        <p>
+                            <img src="../../statics/midautumn/images/ggjpaiim_pic.jpg" alt=""></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ruhegj">
+            <div class="ruhegj1">
+                <div class="guajiangq">
+                    <h3>如何获得刮奖劵？</h3>
+                    <p>
+                        <span class="pic">
+                            <img src="../../statics/midautumn/images/gjquan_pic1.jpg" alt=""></span>
+                        <span class="txt">
+                            <i>在活动期间，注册、并实名认证的新客户，系统将会自动送出刮奖券1张</i>
+                            <a href="<?=url('content','regedit','index')?>">
+                                <img src="../../statics/midautumn/images/zhuc_pic.jpg" alt=""></a>
+                        </span>
+                    </p>
+                    <p>
+                        <span class="pic">
+                            <img src="../../statics/midautumn/images/gjquan_pic2.jpg" alt=""></span>
+                        <span class="txt">
+                            <i>在活动期间，亲友累积投标5000元，推荐人可获得1张刮奖券，亲友累积投标10000元，推荐人可获得2张刮奖券，以此类推；推荐人的亲友须在推荐人的邀请链接，或亲友在注册时填写推荐人的用户名，系统才会自动送出刮奖券给推荐人</i> 
+                            <a a href="javascript:void(0)" id="yaoqing">
+                                <img  src="../../statics/midautumn/images/yaoqlj.jpg" alt=""></a>
+                        </span>
+                    </p>
+                    <p>
+                        <span class="pic">
+                            <img src="../../statics/midautumn/images/gjquan_pic3.jpg" alt=""></span>
+                        <span class="txt">
+                            <i>在活动期间，客户累积投标5000元，可获得1张刮奖券，客户累积投标10000元，可获得2张刮奖券，以此类推。</i>
+                        </span>
+                    </p>
+                </div>
+                <div class="julie">
+                    <h3>举例说明</h3>
+                    <p>
+                        1、推荐人刮奖券：张三邀请李四注册诚汇通，李四投标5000元后，系统自动送给张三1张刮奖券，李四继续投资10000元（共累计投资15000元），系统自动送给张三2张刮奖券（共累计获得3张刮奖券），以此类推；
+                    </p>
+                    <p>
+                        2、投标刮奖券：王五累积投资5000元，系统自动送给王五1张刮奖券，继续投资10000元（共累计投资15000元），系统自动送给王五2张刮奖券（共累计获得3张刮奖券）,以此类推。
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="jl_paihang">
+            <div class="ph_con">
+                <div class="paih_tj">
+                    <table class="table">
+                        <thead>
+
+                            <tr>
+                                <th width="50%">用户名</th>
+                                <th width="50%">奖金排行榜</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="leiji">
+                            {loop $username $v}
+                            <tr>
+                                <td><?=f_name($v['username'])?></td>
+                                <td>{$v['money1']}元</td>
+                            </tr>
+                            {/loop}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="yh_mingd">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th width="50%">用户名</th>
+                                <th width="50%">金额</th>
+                            </tr>
+                        </thead>
+                        <tbody id="zuixin">
+                            {loop $list $vstr}
+                            <tr>
+                                <td><?=f_name($vstr['username'])?></td>
+                                <td>{$vstr['money']}元</td>
+                            </tr>
+                            {/loop}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="hd_guiz">
+            <div class="hd_guiz_1">
+                <h3>
+                    <img src="../../statics/midautumn/images/hd_pic.jpg" alt=""></h3>
+                <p>
+                    1、获得刮奖券的客户，请在活动期间将刮奖券全部使用完毕，逾期未使用视为自动放弃刮奖资格；<br/>（刮奖时间截止至
+                    <i>2014年9月20日24：00</i>
+                    ）
+                </p>
+                <p>2、客户每使用1次刮奖券，系统会相应的扣除1次(详情可在刮奖明细查看)；</p>
+                <p>3、三大刮奖券达到对应条件后，系统将会自动送出刮奖券；</p>
+                <p>
+                    4、客户每次刮奖的奖励金额均由系统随机抽中，
+                    <i>中奖率100%；</i>
+                </p>
+                <p>5、累计奖励排名的统计时间截止至2014年9月20日24：00；</p>
+                <p>
+                    6、奖励领取：由于刮奖客户的奖励金额需要累计排名，因此，所有客户的奖励将统一会在
+                    <i>2014年9月22日下午17：30前</i>
+                    划入平台帐号；
+                </p>
+                <p>7、本次活动的奖励规则不影响平台其他活动的规则；</p>
+                <p>8、本次活动最终解释权归属于深圳市诚汇通金融信息有限公司；</p>
+            </div>
+        </div>
+        <!-- body end-->
+
+        <!-- footer begin-->
+        <!-- footer end-->
+
+    </body>
+</html>
+<script type="text/javascript">
+    function guajiang(type) {
+        if(isNaN(type)){
+            alert("参数错误!");
+            return false;
+         }
+        $("#bt"+type).attr("class","bbb");
+        $("#bt"+type).attr('disabled',true);
+        $.ajax({
+                url:"?m=activity&c=midautumn&a=tips",
+                type:"POST",
+                data:{"type":type},
+                success:function(data){
+                    if(data){
+                        if (data == 1) {
+                            alert('参数错误！');
+                        } else if (data == 2) {
+                            alert('请先登录，再参与刮奖劵活动！');
+                        } else if (data == 3) {
+                            alert('活动未开始！');
+                        } else if (data == 4) {
+                            alert('活动已结束！');
+                        } else if (data == 5) {
+                            $("#cj" + type).show();
+                            $("#tc" + type).hide();
+                        } else if (data == 6) {
+                            alert('没有刮奖卷可使用！');
+                        }
+                        $("#bt"+type).attr("class","gjbnt");
+                        $("#bt"+type).attr('disabled',false);
+                    }else{
+                        alert('系统繁忙，请重试！');
+                        $("#bt"+type).attr("class","gjbnt");
+                        $("#bt"+type).attr('disabled',false);
+                        XHR = null ;
+                    }  
+                },
+                complete: function (XHR, TS) { XHR = null }
+        });
+    }
+
+    function do_show(type) {
+         if(isNaN(type)){
+             alert("参数错误!");
+             return false;
+          }
+        $("#gua"+type).attr("class","aaa");
+        $.ajax({
+                url:"?m=activity&c=midautumn&a=scratch",
+                type:"POST",
+                data:{"type":type},
+                success:function(data){
+                   if(data){
+                        var t = eval('('+data+')');
+                        if (t.code == 1) {
+                            alert('参数错误！');
+                        } else if (t.code == 2) {
+                            alert('请先登录，再参与刮奖劵活动！');
+                        } else if (t.code == 3) {
+                            $("#tc" + type).show();
+                            $("#cj" + type).hide();
+                            $("#bai" + type).text(t.bai);
+                            $("#shi" + type).text(t.shi);
+                            $("#ge" + type).text(t.ge);
+                            $("#sx" + type).text("您有" + t.nums + "张未使用");
+                            $("#usecard").text(t.usecard);
+                            $("#havenusecard").text(t.havenusecard);
+                            $("#bonuscash").text(t.bonuscash + "元");
+                            $("#rank").text(t.rank);
+                            if (t.leijilist) {
+                                $("#leiji").html('');
+                                var obj = "";
+                                $.each(t.leijilist, function(i, item) {
+                                    obj += '<tr>\n';
+                                    obj += '<td>' + item.username + '</td>\n';
+                                    obj += '<td>' + item.money1 + '元</td>\n';
+                                    obj += '</tr>\n';
+                                });
+                                $("#leiji").append(obj);
+                            }
+                            if (t.xinlist) {
+                                $("#zuixin").html('');
+                                var obj = "";
+                                $.each(t.xinlist, function(i, item) {
+                                    obj += '<tr>\n';
+                                    obj += '<td>' + item.username + '</td>\n';
+                                    obj += '<td>' + item.money + '元</td>\n';
+                                    obj += '</tr>\n';
+                                });
+                                $("#zuixin").append(obj);
+                            }
+            //                alert('恭喜,领取刮奖劵成功！');
+                        } else if (t.code == 4) {
+                            alert('领取失败！');
+                        } else if (t.code == 5) {
+                            alert('没有刮奖卷可使用！');
+                        } else if (t.code == 6) {
+                            alert('活动未开始！');
+                        } else if (t.code == 7) {
+                            alert('活动已结束！');
+                        }
+                        $("#gua"+type).attr("class","");
+                    }else{
+                        alert('系统繁忙，请重试！');
+                        $("#gua"+type).attr("class","");
+                        XHR = null ;
+                    }
+                },
+                complete: function (XHR, TS) { XHR = null ;t = null ;obj = null ; }
+        });
+    }
+
+    $(function() {
+        $("#info").click(function(e) {
+        {if isset($this->user['id'])}
+            $.dialog.open("<?=url('','midautumn','info')?>", {width:500,height:600, title: '刮奖明细', lock: true});
+            {else}
+            $.dialog.alert("您还没有登录，请登录后再操作。", function() {
+                window.location.href = '<?=url('content','login','index')?>'; });
+            {/if}
+        });
+
+    	$("#yaoqing").click(function(e) {
+    		{if isset($this->user['id'])}
+    		$.dialog.open("<?=url('','midautumn','geturl')?>", { width:'650px',height:'200px', title: '邀请链接', lock: true});
+    		{else}
+    		$.dialog.alert("您还没有登录，请登录后再操作。",function(){window.location.href='<?=url('content','login','index')?>';});
+    		{/if}
+    	});
+    })
+    
+</script>

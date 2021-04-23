@@ -1,0 +1,111 @@
+{template header}
+  <!-- Investor_center -->
+  <link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+
+<!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+      <li class="active">我的账户</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->
+    {template member-nav-left}
+
+    <!-- 右边正文 -->
+    <div class="investor-right pull-right border-radius">
+      <div class="investor-title">帐户统计（非托管）</div>
+      <table class="table table-bordered account-index-table table-hover">
+        <tr>
+          <td><span class="mr10">帐户总额：</span>￥<?=!empty($ACTotal['money']) ? $ACTotal['money'] : '0.00';?></td>
+          <td><span class="mr10">可用余额：</span>￥<?=!empty($ACTotal['money_usable']) ? $ACTotal['money_usable'] : '0.00';?></td>
+          <td><span class="mr10">冻结金额：</span>￥<?=!empty($ACTotal['money_freeze']) ? $ACTotal['money_freeze'] : '0.00';?></td>
+        </tr>
+        <tr>
+          <td><span class="mr10">待收总额：</span>￥<?=!empty($ACTotal['money_wait']) ? $ACTotal['money_wait'] : '0.00';?></td>
+          <td><span class="mr10">充值成功总额：</span>￥<?=!empty($ACRechargeTotal['total_money']) ? $ACRechargeTotal['total_money'] : '0.00';?></td>
+          <td><span class="mr10">提现成功总额：</span>￥<?=!empty($ACCash['credited']) ? $ACCash['credited'] : '0.00';?></td>
+        </tr>
+        <tr>
+          <td><span class="mr10">在线充值总额：</span>￥<?=!empty($ACRechargeTotal['down_money']) ? $ACRechargeTotal['down_money'] : '0.00';?></td>
+          <td><span class="mr10">线下充值总额 ：</span>￥<?=!empty($ACRechargeTotal['up_money']) ? $ACRechargeTotal['up_money'] : '0.00';?></td>
+          <td><span class="mr10">手动充值总额：</span>￥<?=!empty($ACRechargeTotal['shou_money']) ? $ACRechargeTotal['shou_money'] : '0.00';?></td>
+        </tr>
+        <tr>
+          <td><span class="mr10">奖励收入总额：</span>￥<?=!empty($ACTotal['total_award']) ? $ACTotal['total_award'] : '0.00';?></td>
+          <td><span class="mr10">充值奖励：</span>￥<?=!empty($ACRechargeTotal['total_reward']) ? $ACRechargeTotal['total_reward'] : '0.00';?></td>
+          <td><span class="mr10">邀请好友奖励：</span>￥<?=!empty($ACTotal['invite_reward']) ? $ACTotal['invite_reward'] : '0.00';?></td>
+        </tr>
+        <tr>
+          <td><span class="mr10">回款续投奖励：</span>￥<?=!empty($ACTotal['repayment_tender_reward']) ? $ACTotal['repayment_tender_reward'] : '0.00';?></td>
+          <td><span class="mr10">活动奖励：</span>￥<?=!empty($ACTotal['activity_reward']) ? $ACTotal['activity_reward'] : '0.00';?></td>
+          <td><span class="mr10">投标奖励：</span>￥<?=!empty($ACTotal['award_add']) ? $ACTotal['award_add'] : '0.00';?></td>
+        </tr>
+        <tr>
+          <td><span class="mr10">总手续费：</span>￥<?=sprintf('%.2f',$ACRechargeTotal['total_fee']+$ACCash['fee']+$ACTotal['vip']+$ACTotal['tender_mange'])?></td>
+          <td><span class="mr10">充值手续费：</span>￥<?=!empty($ACRechargeTotal['total_fee']) ? $ACRechargeTotal['total_fee'] : '0.00';?></td>
+          <td><span class="mr10">提现手续费：</span>￥<?=!empty($ACCash['fee']) ? $ACCash['fee'] : '0.00';?></td>
+        </tr>
+        <tr>
+          <td><span class="mr10">VIP年费：</span>￥<?=!empty($ACTotal['vip']) ? $ACTotal['vip'] : '0.00';?></td>
+          <td><span class="mr10">利息管理费：</span>￥<?=!empty($ACTotal['tender_mange']) ? $ACTotal['tender_mange'] : '0.00';?></td>
+          <td><span class="mr10">其它费用：</span>￥0.00</td>
+        </tr>
+        <tr>
+          <td><span class="mr10">信用额度：</span>￥<?=!empty($ACTotal['credit']) ? $ACTotal['credit'] : '0.00';?></td>
+          <td><span class="mr10">剩余额度：</span>￥<?=!empty($ACTotal['credit_use']) ? $ACTotal['credit_use'] : '0.00';?></td>
+          <td><span class="mr10">净值额度：</span>￥<?=!empty($ACTotal['money_waitline']) ? $ACTotal['money_waitline'] : '0.00';?></td>
+        </tr>
+      </table>
+      {if $ACTotal['account_act']!='0.00'}
+        <div class="investor-title">投资资金详情</div>
+        <table class="table table-bordered account-index-table table-hover">
+          <tr>
+            <td><span class="mr10">投资总额：</span>￥<?=!empty($ACTotal['account_act']) ? $ACTotal['account_act'] : '0.00';?></td>
+            <td><span class="mr10">网站垫付总额：</span>￥<?=!empty($ACTotal['system_repayment']) ? $ACTotal['system_repayment'] : '0.00';?></td>
+            <td><span class="mr10">逾期罚金收入：</span>￥<?=!empty($ACTotal['late_collection']) ? $ACTotal['late_collection'] : '0.00';?></td>
+          </tr>
+          <tr>
+            <td><span class="mr10">待回收总额：</span>￥<?=!empty($ACTotal['norepayment_total']) ? $ACTotal['norepayment_total'] : '0.00';?></td>
+            <td><span class="mr10">待回收本金：</span>￥<?=!empty($ACTotal['norepayment_account']) ? $ACTotal['norepayment_account'] : '0.00';?></td>
+            <td><span class="mr10">待回收利息：</span>￥<?=!empty($ACTotal['norepayment_interest']) ? $ACTotal['norepayment_interest'] : '0.00';?></td>
+          </tr>
+          <tr>
+            <td><span class="mr10">已回收总额：</span>￥<?=!empty($ACTotal['repayment_total']) ? $ACTotal['repayment_total'] : '0.00';?></td>
+            <td><span class="mr10">已回收本金：</span>￥<?=!empty($ACTotal['repayment_account']) ? $ACTotal['repayment_account'] : '0.00';?></td>
+            <td><span class="mr10">已回收利息：</span>￥<?=!empty($ACTotal['repayment_interest']) ? $ACTotal['repayment_interest'] : '0.00';?></td>
+          </tr>
+          <tr>
+            <td><span class="mr10">投标奖励：</span>￥<?=!empty($ACTotal['award_add']) ? $ACTotal['award_add'] : '0.00';?></td>
+            <td><span class="mr10">回款续投奖励：</span>￥<?=!empty($ACTotal['repayment_tender_reward']) ? $ACTotal['repayment_tender_reward'] : '0.00';?></td>
+            <td><span class="mr10">最近收款日期：</span><?=empty($ACTotal['repay_time'])||$ACTotal['repay_time']=='0.00'?'-':date('Y-m-d',$ACTotal['repay_time'])?></td>
+          </tr>
+        </table>
+        {/if}
+        {if isset($ACTotal['borrow_will_capital']) && $ACTotal['borrow_will_capital']!='0.00'}
+        <div class="investor-title">贷款资金详情</div>
+            <table class="table table-bordered account-index-table table-hover">
+              <tr>
+                <td><span class="mr10">借款总额：</span>￥<?=!empty($ACTotal['borrow_will_capital']) ? $ACTotal['borrow_will_capital'] : '0.00';?></td>
+                <td><span class="mr10">已还总额：</span>￥<?=!empty($ACTotal['borrow_replayment_money']) ? $ACTotal['borrow_replayment_money'] : '0.00';?></td>
+                <td><span class="mr10">未还总额：</span>￥<?=!empty($ACTotal['borrow_norepayment_account']) ? $ACTotal['borrow_norepayment_account'] : '0.00';?></td>
+              </tr>
+              <tr>
+                <td><span class="mr10">已还笔数：</span>￥<?=!empty($ACTotal['borrow_replayment_count']) ? $ACTotal['borrow_replayment_count'] : '0.00';?></td>
+                <td><span class="mr10">待还笔数：</span>￥<?=!empty($ACTotal['borrow_noreplayment_count']) ? $ACTotal['borrow_noreplayment_count'] : '0.00';?></td>
+                <td><span class="mr10">保证金：</span>￥<?=!empty($ACTotal['margin']) ? $ACTotal['margin'] : '0.00';?></td>
+              </tr>
+              <tr>
+                <td><span class="mr10">逾期利息：</span>￥<?=!empty($ACTotal['late_rate']) ? $ACTotal['late_rate'] : '0.00';?></td>
+                <td><span class="mr10">最近还款日期：</span><?=empty($ACTotal['will_time'])?'-':date('Y-m-d',$ACTotal['will_time'])?></td>
+                <td><span class="mr10">最近应还款金额：</span>￥<?=!empty($ACTotal['will_borrowmoney']) ? $ACTotal['will_borrowmoney'] : '0.00';?></td>
+              </tr>
+            </table>
+      {/if}
+      </div>
+    <!-- /右边正文 -->
+  </div>
+
+{template footer}

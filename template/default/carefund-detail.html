@@ -1,0 +1,66 @@
+{template header}
+ <!-- Investor_center -->
+  <link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+  
+  <!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+      <li class="active">我的账户</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->
+    {template member-nav-left}
+    <!-- 右边正文 -->
+    <div class="investor-right pull-right border-radius">
+      <div class="investor-title">
+        <span class="mr25">捐款详情</span>
+        <span class="love"><a href="<?=url('activity','carefund','index')?>"><span class="glyphicon glyphicon-heart"></span> 爱心捐助</a></span>
+      </div>
+      <table class="table table-bordered">
+        <tr>
+          <td colspan="4">捐款总额：￥{$sum['m']}</td>
+        </tr>
+        <tr class="text-center fbold">
+          <td>标题</td>
+          <td>捐款金额</td>
+          <td>捐款时间</td>
+          <td>捐款情况</td>
+        </tr>
+        {if !empty($tender_list)}
+        {loop $tender_list $tl}
+        <tr class="text-center">
+          <td><a href="<?=url('activity','carefund','index')?>">{$tl['title']}</a></td>
+          <td class="text-right">￥{$tl['account_act']}</td>
+          <td><?=date("Y.m.d",$tl['taddtime'])?></td>
+          <td>{if $tl['status']==0}待审核{elseif $tl['status']==1}募捐中{elseif $tl['status']==2}募集成功{elseif $tl['status']==3}已打款{/if}</td>
+        </tr>
+        {/loop}
+        {/if}
+<!--        <tr class="text-center">
+            <td colspan="4">
+            <?php echo $page['html'];?>
+            </td>
+        </tr>-->
+      </table>
+    </div>
+    <!-- /右边正文 -->
+  </div>
+  
+  
+  <!-- jQuery 1.10.2 -->
+  <script src="../js/jquery/1.10.2/jquery-1.10.2.min.js"></script>
+  <!-- Bootstrap 3.2.0 -->
+  <script src="../js/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <!-- Common -->
+  <script src="../js/common.js"></script>
+  
+  <script type="text/javascript">
+    $(function() {
+		
+		
+	});
+  </script>
+{template footer}

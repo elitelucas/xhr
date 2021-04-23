@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>钱包</title>
+    <!--<link href="/statics/web/css/css.css?v=1" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+    <script src="/statics/web/extend/layer/mobile/layer.js"></script>
+</head>
+<body>
+<header>
+    <em onclick="history.go(-1)">返回</em>
+    <h1><?php if($paymentInfoArr['type'] == 67){ echo "微信充值"; }elseif($paymentInfoArr['type'] == 68){ echo "支付宝充值"; }?></h1>
+    <!---->
+</header>
+<section>
+    <div class="shaoerWeiMa">
+        <p style="font-size: 50px; font-weight: bold; color: #242424;">{$money}元</p>
+        <p style="font-size: 24px; color: #bfbfbf">扫一扫以下图案进行付款</p>
+        <p><img src="{$code_url}" /></p>
+        <p style="font-size: 30px; color: #0143b8;">无需加好友，扫二维码向我付钱</p>
+
+        <!--<div class="button" style="margin-top: 50px;">-->
+            <!--<button class="bgCol" onclick="history.go(-1)">上一步</button>-->
+            <!--<button class="bgCol" {if $type == 2}data-href='{$pay_url}'{/if}>立即支付</button>-->
+            <!--<button class="bgCol" data-href="<?=url('','','rechargeOk', array('order_sn' => $order_no, 'type' => 1, 'name' => $paymentInfoArr['name']))?>">我已支付</button>-->
+        <!--</div>-->
+    </div>
+
+    <div class="weixintishi">
+        <h4>温馨提示：</h4>
+        <?php if($paymentInfoArr['type'] == 67){   ?>
+            <!--爱益/讯汇宝 微信-->
+            <p>1.您可以截图当前屏幕，也可以用其他手机扫描支付。</p>
+            <p>2.请在微信中打开“扫一扫”</p>
+            <p>3.在扫一扫中点击右上角“相册”，从相册中选择刚才保存的屏幕截图。</p>
+            <p>4.在微信中完成支付后，回到此页面点击“我已支付”。</p>
+            <p>5.如充值未及时到账，请联系在线客服。</p>
+        <?php }elseif($paymentInfoArr['type'] == 68){   ?>
+            <!--爱益/讯汇宝 支付宝-->
+            <p>1.您可以截图当前屏幕，也可以用其他手机扫描支付。</p>
+            <p>2.请在支付宝中打开“扫一扫”。</p>
+            <p>3.在扫一扫中点击右上角“相册”，从相册中选择刚才保存的屏幕截图。</p>
+            <p>4.在支付宝中完成支付后，回到此页面点击“我已支付”。</p>
+            <p>5.如充值未及时到账，请联系在线客服。</p>
+        <?php } ?>
+    </div>
+</section>
+<script type="text/javascript">
+    var check = false;
+    $(function(){
+        if(check == false)
+        {
+            setInterval(function(){
+                checkOrder("{$order_no}");
+            },2000);
+        }
+    })
+    function checkOrder(orderNo)
+    {
+        var data = {
+            "order_sn":orderNo
+        }
+        $.ajax({
+            url: '?m=web&c=recharge&a=checkOrder',
+            data: data,
+            dataType: 'json',
+            type: 'post',
+            success: function (data) {
+                if(data['code'] == 0 && data['info']['status'] != 0) {
+                    check = true;
+                    if(check == true)
+                    {
+                        var url = "<?=url('','','rechargeOk', array('order_sn' => $order_no, 'type' => 1, 'name' => $paymentInfoArr['name']))?>";
+                        window.location.href = url;
+                    }
+                }
+            },
+        });
+    }
+</script>
+</body>
+</html>

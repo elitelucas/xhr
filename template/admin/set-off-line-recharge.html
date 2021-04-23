@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="renderer" content="webkit">
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+	    <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+	    <script src="statics/admin/js/jquery.js"></script>
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>
+        <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+        <script src="statics/admin/js/bootstrap.min.js"></script>
+   	    {template public-new-ui-header} 
+    </head>
+    
+    <body class="new_ui_body">
+    <div class="ibox float-e-margins">
+	    <div class="ibox-title iboxWTitle">
+	        <h5>线下充值设置</h5>
+			<div class="ibox-tools">
+	            <a  class="btn btn-white btn-bitbucket" id="btn_back">
+	                <i class="fa fa-reply"></i> 返回
+	            </a>
+	        </div>
+	    </div>
+	    <div class="ibox-content bagCol">
+	        
+            <div class="ibox-title ">
+	            <h5>线下充值时间限制信息</h5>
+	            <div class="ibox-tools">
+	            	<a class="btn btn-white btn-bitbucket btn_sure" id="update_time" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+	        <div class="ibox-content m-b">
+	            <form id='form_update_time' method="post" class="form-horizontal">
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">线下充值时间限制</label>
+	                    <div class="col-sm-3">
+	                    	<span class="col-sm-8" style="padding-left: 0px;">
+	                        	<input type="text" class="form-control"  name="recharge_time" value="{$info['value']}" readonly/>
+                        	</span>
+	                        <span class="col-sm-4 help-block m-b-none">(秒)</span>
+	                    </div>
+	                </div>
+                </form>
+            </div>
+            
+         </div>
+     </div>
+        <script>
+
+            $(function () {
+            	$(".btn_sure").click(function () {
+					var form_id = 'form_' + $(this).attr('id');
+					var i_class = $(this).children('i').attr('class');
+					if (i_class == 'fa fa-pencil') {
+						$(this).attr('data-title', '保存');
+						$(this).children('i').attr('class', 'fa fa-save');
+						$('#' + form_id).find('input').each(function() {
+							$(this).attr('readonly', false);
+						});
+					}else {
+						if (form_id == 'form_update_time') {
+							var recharge_time = $('input[name=recharge_time]').val();
+							var re = /^(0|\+?[1-9][0-9]*)$/;
+							if(!re.test(recharge_time)){
+								layer.msg('线下充值时间必须为正整数', {icon: 5, shade: [0.5, '#393D49'],time:2000});
+								return false;
+							}
+							$.ajax({
+								type: 'GET',
+								url: '?m=admin&c=role&a=up_recharge_time&recharge_time=' + recharge_time,
+								dataType: 'json',
+								success: function (msg) {
+									if (msg.state) {
+										layer.msg('设置成功', {icon: 6, shade: [0.5, '#393D49'],time:2000});
+										setTimeout(function () {
+											location.reload();
+										},2000)
+									} else {
+										layer.msg('设置失败', {icon: 5, shade: [0.5, '#393D49'],time:2000});
+									}
+								}
+							});
+						}
+					}
+            	});
+				
+				$("#btn_back").click(function () {
+                    location.href = '?m=admin&c=finance&a=charge';
+                });
+            })
+        </script>
+    </body>
+</html>

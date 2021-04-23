@@ -1,0 +1,1596 @@
+[
+    {
+        "nid": "nid_pay",
+        "name": "请选择类型",
+        "merchantID": "支付平台提供给商家的账号",
+        "terminalID": "支付平台提供给商家的终端号",
+        "merchantKey": "支付平台提供个商家的密码（MD5加密时使用）",
+        "merchantPayKey": "支付有关的其他秘钥或信息",
+        "partnerId": "支付平台代理商账号",
+        "merchantPrivateKey": "用户私钥（与用户公钥成对存在）",
+        "merchantPublicKey": "用户公钥（与用户私钥成对存在）",
+        "platformPublicKey": "平台公钥（平台提供，一般在商户登录支付平台后台管理页面获取）",
+        "merchantCertPath": "商家证书",
+        "platformCertPath": "平台证书",
+        "payBank": [{"bank_id":1,"code":"ICBC"},{"bank_id":2,"code":"ABC"},{"bank_id":9,"code":"BOC"},{"bank_id":7,"code":"CCB"},
+        			{"bank_id":10,"code":"COMM"},{"bank_id":11,"code":"CMB"},{"bank_id":14,"code":"SPDB"},{"bank_id":26,"code":"CIB"},
+        			{"bank_id":15,"code":"CMBC"},{"bank_id":13,"code":"GDB"},{"bank_id":12,"code":"SPDB"},{"bank_id":8,"code":"CEB"},
+        			{"bank_id":29,"code":"HXB"},{"bank_id":3,"code":"PSBC"},{"bank_id":6,"code":"PAB"}
+    			],
+        "pay_layers": "1,2,3,5,4,6,7,8,9,10,11",
+        "payType": [
+	        {"id": 1,"name":"微信扫码支付","payStr":"支付配置信息","typeStr":"其他支付配置信息","payEntrance":"端口类型：1=ios,2=android,3=h5,4=pc","payStatus":"是否启用：1:启用;2:禁用","request_type":"返回数据or跳转页面：1：返回数据，2:跳转页面"},
+	        {"id": 2,"name":"微信WAP支付","payStr":"WX_WAP","typeStr":"","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+	        {"id": 3,"name":"微信H5支付","payStr":"WX_H5","typeStr":"","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+	        {"id": 4,"name":"支付宝扫码支付","payStr":"ALI","typeStr":"","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+	        {"id": 5,"name":"支付宝WAP支付","payStr":"ALI_WAP","typeStr":"","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+	        {"id": 6,"name":"支付宝H5支付","payStr":"ALI_H5","typeStr":"","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+	        {"id": 7,"name":"QQ钱包扫码支付","payStr":"QQ","typeStr":"","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+	        {"id": 8,"name":"QQ钱包WAP支付","payStr":"QQ_WAP","typeStr":"","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+	        {"id": 9,"name":"QQ钱包H5支付","payStr":"QQ_H5","typeStr":"","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+	        {"id": 10,"name":"网银支付","payStr":"WY","typeStr":"","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+	        {"id": 11,"name":"网银H5支付","payStr":"WY_H5","typeStr":"","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+	        {"id": 12,"name":"网银快捷支付","payStr":"WY_KJ","typeStr":"","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+        	{"id": 13,"name":"京东钱包扫码支付","payStr":"JD","typeStr":"","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+	        {"id": 14,"name":"京东钱包WAP支付","payStr":"JD_WAP","typeStr":"","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+	        {"id": 15,"name":"京东钱包H5支付","payStr":"JD_H5","typeStr":"","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+	        {"id": 16,"name":"银联钱包扫码支付","payStr":"UN","typeStr":"","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+	        {"id": 17,"name":"银联钱包WAP支付","payStr":"UN_WAP","typeStr":"","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+	        {"id": 18,"name":"银联钱包H5支付","payStr":"UN_H5","typeStr":"","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+          {"id": 19,"name":"网关支付扫码","payStr":"gateway","typeStr":"","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+          {"id": 20,"name":"微信公众账号","payStr":"weixinjsapi","typeStr":"","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+          {"id": 21,"name":"支付宝服务窗支付","payStr":"weixinjsapi","typeStr":"","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+          {"id": 22,"name":"支付宝app支付","payStr":"alipayapp","typeStr":"","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+          {"id": 23,"name":"苏宁扫码支付","payStr":"suning","typeStr":"","payEntrance":"1,2,3,4","payStatus":1,"request_type":1}
+	        ],
+        "sort": 0
+    },
+    {
+        "nid": "hua_yin_pay",
+        "name": "华银",
+        "merchantID": "",
+        "merchantPrivateKey": "",
+        "merchantPublicKey": "",
+        "platformPublicKey": "",
+        "payType": [
+        	{"id": 1,"name":"微信扫码支付","payStr":"weixin_scan","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+        	{"id": 4,"name":"支付宝扫码支付","payStr":"alipay_scan","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+        	{"id": 7,"name":"QQ钱包宝扫码支付","payStr":"tenpay_scan","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+        	{"id": 10,"name":"网银支付","payStr":"direct_pay","payEntrance":"1,2,3,4","payStatus":1,"request_type":2}
+        ]
+    },
+  {
+    "nid": "zhi_tong_bao_pay",
+    "name": "智通宝",
+    "merchantID": "",
+    "merchantPrivateKey": "",
+    "merchantPublicKey": "",
+    "platformPublicKey": "",
+    "payType": [
+      {"id": 1,"name":"微信扫码支付","payStr":"weixin_scan","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 4,"name":"支付宝扫码支付","payStr":"alipay_scan","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 7,"name":"QQ钱包宝扫码支付","payStr":"tenpay_scan","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 10,"name":"网银支付","payStr":"ylpay_scan","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 3,"name":"微信H5支付","payStr":"weixin_h5api","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 5,"name":"支付宝H5支付","payStr":"alipay_h5api","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 13,"name":"京东钱包扫码","payStr":"jdpay_scan","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 15,"name":"京东H5","payStr":"jd_h5api","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 9,"name":"QQH5","payStr":"qq_h5api","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 17,"name":"银联支付","payStr":"unionpay_h5ap","payEntrance":"1,2,3,4","request_type":2}
+    ]
+  },
+    {
+        "nid": "ke_ke_pay",
+        "name": "可可",
+        "merchantID": "",
+        "merchantKey": "",
+        "merchantPayKey":"",
+        "payType": [
+        	{"id": 1,"name":"微信扫码支付","payStr":"10000103","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+        	{"id": 4,"name":"支付宝扫码支付","payStr":"20000303","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+        	{"id": 7,"name":"QQ钱包宝扫码支付","payStr":"70000203","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+        	{"id": 12,"name":"网银快捷支付","payStr":"40000103","payEntrance":"1,2,3,4","payStatus":1,"request_type":2}
+        ]
+    },
+    {
+        "nid": "gao_tong_pay",
+        "name": "高通",
+        "merchantID": "",
+        "merchantKey": "",
+        "payBank": [{"bank_id":1,"code":"ICBC"},{"bank_id":2,"code":"ABC"},{"bank_id":9,"code":"BOC"},{"bank_id":7,"code":"CCB"},
+        			{"bank_id":10,"code":"COMM"},{"bank_id":11,"code":"CMB"},{"bank_id":14,"code":"SPDB"},{"bank_id":26,"code":"CIB"},
+        			{"bank_id":15,"code":"CMBC"},{"bank_id":13,"code":"GDB"},{"bank_id":12,"code":"SPDB"},{"bank_id":8,"code":"CEB"},
+        			{"bank_id":29,"code":"HXB"},{"bank_id":3,"code":"PSBC"},{"bank_id":6,"code":"PAB"}
+    			],
+        "payType": [
+        	{"id": 1,"name":"微信扫码支付","payStr":"WEIXIN","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+        	{"id": 4,"name":"支付宝扫码支付","payStr":"ALIPAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+        	{"id": 7,"name":"QQ钱包宝扫码支付","payStr":"QQPAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+        	{"id": 10,"name":"网银支付","payStr":"","payEntrance":"1,2,3,4","payStatus":1,"request_type":2,"bank_id":"1,2,7"}
+        ]
+    },
+    {
+        "nid": "xin_ma_pay",
+        "name": "新码",
+        "merchantID": "",
+        "merchantKey": "",
+        "payBank": [{"bank_id":1,"code":"ICBCD"},{"bank_id":2,"code":"ABCD"},{"bank_id":9,"code":"BOCSH"},{"bank_id":7,"code":"CCBD"}],
+        "payType": [
+        	{"id": 1,"name":"微信扫码支付","payStr":"10","messageId":"200001","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+        	{"id": 4,"name":"支付宝扫码支付","payStr":"20","messageId":"200001","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+        	{"id": 7,"name":"QQ钱包宝扫码支付","payStr":"50","messageId":"200001","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+        	{"id": 10,"name":"网银支付","payStr":"30","messageId":"200002","payEntrance":"1,2,3,4","payStatus":1,"request_type":2,"bank_id":"1,2"}
+        ]
+    },
+    {
+        "nid": "yi_bao_pay",
+        "name": "易宝",
+        "merchantID": "",
+        "merchantKey": "",
+        "payBank": [{"bank_id":1,"code":"ICBC"},{"bank_id":2,"code":"ABC"},{"bank_id":9,"code":"BOC"},{"bank_id":7,"code":"CCB"}],
+        "payType": [
+        	{"id": 12,"name":"网银快捷支付","payStr":"","payEntrance":"1,2,3,4","payStatus":1,"request_type":2}
+        ]
+    },
+    {
+        "nid": "xiao_qiang_pay",
+        "name": "小强",
+        "merchantID": "",
+        "merchantKey": "",
+        "payType": [
+        	{"id": 1,"name":"微信扫码支付","payStr":"WX","payCode":"wx","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+        	{"id": 3,"name":"微信H5支付","payStr":"WX_H5","payCode":"wx_h5","payEntrance":"3","payStatus":1,"request_type":2},
+        	{"id": 4,"name":"支付宝扫码支付","payStr":"ZFB","payCode":"zfb","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+        	{"id": 6,"name":"支付宝H5支付","payStr":"ZFB_H5","payCode":"zfb_h5","payEntrance":"3","payStatus":1,"request_type":2},
+        	{"id": 7,"name":"QQ钱包扫码支付","payStr":"QQ","payCode":"qq","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+        	{"id": 9,"name":"QQ钱包H5支付","payStr":"QQ_H5","payCode":"qq_h5","payEntrance":"3","payStatus":1,"request_type":2},
+        	{"id": 12,"name":"网银快捷支付","payStr":"QUICK_PAY","payCode":"quick_pay","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+        	{"id": 13,"name":"京东钱包扫码支付","payStr":"JINGDONG_PAY","payCode":"jingdong_pay","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+	        {"id": 15,"name":"京东钱包H5支付","payStr":"JD_PAY_H5","payCode":"jd_pay_h5","payEntrance":"3","payStatus":1,"request_type":2},
+	        {"id": 16,"name":"银联钱包扫码支付","payStr":"B2C_SCAN","payCode":"b2c_scan","payEntrance":"1,2,3,4","payStatus":1,"request_type":1}
+        ]
+    },
+    {
+        "nid": "zhi_fu_pay",
+        "name": "智付",
+        "merchantID": "",
+        "merchantPrivateKey": "",
+		"merchantPublicKey": "",
+		"platformPublicKey": "",
+        "payBank": [{"bank_id":1,"code":"ICBC"},{"bank_id":2,"code":"ABC"},{"bank_id":9,"code":"BOC"},{"bank_id":7,"code":"CCB"},
+        			{"bank_id":10,"code":"COMM"},{"bank_id":11,"code":"CMB"},{"bank_id":14,"code":"SPDB"},{"bank_id":26,"code":"CIB"},
+        			{"bank_id":15,"code":"CMBC"},{"bank_id":13,"code":"GDB"},{"bank_id":12,"code":"SPDB"},{"bank_id":8,"code":"CEB"},
+        			{"bank_id":29,"code":"HXB"},{"bank_id":3,"code":"PSBC"},{"bank_id":6,"code":"PAB"}
+    			],
+        "payType": [
+        	{"id": 1,"name":"微信扫码支付","payStr":"weixin_scan","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+        	{"id": 4,"name":"支付宝扫码支付","payStr":"alipay_scan","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+        	{"id": 7,"name":"QQ钱包宝扫码支付","payStr":"qq_scan","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+        	{"id": 10,"name":"网银支付","payStr":"direct_pay","payEntrance":"1,2,3,4","payStatus":1,"request_type":2}
+        ]
+    },
+    {
+        "nid": "duo_de_bao_pay",
+        "name": "多得宝",
+        "merchantID": "",
+        "merchantPrivateKey": "",
+		"merchantPublicKey": "",
+		"platformPublicKey": "",
+        "payBank": [{"bank_id":1,"code":"ICBC"},{"bank_id":2,"code":"ABC"},{"bank_id":9,"code":"BOC"},{"bank_id":7,"code":"CCB"},
+        			{"bank_id":10,"code":"COMM"},{"bank_id":11,"code":"CMB"},{"bank_id":14,"code":"SPDB"},{"bank_id":26,"code":"CIB"},
+        			{"bank_id":15,"code":"CMBC"},{"bank_id":13,"code":"GDB"},{"bank_id":12,"code":"SPDB"},{"bank_id":8,"code":"CEB"},
+        			{"bank_id":29,"code":"HXB"},{"bank_id":3,"code":"PSBC"},{"bank_id":6,"code":"PAB"}
+    			],
+        "payType": [
+        	{"id": 1,"name":"微信扫码支付","payStr":"weixin_scan","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+        	{"id": 4,"name":"支付宝扫码支付","payStr":"alipay_scan","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+        	{"id": 10,"name":"网银支付","payStr":"direct_pay","payEntrance":"1,2,3,4","payStatus":1,"request_type":2}
+        ]
+    },
+    {
+        "nid": "a_fu_pay",
+        "name": "A付",
+        "terminalID": "",
+        "merchantKey": "",
+        "merchantPayKey": "",
+        "payType": [
+        	{"id": 1,"name":"微信扫码支付","payStr":"10000103","payEntrance":"1,2,3,4","request_type":1},
+        	{"id": 3,"name":"微信H5支付","payStr":"10000203","payEntrance":"1,2,3,4","request_type":2},
+        	{"id": 4,"name":"支付宝扫码支付","payStr":"20000303","payEntrance":"1,2,3,4","request_type":1},
+        	{"id": 6,"name":"支付宝H5支付","payStr":"20000203","payEntrance":"1,2,3,4","request_type":2},
+        	{"id": 9,"name":"QQ钱包H5支付","payStr":"70000204","payEntrance":"1,2,3,4","request_type":2},
+        	{"id": 7,"name":"QQ钱包宝扫码支付","payStr":"70000203","payEntrance":"1,2,3,4","request_type":1},
+        	{"id": 10,"name":"网银支付","payStr":"50000103","payEntrance":"1,2,3,4","request_type":2},
+	        {"id": 12,"name":"网银快捷支付","payStr":"40000503","payEntrance":"1,2,3,4","request_type":2},
+          {"id": 13,"name":"京东钱包扫码支付","payStr":"80000203","payEntrance":"1,2,3,4","request_type":1}
+        ]
+    },
+    {
+        "nid": "ju_he_pay",
+        "name": "聚合",
+        "merchantID": "",
+        "merchantKey": "",
+        "payBank": [{"bank_id":1,"code":"ICBC"},{"bank_id":2,"code":"ABC"},{"bank_id":9,"code":"BOC"},{"bank_id":7,"code":"CCB"},
+        			{"bank_id":11,"code":"CMB"},{"bank_id":14,"code":"SPDB"},{"bank_id":26,"code":"CIB"},
+        			{"bank_id":15,"code":"CMBC"},{"bank_id":13,"code":"GDB"},{"bank_id":12,"code":"CITIC"},{"bank_id":8,"code":"CEB"},
+        			{"bank_id":29,"code":"HXB"},{"bank_id":3,"code":"PSBC"}
+    			],
+        "payType": [
+        	{"id": 1,"name":"微信扫码支付","payStr":1001,"payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+        	{"id": 2,"name":"微信WAP支付","payStr":1003,"payEntrance":"1,2","payStatus":1,"request_type":2},
+        	{"id": 4,"name":"支付宝扫码支付","payStr":1002,"payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+        	{"id": 5,"name":"支付宝WAP支付","payStr":1004,"payEntrance":"1,2","payStatus":1,"request_type":2},
+        	{"id": 7,"name":"QQ钱包宝扫码支付","payStr":1008,"payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+        	{"id": 10,"name":"网银支付","payStr":"","payEntrance":"1,2,3,4","payStatus":1,"request_type":2}
+        ]
+    },
+    {
+        "nid": "jin_fu_ka_pay",
+        "name": "金付卡",
+        "merchantID": "",
+        "terminalID": "",
+        "merchantPrivateKey": "",
+        "merchantPublicKey": "",
+        "platformPublicKey": "",
+        "payType": [
+        	{"id": 1,"name":"微信扫码支付","payStr":"1005","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+        	{"id": 3,"name":"微信H5支付","payStr":"1010","payEntrance":"3","payStatus":1,"request_type":2},
+        	{"id": 4,"name":"支付宝扫码支付","payStr":"1006","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+        	{"id": 6,"name":"支付宝H5支付","payStr":"1008","payEntrance":"3","payStatus":1,"request_type":2},
+        	{"id": 7,"name":"QQ钱包宝扫码支付","payStr":"1013","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+        	{"id": 9,"name":"QQ钱包H5支付","payStr":"1014","payEntrance":"3","payStatus":1,"request_type":2},
+        	{"id": 10,"name":"网银支付","payStr":"1003","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+        	{"id": 12,"name":"网银快捷支付","payStr":"1024","payEntrance":"1,2,3,4","payStatus":1,"request_type":2}
+        ]
+    },
+    {
+        "nid": "shan_fu_pay",
+        "name": "闪付",
+        "merchantID": "",
+        "terminalID": "",
+        "merchantKey": "",
+        "payType": [
+        	{"id": 12,"name":"快捷支付","payStr":"","payEntrance":"1,2,3,4","payStatus":1,"request_type":2}
+        ]
+    },
+    {
+        "nid": "duo_duo_pay",
+        "name": "多多",
+        "merchantID": "",
+        "merchantKey": "",
+        "partnerId": "",
+        "payType": [
+        	{"id": 1,"name":"微信扫码支付","payStr":"WECHAT_PAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+        	{"id": 4,"name":"支付宝扫码支付","payStr":"AL_SCAN_PAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+        	{"id": 10,"name":"网银支付","payStr":"WEB_PAY_B2C","payEntrance":"1,2,3,4","payStatus":1,"request_type":2}
+        ]
+    },
+    {
+        "nid": "mo_bao_pay",
+        "name": "魔宝",
+        "merchantID": "",
+        "merchantKey": "",
+        "partnerId": "",
+        "payBank": [{"bank_id":1,"code":"ICBC"},{"bank_id":1,"code":"ABC"},{"bank_id":9,"code":"BOC"},{"bank_id":7,"code":"CCB"},
+        			{"bank_id":10,"code":"COMM"},{"bank_id":11,"code":"CMB"},{"bank_id":14,"code":"SPDB"},{"bank_id":26,"code":"CIB"},
+        			{"bank_id":15,"code":"CMBC"},{"bank_id":13,"code":"GDB"},{"bank_id":12,"code":"SPDB"},{"bank_id":8,"code":"CEB"},
+        			{"bank_id":29,"code":"HXB"},{"bank_id":3,"code":"PSBC"},{"bank_id":6,"code":"PAB"}
+    			],
+        "payType": [
+        	{"id": 1,"name":"微信扫码支付","payStr":5,"payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+        	{"id": 2,"name":"支付宝WAP支付","payStr":11,"payEntrance":"1,2","payStatus":1,"request_type":2},
+        	{"id": 4,"name":"支付宝扫码支付","payStr":4,"payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+        	{"id": 5,"name":"支付宝WAP支付","payStr":10,"payEntrance":"1,2","payStatus":1,"request_type":2},
+        	{"id": 7,"name":"QQ钱包扫码支付","payStr":7,"payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+        	{"id": 10,"name":"网银支付","payStr":1,"payEntrance":"1,2,3,4","payStatus":1,"request_type":2}
+        ]
+    },
+    {
+        "nid": "xun_hui_bao_pay",
+        "name": "讯汇宝",
+        "merchantID": "770350507420002",
+        "merchantKey": "E82B9915A9E51E1536264BF8E378A14D",
+        "payType": [
+        	{"id": 1,"name":"微信扫码支付","payStr":2,"payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+        	{"id": 4,"name":"支付宝扫码支付","payStr":1,"payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+        	{"id": 10,"name":"QQ钱包扫码支付","payStr":4,"payEntrance":"1,2,3,4","payStatus":1,"request_type":1}
+        ]
+    },
+    {
+        "nid": "kuai_fu_pay",
+        "name": "快付",
+        "merchantID": "210001110100250",
+        "merchantKey": "22c41d776c24deddca95b1709a88f04b",
+        "partnerId": "MerchTest",
+        "payBank": [{"bank_id":1,"code":"ICBC"},{"bank_id":1,"code":"ABC"},{"bank_id":9,"code":"BOC"},{"bank_id":7,"code":"CCB"},
+        			{"bank_id":10,"code":"COMM"},{"bank_id":11,"code":"CMB"},{"bank_id":14,"code":"SPDB"},{"bank_id":26,"code":"CIB"},
+        			{"bank_id":15,"code":"CMBC"},{"bank_id":13,"code":"GDB"},{"bank_id":12,"code":"SPDB"},{"bank_id":8,"code":"CEB"},
+        			{"bank_id":29,"code":"HXB"},{"bank_id":3,"code":"PSBC"},{"bank_id":6,"code":"PAB"}
+    			],
+        "payType": [
+        	{"id": 1,"name":"微信扫码支付","payStr":5,"request_type":2},
+        	{"id": 4,"name":"支付宝扫码支付","payStr":4,"request_type":2},
+        	{"id": 10,"name":"网银支付","payStr":1,"request_type":2}
+        ]
+    },
+
+
+
+    {
+        "nid": "xin_hui_pay",
+        "name": "信汇",
+        "merchantID": "",
+        "merchantKey": "",
+        "payBank": [{"bank_id":1,"code":"ICBC"},{"bank_id":2,"code":"ABC"},{"bank_id":9,"code":"BOC"},{"bank_id":7,"code":"CCB"},
+        			{"bank_id":11,"code":"CMB"},{"bank_id":14,"code":"SPDB"},{"bank_id":26,"code":"CIB"},
+        			{"bank_id":15,"code":"CMBC"},{"bank_id":13,"code":"GDB"},{"bank_id":12,"code":"CITIC"},{"bank_id":8,"code":"CEB"},
+        			{"bank_id":29,"code":"HXB"},{"bank_id":3,"code":"PSBC"}
+    			],
+        "payType": [
+        	{"id": 1,"name":"微信扫码支付","payStr":"WEIXIN","request_type":2},
+        	{"id": 2,"name":"微信WAP支付","payStr":"WEIXINWAP","request_type":2},
+        	{"id": 4,"name":"支付宝扫码支付","payStr":"ALIPAY","request_type":2},
+        	{"id": 5,"name":"支付宝WAP支付","payStr":"ALIPAYWAP","request_type":2},
+        	{"id": 7,"name":"QQ钱包宝扫码支付","payStr":"QQ","request_type":2},
+        	{"id": 8,"name":"QQ钱包WAP支付","payStr":"QQWAP","request_type":2},
+        	{"id": 10,"name":"网银支付","payStr":"","request_type":2},
+        	{"id": 13,"name":"京东钱包扫码支付","payStr":"JD","request_type":2},
+        	{"id": 14,"name":"京东钱包WAP支付","payStr":"JDWAP","request_type":2}
+        ]
+    },
+    {
+        "nid": "hui_fu_bao_pay",
+        "name": "汇付宝",
+        "merchantID": "",
+        "merchantKey": "",
+        "payType": [
+        	{"id": 1,"name":"微信扫码","payStr":30,"request_type":1},
+        	{"id": 3,"name":"微信H5支付","payStr":30,"payEntrance":"3","request_type":2},
+        	{"id": 4,"name":"支付宝扫码支付","payStr":22,"request_type":1},
+        	{"id": 6,"name":"支付宝H5支付","payStr":22,"request_type":2},
+        	{"id": 7,"name":"QQ钱包扫码支付","payStr":31,"request_type":1},
+        	{"id": 9,"name":"QQ钱包H5支付","payStr":31,"request_type":2},
+        	{"id": 10,"name":"网银支付","payStr":20,"request_type":2},
+        	{"id": 13,"name":"京东钱包扫码支付","payStr":33,"request_type":1},
+            {"id": 16,"name":"银联钱包扫码支付","payStr":64,"request_type":2}
+        ]
+    },
+    {
+        "nid": "ren_xin_pay",
+        "name": "仁信",
+        "merchantID": "",
+        "merchantKey": "",
+        "payBank": [{"bank_id":1,"code":"ICBC"},{"bank_id":2,"code":"ABC"},{"bank_id":9,"code":"BOC"},{"bank_id":7,"code":"CCB"},
+        			{"bank_id":11,"code":"CMB"},{"bank_id":14,"code":"SPDB"},{"bank_id":26,"code":"CIB"},
+        			{"bank_id":15,"code":"CMBC"},{"bank_id":13,"code":"GDB"},{"bank_id":12,"code":"CITIC"},{"bank_id":8,"code":"CEB"},
+        			{"bank_id":29,"code":"HXB"},{"bank_id":3,"code":"PSBC"}
+    			],
+        "payType": [
+
+          {"id": 1,"name":"微信扫码支付","payStr":"WEIXIN","request_type":2},
+          {"id": 2,"name":"微信WAP支付","payStr":"WEIXINWAP","request_type":2},
+          {"id": 4,"name":"支付宝扫码支付","payStr":"ALIPAY","request_type":2},
+          {"id": 5,"name":"支付宝WAP支付","payStr":"ALIPAYWAP","request_type":2},
+          {"id": 7,"name":"QQ钱包宝扫码支付","payStr":"QQ","request_type":2},
+          {"id": 8,"name":"QQ钱包WAP支付","payStr":"QQWAP","request_type":2},
+          {"id": 12,"name":"网银快捷支付","payStr":"QUICK","payEntrance":"1,2,3,4","request_type":2},
+          {"id": 11,"name":"网银H5支付","payStr":"UNIONPAYWAP","payEntrance":"1,2,3,4","request_type":2},
+          {"id": 10,"name":"网银支付","payStr":"UNIONPAY","request_type":2},
+          {"id": 13,"name":"京东钱包支付","payStr":"JD","payEntrance":"1,2,3,4","request_type":2},
+          {"id": 15,"name":"京东钱包H5支付","payStr":"JDWAP","payEntrance":"1,2,3,4","request_type":2}
+        ]
+    },
+    {
+        "nid": "ai_shang_pay",
+        "name": "艾尚",
+        "merchantID": "",
+        "partnerId": "",
+        "merchantPayKey": "",
+        "merchantPrivateKey": "",
+		"merchantPublicKey": "",
+		"platformPublicKey": "",
+        "payType": [
+        	{"id": 1,"name":"微信扫码支付","payStr":10001,"request_type":1},
+        	{"id": 7,"name":"QQ钱包宝扫码支付","payStr":20001,"request_type":1},
+        	{"id": 10,"name":"网银支付","payStr":30001,"request_type":2}
+        ]
+    },
+    {
+        "nid": "yin_ju_pay",
+        "name": "银聚",
+        "merchantID": "",
+        "merchantKey": "",
+        "payType": [
+        	{"id": 1,"name":"微信扫码支付","payStr":"pay.weixin.native","request_type":1},
+        	{"id": 2,"name":"微信WAP支付","payStr":"pay.weixin.wap","payEntrance":"3","request_type":2},
+        	{"id": 4,"name":"支付宝扫码支付","payStr":"pay.alipay.native","request_type":1},
+        	{"id": 5,"name":"支付宝WAP支付","payStr":"pay.alipay.wap","payEntrance":"2","request_type":2}
+        ]
+    },
+
+    {
+        "nid": "yun_zhi_fu_pay",
+        "name": "云支付",
+        "merchantID": "",
+        "merchantKey": "",
+        "partnerId": "",
+        "payBank": [{"bank_id":1,"code":"ICBC"},{"bank_id":2,"code":"ABC"},{"bank_id":9,"code":"BOC"},{"bank_id":7,"code":"CCB"},
+        			{"bank_id":11,"code":"CMB"},{"bank_id":14,"code":"SPDB"},{"bank_id":26,"code":"CIB"},
+        			{"bank_id":15,"code":"CMBC"},{"bank_id":13,"code":"GDB"},{"bank_id":12,"code":"CITIC"},{"bank_id":8,"code":"CEB"},
+        			{"bank_id":29,"code":"HXB"},{"bank_id":3,"code":"PSBC"}
+    			],
+        "payType": [
+        	{"id": 1,"name":"微信扫码支付","payStr":"WECHAT_PAY","request_type":1},
+        	{"id": 2,"name":"微信WAP支付","payStr":"WEIXINWAP","request_type":2},
+        	{"id": 4,"name":"支付宝扫码支付","payStr":"ALIPAY","request_type":2},
+        	{"id": 5,"name":"支付宝WAP支付","payStr":"ALIPAYWAP","request_type":2},
+        	{"id": 7,"name":"QQ钱包宝扫码支付","payStr":"QQ","request_type":2},
+        	{"id": 8,"name":"QQ钱包WAP支付","payStr":"QQWAP","request_type":2},
+        	{"id": 10,"name":"网银支付","payStr":"","request_type":2},
+        	{"id": 13,"name":"京东钱包扫码支付","payStr":"JD","request_type":2},
+        	{"id": 14,"name":"京东钱包WAP支付","payStr":"JDWAP","request_type":2}
+        ]
+    },
+     {
+        "nid": "chang_hui_pay",
+        "name": "畅汇",
+        "merchantID": "",
+        "merchantKey": "",
+        "payBank": [{"bank_id":1,"code":"ICBC"},{"bank_id":2,"code":"ABC"},{"bank_id":9,"code":"BOC"},{"bank_id":7,"code":"CCB"},
+        			{"bank_id":10,"code":"COMM"},{"bank_id":11,"code":"CMB"},{"bank_id":14,"code":"SPDB"},{"bank_id":26,"code":"CIB"},
+        			{"bank_id":15,"code":"CMBC"},{"bank_id":13,"code":"GDB"},{"bank_id":12,"code":"SPDB"},{"bank_id":8,"code":"CEB"},
+        			{"bank_id":29,"code":"HXB"},{"bank_id":3,"code":"PSBC"},{"bank_id":6,"code":"PAB"}
+    			],
+        "payType": [
+        	{"id": 1,"name":"微信扫码支付","payStr":"WEIXIN","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+        	{"id": 4,"name":"支付宝扫码支付","payStr":"ALIPAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+        	{"id": 7,"name":"QQ钱包宝扫码支付","payStr":"QQ","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+        	{"id": 10,"name":"网银支付","payStr":"OnlinePay","payEntrance":"1,2,3,4","payStatus":1,"request_type":2}
+        ]
+    },
+  {
+    "nid": "yun_zhi_fu_pay",
+    "name": "云支付",
+    "merchantID": "",
+    "merchantKey": "",
+    "partnerId": "",
+    "payBank": [{"bank_id":1,"code":"ICBC"},{"bank_id":2,"code":"ABC"},{"bank_id":9,"code":"BOC"},{"bank_id":7,"code":"CCB"},
+      {"bank_id":11,"code":"CMB"},{"bank_id":14,"code":"SPDB"},{"bank_id":26,"code":"CIB"},
+      {"bank_id":15,"code":"CMBC"},{"bank_id":13,"code":"GDB"},{"bank_id":12,"code":"CITIC"},{"bank_id":8,"code":"CEB"},
+      {"bank_id":29,"code":"HXB"},{"bank_id":3,"code":"PSBC"}
+    ],
+    "payType": [
+      {"id": 1,"name":"微信扫码","payStr":"WECHAT_PAY","request_type":1},
+      {"id": 2,"name":"支付宝扫码","payStr":"AL_SCAN_PAY","request_type":1},
+      {"id": 4,"name":"QQ钱包扫码","payStr":"QQWLT_PAY","request_type":1},
+      {"id": 5,"name":"京东钱包扫码","payStr":"JDWLT_PAY","request_type":1},
+      {"id": 7,"name":"支付宝WAP","payStr":"WAP_ALPAY_H5","request_type":2}
+    ]
+  },
+
+  {
+    "nid": "xian_feng_pay",
+    "name": "先疯",
+    "merchantID": "",
+    "merchantKey": "",
+    "payBank": [{"bank_id":1,"code":"ICBC"},{"bank_id":2,"code":"ABC"},{"bank_id":9,"code":"BOC"},{"bank_id":7,"code":"CCB"},
+      {"bank_id":10,"code":"COMM"},{"bank_id":11,"code":"CMB"},{"bank_id":14,"code":"SPDB"},{"bank_id":26,"code":"CIB"},
+      {"bank_id":15,"code":"CMBC"},{"bank_id":13,"code":"GDB"},{"bank_id":12,"code":"SPDB"},{"bank_id":8,"code":"CEB"},
+      {"bank_id":29,"code":"HXB"},{"bank_id":3,"code":"PSBC"},{"bank_id":6,"code":"PAB"}
+    ],
+    "payType": [
+      {"id": 19,"name":"网关支付扫码","payStr":"gateway","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 11,"name":"网银H5支付","payStr":"gatewayh5","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 1,"name":"微信扫码支付","payStr":"weixin","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 2,"name":"微信WAP支付","payStr":"weixinh5","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 20,"name":"微信公众账号","payStr":"weixinjsapi","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 4,"name":"支付宝扫码","payStr":"alipay","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 5,"name":"支付宝WAP","payStr":"alipay5","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 21,"name":"支付宝服务窗支付","payStr":"alipayjsapi","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 22,"name":"支付宝app支付","payStr":"alipayapp","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 16,"name":"银联钱包扫码支付","payStr":"union","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 12,"name":"网银快捷支付","payStr":"shortcut","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 18,"name":"银联H5快捷支付","payStr":"unionh5","payEntrance":"1,2,3","request_type":2},
+      {"id": 7,"name":"QQ扫码支付","payStr":"tenpay","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 13,"name":"京东扫码支付","payStr":"jdpay","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 23,"name":"苏宁扫码支付","payStr":"suning","payEntrance":"1,2,3,4","request_type":1}
+    ]
+  },
+  {
+        "nid": "yi_zhi_fu_pay",
+        "name": "逸",
+        "merchantID": "",
+        "merchantKey": "",
+        "partnerId": "",
+        "payType": [
+        	{"id": 1,"name":"微信扫码支付","payStr":5,"payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+        	{"id": 2,"name":"微信WAP支付","payStr":11,"payEntrance":"1,2","payStatus":1,"request_type":2},
+        	{"id": 4,"name":"支付宝扫码支付","payStr":4,"payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+        	{"id": 5,"name":"支付宝WAP支付","payStr":10,"payEntrance":"1,2","payStatus":1,"request_type":2},
+        	{"id": 6,"name":"支付宝H5支付","payStr":9,"payEntrance":"3","payStatus":1,"request_type":2},
+        	{"id": 7,"name":"QQ钱包扫码支付","payStr":7,"payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+        	{"id": 10,"name":"网银支付","payStr":1,"payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+        	{"id": 12,"name":"快捷支付","payStr":12,"payEntrance":"1,2,3,4","payStatus":1,"request_type":2}
+        ]
+    },
+  {
+    "nid": "kuai_jie_hui_pay",
+    "name": "快捷汇",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 2,"name":"微信WAP支付","payStr":"wxwap","payEntrance":"1,2","payStatus":1,"request_type":2},
+      {"id": 4,"name":"支付宝扫码支付","payStr":"alipay","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 1,"name":"微信扫码支付","payStr":"weixin","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 5,"name":"支付宝WAP支付","payStr":"aliwap","payEntrance":"1,2","payStatus":1,"request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"qq","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 8,"name":"QQ钱包wap支付","payStr":"qqwap","payEntrance":"1,2","payStatus":1,"request_type":2}
+    ]
+  },
+  {
+        "nid": "mo_bao_yun_pay",
+        "name": "魔宝云",
+        "merchantID": "",
+        "merchantKey": "",
+        "partnerId": "",
+        "payType": [
+        	{"id": 1,"name":"微信扫码支付","payStr":5,"payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+        	{"id": 2,"name":"微信WAP支付","payStr":11,"payEntrance":"1,2","payStatus":1,"request_type":2},
+        	{"id": 4,"name":"支付宝扫码支付","payStr":4,"payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+        	{"id": 5,"name":"支付宝WAP支付","payStr":10,"payEntrance":"1,2","payStatus":1,"request_type":2},
+        	{"id": 6,"name":"支付宝H5支付","payStr":9,"payEntrance":"3","payStatus":1,"request_type":2},
+        	{"id": 7,"name":"QQ钱包扫码支付","payStr":7,"payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+        	{"id": 10,"name":"网银支付","payStr":1,"payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+        	{"id": 12,"name":"快捷支付","payStr":12,"payEntrance":"1,2,3,4","payStatus":1,"request_type":2}
+        ]
+    },
+    {
+      "nid": "jin_yang_pay",
+      "name": "金阳",
+      "merchantID": "",
+      "merchantKey": "",
+      "payType": [
+        {"id": 4,"name":"支付宝扫码支付","payStr":"ALIPAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+        {"id": 5,"name":"支付宝WAP支付","payStr":"ALIPAYWAP","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+        {"id": 1,"name":"微信扫码支付","payStr":"WEIXIN","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+        {"id": 2,"name":"微信WAP支付","payStr":"WEIXINWAP","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+        {"id": 7,"name":"QQ钱包扫码支付","payStr":"QQPAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+        {"id": 10,"name":"网银支付","payStr":"UNIONWAPPAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+        {"id": 12,"name":"快捷支付","payStr":"FASTPAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+        {"id": 8,"name":"QQ钱包WAP支付","payStr":"QQPAYWAP","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+        {"id": 13,"name":"京东钱包扫码支付","payStr":"JDPAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+        {"id": 15,"name":"京东钱包H5支付","payStr":"JDPAYWAP","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+        {"id": 16,"name":"银联钱包扫码支付","payStr":"UNIONPAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":1}
+      ]
+    },
+  {
+    "nid": "bai_sheng_pay",
+    "name": "百盛",
+    "merchantID": "",
+    "merchantKey": "",
+    "payBank": [{"bank_id":1,"code":"ICBC"},{"bank_id":2,"code":"ABC"},{"bank_id":9,"code":"BOC"},{"bank_id":7,"code":"CCB"},
+      {"bank_id":11,"code":"CMB"},{"bank_id":14,"code":"SPDB"},{"bank_id":26,"code":"CIB"},
+      {"bank_id":15,"code":"CMBC"},{"bank_id":13,"code":"GDB"},{"bank_id":12,"code":"CITIC"},{"bank_id":8,"code":"CEB"},
+      {"bank_id":29,"code":"HXB"},{"bank_id":3,"code":"PSBC"}
+    ],
+    "payType": [
+      {"id": 4,"name":"支付宝扫码支付","payStr":"ALIPAY_QRCODE_PAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 5,"name":"支付宝WAP支付","payStr":"ALIPAY_WAP_PAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 1,"name":"微信扫码支付","payStr":"WECHAT_QRCODE_PAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 2,"name":"微信WAP支付","payStr":"WECHAT_WAP_PAY","payEntrance":"1,2","payStatus":1,"request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"QQ_QRCODE_PAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 10,"name":"网银支付","payStr":"UNIONPAY_WAP_PAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 12,"name":"快捷支付","payStr":"ONLINE_BANK_QUICK_PAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 8,"name":"QQ钱包WAP支付","payStr":"QQ_WAP_PAY","typeStr":"1,2,3,4","payEntrance":"1,2,3,4","payStatus":1,"request_type":2}
+    ]
+  },
+  {
+    "nid": "bai_fu_pay",
+    "name": "百富",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 4,"name":"支付宝扫码支付","payStr":"ZFB","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 5,"name":"支付宝WAP支付","payStr":"ZFB_WAP","payEntrance":"1,2","payStatus":1,"request_type":2},
+      {"id": 1,"name":"微信扫码支付","payStr":"WX","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 2,"name":"微信WAP支付","payStr":"WX_WAP","payEntrance":"1,2","payStatus":1,"request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"QQ","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 8,"name":"QQ钱包WAP支付","payStr":"QQ_WAP","typeStr":"1,2","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 10,"name":"网银支付","payStr":"YL","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 12,"name":"快捷支付","payStr":"KJ","payEntrance":"1,2,3,4","payStatus":1,"request_type":2}
+    ]
+  },
+  {
+    "nid": "zhong_jin_pay",
+    "name": "中金",
+    "merchantID": "",
+    "merchantKey": "",
+    "code": "",
+    "payType": [
+      {"id": 4,"name":"支付宝扫码支付","payStr":"alipay","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 5,"name":"支付宝WAP支付","payStr":"alipaywap","payEntrance":"1,2","payStatus":1,"request_type":2},
+      {"id": 1,"name":"微信扫码支付","payStr":"weixinpay","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 2,"name":"微信WAP支付","payStr":"weixinh5","payEntrance":"1,2","payStatus":1,"request_type":2}
+    ]
+  },
+  {
+    "nid": "zhi_neng_yun_pay",
+    "name": "智能云",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 4,"name":"支付宝扫码支付","payStr":"10001","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 1,"name":"微信扫码支付","payStr":"20001","payEntrance":"1,2,3,4","payStatus":1,"request_type":1}
+    ]
+  },
+  {
+    "nid": "xing_fu_pay",
+    "name": "星付",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 4,"name":"支付宝扫码支付","payStr":"1","typeStr":"TRADE.SCANPAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 5,"name":"支付宝WAP支付","payStr":"1","typeStr":"TRADE.H5PAY","payEntrance":"1,2,3","payStatus":1,"request_type":2},
+      {"id": 1,"name":"微信扫码支付","payStr":"2","typeStr":"TRADE.SCANPAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 2,"name":"微信WAP支付","payStr":"2","typeStr":"TRADE.H5PAY","payEntrance":"1,2,3","payStatus":1,"request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"3","typeStr":"TRADE.SCANPAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 8,"name":"QQ钱包WAP支付","payStr":"3","typeStr":"TRADE.H5PAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 13,"name":"京东扫码支付","payStr":"5","typeStr":"TRADE.SCANPAY","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 16,"name":"银联钱包扫码支付","payStr":"4","typeStr":"TRADE.SCANPAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":1}
+    ]
+  },
+  {
+    "nid": "cheng_hui_pay",
+    "name": "诚汇",
+    "merchantID": "",
+    "merchantKey": "",
+    "merchantCertPath": "",
+    "platformCertPath": "",
+    "payType": [
+      {"id": 4,"name":"支付宝扫码支付","payStr":"pay.alipay.native","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 5,"name":"支付宝WAP支付","payStr":"pay.ali.h5","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 1,"name":"微信扫码支付","payStr":"pay.weixin.native","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 2,"name":"微信WAP支付","payStr":"pay.wx.h5","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"pay.qq.native","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 8,"name":"QQ钱包WAP支付","payStr":"pay.qq.h5","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 13,"name":"京东扫码支付","payStr":"pay.jd.scan","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 14,"name":"京东钱包WAP支付","payStr":"pay.jd.h5","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 10,"name":"网银支付","payStr":"pay.union.pc.online","typeStr":"","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 11,"name":"网银H5支付","payStr":"pay.union.h5.online","typeStr":"","payEntrance":"1,2,3,4","payStatus":1,"request_type":2}
+    ]
+  },
+  {
+    "nid": "qi_e_pay",
+    "name": "企鹅",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 4,"name":"支付宝扫码支付","payStr":"alipay","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 5,"name":"支付宝WAP支付","payStr":"aliwap","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 1,"name":"微信扫码支付","payStr":"weixin","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 2,"name":"微信WAP支付","payStr":"wxwap","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"qq","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 8,"name":"QQ钱包WAP支付","payStr":"qqwap","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 10,"name":"网银支付","payStr":"bank","typeStr":"","payEntrance":"1,2,3,4","payStatus":1,"request_type":2}
+    ]
+  },
+  {
+    "nid": "yi_sheng_pay",
+    "name": "亿胜",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 5,"name":"支付宝WAP支付","payStr":"4","typeStr":"WAP_PAY_B2C","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 14,"name":"京东钱包WAP支付","payStr":"20","typeStr":"WAP_PAY_B2C","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 11,"name":"网银支付","payStr":"1","typeStr":"WEB_PAY_B2C","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 13,"name":"京东扫码支付","payStr":"8","typeStr":"WEB_PAY_B2C","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 4,"name":"支付宝扫码支付","payStr":"4","typeStr":"WEB_PAY_B2C","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"6","typeStr":"WEB_PAY_B2C","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 8,"name":"QQ钱包WAP支付","payStr":"3","typeStr":"WAP_PAY_B2C","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 1,"name":"微信扫码支付","payStr":"5","typeStr":"WEB_PAY_B2C","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 2,"name":"微信WAP支付","payStr":"11","typeStr":"WAP_PAY_B2C","payEntrance":"1,2,3","payStatus":1,"request_type":2},
+      {"id": 12,"name":"网银快捷支付","payStr":"12","typeStr":"WEB_PAY_B2C","payEntrance":"1,2,3,4","payStatus":1,"request_type":2}
+    ]
+  },
+  {
+    "nid": "shang_fu_yun_pay",
+    "name": "尚付云",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 4,"name":"支付宝扫码支付","payStr":"1","typeStr":"TRADE.SCANPAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 5,"name":"支付宝WAP支付","payStr":"1","typeStr":"TRADE.H5PAY","payEntrance":"1,2,3","payStatus":1,"request_type":2},
+      {"id": 1,"name":"微信扫码支付","payStr":"2","typeStr":"TRADE.SCANPAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 2,"name":"微信WAP支付","payStr":"2","typeStr":"TRADE.H5PAY","payEntrance":"1,2,3","payStatus":1,"request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"3","typeStr":"TRADE.SCANPAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 8,"name":"QQ钱包WAP支付","payStr":"3","typeStr":"TRADE.H5PAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 13,"name":"京东扫码支付","payStr":"5","typeStr":"TRADE.SCANPAY","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 16,"name":"银联钱包扫码支付","payStr":"4","typeStr":"TRADE.SCANPAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":1}
+    ]
+  },
+  {
+    "nid": "ming_fu_pay",
+    "name": "明付",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 4,"name":"支付宝扫码支付","payStr":"ZFBZF","typeStr":"TRADE.SCANPAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 5,"name":"支付宝WAP支付","payStr":"ZFBH5","typeStr":"TRADE.H5PAY","payEntrance":"1,2,3","payStatus":1,"request_type":2},
+      {"id": 1,"name":"微信扫码支付","payStr":"WXZF","typeStr":"TRADE.SCANPAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 2,"name":"微信WAP支付","payStr":"WXH5","typeStr":"TRADE.H5PAY","payEntrance":"1,2,3","payStatus":1,"request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"QQZF","typeStr":"TRADE.SCANPAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 8,"name":"QQ钱包WAP支付","payStr":"QQZF5","typeStr":"TRADE.H5PAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 13,"name":"京东扫码支付","payStr":"JDZF","typeStr":"TRADE.SCANPAY","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 16,"name":"银联钱包扫码支付","payStr":"UPZF","typeStr":"TRADE.SCANPAY","payEntrance":"1,2,3,4","payStatus":1,"request_type":1}
+    ]
+  },
+  {
+    "nid": "da_bo_pay",
+    "name": "大伯",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 4,"name":"支付宝扫码支付","payStr":"ALP","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 1,"name":"微信扫码支付","payStr":"WXP","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"QQP","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 13,"name":"京东扫码支付","payStr":"JDP","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 12,"name":"快捷支付","payStr":"KJP","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 16,"name":"银联扫码支付","payStr":"YLP","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 10,"name":"网银支付","payStr":"WYP","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 14,"name":"京东WAP支付","payStr":"JDH5","payEntrance":"1,2,3,4","payStatus":1,"request_type":2}
+    ]
+  },
+  {
+    "nid": "xun_bao_pay",
+    "name": "讯宝",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 2,"name":"微信WAP支付","payStr":"933","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 8,"name":"QQ钱包WAP支付","payStr":"935","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 1,"name":"微信扫码支付","payStr":"8011","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 5,"name":"支付宝WAP支付","payStr":"931","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 4,"name":"支付宝扫码支付","payStr":"8012","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 13,"name":"京东扫码支付","payStr":"911","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"993","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 16,"name":"银联钱包扫码支付","payStr":"7011","payEntrance":"1,2,3,4","payStatus":1,"request_type":2}
+    ]
+  },
+  {
+    "nid": "ju_dian_pay",
+    "name": "聚点",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 2,"name":"微信WAP支付","payStr":"16","payEntrance":"1,2,3","payStatus":1,"request_type":2},
+      {"id": 8,"name":"QQ钱包WAP支付","payStr":"19","payEntrance":"1,2,3","payStatus":1,"request_type":2},
+      {"id": 1,"name":"微信扫码支付","payStr":"12","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 4,"name":"支付宝扫码支付","payStr":"13","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 13,"name":"京东扫码支付","payStr":"22","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"14","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 16,"name":"银联钱包扫码支付","payStr":"20","payEntrance":"1,2,3,4","payStatus":1,"request_type":1}
+    ]
+  },
+  {
+    "nid": "hui_yin_pay",
+    "name": "汇银",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 5,"name":"支付宝WAP支付","payStr":"ALIPAYH5","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 14,"name":"京东钱包WAP支付","payStr":"JDH5","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 11,"name":"网银支付","payStr":"YINLIAN","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 13,"name":"京东扫码支付","payStr":"JD","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 4,"name":"支付宝扫码支付","payStr":"ALIPAY","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"QQ","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 8,"name":"QQ钱包WAP支付","payStr":"QQH5","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 1,"name":"微信扫码支付","payStr":"WEIXIN","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 2,"name":"微信WAP支付","payStr":"WEIXINH5","payEntrance":"1,2,3","payStatus":1,"request_type":2},
+      {"id": 12,"name":"网银快捷支付","payStr":"KUAIJIE","payEntrance":"1,2,3,4","payStatus":1,"request_type":2}
+    ]
+  },
+  {
+    "nid": "tong_da_pay",
+    "name": "通达",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 5,"name":"支付宝WAP支付","payStr":"1006","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 11,"name":"网银支付","payStr":"2000","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 13,"name":"京东扫码支付","payStr":"1010","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 4,"name":"支付宝扫码支付","payStr":"1003","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"1009","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 8,"name":"QQ钱包WAP支付","payStr":"1008","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 1,"name":"微信扫码支付","payStr":"1004","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 2,"name":"微信WAP支付","payStr":"1007","payEntrance":"1,2,3","request_type":2},
+      {"id": 11,"name":"网银H5支付","payStr":"1005","payEntrance":"1,2,3,4","request_type":2}
+    ]
+  },
+  {
+    "nid": "heng_xin_zhi_pay",
+    "name": "恒信智",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 5,"name":"支付宝WAP支付","payStr":"ALIPAYWAP","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 10,"name":"网银支付","payStr":"UNIONPAY","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 13,"name":"京东扫码支付","payStr":"JD","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 4,"name":"支付宝扫码支付","payStr":"ALIPAY","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"QQ","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 8,"name":"QQ钱包WAP支付","payStr":"QQWAP","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 1,"name":"微信扫码支付","payStr":"WEIXIN","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 2,"name":"微信WAP支付","payStr":"WEIXINWAP","payEntrance":"1,2,3","request_type":2},
+      {"id": 11,"name":"网银H5支付","payStr":"UNIONPAYWAP","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 14,"name":"京东钱包WAP支付","payStr":"JDWAP","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 12,"name":"快捷支付","payStr":"SHORTCUT","payEntrance":"1,2,3,4","request_type":1}
+    ]
+  },
+  {
+    "nid": "ma_ba_pay",
+    "name": "曼巴",
+    "merchantID": "",
+    "merchantKey": "",
+    "partnerId": "",
+    "payType": [
+      {"id": 5,"name":"支付宝WAP支付","payStr":"ALIPAY_H5","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 10,"name":"网银支付","payStr":"SCANPAY_UNIONPAY","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 4,"name":"支付宝扫码支付","payStr":"SCANPAY_ALIPAY","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 1,"name":"微信扫码支付","payStr":"SCANPAY_WEIXIN","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 2,"name":"微信WAP支付","payStr":"H5_WEIXIN","payEntrance":"1,2,3","request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"SCANPAY_QQ","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 8,"name":"QQ钱包WAP支付","payStr":"H5_QQ","payEntrance":"1,2,3,4","request_type":2}
+    ]
+  },
+  {
+    "nid": "hui_tong_bao_pay",
+    "name": "汇通宝",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 5,"name":"支付宝WAP支付","payStr":"12","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 11,"name":"网银支付","payStr":"71","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 13,"name":"京东扫码支付","payStr":"31","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 4,"name":"支付宝扫码支付","payStr":"11","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"21","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 1,"name":"微信扫码支付","payStr":"01","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 2,"name":"微信WAP支付","payStr":"02","payEntrance":"1,2,3","payStatus":1,"request_type":2},
+      {"id": 16,"name":"银联扫码支付","payStr":"81","payEntrance":"1,2,3,4","payStatus":1,"request_type":1}
+    ]
+  },
+  {
+    "nid": "quan_yin_pay",
+    "name": "全银",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 4,"name":"支付宝支付","payStr":"ZITOPAY_ALI_SCAN","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 10,"name":"网银支付","payStr":"ZITOPAY_BANK_SCAN","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 13,"name":"京东扫码支付","payStr":"JPAY_JDPAY","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 4,"name":"支付宝扫码支付","payStr":"ZITOPAY_ALI_SCAN","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"ZITOPAY_QQ_SCAN","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 1,"name":"微信扫码支付","payStr":"ZITOPAY_WX_SCAN","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 12,"name":"网银快捷支付","payStr":"OPSPAY_QUICKPAY_PC","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 16,"name":"银联扫码支付","payStr":"MOBPAY_UNION_SCAN","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 11,"name":"快捷H5支付","payStr":"BEWPAY_QUICKPAY","typeStr":"","payEntrance":"1,2,3,4","request_type":2}
+    ]
+  },
+  {
+    "nid": "xi_rong_pay",
+    "name": "熙融",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 4,"name":"支付宝支付","payStr":"26001_900022","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 2,"name":"微信WAP支付","payStr":"26065_900030","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 13,"name":"京东扫码支付","payStr":"26070_900031","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"26055_900028","payEntrance":"1,2,3,4","request_type":1}
+    ]
+  },
+  {
+    "nid": "you_chang_pay",
+    "name": "优畅",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 4,"name":"支付宝支付","payStr":"ALI_OFFLINE_NATIVE","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 1,"name":"微信扫码支付","payStr":"WX_ONLINE_NATIVE","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 2,"name":"微信WAP支付","payStr":"WX_ONLINE_MWEB","payEntrance":"1,2,3,4","request_type":2}
+    ]
+  },
+  {
+    "nid": "qi_qi_pay",
+    "name": "柒柒",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 4,"name":"支付宝支付","payStr":"2","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 5,"name":"支付宝WAP支付","payStr":"13","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 13,"name":"京东扫码支付","payStr":"4","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"3","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 1,"name":"微信扫码支付","payStr":"1","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 12,"name":"银联快捷支付","payStr":"15","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 16,"name":"银联扫码支付","payStr":"7","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 2,"name":"微信WAP支付","payStr":"5","payEntrance":"1,2,3,4","request_type":2}
+    ]
+  },
+  {
+    "nid": "shan_pay",
+    "name": "闪支付",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 4,"name":"支付宝支付","payStr":"12","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 5,"name":"支付宝WAP支付","payStr":"13","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"18","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 8,"name":"QQ钱包WAP支付","payStr":"17","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 1,"name":"微信扫码支付","payStr":"10","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 12,"name":"银联快捷支付","payStr":"15","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 19,"name":"网关支付","payStr":"14","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 2,"name":"微信WAP支付","payStr":"16","payEntrance":"1,2,3,4","request_type":2}
+    ]
+  },
+  {
+    "nid": "jin_liu_pay",
+    "name": "金流",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 13,"name":"京东扫码支付","payStr":"jdpay","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 5,"name":"支付宝H5支付","payStr":"alipaywap","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 8,"name":"QQ钱包H5支付","payStr":"qqpaywap","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 15,"name":"京东H5","payStr":"jdwap","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 16,"name":"银联钱包","payStr":"unionpay","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 2,"name":"微信H5支付","payStr":"wxwap","payEntrance":"1,2,3,4","request_type":2}
+    ]
+  },
+  {
+    "nid": "yii_sheng_pay",
+    "name": "谊盛",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 4,"name":"支付宝支付","payStr":"02","payEntrance":"4","request_type":2},
+      {"id": 5,"name":"支付宝H5支付","payStr":"02","payEntrance":"3","request_type":2}
+    ]
+  },
+  {
+    "nid": "bai_qian_pay",
+    "name": "百钱",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 4,"name":"支付宝支付","payStr":"ALIPAYSM","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 5,"name":"支付宝H5支付","payStr":"ALIPAYH5","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"QQSM","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 13,"name":"QQ钱包H5支付","payStr":"JDSM","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 1,"name":"微信扫码支付","payStr":"WXSM","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 2,"name":"微信WAP支付","payStr":"WXH5","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 12,"name":"银联支付","payStr":"BSM","payEntrance":"1,2,3,4","request_type":1}
+    ]
+  },
+  {
+    "nid": "guang_fu_pay",
+    "name": "光付",
+    "merchantID": "",
+    "merchantPrivateKey": "",
+    "merchantPublicKey": "",
+    "payType": [
+      {"id": 4,"name":"支付宝支付","payStr":"alipay_scan","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 5,"name":"支付宝H5支付","payStr":"h5_ali","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"tenpay_scan","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 2,"name":"微信H5支付","payStr":"h5_wx","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 16,"name":"银联支付","payStr":"ylpay_scan","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 13,"name":"京东支付","payStr":"jdpay_scan","payEntrance":"1,2,3,4","request_type":1}
+    ]
+  },
+  {
+    "nid": "tong_sao_pay",
+    "name": "通扫",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 4,"name":"支付宝支付","payStr":"1","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 5,"name":"支付宝H5支付","payStr":"1","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"4","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 8,"name":"QQ钱包H5支付","payStr":"4","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 15,"name":"京东H5","payStr":"5","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 13,"name":"京东支付","payStr":"5","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 2,"name":"微信H5支付","payStr":"2","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 1,"name":"微信扫码支付","payStr":"2","payEntrance":"1,2,3,4","request_type":1}
+    ]
+  },
+  {
+    "nid": "yi_fu_pay",
+    "name": "易付",
+    "merchantID": "",
+    "merchantPrivateKey": "",
+    "merchantPublicKey": "",
+    "payType": [
+      {"id": 4,"name":"支付宝支付","payStr":"alipay_scan","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 5,"name":"支付宝H5支付","payStr":"alipay_h5api","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"tenpay_scan","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 8,"name":"QQ钱包H5支付","payStr":"qq_h5api","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 2,"name":"微信H5支付","payStr":"weixin_h5api","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 16,"name":"银联支付","payStr":"ylpay_scan","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 13,"name":"京东支付","payStr":"jdpay_scan","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 1,"name":"微信扫码支付","payStr":"weixin_scan","payEntrance":"1,2,3,4","request_type":1}
+    ]
+  },
+  {
+    "nid": "e_shi_dai_pay",
+    "name": "E时代",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 4,"name":"支付宝支付","payStr":"alipay","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 5,"name":"支付宝H5支付","payStr":"alipay","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"qq","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 8,"name":"QQ钱包H5支付","payStr":"qq","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 15,"name":"京东H5","payStr":"jd","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 13,"name":"京东支付","payStr":"jd","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 2,"name":"微信H5支付","payStr":"WX","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 1,"name":"微信扫码支付","payStr":"WX","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 16,"name":"银联支付","payStr":"wy","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 17,"name":"银联支付","payStr":"wy","payEntrance":"1,2,3,4","request_type":2}
+    ]
+  },
+  {
+    "nid": "kai_lian_tong",
+    "name": "开联通",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 4,"name":"支付宝支付","payStr":"22","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 5,"name":"支付宝H5支付","payStr":"38","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"46","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 8,"name":"银联H5支付","payStr":"99","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 2,"name":"微信H5支付","payStr":"48","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 2,"name":"微信扫码支付","payStr":"20","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 16,"name":"银联支付","payStr":"47","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 13,"name":"京东支付","payStr":"41","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 10,"name":"网银支付","payStr":"1","payEntrance":"1,2,3,4","request_type":2}
+    ]
+  },
+  {
+    "nid": "cheng_shang_pay",
+    "name": "诚尚",
+    "merchantID": "",
+    "merchantKey": "",
+    "payBank": [{"bank_id":1,"code":"967"},{"bank_id":2,"code":"964"},{"bank_id":3,"code":"971"},{"bank_id":7,"code":"965"},
+		{"bank_id":8,"code":"986"},{"bank_id":16,"code":"989"},{"bank_id":17,"code":"975"},{"bank_id":14,"code":"977"},
+		{"bank_id":12,"code":"962"},{"bank_id":26,"code":"972"},{"bank_id":10,"code":"981"},{"bank_id":9,"code":"963"},
+		{"bank_id":15,"code":"980"},{"bank_id":11,"code":"970"},{"bank_id":13,"code":"985"},{"bank_id":6,"code":"978"},{"bank_id":29,"code":"982"}
+	],
+    "payType": [
+	  {"id": 2,"name":"微信扫码支付","payStr":"1004","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 4,"name":"支付宝扫码支付","payStr":"1003","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"1007","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 6,"name":"支付宝H5支付","payStr":"1008","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 16,"name":"银联钱包扫码支付","payStr":"1006","payEntrance":"1,2,3,4","request_type":2}
+    ]
+  },
+  {
+    "nid": "fei_fu_ba_pay",
+    "name": "啡付吧",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+	  {"id": 2,"name":"微信扫码支付","payStr":"902","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 4,"name":"支付宝扫码支付","payStr":"903","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 6,"name":"支付宝H5支付","payStr":"904","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"908","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 8,"name":"QQ钱包H5支付","payStr":"905","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 10,"name":"网银支付","payStr":"907","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 13,"name":"京东支付","payStr":"910","payEntrance":"1,2,3,4","request_type":1}
+    ]
+  },
+   {
+    "nid": "dai_fu_bao_pay",
+    "name": "代付宝",
+    "merchantID": "",
+    "merchantKey": "",
+    "payBank": [{"bank_id":1,"code":"ICBC"},{"bank_id":2,"code":"ABC"},{"bank_id":9,"code":"BOC"},{"bank_id":7,"code":"CCB"},
+    			{"bank_id":10,"code":"COMM"},{"bank_id":11,"code":"CMB"},{"bank_id":14,"code":"SPDB"},{"bank_id":26,"code":"CIB"},
+    			{"bank_id":15,"code":"CMBC"},{"bank_id":13,"code":"GDB"},{"bank_id":12,"code":"SPDB"},{"bank_id":8,"code":"CEB"},
+    			{"bank_id":29,"code":"HXB"},{"bank_id":3,"code":"PSBC"},{"bank_id":6,"code":"PAB"}
+			],
+    "payType": [
+    	{"id": 1,"name":"微信扫码支付","payStr":"WEIXIN","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+    	{"id": 2,"name":"微信WAP支付","payStr":"WEIXINWAP","payEntrance":"2,3","request_type":2},
+    	{"id": 7,"name":"QQ钱包宝扫码支付","payStr":"QQ","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+    	{"id": 8,"name":"QQ钱包WAP支付","payStr":"QQWAP","payEntrance":"2,3","payStatus":1,"request_type":2},
+    	{"id": 10,"name":"网银支付","payStr":"OnlinePay","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+    	{"id": 16,"name":"银联钱包扫码支付","payStr":"UnionPay","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+    	{"id": 11,"name":"快捷支付H5 ","payStr":"Nocard_H5","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+        {"id": 13,"name":"京东支付","payStr":"JDPAY","payEntrance":"1,2,3,4","request_type":1}
+]
+	},
+  {
+    "nid": "wan_fu_bao",
+    "name": "万付宝",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 4,"name":"支付宝支付","payStr":"ALIPAY","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 5,"name":"支付宝H5支付","payStr":"ALIWAPPAY","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"TENPAY","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 8,"name":"QQ钱包H5支付","payStr":"TENWAPPAY","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 15,"name":"京东H5","payStr":"JDWAP","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 13,"name":"京东支付","payStr":"JDPAY","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 2,"name":"微信H5支付","payStr":"WEIXINH5PAY","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 1,"name":"微信扫码支付","payStr":"WEIXINPAY","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 16,"name":"银联钱包扫码支付","payStr":"UNIONPAY","request_type":2},
+      {"id": 18,"name":"银联钱包H5支付","payStr":"UNIONPAYWAP","request_type":2},
+      {"id": 11,"name":"快捷H5支付","payStr":"BANKH5","request_type":2}
+    ]
+  },
+  {
+    "nid": "wechat_pay",
+    "name": "微信支付",
+    "merchantID": "",
+    "appid": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 1,"name":"微信扫码支付","payStr":"NATIVE","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 3,"name":"微信H5支付","payStr":"MWEB","payEntrance":"1,2,3,4","request_type":2}
+    ]
+  },
+  {
+    "nid": "wei_fu_tong",
+    "name": "威富通",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 4,"name":"支付宝支付","payStr":"pay.alipay.native","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"pay.tenpay.native","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 8,"name":"QQ钱包H5支付","payStr":"pay.tenpay.wappay","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 15,"name":"京东H5","payStr":"pay.jdpay.jspay","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 13,"name":"京东支付","payStr":"pay.jdpay.native","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 2,"name":"微信H5支付","payStr":"pay.weixin.wappay","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 1,"name":"微信扫码支付","payStr":"pay.weixin.native","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 16,"name":"银联钱包扫码支付","payStr":"pay.unionpay.native","request_type":1}
+    ]
+  },
+  {
+    "nid": "pays_api_pay",
+    "name": "paysapi",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 4,"name":"支付宝支付","payStr":"1","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 1,"name":"微信扫码支付","payStr":"2","payEntrance":"1,2,3,4","request_type":1}
+    ]
+  },
+  {
+    "nid": "wei_zhi_lian_pay",
+    "name": "微支联",
+    "merchantID": "",
+    "merchantKey": "",
+    "payBank": [
+      {"bank_id":1,"code":"ICBC"},{"bank_id":2,"code":"ABC"},{"bank_id":9,"code":"BOC"},{"bank_id":7,"code":"CCB"},
+    {"bank_id":10,"code":"COMM"},{"bank_id":11,"code":"CMB"},{"bank_id":14,"code":"SPDB"},{"bank_id":26,"code":"CIB"},
+    {"bank_id":15,"code":"CMBC"},{"bank_id":13,"code":"GDB"},{"bank_id":12,"code":"SPDB"},{"bank_id":8,"code":"CEB"},
+    {"bank_id":29,"code":"HXB"},{"bank_id":3,"code":"PSBC"},{"bank_id":6,"code":"PAB"}
+  ],
+    "payType": [
+      {"id": 4,"name":"支付宝扫码支付","payStr":"1","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"4","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 1,"name":"微信扫码支付","payStr":"2","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 16,"name":"银联钱包扫码支付","payStr":"UQ","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 10,"name":"网银H5支付","payStr":"wy_1","payEntrance":"1,2,3,4","request_type":2}
+    ]
+  },
+  {
+    "nid": "zhi_fu_jia_pay",
+    "name": "支付家",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 4,"name":"支付宝扫码支付","payStr":"903","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 6,"name":"支付宝H5支付","payStr":"904","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"908","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 8,"name":"QQ钱包H5支付","payStr":"905","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 10,"name":"网银支付","payStr":"907","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 13,"name":"京东支付","payStr":"910","payEntrance":"1,2,3,4","request_type":1}
+    ]
+  },
+  {
+    "nid": "wu_fu_pay",
+    "name": "五福",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 1,"name":"微信扫码支付","payStr":"WEIXIN_NATIVE.UniThirdPay","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 2,"name":"微信H5支付","payStr":"WEIXIN_H5.wapCashierPay","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 4,"name":"支付宝扫码支付","payStr":"ALIPAY_NATIVE.UniThirdPay","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 5,"name":"支付宝H5支付","payStr":"ALIPAY_H5.wapCashierPay","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"QQ_NATIVE.UniThirdPay","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 8,"name":"QQ钱包H5支付","payStr":"QQ_H5.wapCashierPay","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 16,"name":"银联扫码支付","payStr":"UNIONPAY_NATIVE.UniThirdPay","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 11,"name":"银联H5支付","payStr":"UNIONPAY_H5.wapCashierPay","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 13,"name":"京东支付","payStr":"JD_NATIVE.UniThirdPay","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 13,"name":"京东H5支付","payStr":"JD_H5.UniThirdPay","payEntrance":"1,2,3,4","request_type":2}
+    ]
+  },
+  {
+    "nid": "xin_bao_pay",
+    "name": "鑫宝",
+    "merchantID": "",
+    "merchantPrivateKey": "",
+    "merchantPublicKey": "",
+    "payType": [
+      {"id": 4,"name":"支付宝支付","payStr":"alipay_scan","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 5,"name":"支付宝H5支付","payStr":"alipay_h5api","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"tenpay_scan","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 8,"name":"QQ钱包H5支付","payStr":"qq_h5api","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 2,"name":"微信H5支付","payStr":"weixin_h5api","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 16,"name":"银联支付","payStr":"ylpay_scan","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 13,"name":"京东支付","payStr":"jdpay_scan","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 1,"name":"微信扫码支付","payStr":"weixin_scan","payEntrance":"1,2,3,4","request_type":1}
+    ]
+  },
+  {
+    "nid": "zhi_fu_fang_pay",
+    "name": "智付方",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 1,"name":"微信扫码支付","payStr":"wx_pay_scan_t0","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 2,"name":"微信H5支付","payStr":"wx_pay_wap_t0","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 4,"name":"支付宝扫码支付","payStr":"ali_pay_scan_t0","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 5,"name":"支付宝H5支付","payStr":"ali_pay_wap_t0","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"qq_pay_scan_t0","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 8,"name":"QQ钱包H5支付","payStr":"QQ_H5.UniThirdPay","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 16,"name":"银联扫码支付","payStr":"yl_pay_t0","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 11,"name":"B2C网银支付","payStr":"b2c_pay_t0","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 12,"name":"快捷支付","payStr":"kj_pay_t0","payEntrance":"1,2,3,4","request_type":2}
+    ]
+  },
+  {
+    "nid": "cheng_you_pay",
+    "name": "诚优",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 1,"name":"微信扫码支付","payStr":"938","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 2,"name":"微信H5支付","payStr":"967","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 4,"name":"支付宝扫码支付","payStr":"957","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 5,"name":"支付宝H5支付","payStr":"963","payEntrance":"1,2,3,4","request_type":2}
+    ]
+  },
+  {
+    "nid": "cai_fu_tong",
+    "name": "彩付通",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 1,"name":"微信扫码支付","payStr":"wechat_scan_qrcode","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 4,"name":"支付宝扫码支付","payStr":"alipay_scan_qrcode","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 16,"name":"银联扫码支付","payStr":"bank_payment","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 12,"name":"快捷支付","payStr":"fast_payment","payEntrance":"1,2,3,4","request_type":1}
+    ]
+  },
+  {
+    "nid": "yao_pan_pay",
+    "name": "瑶槃",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 1,"name":"微信扫码支付","payStr":"142","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 4,"name":"支付宝扫码支付","payStr":"172","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 5,"name":"支付宝H5支付","payStr":"173","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 13,"name":"京东支付","payStr":"212","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"152","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 16,"name":"银联扫码支付","payStr":"132","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 18,"name":"快捷H5支付","payStr":"242","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 12,"name":"快捷支付","payStr":"232","payEntrance":"1,2,3,4","request_type":1}
+    ]
+  },
+  {
+    "nid": "gong_xiang_pay",
+    "name": "共享",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 4,"name":"支付宝扫码支付","payStr":"953","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 6,"name":"支付宝H5支付","payStr":"954","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 1,"name":"微信扫码支付","payStr":"963","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 2,"name":"微信H5支付","payStr":"955","payEntrance":"1,2,3,4","request_type":2}
+    ]
+  },
+  {
+    "nid": "ren_ren_pay",
+    "name": "人人",
+    "merchantID": "",
+    "merchantKey": "",
+    "appid": "",
+    "payType": [
+      {"id": 1,"name":"微信扫码支付","payStr":"ZXYHALI_WEB","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 2,"name":"微信H5支付","payStr":"ZXYHALI_WEB","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 6,"name":"支付宝H5支付","payStr":"WX_WEB","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 4,"name":"支付宝扫码支付","payStr":"WX_WEB","payEntrance":"1,2,3,4","request_type":1}
+    ]
+  },
+  {
+    "nid": "ying_li_pay",
+    "name": "盈利",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 1,"name":"微信扫码支付","payStr":"2","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 2,"name":"微信H5支付","payStr":"8","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 4,"name":"支付宝扫码支付","payStr":"3","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 5,"name":"支付宝H5支付","payStr":"9","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"4","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 16,"name":"银联扫码支付","payStr":"11","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 18,"name":"银联H5支付","payStr":"1","payEntrance":"1,2,3,4","request_type":2}
+    ]
+  },
+  {
+    "nid": "xin_sun_ma",
+    "name": "新孙码",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 2,"name":"微信H5支付","payStr":"WEIXINWAP","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 5,"name":"支付宝H5支付","payStr":"ALIPAYWAP","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 8,"name":"QQ钱包H5支付","payStr":"QQWAP","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 16,"name":"银联扫码支付","payStr":"UNIONPAY","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 11,"name":"银联H5支付","payStr":"UNIONPAYWAP","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 13,"name":"京东支付","payStr":"JD","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 13,"name":"京东H5支付","payStr":"JDWAP","payEntrance":"1,2,3,4","request_type":2}
+    ]
+  },
+  {
+    "nid": "ming_jie_pay",
+    "name": "明捷",
+    "merchantID": "",
+    "merchantKey": "",
+    "merchantPrivateKey": "",
+    "merchantPublicKey": "",
+    "payType": [
+      {"id": 1,"name":"微信扫码支付","payStr":"WX","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 2,"name":"微信H5支付","payStr":"WX_H5","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 4,"name":"支付宝扫码支付","payStr":"ZFB","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 5,"name":"支付宝H5支付","payStr":"ZFB_WAP","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"QQ","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 8,"name":"QQ钱包H5支付","payStr":"QQ_WAP","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 16,"name":"银联扫码支付","payStr":"UNION_WALLET","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 11,"name":"银联H5支付","payStr":"MBANK","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 13,"name":"京东支付","payStr":"JD","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 13,"name":"京东H5支付","payStr":"JD_WAP","payEntrance":"1,2,3,4","request_type":2}
+    ]
+  },
+  {
+    "nid": "paytong_pay",
+    "name": "paytong",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 1,"name":"微信扫码支付","payStr":"10000403","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 2,"name":"微信H5支付","payStr":"10000503","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 4,"name":"支付宝扫码支付","payStr":"20000304","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 5,"name":"支付宝H5支付","payStr":"20000305","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"70000205","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 8,"name":"QQ钱包H5支付","payStr":"70000206","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 16,"name":"银联扫码支付","payStr":"60000104","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 11,"name":"网银支付","payStr":"50000103","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 13,"name":"京东支付","payStr":"80000204","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 12,"name":"快捷支付","payStr":"40000103","payEntrance":"1,2,3,4","request_type":2}
+    ]
+  },
+  {
+    "nid": "xin_bei_pay",
+    "name": "新呗",
+    "merchantID": "",
+    "merchantKey": "",
+    "merchantPrivateKey": "",
+    "merchantPublicKey": "",
+    "payType": [
+      {"id": 4,"name":"支付宝扫码支付","payStr":"alipay_qrcode_xinbei","payEntrance":"1,2,3,4","request_type":2}
+    ]
+  },
+  {
+    "nid": "xiao_xiong_pay",
+    "name": "小熊",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 1,"name":"微信扫码支付","payStr":"WX","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 4,"name":"支付宝扫码支付","payStr":"ALIPAY","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"QQ","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 13,"name":"京东支付","payStr":"JD","payEntrance":"1,2,3,4","request_type":2}
+    ]
+  },
+  {
+    "nid": "huan_qiu_pay",
+    "name": "环球",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 1,"name":"微信扫码支付","payStr":"902","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 4,"name":"支付宝扫码支付","payStr":"903","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 5,"name":"支付宝H5支付","payStr":"904","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"908","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 8,"name":"QQ钱包H5支付","payStr":"905","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 11,"name":"网银支付","payStr":"907","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 13,"name":"京东支付","payStr":"910","payEntrance":"1,2,3,4","request_type":1}
+    ]
+  },
+  {
+    "nid": "li_ke_fu_pay",
+    "name": "立刻",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 1,"name":"微信扫码支付","payStr":"MSWEIXIN","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 2,"name":"微信H5支付","payStr":"MSWEIXINWAP","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 4,"name":"支付宝扫码支付","payStr":"MSAli","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 5,"name":"支付宝H5支付","payStr":"ALIWAPPAY","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 14,"name":"QQ钱包扫码支付","payStr":"MSJDWAP","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 8,"name":"QQ钱包H5支付","payStr":"MSTENWAP","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 16,"name":"银联扫码支付","payStr":"MSUNIONPAY","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 17,"name":"银联H5支付","payStr":"MSUNIONPAYWAP","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 13,"name":"京东支付","payStr":"MSJD","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 12,"name":"快捷支付","payStr":"40000103","payEntrance":"1,2,3,4","request_type":2}
+    ]
+  },
+  {
+    "nid": "da_qiang_pay",
+    "name": "大强",
+    "merchantID": "",
+    "merchantKey": "",
+    "payBank": [{"bank_id":1,"code":"ICBC"},{"bank_id":2,"code":"ABC"},{"bank_id":9,"code":"BOC"},{"bank_id":7,"code":"CCB"},
+      {"bank_id":11,"code":"CMB"},{"bank_id":14,"code":"SPDB"},{"bank_id":26,"code":"CIB"},
+      {"bank_id":15,"code":"CMBC"},{"bank_id":13,"code":"GDB"},{"bank_id":12,"code":"CITIC"},{"bank_id":8,"code":"CEB"},
+      {"bank_id":29,"code":"HXB"},{"bank_id":3,"code":"PSBC"}
+    ],
+    "payType": [
+      {"id": 4,"name":"支付宝扫码支付","payStr":"ALI_QR","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 5,"name":"支付宝WAP支付","payStr":"ALI_H5","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 1,"name":"微信扫码支付","payStr":"WECHAT_QR","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 2,"name":"微信WAP支付","payStr":"WECHAT_H5","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"QQ_QR","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 10,"name":"网银支付","payStr":"B2C","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 12,"name":"快捷支付","payStr":"QUICK","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 8,"name":"QQ钱包WAP支付","payStr":"QQ_H5","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 17,"name":"银联H5支付","payStr":"UNION_H5","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 16,"name":"银联钱包扫码支付","payStr":"UNION_QR","payEntrance":"1,2,3,4","payStatus":1,"request_type":2}
+    ]
+  },
+  {
+    "nid": "ju_zi_pay",
+    "name": "橘子",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 1,"name":"微信扫码支付","payStr":"4","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 4,"name":"支付宝扫码支付","payStr":"5","payEntrance":"1,2,3,4","request_type":2}
+    ]
+  },
+  {
+    "nid": "jin_hai_zhe_pay",
+    "name": "金海哲",
+    "merchantID": "",
+    "merchantPrivateKey": "",
+    "merchantPublicKey": "",
+    "payBank": [{"bank_id":1,"code":"ICBC"},{"bank_id":2,"code":"ABC"},{"bank_id":9,"code":"BOC"},{"bank_id":7,"code":"CCB"},
+      {"bank_id":11,"code":"CMB"},{"bank_id":14,"code":"SPDB"},{"bank_id":26,"code":"CIB"},
+      {"bank_id":15,"code":"CMBC"},{"bank_id":13,"code":"GDB"},{"bank_id":12,"code":"CITIC"},{"bank_id":8,"code":"CEB"},
+      {"bank_id":29,"code":"HXB"},{"bank_id":3,"code":"PSBC"}
+    ],
+    "payType": [
+      {"id": 4,"name":"支付宝扫码支付","payStr":"6003","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 5,"name":"支付宝WAP支付","payStr":"6008","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 1,"name":"微信扫码支付","payStr":"6001","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 2,"name":"微信WAP支付","payStr":"6005","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"6011","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 10,"name":"网银支付","payStr":"6002","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 12,"name":"快捷支付","payStr":"6006","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 8,"name":"QQ钱包WAP支付","payStr":"6016","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 16,"name":"银联钱包扫码支付","payStr":"6012","payEntrance":"1,2,3,4","payStatus":1,"request_type":1}
+    ]
+  },
+  {
+    "nid": "yi_long_pay",
+    "name": "亿龙",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 4,"name":"支付宝扫码支付","payStr":"alipay","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 5,"name":"支付宝WAP支付","payStr":"alipayh5","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 1,"name":"微信扫码支付","payStr":"wxpay","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 2,"name":"微信WAP支付","payStr":"wxwap","payEntrance":"1,2,3,4","payStatus":1,"request_type":2}
+    ]
+  },
+  {
+    "nid": "de_bao_pay",
+    "name": "得宝",
+    "merchantID": "",
+    "merchantPrivateKey": "",
+    "merchantPublicKey": "",
+    "comments_payBank": [{"bank_id":1,"code":"ICBC"},{"bank_id":2,"code":"ABC"},{"bank_id":3,"code":"PSBC"},{"bank_id":4,"code":"NBB"},{"bank_id":6,"code":"SPABANK"},{"bank_id":7,"code":"CCB"},{"bank_id":8,"code":"CEBB"},{"bank_id":9,"code":"BOC"},{"bank_id":10,"code":"BCOM"},{"bank_id":11,"code":"CMB"},{"bank_id":12,"code":"ECITIC"},{"bank_id":13,"code":"GDB"},{"bank_id":14,"code":"SPDB"},{"bank_id":15,"code":"CMBC"},{"bank_id":16,"code":"BOB"},{"bank_id":17,"code":"SHB"},{"bank_id":26,"code":"CIB"},{"bank_id":29,"code":"HXB"},{"bank_id":31,"code":"HZB"}
+    ],
+    "payType": [
+      {"id": 4,"name":"支付宝扫码支付","payStr":"alipay_scan","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 5,"name":"支付宝WAP支付","payStr":"alipay_h5api","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 1,"name":"微信扫码支付","payStr":"weixin_scan","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 2,"name":"微信WAP支付","payStr":"weixin_h5api","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 7,"name":"QQ钱包扫码支付","payStr":"tenpay_scan","payEntrance":"1,2,3,4","payStatus":1,"request_type":1},
+      {"id": 10,"name":"网银支付","payStr":"direct_pay","payCode":"b2cwap","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 11,"name":"网银H5支付","payStr":"direct_pay","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 13,"name":"京东扫码支付","payStr":"jdpay_scan","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 8,"name":"QQ钱包WAP支付","payStr":"qq_h5api","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 16,"name":"银联钱包扫码支付","payStr":"ylpay_scan","payEntrance":"1,2,3,4","payStatus":1,"request_type":1}
+    ]
+  },
+  {
+    "nid": "heng_cheng_pay",
+    "name": "恒诚",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 1,"name":"微信扫码支付","payStr":"200","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 3,"name":"微信H5支付","payStr":"201","payEntrance":"1,2,3,4","payStatus":1,"request_type":2},
+      {"id": 6,"name":"支付宝H5支付","payStr":"100","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 10,"name":"网关支付","payStr":"401","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 12,"name":"快捷支付","payStr":"302","payEntrance":"1,2,3,4","request_type":2}
+    ]
+  },
+  {
+    "nid": "yi_zhi_bao_pay",
+    "name": "易支宝",
+    "merchantID": "",
+    "merchantPrivateKey": "",
+    "merchantPublicKey": "",
+    "payType": [
+      {"id": 6,"name":"支付宝H5","payStr":"alipaywap","payEntrance":"1,2,3,4","request_type":2}
+    ]
+  },
+  {
+    "nid": "yi_fa_pay",
+    "name": "易发",
+    "merchantID": "",
+    "merchantPrivateKey": "",
+    "merchantPublicKey": "",
+    "payType": [
+      {"id": 1,"name":"微信扫码","payStr":"wechat","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 3,"name":"微信H5","payStr":"wechat","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 4,"name":"支付宝扫码","payStr":"alipay","payEntrance":"1,2,3,4","request_type":1},
+      {"id": 6,"name":"支付宝H5","payStr":"alipay","payEntrance":"1,2,3,4","request_type":2}
+    ]
+  },
+  {
+    "nid": "rui_cheng_pay",
+    "name": "瑞成",
+    "merchantID": "",
+    "merchantPrivateKey": "",
+    "merchantPublicKey": "",
+    "payType": [
+      {"id": 3,"name":"微信H5","payStr":"wxh5","payEntrance":"1,2,3,4","request_type":2},
+      {"id": 6,"name":"支付宝H5","payStr":"alipaywap","payEntrance":"1,2,3,4","request_type":2}
+    ]
+  },
+  {
+    "nid": "jie_fu_tong_pay",
+    "name": "捷付通",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 4,"name":"支付宝扫码","payStr":"alipay","payCode":1,"payEntrance":"1,2,3,4","request_type":1},
+      {"id": 6,"name":"支付宝H5","payStr":"alipay","payCode":0,"payEntrance":"1,2,3,4","request_type":2}
+    ]
+  },
+  {
+    "nid": "zhi_fu_ping_fang_pay",
+    "name": "智付平方",
+    "merchantID": "",
+    "merchantKey": "",
+    "payType": [
+      {"id": 5,"name":"支付宝wap","payStr":"ali_pay_wap_t0","payEntrance":"1,2,3,4","request_type":2}
+    ]
+  }
+]
+
+
+

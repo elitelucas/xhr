@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>注册</title>
+    
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">-->
+    {template public-header}
+    <!-- 新增css -->
+    <link href="/statics/web/css/s_min.css" rel="stylesheet" type="text/css">
+    <!-- 新增css - end -->
+    <!-- Validform -->
+    <link rel="stylesheet" href="/statics/web/extend/Validform_v5.3.2/css/style.css" type="text/css" media="all" />
+    <script type="text/javascript" src="/statics/web/extend/Validform_v5.3.2/js/Validform_v5.3.2_min.js"></script>
+    <!-- Validform - end -->
+	<!-- 密码强度-->
+    <link rel="stylesheet" href="/statics/web/extend/Validform_v5.3.2/plugin/passwordStrength/passwordStrength.css" type="text/css" media="all" />
+    <script type="text/javascript" src="/statics/web/extend/Validform_v5.3.2/plugin/passwordStrength/passwordStrength-min.js"></script>
+    <!-- 密码强度 - end -->
+    <!-- layer -->
+    <!--<script src="/statics/web/extend/layer/layer.js"></script> -->
+    <script src="/statics/web/extend/layer/mobile/layer.js"></script>
+    <!-- layer - end -->
+
+    <style type="text/css">
+    	.Validform_checktip {
+    		display: none;
+		    margin-left: 8px;
+		    line-height: 20px;
+		    height: 40px; 
+		    overflow: hidden;
+		    color: #999;
+		    font-size: 22px; 
+		}
+		.passwordStrength b, .passwordStrength span {
+		    line-height: 22px;
+		    height: 26px;
+		}
+		.passwordStrength span {
+			width: 100px;
+		}
+        .layui-layer-btn a {
+            height: 40px;
+            font-size: 36px;
+            padding-top: 2px;
+        }
+    </style>
+</head>
+<body class="login">
+    <!--<header class="loginHeader">-->
+        <!--&lt;!&ndash; <em class="return">返回</em> &ndash;&gt;-->
+        <!--<em class="return" onclick="javascript :history.go(-1);">返回</em>-->
+        <!--&lt;!&ndash;<h1>注册</h1>&ndash;&gt;-->
+        <!--<em class="guanbing" data-href="<?=url('','lobby','index')?>"></em>-->
+    <!--</header>-->
+<section class="login-bg">
+    <em class="return-login" onclick="javascript :history.go(-1);">登录</em>
+    <em class="guanbing" data-href="<?=url('','lobby','index')?>"></em>
+    <div class="loginBanner">
+        <div class="headPortrait">
+            <img src="/statics/web/images/avatar.png" />
+        </div>
+    </div>
+    <div class="loginWarp registerWarp m-top60">
+    	<form class="Validform" id="Validform" method="post">
+	        <ul>
+	            <li>
+                    <label class="user" for="user">
+                        <i class="must"></i>
+                        <input placeholder="请输入您的账号" type="text" name="username" id="user" datatype="/^[a-zA-Z0-9]{6,15}$/" ajaxurl="{$selectName}" sucmsg="用户名验证通过！" nullmsg="请输入您的账号！" errormsg="账号由字母和数字组成,范围在6~15位之间！" /></label>
+	                <p class="Validform_checktip" id="m-user" style="display: block; color: rgba(136, 136, 136, 0.6)">6-15位且仅包含英文，数字</p>
+	            </li>
+	            <li>
+	                <label class="pas ico_pas" for="pas">
+                        <i class="must"></i>
+                        <input placeholder="请输入您的密码" type="password" name="password" id="pas" plugin="passwordStrength" datatype="/^((?![^a-zA-Z]+$)(?![^0-9]+$)(_*)){6,15}/" nullmsg="请输入您的密码！" errormsg="密码由字母和数字以及下划线组成,范围在6~15位之间！" /></label>
+	                <em class="see"></em>
+	                <p class="passwordStrength" style="display:none;"><b>密码强度：</b> <span>弱</span><span>中</span><span class="last">强</span></p>
+	                <p class="Validform_checktip" id="m-pas" style="display: block; color: rgba(136, 136, 136, 0.6)">6-15位且必须包含英文和数字</p>
+	            </li>
+	            <li>
+	                <label class="pas ico_pas" for="pas1">
+                        <i class="must"></i>
+                        <input placeholder="请确认您的密码" type="password" name="password2" id="pas1" datatype="*" recheck="password"  nullmsg="请再次输入您的密码！" errormsg="两次密码输入不一致！" /></label>
+	                <!--<em class="see"></em>-->
+	                <p class="Validform_checktip" id="m-pas2"></p>
+	            </li>
+	            
+	            {loop $registerData $kr $vr}
+	            	{if ($vr == 1)}
+						{if ($kr =="register")}
+		            	<li>
+			                <label class="ico_{$kr}" for="{$kr}" style="width: 70%;">
+		                        <i class="must"></i>
+		                        <input placeholder="请输入您的{$registerText[$kr]}" type="text" name="{$kr}" id="{$kr}" ignore="ignore"  errormsg="输入的{$registerText[$kr]}格式错误！" /></label>
+			            	<img src="<?php echo C('home_url');?>/?m=web&c=user&a=validatecode&asd={$rand}" style="position: absolute;float: right;right: 0;top: 20px;">
+						</li>
+						{else}
+						<li>
+							<label class="ico_{$kr}" for="{$kr}">
+								<i class="must"></i>
+								<input placeholder="请输入您的{$registerText[$kr]}" type="text" name="{$kr}" id="{$kr}" ignore="ignore"  errormsg="输入的{$registerText[$kr]}格式错误！" /></label>
+						</li>
+						{/if}
+						<p class="Validform_checktip" id="m-{$kr}"></p>
+		            {/if}
+	            {/loop}
+	            
+	            <li>
+	                <label class="recommend" for="name"><input placeholder="请输入介绍人(可不填)" type="text" name="referrer" id="name" value="{$pid['username']}" {if $type!="1"}readonly="readonly"{/if} /></label>
+				<input type="hidden" name="flag" id="flag" value="3"/>
+				<input type="hidden" name="type" id="type" value="{$type}"/>
+	            </li>
+	            <li><button class="btn-reg" id="reg_btn" type="submit" style="z-index: 999">注册</button></li>
+	        </ul>
+		</form>
+    </div>
+</section>
+<script type="text/javascript">
+    $(function(){
+        $(".Validform").Validform({
+        	url:"{$ValidUrl}",
+        	usePlugin:{
+                passwordstrength:{
+                    minLen:6,//设置密码长度最小值，默认为0;
+                    maxLen:16,//设置密码长度最大值，默认为30;
+                    trigger:function(obj,error){
+                        //该表单元素的keyup和blur事件会触发该函数的执行;
+                        //obj:当前表单元素jquery对象;
+                        //error:所设密码是否符合验证要求，验证不能通过error为true，验证通过则为false;
+
+                        //console.log(error);
+                        if(error){
+                            obj.parent().siblings(".passwordStrength").hide();
+                        }else{
+                            obj.parent().siblings(".passwordStrength").show();
+                        }
+                    }
+                }
+            },
+            tiptype:function(msg,o,cssctl){
+                //msg：提示信息;
+                //o:{obj:*,type:*,curform:*}, obj指向的是当前验证的表单元素（或表单对象），type指示提示的状态，值为1、2、3、4， 1：正在检测/提交数据，2：通过验证，3：验证失败，4：提示ignore状态, curform为当前form对象;
+                //cssctl:内置的提示信息样式控制函数，该函数需传入两个参数：显示提示信息的对象 和 当前提示的状态（既形参o中的type）;
+
+                if(!o.obj.is("form")){  //验证表单元素时o.obj为该表单元素，全部验证通过提交表单时o.obj为该表单对象;
+                    var objtip=o.obj.parent().siblings(".Validform_checktip");
+                    if(o.type!=2){
+                        cssctl(objtip,o.type);
+                        objtip.text(msg).show();
+                    }else {
+                        cssctl(objtip,0);
+                        objtip.text('').hide();
+                    }
+                }      if(!o.obj.is("form")){  //验证表单元素时o.obj为该表单元素，全部验证通过提交表单时o.obj为该表单对象;
+                    var objtip=o.obj.parent().siblings(".Validform_checktip");
+                    if(o.type!=2){
+                        cssctl(objtip,o.type);
+                        objtip.text(msg).show();
+                    }else {
+                        cssctl(objtip,0);
+                        objtip.text('').hide();
+                    }
+                }
+            },
+            ajaxPost:true,
+            callback:function(data){
+                if(data.status==0){
+                    //询问框
+//                    layer.confirm("<p class='alert_msg'>使用APP，更快！更流畅！是否要去下载APP？</p>", {
+//                        btn: ['<p class="alert_buttom">立即下载</p>','<p class="alert_buttom">稍后下载</p>'] //按钮
+//                    }, function(){
+//                        window.location.href= "<?php echo C('app_down');?>";
+//                    }, function(){
+//                        layer.close();
+//                        window.location.href= data.JumpUrl;
+//                    });
+                    /* layer.open("<span style='font-size: 30px'>使用APP，更快！更流畅！是否要去下载APP？</span>", {
+                            skin: 'winning-class', //样式类名  自定义样式
+                            closeBtn: 0,    // 是否显示关闭按钮
+                            anim: 1, //动画类型
+                            area: ['480px', '290px'], //宽高
+                            btn: ["立即下载","稍后下载"], //按钮
+                            //icon: 6,    // icon
+                            yes:function(){
+                                window.location.href= "<?php echo C('app_down');?>";
+    //                            https://fir.im/gcai
+                             },
+                            btn2:function(){
+                                layer.close();
+                                window.location.href= data.JumpUrl;
+                            }
+                        });
+                    */
+                        document.cookie = 'tourist=0';
+                        layer.open({
+                        	content: "<span style='font-size: 30px'>使用APP，更快！更流畅！是否要去下载APP？</span>",
+                            skin: 'winning-class', //样式类名  自定义样式
+                            btn: ["立即下载","稍后下载"], //按钮
+                            yes:function(){
+                                layer.close();
+                                window.location.href= "<?php echo C('home_url');?>/?m=web&c=lobby&a=appDownload";
+                             },
+                             no:function(){
+                                layer.close();
+                                window.location.href= data.JumpUrl;
+                            }
+                        });
+                    }else {
+                        layer.open({
+                            content: data.ret_msg,
+                            skin: 'msg',
+                            time: 1,
+                        });
+                }
+            }
+        });
+     });
+
+</script>
+</body>
+</html>

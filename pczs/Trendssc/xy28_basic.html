@@ -1,0 +1,96 @@
+
+				<div class="trend_numstat">
+					
+					<div class="trend_numstat_tab">
+						<table class="ssc_table omit_table double_th sub_table" cellpadding="0" cellspacing="0" border="0">
+							<thead>
+								<tr>
+									<th rowspan="2">{{english.期号}}</th>
+									<th colspan="28" class="len">{{english.号码分布}}</th>
+									<th colspan="2">{{english.大}}{{english.小}}</th>
+									<th colspan="2">{{english.单}}{{english.双}}</th>
+									<td rowspan="2">{{english.极值}}</td>
+								</tr>
+								<tr>
+									<td>00</td>
+									<td>01</td>
+									<td>02</td>
+									<td>03</td>
+									<td>04</td>
+									<td>05</td>
+									<td>06</td>
+									<td>07</td>
+									<td>08</td>
+									<td>09</td>
+
+									<td>10</td>
+									<td>11</td>
+									<td>12</td>
+									<td>13</td>
+									<td>14</td>
+									<td>15</td>
+									<td>16</td>
+									<td>17</td>
+									<td>18</td>
+									<td>19</td>
+
+									<td>20</td>
+									<td>21</td>
+									<td>22</td>
+									<td>23</td>
+									<td>24</td>
+									<td>25</td>
+									<td>26</td>
+									<td>27</td>
+
+									<td>{{english.大}}</td>
+									<td>{{english.小}}</td>
+									<td>{{english.单}}</td>
+									<td>{{english.双}}</td>
+								</tr>
+							</thead>
+							<tbody id="getResult">
+								<tr>
+									<td>
+										<table id="issue">
+											<tbody>
+												<tr></tr>
+											</tbody>
+										</table>
+									</td>
+									
+									<td colspan="28" class="hide_td">
+										<table id="zstable0">
+											<tbody></tbody>
+										</table>
+										<div id="canvasdiv0">
+										</div>
+										<!--<i class="omit omit_hide">0</i>-->
+									</td>
+									
+									<td colspan="5">
+										<table id="issueD">
+											<tbody>
+												<tr></tr>
+											</tbody>
+										</table>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+<script type="text/javascript" src="../js/English.js"></script>
+<script type="text/javascript">
+	(function(exports) {
+		exports.app = new Vue({
+			el: '.trend_numstat',
+			data: function() {
+				return {
+					english: english
+				}
+			}
+		})
+	})(window);
+</script>

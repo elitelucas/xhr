@@ -1,0 +1,62 @@
+
+  <!-- 申请专属客服 -->
+  <div class="modal fade" id="privateServiceBox" tabindex="-1" role="dialog" aria-labelledby="myModalPrivateService" aria-hidden="true" data-backdrop="static" aria-describedby="申请专属客服">
+    <div class="modal-dialog">
+      <div class="modal-content">
+          <form action="<?=url('','','upkefu')?>" method="post">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><div class="btn-close"></div></button>
+          <h4 class="modal-title" id="myModalPrivateService">请选择您的专属客服：（VIP会员有效时间为1年）</h4>
+        </div>
+        <div class="modal-body">
+          <!-- 客服列表 -->
+          <div class="private-service">
+            <div id="privateServiceList" class="private-service-list-box owl-carousel">
+    {loop $this->kefu $k $v}
+              <div class="item {if $user['customer']==$v['id']}item-active{/if}" id="{$v['id']}">
+                <!--<a class="private-service-touxiang" href="http://wpa.qq.com/msgrd?v=3&amp;uin={$v['qq']}&amp;site=qq&amp;menu=yes" target="_blank">-->
+                <div class="private-service-touxiang2">
+                  <img class="img-circle" src="../../statics/resource/images/kefu/kf_{$v['id']}.jpg" alt="诚汇通 客服 {$v['realname']}">
+                <!--</a>-->
+                </div>
+                <div class="private-service-name">{$v['realname']}</div>
+                <div class="private-service-icon-tel"></div>
+                <p class="private-service-tel cmain">{$v['mobile']}</p>
+              </div>
+                {/loop}
+            </div> <!-- /privateServiceList -->
+          </div>
+          <!-- /客服列表 -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" id="kefu-modal-submit">提交更改</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /申请专属客服 -->
+<script type="text/javascript">
+$(function() {
+	  // 申请专属客服
+	  $("#privateServiceBox #privateServiceList .item").click(function(e) {
+	    $("#privateServiceBox #privateServiceList .item").removeClass("item-active");
+        $(this).addClass("item-active");
+      });
+	  $("#privateServiceList").owlCarousel({
+	    items: 5,//可自动铺满，多少个客服就写多少个
+	    loop: true,
+	    merge: true,
+	    nav: true,
+	    navText: ['','']
+	 }); // end
+});
+$("#kefu-modal-submit").click(function(){
+	var kefuid = $("#privateServiceList .item.item-active").attr("id");
+	$.get("<?=url('member','main','public_vip_ajx')?>", {kefu: kefuid}, function(data){
+		if (data == "1") {
+			window.location.reload();
+		}
+	});
+});
+</script>

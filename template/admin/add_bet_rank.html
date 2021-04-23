@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <!--  <link rel="stylesheet" href="statics/admin/css/pintuer.css"> -->
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+    <script src="statics/admin/js/pintuer.js"></script>
+    <script src="statics/admin/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- template-begin+++ -->
+    {template public-new-ui-header}
+    <!-- template-end+++ -->
+    <script src="statics/admin/js/jquery.date_input.pack.js"></script>
+    <link rel="stylesheet" href="statics/admin/jedate/skin/jedate.css">
+    <script type="text/javascript" src="statics/admin/jedate/jquery.jedate.min.js"></script>
+
+    <!-- 图片上传 引入插件 -->
+    <script src="statics/admin/fileupload/js/vendor/jquery.ui.widget.js"></script>
+    <script src="statics/admin/fileupload/js/jquery.fileupload.js"></script>
+
+    <style type='text/css'>
+        .rules-1{
+            float: left;
+            height: 35px;
+            line-height: 35px;
+            padding-right:10px;
+        }
+        .rules-2{
+            float: left;
+            height: 35px;
+            line-height: 35px;
+            padding:0 10px 0 10px;
+        }
+        .rules-3{
+            float: left;
+            width: 20%;
+        }
+    </style>
+</head>
+<body style="margin: 15px;background-color: #f3f3f4;">
+<div class="ibox float-e-margins">
+    <div class="ibox-title iboxWTitle">
+        <h5>添加假人投注排行榜</h5>
+        <div class="ibox-tools">
+            <a href="javascript:void(0)" class="btn btn-white btn-bitbucket" onclick="javascript:history.go(-1);">
+                <i class="fa fa-reply"></i> 返回
+            </a>
+        </div>
+    </div>
+    <div class="ibox-content bagCol">
+        <div class="ibox-title">
+            <h5>详情</h5>
+        </div>
+        <div class="ibox-content">
+            <form method="get" class="form-horizontal">
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">假人设置</label>
+                    <div class="col-sm-7">
+                        <a href="javascript:void(0)" data-type="user" onclick="setUserNum(this)" style="line-height: 35px;color: #0099ff;">设置</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;已选择假人:【<span id="user_num">0</span>】
+                        <input type="hidden" id="user_id" value='<?php echo  json_encode($config['ids'],JSON_UNESCAPED_SLASHES);   ?>' />
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">总下注金额</label>
+                    <div class="col-sm-7">
+                        <div>
+                            <input type="number" id="start_money" value="{if $config['money']['type'] == 1}{$config['money']['data']['start_money']}{/if}" class="form-control rules-3" />
+                            <span class="rules-2"> - </span>
+                            <input type="number" id="end_money" value="{if $config['money']['type'] == 1}{$config['money']['data']['end_money']}{/if}" class="form-control rules-3" />
+                        </div>
+                        
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label"></label>
+                    <div class="col-sm-2 col-sm-offset-1">
+                        <button class="btn btn-primary" type="button" id="btn_submit">保存内容</button>
+                        <button class="btn btn-white" type="button" style="border: 1px solid #e7eaec" onclick="javascript:history.go(-1);" id="qx_submit">取消</button>
+                    </div>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="set_user" style="display: none">
+    <div style="height: 284px; overflow: auto;">
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+            <tr>
+                <th><input type="checkbox" onclick="selectAll(this)" /></th>
+                <th>序号</th>
+                <th>用户名</th>
+                <th>用昵称</th>
+            </tr>
+            </thead>
+            <tbody id="set_user_body">
+				<?php if(!$dummyList):?>
+					<tr>
+						<td colspan='4'>暂无可选用的假人</td>
+					</tr>
+				<?php endif;?>
+				<? foreach($dummyList as $dummy):?>
+					<tr>
+						<td><input type='checkbox' class='check_box' data-id={$dummy['id']} data-username={$dummy['username']} data-nickname={$dummy['nickname']}></td>
+						<td>{$dummy['id']}</td>
+						<td>{$dummy['username']}</td>
+						<td>{$dummy['nickname']}</td>
+					</tr>
+				<? endforeach;?>
+			</tbody>
+        </table>
+    </div>
+    <div style="margin:10px auto;width: 50%">
+        <input type='submit' value='确定' class='btn btn-block btn-outline btn-primary' onclick='setTableUser()' />
+    </div>
+</div>
+<script type="text/javascript">
+	var loading = "";//加载中......
+    var index;
+	$("#btn_submit").on("click",function(){
+		var data = {
+            'ids':[],
+            'money':{},
+            'is_post':1,
+        }
+		if($("#user_id").val() == "" || $("#user_id").val() == "null") {
+            layer.alert('请选择假人', {icon: 5, shade: [0.5, '#393D49'],zIndex: 19891024});
+            return false;
+        }
+		var userID = JSON.parse($("#user_id").val());
+		for(var a=0; a<userID['data'].length; a++) {
+            var tmpIds = {
+                "id":userID['data'][a]['id'],
+                "username":userID['data'][a]['username'],
+                "nickname":userID['data'][a]['nickname'],
+            }
+            data['ids'].push(tmpIds);
+        }
+		var reg_num = /^[1-9]\d*$/;
+		var tmpMoney = {};
+		tmpMoney['start_money'] = parseInt($("#start_money").val());
+		tmpMoney['end_money'] = parseInt($("#end_money").val());
+		if(!reg_num.test(tmpMoney['start_money']) || !reg_num.test(tmpMoney['end_money'])) {
+			layer.alert('下注金额：只能输入正整数~', {icon: 5, shade: [0.5, '#393D49'],zIndex: 19891024});
+			return false;
+		}
+		if(tmpMoney['start_money'] > tmpMoney['end_money']) {
+			layer.alert('下注金额：起始值不能大于结束值~', {icon: 5, shade: [0.5, '#393D49'],zIndex: 19891024});
+			return false;
+		}
+		data['money']['data'] = JSON.stringify(tmpMoney);
+		
+		$.ajax({
+            url: "?m=admin&c=rank&a=addBetRank",
+            data: data,
+            dataType: 'json',
+            type: 'post',
+            beforeSend: function () {
+                loading = layer.load(1);
+            },
+            error: function () {
+                layer.close(loading);
+                layer.msg('网络错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+            },
+            success: function (data) {
+                layer.close(loading);
+                if(data['status'] == 0) {
+                    layer.msg(data.ret_msg, {icon: 6, shade: [0.5, '#393D49']}, function () {
+                        location.href = '?m=admin&c=rank&a=betRank';
+						<!-- console.log(data); -->
+                    });
+                } else {
+                    layer.msg(data.ret_msg, {icon: 5, shade: [0.5, '#393D49']});
+                }
+            }
+        });
+		return false;
+	})
+	
+	function setUserNum(a) {
+		var obj = $(a);
+        var dome;
+        var title;
+		if(obj.attr("data-type") == "user") {
+            title ="假人列表";
+            dome = $("#set_user");
+        }
+		
+		index=layer.open({
+            type: 1,
+            title:title,
+            skin: 'layui-layer-demo', //样式类名
+            area: ['630px', '380px'],
+            anim: 2,
+            shadeClose: true, //开启遮罩关闭
+            content:dome
+        });
+	}
+	
+	//设置机器人
+    function setTableUser(){
+        var ids = {
+            'data':[]
+        };
+        $.each($('.check_box'),function(key,value){
+            if($(value).prop("checked")) {
+                var tmp = {};
+                tmp['id'] = $(value).attr("data-id");
+                tmp['username'] = $(value).attr("data-username");
+                tmp['nickname'] = $(value).attr("data-nickname");
+                ids['data'].push(tmp);
+            }
+        });
+        $("#user_num").text(ids.data.length);
+        $("#user_id").val(JSON.stringify(ids));
+        layer.close(index)
+    }
+	
+	 //机器人全选
+    function selectAll(obj) {
+        if($(obj).prop("checked")) {
+            $(".check_box").prop("checked",true);
+        } else {
+            $(".check_box").prop("checked",false);
+        }
+    }
+</script>
+</body>
+</html>

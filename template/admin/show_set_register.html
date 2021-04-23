@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+   <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+    <script src="statics/admin/js/pintuer.js"></script>
+    <script src="statics/admin/bootstrap/js/bootstrap.min.js"></script>
+    {template public-new-ui-header}
+    <style>
+        #page{height: 60px;margin-top: 20px;text-align: center;}
+        #page ul li{float: left;margin-right:10px;}
+        #page ul .current{ background-color:#0099ff;text-align:center;}
+    </style>
+</head>
+<body style="margin: 15px;background-color: #f3f3f4;">
+<div class="ibox float-e-margins">
+    <div class="ibox-title iboxWTitle">
+        <h5>注册项配置</h5>
+    </div>
+    <div class="ibox-content bagCol">
+        <div class="ibox-title">
+            <h5>注册项配置详情</h5>
+        </div>
+        <div class="ibox-content">
+            <form method="post" class="form-horizontal" id="form">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">注册项配置选项</label>
+                    <div class="col-sm-10">
+                    	{loop $registerData $kr $vr}
+		                    {if $vr == 1}
+	               				<input type="checkbox" checked name="{$kr}"/>{$registerText[$kr]}&nbsp;&nbsp;&nbsp;
+	               			{else}
+	               				<input type="checkbox"  name="{$kr}"/>{$registerText[$kr]}
+	               			{/if}
+            			{/loop}
+                    </div>
+                </div>
+                <div class="hr-line-dashed"></div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">是否必填</label>
+                    <div class="col-sm-10">
+            			<input type="radio" {if $register['status'] == 1} checked {/if} name="status" value="1"/>是&nbsp;&nbsp;&nbsp;
+             			<input type="radio" {if $register['status'] != 1} checked {/if} name="status" value="0"/>否
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">注册限制</label>
+                    <div class="col-sm-10">
+                        <input type="number"  name="register_limit" value="{$limit['register_limit']}"/>注册间隔时间(min)&nbsp;&nbsp;&nbsp;
+                        <input type="number"  name="register_times" value="{$limit['register_times']}"/>间隔时间内注册次数
+                    </div>
+                </div>
+				<br />
+                <div class="form-group">
+                    <label class="col-sm-1 control-label"></label>
+                    <div class="col-sm-2 col-sm-offset-1">
+                        <button class="btn btn-primary" type="button" id="btn_submit" >保存内容</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var loading = "";//加载中......
+    $("#btn_submit").click(function () {
+        var data = $('#form').serialize();
+        var status = $('input[name=status]:checked').val();
+        data.status = status;
+        $.ajax({
+            url: '?m=admin&c=user&a=set_register_info',
+            data: data,
+            dataType: 'json',
+            type: 'post',
+            beforeSend: function () {
+                loading = layer.load(1);
+            },
+            error: function () {
+                layer.close(loading);
+                layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+            },
+            success: function (result) {
+            	layer.close(loading);
+                if (result.code == 1) {
+                	layer.msg(result.msg, {icon: 6, shade: [0.5, '#393D49']}, function () {
+                        location.reload();
+                    });
+                } else {
+                    layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']});
+                }
+            }
+        });
+    });
+
+
+</script>
+</body>
+</html>

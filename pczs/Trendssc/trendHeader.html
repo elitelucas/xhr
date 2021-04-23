@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <title></title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+	<link rel="stylesheet" href="../css/trendchart.css" />
+    <link rel="stylesheet" href="../css/flatpickr.min.css" />
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/vue.min.js"></script>
+	<script type="text/javascript" src="../js/style.js" ></script>
+	<script type="text/javascript" src="../js/laypage/laypage.js" ></script>
+	<script type="text/javascript" src="../js/trendChart.js" ></script>
+	<script type="text/javascript" src="../js/historyAjax.js" ></script>
+    <script type="text/javascript" src="../js/flatpickr.min.js"></script>
+    <script type="text/javascript" src="../js/flatpickr.l10n.zh.js"></script>
+	<script type="text/javascript" src="../js/data.js"></script>
+	<script type="text/javascript" src="../js/English.js"></script>
+	
+</head>
+<body id="mybody" v-cloak>
+<parent-component></parent-component>
+		<div class="main">
+			<!-- 彩种导航区域开始 -->
+	        <div class="quick-nav lottery_draw_nav">
+	            <div class="content clearfix">
+	                <div class="quick-nav-con">
+	                    <a v-for="quickNav in quickNavs" href="javascript:void(0);" :class="{'active':quickNavClass==quickNav.id||quickNavClass==quickNav.id2}" data-id="{{quickNav.id>24&&quickNav.id<201?quickNav.id2:quickNav.id}}" @click="quickFun">{{english[quickNav.name]}}</a>
+	                </div>
+	            </div>
+	        </div>
+	        <!-- 彩种导航区域结束 -->
+	        <div class="content content-sub trendMain">
+				<div class="clearfix">
+		            <div class="zouhao-title con-title">
+		                <p class="title fl">{{english[lotteryName]}}：</p>
+		                <div class="fl tab-box">
+		                    <a href="javascript:void(0);" data-type="history" class="fl" :class="{'active':trendType=='history'}" @click="tableFun">{{english.开奖历史}}</a>
+		                    <a href="javascript:void(0);" data-type="basic" class="fl" :class="{'active':trendType=='basic'}" @click="tableFun" v-if="!numberShow">{{english.基本走势}}</a>
+		                    <a href="javascript:void(0);" data-type="number" class="fl" :class="{'active':trendType=='number'}" @click="tableFun" v-if="numberShow">{{english.号码统计}}</a>
+		                </div>
+		                <div class="fr">
+		                    <!-- <div class="input-item fl" v-if="yilouClass" @click="yilouFun">
+		                        <span class="checkbox checked"></span>遗漏
+		                    </div> -->
+		                    <div class="fl prl-20">
+		                        {{english.日期}}:
+								<!-- <input type="text" class="doubledate input-info time flatpickr-input searchTime" readonly="readonly"> -->
+								<input type="date" class="searchTime">
+		                    </div>
+		                    <div class="search-more fl cancel-btn" @click="searchMore">{{english.查询}}</div>
+		                </div>
+		            </div>
+		        </div>
+		        <div class="hide_box" v-if="!hideDivShow">
+					<table class="num_tab" data-type="trend_number" border="0" cellpadding="0" cellspacing="0">
+						<tbody>
+							<tr class="show_hm" v-if="lotteryName.indexOf('快乐8')==-1">
+								<td>{{english.查看单号分布}}</td>
+								<td>
+									<strong class="trend_hide_num" data-num="1" @click="numHide">
+										<i></i>
+										{{english.号码}}1
+									</strong>
+									<strong class="trend_hide_num" data-num="2" @click="numHide">
+										<i></i>
+										{{english.号码}}2
+									</strong>
+									<strong class="trend_hide_num" data-num="3" @click="numHide">
+										<i></i>
+										{{english.号码}}3
+									</strong>
+									<strong class="trend_hide_num" data-num="4" @click="numHide">
+										<i></i>
+										{{english.号码}}4
+									</strong>
+									<strong class="trend_hide_num" data-num="5" @click="numHide">
+										<i></i>
+										{{english.号码}}5
+									</strong>
+									<strong class="trend_hide_num" data-num="6" @click="numHide">
+										<i></i>
+										{{english.号码}}6
+									</strong>
+									<template v-if="lotteryName.indexOf('快三')==-1 || lotteryName.indexOf('骰宝')!=-1">
+										<strong class="trend_hide_num" data-num="7" @click="numHide">
+											<i></i>
+											{{english.号码}}7
+										</strong>
+										<strong class="trend_hide_num" data-num="8" @click="numHide">
+											<i></i>
+											{{english.号码}}8
+										</strong>
+										<strong class="trend_hide_num" data-num="9" @click="numHide">
+											<i></i>
+											{{english.号码}}9
+										</strong>
+										<template v-if="lotteryName.indexOf('11选5')!=-1">
+											<strong class="trend_hide_num" data-num="10" @click="numHide">
+												<i></i>
+												{{english.号码}}10
+											</strong>
+											<strong class="trend_hide_num" data-num="11" @click="numHide">
+												<i></i>
+												{{english.号码}}11
+											</strong>
+										</template>
+										<template v-else>
+											<template v-if="lotteryName.indexOf('快乐十分')!=-1 || lotteryName.indexOf('幸运农场')!=-1">
+												<strong class="trend_hide_num" data-num="10" @click="numHide">
+													<i></i>
+													{{english.号码}}10
+												</strong>
+												<strong class="trend_hide_num" data-num="11" @click="numHide">
+													<i></i>
+													{{english.号码}}11
+												</strong>
+												<strong class="trend_hide_num" data-num="12" @click="numHide">
+													<i></i>
+													{{english.号码}}12
+												</strong>
+												<strong class="trend_hide_num" data-num="13" @click="numHide">
+													<i></i>
+													{{english.号码}}13
+												</strong>
+												<strong class="trend_hide_num" data-num="14" @click="numHide">
+													<i></i>
+													{{english.号码}}14
+												</strong>
+												<strong class="trend_hide_num" data-num="15" @click="numHide">
+													<i></i>
+													{{english.号码}}15
+												</strong>
+												<strong class="trend_hide_num" data-num="16" @click="numHide">
+													<i></i>
+													{{english.号码}}16
+												</strong>
+												<strong class="trend_hide_num" data-num="17" @click="numHide">
+													<i></i>
+													{{english.号码}}17
+												</strong>
+												<strong class="trend_hide_num" data-num="18" @click="numHide">
+													<i></i>
+													{{english.号码}}18
+												</strong>
+												<strong class="trend_hide_num" data-num="19" @click="numHide">
+													<i></i>
+													{{english.号码}}19
+												</strong>
+												<strong class="trend_hide_num" data-num="20" @click="numHide">
+													<i></i>
+													{{english.号码}}20
+												</strong>
+												<template v-if="lotteryName.indexOf('广西')!=-1">
+													<strong class="trend_hide_num" data-num="21" @click="numHide">
+														<i></i>
+														{{english.号码}}21
+													</strong>
+												</template>
+												
+											</template>
+											<template v-else>
+												<template v-if="lotteryName.indexOf('PK10')!=-1 || lotteryName.indexOf('幸运飞艇')!=-1 ">
+													<strong class="trend_hide_num" data-num="10" @click="numHide">
+														<i></i>
+														{{english.号码}}10
+													</strong>
+												</template>
+												<template v-else>
+													<strong class="trend_hide_num" data-num="0" @click="numHide">
+														<i></i>
+														{{english.号码}}0
+													</strong>
+												</template>
+											</template>
+										</template>
+										
+									</template>
+									<span style="margin-left:20px;">
+										<a class="huanyuan" href="javascript:;"  style="color:red" @click="clearI">还原</a>
+									</span>
+								</td>
+							</tr>
+							<tr class="show_tp">
+								<td>{{english.大小单双分布}}：</td>
+								<td>
+									<strong class="trend_hide_dsdx dan_hide" @click="dxdsHide">
+										<i></i>
+										{{english.单}}
+									</strong>
+									<strong class="trend_hide_dsdx shuang_hide" @click="dxdsHide">
+										<i></i>
+										{{english.双}}
+									</strong>
+									<span>|</span>
+									<strong class="trend_hide_dsdx da_hide" @click="dxdsHide">
+										<i></i>
+										{{english.大}}
+									</strong>
+									<strong class="trend_hide_dsdx xiao_hide" @click="dxdsHide">
+										<i></i>
+										{{english.小}}
+									</strong>
+									<span style="margin-left:20px;">
+										<a class="huanyuan" href="javascript:;" style="color: red" @click="clearI">{{english.还原}}</a>
+									</span>
+									<div id="page" style=""></div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+		        <div id="page" style="text-align:right;" v-if="hideDivShow">
+
+				</div>
+				<div id="contentBox1">
+	                
+
+	            </div>
+            </div>
+		</div>
+</body>
+<script type="text/javascript">
+    (function(exports) {
+        exports.app = new Vue({
+            el: '#mybody',
+            data: function() {
+                return {
+					english: english,
+                  	lotteryId:"",  //彩种ID
+                  	lotteryName:"",  //彩种名称
+                  	trendType:"",  //走势图类型（开奖历史、基本走势等）
+                  	trendTypeName:"",
+                  	trendMess:"",  //存储的数据
+                  	quickNavs:[],  //快捷导航栏
+                  	dataInfo:"",
+                  	quickNavClass:"",  //当前彩种class
+                  	dataName:{},  //传后台
+                  	thisUrl:"",  //引入的文件链接
+                  	hideDivShow:true,
+                  	yilouClass:true,
+					numberShow:false,
+                }
+
+            },
+            ready:function(){
+                var vm = this;
+        		// vm.lotteryId = GetQueryString("lotteryId");
+        		// vm.trendType = GetQueryString("trendType");
+
+        		//获取快捷彩种列表
+			    // vm.lotteryList();
+			    vm.dataInfo = lotteryArrFun();
+			    //初始化
+			    vm.readyFun();
+            },
+            methods:{
+            	//获取快捷彩种
+            	lotteryList:function(){
+            		var vm = this;
+            		vm.dataName.timestamp = timestamp().timestamp;
+				    // $.myAjax("https://www.sglotto.com/api/Help/getLotteryList",vm.dataName,function(newData){
+				    //     vm.dataInfo = newData.data;
+		      //           vm.readyFun();
+				    // })
+            	},
+            	quickFun:function(e){
+            		//快捷导航点击
+            		var vm = this;
+                	var el = e.currentTarget;
+            		vm.lotteryId = $(el).attr("data-id");
+            		vm.trendMess.lotteryId = vm.lotteryId;
+            		var thisType = vm.trendMess.trendType;
+            		if(vm.lotteryId=="2" || vm.lotteryId=="4"){  //北京快乐8、北京PK10、幸运飞艇为号码统计
+            			if(thisType=="basic"||thisType=="number"){
+            				vm.trendMess.trendType = "basic";	
+							}
+					}
+					var oldUrl = vm.changeURLArg(window.location.href,'trendType',vm.trendMess.trendType)
+					var newUrl = vm.changeURLArg(oldUrl,'lotteryId',vm.trendMess.lotteryId)
+					location.href=newUrl
+				},
+				getQueryVariable: function (variable){
+					var query = window.location.search.substring(1);
+					var vars = query.split("&");
+					for (var i=0;i<vars.length;i++) {
+						var pair = vars[i].split("=");
+						if(pair[0] == variable){return pair[1];}
+					}
+					return(false);
+				},
+				changeURLArg: function(url,arg,arg_val){
+									var pattern=arg+'=([^&]*)';
+									var replaceText=arg+'='+arg_val; 
+									if(url.match(pattern)){
+											var tmp='/('+ arg+'=)([^&]*)/gi';
+											tmp=url.replace(eval(tmp),replaceText);
+											return tmp;
+									}else{ 
+											if(url.match('[\?]')){ 
+													return url+'&'+replaceText; 
+											}else{ 
+													return url+'?'+replaceText; 
+											} 
+									}
+							},
+                readyFun:function(){
+                	//初始化
+                	var vm = this;
+					vm.dataName = {};
+					vm.trendMess = {
+						trendType: vm.getQueryVariable('trendType'),
+						lotteryId: vm.getQueryVariable('lotteryId'),
+					}
+	                if(!vm.trendMess){
+	                	vm.trendMess = {};
+	                	vm.trendMess.trendType = "basic";
+	                	vm.trendMess.lotteryId = 1;
+	                }
+	                vm.lotteryId = vm.trendMess.lotteryId;
+					var thisType = vm.trendMess.trendType;
+					vm.trendType = vm.trendMess.trendType;
+					if(vm.trendType=='basic'){
+						document.title = english.基本走势
+					}else{
+						document.title = english.开奖历史
+					}
+	             //    debugger;
+		            // var dataNav = {};
+		            // dataNav.timestamp = timestamp().timestamp;
+	             //    $.myAjax(UrlFun().getlotteryListInfo, dataNav, function(newData) {
+		            //     var lottery = newData.data;
+		            //     var quickNavs1=[];
+	             //    	for(var i in lottery){
+			           //      for(var j in lottery[i].child){
+		            //             quickNavs1.push(lottery[i].child[j]);
+		            //         }
+		            //     }
+		            //     if(lottery.length==){
+
+		            //     }
+		            // })
+                	// for(var i in vm.dataInfo){
+					for(var j in vm.dataInfo){
+						vm.quickNavs.push(vm.dataInfo[j]);
+						if(vm.lotteryId==vm.dataInfo[j].id||vm.lotteryId==vm.dataInfo[j].id2){
+							vm.quickNavClass=vm.dataInfo[j].id;
+							vm.lotteryName = vm.dataInfo[j].name;
+						}
+					}
+	                // }
+	                //初始化查询的时间
+	                $(".doubledate").flatpickr({
+				        "defaultDate":timestamp().myDate,
+				        locale: "zh",
+				    });
+				    //初始化遗漏的选择
+				    $(".input-item").find(".checkbox").addClass("checked");
+				    //初始化历史{{english.开奖号码}}分布
+				    $(".trend_hide_num i").removeClass("checked");
+				    $(".trend_hide_dsdx i").removeClass("checked");
+				    
+				    //判断走势图还是历史开奖
+	                if(vm.trendType=="basic"){
+	                	var typeUrl = "basic";
+	                	vm.hideDivShow = true;
+						vm.yilouClass = true;
+                		vm.numberShow = false;
+                		vm.trendTypeName = english.基本走势;
+						if(vm.lotteryName.indexOf("六合彩")!=-1){
+							vm.yilouClass = false;
+						}
+	                }else if(vm.trendType=="number"){
+                		vm.trendTypeName = english.号码统计;
+                		vm.numberShow = true;
+                		vm.hideDivShow = true;
+						vm.yilouClass = false;
+	                }
+	                //各彩种走势图、开奖历史的链接
+	                if(vm.lotteryName.indexOf("时时彩")!=-1||vm.lotteryName.indexOf("三分彩")!=-1||vm.lotteryName.indexOf("分分彩")!=-1){
+                		vm.thisUrl = "ssc_"+vm.trendType+".html";
+					}else if(vm.lotteryName.indexOf("六合彩")!=-1){
+						vm.yilouClass = false;
+						vm.thisUrl = "xglhc_"+vm.trendType+".html";
+					}else if(vm.lotteryName.indexOf("28")!=-1){
+                		vm.thisUrl = "xy28_"+vm.trendType+".html";
+					}else if(vm.lotteryName.indexOf("PK10")!=-1 || vm.lotteryName.indexOf("幸运飞艇")!=-1|| vm.lotteryName.indexOf("急速赛车")!=-1){
+                		vm.thisUrl = "pks_"+vm.trendType+".html";
+					}else if(vm.lotteryName.indexOf("牛牛")!=-1){
+						vm.yilouClass = false;
+						vm.thisUrl = "niuniu_"+vm.trendType+".html";
+					}else if(vm.lotteryName.indexOf("骰宝")!=-1){
+						vm.yilouClass = false;
+						vm.thisUrl = "sb_"+vm.trendType+".html";
+					}
+
+                	//加载内容
+					$("#contentBox1").load(vm.thisUrl);
+					vm.getDataTrend();
+                },
+                getDataTrend:function(){
+                	//获取对应数据
+                	var vm = this;
+					vm.dataName.lottery_type = vm.lotteryId;
+					if(vm.trendType=="basic"){
+						trendFun(vm.dataName);
+					}else if(vm.trendType=="history"){
+						historyFun(vm.dataName);
+					}else if(vm.trendType=="number"){
+						trendFun(vm.dataName);
+					}
+                },
+                tableFun:function(e){
+                	//切换基本走势、开奖历史
+                	var vm = this;
+                	var el = e.currentTarget;
+                	vm.trendType = $(el).attr("data-type");
+            			vm.trendMess.trendType = vm.trendType;
+									var newUrl = vm.changeURLArg(window.location.href,'trendType',vm.trendMess.trendType)
+									location.href=newUrl
+                },
+                searchMore:function(){
+                	//查找更多
+                	var vm = this;
+                	vm.dataName.time = $(".searchTime").val();
+                	vm.dataName.day = $(".searchTime").val();
+                	vm.getDataTrend();
+                },
+                yilouFun:function(e){
+                	//遗漏隐藏
+                	var vm = this;
+                	var el = e.currentTarget;
+                	$(el).find(".checkbox").toggleClass("checked");
+					$(".trend_numstat_tab table tbody .qiu").find(".hideTd").toggleClass("textIndent");
+                },
+                numHide:function(e){
+                	//号码分布
+                	var vm = this;
+                	var el = e.currentTarget;
+                	var dataNum = $(el).attr("data-num");
+                	//初始化号码分布选中
+                	$(".trend_hide_dsdx").find("i").removeClass("checked");
+                	//点击添加class
+                	var nowI=$(el).find('i');
+					var all_nums = [];
+					if(nowI.hasClass('checked')){
+						nowI.removeClass('checked');
+					}else{
+						nowI.addClass('checked');
+					}
+					//将选中的号码存入数组中
+					$(".trend_hide_num").each(function() {
+						if ($(this).find("i").hasClass("checked")) {
+							all_nums.push($(this).data('num'));
+						}
+					});
+					//在表格的数据中找数组中对应的值，添加蒙层
+					$(".sub_table i").each(function() {
+						var num=$(this).data('num');
+						if (all_nums.indexOf(num) >= 0) {
+							$(this).removeClass("g_shade");
+						} else {
+							$(this).addClass("g_shade");
+						}
+					});
+					//数组为空时，表格中数据清空蒙层
+					if(all_nums==""){
+						$(".sub_table i").removeClass("g_shade");
+					}
+                },
+                dxdsHide:function(e){
+                	//大小单双分布
+                	var vm = this;
+                	var el = e.currentTarget;
+                	var nowI = $(el).find("i");
+                	//初始化号码分布选中
+                	$(".trend_hide_num").find("i").removeClass("checked");
+                	//点击添加class
+					if(nowI.hasClass("checked")){
+						nowI.removeClass("checked");
+					}else{
+						nowI.addClass("checked");
+					}
+					//判断大小单双
+					var dan = $(".dan_hide").find("i");
+					var shuang = $(".shuang_hide").find("i");
+					var da = $(".da_hide").find("i");
+					var xiao = $(".xiao_hide").find("i");
+					if($(el).hasClass("dan_hide")){ //单
+						shuang.removeClass("checked");
+					}else if($(el).hasClass("shuang_hide")){ //双
+						dan.removeClass("checked");	
+					}else if($(el).hasClass("da_hide")){ //大
+						xiao.removeClass("checked");
+					}else if($(el).hasClass("xiao_hide")){ //小
+						da.removeClass("checked");
+					}
+					//各个彩种对应的大小取值范围
+					if(vm.lotteryName.indexOf("11选5")!=-1 || vm.lotteryName.indexOf("PK10")!=-1 || vm.lotteryName.indexOf("幸运飞艇")!=-1){
+                		var numIndex = 5;
+					}else if(vm.lotteryName.indexOf("快三")!=-1 || vm.lotteryName.indexOf("骰宝")!=-1){
+                		var numIndex = 3;
+					}else if(vm.lotteryName.indexOf("快乐十分")!=-1 || vm.lotteryName.indexOf("幸运农场")!=-1){
+                		var numIndex = 10;
+					}else if(vm.lotteryName.indexOf("北京快乐8")!=-1){
+                		var numIndex = 40;
+					}else{
+						var numIndex = 4;
+					}
+					//单选中的时候
+					if(dan.hasClass("checked")){
+						if(da.hasClass("checked")){ //若大也选中
+							$(".sub_table tr td i").each(function(){
+								if(($(this).data("num")%2)==0 || $(this).data("num")<=numIndex){
+									$(this).addClass("g_shade");
+								}else{
+									$(this).removeClass("g_shade");
+								}
+							})
+						}else if(xiao.hasClass("checked")){ //若小也选中
+							$(".sub_table tr td i").each(function(){
+								if(($(this).data("num")%2)==0 || $(this).data("num")>numIndex){
+									$(this).addClass("g_shade");
+								}else{
+									$(this).removeClass("g_shade");
+								}
+							})
+						}else{
+							$(".sub_table tr td i").each(function(){  //否则只选中单
+								if(($(this).data("num")%2)==0){
+									$(this).addClass("g_shade");
+								}else{
+									$(this).removeClass("g_shade");
+								}
+							})
+						}
+					}else if(shuang.hasClass("checked")){  //双选中的时候
+						if(da.hasClass("checked")){  //若大也选中
+							$(".sub_table tr td i").each(function(){
+								if(($(this).data("num")%2)!==0 || $(this).data("num")<=numIndex){
+									$(this).addClass("g_shade");
+								}else{
+									$(this).removeClass("g_shade");
+								}
+							})
+						}else if(xiao.hasClass("checked")){ //若小也选中
+							$(".sub_table tr td i").each(function(){
+								if(($(this).data("num")%2)!==0 || $(this).data("num")>numIndex){
+									$(this).addClass("g_shade");
+								}else{
+									$(this).removeClass("g_shade");
+								}
+							})
+						}else{
+							$(".sub_table tr td i").each(function(){ //否则只选中单
+								if(($(this).data("num")%2)!==0){
+									$(this).addClass("g_shade");
+								}else{
+									$(this).removeClass("g_shade");
+								}
+							})
+						}
+					}else if(da.hasClass("checked")){  //大选中的时候
+						$(".sub_table tr td i").each(function(){
+							if($(this).data("num")>numIndex){
+								$(this).removeClass("g_shade");
+							}else{
+								$(this).addClass("g_shade");
+							}
+						})
+					}else if(xiao.hasClass("checked")){  //小选中的时候
+						$(".sub_table tr td i").each(function(){
+							if($(this).data("num")<=numIndex){
+								$(this).removeClass("g_shade");
+							}else{
+								$(this).addClass("g_shade");
+							}
+						})
+					}else{  //都没选中的时候
+						$(".sub_table tr td i").removeClass("g_shade");
+					}
+                },
+                clearI:function(e){
+                	//还原操作
+                	var vm = this;
+                	var el = e.currentTarget;
+                	var sib = $(el).parents("td").find("strong");
+                	sib.find("i").removeClass("checked");
+                	$(".sub_table i").removeClass('g_shade');
+                },
+            },
+        })
+    })(window);
+</script>
+<script type="text/javascript">
+	$(function(){
+		$(window).bind("scroll",function() { 
+            if($(document).scrollTop()>122){
+                flag=true;
+                $(".lottery_draw_nav").css({"position":"fixed","top":"0","left":"0","z-index":"100"});
+            }else if($(document).scrollTop()<120){
+                flag=false;
+               $(".lottery_draw_nav").css({"position":"inherit"}); 
+            }    
+        })
+	})
+</script>

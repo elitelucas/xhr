@@ -1,0 +1,49 @@
+{template header}
+  <!-- News -->
+  <link href="../../statics/resource/css/news_center/news.css" rel="stylesheet">
+  
+  <!-- 路径导航 -->
+  {template article-nav-path}
+  <!-- /路径导航 -->
+  
+  <div class="container">
+    <!-- 左边导航 -->
+    {template article-nav-left}
+    <!-- /左边导航 -->
+    
+    <!-- 右边新闻内容 -->
+    <div class="news-right pull-right">
+      <!-- 标题 -->
+      <div class="video-title color-main bold font18px">视频广场</div>
+      <!-- /标题 -->
+      
+      <!-- 内容 -->
+      <div class="video-content">
+       {if isset($list)  && !empty($list)}
+        <ul class="unlist video-box">
+		        <?php foreach($list as $key=>$vo){?> 
+          <li>
+          <a href="<?=url('','','disp',array('id'=>$vo['id']))?>">
+              <?php $img_url = APP_PATH."/up_files/".$vo['img_url'];?>
+          <img class="img-thumbnail shadow" src="{$img_url}" alt="">
+          </a>
+          <a class="video-title-a" href="<?=url('','','disp',array('id'=>$vo['id']))?>" title="{$vo['title']}">{$vo['title']}</a>
+          </li>
+		        {if $key%5==0  && $key!=0}
+		</ul>
+		<ul class="unlist video-box">
+		        {/if}
+		      	<?php }?>   
+		</ul>
+		{else}
+		<ul class="unlist video-box">
+		       	<li>暂无视频!</li>
+		</ul>
+       {/if} 
+      </div>
+      <!-- /内容 -->
+    </div>
+    <!-- /右边新闻内容 -->
+  </div>
+  
+{template footer}

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <!--  <link rel="stylesheet" href="statics/admin/css/pintuer.css"> -->
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+    <script src="statics/admin/js/pintuer.js"></script>
+    <script src="statics/admin/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- template-begin+++ -->
+    {template public-new-ui-header}
+    <!-- template-end+++ -->
+    <script src="statics/admin/js/jquery.date_input.pack.js"></script>
+    <link rel="stylesheet" href="statics/admin/jedate/skin/jedate.css">
+    <script type="text/javascript" src="statics/admin/jedate/jquery.jedate.min.js"></script>
+
+    <!-- 图片上传 引入插件 -->
+    <script src="statics/admin/fileupload/js/vendor/jquery.ui.widget.js"></script>
+    <script src="statics/admin/fileupload/js/jquery.fileupload.js"></script>
+
+    <style type='text/css'>
+        #page{height: 60px;margin-top: 20px;text-align: center;}
+        #page ul li{float: left;margin-right:10px;}
+        #page ul .current{ background-color:#0099ff;text-align:center;}
+        .table td div.username{
+            height: 23px;
+            overflow: hidden;
+            white-space:nowrap;
+            text-overflow: ellipsis;
+        }
+        .table tbody tr td{
+            vertical-align: middle;
+        }
+        .table>thead>tr>th {
+            vertical-align: middle;
+        }
+        .rules-1{
+            float: left;
+            height: 35px;
+            line-height: 35px;
+            padding-right:10px;
+        }
+        .rules-2{
+            float: left;
+            height: 35px;
+            line-height: 35px;
+            padding:0 10px 0 10px;
+        }
+        .rules-3{
+            float: left;
+            width: 20%;
+        }
+    </style>
+</head>
+<body style="margin: 15px;background-color: #f3f3f4;">
+<div class="ibox float-e-margins">
+    <div class="ibox-title iboxWTitle">
+        <h5>红包设置</h5>
+        <div class="ibox-tools">
+            <a href="javascript:void(0)" class="btn btn-white btn-bitbucket" onclick="javascript:history.go(-1);">
+                <i class="fa fa-reply"></i> 返回
+            </a>
+        </div>
+    </div>
+    <div class="ibox-content bagCol">
+        <div class="ibox-title">
+            <h5>设置详情</h5>
+        </div>
+        <div class="ibox-content">
+            <form method="get" class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">红包名称</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" name="activity_title" value="{$activity_info['activity_title']}" maxlength="10" placeholder="活动名称只能输入字母，数字，下划线以及中文并且长度不超过10个字符" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">红包活动时间</label>
+                    <div class="col-sm-7">
+                        <div class="input-group">
+                            <input style="width: 43%" type="text" name="start_time" id="start_time" class="date_picker form-control start_time" value="{$s_date}" />
+                            <span style="float: left;line-height: 34px;padding: 0 20px 0 20px;">至</span>
+                            <input style="width: 43%" type="text" name="end_time" id="end_time" class="date_picker form-control end_time" value="{$e_date}" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">红包总个数</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" name="redpacket_all_count" value="{$activity_info['redpacket_all_count']}" maxlength="10" placeholder="红包总个数只能输入数字，并且长度不超过10个字符" />
+                        <p style="color: gray;padding-top: 10px;">先到先得，红包领取完毕后自动结束</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">红包预留个数</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" name="redpacket_reserved_count" value="{$activity_info['redpacket_reserved_count']}" maxlength="10" placeholder="红包预留个数只能输入数字，并且不超过红包总个数" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">红包分配方式</label>
+                    <div class="col-sm-10">
+                    <span class="rules-1">
+                        <select name="redpacket_divided_type" class="divided_type form-control" style="width: 150px;float: left;margin-right: 20px;">
+                            <option value="1" {if $activity_info['redpacket_divided_type'] == '1'}selected="selected"{/if}>固定数值</option>
+                            <option value="2" {if $activity_info['redpacket_divided_type'] == '2'}selected="selected"{/if} >随机数值</option>
+                        </select>
+                    </span>
+                        <div style="float: left;width: 800px;display: none" class="divided_type_1">
+                            <span class="rules-2">单笔固定金额</span>
+                            <input type="text" style="width:100px;float: left" value="{$activity_info['redpacket_max_money']}" class="form-control" name="redpacket_max_money" maxlength="10" />
+                            <span class="rules-2" style="color:gray"><font >(该值只能输入数字，并且不超过10位数)</font></span>
+                        </div>
+                        <div style="float: left;width: 800px;display: none" class="divided_type_2">
+                            <span class="rules-2">最高随机金额</span>
+                            <input type="text" style="width:100px;float: left" value="{$activity_info['redpacket_max_money']}" class="form-control" name="redpacket_max_money" maxlength="10" />
+                            <span class="rules-2" style="color:gray"><font >(该值只能输入数字，并且不超过10位数，最低随机金额为0.10)</font></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">前台是否显示红包领取记录</label>
+                    <div class="col-sm-3">
+                        <select class="form-control m-b" name="is_show_others_log">
+                            <option value="1" {if $activity_info['is_show_others_log'] == 1} selected="selected" {/if}>显示</option>
+                            <option value="2" {if $activity_info['is_show_others_log'] == 2} selected="selected" {/if}>不显示</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">红包状态</label>
+                    <div class="col-sm-3">
+                        <select class="form-control m-b" name="is_underway">
+                            <option value="0" {if $activity_info['is_underway'] == 0} selected="selected" {/if}>未开启</option>
+                            <option value="1" {if $activity_info['is_underway'] == 1} selected="selected" {/if}>开启</option>
+                            <option value="2" {if $activity_info['is_underway'] == 2} selected="selected" {/if}>关闭</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">领取条件</label>
+                    <div class="col-sm-7">
+                        <span class="rules-1">① 有效打码量大于等于</span>
+                        <input class="form-control rules-3 rules must_be_bigger_than_one" data-key="betting_val" value="{$activity_rules_data['betting_val']}" type="text" />
+                        <span class="rules-2">活动时间段内有效的投注金额</span>
+
+                        <br /><br />
+
+                        <span class="rules-1">② 充值次数大于等于</span>
+                        <input class="form-control rules-3 rules must_be_bigger_than_one" data-key="recharge_times_val" value="{$activity_rules_data['recharge_times_val']}" type="text" />
+                        <span class="rules-2">活动时间段内充值次数</span>
+
+                        <br /><br />
+
+                        <span class="rules-1">③ 充值额度大于等于</span>
+                        <input class="form-control rules-3 rules must_be_bigger_than_one" data-key="recharge_money_val" value="{$activity_rules_data['recharge_money_val']}" type="text" />
+                        <span class="rules-2">活动时间段内充值金额</span>
+
+                        <textarea style="display:none;" name="rules_json">{$activity_info['rules_json']}</textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">会员组</label>
+                    <div class="col-sm-10">
+                        <label class="checkbox-inline"><input type="checkbox" class="group_check_all">全部</label>
+                        {loop $group_info_arr $group_val}
+                        <label class="checkbox-inline">
+                            <input name="user_group_limit" type="checkbox" class="group_check" value="{$group_val['id']}" {if in_array($group_val['id'], $user_group_limit_arr)} checked="checked" {/if} />{$group_val['name']}
+                        </label>
+                        {/loop}
+                        <input type="hidden" name="user_group_limit" value="{$activity_info['user_group_limit']}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">红包图片</label>
+                    <div class="col-sm-4">
+                        {if $activity_info['is_underway'] == '0' || $activity_info['is_underway'] == ''}
+                        <img class="view" src="{$activity_info['redpacket_pic']}" alt="" style="width:180px; height: 180px; {if !$activity_info['redpacket_pic']}display:none;{/if}" onclick="this.nextElementSibling.click();">
+                        <input style="display:none;" name="file" class="file_upload" type="file">
+                        <a href="javascript:;" class="upload_file_link" onclick="this.previousElementSibling.click();">上传图片（建议尺寸：60*60）</a>
+                        <input name="redpacket_pic" id="redpacket_pic" value="{$activity_info['redpacket_pic']}" type="hidden">
+                        {else}
+                        <img class="view" src="{$activity_info['redpacket_pic']}" alt="" style="width:180px; height: 180px;">
+                        {/if}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label"></label>
+                    <div class="col-sm-3 col-sm-offset-1">
+                        {if $activity_info['is_underway'] == '0' || $activity_info['is_underway'] == ''}
+                        <button class="btn btn-primary" type="button" data-id="{$activity_info['id']}" id="btn_submit">提交</button>
+                        {/if}
+                        <button class="btn btn-white" type="button" style="border: 1px solid #e7eaec" onclick="javascript:history.go(-1);">取消</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</div>
+</body>
+<script type="text/javascript">
+    $(function () {
+
+        //红包分配方式切换
+        $('.divided_type').change(function () {
+            var key = $(this).val();
+            if (key == 1) {
+                $(".divided_type_1").show();
+                $(".divided_type_2").hide();
+                $(".divided_type_1").find("input").attr('disabled',false);
+                $(".divided_type_2").find("input").attr('disabled',true);
+            } else if(key == 2) {
+                $(".divided_type_1").hide();
+                $(".divided_type_2").show();
+                $(".divided_type_1").find("input").attr('disabled',true);
+                $(".divided_type_2").find("input").attr('disabled',false);
+            }
+        });
+
+        $('.divided_type').change();
+
+        //上传图片
+        $(".file_upload").fileupload({
+            url: "?m=admin&c=redpacket&a=uploadImg",
+            sequentialUploads: true
+        }).bind('fileuploaddone', function(e, data) {
+
+            var res = $.parseJSON(data.result);
+            if (res.status == 0) {
+                $(".view").attr({'src': res.data }).show();
+                $('#redpacket_pic').val(res.data);
+            } else {
+                layer.alert(res.data,{icon:5, shade: [0.5, '#393D49']}); //弹出错误信息
+                return false;
+            }
+        });
+
+        //全选按钮
+        var $group_check_all = $('.group_check_all');
+
+        //全选初始化选中/未选中
+        if ($('.group_check').not(':checked').length == 0) {
+            $group_check_all.prop('checked', true);
+        } else {
+            $group_check_all.prop('checked', false);
+        }
+
+        //全选
+        $group_check_all.change(function () {
+            var group_check_val = $(this).prop('checked');
+            $(this).parent().parent().find('.group_check').each(function () {
+                $(this).prop('checked', group_check_val);
+            });
+        });
+
+        //当取消或选中会员组时，判断当前是否满足全选状态，并操作全选按钮
+        var $group_check = $('.group_check');
+        $group_check.click(function () {
+            var checked_box_len = $('.group_check:checked').length;
+            if ($group_check.length == checked_box_len) {
+                $group_check_all.prop('checked', true);
+            } else {
+                $group_check_all.prop('checked', false);
+            }
+        });
+
+        //时间插件
+        $(".date_picker").jeDate({
+            isinitVal:true,
+            festival:true,
+            ishmsVal:true,
+            // minDate: '2016-06-16 23:59:59',
+            // maxDate: $.nowDate(0),
+            format:"YYYY-MM-DD hh:mm:ss",
+            zIndex:3000,
+        });
+
+        //保存
+        $('#btn_submit').click(function () {
+            var update_id = $(this).data('id');
+
+            //初始化数据对象
+            var post_data_obj = {};
+            post_data_obj.id = update_id;
+
+            post_data_obj.start_time = $('[name="start_time"]').val();
+            post_data_obj.end_time = $('[name="end_time"]').val();
+
+            $must_be_bigger_than_one = $('.must_be_bigger_than_one');
+            var tmp_len = $must_be_bigger_than_one.length;
+            for (tmp_i = 0; tmp_i < tmp_len; tmp_i++) {
+                var tmp_value = $.trim($must_be_bigger_than_one[tmp_i].value);
+//                if (tmp_value == '' || tmp_value == '0') {
+//                    layer.alert('领取条件不能为0或者空！', {icon: 5, shade: [0.5, '#393D49']});
+//                    return false;
+//                }
+            }
+
+            //判断时间是否合法
+            if (new Date(post_data_obj.start_time) > new Date(post_data_obj.end_time)) {
+                layer.alert('活动开始时间不能大于结束时间！', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+
+            //判断活动名称不能为空
+            post_data_obj.activity_title = $('[name="activity_title"]').val();
+            if ($.trim(post_data_obj.activity_title) == "") {
+                layer.alert('活动名称不能为空！', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+
+            //正整数正则
+            var right_num_regexp = /^\d+$/;
+
+            //判断红包总个数的合法性
+            post_data_obj.redpacket_all_count = Number($('[name="redpacket_all_count"]').val());
+            if (! right_num_regexp.test(post_data_obj.redpacket_all_count)) {
+                layer.alert('红包总个数必须为正整数！', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+
+            //判断红包预留个数的合法性
+            post_data_obj.redpacket_reserved_count = Number($('[name="redpacket_reserved_count"]').val());
+            if (! right_num_regexp.test(post_data_obj.redpacket_reserved_count) ||
+                post_data_obj.redpacket_reserved_count > post_data_obj.redpacket_all_count  
+                ) {
+                layer.alert('红包预留个数必须为正整数且不能大于红包总个数！', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+
+            //判断固定金额/随机金额的合法性
+            post_data_obj.redpacket_max_money = $('[name="redpacket_max_money"]:visible').val();
+            if (! (Number(post_data_obj.redpacket_max_money) > 0.1)) {
+                layer.alert('固定金额/随机金额必须为正数且不能小于0.1！', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+
+
+            //红包分配方式
+            post_data_obj.redpacket_divided_type = $('[name="redpacket_divided_type"]').val();
+
+            //活动是否正在进行中
+            post_data_obj.is_underway = $('[name="is_underway"]').val();
+
+            //是否前台显示红包记录
+            post_data_obj.is_show_others_log = $('[name="is_show_others_log"]').val();
+
+            //红包图片
+            post_data_obj.redpacket_pic = $('[name="redpacket_pic"]').val();
+
+            //玩法规则处理
+            var rules_obj = {};
+            $('.rules').each(function () {
+                var $this = $(this), 
+                    data_key = $this.data('key');
+                rules_obj[data_key] = $this.val();
+            });
+            post_data_obj.rules_json = rules_obj;
+
+            //层级限制的用户组
+            var group_check_arr = [];
+            $('.group_check:checked').each(function (i) {
+                group_check_arr[i] = $(this).val();
+            });
+            post_data_obj.user_group_limit = group_check_arr.join(',');
+
+            if (post_data_obj.is_underway == '0') {
+                activity_save(post_data_obj);
+
+            } else if (post_data_obj.is_underway == '1') {
+                //红包分配方式字串
+                var divided_type_txt = '',
+                    divided_money_tips_txt = '';
+                if (post_data_obj.redpacket_divided_type == '1') {
+                    divided_type_txt = '固定金额';
+                    divided_money_tips_txt = '单笔固定金额：' + post_data_obj.redpacket_max_money;
+                } else if (post_data_obj.redpacket_divided_type == '2') {
+                    divided_type_txt = '随机金额';
+                    divided_money_tips_txt = '最高随机金额：' + post_data_obj.redpacket_max_money;
+                }
+
+                var sure_html = [
+                    '<p>红包活动名称：', post_data_obj.activity_title, '</p>',
+                    '<p>红包总个数：', post_data_obj.redpacket_all_count, '</p>',
+                    '<p>红包预留个数：', post_data_obj.redpacket_reserved_count, '</p>',
+                    '<p>红包分配方式：', divided_type_txt, '</p>',
+                    '<p>', divided_money_tips_txt, '</p>',
+                    '<p>红包活动时间：<br>', post_data_obj.start_time, ' ~ ', post_data_obj.end_time, '</p>',
+                    '<p class="sure_tips">注意：红包活动开启后，不可修改，只能停止该活动后，重新开启新的活动。确定开启该红包活动？</p>',
+                ].join('');
+                layer.confirm(sure_html, {title:'确认信息'}, function(layer_index){
+                    activity_save(post_data_obj);
+                    layer.close(layer_index);
+                });
+
+            } else if (post_data_obj.is_underway == '2') {
+                var sure_html = [
+                    '<p class="sure_tips">注意：红包活动停止后，不可修改。确定停止该红包活动？</p>',
+                ].join('');
+                layer.confirm(sure_html, {title:'确认信息'}, function(layer_index){
+                    activity_save(post_data_obj);
+                    layer.close(layer_index);
+                });
+            }
+        });
+    });
+
+    function activity_save (post_data_obj) {
+
+        //等待层
+        var loading;
+
+        //提交
+        $.ajax({
+            url: '?m=admin&c=redpacket&a=redpacketSave',
+            data: post_data_obj,
+            dataType: 'json',
+            type: 'post',
+            beforeSend: function () {
+                loading = layer.load(1);
+            },
+            error: function () {
+                layer.close(loading);
+                layer.msg('参数错误或网络异常！！！', {icon: 5, shade: [0.5, '#393D49']});
+            },
+            success: function (result) {
+                layer.close(loading);
+                if (result.rt) {
+                    layer.msg('操作成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                        location.href='?m=admin&c=redpacket&a=redpacketList'
+                    });
+                } else {
+                    layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']});
+                }
+            }
+        });
+    }
+
+
+</script>
+</html>

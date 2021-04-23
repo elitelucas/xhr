@@ -1,0 +1,252 @@
+{template header}
+  {template borrow-comf-model}
+  <link rel="stylesheet" href="<?=SITE_PROTOCOL.C('cdn_path')?>resource/css/invest/invest.css">
+  <link rel="stylesheet" href="<?=SITE_PROTOCOL.C('cdn_path')?>resource/js/picbox/picbox.min.css">
+  <script src="<?=SITE_PROTOCOL.C('cdn_path')?>resource/js/picbox/picbox.min.js"></script>
+  <script src="<?=SITE_PROTOCOL.C('cdn_path')?>resource/js/mousewheel/3.1.12/jquery.mousewheel.min.js"></script>
+
+  <div class="container">
+    <!-- 路径导航 -->
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('borrow','default','index')?>">我要理财</a></li>
+      <li class="active">优选专区</li>
+      <li class="active">{$info['title']}</li>
+    </ol>
+    <!-- /路径导航 -->
+    <div class="invest-box border-radius shadow">
+      <div class="invest-param-title">
+        <span class="{if $info['borrow_type'] == 1}flg-xin{/if}{if $info['borrow_type'] == 2}flg-ya{/if}{if $info['borrow_type'] == 3}flg-xin{/if}{if $info['borrow_type'] == 4}flg-xin{/if}{if $info['borrow_type'] == 5}flg-xin{/if}"></span>
+        {if $info['is_dxb'] == 1}
+          <span class="flg-yue"></span>
+        {/if}
+        {if !empty($info['zhuanrangren'])}
+            <span class="flg-tuo"></span>
+            {/if}
+        {if $info['award']==1}
+          <span class="itooltip flg-jiang2" data-toggle="tooltip" data-trigger="hover" data-placement="top" title="{$info['bonus']}元"></span>
+        {elseif $info['award']==2}
+          <span class="itooltip flg-jiang2" data-toggle="tooltip" data-trigger="hover" data-placement="top" title="{$info['bonus']}%"></span>
+        {/if}
+        {if !empty($info['zhuanrangren'])}<span style="color:red;">{else}<span>{/if}{$info['title']}</span>
+        <span class="color999">(项目编号：CHT<?=str_pad($info['id'],6,'0',STR_PAD_LEFT)?>)</span>
+      </div>
+      <div class="invest-param-left">
+        <ul class="invest-param-ul unlist">
+          <li class="invest-param-li1">
+            <p>借款金额（元）</p>
+            <div class="font24px bold color-main">￥<?=number_format($info['account'],2)?></div>
+          </li>
+          <li class="invest-param-li2">
+            <p>借款年利率</p>
+            <div class="font24px bold color-main"><?=$info['apr']*100?>%</div>
+          </li>
+          <li class="invest-param-li3">
+            <p>借款期限</p>
+            <div class="font24px bold color-main">{$info['time_limit']}{if $info['is_datetype']==0}个月{else} 天{/if}</div>
+          </li>
+        </ul>
+        <p class="invest-param-p pull-left">还款方式：<span class="color-main">{if !empty($info['style'])}{$hkfx[$info['style']]['name']}{else}{$hkfx[$info['style']]['name']}{/if}</span></p>
+        <p class="invest-param-p2 pull-left">投资奖励：<span class="color-main">{if $info['award']==1}{$info['bonus']}元{elseif $info['award']==2}{$info['bonus']}%{else}无{/if}</span></p>
+        <p class="invest-param-p pull-left">发标时间：<span class="color-main"><?=date("Y-m-d H:i:s",$info['verify_time'])?></span></p>
+        <p class="invest-param-p2 pull-left">投标次数：<span class="color-main"><?=count($tender);?>次</span></p>
+        <div class="clearfix"></div>
+        <div class="invest-param-time">
+          <div class="param-time-left pull-left">
+          {if $info['status']==6}
+			复审时间：<span class="color-main ifengjin-countdown"><?=date("Y-m-d H:i:s",$info['review_time'])?></span>
+          {else}
+            剩余时间：<span id="endtime" class="color-main ifengjin-countdown"><?=strtotime("+".$info['valid_time']." days",$info['verify_time'])-SYS_TIME?></span>
+          {/if}
+          </div>
+          <!-- 进度 -->
+          <div class="param-time-right pull-right">
+            <div class="param-progress-title pull-left">投资进度：</div>
+            <div class="param-progress progress pull-left">
+              <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:<?=round(($info['account_tender']/$info['account'])*100,2)?>%;"></div>
+            </div>
+            <div class="param-progress-value font12px pull-left"><?=round(($info['account_tender']/$info['account'])*100,2)?>%</div>
+          </div>
+          <!-- /进度 -->
+        </div>
+        <div class="clearfix"></div>
+      </div>
+      <div class="invest-param-right pull-right">
+        <div class="love"><a href="<?=url('activity','carefund','index')?>"><span class="glyphicon glyphicon-heart"></span> 爱心捐助</a></div>
+        <p>可用余额：<span class="color-main">{if !empty($info['zhuanrangren'])}{$rs['withdrawAbleBalance']}{else}{$w_account['money_usable']}{/if}</span>元</p>
+        <p>投标限额：<span class="color-main">￥{$info['lowest_account']} - 不限{if $info['most_account']>0}{$info['most_account']}{/if}</span></p>
+        <p>可投金额：<span class="color-main" style="color:#F00;">￥<?=number_format(bcsub($info['account'],$info['account_tender'],2),2)?></span>元</p>
+        <p>
+          <a href="javascript:void(0);" class="ipopup-show-btn btn btn-warning">{if $info['status']==2}投标{elseif $info['status']==3}等待复审{elseif $info['status']==5}流标{elseif $info['status']==6}还款中{elseif $info['status']==7}已完成{/if}</a>
+        </p>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <ul class="invest-detaile nav nav-tabs font16px bold" role="tablist">
+      <li class="active"><a href="#detail" role="tab" data-toggle="tab">项目详情</a></li>
+      <li><a href="#detai2" role="tab" data-toggle="tab">风控审核</a></li>
+      <!--<li><a href="#detai3" role="tab" data-toggle="tab">安全保障</a></li>-->
+      <li><a href="#record" role="tab" data-toggle="tab">投资记录</a></li>
+    </ul>
+    <div class="tab-content">
+      <!-- 项目详情 -->
+      <div class="tab-pane active" id="detail">
+        <table class="table table-bordered table-hover">
+          <tr>
+            <td>性别：{if $userinfo['sex']==1}男{elseif $userinfo['sex']==2}女{else}保密{/if}</td>
+            <td>年龄：{if $userinfo['birthday']}<?=date("Y")-date("Y",$userinfo['birthday'])?>岁{/if}</td>
+            <td>婚姻：{if $userinfo['marry']==1}已婚{else}未婚{/if}</td>
+          </tr>
+          <tr>
+            <td>居住所在地：{if empty($userinfo['liveaddress'])}{$region[$userinfo['province']]}{$region[$userinfo['city']]}{$region[$userinfo['area']]}{else}{$userinfo['liveaddress']}{/if}</td>
+            <td colspan="2">资产：{if $userinfo['assets']}<?=$userinfo['assets']?>元{else}无{/if}</td>
+            <!--<td>征信评级：{if $userinfo['credit_rating']}<?=$userinfo['credit_rating']?>{else}无{/if}</td>-->
+          </tr>
+          <tr>
+            <td>房产价值：{if $userinfo['housing']}<?=$userinfo['housing']?>元{else}无{/if}</td>
+            <td>月营业额：{if $userinfo['income']}<?=$userinfo['income']?>元{else}无{/if}</td>
+            <td>授信额度：<?=number_format($credit['credit'],2)?>元</td>
+            <!--<td>负债情况：{if $userinfo['liabilities']}<?=$userinfo['liabilities']/10000?>万{else}无{/if}</td>-->
+          </tr>
+          <tr>
+            <td>已用授信额度：<?=number_format($credit['credit_nouse'],2)?>元</td>
+            <td colspan="2">剩余授信额度：<?=number_format($credit['credit_use'],2)?>元</td>
+            <!--<td>已借额度：<?=number_format($credit['credit_nouse'],2)?></td>-->
+          </tr>
+        </table>
+        <!-- 审核通过印章 -->
+        <div class="invest-detail-pass"><div class="invest-icon-pass"></div></div>
+        <!-- /审核通过印章 -->
+        <!--<p><span class="bold"></span>{$info['yongtu']}</p>-->
+        <p><span class="bold"></span>{$info['content']}</p>
+      </div>
+      <!-- /项目详情 -->
+      <!-- 风控审核 -->
+      <div class="tab-pane" id="detai2">
+        <p><span class="bold">风控审核详情：</span>{$info['verify_remark']}</p>
+        <p class="bold">借款人还款保障：</p>
+        {if $material}
+        <!-- 上传材料 -->
+        <div class="invest-accessory-box mt30 mb40" style="height:230px;">
+          <ul class="invest-accessory unlist">
+    	  {loop $material $v}
+            <li class="item">
+              <a rel="lightbox-demo" class="invest-accessory-img" href="{UPLOAD_PATH}{$v['file']}" data-caption="{$v['title']}"><img src="{UPLOAD_PATH}{$v['file']}" alt=""></a>
+              <div class="invest-accessory-title">{$v['title']}</div>
+            </li>
+          {/loop}
+          </ul>
+        </div>
+        <!-- /上传材料 -->
+        {/if}
+      </div>
+      <!-- 风控审核 -->
+      <!-- 安全保障 -->
+      <!--<div class="tab-pane" id="detai3">
+        <div class="font16px bold">风控管理制度：<span class="bold">六大审核机制</span> + <span class="bold">两大风险防范措</span></div>
+        <div style="height:30px;"></div>
+        <div class="invest-jizhi-box">
+            <ul class="invest-jizhi-ul unlist">
+              <li class="invest-jizhi-li1"><a class="invest-image-shai" href="javascript:void(0);"></a></li>
+              <li class="invest-jizhi-li1"><a class="invest-image-dao" href="javascript:void(0);"></a></li>
+              <li class="invest-jizhi-li1"><a class="invest-image-zhai" href="javascript:void(0);"></a></li>
+              <li class="invest-jizhi-li2"><a class="invest-image-yu" href="javascript:void(0);"></a></li>
+              <li class="invest-jizhi-li1"><a class="invest-image-huan" href="javascript:void(0);"></a></li>
+              <li class="invest-jizhi-li1"><a class="invest-image-jing" href="javascript:void(0);"></a></li>
+              <li class="invest-jizhi-li1"><a class="invest-image-fa" href="javascript:void(0);"></a></li>
+              <li class="invest-jizhi-li2"><a class="invest-image-nei" href="javascript:void(0);"></a></li>
+            </ul>
+        </div>
+        <div style="height:30px;"></div>
+        <p class="indent">诚汇通的风控管理体系具有六大审核机制和两大风险防范措施：客户条件筛选标准、道德风险评估、债务风险评估、还款能力评估、经营风险评估、逾期风险评估、内务管理机制。</p>
+        <p class="indent">风控人员将会采取初审面试、银行征信系统、金融机构专用的风险评估工具、财务稽核审计机制、实地考察、暗中调查等方式，对六大审核机制进行多维度的风险评估，尽最大努力，将贷款客户的违约风险降至最低。并使用严格的内务管理机制，确保项目评估的真实性、严密性和科学化。</p>
+        <div class="font16px bold line-height50px hidden">担保人、担保机构还款</div>
+        <p>担保人、担保机构的简介及担保协议。</p>
+        <div style="height:30px;"></div><hr>
+        <div class="font16px bold line-height50px">风险准备金垫付</div>
+        <p>当前风险准备金额度：1550万</p>
+        <p>风险准备金垫付，逾期实时垫付</p>
+        <p>银行监管，资金透明安全</p>
+        <p>风险准备金系数：待收总额5%比例</p>
+        <p>风险准备金专门用于因借款人（债务人）的违约令投资人（债权人）所遭受的应收本息损失时，即当借款人逾期还款时，平台将按照“风险准备金”资金使用规则从该账户中抽取资金用于垫付投资人（债权人）应收取的本息，也可用于债权回购和其他风险处理等等。[<a href="https://www.chenghuitong.net/zhuanti/jiaotongyinhang/index.html" target="_blank"]>风险准备金详情</a>]</p>
+        <div class="font16px bold line-height50px hidden">资金托管体系简介</div>
+        <div class="font16px bold line-height50px hidden">股东无限责任担保</div>
+      </div>-->
+      <!-- /安全保障 -->
+      <!-- 投资记录 -->
+      <div class="tab-pane" id="record">
+        <table class="table table-bordered table-hover">
+          <tr class="bold text-center">
+            <td>投标人/关系</td>
+            <td>投标金额</td>
+            <td>有效金额</td>
+            <td>投标时间</td>
+            <td>状态</td>
+          </tr>
+          {loop $tender $v}
+          <tr>
+            <td class="text-center"><?=f_name($v['username'])?></td>
+            <td class="text-right">{$v['account']}元</td>
+            <td class="text-right">{$v['account_act']}元</td>
+            <td class="text-center color999 font12px"><?=date("Y-m-d H:i:s",$v['addtime'])?></td>
+            <td class="text-center font12px">{if bccomp($v['account'],$v['account_act'],2)==0}全部通过{else}部分通过{/if}</td>
+          </tr>
+          {/loop}
+        </table>
+        <!-- 分页 -->
+        <div class="text-right"><?=$page['html']?></div>
+        <!-- 分页 -->
+      </div>
+      <!-- /投资记录 -->
+    </div>
+  </div>
+  <script type="text/javascript">
+	var Account;
+	var iTime = $("#endtime").text();
+	$(function(){
+		RemainTime();
+	});
+    $(function() {
+      // 倒计时
+      //$('.ifengjin-countdown').ifengjin_countdown();
+
+      // 上传附件展示
+      $('.invest-accessory').owlCarousel({
+        center: false,
+        items: 5,
+        loop: true,
+        merge:true,
+        nav:true,
+        navText: ['<span class="glyphicon glyphicon-chevron-left"></span>','<span class="glyphicon glyphicon-chevron-right"></span>'],
+        margin: 0
+      });
+	});
+  function RemainTime() {
+	var iDay, iHour, iMinute, iSecond;
+	var sDay = "", sTime = "";
+	if (iTime >= 0) {
+		iDay = parseInt(iTime / 24 / 3600);
+		iHour = parseInt((iTime / 3600) % 24);
+		iMinute = parseInt((iTime / 60) % 60);
+		iSecond = parseInt(iTime % 60);
+
+		if (iDay > 0) {
+			sDay = iDay + "天";
+		}
+		sTime = sDay + iHour + "小时" + iMinute + "分钟" + iSecond + "秒";
+
+		if (iTime == 0) {
+			clearTimeout(Account);
+			sTime = "<span style='color:green'>时间到了！</span>";
+		} else {
+			Account = setTimeout("RemainTime()", 1000);
+		}
+		iTime = iTime - 1;
+	} else {
+		clearTimeout(Account);
+		sTime = "<span style='color:red'>此标已过期！</span>";
+	}
+	$("#endtime").html(sTime);
+  }
+  </script>
+  {template footer}

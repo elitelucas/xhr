@@ -1,0 +1,24 @@
+
+<ul>
+	<?php foreach ($myMemberList as $v) { ?>
+    <li data-href="<?php echo $this->URL(array('c'=>'user','a'=>'myGroupDetailWeb','param'=>'&id='.$v['uid']))?>">
+        <div>
+        	<label class="icoGirl2">账号：<em><?= subtext($v['nickname'],10)?></em></label><label class="icoBetting">投注：{$v['inputsMoney']}</label>
+        </div>
+    	<div><label class="icoState">状态：{if $v['online'] ==1 }{$userInfo['nickname']}在线{else}离线{/if}</label><label class="icoProfit">盈利：{$v['profit']}</label></div>
+    </li>
+    <?php }?>
+    {if !empty($myMemberList)}
+    <script>
+        $(function () {
+            $('.zhanwei').removeClass('zhanwei');
+        })
+    </script>
+    {else}
+    <script>
+        $(function () {
+            $('.vipReport').addClass('zhanwei');
+        })
+    </script>
+    {/if}
+</ul>

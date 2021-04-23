@@ -1,0 +1,61 @@
+  <!-- bottom -->
+  <div class="bottom">
+    <div class="container">
+      <div class="bottom-left pull-left">
+        <div class="text-right font16px">
+          <a class="margin-left15px" href="<?=url('article','company','index')?>">关于我们</a>
+          <a class="margin-left15px" href="<?=url('article','safety','index')?>">安全保障</a>
+          <a class="margin-left15px" href="<?=url('article','services','help',array('cateid'=>3))?>">帮助中心</a>
+          <a class="margin-left15px" href="<?=url('article','services','index')?>">服务中心</a>
+          <a class="margin-left15px" href="<?=url('article','default','index')?>">新闻中心</a>
+          <a class="margin-left15px" href="<?=url('article','company','contact')?>">联系我们</a>
+        </div>
+        <div class="bottom-copyright text-right color666">
+          <div>深圳市诚汇通金融信息有限公司</div>
+          <div>深圳市福田区福华三路168号国际商会中心2408-2412室</div>
+          <div>Copyright© 2016 www.chenghuitong.net <a href="http://www.miitbeian.gov.cn" target="_blank">粤ICP备13044593号</a></div>
+          <div>诚汇通所有理财产品均为预期年化收益，最终解释权归诚汇通所有。</div>
+        </div>
+        <div class="bottom-img-links text-right">
+          <span class="margin-left10px"><script id='ebsgovicon' src='https://cert.ebs.gov.cn/govicon.js?id=A71F6F48-ABB7-4F8A-92C4-D73F8FA0DE56&width=100&height=137&type=1' type='text/javascript' charset='utf-8'></script></span>
+          <a class="margin-left10px margin-left10px" href="http://www.miibeian.gov.cn/" target="_blank">
+            <img src="<?=SITE_PROTOCOL.C('cdn_path')?>resource/images/bottom/bottom_23.jpg" alt="ICP备案查询" height="20">
+          </a>
+          <a class="margin-left10px margin-left10px" href="https://search.szfw.org/cert/l/CX20140305003565003628" target="_blank">
+            <img src="<?=SITE_PROTOCOL.C('cdn_path')?>resource/images/bottom/bottom_25.jpg" alt="诚信网站" height="20">
+          </a>
+          <a class="margin-left10px margin-left10px" href="https://ss.knet.cn/verifyseal.dll?sn=e15110344030061272pruc000000&comefrom=trust&trustKey=dn&trustValue=www.chenghuitong.net" target="_blank">
+            <img src="<?=SITE_PROTOCOL.C('cdn_path')?>resource/images/bottom/cnnic.png" alt="可信网站" height="20">
+          </a>
+          <a class="margin-left10px margin-left10px" href="https://trustsealinfo.websecurity.norton.com/splash?form_file=fdf/splash.fdf&dn=www.chenghuitong.net&lang=zh_CN" target="_blank">
+            <img src="<?=SITE_PROTOCOL.C('cdn_path')?>resource/images/bottom/bottom_24.jpg" alt="NORTON" height="20">
+          </a>
+        </div>
+      </div>
+      <div class="bottom-right pull-right">
+        <div class="bottom-right-weixin pull-left"></div>
+        <div class="bottom-right-contact pull-left font16px">
+          <div class="line-height20px">&nbsp;</div>
+          <div class="font24px bold line-height30px"><span class="glyphicon glyphicon-phone-alt"></span> 400-018-0107</div>
+		   <div class="font12px">（工作日9：00-17：30）</div>
+		  <div class="font24px">136-1300-2927</div>
+          <div class="font12px">（10：00-22：00）</div>
+          <div class="bottom-social">
+            <div class="pull-left bottom-weixin hidden"></div>
+            <a class="pull-left bottom-weibo" href="http://weibo.com/cht608710" target="_blank"></a>
+            <a class="pull-left bottom-tqq" href="http://e.t.qq.com/cht608710" target="_blank"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /bottom -->
+  </div>
+  {if !cookie::is_set('sendsms')}
+  <script language="javascript" type="text/javascript" src="{APP_PATH}api/sendsms.php?rand={SYS_TIME}"></script>
+  {/if}
+  {if !cookie::is_set('sendmail')}
+  <script language="javascript" type="text/javascript" src="{APP_PATH}api/sendmail.php?rand={SYS_TIME}"></script>
+  {/if}
+</body>
+</html>

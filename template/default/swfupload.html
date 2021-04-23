@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=7" />
+        <title>诚汇通后台管理中心</title>
+        <link href="../../statics/admin/css/reset.css" rel="stylesheet" type="text/css" />
+        <link href="../../statics/admin/css/zh-cn-system.css" rel="stylesheet" type="text/css" />
+        <link href="../../statics/admin/css/dialog.css" rel="stylesheet" type="text/css" />
+        <link href="../../statics/admin/css/table_form.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" type="text/css" href="../../statics/admin/css/style/zh-cn-styles1.css" title="styles1" media="screen" />
+        <link rel="alternate stylesheet" type="text/css" href="../../statics/admin/css/style/zh-cn-styles2.css" title="styles2" media="screen" />
+        <link rel="alternate stylesheet" type="text/css" href="../../statics/admin/css/style/zh-cn-styles3.css" title="styles3" media="screen" />
+        <link rel="alternate stylesheet" type="text/css" href="../../statics/admin/css/style/zh-cn-styles4.css" title="styles4" media="screen" />
+        <script language="javascript" type="text/javascript" src="../../statics/js/jquery.min.js"></script>
+        <script language="javascript" type="text/javascript" src="../../statics/admin/js/admin_common.js"></script>
+        <script language="javascript" type="text/javascript" src="../../statics/admin/js/styleswitch.js"></script>
+        <script language="javascript" type="text/javascript" src="../../statics/js/dialog.js"></script>
+    </head>
+    <body>
+        <style type="text/css">
+            html{_overflow-y:scroll}
+        </style>
+        <link href="../../statics/js/swfupload/swfupload.css" rel="stylesheet" type="text/css" />
+        <script language="JavaScript" type="text/javascript" src="../../statics/js/swfupload/swfupload.js"></script>
+        <script language="JavaScript" type="text/javascript" src="../../statics/js/swfupload/fileprogress.js"></script>
+        <script language="JavaScript" type="text/javascript" src="../../statics/js/swfupload/handlers.js"></script>
+        <script type="text/javascript">
+            <?php echo initupload($_GET['module'], $args, $this->userid, $this->isadmin) ?></script>
+        <div class="pad-10" style="min-width:500px; min-height:400px">
+            <div class="col-tab">
+                <ul class="tabBut cu-li">
+                    <li id="tab_swf_1" <?php echo $tab_status?> onclick="SwapTab('swf','on','',2,1);">上传附件</li>
+                    <li id="tab_swf_2" onclick="SwapTab('swf', 'on', '', 2, 2);">网络文件</li>
+                </ul>
+                <div id="div_swf_1" class="content pad-10 <?php echo $div_status?>">
+                    <div id="upload_fun_1">
+                        <div class="addnew" id="addnew">
+                            <span id="buttonPlaceHolder"></span>
+                        </div>
+                        <!--<input type="button" id="btupload" value="开始上传" onClick="swfu.startUpload();" />-->
+                        <div id="nameTip" class="onShow">最多上传<font color="red"> <?php echo $file_upload_limit?></font> 个附件,单文件最大 <font color="red"><?php echo $file_size_limit?></font></div>
+                        <div class="bk3"></div>
+
+                        <div class="lh24">支持 <font style="font-family: Arial, Helvetica, sans-serif"><?php echo str_replace(array('*.',';'),array('','、'),$file_types)?></font> 格式。</div><input type="checkbox" id="watermark_enable" value="1" <?php if(isset($watermark_enable) &&$watermark_enable == 1) echo 'checked'?> onclick="change_params()"> 是否添加水印
+						<div class="lh24">你使用的是flash上传工具，有问题？试试<a href="javascript:$('#upload_fun_1,#upload_fun_2').slideToggle();void(0);" style="color:red">浏览器上传工具</a>。</div>
+                </div>
+
+                    <div id="upload_fun_2" class="hidden">
+                        <div>
+                            <form id="upfile-form" action="<?php echo url('attachment','attachments','upload_img',array('module'=>'avatar'));?>" enctype="multipart/form-data" method="POST" target='upfile-iframe'><input name="upfile" type="file"  onchange="upfile_submit();" id="upfile-input"/></form>
+                        </div>
+						<div class="hidden"><iframe name="upfile-iframe" src="#" frameborder="false" scrolling="auto" style="overflow-x:hidden;border:none" width="0" height="0" allowtransparency="true" id="upfile-iframe"></iframe>
+						</div>
+                        <!--<input type="button" id="btupload" value="开始上传" onClick="swfu.startUpload();" />-->
+                        <div id="nameTip" class="onShow">最多上传<font color="red"> <?php echo $file_upload_limit?></font> 个附件,单文件最大 <font color="red"><?php echo $file_size_limit?></font></div>
+                        <div class="bk3"></div>
+
+                        <div class="lh24">支持 <font style="font-family: Arial, Helvetica, sans-serif"><?php echo str_replace(array('*.',';'),array('','、'),$file_types)?></font> 格式。</div><input type="checkbox" id="watermark_enable" value="1" <?php if(isset($watermark_enable) &&$watermark_enable == 1) echo 'checked'?> onclick="change_params()"> 是否添加水印
+						<div class="lh24">你使用的是浏览器上传工具，有问题？试试<a href="javascript:$('#upload_fun_1,#upload_fun_2').slideToggle();void(0);" style="color:red">flash上传工具</a>。</div>
+                </div>
+                <div class="bk10"></div>
+                <fieldset class="blue pad-10" id="swfupload">
+                    <legend>列表</legend>
+                    <ul class="attachment-list"  id="fsUploadProgress">
+                    </ul>
+                </fieldset>
+            </div>
+            <div id="div_swf_2" class="contentList pad-10 hidden">
+                <div class="bk10"></div>
+                请输入网络地址<div class="bk3"></div><input type="text" name="info[filename]" class="input-text" value=""  style="width:350px;"  onblur="addonlinefile(this)">
+                    <div class="bk10"></div>
+            </div>
+            <div id="att-ids" class="hidden"></div>
+            <div id="att-status" class="hidden"></div>
+            <div id="att-status-del" class="hidden"></div>
+            <div id="att-name" class="hidden"></div>
+            <!-- swf -->
+        </div>
+</body>
+<script type="text/javascript">
+if ($.browser.mozilla) {
+  window.onload = function(){
+	if (location.href.indexOf("&rand=") < 0) {
+	  location.href = location.href + "&rand=" + Math.random();
+	}
+  }
+}
+function imgWrap(obj){
+  $(obj).hasClass('on') ? $(obj).removeClass("on") : $(obj).addClass("on");
+}
+
+function SwapTab(name, cls_show, cls_hide, cnt, cur) {
+  for (i = 1; i <= cnt; i++){
+	if (i == cur){
+	  $('#div_' + name + '_' + i).show();
+	  $('#tab_' + name + '_' + i).addClass(cls_show);
+	  $('#tab_' + name + '_' + i).removeClass(cls_hide);
+	} else{
+	  $('#div_' + name + '_' + i).hide();
+	  $('#tab_' + name + '_' + i).removeClass(cls_show);
+	  $('#tab_' + name + '_' + i).addClass(cls_hide);
+	}
+  }
+}
+
+function addonlinefile(obj) {
+  var strs = $(obj).val() ? '|' + $(obj).val() :'';
+  $('#att-status').html(strs);
+}
+
+function upfile_submit(){
+	var val = $('#upfile-input').val();
+	if(/^.+\.(jpg|png|jpeg|gif)$/.test(val.toLowerCase())){
+		$('#upfile-form').submit();
+		$('#fsUploadProgress').text("上传中，请稍后...");
+	}else{
+		alert("只能上传jpg, gif, png类型的图片");
+		return false;
+	}
+}
+
+function change_params(){
+  if ($('#watermark_enable').attr('checked')) {
+	swfu.addPostParam('watermark_enable', '1');
+  } else {
+	swfu.removePostParam('watermark_enable');
+  }
+}
+function set_iframe(id, src){
+  $("#" + id).attr("src", src);
+}
+
+function set_img(id, src){
+  $("#" + id).html('<img src="'+src+'" />');
+}
+
+function set_hidden_attr(id,imgurl){
+  $("#att-ids").html(id);
+  $("#att-status").html(imgurl);
+}
+
+function album_cancel(obj, id, source){
+	var src = $(obj).children("img").attr("path");
+	var filename = $(obj).attr('title');
+	if ($(obj).hasClass('on')){
+		$(obj).removeClass("on");
+		var imgstr = $("#att-status").html();
+		var length = $("a[class='on']").children("img").length;
+		var strs = filenames = ids = '';
+		$.get('index.php?m=attachment&c=attachments&a=swfupload_json_del&aid=' + id + '&src=' + source + '&filename=' + filename);
+		for (var i = 0; i < length; i++){
+			ids += '|' + $("a[class='on']").children("img").eq(i).attr('imgid');
+			strs += '|' + $("a[class='on']").children("img").eq(i).attr('path');
+			filenames += '|' + $("a[class='on']").children("img").eq(i).attr('title');
+		}
+		$('#att-ids').html(ids);
+		$('#att-status').html(strs);
+		$('#att-status').html(filenames);
+	} else {
+		var num = $('#att-status').html().split('|').length;
+		var file_upload_limit = '<?php echo $file_upload_limit?>';
+		if (num > file_upload_limit) {alert('不能选择超过' + file_upload_limit + '个附件'); return false; }
+		$(obj).addClass("on");
+		$.get('index.php?m=attachment&c=attachments&a=swfupload_json&aid=' + id + '&src=' + source + '&filename=' + filename);
+		$('#att-ids').append('|' + id);
+		$('#att-status').append('|' + src);
+		$('#att-name').append('|' + filename);
+	}
+}
+</script>
+</html>

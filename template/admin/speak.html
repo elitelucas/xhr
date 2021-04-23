@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <title>网站信息</title>  
+       <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+	    <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+	    <link type="text/css" href="statics/admin/new_ui/bootstrap.min.css" rel="stylesheet">
+	    <link type="text/css" href="statics/admin/new_ui/font-awesome.css" rel="stylesheet">
+   	    <link type="text/css" href="statics/admin/new_ui/style.css" rel="stylesheet">
+	    <script src="statics/admin/js/jquery.js"></script>
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>
+        <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+        <script src="statics/admin/js/bootstrap.min.js"></script>
+    </head>
+    <body class="new_ui_body">
+    <div class="ibox float-e-margins">
+	    <div class="ibox-title iboxWTitle">
+	        <h5>发言设置</h5>
+	    </div>
+	    <div class="ibox-content bagCol">
+	        <div class="ibox-title ">
+	            <h5>设置信息</h5>
+	            <div class="ibox-tools">
+	            	<a class="btn btn-white btn-bitbucket btn_sure" id="update" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+	        <div class="ibox-content">
+	            <form id='form_update' method="post" class="form-horizontal">
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">账户余额少于</label>
+	                    <div class="col-sm-5">
+	                    	<span class="col-sm-4" style="padding-left: 0px;">
+	                        	<input type="text" class="form-control"  name="lower_money" value="{$speak['lower_money']}"  data-validate="required:不能为空" readonly/>
+                        	</span>
+	                        <span class="col-sm-8 help-block m-b-none">元时，无法发言。0为不限制</span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">每条发言的字数不得多于</label>
+	                    <div class="col-sm-4">
+	                        <span class="col-sm-4" style="padding-left: 0px;">
+	                        	<input type="text" class="form-control"  name="lower_word" value="{$speak['lower_word']}"  data-validate="required:不能为空" readonly/>
+                        	</span>
+	                        <span class="col-sm-8 help-block m-b-none">个字。 0为不限制</span>
+	                    </div>
+	                </div>
+                 	<div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">是否禁止游客发言</label>
+	                    <div class="col-sm-4">
+	                        <span class="col-sm-3" style="padding-left: 0px;">
+		                        <select class="form-control m-b" name="visitor_limit" id="visitor_limit" disabled>
+		                            <option value="1" {if $speak['visitor_limit'] == 1} selected {/if}>是</option>
+		                            <option value="0" {if $speak['visitor_limit'] != 1} selected {/if}>否</option>
+	                        	</select>
+                        	</span>
+                        	<span class="col-sm-9 help-block m-b-none">（选择【是】，游客将禁言）</span>
+	                    </div>
+	                </div>
+                </form>
+            </div>
+        </div>
+        
+        <script>
+            var loading;//加载中...
+            
+            $(function (){
+            	$(".btn_sure").click(function () {
+                	var form_id = 'form_' + $(this).attr('id');
+            		var i_class = $(this).children('i').attr('class');
+            		if (i_class == 'fa fa-pencil') {
+            			$(this).attr('title', '保存');
+            			$(this).children('i').attr('class', 'fa fa-save');
+            			$('#' + form_id).find('input').each(function() {
+            				$(this).attr('readonly', false);
+           				});
+            			$('select').attr('disabled', false);
+            		}else {
+            			var type = 15;
+            			var lower_money = $('input[name=lower_money]').val();
+                        var re = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+                        if(lower_money=='' || !re.test(lower_money)){
+                            layer.msg('账户余额必须为整数', {icon: 5, shade: [0.5, '#393D49'],time:3000});
+                            return false;
+                        }
+                        var lower_word = $('input[name=lower_word]').val();
+                        var re = /^[0-9]*$/;
+                        if(lower_word=='' || !re.test(lower_word)){
+                            layer.msg('发言字数必须为正整数', {icon: 5, shade: [0.5, '#393D49'],time:3000});
+                            return false;
+                        }
+
+                        var visitor_limit = $('#visitor_limit').val();
+                        var data = {lower_money: lower_money, lower_word: lower_word,type: type,visitor_limit:visitor_limit};
+                        console.log(data);
+//                        return false;0
+                        $.ajax({
+                            type: 'post',
+                            url: '?m=admin&c=role&a=speak_close',
+                            data: data,
+                            dataType: 'json',
+                            beforeSend: function(){
+                                loading = layer.load(1);
+                            },
+                            success: function (msg) {
+                                layer.close(loading);
+                                if (msg.rt) {
+                                    layer.msg('设置成功', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                        location.href = "?m=admin&c=role&a=speak"
+                                    });
+                                } else {
+                                    layer.msg('设置失败', {icon: 5, shade: [0.5, '#393D49']});
+                                }
+                            }
+                        })
+            		}
+            	});
+            	
+            });
+        </script>
+    </body>
+</html>

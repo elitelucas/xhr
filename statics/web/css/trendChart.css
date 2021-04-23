@@ -1,0 +1,37 @@
+.trendH1{ margin: 0 90px;}
+.trendEM{ width: 46px; height: 86px; background: url("/statics/web/images/trendChart/tab_cbb1_icon@2x.png") no-repeat center ; display: inline-block; vertical-align: top;
+transition: transform .2s;
+transform:rotate(0deg);
+-ms-transform:rotate(0deg); 	/* IE 9 */
+-moz-transform:rotate(0deg); 	/* Firefox */
+-webkit-transform:rotate(0deg); /* Safari 和 Chrome */
+-o-transform:rotate(0deg); 	/* Opera */}
+.trendNavWarp{ position: fixed; top: 86px; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index:1;}
+.trendNav{ position: absolute;top: 0; left: 0; right: 0; background: #fff; padding: 10px 0;}
+.trendNav li{ width: 33.3333%; float: left; padding: 10px 20px;}
+.trendNav li span{ display: block; border: 1px solid #CACACA; height: 52px; line-height: 52px; text-align: center;}
+.trendNav li span.active,.trendNav li span:active{ border: 1px solid #D22727; background: url("/statics/web/images/trendChart/common_redgou1_icon@2x.png") no-repeat bottom right;}
+
+.trendCon{}
+
+.trendCon table{border-collapse:collapse;}
+.trendCon table th,.trendCon table td{padding: 0 15px; border-bottom:1px solid #C7C7C7; text-align: center;  line-height: 64px; min-width: 24px;white-space:nowrap; font-size: 28px; color: #000;}
+.trendCon table td{ height: 58px; line-height: 58px; background-color: #fff; color: #48484C;}
+
+.trendCon table.transverse th,.trendCon table.transverse td{border-bottom:1px solid #C7C7C7;}
+
+.trendCon table.vertical td{ border-right: 1px solid #c7c7c7; border-bottom: 0;}
+
+
+.bgGray{ background-color: #F7F7F7; color: #48484C; display: block}
+.blue{ color: #2AA7F6;}
+.green{ color: rgb(76, 168, 15);}
+.red{ color: #D22727;}
+.trendItem{ height: 64px; background-color: #F7F7F7; line-height: 64px; padding: 0 20px; position: fixed; left:0; right:0; top:86px;}
+.trendItem .inputDate{ position: absolute; left: 0; top: 0; bottom: 0; right: 0; z-index: 1; width: 100%; height: 100%; border: 1px solid #eee;background-color: red; font-size: 100px;}
+
+.time-item {
+    float: right;
+    padding-right: 44px;
+    background: url(../images/agency_timeselect_icon@2x.png)no-repeat center right;
+}

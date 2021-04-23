@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="/statics/web/js/jquery.1.8.2.min.js"></script>
+    <script type="text/javascript" src="/statics/web/js/swiper.jquery.min.js"></script>
+    <script type="text/javascript" src="/statics/web/js/christ/rempublic.js"></script>
+    <script type="text/javascript" src="/statics/web/js/christ/tools.js"></script>
+</head>
+<body>
+<a href="javascript:void(0)" id="button">开始抽奖</a>
+<script type="text/javascript">
+    $("#button").click(function(){
+        var data = {
+            'id':"{$_REQUEST['id']}",
+            'type':"{$_REQUEST['type']}"
+        }
+        $.ajax({
+            url:"?m=web&c=activity&a=nineLucDraw",
+            type:'post',
+            dataType:'json',
+            data:data,
+            success:function(data) {
+                console.log(data);
+            }
+        })
+    });
+</script>
+</body>
+</html>

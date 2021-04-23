@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+
+<html lang="zh-cn">
+
+    <head>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+
+        <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+
+        <script src="statics/admin/js/jquery.js"></script>
+
+        <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+
+        <script src="statics/admin/js/pintuer.js"></script>  
+
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>  
+
+        <script src="statics/admin/js/jquery.date_input.pack.js"></script> 
+
+        {template public-new-ui-header}
+
+        <style>
+
+            #page{height: 60px;margin-top: 20px;text-align: center;}
+
+            #page ul li{float: left;margin-right:10px;}
+
+            #page ul .current{ background-color:#0099ff;text-align:center;}
+
+        </style>
+
+    </head>
+
+     <body class="new_ui_body">
+
+    <div class="ibox float-e-margins">
+
+	    <div class="ibox-title iboxWTitle">
+
+	        <h5>修改 银行卡</h5>
+
+	        <div class="ibox-tools">
+
+	            <a  class="btn btn-white btn-bitbucket" id="btn_back">
+
+	                <i class="fa fa-reply"></i> 返回
+
+	            </a>
+
+	        </div>
+
+	        
+
+	    </div>
+
+	    <div class="ibox-content bagCol">
+
+	        <div class="ibox-title ">
+
+	            <h5>银行卡信息</h5>
+
+	        </div>
+
+	        <div class="ibox-content">
+
+	            <form id='form_update' method="post" class="form-horizontal">
+
+	            	<input id="bankcardId" name="id" value="{$bankcard['id']}" type="hidden">
+
+	            	<input value="{$bankcard['group_id']}" type="hidden" id="group_id" name="group_id">
+
+	             	<div class="form-group">
+
+	                    <label class="col-sm-2 control-label">卡类型-开户行</label>
+
+	                    <div class="col-sm-3">
+
+                            <select class="form-control" id="bank_id" name="bank_id">
+
+                                {loop $list $v}
+
+                                <option {if $v['id'] == $bankcard['bank_id']}} selected="selected" {/if} value ="{$v['id']}">{$v['name']}</option>
+
+                                {/loop}
+
+                            </select>
+
+	                    </div>
+
+	                </div>
+
+	                <div class="hr-line-dashed"></div>
+
+	                <div class="form-group">
+
+	                    <label class="col-sm-2 control-label">支行</label>
+
+	                    <div class="col-sm-3">
+
+	                        <input type="text" class="form-control" value="{$bankcard['branch']}" name="branch" id="branch" data-validate="required:银联必须填写开户银行（QQ钱包、微信 、支付宝和云闪付不用填写）" />
+
+	                        <span class="help-block m-b-none"></span>
+
+	                    </div>
+
+	                </div>
+
+	                <div class="hr-line-dashed"></div>
+
+	                <div class="form-group">
+
+	                    <label class="col-sm-2 control-label">开户名</label>
+
+	                    <div class="col-sm-3">
+
+	                        <input type="text" class="form-control" value="{$bankcard['account_name']}" name="account_name" id="account_name" data-validate="required:请输入银行开户名" />
+
+	                        <span class="help-block m-b-none"></span>
+
+	                    </div>
+
+	                </div>
+
+	                <div class="hr-line-dashed"></div>
+
+	                <div class="form-group">
+
+	                    <label class="col-sm-2 control-label">账号</label>
+
+	                    <div class="col-sm-3">
+
+	                        <input type="text" class="form-control" value="{$bankcard['account']}" name="account" id="account" data-validate="required:请输入账号" />
+
+	                        <span class="help-block m-b-none"></span>
+
+	                    </div>
+
+	                </div>
+
+	                <div class="hr-line-dashed"></div>
+
+	                <div class="form-group">
+
+	                    <label class="col-sm-2 control-label">每次充值最低金额</label>
+
+	                    <div class="col-sm-10">
+
+	                    	<span class="col-sm-3" style="padding-left: 0px;">
+
+	                        	<input type="text" class="form-control" value="{$bankcard['min_recharge']}" name="min_recharge" id="min_recharge" data-validate="required:每次充值最低金额" />
+
+                        	</span>
+
+	                        <span class="col-sm-9 help-block m-b-none">（客户充值时，每次最低充值金额，默认为1,该金额不能高于该卡的上限额度）</span>
+
+	                    </div>
+
+	                </div>
+
+	                <div class="hr-line-dashed"></div>
+
+	                <div class="form-group">
+
+	                    <label class="col-sm-2 control-label">每次充值最高金额</label>
+
+	                    <div class="col-sm-10">
+
+	                    	<span class="col-sm-3" style="padding-left: 0px;">
+
+	                        	<input type="text" class="form-control" value="{$bankcard['max_recharge']}" name="max_recharge" id="max_recharge" data-validate="required:每次充值最高金额" />
+
+                        	</span>
+
+	                        <span class="col-sm-9 help-block m-b-none">（客户充值时，每次最高充值金额，如果为0，表示充值最高金额无上限，其他值时，必须不小于最小充值金额，不大于该卡上限额度）</span>
+
+	                    </div>
+
+	                </div>
+
+	                <div class="hr-line-dashed"></div>
+
+	                <div class="form-group">
+
+	                    <label class="col-sm-2 control-label">银行手续费</label>
+
+	                    <div class="col-sm-3">
+
+	                        <input type="text" class="form-control" value="{$bankcard['fee']}" name="fee" id="fee" data-validate="required:请输入手续费" />
+
+	                        <span class="help-block m-b-none"></span>
+
+	                    </div>
+
+	                </div>
+
+	                <div class="hr-line-dashed"></div>
+
+	                <div class="form-group">
+
+	                    <label class="col-sm-2 control-label">余额</label>
+
+	                    <div class="col-sm-6">
+
+	                        <span class="col-sm-4" style="padding-left: 0px;">
+
+	                        	<input type="text" class="form-control" value="{$bankcard['balance']}" name="balance" id="balance" data-validate="required:请输入余额"/>
+
+                        	</span>
+
+	                        <span class="col-sm-8 help-block m-b-none">（目前该银行卡的余额）</span>
+
+	                    </div>
+
+	                </div>
+
+	                <div class="hr-line-dashed"></div>
+
+	                <div class="form-group">
+
+	                    <label class="col-sm-2 control-label">金额范围</label>
+
+	                    <div class="col-sm-10">
+
+	                        <span class="col-sm-3" style="padding-left: 0px;">
+
+		                        <input type="text" class="form-control" value="{$bankcard['lower_limit']}" name="lower_limit" id="lower_limit"/>
+
+                        	</span>
+
+                        	<span class="col-sm-3" style="padding-left: 0px;">
+
+	                            <input type="text" class="form-control" value="{$bankcard['upper_limit']}" name="upper_limit" id="upper_limit" data-validate="required:请输入上限" />
+
+                        	</span>
+
+	                        <span class="col-sm-6 help-block m-b-none">（”下限“表示该银行的最低额度，一般固定为0，”上限“表示该银行卡最多存放的金额）</span>
+
+	                    </div>
+
+	                </div>
+
+	                <div class="hr-line-dashed"></div>
+
+	                <div class="form-group">
+
+	                    <label class="col-sm-2 control-label">上传二维码</label>
+
+	                    <div class="col-sm-3">
+
+	                        <input type="file" name="code" /> <font color="red">* 请确保二维码为正方形，否则线下充值二维码图片会显示异常</font>
+
+	                        <span class="help-block m-b-none"></span>
+
+	                    </div>
+
+	                </div>
+
+	                <?php if(!empty($bankcard['code'])){  ?>
+
+	                <div class="hr-line-dashed"></div>
+
+	                <div class="form-group">
+
+	                    <label class="col-sm-2 control-label">已上传二维码</label>
+
+	                    <div class="col-sm-3">
+
+	                        <img src="{$bankcard['code']}" width="220" height="220" />
+
+                            <input type="hidden" name="QRcode" value="{$bankcard['code']}">
+
+	                        <span class="help-block m-b-none"></span>
+
+	                    </div>
+
+	                </div>
+
+                    <?php }  ?>
+
+	                <div class="hr-line-dashed"></div>
+
+	                <div class="form-group">
+
+	                    <label class="col-sm-2 control-label">充值温馨提示</label>
+
+	                    <div class="col-sm-9">
+
+	                        <span class="col-sm-5" style="padding-left: 0px;"><textarea class="form-control" style="height:150px;" name="prompt">{$bankcard['prompt']}</textarea></span>
+
+	                        <span class="col-sm-7">
+
+			                <div class="tips" style="float:left;width:250px;margin: 30px;color: #999;">
+
+			                	<div>每条提示语句以“|”结束，如：</div>
+
+			                	<div>1.选择您可进行转账的方式|</div>
+
+				                <div>2.通过相应的转账软件，转入我们提供的平台账户|</div>
+
+				                <div>3.转账金额需要和填写金额保持一致|</div>
+
+				                <div>4.在转账时，把附加码填写到备注或附言</div>
+
+			                </div>
+
+			                </span>
+
+	                    </div>
+
+	                </div>
+
+	                <div class="hr-line-dashed"></div>
+
+	                <div class="form-group">
+
+	                    <label class="col-sm-2 control-label">启用</label>
+
+	                    <div class="col-sm-3">
+
+	                         <input class="form-control" style="margin-top: 10px;" type="checkbox" {if $bankcard['canuse'] == 1} value="1" checked="checked" {/if} name="canuse" id="canuse"/>
+
+	                        <span class="col-sm-9 help-block m-b-none"></span>
+
+	                    </div>
+
+	                </div>
+
+
+
+					<div class="form-group">
+
+						<label class="col-sm-2 control-label">充值送彩金</label>
+
+						<div class="col-sm-6">
+
+	                        <span class="col-sm-4" style="padding-left: 0px;">
+
+	                        	<input type="number" class="form-control" value="{$bankcard['handsel']}" name="handsel" id="handsel" onkeyup="checknum(this);"/>
+
+                        	</span>
+
+							<span class="col-sm-8 help-block m-b-none">（单位:%）</span>
+
+						</div>
+
+					</div>
+
+
+
+	                <div class="hr-line-dashed"></div>
+
+	                <div class="form-group">
+
+	                    <label class="col-sm-2 control-label">链接</label>
+
+	                    <div class="col-sm-4">
+
+	                         <input class="form-control" type="text" class="input w50" value="{$bankcard['bank_link']}" name="bank_link" id="bank_link"/>
+
+	                        <span class="col-sm-9 help-block m-b-none"></span>
+
+	                    </div>
+
+	                </div>
+
+                </form>
+
+                <div class="form-group">
+
+	            	<div class="col-sm-4 col-sm-offset-2">
+
+	                	<button class="btn btn-primary" type="submit" id="btn_submit">保存</button>
+
+	                	<button class="btn btn-white" id="btn_cancel" type="submit">取消</button>
+
+	            	</div>
+
+	       		</div>
+
+             </div>
+
+         </div>
+
+     </div>
+
+        <script type="text/javascript">
+
+			//if({$bankcard['group_id']}!=0){
+
+                //$("select").attr("disabled",true);
+
+               // $("textarea").attr("disabled",true);
+
+			    //$("input").attr("readonly",true);
+
+			    //$("#handsel").removeAttr("readonly");
+
+			//}
+
+            var loading = "";//加载中......
+
+            $(function () {
+
+                $("#btn_submit").click(function () {
+
+                  //  <!-- if($('#group_id').val()!=0){ -->
+
+                      //  <!-- var handsel = $("#handsel").val(); -->
+
+                      //  <!-- $.ajax({ -->
+
+                         //   <!-- url: '?m=admin&c=finance&a=doUpBankcard', -->
+
+                         //   <!-- data:{handsel:handsel}, -->
+
+                          //  <!-- processData: false, -->
+
+                          //  <!-- contentType: false, -->
+
+                          //  <!-- dataType: 'json', -->
+
+                          //  <!-- type: 'post', -->
+
+                          //  <!-- beforeSend: function () { -->
+
+                          //      <!-- loading = layer.load(1); -->
+
+                          //  <!-- }, -->
+
+                         //   <!-- error: function (XMLHttpRequest, textStatus, errorThrown) { -->
+
+                           //     <!-- layer.close(loading); -->
+
+                            //    <!-- layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']}); -->
+
+                           // <!-- }, -->
+
+                          //  <!-- success: function (result) { -->
+
+                          //      <!-- layer.close(loading); -->
+
+                           //     <!-- console.log(result); -->
+
+                           //     <!-- if (result.code == 0) { -->
+
+                             //       <!-- layer.msg(result.msg, {icon: 6, shade: [0.5, '#393D49']}, function () { -->
+
+                              //          <!-- location.href = '?m=admin&c=finance&a=bankcard'; -->
+
+                              //      <!-- }); -->
+
+                              //  <!-- } -->
+
+                              //  <!-- else -->
+
+                              //  <!-- { -->
+
+                              //      <!-- layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']}); -->
+
+                              //  <!-- } -->
+
+                          //  <!-- } -->
+
+                      // <!-- }); -->
+
+					//	<!-- return false; -->
+
+               //     <!-- } -->
+
+                    var canuse = $('#canuse').prop('checked');
+
+                    var min_recharge = $('#min_recharge').val();
+
+                    var max_recharge = $('#max_recharge').val();
+
+                    var dictionaryId = $('#bank_id').val();
+
+                    var branch = $("#branch").val();
+
+                    var account_name = $('#account_name').val();
+
+                    var account = $("#account").val();
+
+                    var fee = $('#fee').val();
+
+                    var balance = $('#balance').val();
+
+                    var lowerLimit = $('#lower_limit').val()
+
+                    var upperLimit = $('#upper_limit').val();
+
+                    var bank_link = $('#bank_link').val();
+
+//                    var state = $(".state:checked").val();
+
+
+
+                    var bankName = $('#bank_id').find("option:selected").text();
+
+                    if(bankName.indexOf('微信') >= 0 || bankName.indexOf('支付宝') >= 0 || bankName.indexOf('QQ钱包') >= 0){
+
+                        branch='--';
+
+                    }
+
+                    
+
+                    if (canuse) {
+
+                    	$('#canuse').val(1);
+
+                    } else {
+
+                    	$('#canuse').val(0);
+
+                    }
+
+                    if ($.trim(branch) == '') {
+
+                        layer.msg('请输入支行', {icon: 5, shade: [0.5, '#393D49']});
+
+                        return false;
+
+                    }
+
+                    if ($.trim(account_name) == '') {
+
+                        layer.msg('请输入开户名', {icon: 5, shade: [0.5, '#393D49']});
+
+                        return false;
+
+                    }
+
+                    if ($.trim(account) == '') {
+
+                        layer.msg('请输入账号', {icon: 5, shade: [0.5, '#393D49']});
+
+                        return false;
+
+                    }
+
+                    if ($.trim(min_recharge) == '') {
+
+                        layer.msg('请输入每次最低充值金额', {icon: 5, shade: [0.5, '#393D49']});
+
+                        return false;
+
+                    }
+
+                    if ($.trim(min_recharge) == '') {
+
+                        layer.msg('请输入每次最高充值金额', {icon: 5, shade: [0.5, '#393D49']});
+
+                        return false;
+
+                    }
+
+                    if ($.trim(fee) == '') {
+
+                        layer.msg('请输入手续费', {icon: 5, shade: [0.5, '#393D49']});
+
+                        return false;
+
+                    }
+
+                    if ($.trim(balance) == '') {
+
+                        layer.msg('请输入余额', {icon: 5, shade: [0.5, '#393D49']});
+
+                        return false;
+
+                    }
+
+                    if ($.trim(lowerLimit) == '') {
+
+                        layer.msg('请输入金额下限', {icon: 5, shade: [0.5, '#393D49']});
+
+                        return false;
+
+                    }
+
+                    if ($.trim(upperLimit) == '') {
+
+                        layer.msg('请输入金额上限', {icon: 5, shade: [0.5, '#393D49']});
+
+                        return false;
+
+                    }
+
+                    
+
+                    if (Number($.trim(min_recharge)) < 0 || Number($.trim(min_recharge)) > Number($.trim(upperLimit))) {
+
+                        layer.msg('每次充值最低金额范围错误', {icon: 5, shade: [0.5, '#393D49']});
+
+                        return false;
+
+                    }
+
+					if (Number($.trim(max_recharge)) < 0 || Number($.trim(max_recharge)) > Number($.trim(upperLimit))) {
+
+                        layer.msg('每次充值最高金额范围错误', {icon: 5, shade: [0.5, '#393D49']});
+
+                        return false;
+
+                    }
+
+					
+
+					if (Number($.trim(max_recharge)) > 0 && Number($.trim(min_recharge)) > Number($.trim(max_recharge))) {
+
+                        layer.msg('每次充值最低金额范围错误', {icon: 5, shade: [0.5, '#393D49']});
+
+                        return false;
+
+                    }
+
+					if (Number($.trim(balance)) < 0 || Number($.trim(balance)) > Number($.trim(upperLimit))) {
+
+                        layer.msg('余额范围错误', {icon: 5, shade: [0.5, '#393D49']});
+
+                        return false;
+
+                    }
+
+//                    if (state == null || state == '') {
+
+//                        layer.msg('请选择状态', {icon: 5, shade: [0.5, '#393D49']});
+
+//                        return false;
+
+//                    }
+
+                    var formData = $("#form_update").serialize();
+
+
+
+                    $.ajax({
+
+                        url: '?m=admin&c=finance&a=doUpBankcard',
+
+                        data:formData,
+
+//                        data: {name: name, account: account, branch: branch,state:state},
+
+//                        data:{
+
+//                            id:$('#bankcardId').val(),
+
+//                            bank_id:dictionaryId,
+
+//                            branch:branch,
+
+//                            account_name:account_name,
+
+//                            account:account,
+
+//                            fee:fee,
+
+//                            balance:balance,
+
+//                            lower_limit:lowerLimit,
+
+//                            upper_limit:upperLimit,
+
+//                            canuse:canuse?1:0
+
+//                        },
+
+                        dataType: 'json',
+
+                        type: 'post',
+
+                        beforeSend: function () {
+
+                            loading = layer.load(1);
+
+                        },
+
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+                            layer.close(loading);
+
+                            layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+
+                            //  alert(XMLHttpRequest.status);
+
+                            //  alert(XMLHttpRequest.readyState);
+
+                            //  alert(textStatus);
+
+                        },
+
+                        success: function (result) {
+
+                            layer.close(loading);
+
+                            console.log(result);
+
+                            if (result.code == 0) {
+
+                            	layer.msg(result.msg, {icon: 6, shade: [0.5, '#393D49']}, function () {
+
+                                   location.href = '?m=admin&c=finance&a=bankcard';
+
+                                });
+
+                            }
+
+                            else
+
+                            {
+
+                                layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']});
+
+                            }
+
+                        }
+
+                    })
+
+                });
+
+
+
+                $("#btn_cancel").click(function () {
+
+                    location.href = '?m=admin&c=finance&a=bankcard';
+
+                });
+
+                $("#btn_back").click(function () {
+
+                    location.href = '?m=admin&c=finance&a=bankcard';
+
+                });
+
+            });
+
+
+
+            function checknum(obj) {
+
+                if(/^\d+\.?\d{0,2}$/.test(obj.value)){
+
+                    obj.value = obj.value;
+
+                }else{
+
+                    obj.value = obj.value.substring(0,obj.value.length-1);
+
+                }
+
+            }
+
+        </script>
+
+    </body>
+
+</html>

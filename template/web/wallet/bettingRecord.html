@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>投注记录</title>
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+    <link rel="stylesheet" href="/statics/web/extend/dropload/dropload.css">
+    <script src="/statics/web/extend/dropload/dropload.min.js"></script>
+    <script src="/statics/web/extend/layer/mobile/layer.js"></script>
+    <!--时间选择插件-->
+    <link rel="stylesheet" href="/statics/web/extend/datepick/datepick.css">
+    <script src="/statics/web/extend/datepick/date.js"></script>
+    <script src="/statics/web/extend/datepick/iscroll.js"></script>
+
+    <style>
+        .dropload-down { margin-bottom: 129px;}
+    </style>
+</head>
+<body>
+<header>
+    <em class="normal" onclick="goUserMy()">返回</em>
+    <em class="fromRoom" onclick="history.go(-1)">返回</em>
+    <h1>投注记录</h1>
+    <div class="headerRight">
+        <ul>
+            <li id="reset">重置</li>
+        </ul>
+    </div>
+</header>
+<section>
+    <div class="bettingRecord">
+        <div class="betting-search-wrap">
+            <div class="select-betting">
+                <div class="select-item" id="type" data-id="{$type}">
+                {loop $gameInfo $v}
+                {if $v['id'] == $type}
+                    {$v['name']}
+                {/if}
+                {/loop}
+                </div>
+                
+                <div class="select-item" id="status" data-num="{$status}">{$statusArr[$status]}</div>
+                <div class="time-item" id="timeSelect">时间筛选</div>
+            </div>
+            <div class="time-betting">
+                <span id="startT"><em>{$start_time}</em></span> 至
+                <span id="endT"><em>{$end_time}</em></span>
+            </div>
+        </div>
+        <!--<div class="bettingRecordSearch">-->
+            <!--<div class="BRSearchCondition clearfix"  style="margin-bottom: 0">-->
+                <!--<div>-->
+                <!--<span>彩种类型：</span>-->
+                <!--<label>-->
+                <!--<em class="inputW">全部</em>-->
+                <!--<select class="select" name="type" onchange="getData()">-->
+                <!--<option value="0">全部</option>-->
+                <!--{loop $gameInfo $v}-->
+                <!--<option value="{$v['id']}">{$v['name']}</option>-->
+                <!--{/loop}-->
+                <!--</select>-->
+                <!--</label>-->
+                <!--</div>-->
+                <!--<div>-->
+                <!--<span>交易状态：</span>-->
+                <!--<label>-->
+                <!--<em class="inputW">全部</em>-->
+                <!--<select class="select" name="status" onchange="getData()">-->
+                <!--{loop $statusArr $k $v}-->
+                <!--<option value="{$k}">{$v}</option>-->
+                <!--{/loop}-->
+                <!--</select>-->
+                <!--</label>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <div class="bettingRecordList bettingRecord_marginB">
+            <ul id="record_list">
+                <!--<li>-->
+                    <!--<div>-->
+                        <!--<div><label>彩种</label><em>期号：XXXXXXXX</em></div>-->
+                        <!--<p>2016-11-02  21：05</p>-->
+                    <!--</div>-->
+                    <!--<div>-->
+                        <!--<div><b>金额：</b><span>-100</span></div>-->
+                        <!--<p>状态：未开奖</p>-->
+                    <!--</div>-->
+                <!--</li>-->
+            </ul>
+        </div>
+
+        <div class="bettingRecordStatis">
+            <div class="bet_statis"><em> 投注</em><p style="color: #d22727">-0</p></div>
+            <div class="win_statis"><em> 中奖</em><p style="color: #34b86c">+0</p></div>
+            <div class="profit_statis"><em> 盈利</em><p style="color: #d22727">+0.00</p></div>
+        </div>
+
+    </div>
+    <!--底部弹窗-->
+    <div class="mask" style="display: none"></div>
+    <div class="pop-wrap down" id="type-pop">
+        <div class="pop-select">
+            <div class="title">选择彩种类型</div>
+            <div class="content">
+            	<ul class="content-inner clearfix">
+                    {loop $gameInfo $v} {if $v['id'] == $type}
+                    <li data-id="{$v['id']}" class="active">{$v['name']}</li>
+                    {else}
+                    <li data-id="{$v['id']}">{$v['name']}</li>
+                    {/if} {/loop}
+                </ul>
+            </div>
+        </div>
+        <div class="bottom-con">
+            <a javascript="void(0)" ; type="button" class="pop-cansel">取消</a>
+        </div>
+    </div>
+    <div class="pop-wrap down" id="status-pop">
+        <div class="pop-select">
+            <div class="title">选择交易状态</div>
+            <div class="content">
+            	<ul class="content-inner clearfix">
+                    {loop $statusArr $k $v} {if $k == $status}
+                    <li data-num="{$k}" class="active">{$v}</li>
+                    {else}
+                    <li data-num="{$k}">{$v}</li>
+                    {/if} {/loop}
+                </ul>
+            </div>
+        </div>
+        <div class="bottom-con">
+            <a javascript="void(0)" ; type="button" class="pop-cansel">取消</a>
+        </div>
+    </div>
+
+    <div class="pop-wrap down" id="date-pop">
+        <div class="pop-select pop-bg-white">
+            <div class="title">选择时间</div>
+            <div class="content">
+                <div class="demo">
+                    <div class="lie">日期设置-1:<input  id="beginTime" class="kbtn" /></div>
+                    <div class="lie">日期设置-2:<input id="endTime" class="kbtn" /></div>
+                </div>
+                <div id="datePlugin-begin"></div>
+                <div id="datePlugin-end"></div>
+                <div class="btn_warp"><span id="confirm-getDate">确定</span></div>
+            </div>
+        </div>
+        <div class="bottom-con">
+            <a javascript="void(0)" ; type="button" class="pop-cansel">取消</a>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+    //var start_time = $("#startT em").text();
+    //var end_time = $("#endT em").text();
+    var fromRoom = GetRequest().fromRoom;
+    if(fromRoom == 1){
+        $(".fromRoom").show();
+        $(".normal").hide();
+    }else{
+        $(".fromRoom").hide();
+        $(".normal").show();
+    }
+
+    var type = "0";
+    var status = "0";
+    var windowHeight = $(window).height();
+    //var mainTop = $(".bettingRecordList").offset().top;
+    //var newHeight = windowHeight-mainTop;
+    //$(".bettingRecordList").css({height:newHeight});
+
+    //条件筛选
+    function getData() {
+        start_time = $("input[name=start_time]").val();
+        end_time = $("input[name=end_time]").val();
+        var mydate = new Date();
+        var n= mydate.getFullYear(),
+                y= mydate.getMonth()+1,
+                r= mydate.getDate();
+        y =y<9?'0'+y:y;
+
+        if(start_time ==""){
+            start_time = n+'-'+y+'-'+r;
+        }
+        if(end_time ==""){
+            end_time = n+'-'+y+'-'+r;
+        }
+
+        type = $("#type").attr("data-id");
+        status = $("#status").attr("data-num");
+        console.log(start_time);
+        console.log(end_time);
+        console.log(type);
+        console.log(status);
+        var d1=start_time.substring(5,7);
+        var d2=end_time.substring(5,7);
+        if(start_time.substring(0,4)==end_time.substring(0,4))//判断同一年
+        {
+            if(Number(d2)-Number(d1)>0) {
+                layer.open({
+                    content: "只能查看一个月的数据"
+                    ,skin: 'msg'
+                    ,time: 2 //2秒后自动关闭
+                });
+//                    layer.open({
+//                        content: "<p class='alert_msg'>只能查看一个月的数据</p>",
+//                        btn: '<p class="alert_buttom">我知道了</p>'
+//                    });
+            }else{
+                pageData();
+            }
+        }else{
+            layer.open({
+                content: "只能查看一个月的数据"
+                ,skin: 'msg'
+                ,time: 2 //2秒后自动关闭
+            });
+        }
+    }
+
+    var id; //时间选择插件变量
+    var page = {$page}; //页码
+
+    $(function() {
+        readyFun(); //初始化
+
+        //初始化时间选择插件
+        $('#beginTime').date();
+        //	$('#endTime').date({theme:"datetime"});
+        $('#endTime').date();
+        $('#beginTime').click();
+        id = 1;
+        $('#endTime').click();
+
+    })
+
+    function readyFun() {
+        $('#record_list').html("");
+        var record_type = '';
+
+        $('.bettingRecordList').dropload({
+            loadDownFn : function(me){
+                getAjax(me);
+            },
+            threshold : 50
+        });
+    }
+
+    function getAjax(me) {
+        var result = '';
+        type = $("#type").attr("data-id");
+        status = $("#status").attr("data-num");
+        var start_time = $("#startT em").text();
+        var end_time = $("#endT em").text();
+
+        console.log("--页码：" + page + "--开始时间：" + start_time + "--结束时间：" + end_time + "--类型：" + type + "--状态：" + status);
+        $.ajax({
+            type: 'GET',
+            url: "<?=url('','order','betListData')?>" + "&start_time=" + start_time + "&end_time=" +　end_time + "&type=" + type + "&page=" +page + "&status=" + status,
+            dataType: 'json',
+            success: function(data){
+                var dataLen = data.list.length;
+                if (dataLen > 0 || page > 1){
+                    $('.zhanwei').removeClass('zhanwei');
+                }else {
+                    $(".bet_statis p").html('-'+0);
+                    $(".win_statis p").html('+'+0);
+                    $(".profit_statis p").html('+'+0.00);
+                    $(".profit_statis p").css({color: '#34b86c'});
+
+                    $('.bettingRecordList').addClass('zhanwei');
+                    var mainTop = $(".bettingRecordList").offset().top;
+                    var newHeight = windowHeight-mainTop;
+                    $(".bettingRecordList").css({height:newHeight});
+                }
+
+                if (dataLen > 0) {
+                    var profit = data.total['award']-data.total['money'];
+                    var topColor = profit >= 0 ?'#34b86c':'#d22727';
+                    var topflag = profit >= 0 ?'+':'';
+
+//                    if(page<=2){
+                        $(".bet_statis p").html('-'+data.total['money']);
+                        $(".win_statis p").html('+'+data.total['award']);
+                        $(".profit_statis p").html(topflag+toDecimal2(profit));
+                        $(".profit_statis p").css({color: topColor});
+//                    }
+
+                    for(var i = 0; i < dataLen; i++){
+                        var href_d = "<?=url('', '', 'detail')?>&id=" + data.list[i].id+ "&page=" + page +"&start_time=" + start_time + "&end_time=" + end_time +"&types=" + type + "&status=" + status;
+                        var flag = data['list'][i].money_type == 1 ?'+ ':'- ';
+                        var award_flag = data['list'][i].award >= 0 ?'+ ':'- ';
+                        var flagColor = data['list'][i].money_type == 1 ?'#34b86c':'#d22727';
+                        var award_color = data['list'][i].award>=0 ?'#34b86c':'#d22727';
+                        var winColor = data['list'][i].status == '未中奖' ? '#d22727' : '#34b86c'; //状态颜色
+                        if(data.list[i].lottery_type=='12'){
+                            result +=  '<li data-href="'+ href_d +'">'
+                                + '<div>'
+
+                                + '<div><label>'+ data.list[i].name +'</label></div>'
+                                + '<p class="bet_con"><em>投注内容：'+ data.list[i].way +'</em></p>'
+                                + '<p>'+ data.list[i].state +'时间：'+ data.list[i].addtime +'</p>'
+
+                                + '</div>'
+                                + '<div>'
+                                + '<div class="bet_money"><span style="color: '+flagColor+'">'+flag+ data.list[i].money +'</span></div>'
+                                + '<div class="bet_award"><span style="color: '+award_color+'">'+award_flag+ data.list[i].award +'</span></div>'
+                                + '<p class="bet_status">状态：<span>'+ data.list[i].status +'</span></p>'
+                                + '</div>'
+                                + '</li>'
+                        }else{
+                            result +=  '<li data-href="'+ href_d +'">'
+                                + '<div>'
+
+                                + '<div><label>'+ data.list[i].name +'</label></div>'
+                                + '<p class="bet_con"><em>期号：'+ data.list[i].issue +'</em><em>投注内容：'+ data.list[i].way +'</em></p>'
+                                + '<p>'+ data.list[i].state +'时间：'+ data.list[i].addtime +'</p>'
+
+                                + '</div>'
+                                + '<div>'
+                                + '<div class="bet_money"><span style="color: '+flagColor+'">'+flag+ data.list[i].money +'</span></div>'
+                                + '<div class="bet_award"><span style="color: '+award_color+'">'+award_flag+ data.list[i].award +'</span></div>'
+                                + '<p class="bet_status">状态：<span>'+ data.list[i].status +'</span></p>'
+                                + '</div>'
+                                + '</li>'
+                        }
+                        
+                    }
+
+                    page++; //页面加1
+
+                } else {
+                    // 锁定
+                    me.lock();
+                    // 无数据
+                    me.noData();
+                    $(".dropload-down").remove();
+                    if(page>1){
+                        $(".bettingRecord_marginB ul").css({marginBottom:'129px'});
+                    }else{
+                        $(".bettingRecord_marginB ul").css({marginBottom:'0px'});
+                    }
+
+                }
+                // 为了测试，延迟1秒加载
+                setTimeout(function(){
+                    $('#record_list').append(result);
+                    // 每次数据加载完，必须重置
+                    me.resetload();
+                },1000);
+
+            },
+            error: function(xhr, type){
+                // 即使加载出错，也得重置
+//                me.resetload();
+            }
+        });
+    }
+
+    function toDecimal2(x) {
+        var f = parseFloat(x);
+        if (isNaN(f)) {
+            return false;
+        }
+        var f = Math.floor(x*100)/100;
+        var s = f.toString();
+        var rs = s.indexOf('.');
+        if (rs < 0) {
+            rs = s.length;
+            s += '.';
+        }
+        while (s.length <= rs + 2) {
+            s += '0';
+        }
+        return s;
+    }
+
+    //类型选择
+    $("#type").click(function() {
+        showMask();
+    });
+    //状态选择
+    $("#status").click(function() {
+        showMask(1);
+    });
+    $(".pop-cansel, .mask").click(function() {
+        closeMask();
+    })
+    //重置
+    $("#reset").click(function(){
+        window.location.href = '?m=web&c=order&a=betRecordWeb';
+    })
+    function showMask(flag) {
+        $(".mask").show();
+        if(flag){
+            $("#status-pop").removeClass("down");
+            $("#status").addClass("active");
+        }else{
+            $("#type-pop").removeClass("down");
+            $("#type").addClass("active");
+        }
+    }
+    function closeMask(flag) {
+        $(".mask").hide();
+        $("#status-pop").addClass("down");
+        $("#status").removeClass("active");
+        $("#type-pop").addClass("down");
+        $("#type").removeClass("active");
+        $("#date-pop").addClass("down");
+    }
+
+    // $("#startTime em").(function(){
+    //     $(this).find("em").text($('input[name="end_time"]').val());
+    // })
+//    $('input[name="end_time"]').change(function() {
+//        if ($(this).val().length) {
+//            $("#endTime em").text($(this).val());
+//        } else {
+//            return false
+//        }
+//    })
+//    $('input[name="start_time"]').change(function() {
+//        $("#startT em").text($(this).val());
+//        if ($(this).val().length) {
+//            $("#startT em").text($(this).val());
+//        } else {
+//            return false
+//        }
+//    })
+
+    //彩种类型选择
+    $("#type-pop li").click(function() {
+        $("#startT em").text();
+        $("#endT em").text();
+
+        $(this).addClass("active").siblings().removeClass();
+        var id = $(this).attr('data-id');
+        $("#type").text($(this).text());
+        $("#type").attr("data-id", id);
+
+        //type = $("#type").attr("data-id");
+        //status = $("#status").attr("data-num");
+        page = 1;
+
+        $(".dropload-down").remove();
+        closeMask();
+        readyFun();
+    });
+
+    //时间选择
+    $("#timeSelect").click(function() {
+        $(".mask").show();
+        $("#date-pop").removeClass("down");
+//        $("#status").addClass("active");
+    })
+    //时间选择确定按钮
+    $('#confirm-getDate').click(function(){
+        $('#dateconfirm').click();
+        $('#dateconfirm2').click();
+        $("#startT em").text($("#beginTime").val());
+        $("#endT em").text($("#endTime").val());
+        //???????
+        if(new Date($("#beginTime").val().replace(/-/g, '/')).getTime() <= new Date($("#endTime").val().replace(/-/g, '/')).getTime()){
+            $(".dropload-down").remove();
+            page = 1;
+            $(".dropload-down").remove();
+            readyFun();
+            closeMask();
+        }else{
+            layer.open({
+                content: "开始时间不能晚于结束时间",
+                skin: 'msg',
+                time: 2 //2秒后自动关闭
+            });
+        }
+    });
+
+    //交易状态选择
+    $("#status-pop li").click(function() {
+        $("#startT em").text();
+        $("#endT em").text();
+
+        $(this).addClass("active").siblings().removeClass();
+        var id = $(this).attr('data-num');
+        $("#status").text($(this).text());
+        $("#status").attr("data-num", id);
+
+        //type = $("#type").attr("data-id");
+        //status = $("#status").attr("data-num");
+        page = 1;
+
+        $(".dropload-down").remove();
+        closeMask(1);
+        readyFun();
+    });
+    
+    //跳转到个人中心
+    function goUserMy()
+    {
+    	location.href= "{$backUrl}";
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">
+    <title>个人中心</title>
+    <!-- layer -->
+    <script src="/statics/web/extend/layer/mobile/layer.js"></script>
+    <!-- layer - end -->
+    <style>
+    .hdPanel{ 
+        width:90%;
+        margin: 30px auto;
+        border-radius: 5px;
+        padding: 10px;
+        box-shadow: 1px 1px 5px #909090;
+    }
+    .ygq{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        opacity: .5;
+        text-align: center;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+    }
+    .imgPanel{
+        width: 100%;
+        height: 25vh;
+        position: relative;
+    }
+    .hdImg{
+        width: 100%;
+        height: 100%;
+    }
+    .textPanel{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0px;
+    }
+    .textPanel div{
+        font-size: 28px;
+    }
+    .textPanel span{
+        color: #909090;
+    }
+    </style>
+</head>
+<body>
+<header class="head_my">
+    <em onclick="history.go(-1)">返回</em>
+    <h1>活动</h1>
+</header>
+<section>
+    <input type="hidden" name="token" value="{$token}">
+    <input type="hidden" name="uid" value="{$uid}">
+
+</section>
+<script src="statics/web/js/jquery.1.8.2.min.js"></script>
+<script type="text/javascript">
+    var token = '{$token}';
+    var uid = '{$uid}';
+    $.ajax({
+        type: 'get',
+        url:'?m=api&c=actcenter&a=fetchActList&token='+token+'',
+        success: function(res){
+            var data = JSON.parse(res).data;
+            var html='';
+            if(data.length>0){
+                for(var i=0;i<data.length;i++){
+                    html+='<div class="hdPanel"><a href="'+data[i].act_url+'"><div class="imgPanel"><img src="'+data[i].act_banner_pic+'" class="hdImg">';
+                    if(data[i].is_underway!=1){
+                        //已过期
+                        html+='<div class="ygq"><p>已过期</p></div></div>';
+                    }else{
+                        html+='</div>';
+                    }
+                    html+='<div class="textPanel"><div>'+data[i].act_type_name+'</div><span>'+data[i].act_end_date+'结束</span></div></a></div>';
+                }
+                $('section').append(html);
+            }
+        },
+        error: function(){
+
+        }
+    })
+</script>

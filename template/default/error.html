@@ -1,0 +1,55 @@
+{template header}
+
+  <!-- Login -->
+  <link href="<?=SITE_PROTOCOL.C('cdn_path')?>resource/css/login/login.css" rel="stylesheet">
+  <div class="container">
+    <div class="login-err-box border-radius">
+        <?php if (empty($status)) { ?>
+        <div class="text-danger guery">很抱歉，<?php echo $msg; ?></div>
+        <?php } elseif ($status==1) { ?>
+        <div class="text-danger ok">恭喜您，<?php echo $msg; ?></div>
+        <?php }else { ?>
+        <div class="text-danger"  ><?php echo $msg; ?></div>
+        <?php } ?>
+      <p class="font14px margin-top20px">等待<span class="margin-left5px margin-right5px color-main" id="timer">{$time}秒</span>后,如果您的浏览器没有自动跳转，<a class="fbold" style="color:#F00;" href="<?php echo empty($jumpUrl) ? $_SERVER["HTTP_REFERER"] : $jumpUrl ?>">请点击这里</a></p>
+      <?php echo $js ?>
+    </div>
+  </div>
+
+  <?php
+    $zhuceid = Session::get('zhuceid');
+    if(!empty($zhuceid)){
+    ?>
+    <!--
+        参数说明
+        _orderno：注册用户ID，需要替换为注册用户的ID值
+        -->
+<script>
+    !function(w,d,e){
+    var _orderno='{$zhuceid}';  //替换此处!;
+    var b=location.href,c=d.referrer,f,s,g=d.cookie,h=g.match(/(^|;)\s*ipycookie=([^;]*)/),i=g.match(/(^|;)\s*ipysession=([^;]*)/);if (w.parent!=w){f=b;b=c;c=f;};u='//stats.ipinyou.com/cvt?a='+e('Tm.HJ.pDmlGBWCbsnDo1LjDl-Py_')+'&c='+e(h?h[2]:'')+'&s='+e(i?i[2].match(/jump\%3D(\d+)/)[1]:'')+'&u='+e(b)+'&r='+e(c)+'&rd='+(new Date()).getTime()+'&OrderNo='+e(_orderno)+'&e=';
+    function _(){if(!d.body){setTimeout(_(),100);}else{s= d.createElement('script');s.src = u;d.body.insertBefore(s,d.body.firstChild);}}_();
+    }(window,document,encodeURIComponent);
+</script>
+<script type="text/javascript">
+var _mvq = window._mvq || [];
+window._mvq = _mvq;
+_mvq.push(['$setAccount', 'm-102374-0']);
+_mvq.push(['$setGeneral', 'registered', '', '<?=Session::get('reg_username')?>', '<?=Session::get('reg_userid')?>']);
+_mvq.push(['$logConversion']);
+</script>
+<?php
+        Session::del('zhuceid');
+    }
+
+  ?>
+<script type="text/javascript" src="//stat.tf.360.cn/search/c.js?u=1339090459" charset="utf-8"></script>
+<script type="text/javascript">
+(function() {
+	var obj = document.createElement('script');
+	obj.src = '//s.va.cn/va.js?id=18388';
+	var s = document.getElementsByTagName('script')[0];
+	s.parentNode.insertBefore(obj, s);
+})();
+</script>
+{template footer}

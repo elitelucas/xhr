@@ -1,0 +1,381 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="ie-comp">
+<title>网贷天眼_理财嘉年华</title>
+<link rel="stylesheet" type="text/css" href="../../statics/actwdty/css/base.css"/>
+<link rel="stylesheet" type="text/css" href="../../statics/actwdty/css/wangdai.css">
+<style type="text/css">html,body{ overflow-x:hidden;}</style>
+</head>
+
+<body style="background:url(../../statics/actwdty/image/wangdaitianyan/bg.jpg) no-repeat center 672px;">
+<div class="header">
+  <div class="topbar">
+    <div class="container">
+      <div class="pull-left">
+        <a href="https://www.chenghuitong.net/">
+          <span class="home"></span>
+          <span>首页</span>
+        </a>
+        <a>
+          <span class="tel"></span>
+          <span>客服电话：400-018-0107</span>
+        </a>
+        <a>
+          <span>13613002927（非工作时间）</span>
+        </a>
+      </div>
+      <div class="pull-right">
+		<?php if(isset($this->user['id'])){?>
+		<a href="<?=url('member','main','index')?>">
+			<span><?=$this->user['username']?></span>，
+		</a>
+		<a>
+          <span>欢迎来到诚汇通！</span>
+        </a>
+		<a href="<?=url('content','login','loginout')?>">
+          <span>[退出]</span>
+        </a>
+        <a href="<?=url('member','msg','index')?>">
+           <span class="email"></span>
+           <span>(<?=isset($this->user['noreadmsg'])?$this->user['noreadmsg']:0?>)</span>
+        </a>
+		<?php }else{?>
+        <a href="<?=url('content','login','index')?>">
+          <span class="log"></span>
+          <span>登录</span>
+        </a>
+		<a href="<?=url('content','regedit','index')?>">
+           <span class="reg"></span>
+           <span>注册</span>
+         </a>
+		<?php }?>
+         <a href="<?=url('article','services','help')?>">
+           <span class="help"></span>
+           <span>帮助中心</span>
+         </a>
+         <a href="<?=url('article','default','calculator')?>">
+           <span class="calc"></span>
+           <span>投资计算器</span>
+         </a>
+      </div>
+    </div>
+  </div>
+  <div class="nav">
+    <div class="container">
+      <div class="pull-left"><a href="https://www.chenghuitong.net/"><img src="../../statics/actwdty/image/need/logo.png" alt="logo"></a></div>
+      <div class="pull-right">
+        <a href="https://www.chenghuitong.net/borrow/default-index.html">我要理财</a>
+        <a href="https://www.chenghuitong.net/borrow/release-index.html">我要融资</a>
+        <a href="https://www.chenghuitong.net/activity/carefund-index.html">关爱基金<sup>new</sup></a>
+        <a href="http://www.chenghuitong.net/article/safety-index.html">安全保障</a>
+        <a href="http://www.chenghuitong.net/article/services-guide.html">新手指引</a>
+        <a class="header-btn" href="https://www.chenghuitong.net/member/main-index.html">我的账户</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div style="background:url(../../statics/actwdty/image/wangdaitianyan/banner.jpg) no-repeat center 0; height:552px; min-width:1000px;"></div>
+<div class="content">
+	<div class="title"><span>投资秘籍</span></div>
+	<div class="pdlr50">
+        <p>完成任务点亮相应的任务球，即可获得对应的奖励，最高可收获 <img src="../../statics/actwdty/image/wangdaitianyan/img1.png"> <b class="yellow">1000元京东礼品卡+iPhone 6S，单次投资20万以上的用户，向下叠加获得除注册实名后的所有奖励；</b></p>
+        <div class="title2"><img src="../../statics/actwdty/image/wangdaitianyan/case1.png"></div>
+        <p>小明于活动期间注册并<a href="/zhuanti/Dec/Dec.html#reward5" target="_blank" class="blue">约标</a>，投资了20W的6月到期还本标，小明可获得相应的20元（<a href="/zhuanti/Dec/Dec.html#reward1" target="_blank" class="blue">注册实名</a>）+45元（5+10+30）话费和400元（100+300）京东礼品卡+11个签证码+280元现金（<a href="/zhuanti/Dec/Dec.html#reward5" target="_blank" class="blue">约标奖励</a>）+2000元现金（<a href="/zhuanti/Dec/Dec.html#reward2" target="_blank" class="blue">投标奖励</a>），合计奖励价值<b class="yellow">2745元</b>+<b class="yellow">11个</b>签证码 <a href="javascript:;" class="help-icon yhelp ToolTips ToolTipCol" data-text="活动期间可用于‘网贷天眼理财嘉年华’奖池抽奖，签证码越多，获奖概率越高，先到先得，送完即止！"></a>。</p>
+        <div class="title2"><img src="../../statics/actwdty/image/wangdaitianyan/case2.png"></div>
+        <p>小明于活动前注册，并在活动期间<a href="/zhuanti/Dec/Dec.html#reward5" target="_blank" class="blue">约标</a>，投资了100万的6月到期还本标，可直接点亮所有球，1台iPhone6S+1900元京东卡+45元话费+3000元现金（<a href="/zhuanti/Dec/Dec.html#reward5" target="_blank" class="blue">约标奖励</a>）+10000元现金（<a href="/zhuanti/Dec/Dec.html#reward2" target="_blank" class="blue">投标奖励</a>），合计奖励价值约为<b class="yellow">19445元</b>+<b class="yellow">11个</b>签证码 <a href="javascript:;" class="help-icon yhelp ToolTips ToolTipCol" data-text="活动期间可用于‘网贷天眼理财嘉年华’奖池抽奖，签证码越多，获奖概率越高，先到先得，送完即止！"></a>。</p>
+    </div>
+</div>
+<div class="steps">
+	<div class="step step1">
+		<a href="<?=url('content','regedit','index')?>" target="_blank" class="step-con {if !empty($this->user)}active{/if}">
+            <img src="../../statics/actwdty/image/wangdaitianyan/cash10.png" width="102" style="margin-top:45px;">
+            <p>10元现金</p>
+        </a>
+    </div>
+	<div class="step step2">
+    	<a href="<?=url('member','verify','real')?>" target="_blank" class="step-con {if $isReal}active{/if}">
+            <img src="../../statics/actwdty/image/wangdaitianyan/cash10.png" width="81" style="margin-top:22px;">
+            <p>10元现金</p>
+        </a>
+    </div>
+	<div class="step step3">
+    	<a href="<?=url('borrow','default','index')?>" target="_blank" class="step-con {if !empty($this->user) && in_array(3,$myAward['task'])}active{/if}">
+            <img src="../../statics/actwdty/image/wangdaitianyan/fare5.png" width="84" style="margin-top:23px;">
+            <p>5元话费<br>签证码x1</p>
+        </a>
+    </div>
+	<div class="step step4">
+    	<a href="<?=url('borrow','default','index')?>" target="_blank" class="step-con {if !empty($this->user) && in_array(4,$myAward['task'])}active{/if}">
+            <img src="../../statics/actwdty/image/wangdaitianyan/fare10.png" width="69" style="margin-top:18px;">
+            <p>10元话费<br>签证码x2</p>
+        </a>
+    </div>
+	<div class="step step5">
+    	<a href="<?=url('borrow','default','index')?>" target="_blank" class="step-con {if !empty($this->user) && in_array(5,$myAward['task'])}active{/if}">
+            <img src="../../statics/actwdty/image/wangdaitianyan/fare30.png" width="51" style="margin-top:8px;">
+            <p>30元话费<br>签证码x3</p>
+        </a>
+    </div>
+	<div class="step step6">
+    	<a href="<?=url('borrow','default','index')?>" target="_blank" class="step-con {if !empty($this->user) && in_array(6,$myAward['task'])}active{/if}">
+            <img src="../../statics/actwdty/image/wangdaitianyan/ticket100.png" width="52" style="margin-top:7px;">
+            <p>100元礼品卡<br>签证码x5</p>
+        </a>
+    </div>
+	<div class="step step7">
+    	<a href="<?=url('borrow','default','index')?>" target="_blank" class="step-con {if !empty($this->user) && in_array(7,$myAward['task'])}active{/if}">
+            <img src="../../statics/actwdty/image/wangdaitianyan/ticket300.png" width="65" style="margin-top:22px;">
+            <p>300元礼品卡</p>
+        </a>
+    </div>
+	<div class="step step8">
+    	<a href="<?=url('borrow','default','index')?>" target="_blank" class="step-con {if !empty($this->user) && in_array(8,$myAward['task'])}active{/if}">
+            <img src="../../statics/actwdty/image/wangdaitianyan/ticket500.png" width="64" style="margin-top:20px;">
+            <p>500元礼品卡</p>
+        </a>
+    </div>
+	<div class="step step9">
+    	<a href="<?=url('borrow','default','index')?>" target="_blank" class="step-con {if !empty($this->user) && in_array(9,$myAward['task'])}active{/if}">
+            <img src="../../statics/actwdty/image/wangdaitianyan/ticket1000.png" width="43" style="margin-top:18px;">
+            <img src="../../statics/actwdty/image/wangdaitianyan/iphone6s.png" width="25" style="margin-top:18px;">
+            <p>iPhone 6s<br>1000元礼品卡</p>
+        </a>
+    </div>
+</div>
+<div class="full-content">
+    <div class="content">
+        <div class="con con1 cl">
+            <div class="left fl">
+                <ul class="con1-title">
+                    <li class="current t1">我的奖品</li>
+                    <li class="t2">我的签证码</li>
+                </ul>
+                <div class="main main1">
+					{if empty($this->user)}
+					<div class="btn-box"><a href="<?=url('content','login','index')?>" class="btn">注册&登录</a></div>
+					{else}
+                    <div class="about-show-box">
+                        <div class="about-show-b">
+                            <ul id="ui-award-list" class="ui-award2-list">
+								<?php
+								$names = array('ticket'=>'元礼品卡', 'fare'=>'元话费', 'cash'=>'元现金');
+								foreach ($myAward['award'] as $award){
+									list($key, $val) = explode(':', $award['award_content']);
+									if ($key == 'qzm') {
+										continue;
+									} elseif ($key == 'iphone6s') {
+										$img = 'iphone6s';
+										$name = 'iPhone 6S';
+									} else {
+										$img = $key . $val;
+										$name = $val . $names[$key];
+									}
+								?>
+								<li>
+                                	<div class="award-img"><img src="../../statics/actwdty/image/wangdaitianyan/{$img}.png"></div>
+                                    <p>{$name}</p>
+                                </li>
+								<?php } ?>
+                            </ul>
+                        </div>
+                    </div>
+					{/if}
+                </div>
+                <div class="main main2">
+					{if empty($this->user)}
+					<div class="btn-box"><a href="<?=url('content','login','index')?>" class="btn">注册&登录</a></div>
+					{else}
+					<ul id="ui-code-list" class="ui-code-list">
+						<?php
+						foreach ($myAward['award'] as $award){
+							list($key, $val) = explode(':', $award['award_content']);
+							if ($key != 'qzm') {
+								continue;
+							}
+						?>
+						<li>签证码：{$val}</li>
+						<?php } ?>
+					</ul>
+					{/if}
+                </div>
+            </div>
+            <div class="right fr">
+            	 <h3>获奖名单</h3>
+                 <div id="award" style="overflow:hidden;height:144px;width:100%;">
+                    <ul class="ui-award-list">
+					{if empty($newAward)}
+						<li>暂无获奖名单</li>
+					{else}
+						{loop $newAward $val}
+						<li>恭喜<?=f_name($val['username'])?>完成任务，获得{$actCfg['task_list'][$val['task_id']]['msg']}</li>
+						{/loop}
+					{/if}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="con con2">
+            <p><b>活动规则：</b></p>
+            <p>1. 活动时间：12月14日22:00~12月27日22:00；</p>
+            <p>2. 活动期间用户完成相应的任务（满标复审后），即可点亮任务球，获得任务球对应的奖品！所有的任务球仅可点亮一次；单次投资20万以上的用户，向下叠加获得除注册实名后的所有奖励；1月约标用户不参与此活动；</p>
+            <p>3. 关于奖品：</p>
+            <p>① 签证码 <a href="javascript:;" class="help-icon yhelp ToolTips ToolTipCol" data-text="活动期间可用于‘网贷天眼理财嘉年华’奖池抽奖，签证码越多，获奖概率越高，先到先得，送完即止！"></a>、话费、京东礼品卡将在任务完成后系统自动发放站内信通知；</p>
+            <p>② 京东礼品卡将在活动结束后15个工作日内统一发送站内信，具体送达时间以您认证手机收到的短信为准；</p>
+            <p>③ 话费将在活动结束后的15个工作日内统一充值到用户的认证手机号码；</p>
+            <p>④ 实物奖品将在活动结束后的3个工作日内由平台客服联系中奖用户，并在活动结束后的15个工作日内统一寄出，邮费由诚汇通平台承担；
+            因用户的原因造成礼品无法准确送达的，视为自动放弃奖品；</p>
+            <p>4. 活动解释权归诚汇通平台所有。</p>
+        </div>
+    </div>
+</div>
+
+<div class="float_left">
+    <img src="../../statics/actwdty/image/wangdaitianyan/float-img.png" class="float-img">
+    <a href="/zhuanti/Dec/Dec.html#reward1" target="_blank"><span class="float_txt">注册送</span><span class="yellow">20元</span></a>
+    <a href="/zhuanti/Dec/Dec.html#reward2" target="_blank"><span class="float_txt">投标奖励</span><span class="yellow">1.0%</span></a>
+    <a href="/zhuanti/Dec/Dec.html#reward4" target="_blank"><span class="float_txt">续投奖励</span><span class="yellow">0.2%</span></a>
+  <a href="/zhuanti/Dec/Dec.html#reward3" target="_blank"><span class="float_txt" style="font-size:14px; line-height:20px;">周末<br>节假日抢标</span><span class="float_per yellow" style="font-size:20px; line-height:40px;">0.1%</span></a>
+    <a href="/zhuanti/Dec/Dec.html#reward5" target="_blank"><span class="float_txt">约标奖励</span><span class="yellow">0.3%</span></a>
+    <img src="../../statics/actwdty/image/wangdaitianyan/erweima.png" class="erweima">
+    <span id="float_colse">X</span>
+    <span class="back-top">top</span>
+</div>
+<div class="footer">
+  <div class="container">
+    <div class="pull-left">
+      <div class="links">
+        <a href="https://www.chenghuitong.net/article/company-index.html">关于我们</a>
+        <a href="https://www.chenghuitong.net/article/safety-index.html">安全保障</a>
+        <a href="https://www.chenghuitong.net/article/services-help-cateid-3.html">帮助中心</a>
+        <a href="https://www.chenghuitong.net/article/services-index.html">服务中心</a>
+        <a href="https://www.chenghuitong.net/article/default-index.html">新闻中心</a>
+        <a href="https://www.chenghuitong.net/article/company-contact.html">联系我们</a>
+      </div>
+      <div class="copyright">深圳市诚汇通金融信息有限公司<br>深圳市福田区福华三路168号国际商会中心2408-2412室<br>Copyright© 2015 www.chenghuitong.net 粤ICP备13044593号</div>
+      <div class="beian">
+        <a href="https://cert.ebs.gov.cn/A71F6F48-ABB7-4F8A-92C4-D73F8FA0DE56" target="_blank">
+          <img src="../../statics/actwdty/image/need/beian_gswj.jpg" title="深圳市市场监督管理局企业主体身份公示" alt="深圳市市场监督管理局企业主体身份公示">
+        </a>
+        <a href="http://www.miibeian.gov.cn/" target="_blank">
+          <img src="../../statics/actwdty/image/need/beian_icp.jpg" title="ICP备案查询" alt="ICP备案查询">
+        </a>
+        <a href="https://search.szfw.org/cert/l/CX20140305003565003628" target="_blank">
+          <img src="../../statics/actwdty/image/need/beian_cxwz.jpg" title="诚信网站" alt="诚信网站">
+        </a>
+        <a href="https://ss.knet.cn/verifyseal.dll?sn=e13101844030042941tvh5000000&amp;ct=df&amp;a=1&amp;pa=0.2732217316515744" target="_blank">
+          <img src="../../statics/actwdty/image/need/beian_cnnic.png" title="可信网站" alt="可信网站">
+        </a>
+        <a href="https://trustsealinfo.websecurity.norton.com/splash?form_file=fdf/splash.fdf&amp;dn=www.chenghuitong.net&amp;lang=en" target="_blank">
+        <img src="../../statics/actwdty/image/need/beian_norton.jpg" title="NORTON" alt="NORTON">
+      </a>
+      </div>
+    </div>
+    <div class="pull-right">
+      <div class="tel">400-018-0107</div>
+      <div class="time">（周一至周五 9:00-17:30）</div>
+      <div class="attention">
+        <a class="weibo" href="http://weibo.com/cht608710" target="_blank"></a>
+        <a class="tweibo" href="http://e.t.qq.com/cht608710" target="_blank"></a>
+      </div>
+    </div>
+  </div>
+</div>
+{if $actCfg['end_time']<SYS_TIME}
+<div class="mask"></div>
+<div class="close-box">
+	<span id="close" title="关闭"></span>
+</div>
+{/if}
+<script type="text/javascript" src="../../statics/actwdty/js/jquery-1.8.3.min.js"></script>
+<script src="../../statics/actwdty/js/global-1.1.0.min.js"></script>
+<script src="../../statics/actwdty/js/scroll.js"></script>
+<script src="../../statics/actwdty/js/snowfall.jquery.js"></script>
+<script type="text/javascript">
+$(function(){
+	//下雪效果
+	$("body").snowfall('clear');
+	$("body").snowfall({
+		image: "../../statics/actwdty/image/snow.png",
+		flakeCount:100,
+		minSize: 5,
+		maxSize: 60
+	});
+	
+	
+	$(".con1-title li").mouseover(function(e) {
+		var $index=$(".con1-title li").index(this);
+		$(this).addClass("current").siblings().removeClass("current");
+		$(".con1 .main").eq($index).show().siblings(".main").hide();
+	});
+
+	$('#award').myScroll({
+		speed: 60, //数值越大，速度越慢
+		rowHeight: 24 //li的高度
+	});
+
+	$("#float_colse").click(function(e) {
+	    $(".float_left").hide();
+	});
+
+	$(".back-top").click(function(e) {// 如果点击了back则返回头部
+		$("body,html").animate({
+			scrollTop:0
+		});
+	});
+	$("#close").click(function(e) {
+        $(".mask,.close-box").hide();
+    });
+	Carousel();
+});
+
+
+//轮播图
+function Carousel(){
+	var $key=0;
+	var $len=$("#ui-award-list li").length;
+	var $w_li=$("#ui-award-list li").width();
+	var $w_ul=$w_li*$len;
+	if($len>3){
+	$("#ui-award-list").parent().parent().append("<a href='javascript:void(0);' class='about-direction-nav icons about-prev'></a><a href='javascript:void(0);' class='about-direction-nav icons about-next'></a>");
+		}
+
+	$("#ui-award-list").css({"width":$w_ul});
+	$("#ui-award-list").parent().siblings(".about-next").click(function(e) {
+		$key++;
+		if($key>$len-3){
+			$key=$len-3;
+			$("#ui-award-list").css("left",-$key*$w_li);
+			}
+		if($key>$len-4){
+		$(this).css({"opacity":"0.2","filter":"alpha(opacity=20)"});
+		}
+		$("#ui-award-list").parent().siblings(".about-prev").css({"opacity":"1","filter":"alpha(opacity=100)"});
+		$("#ui-award-list").stop().animate({left:-$key*$w_li});
+    });
+	$("#ui-award-list").parent().siblings(".about-prev").click(function(e) {
+		$key--;
+		if($key<0){
+			$key=0;
+			$("#ui-award-list").css("left",0);
+			}
+		if($key<1){
+			$(this).css({"opacity":"0.2","filter":"alpha(opacity=20)"});
+		}
+		$("#ui-award-list").parent().siblings(".about-next").css({"opacity":"1","filter":"alpha(opacity=100)"});
+		$("#ui-award-list").stop().animate({left:-$key*$w_li});
+    });
+}
+</script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?58b625f2fae8bd6127a23680606506af";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</body>
+</html>

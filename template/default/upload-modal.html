@@ -1,0 +1,56 @@
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+	<div class="modal-dialog">
+		<div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">
+            资料上传[jpg, png, gif, bmp]
+            </h4>
+         </div>
+         <div class="modal-body">	
+		 <!--
+	         <ul id="myTab" class="nav nav-tabs">
+			   <li class="active">
+			   	<a href="#localfile" data-toggle="tab">本地文件</a>
+			   </li>
+			   <li>
+			   	<a href="#remotefile" data-toggle="tab">网络文件</a>
+			   </li>
+			</ul>	
+		 -->
+			<div id="myTabContent" class="tab-content" style="display: inline-block;">
+				<div class="tab-pane fade in active" id="localfile">
+						<form id="upfile-form" action="<?=url('attachment','attachments','ajax_upload')?>" enctype="multipart/form-data" method="POST" accept-charset="utf-8"  target="upfile-iframe">
+						<input name="upfile" type="file" id="upfile-input" onchange="upfile_submit();" accept="image/jpg,image/jpeg,image/gif,image/bmp,image/png"/>
+						<input name="module" type="hidden" value="{$module}" />
+						<input name="args" type="hidden" value="{$args}" />
+						<input name="authkey" type="hidden" value="{$authkey}" />
+						</form>
+				</div>
+				<div class="hidden">
+				<iframe id="upfile-iframe" name="upfile-iframe" src="javascript:void(0);" frameborder="false" scrolling="auto" style="overflow-x:hidden;border:none" width="0" height="0" allowtransparency="true"></iframe>
+                </div>
+				<div class="tab-pane fade" id="remotefile"></div>
+			</div>
+            
+            <!-- 上传成功的图片在这里展示 -->
+			<div style="display: inline-block; width: 100%;">
+			  <div style="display: inline-block;" class="pic_list upload pic_list_upload" classid="">
+                <!--<ul style="display: inline-block;"></ul>-->
+              </div>
+			</div>
+            <!-- /上传成功的图片在这里展示 -->
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" id="upload-modal-submit">提交更改</button>
+         </div>
+		</div>
+	</div>
+</div><!-- /.modal -->
+  <!--[if lt IE 9]>
+<script type="text/javascript">
+$("#upfile-input").onpropertychange=$("#upfile-input").onchange;
+</script>
+  <![endif]-->

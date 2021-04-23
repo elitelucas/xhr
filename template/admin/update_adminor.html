@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <title>网站信息</title>  
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>
+        <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+        <script src="statics/admin/js/pintuer.js"></script>
+        {template public-new-ui-header}
+    </head>
+    <body class="new_ui_body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title iboxWTitle">
+                        <h5>管理员信息修改</h5>
+                        <div class="ibox-tools">
+                            <a href="javascript:;" class="btn btn-white btn-bitbucket" onclick="history.go(-1);">
+                                <i class="fa fa-reply"></i>返回
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content bagCol" style="width: 100%;">
+                        <div id="editable_wrapper" class="dataTables_wrapper" role="grid" style="width: 100%" >
+                            <form method="post" class="form-x" action="" id="form">
+                                <div class="ibox-title">
+                                    <h5>管理员信息</h5>
+                                </div>
+                                <div class="ibox-content m-b" style="width: 100%;">
+                                    <div class="row">
+                                        <input type="hidden" name="userid"  value="{$data['userid']}" />
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>用户名</label>
+                                            <div class="col-sm-4">
+                                                <input type="text" placeholder="请输入用户名" disabled class="input w50 form-control" name="username" value="{$data['username']}"  data-validate="required:不能为空"/>
+                                                <div class="tipss"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>输入旧密码</label>
+                                            <div class="col-sm-4">
+                                                <input type="password" placeholder="请输入旧密码" class="input w50 form-control" name="password" value=""  data-validate="required:不能为空"/>
+                                                <div class="tipss"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>输入新密码</label>
+                                            <div class="col-sm-4">
+                                                <input type="password" placeholder="请输入新密码" class="input w50 form-control" name="newpassword" value=""  data-validate="required:不能为空"/>
+                                                <div class="tipss"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>再次输入新密码</label>
+                                            <div class="col-sm-4">
+                                                <input type="password" placeholder="请再次输入新密码" class="input w50 form-control" name="newpasswords" value=""  data-validate="required:不能为空"/>
+                                                <div class="tipss"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>邮箱</label>
+                                            <div class="col-sm-4">
+                                                <input type="text" placeholder="请输入邮箱" class="input w50 form-control" name="email" value="{$data['email']}"  data-validate="required:不能为空"/>
+                                                <div class="tipss"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label input_title"></label>
+                                            <div class="col-sm-4">
+                                                <button class="btn btn-primary" type="button" id='btn' onclick="dis()"> 提交</button>
+                                                <button class="btn btn-white" type="button" onclick="history.go(-1);">取消</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        //新增
+        function dis() {
+            //js校验数据
+            var password = $.trim($("input[name=password]").val());
+            var newpassword = $.trim($("input[name=newpassword]").val());
+            var newpasswords = $.trim($("input[name=newpasswords]").val());
+            var email = $.trim($("input[name=email]").val());
+            if(password == ""){
+                layer.msg('请输入旧密码', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+            if(newpassword == ""){
+                layer.msg('请输入新密码', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+            if(newpasswords == ""){
+                layer.msg('请再次输入新密码', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+            if(newpassword != newpasswords){
+                layer.msg('两次密码输入不一致', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '?m=admin&c=role&a=update_admin_okor',
+                data: {oldpassword:password,password:newpassword,email:email,userid:1},
+                dataType: 'json',
+                success: function (msg) {
+                    if (msg.rt == -999) {
+                        layer.msg('旧密码输入不正确', {icon: 5, shade: [0.5, '#393D49']});
+                    } else if(msg.rt) {
+                        layer.msg('修改成功',{icon:6, shade: [0.5, '#393D49']},function(){
+                            location.href = "?m=admin&c=role&a=admin_lst";
+                        });
+                    } else{
+                        layer.msg('修改失败', {icon: 5, shade: [0.5, '#393D49']});
+                    }
+                }
+            });
+        }
+    </script>
+</html>

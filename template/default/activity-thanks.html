@@ -1,0 +1,588 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="ie-comp">
+<title>感恩节</title>
+<link rel="stylesheet" type="text/css" href="../../statics/thanks/css/base.css"/>
+<style type="text/css">
+body,div,p,span,ul,ol,li,dl,dt,dd,a,h1,h2,h3,h4,h5,h6,img{ border:0; padding:0; margin:0;}
+.cl:after{ clear:both; content:"."; display:block; height:0; visibility:hidden;}
+.cl{ zoom:1;}
+.fl{ float:left;}
+.fr{ float:right;}
+.tc{ text-align:center;}
+.float_box{ position:fixed; top:50%; right:10px; margin-top:-93px; width:100px; z-index:9997;}
+.BackTop{ display:block; width:100%; height:50px; background-color:#000; opacity:0; filter:alpha(opacity=0); position:absolute; cursor:pointer;}
+table{border-right:1px solid #313131; border-top:1px solid #313131; width:100%; border-collapse:collapse;}
+table tr td{ border-left:1px solid #313131; border-bottom:1px solid #313131; padding:6px 5px;}
+
+.content{ width:950px; margin:0 auto 40px; font-size:14px;}
+.content .con{ border:10px solid #80101D; background-color:#fff; padding:40px;}
+.content .con1 h2{ font-size:16px; color:#f83546; position:relative; padding-left:22px; margin-bottom:30px;}
+.content .con1 h2 i{ display:block; width:18px; height:18px; font-style:normal; position:absolute; top:3px; left:0; background-color:#f83546; color:#fff; font-size:14px; font-weight:normal; text-align:center; line-height:18px; border-radius:50%;}
+.red{ color:#f83546;}
+.yellow{ color:#ffeb11;}
+/*首页左边浮动框*/
+.float_left{ position:fixed; top:50%; right:0; margin-top:-243px; z-index: 9999; width: 150px; height:auto;}
+.float_left img{ display:block;}
+.float_left .float-img{ margin:20px 0 0 6px;}
+.float_left .erweima{ margin-left:28px;}
+.float_left .back-top{ display:block; width:81px; height:29px; position:absolute; bottom:0; left:37px; cursor:pointer; font-size:16px; font-weight:bold; color:#fff; text-align:center; line-height:22px;}
+.float_left a{ display:block; width:138px; border-bottom:4px solid #fcaa39; background-color:#ffce39; border-radius:3px; color:#7c6625; text-align:center; font-size:16px; font-weight:bold; padding:2px 0; margin:0 auto 6px; overflow:hidden;}
+.float_left a:hover{ text-decoration:none; background-color:#fec415;}
+.float_left a span{ float:left; cursor:pointer;}
+.float_left a .float_txt{ width:60%;}
+.float_left a .float_per{ width:40%;}
+.float_left #float_colse{ position:absolute; top:0; right:0; cursor:pointer; display:block; width:20px; height:20px; text-align:center; line-height:20px; color:#fff;}
+
+
+/*轮播图*/
+.about-show-box{ position:relative; height:173px; padding:0 52px; margin-bottom:20px;}
+.about-show-box .about-show-b{ position:relative; overflow:hidden;}
+.about-show-box ul li{width:172px;height:173px; float: left;margin-right:20px; text-align:center;}
+.about-show-box .about-direction-nav{ position:absolute; top:50%; margin-top:-15px; width:19px; height:28px; cursor:pointer; background:url(../../statics/thanks/image/thanks/icons.png) no-repeat;}
+.about-show-box .about-prev{ background-position:0 0; left:0;}
+.about-show-box .about-next{ background-position:0 -28px; right:0;}
+
+.ui-egg-list{ overflow:hidden;}
+.ui-egg-list li{ float:left; width:25%;  *width:24.9%; text-align:center; position:relative;}
+.ui-egg-list li .egg{ display:inline-block; width:140px; height:211px; cursor:pointer;}
+.ui-egg-list li .egg1{ background:url(../../statics/thanks/image/thanks/egg1.png) no-repeat center bottom;}
+.ui-egg-list li .egg2{ background:url(../../statics/thanks/image/thanks/egg2.png) no-repeat center bottom;}
+.ui-egg-list li .egg3{ background:url(../../statics/thanks/image/thanks/egg3.png) no-repeat center bottom;}
+.ui-egg-list li .egg4{ background:url(../../statics/thanks/image/thanks/egg4.png) no-repeat center bottom;}
+.ui-egg-list .current .egg{ width:200px; height:211px; cursor:default;}
+.ui-egg-list .current .egg1{ background-image:url(../../statics/thanks/image/thanks/egg1-click.png);}
+.ui-egg-list .current .egg2{ background-image:url(../../statics/thanks/image/thanks/egg2-click.png);}
+.ui-egg-list .current .egg3{ background-image:url(../../statics/thanks/image/thanks/egg3-click.png);}
+.ui-egg-list .current .egg4{ background-image:url(../../statics/thanks/image/thanks/egg4-click.png);}
+.ui-egg-list li .hammer{ display:block; width:78px; height:80px; background:url(../../statics/thanks/image/thanks/hammer.png) no-repeat; position:absolute; top:0; right:0; display:none;}
+.ui-egg-list .current .hammer{ background-image:url(../../statics/thanks/image/thanks/hammer-click.png);}
+
+.con2 .left{ width:380px; margin-top:56px;}
+.con2 .right{ width:400px; margin-top:56px;}
+.con2 .red-bg{ background-color:#ED2437; border-radius:10px; padding:9px 20px 15px; position:relative;}
+.con2-img{ position:absolute; top:-56px; right:30px;}
+.con2 .white-bg{ background-color:#fff; border-radius:10px; padding:5px 12px;}
+.con2 h2{ color:#fff; font-size:24px; height:58px; line-height:58px; padding-top:8px;}
+.con2 h2 span{ color:#ffeb11;}
+
+.con2 .egg h2{ padding-top:0; line-height:46px; height:46px;}
+.con2 .egg .white-bg{ height:130px; padding:10px 20px; line-height:24px; border-top-left-radius:0;}
+.btn{ background-color:#FFCE39; color:#ed2437; height:40px; text-align:center; line-height:40px; border-bottom:4px solid #F96F2A; display:block; width:100%; font-size:18px; font-weight:bold; margin-top:10px;}
+a.btn:hover{ color:#ed2437; background-color:#eeb407;}
+.gray{ background-color:#d8d8d8; color:#4c4c4c; border-color:#929292;}
+a.gray:hover{ color:#4c4c4c; background-color:#d8d8d8;}
+.invest-go{font-size:14px; text-decoration:underline;}
+.invest-go:hover{ color:#ed2437;}
+.egg-title{ overflow:hidden; border-top-left-radius:10px; border-top-right-radius:10px; background-color:#fff; width:222px;}
+.egg-title li{ float:left; width:110px; height:35px; line-height:35px; text-align:center; border-bottom:1px solid #E5E5E5; cursor:pointer;}
+.egg-title li.t1{ border-right:1px solid #E5E5E5;}
+.egg-title li.t2{ border-left:1px solid #E5E5E5;}
+.egg-title li.current{ border-color:#fff; color:#ed2437;}
+
+
+.mask{ width:100%; height:100%; background-color:#000; opacity:0.4; filter:alpha(opacity=40); position:fixed; top:0; left:0; z-index:9998; display:none;}
+.mask-box{ width:324px; height:145px; background:url(../../statics/thanks/image/thanks/mask-box.png) no-repeat; position:fixed; top:50%; left:50%; margin-left:-197px; margin-top:-122px; z-index:9999; padding:50px 35px; text-align:center; display:none;}
+.mask-box h3{ font-size:24px; color:#ed2437;}
+.mask-box .award{ font-size:18px;}
+.mask-box .invest{ padding:16px 30px 0;}
+.mask-box .close{ display:block; width:25px; height:25px; background-color:#000; position:absolute; top:6px; right:6px; border-radius:50%; opacity:0; filter:alpha(opacity=0); overflow:hidden; cursor:pointer;}
+
+#award{ position:relative; background-color:#fff; border-radius:10px;}
+.ui-award-list{ position:absolute; top:0;left:0; width:340px; padding:10px 20px;}
+.ui-award-list li{ height:31px; line-height:31px; border-bottom:1px solid #ddd; text-align:center;}
+.ui-award-list li span{ display:inline-block; width:24%;}
+.ui-award-list li .name{ color:#0000ff;}
+.ui-award-list li .found{ width:18%;}
+.ui-award-list li .award{ width:30%; color:#ed2437; font-weight:bold;}
+
+#award2{ position:relative; background-color:#fff; border-radius:10px; height:130px; overflow:hidden;}
+.con2 .ui-award2-list{ position:absolute; top:0;left:0; width:100%;}
+.con2 .ui-award2-list li{ overflow:hidden; height:110px; padding:10px 0px;}
+.con2 .ui-award2-list .ui-award2-con{ width:33.33%; float:left; text-align:center; font-size:12px;}
+.award-img{ height:75px;}
+#award3{ position:relative; background-color:#fff; border-radius:10px; height:130px; overflow:hidden;}
+.con2 .about-show-b{ position:relative; height:99px;}
+.con2 .ui-award3-list{ overflow:hidden; position:absolute; top:0; left:0;}
+.con2 .ui-award3-list li{ width:80px; float:left; text-align:center; font-size:12px;}
+.con2 .about-show-box{ height:105px; padding:0 20px; margin-top:16px;}
+.con2 .about-show-box ul li{ height:auto;}
+.con2 .about-show-box .about-prev{ left:-12px; opacity:0.2; filter:alpha(opacity=20);}
+.con2 .about-show-box .about-next{ right:-12px;}
+
+.rule{ line-height:24px; padding-top:25px;}
+.rule b{ font-size:16px;}
+</style>
+</head>
+
+<body style="background-color:#D0253C;">
+<div class="header">
+  <div class="topbar">
+    <div class="container">
+      <div class="pull-left">
+        <a href="https://www.chenghuitong.net/">
+          <span class="home"></span>
+          <span>首页</span>
+        </a>
+        <a>
+          <span class="tel"></span>
+          <span>客服电话：400-018-0107</span>
+        </a>
+        <a>
+          <span>13613002927（非工作时间）</span>
+        </a>
+      </div>
+      <div class="pull-right">
+		<?php if(isset($this->user['id'])){?>
+		<a href="<?=url('member','main','index')?>">
+			<span><?=$this->user['username']?></span>，
+		</a>
+		<a>
+          <span>欢迎来到诚汇通！</span>
+        </a>
+		<a href="<?=url('content','login','loginout')?>">
+          <span>[退出]</span>
+        </a>
+        <a href="<?=url('member','msg','index')?>">
+           <span class="email"></span>
+           <span>(<?=isset($this->user['noreadmsg'])?$this->user['noreadmsg']:0?>)</span>
+        </a>
+		<?php }else{?>
+        <a href="<?=url('content','login','index')?>">
+          <span class="log"></span>
+          <span>登录</span>
+        </a>
+         <a href="<?=url('content','regedit','index')?>">
+           <span class="reg"></span>
+           <span>注册</span>
+         </a>
+		<?php }?>
+         <a href="<?=url('article','services','help')?>">
+           <span class="help"></span>
+           <span>帮助中心</span>
+         </a>
+         <a href="<?=url('article','default','calculator')?>">
+           <span class="calc"></span>
+           <span>投资计算器</span>
+         </a>
+      </div>
+    </div>
+  </div>
+  <div class="nav">
+    <div class="container">
+      <div class="pull-left"><a href="https://www.chenghuitong.net/"><img src="../../statics/thanks/image/need/logo.png" alt="logo"></a></div>
+      <div class="pull-right">
+        <a href="https://www.chenghuitong.net/borrow/default-index.html">我要理财</a>
+        <a href="https://www.chenghuitong.net/borrow/release-index.html">我要融资</a>
+        <a href="https://www.chenghuitong.net/activity/carefund-index.html">关爱基金<sup>new</sup></a>
+        <a href="http://www.chenghuitong.net/article/safety-index.html">安全保障</a>
+        <a href="http://www.chenghuitong.net/article/services-guide.html">新手指引</a>
+        <a class="header-btn" href="https://www.chenghuitong.net/member/main-index.html">我的账户</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div style="background:url(../../statics/thanks/image/thanks/banner.jpg) no-repeat center 0; height:460px; min-width:1000px;"></div>
+<div class="content" style="background:url(../../statics/thanks/image/thanks/main-top-img1.png) no-repeat; padding-top:51px; margin-top:-30px;">
+	<div class="con con1">
+    	<h2><i>1</i>感恩大奖</h2>
+        <div class="about-show-box">
+            <div class="about-show-b">
+                <ul id="ExhibitionShow">
+                    <li><img src="../../statics/thanks/image/thanks/thanks-img001.png"></li>
+                    <li><img src="../../statics/thanks/image/thanks/thanks-img002.png"></li>
+                    <li><img src="../../statics/thanks/image/thanks/thanks-img003.png"></li>
+                    <li><img src="../../statics/thanks/image/thanks/thanks-img004.png"></li>
+                    <li><img src="../../statics/thanks/image/thanks/thanks-img005.png"></li>
+                    <li><img src="../../statics/thanks/image/thanks/thanks-img006.png"></li>
+                    <li><img src="../../statics/thanks/image/thanks/thanks-img007.png"></li>
+                    <li><img src="../../statics/thanks/image/thanks/thanks-img008.png"></li>
+                </ul>
+            </div>
+        </div>
+        <p>活动期间，按当日累计投资额可获得相应数量的彩蛋。</p>
+        <p style="padding-bottom:50px;">2013年注册的用户可<b class="red">免费获得3个彩蛋</b>，2014年注册实名的用户可<b class="red">免费获得2个彩蛋</b>，2015年注册实名的用户可<b class="red">免费获得1个彩蛋</b></p>
+
+    	<h2><i>2</i>感恩彩蛋</h2>
+        <ul class="ui-egg-list" style="margin-bottom:30px;">
+        	<li><span class="egg egg1"></span><span class="hammer"></span></li>
+        	<li><span class="egg egg2"></span><span class="hammer"></span></li>
+        	<li><span class="egg egg3"></span><span class="hammer"></span></li>
+        	<li><span class="egg egg4"></span><span class="hammer"></span></li>
+        </ul>
+      <table class="tc">
+        	<tr>
+        	  <td>当日累计投资金额S/元</td>
+        	  <td>1千≤S＜5千</td>
+        	  <td>5千≤S＜1万</td>
+        	  <td>1万≤S＜5万</td>
+        	  <td>5万≤S＜10万</td>
+        	</tr>
+            <tr>
+              <td>获得彩蛋/个</td>
+              <td><b class="red">1个</b></td>
+              <td><b class="red">2个</b></td>
+              <td><b class="red">3个</b></td>
+              <td><b class="red">4个</b></td>
+            </tr>
+        	<tr>
+        	  <td>当日累计投资金额S/元</td>
+        	  <td>10万≤S＜20万</td>
+        	  <td>20万≤S＜50万</td>
+        	  <td>50万≤S＜100万</td>
+        	  <td>S≥100万</td>
+        	</tr>
+            <tr>
+              <td>获得彩蛋/个</td>
+              <td><b class="red">5个</b></td>
+              <td><b class="red">7个</b></td>
+              <td><b class="red">8个</b></td>
+              <td><b class="red">10个</b></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="content" style="background:url(../../statics/thanks/image/thanks/main-top-img2.png) no-repeat; padding-top:54px;">
+	<div class="con con2">
+		<div class="cl">
+		  <div class="left fl red-bg">
+          	<h2>彩蛋<span>中奖</span>实时榜</h2>
+            <img src="../../statics/thanks/image/thanks/phones.png" class="con2-img">
+                 <div id="award" style="overflow:hidden;height:350px;width:100%;">
+                    <ul class="ui-award-list">
+                        <?php foreach($timePrize as $vo){ ?>
+                        <li>
+                          <span class="name"><?=f_name($vo['username'])?></span>
+                          <span class="way">敲破彩蛋</span>
+                          <span class="found">发现</span>
+                          <span class="award">{$actCfg['prize'][$vo['prize_id']]['name']}</span>
+                        </li>
+                        <?php } ?>
+                    </ul>
+                </div>
+          </div>
+		  <div class="right fr">
+          	<div class="red-bg" style="margin-bottom:10px;">
+                <h2>感恩<span>大奖榜</span></h2>
+                <img src="../../statics/thanks/image/thanks/bounds.png" class="con2-img">
+                <div id="award2">
+                    <ul class="ui-award2-list">
+                      <li>
+					  <?php foreach($bigPrize as $key => $vo){ ?>
+                      	<div class="ui-award2-con">
+                          <div class="award-img"><img src="../../statics/thanks/image/thanks/{$actCfg['prize'][$vo['prize_id']]['img']}"></div>
+                          <p><?=f_name($vo['username'])?>砸中<br>{$actCfg['prize'][$vo['prize_id']]['name']}</p>
+                        </div>
+					  <?php if(($key+1)%3==0 && $key!=count($bigPrize)-1){ ?></li><li><?php } ?>
+					  <?php } ?>
+                      </li>
+                    </ul>
+                </div>
+            </div>
+          	<div class="red-bg egg" style="background:url(../../statics/thanks/image/thanks/egg-bg.png) no-repeat 188px 13px #ED2437;">
+            	<ul class="egg-title">
+            	  <li class="current t1">我的彩蛋</li>
+                  <li class="t2">我的奖品</li>
+            	</ul>
+            	<div class="white-bg">
+					<?php if(isset($this->user['id'])){?>
+                	<!--我的彩蛋-登录状态//start-->
+                	<p>我的彩蛋数：<b class="red">{$userEgg['total']}</b>个, 还剩下<b class="red" id="egg_valid">{$userEgg['valid']}</b>个彩蛋可砸</p>
+                    <p>今日已累计投资：<b class="red">￥{$moneySum}</b></p>
+                    <p>再投资砸蛋，100%中奖哦！</p>
+                    <a href="<?=url('borrow','default','index')?>" target="_blank" class="btn" id="goto_tender">去投标 >></a>
+                    <!--我的彩蛋-登录状态//end-->
+					<?php }else{ ?>
+                    <!--我的彩蛋-未登录//start-->
+                    <a href="<?=url('content','login','index')?>" class="btn" style="margin-top:45px;">注册&登录</a>
+                    <!--我的彩蛋-未登录//end-->
+					<?php } ?>
+                </div>
+            	<div class="white-bg" style="display:none;">
+					<?php if(isset($this->user['id'])){?>
+                	<!--我的奖品-登录状态//start-->
+                    <div class="about-show-box">
+                        <div class="about-show-b">
+                            <ul id="ui-award3-list" class="ui-award3-list">
+								<?php foreach($userEgg['prize'] as $prizeId){ ?>
+								<li>
+                                	<div class="award-img"><img src="../../statics/thanks/image/thanks/{$actCfg['prize'][$prizeId]['img']}"></div>
+                                    <p>{$actCfg['prize'][$prizeId]['name']}</p>
+                                </li>
+								<?php } ?>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--我的奖品-登录状态//end-->
+					<?php }else{ ?>
+                    <!--我的奖品-未登录//start-->
+                    <a href="<?=url('content','login','index')?>" class="btn" style="margin-top:45px;">注册&登录</a>
+                    <!--我的奖品-未登录//end-->
+					<?php } ?>
+                </div>
+            </div>
+          </div>
+		</div>
+        <div>
+        <div class="rule"><b>活动规则：</b><br>
+            1. 活动时间：11月25日22:00~11月30日22：00<br>
+            2. 活动期间当日累计投资满相应金额可获得对应数量的彩蛋，详见表格；<br>
+            3. 活动奖品分现金奖品和实物奖品，满标复审后系统自动判断可砸蛋的次数，奖金在砸蛋后发放到投资人的非托管账户，可投标可提现；实物奖品将在活动结束后的15个工作日内统一发货，可以市场8折价兑现，邮费由诚汇通平台承担；<br>
+            4. 中实物奖品的客户请保持通讯顺畅，因用户原因联系不上的视为自动放弃奖品；<br>
+            5. 活动解释权归诚汇通平台所有。</div>
+        </div>
+    </div>
+</div>
+<div class="mask"></div>
+<!-- 中奖 -->
+<div class="mask-box" id="mask-box1">
+	<h3>恭喜您</h3>
+    <div class="award">砸出了<b class="red">msg</b></div>
+    <p>再投资砸蛋，100%中奖哦！</p>
+    <div class="invest"><a href="<?=url('borrow','default','index')?>" target="_blank" class="btn">去投标 >></a></div>
+    <span class="close">关闭</span>
+</div>
+<!-- 未登录 -->
+<div class="mask-box" id="mask-box2">
+    <p style="padding-top:20px;">您还未登录，请先登录~~</p>
+    <div class="invest"><a href="<?=url('content','login','index')?>" class="btn">登录</a></div>
+    <span class="close">关闭</span>
+</div>
+<!-- 次数用完 -->
+<div class="mask-box" id="mask-box3">
+    <p style="padding-top:20px;">您的砸蛋次数已用完！</p>
+    <p>再投资砸蛋，100%中奖哦！</p>
+    <div class="invest"><a href="<?=url('borrow','default','index')?>" target="_blank" class="btn">去投标 >></a></div>
+    <span class="close">关闭</span>
+</div>
+<!-- 其他提示 -->
+<div class="mask-box" id="mask-box4">
+    <p style="padding-top:20px;">msg</p>
+    <span class="close">关闭</span>
+</div>
+<!--<div class="float_left">
+    <img src="../../statics/thanks/image/thanks/float-img.png" class="float-img">
+    <a href="#reward1">注册送&nbsp;&nbsp;20元</a>
+    <a href="#reward2">投标奖励&nbsp;&nbsp;&nbsp;&nbsp;1.4%</a>
+    <a href="#reward3">新用户首投&nbsp;0.3%</a>
+    <a href="#reward4">续投奖励&nbsp;&nbsp;&nbsp;&nbsp;0.2%</a>
+    <a href="#reward5"><span class="float_txt" style="font-size:14px; line-height:20px;">周末<br>节假日抢标</span><span class="float_per" style="font-size:20px; line-height:40px;">0.1%</span></a>
+    <a href="#reward6">约标奖励&nbsp;&nbsp;&nbsp;&nbsp;0.3%</a>
+    <img src="../../statics/thanks/image/thanks/erweima.png" class="erweima">
+    <span id="float_colse">X</span>
+    <span class="back-top">top</span>
+</div>-->
+<div class="footer">
+  <div class="container">
+    <div class="pull-left">
+      <div class="links">
+        <a href="http://www.chenghuitong.net/article/company-index.html">关于我们</a>
+        <a href="http://www.chenghuitong.net/article/safety-index.html">安全保障</a>
+        <a href="http://www.chenghuitong.net/article/services-help-cateid-3.html">帮助中心</a>
+        <a href="http://www.chenghuitong.net/article/services-index.html">服务中心</a>
+        <a href="http://www.chenghuitong.net/article/default-index.html">新闻中心</a>
+        <a href="http://www.chenghuitong.net/article/company-contact.html">联系我们</a>
+      </div>
+      <div class="copyright">深圳市诚汇通金融信息有限公司<br>深圳市福田区福华三路168号国际商会中心2408-2412室<br>Copyright© 2015 www.chenghuitong.net 粤ICP备13044593号</div>
+      <div class="beian">
+        <a href="https://cert.ebs.gov.cn/A71F6F48-ABB7-4F8A-92C4-D73F8FA0DE56" target="_blank">
+          <img src="../../statics/thanks/image/need/beian_gswj.jpg" title="深圳市市场监督管理局企业主体身份公示" alt="深圳市市场监督管理局企业主体身份公示">
+        </a>
+        <a href="http://www.miibeian.gov.cn/" target="_blank">
+          <img src="../../statics/thanks/image/need/beian_icp.jpg" title="ICP备案查询" alt="ICP备案查询">
+        </a>
+        <a href="https://search.szfw.org/cert/l/CX20140305003565003628" target="_blank">
+          <img src="../../statics/thanks/image/need/beian_cxwz.jpg" title="诚信网站" alt="诚信网站">
+        </a>
+        <a href="https://ss.knet.cn/verifyseal.dll?sn=e13101844030042941tvh5000000&amp;ct=df&amp;a=1&amp;pa=0.2732217316515744" target="_blank">
+          <img src="../../statics/thanks/image/need/beian_cnnic.png" title="可信网站" alt="可信网站">
+        </a>
+        <a href="https://trustsealinfo.websecurity.norton.com/splash?form_file=fdf/splash.fdf&amp;dn=www.chenghuitong.net&amp;lang=en" target="_blank">
+        <img src="../../statics/thanks/image/need/beian_norton.jpg" title="NORTON" alt="NORTON">
+      </a>
+      </div>
+    </div>
+    <div class="pull-right">
+      <div class="tel">400-018-0107</div>
+      <div class="time">（周一至周五 9:00-17:30）</div>
+      <div class="attention">
+        <a class="weibo" href="http://weibo.com/cht608710" target="_blank"></a>
+        <a class="tweibo" href="http://e.t.qq.com/cht608710" target="_blank"></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="../../statics/thanks/js/jquery-1.8.3.min.js"></script>
+<script src="../../statics/thanks/js/jQuery.parallelRoll.js"></script>
+<script src="../../statics/thanks/js/scroll.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#ExhibitionShow").parallelRoll();
+	$('#award').myScroll({
+		speed: 60, //数值越大，速度越慢
+		rowHeight: 32 //li的高度
+	});
+	$('#award2').myScroll({
+		speed: 60,
+		rowHeight: 130
+	});
+	 award3();
+	function award3(){
+		var $key=0;
+		var $len=$("#ui-award3-list li").length;
+		var $w_li=$("#ui-award3-list li").width()+20;
+		var $w_ul=$w_li*$len;
+	
+		if($len>3){
+		$("#ui-award3-list").parent().parent().append("<a href='javascript:void(0);' class='about-direction-nav icons about-prev'></a><a href='javascript:void(0);' class='about-direction-nav icons about-next'></a>");
+		}
+		$("#ui-award3-list").css({"width":$w_ul});
+		$("#ui-award3-list").parent().siblings(".about-next").click(function(e) {
+			$key++;
+			if($key>$len-3){
+				$key=$len-3; 
+				$("#ui-award3-list").css("left",-$key*$w_li);
+				}
+			if($key>$len-4){
+			$(this).css({"opacity":"0.2","filter":"alpha(opacity=20)"});
+			}
+			$("#ui-award3-list").parent().siblings(".about-prev").css({"opacity":"1","filter":"alpha(opacity=100)"});
+			$("#ui-award3-list").stop().animate({left:-$key*$w_li});
+		});
+		$("#ui-award3-list").parent().siblings(".about-prev").click(function(e) {
+			$key--;
+			if($key<0){
+				$key=0;
+				$("#ui-award3-list").css("left",0); 
+				}
+			if($key<1){
+				$(this).css({"opacity":"0.2","filter":"alpha(opacity=20)"});
+			}
+			$("#ui-award3-list").parent().siblings(".about-next").css({"opacity":"1","filter":"alpha(opacity=100)"});
+			$("#ui-award3-list").stop().animate({left:-$key*$w_li});
+		});
+	}
+
+	$(".BackTop").click(function(e) {// 如果点击了back则返回头部
+        $("body,html").animate({
+            scrollTop:0
+        });
+    });
+
+	$(".mask-box .close").click(function(e) {
+		$(".mask,.mask-box").hide();
+		$(".ui-egg-list li").removeClass("current");
+    });
+
+    var isLock = false;
+	$(".ui-egg-list li .egg").click(function(e) {
+      <?php if(!isset($this->user['id'])){ ?>
+        $(".mask, #mask-box2").show();
+      <?php }else{ ?>
+        if (isLock) {
+            return;
+        }
+		$(this).parent().addClass("current");
+        var eggValid = parseInt($('#egg_valid').text());
+        var url = "<?=url('activity','thanks','open')?>";
+        if (document.location.protocol.indexOf(':') != url.indexOf(':')) {
+            url = document.location.protocol + url.substr(url.indexOf(':') + 1);
+        }
+        $.ajax({
+            url: url,
+            data: {rnd: Math.random()},
+            type: 'POST',
+            dataType: 'json',
+            beforeSend: function(){
+                isLock = true;
+            },
+            success: function(data){
+                if (data.status !== 0) {
+                    if (data.status == 3) {
+                        $('.mask, #mask-box3').show();
+                    } else {
+                        $('#mask-box4 p').text(data.msg);
+                        $('.mask, #mask-box4').show();
+                    }
+                    return;
+                }
+                $('#egg_valid').text(eggValid - 1);
+                $('#mask-box1 .award .red').text(data.prize.name);
+                $(".mask,#mask-box1").show();
+                var html = '<li>' +
+                        '<div class="award-img"><img src="../../statics/thanks/image/thanks/' + data.prize.img + '"></div>' +
+                        '<p>' + data.prize.name + '</p>' +
+                        '</li>';
+                //$('#ui-award3-list li:last-child').removeAttr('style');
+                $('#ui-award3-list').append(html);
+				award3();
+            },
+            error: function(){
+                alert('网络错误，请稍后再试。');
+            },
+            complete: function(){
+                isLock = false;
+            }
+        });
+      <?php } ?>
+    });
+	$(".ui-egg-list li .egg").hover(function(e) {  
+		 var $index=$(".ui-egg-list li .egg").index(this);
+		$(".ui-egg-list li .hammer").eq($index).show().parent().siblings().find(".hammer").hide();
+    },function(e){
+		$(".ui-egg-list li .hammer").hide();
+		});
+	$(".egg .egg-title li").mouseover(function(e) {
+		var $index=$(".egg .egg-title li").index(this);
+        $(this).addClass("current").siblings().removeClass("current");
+		$(".egg .white-bg").eq($index).show().siblings(".white-bg").hide();
+    });
+
+	$("#float_colse").click(function(e) {
+	    $(".float_left").hide();
+	});
+
+	$(".back-top").click(function(e) {// 如果点击了back则返回头部
+        $("body,html").animate({
+            scrollTop:0
+        });
+    });
+
+    $('#goto_tender').click(function(){
+        if ($(this).hasClass('gray')) {
+            return false;
+        }
+        return true;
+    });
+
+    var timeHandle = setInterval(function(){
+        var closeTime = {$actCfg['closeTime2']}; //投标关闭时间
+        if (new Date().getTime() / 1000 > closeTime) {
+            $('#goto_tender').addClass('gray');
+            clearInterval(timeHandle);
+        }
+    }, 3000);
+
+    <?php if($actCfg['closeTime'] < time()) {?>
+    $('#mask-box4 p').text('活动已结束！');
+    $('.mask, #mask-box4').show();
+    <?php } ?>
+
+});
+
+</script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?58b625f2fae8bd6127a23680606506af";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+</body>
+</html>

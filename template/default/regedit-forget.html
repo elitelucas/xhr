@@ -1,0 +1,119 @@
+{template header}
+  <!-- forgetpwd -->
+  <link href="../../statics/resource/css/forgetpwd/forgetpwd.css" rel="stylesheet">
+
+  <div class="container">
+    <div class="forgetpwd-box">
+      <div class="forgetpwd-title">忘记密码</div>
+      <div class="forgetpwd-content">
+        <form class="form-horizontal has-feedback" action="<?=url('','','forget')?>" method="post" role="form">
+          <div class="form-group has-feedback">
+            <label for="inputEmail" class="col-sm-2 control-label">邮箱：</label>
+            <div class="col-sm-4">
+              <input type="email" name="email" class="form-control" id="inputEmail" placeholder="邮箱">
+              <span class="glyphicon form-control-feedback"></span>
+            </div>
+            <div class="help-block">{if (!isset($valid_))}{else}<?=$valid_->error('email')?>{/if}</div>
+          </div>
+          <div class="form-group has-feedback">
+            <label for="inputUser" class="col-sm-2 control-label">用户名：</label>
+            <div class="col-sm-4">
+              <input type="text" name="username" class="form-control" id="inputUser" placeholder="用户名">
+              <span class="glyphicon form-control-feedback"></span>
+            </div>
+            <div class="help-block">{if (!isset($valid_))}{else}<?=$valid_->error('username')?>{/if}</div>
+          </div>
+          <div class="form-group has-feedback">
+            <label for="inputCode" class="col-sm-2 control-label">验证码：</label>
+            <div class="col-sm-4">
+              <input type="text" name="code" class="form-control" id="inputCode" placeholder="验证码">
+              <span class="glyphicon form-control-feedback"></span>
+            </div>
+            <div class="help-block">
+          <a class="code_img" href="javascript:void(0);" onclick="document.getElementById('code_img').src='{APP_PATH}api/checkcode.php?code_len=4&font_size=20&width=130&height=50&font_color=&background=&time='+Math.random();void(0);">
+          <img id="code_img" src="{APP_PATH}api/checkcode.php?code_len=4&font_size=20&width=130&height=50&font_color=&background=" alt="验证码" onclick='this.src = this.src + "&" + Math.random()'></a>
+            {if (!isset($valid_))}{else}<?=$valid_->error('code')?>{/if}
+		    </div>
+            </div>
+          </div>
+          <div class="form-group has-feedback">
+            <label for="inputBtn" class="col-sm-2 control-label"></label>
+            <div class="col-sm-4">
+              <input type="submit" class="btn btn-warning form-control" id="inputBtn" value="找回密码">
+            </div>
+            <div class="help-block"></div>
+          </div>
+                        <input type='hidden' name='formhash' value='<?=formhash()?>' >
+                        <input type='hidden' name='save' value='save'>
+        </form>
+      </div>
+    </div>
+  </div>
+
+<script type="text/javascript" src="../../statics/resource/js/jquery.validate.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$("#reg_phone").click(function(e) {
+			$("#form_group_email").addClass("hidden");
+			$("#form_group_phone").removeClass("hidden");
+		});
+		$("#reg_email").click(function(e) {
+			$("#form_group_phone").addClass("hidden");
+			$("#form_group_email").removeClass("hidden");
+		});
+	});
+$(function(){
+	$("form").validate({
+	    errorPlacement:function(error,element) {
+			error.appendTo(element.parent().parent().children(".help-block"));
+		},
+		rules: {
+			username: {
+				required: true,
+				minlength: 2,
+				maxlength: 20
+			},
+			phone: {
+				required: true,
+				digits: true,
+				minlength: 11,
+				maxlength: 11
+			},
+			email: {
+				required: true,
+				email: true
+			},
+			code: {
+				required: true
+			},
+			vcode: {
+				required: true
+			}
+		},
+		messages: {
+			username: {
+				required: "请输入用户名",
+				minlength: "用户名至少三位，请重新输入",
+				maxlength: "用户名最多20位，请重新输入"
+			},
+			phone: {
+				required: "请输入手机号码",
+				digits: "手机号码只能为数字，请重新输入",
+				minlength: "手机号码为11位数，请重新输入",
+				maxlength: "手机号码为11位数，请重新输入"
+			},
+			email: {
+				required: "请输入邮箱地址",
+				email: "邮箱地址格式有误，请重新输入"
+			},
+			code: {
+				required: "请输入验证码"
+			},
+			vcode: {
+				required: "请输入验证码"
+			}
+		}
+	});
+});
+</script>
+{template footer}

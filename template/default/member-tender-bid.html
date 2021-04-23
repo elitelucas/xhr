@@ -1,0 +1,81 @@
+{template header}
+  <!-- Investor_center -->
+  <link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+  
+  <!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+      <li class="active">我的账户</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->
+  {template member-nav-left}
+
+    
+    <!-- 右边正文 -->
+    <div class="investor-right pull-right border-radius">
+      <div class="investor-title">正在投标的借款</div>
+      
+      <form action="<?=url('','','')?>" method="post">
+      <ul class="investor-fund-form unlist">
+        <li>时间：</li>
+        <li><?=form::date('starttime',$data['starttime'])?></li>
+        <li>到</li>
+        <li><?=form::date('endtime',$data['endtime'])?></li>
+        <li>关键字：</li>
+        <li><input class="fund-form-input2 form-control" name="keywords" type="text" value="{$data['keywords']}" ></li>
+        <li><input name="" type="submit" class="btn btn-warning btn-sm" value="搜索" /></li>
+      </ul>
+      </form>
+      
+      <table class="table table-bordered table-hover">
+        <tr class="text-center">
+            <td width="3%">标题</td>
+            <td width="29%" >借款者</td>
+            <td width="22%" >投标/有效金额</td>
+            <td width="14%" >投标时间</td>
+            <td width="16%" >进度</td>
+            <td width="16%" >状态</td>
+        </tr>
+        {if isset($list) && !empty($list)}
+            {loop $list $vo}
+            <tr class="text-center">
+                <td>
+                  <div style="width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" class="itooltip" data-toggle="tooltip" data-trigger="hover" data-placement="top" title="<?=$vo['title']?>">
+                    {if !empty($vo['zhuanrangren'])}
+                        <span class="flg-tuo"></span>
+                    {/if}
+                    <a href="<?=url('borrow','default','info',array('id'=>$vo['borrow_id']))?>">{if !empty($vo['zhuanrangren'])}<span style="color:red;">{else}<span>{/if}<?=$vo['title']?></span></a>
+                  </div>
+                </td>
+                <td align='center'>
+                  <?=$vo['username']?>
+                  <img src="../../statics/images/credit/{$vo['UGimageurl']}">
+                </td>
+                <td class="f12" align='center'>￥<?=empty($vo['account'])?'0.00':$vo['account']?>/￥<?=empty($vo['account_act'])?'0.00':$vo['account_act']?></td>
+                <td class="f12" align='center'><?=date('Y-m-d',$vo['addtime'])?></td>
+                <td align='center'>
+                  <div style="position:relative;">
+                    <em style="width:<?=round(($vo['borrow_account_tender']/$vo['borrow_account'])*100,2)?>%; height:15px; line-height:15px; float:left;background:#2f8ee6;overflow:hidden;"></em>
+                    <span style="color:#fff;position:absolute; top:0; left:0;height:15px; line-height:15px;font-size:12px; width:100%; text-align:center; color:#000;">进度 <?=round(($vo['borrow_account_tender']/$vo['borrow_account'])*100,2)?>%</span>
+                  </div>
+                </td>
+                <td align='center'>{$Borrowstatus[$vo['status']]}</td>
+            </tr>
+            {/loop}
+            {else}
+            <tr class="text-center font12px color999"><td colspan="8">查无此记录</td></tr>
+            {/if}
+      </table>
+      <div class="fanye text-center">
+        <?php echo $page['html'];?>
+    </div>
+    </div>
+    
+    <!-- /右边正文 -->
+  </div>
+  
+{template footer}

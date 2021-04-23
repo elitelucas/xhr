@@ -1,0 +1,19 @@
+
+    <!-- 左边导航 -->
+    <div class="news-left pull-left font16px bold">
+    {loop $cate $vo}
+	       <a class="{if $vo['typeId']==$now_cate['typeId']}news-antive{else}news-nav{/if}" href="<?=url('article','default','index',array('cateid'=>$vo['typeId']))?>">{$vo['typeName']}</a>
+    {/loop}
+    </div>
+    <!-- /左边导航 -->
+    <!-- 左边导航 -->
+     
+<!--    <div class="news-left pull-left font16px bold">
+      <a class="{if $now_cate['typeId']==4}news-antive{else}news-nav{/if}" href="<?=url('article','default','index',array('cateid'=>4))?>">平台公告</a>
+      <a class="{if $now_cate['typeId']==8}news-antive{else}news-nav{/if}" href="<?=url('article','default','index',array('cateid'=>8))?>">运营报告</a>
+      <a class="{if $now_cate['typeId']==5}news-antive{else}news-nav{/if}" href="<?=url('article','default','index',array('cateid'=>5))?>">平台动态</a>
+      <a class="{if $now_cate['typeId']==2}news-antive{else}news-nav{/if}" href="<?=url('article','default','index',array('cateid'=>2))?>">行业新闻</a>
+      <a class="{if $now_cate['typeId']==0}news-antive{else}news-nav{/if}" href="<?=url('article','default','news_video')?>">视频广场</a>
+    </div>-->
+    
+    <!-- /左边导航 -->

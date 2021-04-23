@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+	    <link rel="stylesheet" href="statics/admin/css/admin.css">
+	    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+	    <script src="statics/admin/js/jquery.js"></script>
+	    <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+	    <script src="statics/admin/js/pintuer.js"></script>  
+	    <script src="statics/admin/js/layer/2.1/layer.js"></script>  
+	    <script src="statics/admin/js/jquery.date_input.pack.js"></script> 
+	    {template public-new-ui-header}
+        <style>
+            #page{height: 60px;margin-top: 20px;text-align: center;}
+            #page ul li{float: left;margin-right:10px;}
+            #page ul .current{ background-color:#0099ff;text-align:center;}
+        </style>
+    </head>
+    <body class="new_ui_body">
+    <div class="ibox float-e-margins">
+	    <div class="ibox-title iboxWTitle">
+	        <h5>绑定账户</h5>
+	        <div class="ibox-tools">
+	            <a  class="btn btn-white btn-bitbucket" id="btn_back">
+	                <i class="fa fa-reply"></i> 返回
+	            </a>
+	        </div>
+	        
+	    </div>
+	    <div class="ibox-content bagCol">
+	        <div class="ibox-title ">
+	            <h5>卡组绑定信息</h5>
+	        </div>
+	        <div class="ibox-content">
+	            <form id='form_update' method="post" class="form-horizontal">
+	             	<div class="form-group">
+	                    <label class="col-sm-2 control-label">{if $purpose == 0}充值{/if}{if $purpose == 1}提现{/if}方式</label>
+	                    <div class="col-sm-2">
+                            <input type="text" class="form-control" disabled value="{$payGroupInfo['pay_type']}"/>
+	                        <span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">入口</label>
+	                    <div class="col-sm-2">
+                            <input type="text" class="form-control" disabled value="{$payGroupInfo['entrance']}"/>
+	                        <span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">用户组</label>
+	                    <div class="col-sm-2">
+                            <input type="text" class="form-control" disabled value="{$payGroupInfo['user_group']}"/>
+	                        <span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                {if $purpose == 0} 
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">排序</label>
+	                    <div class="col-sm-6">
+	                        <span class="col-sm-4" style="padding-left: 0px;">
+                            	<input type="text" class="form-control" value="{$payGroupInfo['sort']}" name="sort" id="sort" />
+                            </span>
+	                        <span class="col-sm-7 help-block m-b-none">（必填，值小于1000）</span>
+	                    </div>
+	                </div>
+	                {/if}
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">选择卡号</label>
+	                    <div class="col-sm-5">
+                            <select class="form-control" id="pay_config" name="pay_config">
+                                 {loop $payConfigs $v}
+                                	<option value="{$v['id']}" data-account_name="{$v['account_name']}" data-branch = "{$v['branch']}"
+                                        data-account = "{$v['account']}" data-balance = "{$v['balance']}"
+                                        data-lower-limit = "{$v['lower_limit']}" data-upper-limit = "{$v['upper_limit']}">
+                                    {$v['id']}. {$v['bank']}/{$v['branch']}/{$v['account_name']}/余额：{$v['balance']}</option>
+                                {/loop}
+                            </select>
+	                    </div>
+	                    <input type="hidden" value="{$payGroupId}" id="pay_group">
+	                    <input type="hidden" value="{$purpose}" id="purpose">
+	                </div>
+                </form>
+                <div class="form-group">
+		           	<div class="col-sm-4 col-sm-offset-2">
+		               	<button class="btn btn-primary" type="submit" id="btn_submit">保存</button>
+		               	<button class="btn btn-white" id="btn_cancel" type="submit">取消</button>
+		           	</div>
+       			</div>
+   			</div>
+		</div>
+	</div>
+        <script type="text/javascript">
+            var loading = "";//加载中......
+
+            $(function () {
+                $("#btn_submit").click(function () {
+                	var purpose = {$purpose};
+                    var payGroupId = $('#pay_group').val();
+                    var payConfigId = $("#pay_config").val();
+                    var sort = 0;
+
+	                if (!payGroupId) {
+	                   layer.msg('用户组ID错误', {icon: 5, shade: [0.5, '#393D49']});
+	                   return false;
+	                }
+
+	                if (!payConfigId) {
+		                   layer.msg('请选择卡号', {icon: 5, shade: [0.5, '#393D49']});
+		                   return false;
+		            }
+
+	                if (purpose == 0) {
+	                	sort = $("#sort").val();
+		                if (!sort || !Number(sort) || sort > 999 || sort < 1) {
+		                	layer.msg('请输入正确的排序号！', {icon: 5, shade: [0.5, '#393D49']});
+		                    return false;
+		                }
+	                }
+
+//                    var state = $(".state:checked").val();
+//                    if ($.trim(branch) == '') {
+//                        layer.msg('请输入支行', {icon: 5, shade: [0.5, '#393D49']});
+//                        return false;
+//                    }
+
+                    $.ajax({
+                        url: '?m=admin&c=finance&a=doBindPayConfig',
+                        data:{
+                            pay_group_id:payGroupId,
+                            pay_config_id:payConfigId,
+                            purpose:purpose,
+                            sort:sort,
+                        },
+                        dataType: 'json',
+                        type: 'post',
+                        beforeSend: function () {
+                            loading = layer.load(1);
+                        },
+                        error: function (e) {
+                            console.log(e);
+                            layer.close(loading);
+                            layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        },
+                        success: function (result) {
+                            layer.close(loading);
+                            if (result.code > 0) {
+                            	layer.msg(result.msg, {icon: 6, shade: [0.5, '#393D49']}, function () {
+                            		location.href = '?m=admin&c=finance&a=listPayGroup&purpose='+$('#purpose').val();
+                                });
+                            } else {
+                            	layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']});
+                            }
+                        }
+                    })
+                });
+
+                $("#btn_cancel").click(function () {
+                    location.href = '?m=admin&c=finance&a=listPayGroup&purpose='+$('#purpose').val();
+                });
+                $("#btn_back").click(function () {
+                    location.href = '?m=admin&c=finance&a=listPayGroup&purpose='+$('#purpose').val();
+                });
+            });
+
+        </script>
+    </body>
+</html>

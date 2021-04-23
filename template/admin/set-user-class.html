@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="renderer" content="webkit">
+    <title>网站信息</title>
+    <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+    <script src="statics/admin/js/pintuer.js"></script>
+    {template public-new-ui-header}
+</head>
+<body>
+<div class="panel admin-panel margin-top list">
+    <div class="body-content">
+        <form method="" class="form-x" action="" id='form'>
+            <input type="hidden" name="id"  value="{$data['id']}"/>
+            <div class="form-group">
+                <div class="col-sm-2 text-right">
+                    <label>无上级会员账号：</label>
+                </div>
+                <div class="col-sm-10">
+                    {loop $users $u}
+	                    {if empty($u['parent_id'])}
+		                    <div class="col-sm-3 m-b">
+		                        <input type="text" name="classname" readonly class="form-control" value="{$u['username']}">
+		                    </div>
+	                    {/if}
+                    {/loop}
+                    <div class="tipss"></div>
+                    <input type="hidden" name="strId" id="strId" value="{$strId}">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 text-right">
+                    <label>指定上级账号：</label>
+                </div>
+                <div class="col-sm-10">
+                	<div style="width:120px;height:30px;float: left;">
+                		<input type="text" autocomplete="off" class="input w50" name="username" id="username" style="width:120px;height:30px;"/>
+               		</div>
+               		<div style="margin-left:10px;width:120px;height:30px;float: left;">
+               			<p><span id='search-username'></span></p>
+               		</div>
+                </div>
+            </div>  
+
+            <div class="form-group">
+                <div class="label">
+                    <label></label>
+                </div>
+                <div class="field">
+                    <button class="button btn-primary" type="button" id='btn'> 提交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $(function () {
+        var loading = "";
+        $('#btn').bind('click', function () {
+            var strId = $('#strId').val();
+            var username = $('#username').val();
+            $.ajax({
+                type: 'POST',
+                url: '?m=admin&c=user&a=editUserClass',
+                data: {strId:strId,username:username},
+                dataType: 'json',
+                beforeSend:function(){
+                    loading = layer.load(1);
+                },
+                success: function (msg) {
+                    layer.close(loading);
+                    //msg = JSON.parse(msg);
+                    if (msg.status == 0) {
+                        layer.msg('修改成功', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                            //当你在iframe页面关闭自身时
+                            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                            parent.layer.close(index); //再执行关闭
+                        });
+                    } else {
+                        layer.msg(msg.msg, {icon: 5, shade: [0.5, '#393D49']});
+                    }
+                }
+            });
+        });
+        
+      //用户名动态搜索
+       	$("#username").keyup(function(){
+           	var username = $("#username").val();
+
+           	$.ajax({
+                url: '?m=admin&c=user&a=searchUsername',
+                data:{username:username},
+                dataType: 'json',
+                type: 'get',
+                error: function () {
+                    layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                },
+                success: function(ret) {
+       				if (ret.code == 1) {
+       					for (var i = ret.data.length - 1; i >= 0; i--) {        
+      	                     $('#search-username').append(ret.data[i]['username']+'<br/>')
+      	                 };
+       				}
+   	            }
+           	})
+  	     });
+
+   	     $('#username').keydown(function(){
+  	         $('#search-username').empty();
+   	     })
+   	     $('#username').blur(function(){
+   	         $('#search-username').empty();
+   	     })
+    });
+</script>
+</body>
+</html>

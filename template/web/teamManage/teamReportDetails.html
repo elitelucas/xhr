@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>团队管理</title>
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+    <!-- layer -->
+    <script src="/statics/web/extend/layer/mobile/layer.js"></script>
+    <!-- layer - end -->
+
+    <!--时间选择插件-->
+    <link rel="stylesheet" href="/statics/web/extend/datepick/datepick.css">
+    <script src="/statics/web/extend/datepick/date.js"></script>
+    <script src="/statics/web/extend/datepick/iscroll.js"></script>
+</head>
+<body>
+<header>
+    <em onclick="goAccountIndex()">返回</em>
+    <h1>团队报表详情</h1>
+    <div class="headerRight">
+        <ul>
+            <li id="reset">重置</li>
+        </ul>
+    </div>
+</header>
+<section class="my_info">
+    <div class="teamWarp">
+        <div class="time-betting statist_date">
+            <span id="startT">交易时间: <em></em></span><span class="time_text">全部</span><span id="endT"><em></em></span>
+            <div class="statist_date_ico" id="timeSelect"></div>
+        </div>
+
+        <div class="details details_bet">
+			<p>账号：<span id="nickname"></span></p>
+            <p>直属（人数）：<span id="directly"></span><p>
+            <p>团队（人数）：<span id="team"></span></p>
+            <p>直属投注：<span id="directly_Betting"></span></p>
+            <p>团队投注：<span id="team_Betting"></span></p>
+            <p>返点（当天即时数据百分比）：<span id="backwater"></span></p>
+            <p>团队中奖：<span id="team_award"></span></p>
+            <p>盈利总额：<span id="profit"></span></p>
+            <p>团队总充值：<span id="recharge"></span></p>
+            <p>团队总提款：<span id="withdraw"></span></p>
+            <p>团队总返水：<span id="back"></span></p>
+        </div>
+    </div>
+
+    <!--底部弹窗-->
+    <div class="mask" style="display: none"></div>
+    <div class="pop-wrap down" id="date-pop">
+        <div class="pop-select pop-bg-white">
+            <div class="title">选择时间</div>
+            <div class="content">
+                <div class="demo">
+                    <div class="lie">日期设置-1:<input  id="beginTime" class="kbtn" /></div>
+                    <div class="lie">日期设置-2:<input id="endTime" class="kbtn" /></div>
+                </div>
+                <div id="datePlugin-begin"></div>
+                <div id="datePlugin-end"></div>
+                <div class="btn_warp"><span id="confirm-getDate">确定</span></div>
+            </div>
+        </div>
+        <div class="bottom-con">
+            <a javascript="void(0)" ; type="button" class="pop-cansel">取消</a>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+    var id; //时间选择插件变量
+
+    $(function(){
+        //初始化时间选择插件
+        $('#beginTime').date();
+        //	$('#endTime').date({theme:"datetime"});
+        $('#endTime').date();
+        $('#beginTime').click();
+        id = 1;
+        $('#endTime').click();
+
+        var data = new Object();
+//        data.token = token;
+        data.start_time = $("#startT em").text();
+        data.end_time = $("#endT em").text();
+
+    	seach(data);
+
+        //重置
+        $("#reset").click(function(){
+            window.location.reload();
+        })
+
+        //时间选择
+        $("#timeSelect").click(function() {
+            $(".mask").show();
+            $("#date-pop").removeClass("down");
+            //$("#status").addClass("active");
+        })
+        $(".pop-cansel, .mask").click(function() {
+            $(".mask").hide();
+            $("#date-pop").addClass("down");
+        })
+
+        //时间选择确定按钮
+        $('#confirm-getDate').click(function(){
+            $('#dateconfirm').click();
+            $('#dateconfirm2').click();
+
+            if(new Date($("#beginTime").val().replace(/-/g, '/')).getTime() <= new Date($("#endTime").val().replace(/-/g, '/')).getTime()){
+                $("#startT em").text($("#beginTime").val());
+                $("#endT em").text($("#endTime").val());
+                var data = new Object();
+                data.start_time = $.trim($("#beginTime").val());
+                data.end_time = $.trim($("#endTime").val());
+
+                $(".mask").hide();
+                $("#date-pop").addClass("down");
+                seach(data);
+                return false;
+            }else{
+                layer.open({
+                    content: "起始日期大于结束日期，请重新选择！",
+                    skin: 'msg',
+                    time: 2 //2秒后自动关闭
+                });
+            }
+
+        });
+
+        function seach($data){
+            if(data.start_time != ''){
+                $(".time_text").text("至");
+            }
+            $.post("{$ValidUrl}",$data,function(data){
+                console.log(data);
+                var data = $.parseJSON(data);
+                if(data.status==0){
+                    $('#nickname').text(data.nickname);
+                    $('#directly').text(data.directly);
+                    $('#team').text(data.team);
+                    $('#directly_Betting').text(data.directly_Betting);
+                    $('#team_Betting').text(data.team_Betting);
+                    $('#backwater').text(data.backwater);
+                    $('#team_award').text(data.team_award);
+                    $('#profit').text(data.profit);
+                    $('#recharge').text(data.recharge);
+                    $('#withdraw').text(data.withdraw);
+                    $('#back').text(data.back);
+                }else {
+                    layer.open({
+                        content: data.ret_msg,
+                        skin: 'msg',
+                        time: 2 //2秒后自动关闭
+                    });
+                }
+            })
+        }
+    })
+
+	function goAccountIndex()
+    {
+    	location.href= "{$backUrl}";
+    }
+</script>
+</script>
+</body>
+</html>

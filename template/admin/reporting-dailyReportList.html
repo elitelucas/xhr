@@ -1,0 +1,111 @@
+<?php $i=0; foreach ($data as $k => $v){ ?>
+<tr style="text-align: center">
+    <td>{$i}</td>
+    <td id="s_date"><?php echo date('Y-m-d',$k);?></td>
+    <td>{$v['ucnt']}</td>
+<!--    <td><?php echo $v['13']['cnt']-$v['14']['cnt'];?></td>-->
+<!--    <td><?php echo  $v['13']['money']-$v['14']['money'];?></td>
+    <td><?php echo  $v['19']['money']+$v['20']['money']+$v['21']['money'];?></td>
+    <td><?php echo  $v['12']['money'];?></td>
+    <td><?php echo  $v['10']['money'];?></td>
+    <td><?php echo  $v['11']['money'];?></td>
+    <td><?php echo  $v['32']['money'];?></td>
+    <td><?php echo  $v['18']['money']+$v['66']['money'];?></td>
+    <?php $tz_profit = $v['13']['money']-$v['14']['money']-$v['12']['money'];?>-->
+
+    <td><?php echo  number_format($v['13']-$v['14'],2);?></td>
+    <td><?php echo  number_format($v['19']+$v['20']+$v['21'],2);?></td>
+    <td><?php echo  number_format($v['12']-$v['120'],2);?></td>
+    <td><?php echo  number_format($v['10'],2);?></td>
+    <td><?php echo  number_format($v['11'],2);?></td>
+    <td><?php echo  number_format($v['32'],2);?></td>
+    <td><?php echo  number_format($v['18']+$v['66']+$v['1000']+$v['999']+$v['998']+$v['997']+$v['995'],2);?></td>
+    <?php $tz_profit = number_format($v['13']-$v['14']-$v['12']+$v['120'],2);?>
+     <td>
+         {if $tz_profit < 0}<a href="javascript:void(0)" onclick="getDayProfitLoss('<?php echo date('Y-m-d',$k);?>')"><font style="color: #FF3300;">{$tz_profit}</font></a>{/if}
+         {if $tz_profit > 0}<a href="javascript:void(0)" onclick="getDayProfitLoss('<?php echo date('Y-m-d',$k);?>')"><font style="color: #0099ff;">{$tz_profit}</font></a>{/if}
+         {if $tz_profit == 0}{$tz_profit}{/if}
+    </td>
+</tr>
+<?php $i++; } ?>
+<tr style="text-align: center">
+    <td>{$i}</td>
+    <td id="s_date">当页统计:</td>
+    <td><?php echo $page_data['ucnt'];?></td>
+    <td><?php echo  number_format($page_data['data']['13']-$page_data['data']['14'],2);?></td>
+    <td><?php echo  number_format($page_data['data']['19']+$page_data['data']['20']+$page_data['data']['21'],2);?></td>
+    <td><?php echo  number_format($page_data['data']['12']-$page_data['data']['120'],2);?></td>
+    <td><?php echo  number_format($page_data['data']['10'],2);?></td>
+    <td><?php echo  number_format($page_data['data']['11'],2);?></td>
+    <td><?php echo  number_format($page_data['data']['32'],2);?></td>
+    <td><?php echo  number_format($page_data['data']['18']+$page_data['data']['66']+$page_data['data']['1000']+$page_data['data']['999']+$page_data['data']['998']+$page_data['data']['997']+$page_data['data']['995'],2);?></td>
+    <?php $tz_profit = number_format($page_data['data']['13']-$page_data['data']['14']-$page_data['data']['12']+$page_data['data']['120'],2);?>
+    <td>
+       	{if $tz_profit < 0}<font style="color: #FF3300;font-weight: bold;">{$tz_profit}</font>{/if}
+       	{if $tz_profit > 0}<font style="color: #0099ff;font-weight: bold;">{$tz_profit}</font>{/if}
+       	{if $tz_profit == 0}{$tz_profit}{/if}
+    </td>
+</tr>
+<tr style="text-align: center">
+    <td><?php echo ++$i;?></td>
+    <td id="s_date">统计:</td>
+    <td><?php echo $total_user;?></td>
+    <td><?php echo  number_format($total['13']-$total['14'],2);?></td>
+    <td><?php echo  number_format($total['19']+$total['20']+$total['21'],2);?></td>
+    <td><?php echo  number_format($total['12']-$total['120'],2);?></td>
+    <td><?php echo  number_format($total['10'],2);?></td>
+    <td><?php echo  number_format($total['11'],2);?></td>
+    <td><?php echo  number_format($total['32'],2);?></td>
+    <td><?php echo  number_format($total['18']+$total['66']+$total['1000']+$total['999']+$total['998']+$total['997']+$total['995'],2);?></td>
+    <?php $tz_profit = number_format($total['13']-$total['14']-$total['12']+$total['120'],2);?>
+	<td>
+       	{if $tz_profit < 0}<font style="color: #FF3300;font-weight: bold;">{$tz_profit}</font>{/if}
+       	{if $tz_profit > 0}<font style="color: #0099ff;font-weight: bold;">{$tz_profit}</font>{/if}
+       	{if $tz_profit == 0}{$tz_profit}{/if}
+    </td>
+</tr>
+<tr>
+    <td colspan="11">
+        <div class="row">
+            <div class="col-sm-12">
+                <?php echo $show;?>
+            </div>
+        </div>
+        <!--<div class="pagelist" id='page' style="{if $show == ''}display:none;{/if}">-->
+            <!--<?php echo $show;?>-->
+        <!--</div>-->
+    </td>
+</tr>
+
+<script type="text/javascript">
+    function getDayProfitLoss(day){
+        var data = {
+            'day':day,
+            'page': 1
+        }
+            $.ajax({
+                type: "POST",
+                url: "<?=url('admin','reporting','getDayProfitLoss')?>",
+                traditional: true,
+                data:data,
+                beforeSend: function () {
+                    //loading层
+                    index = layer.load(0, {
+                        shade: [0.1, '#fff'] //0.1透明度的白色背景
+                    });
+                },
+                success: function (msg) {
+                    layer.open({
+                        title: '明细查询',
+                        area: ['700px','700px'],
+                        btn:0,
+                        content: msg
+                    });
+                },
+                complete: function () {
+                    layer.close(index);
+                }
+            });
+    }
+</script>
+<!-- 111 -->

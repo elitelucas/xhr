@@ -1,0 +1,41 @@
+{template header}
+  <!-- Investor_center -->
+  <link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+  
+  <!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+      <li class="active">我的账户</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->
+  {template member-nav-left}
+    
+    <!-- 右边正文 -->
+    <div class="investor-right pull-right border-radius">
+      <div class="investor-title">人脉感恩奖</div>
+        <div class="withdraw-info bg-warning">当日有效（截止到当天24点）</div>
+            <form class="form-horizontal has-feedback" action="<?=url('','','')?>" method="post" role="form">
+              <div class="form-group has-feedback">
+                <label for="inputPwd1" class="col-sm-3 control-label">推荐人名称：</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="inputPwd1" name="rusername" placeholder="推荐人名称">
+                  <span class="glyphicon form-control-feedback"></span>
+                </div>
+                <div class="help-block">{if !empty($info)}<span style="color:red;">{$info}</span>{else}请输入推荐人名称{/if}</div>
+              </div>
+              
+              <div class="form-group has-feedback">
+                <label for="inputBtn" class="col-sm-3 control-label"></label>
+                <div class="col-sm-4">
+                  <input type="submit" class="btn btn-warning form-control" id="inputBtn" name="add" value="添加">
+                </div>
+                <div class="help-block"></div>
+              </div>
+            </form>
+     </div> 
+  </div>
+{template footer}

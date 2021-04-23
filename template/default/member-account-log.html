@@ -1,0 +1,86 @@
+{template header}
+  <!-- Investor_center -->
+  <link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+  
+  <!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+      <li class="active">我的账户</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->
+{template member-nav-left}
+    
+    <!-- 右边正文 -->
+    <div class="investor-right pull-right border-radius">
+      <div class="investor-title">资金明细</div>
+      
+      <form action="<?=url('','','')?>" method="post">
+      <ul class="investor-fund-form unlist">
+        <li>时间：</li>
+        <li><?=form::date('starttime',$data['starttime'])?></li>
+        <li>到</li>
+        <li><?=form::date('endtime',$data['endtime'])?></li>
+        <li>
+          <select class="fund-form-input1 form-control" name='type'>
+            <option value="">全部</option>
+            {loop $glossary $v}
+            {if !empty($v['money_type'])}
+             <option value="{$v['id']}"  {if $data['type']==$v['id']} selected="selected" {/if}>{$v['name']}</option>
+            {/if}
+            {/loop}
+          </select>
+        </li>
+        <li>关键字：</li>
+        <li><input class="fund-form-input2 form-control" name="keywords" type="text" value="{$data['keywords']}"></li>
+        <li><input name="" type="submit" class="btn btn-warning btn-sm" value="搜索" /></li>
+      </ul>
+      </form>
+      <a href="<?=url('member','account','log',array('exportexecl'=>'execl'))?>" target="_blank" class="btn btn-warning btn-sm">导出Excel</a>
+      
+      <table class="table table-bordered mt20 table-hover">
+        <tr class="text-center">
+          <td>类型</td>
+          <td>操作金额</td>
+          <td>可用金额</td>
+          <td>冻结金额</td>
+          <td>待收金额</td>
+          <td>记录时间</td>
+          <td>备注信息</td>
+        </tr>
+        {if isset($list) && !empty($list)}
+            {loop $list $vo}    
+        <tr>
+          <td class="text-center"><?=empty($glossary[$vo['type']]['name'])?'-':$glossary[$vo['type']]['name']?></td>
+          <td class="text-right">￥<?=empty($vo['money'])?'0.00':$vo['money']?></td>
+          <td class="text-right">￥<?=empty($vo['use_money'])?'0.00':$vo['use_money']?></td>
+          <td class="text-right">￥<?=empty($vo['freeze_money'])?'0.00':$vo['freeze_money']?></td>
+          <td class="text-right">￥<?=empty($vo['wait_money'])?'0.00':$vo['wait_money']?></td>
+          <td class="text-center f12">
+            <span class="itooltip" data-toggle="tooltip" data-trigger="hover" data-placement="top" title="<?=date('Y-m-d H:i:s',$vo['addtime'])?>">
+              <?=date('Y-m-d',$vo['addtime'])?> <span class="itool-tip">[...]</span>
+            </span>
+          </td>
+          <td class="text-center f12">
+            <div style="width:85px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" class="itooltip" data-toggle="tooltip" data-trigger="hover" data-placement="top" title="<?=empty($vo['remark'])?'-':$vo['remark']?>">
+              <?=empty($vo['remark'])?'-':$vo['remark']?>
+            </div>
+          </td>
+        </tr>
+            {/loop}
+        {else}
+        <tr class="text-center font12px color999"><td colspan="6">查无此记录</td></tr>
+        {/if}
+      </table>
+      <div class="fanye text-center">
+        <?php echo $page['html'];?>
+    </div>
+    </div>
+    
+    <!-- /右边正文 -->
+  </div>
+  
+{template footer}

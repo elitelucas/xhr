@@ -1,0 +1,273 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <meta name="author" content="ifengjin@ifengjin.cn">
+
+  <title>诚汇通-国内口碑最好的P2P网络投资和理财的专业平台</title>
+
+  <!-- Contract -->
+<style type="text/css">
+/*!
+ * @Email ifengjin@ifengjin.cn
+ */
+
+html, body, div, span, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, address, big, cite, code, del, em, font, img, ins, small, strong, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend {
+	margin: 0;
+	padding: 0
+}
+ol, ul { list-style: none; }
+:focus { outline: 0; }
+a img { border: 0; }
+img { vertical-align: middle; }
+table { empty-cells: show; }
+body {
+	color: #333;
+	font: normal 14px/24px "Microsoft Yahei", Verdana, Arial, sans-serif, "Times New Roman", "宋体";
+	background: #f8f8f8;
+}
+.fl { float: left; }
+.fr { float: right; }
+.container {
+	width: 1002px;
+	padding: 0;
+	margin: 0 auto;
+}
+.contract-container {
+	width: 902px;
+	padding: 30px 50px;
+	margin: 0 auto;
+	margin-bottom: 30px;
+	background-color: #fff;
+	border: 1px solid #dbdbdb;
+}
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.header {
+	width: 100%;
+	height: 91px;
+	line-height: 90px;
+	background-color: #fff;
+	border-bottom: 1px solid #dbdbdb;
+	margin-bottom: 30px;
+}
+.header-left {
+	width: 200px;
+	margin-right: 30px;
+}
+.header-right {
+	width: 772px;
+	font-size: 18px;
+}
+h2 { padding: 20px 0; }
+.contract-num {
+	width: 100%;
+	padding: 10px 0;
+	text-align: right;
+}
+p {
+	padding-bottom: 10px;
+	position: relative;
+}
+.contract-num span { padding:0 10px; }
+
+.table td {
+	padding: 5px 15px;
+	background-color: #fff !important;
+}
+.table { border-collapse: collapse !important; }
+.table-bordered td { border: 1px solid #ddd !important; }
+.table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 20px;
+}
+.table .table { background-color: #fff; }
+.table-bordered { border: 1px solid #ddd; }
+.bold { font-weight: 700; }
+.contract-title { padding-top: 20px; }
+.contract-blank {
+	font-weight: 700;
+	padding: 0 10px;
+	border-bottom:1px solid #bbb;
+}
+.contract-seal-box { position: relative; }
+.seal-chenghuitong {
+	width: 150px;
+	height: 150px;
+	position: absolute;
+	top: -50px;
+	left: 100px;
+	z-index: 1001;
+	/*background: url(../../statics/images/seal_chenghuitong.png) no-repeat;*/
+}
+.seal-chenghuitong img {
+	width: 150px;
+	height: 150px;
+}
+.indent { text-indent: 2em; }
+.mr80 { margin-right: 0px; }
+.color-main { color: #111; font-size: 16px; }
+.fingerprint-box2 {
+	width: 100%;
+	height: 0;
+	position: relative;
+}
+.fingerprint-box2 .fingerprint {
+	width: 52px;
+	height: 72px;
+	position: absolute;
+	top: -50px;
+	left: 30px;
+	z-index: 1001;
+	/*background: url(../../statics/images/fingerprint.png) no-repeat;*/
+}
+.fingerprint-box2 .fingerprint img {
+	width: 52px;
+	height: 72px;
+}
+.fingerprint-box {
+	width: 100%;
+	height: 0;
+	position: relative;
+}
+.fingerprint-box .fingerprint {
+	width: 52px;
+	height: 72px;
+	position: absolute;
+	top: -50px;
+	right: -5px;
+	z-index: 1001;
+	/*background: url(../../statics/images/fingerprint.png) no-repeat;*/
+}
+.fingerprint-box .fingerprint img {
+	width: 52px;
+	height: 72px;
+}
+
+  </style>
+
+</head>
+
+<body>
+  <div class="header">
+    <div class="container">
+      <div class="header-left fl"><a href="http://www.chenghuitong.net/"><img src="../../statics/resource/images/logo.png" alt="诚汇通LOGO www.chenghuitong.net"></a></div>
+      <div class="header-right fr"> | 债权转让及回购协议</div>
+    </div>
+  </div>
+
+  <div class="contract-container">
+    <h2 class="text-center">债权转让及回购协议</h2>
+    <div class="contract-num">编号：<span>CHT<?=str_pad($id,6,'0',STR_PAD_LEFT)?></span></div>
+    <p>甲方(转让方/)：刘建 ，身份证号码：3621011973******34</p>
+    <p>乙方(受让方/)：<?php if(empty($myinfo['realname'])){ echo '';}else {echo $myinfo['realname'];} ?> （注册用户名：{$myinfo['username']}）
+        ，身份证号码：<?php if(empty($myinfo['card_id'])){ echo '';}else {echo $myinfo['card_id'];}?>
+    </p>
+    <p>丙方(保证方/)：<?php echo empty($var['secured'])?'深圳市诚汇通金融信息有限公司':$var['secured'];?> </p>
+    <p>丁方(居间方/)：深圳市诚汇通金融信息有限公司</p>
+    <p>地址：深圳市福田区福华三路168号国际商会中心24楼2408-2412</p>
+    <p>
+      <table class="table table-bordered color-main">
+        <tr class="text-center">
+          <td>诚汇通用户名</td>
+          <td>债权受让金额</td>
+          <td>债权受让期限</td>
+          {if $var['style']=='3'}
+            	<td>每月应收利息</td>
+            	<td>到期应还本金</td>
+            {else}
+            	<td>每月应收本息</td>
+            {/if}
+        </tr>
+        {loop $list $bor}
+        <tr class="text-center">
+          <td>{$bor['username']}</td>
+          <td class="text-center">￥{$bor['account_act']}</td>
+          <td>{$var['time_limit']}{if $var['isday'] == 1}天{else}个月{/if}</td>
+          {if $var['style']=='3'}
+                <td class="text-center">￥<?=round($bor['income_interest']/$var['time_limit'],2)?></td>
+                <td class="text-center">￥{$bor['account_act']}</td>
+             {else}
+             <td class="text-center">￥<?=round($bor['income_total']/$var['time_limit'],2)?></td>
+         {/if}
+        </tr>
+        {/loop}
+      </table>
+    </p>
+    <p class="bold">鉴于：</p>
+    <p>1、甲方对第三方（债务人）享有借款本金和利息的债权。</p>
+    <p>2、乙方愿意接受甲方对第三方（债务人）的债权转让。</p>
+    <p>3、丙方是一家在深圳市福田区合法成立并有效存续的有限责任公司。</p>
+    <p>4、丁方是一家在深圳市福田区合法成立并有效存续的有限责任公司，拥有诚汇通www.chenghuitong.net 网站（以下简称“该网站”）的经营权。</p>
+    <p>5、甲、乙、丙、丁四方在签订本协议前务必认真仔细阅读本协议项下的全部条款。甲、乙、丙、丁四方一旦签订本协议，即视为甲、乙、丙、丁四方已充分理解并完全同意本协议项下的所有条款及内容。</p>
+    <p>6、甲、乙、丙、丁四方在平等自愿、协商一致的基础上，经充分友好协商，现达成如下债权转让及回购协议，以兹共同遵守执行。</p>
+    <p>7、乙方、第三方债务人的注册用户名由丁方进行实名认证审核，并确认乙方、第三方债务人的注册用户名与真实姓名、身份证号码已完成实名绑定，具有法律效力。</p>
+    <p class="contract-title bold">一、债权转让</p>
+    <p>1、<span class="contract-blank"><?=date("Y",$var['verify_time']);?></span class="contract-blank">年<span class="contract-blank"><?=date("m",$var['verify_time']);?></span>月<span class="contract-blank"><?=date("d",$var['verify_time']);?></span>日，甲方依法与债务人<span class="contract-blank"><?php if(empty($var['realname'])){ echo '';}else {echo mb_substr($var['realname'], 0, 1, "UTF-8")."**";} ?>(注册用户名：{$var['username']})</span>签订《借款合同》，甲方向债务人出借了借款人民币￥<span class="contract-blank">{$cinfo['credit']}</span>元，甲方依法对债务人享有借款本金及利息等债权，截止到本合同签署日债务人已偿还本金人民币￥<span class="contract-blank">0</span>元，剩余未还本金人民币￥<span class="contract-blank">{$cinfo['credit']}</span>元。具体的债权情况及合同条款详见附件一《借款合同》。</p>
+    <p>2、现甲方以本协议约定的条件及方式将上述剩余未还本金中计人民币￥<span class="contract-blank">{$sucmoney}</span>元的债权(下称“出让债权”)转让给乙方，乙方同意受让。乙方在本协议签署同时应向甲方支付（或以第三方支付账户转账）该受让债权的本金。</p>
+    <p>3、在本协议签订之当日，甲方应将上述出让债权以附件二《债权转让通知书》通过《借款合同》中界定的转让通知形式通知给债务人。</p>
+    <p>4、本债权转让自本协议签订之日起生效，截止日为附件一《借款合同》约定的合同结束日期。</p>
+    <p>5、出让债权的利息根据附件一《借款合同》约定的合同规定借款期内年利率折算成按月计算，不足月的按实际资金占用天数计算，合同签订的次日起开始计息，利息计算周期之前的利息归甲方所有，自本协议签订之次日起至回购之日止的利息归乙方所有。</p>
+    <p>6、因债务人<span class="contract-blank"><?php if(empty($var['realname'])){ echo '';}else {echo mb_substr($var['realname'], 0, 1, "UTF-8")."**";} ?> （注册用户名：{$var['username']}）</span>还款隐私、便利等特殊原因，在乙方持有受让的债权期间，乙方授权甲方按《借款合同》的还款方式及利率统一向债务人<span class="contract-blank"><?php if(empty($var['realname'])){ echo '';}else {echo mb_substr($var['realname'], 0, 1, "UTF-8")."**";} ?> （注册用户名：{$var['username']}）</span> 收取受让后利息及本金，甲方应于收款当日即时划拨到乙方第三方支付账户。</p>
+    <p class="contract-title bold">二、债权回购</p>
+    <p>1、本协议到期时，甲方对依照本协议出让债权的本金余额及相关利息回购。出让债权中自本协议签订之次日起至回购之日止的利息归乙方所有，甲方回购后，出让债权的全部权益归甲方所有。</p>
+    <p>2、丙方承诺，如果甲方到期未按规定对出让债权的本金余额及相关利息予以回购，丙方自愿对出让债权的本金余额及相关利息无条件予以立即回购。出让债权自本协议签订之次日起至回购之日止的利息归乙方所有，丙方回购后，出让的债权的全部权益归丙方所有。</p>
+    <p>3、丁方作为居间人承诺，如果丙方到期未按上述第2条之规定对甲方出让债权的本金余额及相关利息予以回购，为丁方提供的信息失实，若丁方自愿在3个工作日内使用该网站存入比例金额做为风险准备金，并用该网站公示的银行监管账号中的风险准备金对乙方出让债权的本金余额及相关利息无条件予以立即回购。出让债权自本协议签订之次日起至回购之日止的利息归乙方所有，丁方回购后，出让债权的全部权益归丁方所有。</p>
+    <p>4、根据附件一《借款合同》中提前还款所述之规定，允许甲方在债务人提前还款（含债务人因违约而强制提前还款）时，甲方对已转让给乙方的债权进行提前回购，提前回购之补偿为附件一《借款合同》中提前还款条款所述之权益。</p>
+    <p>5、本协议所表述之回购，是指乙方将所受让之债权依照本协议约定的方式转让给甲方、丙方、丁方的债权转让法律行为，无需另行通知。</p>
+    <p class="contract-title bold">三、承诺与保证</p>
+    <p>1、甲方承诺并保证，出让债权系甲方真实取得的债权，是合法有效的债权。</p>
+    <p>2、甲方承诺并保证，出让债权完全清结，出让债权上不存在包括但不限于抵押、质押、被法院查封、冻结、保全或强制执行等在内的任何权利限制以及债务负担，无任何第三人对出让部分的债权主张任何权利。</p>
+    <p>3、丁方对该网站上发布的债权转让信息的真实性做保证，并提供永久固定额度的风险准备金作为信息真实的保证，在出现上述回购危机时，风险准备金可作为垫付金立即回购出让债权的余额及相关利息。</p>
+    <p class="contract-title bold">四、违约责任</p>
+    <p>1、本协议签定后，甲、乙、丙、丁各方必须全面适当地履行本协议项下各自的义务及责任。任何一方对本协议项下任一条款之违反，即被视为违约，违约方须对非违约方承担相应之违约责任，赔偿非违约方因违约而遭致的包括但不限于诉讼费用、仲裁费用、律师费用等在内的一切经济损失。</p>
+    <p>2、乙方在特殊情况下急需用钱时，可向诚汇通申请提前赎回本金，平台将会从本金扣除投资用户已发放的利息、投标奖励及利息或奖励投标后产生的复利，并按照赎回本金3%的比例，收取平台服务费用。以上经双方协商一致同意后，诚汇通在7个工作日内退还本金。</p>
+    <p class="contract-title bold">五、争议解决方式</p>
+    <p>协议履行过程中如果发生争议，协商解决，协商不成的，任何一方可提交深圳市福田区人民法院诉讼解决。</p>
+    <p class="contract-title bold">六、生效及其他</p>
+    <p>本协议自甲、乙、丙、丁四方签字或者盖章之日起立即生效，《诚汇通网站服务协议》另有规定除外，一式四份，甲、乙、丙、丁四方各持一份，具同等法律效力。</p>
+    <p class="contract-title bold">各方签署：</p>
+    <p class="contract-title bold">甲方：刘建</p>
+    <div class="fingerprint-box2"><div class="fingerprint"><img src="../../statics/images/fingerprint.png"></div></div>
+    <p class="contract-title bold">乙方：<?php if(empty($myinfo['realname'])){ echo '';}else {echo $myinfo['realname'];} ?> （注册用户名：{$myinfo['username']}）</p>
+    <p class="contract-title bold">丙方：<?php echo empty($var['secured'])?'深圳市诚汇通金融信息有限公司':$var['secured'];?></p>
+    <div class="contract-seal-box contract-title bold">
+      <div class="seal-chenghuitong"><img src="../../statics/images/seal_chenghuitong.png"></div>
+      <div>丁方：深圳市诚汇通金融信息有限公司</div>
+    </div>
+    <p class="contract-title bold">协议签订地点：广东省深圳市福田区</p>
+    <p class="contract-title bold">协议签署日期：<span class="contract-blank"><?=date("Y",$var['verify_time']);?></span>年<span class="contract-blank"><?=date("m",$var['verify_time']);?></span>月<span class="contract-blank"><?=date("d",$var['verify_time']);?></span>日</p>
+    <p></p>
+    <p></p>
+    <p></p>
+  </div>
+    <div class="contract-container">
+    附件一：借款合同：<a target= _blank href="<?=url('borrow','default','info',array('id'=>$id))?>">{$var['title']}</a><br/>
+
+    </div>
+  <div class="contract-container">
+      附件二：债权转让通知书
+    <h2 class="text-center">债权转让及回购协议</h2>
+    <p><?php if(empty($var['realname'])){ echo '';}else {echo mb_substr($var['realname'], 0, 1, "UTF-8")."**";} ?> （{$var['username']}）：</p>
+    <!--<p class="indent">根据贵我双方于<span class="contract-blank"><?=date("Y",$var['verify_time']);?></span>年<span class="contract-blank"><?=date("m",$var['verify_time']);?></span>月<span class="contract-blank"><?=date("d",$var['verify_time']);?></span>日签订的《借款合同》, 我方向贵方出借了人民币￥<span class="contract-blank">{$cinfo['credit']}</span>元。 我方决定将上述债权中的部分债权计人民币￥<span class="contract-blank">{$sucmoney}</span>元的债权(下称“出让债权”)转让给<span class="contract-blank">{$myinfo['username']}</span>, 上述转让立即生效。出让债权的利息根据《借款合同》约定的合同规定借款期内年利率折算成按月计算，不足月的按实际资金占用天数计算，合同签订的次日起开始计息，有关出让债权今天之前（包括今天）的利息归我方所有,有关出让债权今天之后的利息归新债权人<span class="contract-blank">{$myinfo['username']}</span>所有。</p>-->
+    <p class="indent">根据刘建与<span class="contract-blank"><?php if(empty($var['realname'])){ echo '';}else {echo mb_substr($var['realname'], 0, 1, "UTF-8")."**";} ?> （注册用户名：{$var['username']}）</span>
+        签订的《借款合同》, 刘建向<span class="contract-blank"><?php if(empty($var['realname'])){ echo '';}else {echo mb_substr($var['realname'], 0, 1, "UTF-8")."**";} ?> （注册用户名：{$var['username']}）</span>出借了人民币￥<span class="contract-blank">{$cinfo['credit']}</span>元。
+        我方决定将上述债权中的部分债权计人民币￥<span class="contract-blank">{$sucmoney}</span>元的债权(下称“出让债权”)转让给<span class="contract-blank">{$myinfo['username']}</span>, 上述转让立即生效。出让债权的利息根据《借款合同》约定的合同规定借款期内年利率折算成按月计算，不足月的按实际资金占用天数计算，合同签订的次日起开始计息，有关出让债权今天之前（包括今天）的利息归我方所有,有关出让债权今天之后的利息归新债权人<span class="contract-blank">{$myinfo['username']}</span>所有。</p>
+    <p class="text-right mr80">特此告知! </p>
+    <p class="text-right mr80"> 债权转让人 刘建</p>
+    <div class="fingerprint-box"><div class="fingerprint"><img src="../../statics/images/fingerprint.png"></div></div>
+    <p class="text-right"><span class="contract-blank"><?=date("Y",$var['verify_time']);?></span>年<span class="contract-blank"><?=date("m",$var['verify_time']);?></span>月<span class="contract-blank"><?=date("d",$var['verify_time']);?></span>日</p>
+    <p></p>
+    <p></p>
+    <p></p>
+  </div>
+
+</body>
+</html>

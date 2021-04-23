@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/jedate/skin/jedate.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+    <script src="statics/admin/js/pintuer.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script type="text/javascript" src="statics/admin/jedate/jquery.jedate.min.js"></script>
+    {template public-new-ui-header}
+    <style>
+        #page {
+            height: 60px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #page ul li {
+            float: left;
+            margin-right: 10px;
+        }
+
+        #page ul .current {
+            background-color: #0099ff;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body class="new_ui_body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+
+                <div class="ibox-title iboxWTitle">
+                    <h5>一键撤单</h5>
+                    <div class="ibox-tools">
+                        <a href="javascript:;" class="btn btn-white btn-bitbucket" onclick="history.go(-1);">
+                            <i class="fa fa-reply"></i>返回
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content bagCol" style="width: 100%;">
+
+                    <form method="" class="form-x" action="" id='form'>
+
+                        <div class="ibox-title">
+                            <h5>撤单信息</h5>
+                        </div>
+                        <div class="ibox-content m-b" style="width: 100%;">
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label input_title">彩种名称</label>
+                                    <div class="col-sm-10">
+                                        <div class="field">
+                                            <input type="text" class="input w50" readonly="readonly" value="{$game}" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>撤单期号</label>
+                                    <div class="col-sm-10">
+                                        <div class="field">
+                                            <input type="number" class="input w50" name="issue" id="issue" value="" data-validate="required:请输入待撤单的期号" />
+                                            <div class="tips"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="lottery_type" value="{$lottery_type}"/>
+                                <div class="form-group">
+                                    <div class="col-sm-10 col-sm-offset-2">
+                                        <button class="btn btn-primary" type="button" id="btn_submit">提交</button>
+                                        &nbsp;
+                                        <button class="btn btn-white" type="button" onclick="history.go(-1);">取消</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+<script type="text/javascript">
+    var loading = "";//加载中......
+    var type = 1;
+    var issue,issue_tmp;
+
+    $(function () {
+        $("#btn_submit").click(function () {
+            issue_tmp = $("#issue").val();
+            //合理校验
+            if (issue_tmp == "") {
+                console.log(issue_tmp);
+                layer.msg('期号不能为空', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+
+            if (issue_tmp == 0) {
+                layer.msg('期号不能为0', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+
+            var reg = /^\d+$/;
+            
+            if (!reg.test(issue_tmp)) {
+                layer.msg('请输入0-9的数字', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+            
+            if (type === 1) {
+                issue = issue_tmp;
+                issue_tmp='';
+                $("#issue").val("");
+                $("#btn_submit").text("再次确认");
+                type = 2;
+                return false;
+            }
+            //校验两次输入是否一致
+            if (issue !== $("#issue").val()) {
+                layer.msg('两次输入的期号不一致', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+
+            var formData = new FormData(document.querySelector("form"));
+            console.log(formData);
+//            return false;
+//            var data = {"lottery_type":{$lottery_type},"issue":issue};
+//            console.log(data);
+            loading = layer.load(1);
+            $.ajax({
+                url: '?m=admin&c=openAward&a=cancalOrdersByIssue&type=deal',
+                type: 'POST',
+                data: formData,
+                dataType: 'JSON',
+                cache: false,
+                processData: false,
+                contentType: false
+            }).done(function (result) {
+                console.log(result);
+                layer.close(loading);
+                if (result.err === 0) {
+                    layer.msg(result.msg, {icon: 6, shade: [0.5, '#393D49']}, function () {
+//                        window.location.href = "<?=url('admin','openAward','LuckyList', array('state' => 2))?>";
+                        window.location.href = document.referrer;//返回上一页并刷新
+                    });
+                } else {
+                    layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49'],time:5000});
+                }
+            }).fail(function (err) {
+                layer.close(loading);
+//                layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+            });
+        });
+    });
+
+</script>
+</body>
+</html>

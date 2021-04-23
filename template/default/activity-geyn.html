@@ -1,0 +1,433 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="renderer" content="ie-comp">
+		<title>感恩有你</title>
+		<link rel="shortcut icon" href="../../statics/activity/geyn/image/need/favicon.ico" type="image/x-icon">
+		<link rel="bookmark" href="/favicon.ico">
+		<link rel="stylesheet" type="text/css" href="../../statics/activity/geyn/css/base.css"/>
+		<link rel="stylesheet" type="text/css" href="../../statics/activity/geyn/css/css.css">
+	</head>
+
+	<body>
+		<div class="header">
+			<div class="topbar">
+				<div class="container">
+					<div class="pull-left">
+						<a href="https://www.chenghuitong.net/">
+							<span class="home"></span>
+							<span>首页</span>
+						</a>
+						<a>
+							<span class="tel"></span>
+							<span>客服电话：400-018-0107</span>
+						</a>
+						<a>
+							<span>13613002927（非工作时间）</span>
+						</a>
+					</div>
+					<div class="pull-right">
+						<?php if(isset($this->user['id'])){?>
+						<a href="<?=url('member','main','index')?>">
+							<span><?=$this->user['username']?></span>，
+						</a>
+						<a>
+							<span>欢迎来到诚汇通！</span>
+						</a>
+						<a href="<?=url('content','login','loginout')?>">
+							<span>[退出]</span>
+						</a>
+						<a href="<?=url('member','msg','index')?>">
+							<span class="email"></span>
+							<span>(<?=isset($this->user['noreadmsg'])?$this->user['noreadmsg']:0?>)</span>
+						</a>
+						<?php }else{?>
+						<a href="<?=url('content','login','index')?>">
+							<span class="log"></span>
+							<span>登录</span>
+						</a>
+						<a href="<?=url('content','regedit','index')?>">
+							<span class="reg"></span>
+							<span>注册</span>
+						</a>
+						<?php }?>
+						<a href="<?=url('article','services','help')?>">
+							<span class="help"></span>
+							<span>帮助中心</span>
+						</a>
+						<a href="<?=url('article','default','calculator')?>">
+							<span class="calc"></span>
+							<span>投资计算器</span>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="nav">
+				<div class="container">
+					<div class="pull-left"><a href="https://www.chenghuitong.net/"><img src="../../statics/activity/geyn/image/need/logo.png" alt="logo"></a></div>
+					<div class="pull-right">
+						<a href="https://www.chenghuitong.net/borrow/default-index.html">我要理财</a>
+						<a href="https://www.chenghuitong.net/borrow/release-index.html">我要融资</a>
+						<a href="https://www.chenghuitong.net/activity/carefund-index.html">关爱基金<sup>new</sup></a>
+						<a href="http://www.chenghuitong.net/article/safety-index.html">安全保障</a>
+						<a href="http://www.chenghuitong.net/article/services-guide.html">新手指引</a>
+						<a class="header-btn" href="https://www.chenghuitong.net/member/main-index.html">我的账户</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="banner">
+			<div class="container">
+				{if empty($this->user)}
+				<form id="form" action="<?=url('','','')?>" method="post" target="_top">
+					<div class="register_box tc">
+						<h2 class="f18">50元起投、资金托管<br><span>年化收益率15%-21%</span></h2>
+						<div class="item">
+							<div class="pull-left">用&nbsp;户&nbsp;&nbsp;名</div>
+							<div class="pull-right">
+								<input class="text" type="text" placeholder="请输入用户名" name="username" autofocus value="{$data['username']}" maxlength="20">
+								<div class="help">{$info_arr['username']}</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="pull-left">设置密码</div>
+							<div class="pull-right">
+								<input class="text" type="password" placeholder="请输入8-20位密码" name="pwd" value="" maxlength="20">
+								<div class="help">{$info_arr['pwd']}</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="pull-left">确认密码</div>
+							<div class="pull-right">
+								<input class="text" type="password" placeholder="请再次确认密码" name="compwd" value="" maxlength="20">
+								<div class="help">{$info_arr['compwd']}</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="pull-left">手&nbsp;&nbsp;机&nbsp;&nbsp;号</div>
+							<div class="pull-right">
+								<input class="text" type="text" placeholder="请输入手机号码" name="phone" value="{$data['phone']}" maxlength="11">
+								<div class="help">{$info_arr['phone']}</div>
+							</div>
+						</div>
+						<div class="agreement"><input type="checkbox" id="xieyi" checked>阅读并同意服务协议<a href="http://www.chenghuitong.net/article/default-xieyi.html" target="_blank">《诚汇通协议书》</a></div>
+						<div class="text-center"><a href="javascript:;" class="btn-register">立即注册</a></div>
+					</div>
+				</form>
+				{/if}
+			</div>
+		</div>
+		<div class="content">
+			<div class="con">
+				<div class="con1">
+					<p class="txt txt1">注册送现金，活动期内注册成为新用户即可获得20元现金，可用于投资， 投资满500元可提现（PS：最后一波注册送20元现金）</p>
+					<p class="txt txt2">首次投资满1000元满标复审后可再获得30元现金；可投资，可提现。</p>
+					<a href="{if empty($this->user)}#form{else}https://www.chenghuitong.net/member/main-index.html{/if}" class="btn-r btn1">
+						<span class="left"></span>
+						<span class="middle"></span>
+						<span class="right"></span>
+						<p>注册领取<b class="red">20元</b>现金</p>
+					</a>
+					<a href="https://www.chenghuitong.net/borrow/default-index.html" class="btn-r btn2" target="_blank">
+						<span class="left"></span>
+						<span class="middle"></span>
+						<span class="right"></span>
+						<p>首次投资满1000元送<b class="red">30元</b></p>
+					</a>
+				</div>
+				<div class="con2">
+					<span class="txt1">注册并充值<b class="orange">980</b>元，首投<b class="orange">1000</b>元即可获得合计50元现金奖励！</span>
+					<p class="txt2">注册和实名赠送的20元现金请于5月31日前完成首笔投资，否则赠送的20元/10元即会失效。<br>详情请查看诚汇通关于注册赠金的公告</p>
+				</div>
+			</div>
+		</div>
+		<div class="con con3">
+			<div class="title text-center"><img src="../../statics/activity/geyn/image/img3.png"></div>
+			<ul class="rate-list clearfix">
+				<li class="item"><img src="../../statics/activity/geyn/image/jiaxi3.png"></li>
+				<li class="item"><img src="../../statics/activity/geyn/image/jiaxi5.png"></li>
+				<li class="item"><img src="../../statics/activity/geyn/image/jiaxi8.png"></li>
+			</ul>
+			<div id="owlDiya" class="project-list clearfix">
+      {loop $borrowlist $k $vo}
+      <a class="item item<?=$k+1?>" href="<?=url('borrow','default','info',array('id'=>$vo['id']))?>" target="_blank">
+        <!-- 活动标签 -->
+        {if !empty($vo['huodong'])}
+        {/if}
+        <!-- 约标标签 -->
+        {if $vo['is_dxb'] == 1}
+        {/if}
+        <!-- 标志 -->
+        <div class="project-flag">
+          <div class="{if $vo['borrow_type']==2}flg-ya{else}flg-xin{/if}"></div>
+          {if $vo['is_dxb'] == 1}
+          <span class="flg-yue"></span>
+          {/if}
+          {if !empty($vo['zhuanrangren'])}
+          <span class="flg-tuo"></span>
+          {/if}
+          {if $vo['is_dxb'] == 1}
+		   {if $vo['bonus'] != '0.00'}
+           <span class="itooltip flg-jiang" data-toggle="tooltip" data-trigger="hover" data-placement="top" title="含约标另赠奖励">{$vo['bonus']}%</span>
+		   {/if}
+          {elseif $vo['award']==1}
+		  {if $vo['bonus'] != '0.00'}
+          <span class="itooltip flg-jiang" data-toggle="tooltip" data-trigger="hover" data-placement="top" title="投标奖励{$vo['bonus']}元">{$vo['bonus']}元</span>
+		  {/if}
+          {elseif $vo['award']==2}
+		  {if $vo['bonus'] != '0.00'}
+          <span class="itooltip flg-jiang" data-toggle="tooltip" data-trigger="hover" data-placement="top" title="投标奖励{$vo['bonus']}%">{$vo['bonus']}%</span>
+		  {/if}
+          {/if}
+        </div>
+        <!-- 标志 -->
+        <!-- 标题 -->
+        <div class="project-title font16px">{if !empty($vo['zhuanrangren'])}<span style="color:red;">{else}<span>{/if}{$vo['title']}</span></div>
+        <!-- /标题 -->
+        <div class="project-parameter">借款金额 / <span class="color-main bold font16px"><bdo>￥<?=number_format($vo['account'],2)?></bdo></span></div>
+        <div class="project-parameter">还款方式 / <span class="color-main bold font14px ">{if !empty($vo['style'])}<bdo class="text-info">{$borrow_style[$vo['style']]['name']}</bdo> {else}<bdo>{$borrow_style[$vo['style']]['name']}</bdo>{/if}</span></div>
+        <!-- 进度 -->
+        <div class="progress-value"><?=round(($vo['account_tender']/$vo['account'])*100,2)?> %</div>
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:<?=round(($vo['account_tender']/$vo['account'])*100,2)?>%;"></div>
+        </div>
+        <!-- /进度 -->
+        <ul class="project-parameter-ul unlist text-center">
+          <li>
+            <div><span class="color-main font18px bold"><bdo><?=$vo['apr']*100?>%</bdo></span></div>
+            <div>年化利率</div>
+          </li>
+          <li>
+            <div><span class="color-main font18px bold"><bdo>{$vo['time_limit']}{if $vo['is_datetype']==0}个月{else} 天{/if}</bdo></span></div>
+            <div>借款期限</div>
+          </li>
+        </ul>
+        {if $vo['status']==2 }
+        	{if $vo['borrow_type']==4}
+        		<div class="project-btn btn btn-warning">流转中</div>
+        	{else}
+        		<div class="project-btn btn btn-warning">立即投标</div>
+        	{/if}
+        {else}
+        	<div class="project-btn btn btn-primary">{$Borrowstatus[$vo['status']]}</div>
+        {/if}
+      </a>
+      {/loop}
+			</div>
+			<div class="rule">
+				<p class="txt1">：在现有的年化收益基础上， 三月标加息<b class="orange">0.3%</b>、6月标加息<b class="orange">0.5%</b>、12月标加息<b class="orange">0.8%</b>；可同时享受约标、续投奖励。</p>
+				<p class="txt2">：2016年4月21日22：00至2016年5月2日22：00</p>
+				<p class="txt3">：活动结束后，所有收益率均会回归公司正常安排调整计划。</p>
+			</div>
+		</div>
+		<div class="con con4">
+			<div class="title text-center"><img src="../../statics/activity/geyn/image/title3.png"></div>
+			<div class="con4-inner">
+				<div class="state state1">活动期内累计投资满500万即可获得价值<b class="orange2">8999元</b>的大疆无人机Phantom4</div>
+				<div class="state state2">活动期内累计投资满300万即可获得价值<b class="orange2">4999元</b>的大疆无人机Phantom 3 Advanced</div>
+				<div class="state state3">活动期内累计投资满150万即可获得价值<b class="orange2">2199元</b>的大疆无人机Phantom2 航拍飞行器</div>
+				<div class="state state4">活动结束后7个工作日统一安排快递发放，届时您的专属客服会联系您提供收货信息！</div>
+				<a href="https://www.chenghuitong.net/borrow/default-index.html" class="btn-r btn3" target="_blank">
+					<span class="left"></span>
+					<span class="middle"></span>
+					<span class="right"></span>
+					<p>马上去投资</p>
+				</a>
+
+				<div class="video">
+					<embed src="http://player.youku.com/player.php/sid/XMTQ4NzA5NjU0NA==/v.swf" allowFullScreen="true" quality="high" width="350" height="230" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>
+				</div>
+				<div class="rank">
+					<ul class="title-list">
+						<li>
+							<span class="username">用户名</span>
+							<span class="money">累计投资金额</span>
+							<span class="award">获奖详情</span>
+						</li>
+					</ul>
+					<div id="award" class="good-award">
+						<ul>
+							{loop $list $vo}
+							<li>
+								<span class="username"><?=f_name($vo['username'])?></span>
+								<span class="money"><?=$vo['total']?></span>
+								<span class="award">{if $vo['total']>=5000000}Phantom 4{elseif $vo['total']>=3000000}Phantom 3{elseif $vo['total']>=1500000}Phantom 2{else}-{/if}</span>
+							</li>
+							{/loop}
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="content2"></div>
+		<div class="content3">
+			<div class="con">
+				<div class="title"><img src="../../statics/activity/geyn/image/img5.jpg"></div>
+				<div><img src="../../statics/activity/geyn/image/img6.jpg"></div>
+				<div class="title"><img src="../../statics/activity/geyn/image/img7.jpg"></div>
+				<div><img src="../../statics/activity/geyn/image/img8.jpg"></div>
+				<p>注：以上活动的最终解释权归深圳市诚汇通金融信息有限公司所有。</p>
+			</div>
+		</div>
+		<div class="footer">
+			<div class="container">
+				<div class="pull-left">
+					<div class="links">
+						<a href="http://www.chenghuitong.net/article/company-index.html">关于我们</a>
+						<a href="http://www.chenghuitong.net/article/safety-index.html">安全保障</a>
+						<a href="http://www.chenghuitong.net/article/services-help-cateid-3.html">帮助中心</a>
+						<a href="http://www.chenghuitong.net/article/services-index.html">服务中心</a>
+						<a href="http://www.chenghuitong.net/article/default-index.html">新闻中心</a>
+						<a href="http://www.chenghuitong.net/article/company-contact.html">联系我们</a>
+					</div>
+					<div class="copyright">深圳市诚汇通金融信息有限公司<br>深圳市福田区福华三路168号国际商会中心2408-2412室<br>Copyright© 2015 www.chenghuitong.net 粤ICP备13044593号<br>诚汇通所有理财产品均为预期年化收益，最终解释权归诚汇通所有。</div>
+					<div class="beian">
+						<a href="https://cert.ebs.gov.cn/A71F6F48-ABB7-4F8A-92C4-D73F8FA0DE56" target="_blank">
+							<img src="../../statics/activity/geyn/image/need/beian_gswj.jpg" title="深圳市市场监督管理局企业主体身份公示" alt="深圳市市场监督管理局企业主体身份公示">
+						</a>
+						<a href="http://www.miibeian.gov.cn/" target="_blank">
+							<img src="../../statics/activity/geyn/image/need/beian_icp.jpg" title="ICP备案查询" alt="ICP备案查询">
+						</a>
+						<a href="https://search.szfw.org/cert/l/CX20140305003565003628" target="_blank">
+							<img src="../../statics/activity/geyn/image/need/beian_cxwz.jpg" title="诚信网站" alt="诚信网站">
+						</a>
+						<a href="https://ss.knet.cn/verifyseal.dll?sn=e13101844030042941tvh5000000&amp;ct=df&amp;a=1&amp;pa=0.2732217316515744" target="_blank">
+							<img src="../../statics/activity/geyn/image/need/beian_cnnic.png" title="可信网站" alt="可信网站">
+						</a>
+						<a href="https://trustsealinfo.websecurity.norton.com/splash?form_file=fdf/splash.fdf&amp;dn=www.chenghuitong.net&amp;lang=en" target="_blank">
+							<img src="../../statics/activity/geyn/image/need/beian_norton.jpg" title="NORTON" alt="NORTON">
+						</a>
+					</div>
+				</div>
+				<div class="pull-right">
+					<div class="tel">400-018-0107</div>
+					<div class="time">（周一至周五 9:00-17:30）</div>
+					<div class="attention">
+						<a class="weibo" href="http://weibo.com/cht608710" target="_blank"></a>
+						<a class="tweibo" href="http://e.t.qq.com/cht608710" target="_blank"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+<script type="text/javascript" src="../../statics/activity/geyn/js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../../statics/activity/geyn/js/jq_scroll.js"></script>
+<script type="text/javascript" src="../../statics/resource/js/jquery.validate.min.js"></script>
+<script type="text/javascript">
+$(function () {
+	/***向上轮播切换***/
+//	$(window).load(function (e) {
+//		if ($("#award ul li").length > 5) {
+//			$("#award").Scroll({line: 1, speed: 500, timer: 3000, up: "but_up", down: "but_down"});
+//		}
+//	});
+
+	$('#xieyi').click(function() {
+		if (!$(this).attr('checked')) {
+			alert('您必须同意服务协议才能注册本站账号');
+		}
+		$(this).prop('checked', true);
+	});
+
+	$('.btn-register').click(function(){
+		$("#form").submit();
+	});
+
+	$("#form").validate({
+	    errorPlacement:function(error,element) {
+			error.appendTo(element.siblings('.help'));
+		},
+		rules: {
+			username: {
+				required: true,
+				minlength: 3,
+				maxlength: 20,
+				remote: {
+					url: "<?=url('content', 'regedit', 'public_username_ajx')?>".replace(/^https?:\/\/[^\/]+/, '')
+				}
+			},
+ 			phone: {
+				required: true,
+				digits: true,
+				minlength: 11,
+				maxlength: 11,
+				remote: {
+					url: "<?=url('content', 'regedit', 'public_phone_ajx')?>".replace(/^https?:\/\/[^\/]+/, '')
+				}
+ 			},
+			pwd: {
+				required: true,
+				minlength: 8,
+				maxlength: 20
+			},
+			compwd: {
+				required: true,
+				equalTo: "[name='pwd']"
+			}
+		},
+		messages: {
+			username: {
+				required: "用户名不能为空",
+				minlength: "用户名至少3位",
+				maxlength: "用户名至多20位",
+				remote: "该用户名已存在，请重新输入"
+			},
+			phone: {
+				required: "电话号码不能留空",
+				digits: "请输入正确的电话号码",
+				minlength: "目前只接受11位的国内手机号码",
+				maxlength: "目前只接受11位的国内手机号码",
+				remote: "该电话号码已经存在，请重新输入"
+ 			},
+			pwd: {
+				required: "密码不能为空",
+				minlength: "密码至少8位",
+				maxlength: "密码至多20位"
+			},
+			compwd: {
+				required: "确认密码不能为空",
+				equalTo: "确认密码不一致，请重新输入"
+			}
+		}
+	});
+
+	/*注册框动画*/
+	//$(".register_box,.register_mask").animate({"top":"400px"}).animate({top:"120px"}).animate({top:"200px"},500);
+});
+</script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?58b625f2fae8bd6127a23680606506af";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<script type="text/javascript">
+var _py = _py || [];
+_py.push(['a', 'Tm..DUK-NY5HfP8gsyvUJdDDO_']);
+_py.push(['domain','stats.ipinyou.com']);
+_py.push(['e','']);
+-function(d) {
+	var s = d.createElement('script'),
+	e = d.body.getElementsByTagName('script')[0]; e.parentNode.insertBefore(s, e),
+	f = 'https:' == location.protocol;
+	s.src = (f ? 'https' : 'http') + '://'+(f?'fm.ipinyou.com':'fm.p0y.cn')+'/j/adv.js';
+}(document);
+</script>
+<noscript><img src="//stats.ipinyou.com/adv.gif?a=Tm..DUK-NY5HfP8gsyvUJdDDO_&e=" style="display:none;"/></noscript>
+<!--
+参数说明
+_orderno：注册用户ID，需要替换为注册用户的ID值
+-->
+<script>
+!function(w,d,e){
+var _orderno='注册用户ID';  //替换此处!;
+var b=location.href,c=d.referrer,f,s,g=d.cookie,h=g.match(/(^|;)\s*ipycookie=([^;]*)/),i=g.match(/(^|;)\s*ipysession=([^;]*)/);if (w.parent!=w){f=b;b=c;c=f;};u='//stats.ipinyou.com/cvt?a='+e('Tm.HJ.pDmlGBWCbsnDo1LjDl-Py_')+'&c='+e(h?h[2]:'')+'&s='+e(i?i[2].match(/jump\%3D(\d+)/)[1]:'')+'&u='+e(b)+'&r='+e(c)+'&rd='+(new Date()).getTime()+'&OrderNo='+e(_orderno)+'&e=';
+function _(){if(!d.body){setTimeout(_(),100);}else{s= d.createElement('script');s.src = u;d.body.insertBefore(s,d.body.firstChild);}}_();
+}(window,document,encodeURIComponent);
+</script>
+	</body>
+</html>

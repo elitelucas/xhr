@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+        <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+        <script src="statics/admin/js/jquery.js"></script>
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>
+        <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+        <script src="statics/admin/js/bootstrap.min.js"></script>
+        {template public-new-ui-header} 
+        <!-- 图片上传 引入插件 -->
+        <script src="statics/admin/fileupload/js/vendor/jquery.ui.widget.js"></script>
+        <script src="statics/admin/fileupload/js/jquery.fileupload.js"></script>
+        <style>
+            #page{height: 60px;margin-top: 20px;text-align: center;}
+            #page ul li{float: left;margin-right:10px;}
+            #page ul .current{ background-color:#0099ff;text-align:center;}
+            .hide_something{
+                display:none;
+            }
+            .show_something{
+                display:inline-block;
+            }
+            .pic_size_tips {
+                margin-top: 12px;
+                margin-left: 8px;
+            }
+
+        </style>
+    </head>
+    <body class="new_ui_body">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title iboxWTitle">
+            <h5>彩种图片编辑</h5>
+            <div class="ibox-tools">
+                <a  class="btn btn-white btn-bitbucket" id="btn_back">
+                    <i class="fa fa-reply"></i> 返回
+                </a>
+            </div>
+            
+        </div>
+        <div class="ibox-content bagCol">
+            <div class="ibox-title ">
+                <h5>图片信息</h5>
+            </div>
+            <div class="ibox-content m-b" style="width: 100%;">
+                <form id='form_update' method="post" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">彩种名称</label>
+                        <div class="col-sm-3">
+                            <span class="col-sm-8" style="padding-left: 0px;">
+                                <input type="text" class="form-control"  value="{$lottery_info['lottery_name']}" readonly/>
+                            </span>
+                            <span class="col-sm-4 help-block m-b-none"></span>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">移动端（APP、H5）彩种图片</label>
+                        <div class="col-sm-7" id="h5_pic">
+                            {if $lottery_info['h5_pic'] != ''}
+                                <img class="imag_pic" id="img_h5_pic" src="{$lottery_info['h5_pic']}" style="width:420px;height:120px;cursor:pointer;"><br/>
+                            {/if}
+                            <input type="hidden" value="{$lottery_info['h5_pic']}" id="hi_h5_pic" name="hi_h5_pic">
+                            <input class="file_upload" type="file"  name="file" data-validate="required:请选择文件" />
+                            建议上传宽度为114px，高度为114px的图片
+                            <span class=" col-sm-4 help-block m-b-nonesmall_pic_size hide_something pic_size_tips">图片尺寸比例建议2:1 (如350 X 198)，不超过1M</span>
+                            <span class="col-sm-4 help-block m-b-none big_pic_size hide_something pic_size_tips">图片尺寸比例建议3.5:1 (如700 X 200)，不超过1M</span>
+                        </div>
+                    </div>
+                    
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">电脑端（PC）彩种图片</label>
+                        <div class="col-sm-7" id="pc_pic">
+                            {if $lottery_info['pc_pic'] != ''}
+                                <img class="imag_pic" id="img_pc_pic" src="{$lottery_info['pc_pic']}" style="width:280px;height:170px;cursor:pointer;"><br/>
+                            {/if}
+                            <input type="hidden" value="{$lottery_info['pc_pic']}" id="hi_pc_pic" name="hi_pc_pic">
+                            <input class="file_upload"  type="file"  name="file" id="pc_pic" data-validate="required:请选择文件" />
+                            建议上传宽度为285px，高度为236px的图片
+                            <span class=" col-sm-4 help-block m-b-nonesmall_pic_size hide_something pic_size_tips">图片尺寸(如280px * 170px)，不超过1M</span>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">排序</label>
+                        <div class="col-sm-2">
+                            <span class="col-sm-8" style="padding-left: 0px;">
+                                <input type="text" class="form-control"  value="{$lottery_info['sort']}" name="sort" id="sort"/>
+                            </span>
+                            <span class="col-sm-4 help-block m-b-none"></span>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">是否推荐</label>
+                        <div class="col-sm-2">
+                            <select class="form-control" id='is_recommend' name="is_recommend">
+                                <option value="1" {if $lottery_info['is_recommend'] == '1'}selected="selected"{/if}>推荐</option>
+                                <option value="0" {if $lottery_info['is_recommend'] == '0'}selected="selected"{/if}>不推荐</option>
+                            </select>
+                            <span class="col-sm-4 help-block m-b-none"></span>
+                        </div>
+                    </div>
+
+                    <input type='hidden' value="{$lottery_info['lottery_type']}" name='lottery_type'>
+                </form>
+                <div class="form-group">
+                    <div class="col-sm-3 col-sm-offset-3">
+                        <button class="btn btn-primary" type="submit" id="btn_submit">保存</button>
+                        <button class="btn btn-white" id="btn_cancel" type="submit">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <script type="text/javascript">
+            var loading = "";//加载中......
+
+            $(function () {
+                //上传图片
+                $('.file_upload').fileupload({
+                    url: "?m=admin&c=message&a=uploadImg",
+                    sequentialUploads: true
+                }).bind('fileuploaddone', function(e, data) {
+                    var data_index = $(this).data('index');
+                    var div_id = $(this).parent().attr('id');
+                    var res = $.parseJSON(data.result);
+
+                    if (res.status == 0) {
+                        $('#img_' + div_id).attr({
+                            'src': res.data
+                        });
+                        // $('#file_upload').attr({
+                        //     'style': "width:120px; height:120px; float: left; opacity: 0 ; margin-left: -120px"
+                        // });
+                        $('#hi_' + div_id).val(res.data);
+                    } else {
+                        layer.msg(res.data,{icon:5, shade: [0.5, '#393D49']}); //弹出错误信息
+                        return false;
+                    }
+                });
+                $('.imag_pic').click(function () {
+                    $(this).siblings('.file_upload').click();
+                });
+
+                $("#btn_submit").click(function () {
+                    
+                    var formData = new FormData($("#form_update")[0]);
+                    $.ajax({
+                        url: '?m=admin&c=message&a=save_recommend_lottery',
+                        data: formData,
+                        dataType: 'json',
+                        processData: false,
+                        contentType: false,
+                        type: 'post',
+                        beforeSend: function () {
+                            loading = layer.load(1);
+                        },
+                        error: function () {
+                            layer.close(loading);
+                            layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        },
+                        success: function (result) {
+                            layer.close(loading);
+                            
+                            if (parseInt(result.rt) == 0) {
+
+                                layer.msg('保存成功！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                    location.href='?m=admin&c=message&a=recommend_lottery'
+                                });
+                            } else if (result.rt == -1) {
+                                layer.msg('文件上传失败！！！', {icon: 5, shade: [0.5, '#393D49']});
+                            } else {
+                                layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']});
+                            }
+                        }
+                    });
+                });
+
+                //返回列表
+                $("#btn_cancel, #btn_back").click(function () {
+                    location.href = '?m=admin&c=message&a=recommend_lottery';
+                });
+            });
+
+        </script>
+    </body>
+</html>

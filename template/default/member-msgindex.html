@@ -1,0 +1,109 @@
+{template header}
+  <!-- Investor_center -->
+  <link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+  
+  <!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+      <li class="active">我的账户</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->
+  {template member-nav-left}
+    
+    <!-- 右边正文 -->
+    <div class="investor-right pull-right border-radius">
+      <div class="investor-title">站内短信</div>
+      <form id='myform'>
+      <table class="table table-bordered font12px">
+       <tr class="text-center">
+           <td><input type="checkbox" class='checkall'></td>
+         <td>发件人</td>
+         <td>标题</td>
+         <td>接收时间</td>
+       </tr>
+       {loop $list $vo}
+       <tr class="text-center {if $vo['status']}color999 {else}color-main {/if}">
+         <td><input type="checkbox" name='checkboxid[]' value="{$vo['id']}"></td>
+         <td><span class="glyphicon glyphicon-envelope"></span> {if $vo['status']}{$vo['send_username']}{else}{$vo['send_username']}{/if}</td>
+         <td><a href='<?=url('','','disp',array('id'=>$vo['id']))?>'>{if $vo['status']}{$vo['title']}{else}<strong>{$vo['title']}</strong>{/if}</a></td>
+         <td><?=date('Y-m-d H:i:s',$vo['addtime'])?></td>
+       </tr>
+       {/loop}
+       <tr>
+          <td style="height:80px; text-align:right;" colspan="5"><div class="fanye"> <?php echo $page['html'];?> </div></td>
+        </tr>
+       <tr class="text-right">
+         <td colspan="4">
+           <a class="btn btn-default" href="javascript:void(0);">删除</a>
+           <a class="btn btn-warning" href="javascript:void(0);">标记为已读</a>
+         </td>
+       </tr>
+      </table>
+      </form>
+     </div> 
+  </div>
+  <script type="text/javascript">
+    /*选择*/
+    $('.checkall').click(function() {
+        if(this.checked){ 
+            $("input[name='checkboxid[]']").each(function(){this.checked=true;}); 
+        }else{ 
+            $("input[name='checkboxid[]']").each(function(){this.checked=false;}); 
+        }          
+    });
+    
+     /*删除*/
+    $('.btn-default').click(function() {
+    	if($('[name="checkboxid[]"]:checked').length==0){
+    		alert('请选择需要删除的消息!');
+    		return;
+    	}
+        if (confirm('您确定要删除吗？')) {  		
+			$.ajax({
+				url: "<?=url('','','public_delmsg_ajax')?>",
+				type: 'POST',
+				data: $('#myform').serialize(),
+				dataType: 'json',
+				success: function(data){
+					if(data){
+						alert('删除成功!');
+						window.location.href="<?=url('','','index')?>";
+					}else
+					{						
+						alert('删除失败!');
+					}
+				}
+			});
+        }
+    });
+    
+    /** 标记为已读   */
+    $('.btn-warning').click(function(){
+    	if($('[name="checkboxid[]"]:checked').length==0){
+    		alert('请选择需要标记为已读的消息!');
+    		return;
+    	}
+    	if(confirm('您确定要标记为已读吗?')){    		
+			$.ajax({
+				url: "<?=url('','','public_isread_ajax')?>",
+				type: 'POST',
+				data: $('#myform').serialize(),
+				dataType: 'json',
+				success: function(data){
+					if(data){
+						alert('标记成功!');
+						window.location.href="<?=url('','','index')?>";
+					}else
+					{						
+						alert('标记失败!');
+					}
+				}
+			});
+    	}
+    });
+    </script>
+{template footer}

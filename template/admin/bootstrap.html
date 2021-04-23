@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <title></title>
+        <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+      <!--  <link rel="stylesheet" href="statics/admin/css/pintuer.css"> -->
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>
+        <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+        <script src="statics/admin/js/pintuer.js"></script>
+
+        <!-- template-begin+++ -->
+        {template public-new-ui-header}
+        <!-- template-end+++ -->
+        <!-- <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> --> -->
+        <script src="statics/admin/js/jquery.date_input.pack.js"></script>      
+        <style type='text/css'>
+            #page{height: 60px;margin-top: 20px;text-align: center;}
+            #page ul li{float: left;margin-right:10px;}
+            #page ul .current{ background-color:#0099ff;text-align:center;}
+            .table td div.username{
+                height: 23px;
+                overflow: hidden;
+                white-space:nowrap;
+                text-overflow: ellipsis;
+            }
+        .table tbody tr td{
+            vertical-align: middle;
+        }
+        .table>thead>tr>th {
+            vertical-align: middle;
+        }
+        </style>
+    </head>
+
+    <?php
+    $view_title = '';
+    if(isset($_GET['flag']) && $_GET['flag']==1){
+        if ($data['team'] != '') {
+            $view_title = '团队在线会员列表';
+        } else {
+            $view_title = '在线会员列表';
+        }
+    }else{
+        if ($data['team'] != '') {
+            $view_title = '团队会员列表';
+        } else {
+            $view_title = '会员列表';
+        }
+    }?>
+    <body style="margin: 15px;background-color: #f3f3f4;">
+        <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title iboxWTitle">
+                    <h5>{$view_title}</h5>
+                    <div class="ibox-tools">
+                        <a href="javascript:void(0);" class="btn btn-primary" x-style="float:right; display:none;">新增假人</a>
+                    </div>
+                </div>
+                <div class="ibox-content" style="width: 100%;">
+                    <div class="row">
+                        <form action='' id="form" class="form-inline">
+
+                            <div class="col-sm-2">
+                                <div class="input-group m-b"><span class="input-group-addon">会员账号</span>
+                                    <input type="text" placeholder="会员账号" class="form-control" id="username">
+                                </div>
+                            </div>
+                            <!-- <div class="col-sm-2">
+                                <div class="input-group m-b"><span class="input-group-addon">会员姓名</span>
+                                    <input type="text" placeholder="会员姓名" class="form-control" id="realname">
+                                </div>
+                            </div> -->
+                            <div class="col-sm-2">
+                                <div class="input-group m-b"><span class="input-group-addon">会员昵称</span>
+                                    <input type="text" placeholder="会员昵称" class="form-control" id="nickname">
+                                </div>
+                            </div>
+
+                            {if in_array(2,$show_user_info)}
+                            <div class="col-sm-2">
+                                <div class="input-group m-b"><span class="input-group-addon">会员微信</span>
+                                    <input type="text" name="weixin" placeholder="会员微信" class="form-control" id="weixin">
+                                </div>
+                            </div>
+                            {/if}
+
+                            {if in_array(3,$show_user_info)}
+                            <div class="col-sm-2">
+                                <div class="input-group m-b"><span class="input-group-addon">会员手机</span>
+                                    <input type="text" name="mobile" placeholder="会员手机" class="form-control" id="mobile">
+                                </div>
+                            </div>
+                            {/if}
+                            {if in_array(1,$show_user_info)}
+                            <div class="col-sm-2">
+                                <div class="input-group m-b"><span class="input-group-addon">银行名</span>
+                                    <input type="text" name="bankname" placeholder="银行名" class="form-control" id="bankname">
+                                </div>
+                            </div>
+                            {/if}
+
+                            <div class="col-sm-2">
+                                <div class="input-group m-b"><span class="input-group-addon">银行账号</span>
+                                    <input type="text" name="bankaccount" placeholder="银行账号" class="form-control" id="bankaccount">
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="input-group m-b"><span class="input-group-addon">常用IP</span>
+                                    <input type="text" name="loginip" placeholder="常用IP" class="form-control" id="loginip">
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="input-group m-b"><span class="input-group-addon">注册时间</span>
+                                    <input type="text" name="regtime" placeholder="注册时间" class="form-control" id="datePicker">
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="input-group m-b"><span class="input-group-addon">最后登录域名</span>
+                                    <input type="text" name="last_login_source" placeholder="最后登录域名" class="form-control" id="last_login_source">
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="input-group m-b"><span class="input-group-addon">会员姓名</span>
+                                    <input type="text" name="realname" placeholder="会员姓名" class="form-control" id="realname">
+                                </div>
+                            </div>
+                            
+                            <div class="col-sm-2">
+                                <div class="input-group m-b"><span class="input-group-addon">状态</span>
+                                <select name="state" class="form-control" id="state">
+                                    <option value="">全部</option>
+                                    <option value="0" {if $data['state']==='0'} selected {/if}>正常</option>
+                                    <option value="1" {if $data['state']==1} selected {/if}>监控</option>
+                                    <option value="2" {if $data['state']==2} selected {/if}>禁用</option>
+                                </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="input-group m-b"><span class="input-group-addon">会员组</span>
+                                <select name="group_id" class="form-control" id="group_id">
+                                    <option value="">全部</option>
+                                    {loop $group $v}
+                                    <option value="{$v['id']}" {if $data['group_id']=={$v['id']}} selected{/if}>{$v['name']}</option>
+                                    {/loop}
+                                </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="input-group m-b"><span class="input-group-addon">会员层级</span>
+                                <select name="layer_id" class="form-control" id="layer_id">
+                                    <option value="">全部</option>
+                                    {loop $layer $l}
+                                    <option value="{$l['layer']}" {if $data['layer_id']=={$l['layer']}} selected{/if}>{$l['layer']}</option>
+                                    {/loop}
+                                </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="input-group m-b"><span class="input-group-addon">最后登录时间</span>
+                                <select name="lastlogintime" class="form-control" id="lastlogintime">
+                                    <option value="">选择</option>
+                                    <option {if $data['lastlogintime']==='86400'} selected {/if} value="86400">一天</option>
+                                    <option {if $data['lastlogintime']==='604800'} selected {/if} value="604800">一周</option>
+                                    <option {if $data['lastlogintime']==='2592000'} selected {/if} value="2592000">一月</option>
+                                    <option {if $data['lastlogintime']==='7776000'} selected {/if} value="7776000">一季</option>
+                                </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="input-group m-b"><span class="input-group-addon">用户类型</span>
+                                <select name="rg_type" class="form-control" id="rg_type">
+                                    <option value="0" {if $data['rg_type']==''} selected {/if}>正常用户</option>
+                                    <option value="8" {if $data['rg_type']==8} selected {/if}>游客</option>
+                                    <option value="11" {if $data['rg_type']==11} selected {/if}>假人</option>
+                                </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="input-group m-b"><span class="input-group-addon">在线状态</span>
+                                <select name="online" class="form-control" id="online">
+                                    <option value="">全部</option>
+                                    <option value="1" {if $data['online']==1} selected {/if}>在线</option>
+                                    <option value="2" {if $data['online']==2} selected {/if}>离线</option>
+                                </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="input-group m-b"><span class="input-group-addon">排序</span>
+                                <select name="sort" class="form-control" id="sort">
+                                    <option value="0">选择</option>
+                                    <option value="1" {if $data['sort']==1} selected {/if}>注册时间</option>
+                                    <option value="2" {if $data['sort']==2} selected {/if}>最后登录时间</option>
+                                    <option value="3" {if $data['sort']==3} selected {/if}>现金余额</option>
+                                </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <div class="input-group m-b">
+                                    <!-- <span class="input-group-addon">按钮</span> -->
+                                    <button type="button" class="btn btn-primary" id="submit_btn">搜索</button>
+                                    &nbsp;
+                                    <button type="button" class="btn btn-primary" id="cancel_btn">重置</button>
+                                    <!-- <button type="button" class="btn btn-info" id="getValue">设置会员层级</button> -->
+                                </div>
+                            </div>
+
+
+                            <!-- <div class="form-group hidden">
+                                <label for="sort">排序：</label>
+                                <input type="text"  name="team" value="{$data['team']}"/>
+                            </div> -->
+                        </form>
+                    </div>
+                    <div id="editable_wrapper" class="dataTables_wrapper form-inline" role="grid" style="width: 100%">
+                        <table class="table table-striped table-bordered table-hover  dataTable" id="editable" aria-describedby="editable_info">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>账号</th>
+                                <th>姓名</th>
+                                <th>昵称</th>
+                                <!-- <th>手机号</th> -->
+                                <!-- <th>直属上级</th> -->
+                                <!-- <th>卡号</th> -->
+                                <th>可用余额</th>
+                                <th>冻结金额</th>
+                                <!-- <th>常用IP</th> -->
+                                <th>会员组</th>
+                                <!-- <th>会员层级</th> -->
+                                <th>状态</th>
+                                <th>注册时间</th>
+                                <th>最后登录时间</th>
+                                <!-- <th>最后登录设备</th> -->
+                                <!-- <th>最后登录域名</th> -->
+                                <!-- <th>用户来源</th> -->
+                                <th>团队</th>
+                                <th>直属会员</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody id="list">
+
+                            <tr class="odd" style="display: none"></tr>
+                            <?php foreach($userinfo as $k=>$v){?>
+                            <tr>
+                                <td>
+                                    {$v['id']}
+                                </td>
+                                <td title="{$v['username']}"><a onclick="detail('{$v['id']}')" href="javascript:;" style="color: #0099ff;"><div class="username">{$v['username']}</div></a></td>
+                                {if in_array(1,$show_user_info)}
+                                <td>{$v['realname']}</td>
+                                <td>{$v['nickname']}</td>
+                                {else}
+                                <td></td>
+                                <td></td>
+                                {/if}
+                                <!-- {if in_array(3,$show_user_info)}
+                                <td><?php echo decrypt($v['mobile']);?></td>
+                                {else}
+                                <td></td>
+                                {/if}
+                                <td title="{$v['parent']}"><div class="username">{$v['parent']}</div></td>
+                                <td><?php echo decrypt($v['account']);?></td> -->
+                                <td>{$v['money']}</td>
+                                <td>{$v['money_freeze']}</td>
+                                <!-- <td>{if $v['login_ip_attribution'] == ''} {$v['loginip']} {else} {$v['loginip']}({$v['login_ip_attribution']}){/if}</td> -->
+                                <td>{$v['name']}</td>
+                                <!-- <td>{$v['layer_id']}</td> -->
+                                <td>{$v['state']}</td>
+                                <td>{$v['regtime']}</td>
+                                <td>{$v['logintime']}</td>
+                                <!-- <td>
+                                    {if $v['device_flag'] == '1'}
+                                        iOS
+                                    {elseif $v['device_flag'] == '2'}
+                                        Android
+                                    {elseif $v['device_flag'] == '3'}
+                                        H5
+                                    {else}
+                                        --
+                                    {/if}
+                                </td>
+                                <td>{$v['last_login_source']}</td>
+                                <td>{$v['source']}</td> -->                                
+                                <td><a onclick="team('{$v['id']}')" href="javascript:;" style="color: #0099ff;">查看</a></td>
+                                <td><a onclick="leaguer('{$v['id']}')" href="javascript:;" style="color: #0099ff;">查看</a></td>
+                                <td style="font-size:20px;">
+                                    <a href="javascript:void(0)" onclick="offUser({$v['id']})" style="color: #0099ff;" title="强制踢线-1"><i class="fa fa-check-square"></i></a>
+                                    <a href="javascript:void(0)" onclick="offUser({$v['id']})" style="color: #0099ff;" title="强制踢线-2"><i class="fa fa-check-square-o"></i></a>
+                                    <a href="javascript:void(0)" onclick="offUser({$v['id']})" style="color: #0099ff;" title="强制踢线-3"><i class="fa fa-circle"></i></a>
+                                    <a href="javascript:void(0)" onclick="offUser({$v['id']})" style="color: #0099ff;" title="强制踢线-4"><i class="fa fa-circle-o"></i></a>
+                                    <a href="javascript:void(0)" onclick="offUser({$v['id']})" style="color: #0099ff;" title="强制踢线-5"><i class="fa fa-dot-circle-o"></i></a>
+                                    <a href="javascript:void(0)" onclick="offUser({$v['id']})" style="color: #0099ff;" title="强制踢线-6"><i class="fa fa-minus-square"></i></a>
+                                    <a href="javascript:void(0)" onclick="offUser({$v['id']})" style="color: #0099ff;" title="强制踢线-7"><i class="fa fa-minus-square-o"></i></a>
+                                    <a href="javascript:void(0)" onclick="offUser({$v['id']})" style="color: #0099ff;" title="强制踢线-8"><i class="fa fa-plus-square"></i></a>
+                                    <a href="javascript:void(0)" onclick="offUser({$v['id']})" style="color: #0099ff;" title="强制踢线-9"><i class="fa fa-plus-square-o"></i></a>
+                                </td>
+                            </tr>
+                            <?php }?>
+                            </tbody>
+                        </table>
+
+                            <!-- <tfoot>
+                            <tr>
+                                <td colspan="21" style="text-align: right;padding-right: 100px;">
+                                    <span style="<?php echo Session::get('style'); ?>">总计现金余额：<?php if(empty($moneyTJ[0]['countMoney'])){echo 0;}else{echo $moneyTJ[0]['countMoney'];} ?></span>&nbsp;&nbsp;&nbsp;&nbsp;当前页现金余额：{$countNum}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="22" {if $show == ''}style="display:none;"{/if}>
+                                    <div class="pagelist" id='page' style="{if $show == ''}display:none;{/if}">
+                                        <?php echo $show;?>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tfoot> -->
+
+                        
+                    </div>
+                    <div class="row">
+                            <div class="col-sm-6">
+                                <div class="dataTables_info" id="editable_info" role="alert" aria-live="polite"
+                                     aria-relevant="all">
+                                     <span class="back-page">总计可用余额 </span>
+                                     <?php if(empty($moneyTJ[0]['countMoney'])){echo 0;}else{echo $moneyTJ[0]['countMoney'];} ?>
+                                     &nbsp;&nbsp;&nbsp;&nbsp;
+                                     <span class="back-page">当前页可用余额 </span>
+                                     {$countNum}
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="right back-page">
+                                    <span class="left">共&nbsp;100&nbsp;条记录&nbsp;&nbsp;</span>
+                                    <select class="left" onchange="showUsersPre(1,this.value)">
+                                        <option value="5">每页5条</option>
+                                        <option value="10" selected="selected">每页10条</option>
+                                        <option value="20">每页20条</option>
+                                    </select>
+                                    <input type="text" value="" class="inputVal"><button class="GOButton">GO</button>
+                                    <span class="back-page-num left">1/111</span>
+
+                                    <a href="javascript:void(0)" data-title="返回首页" class="iconfont left unable"><i class="fa fa-angle-double-left"></i> </a>
+                                    <a href="javascript:void(0);" data-title="上一页" class="iconfont left unable"><i class="fa fa-angle-left"></i> </a>
+
+                                    <a href="javascript:void(0)" onclick="showUsersPre(2,10)" title="下一页" class="iconfont left"><i class="fa fa-angle-right"></i> </a>
+                                    <a href="javascript:void(0)" onclick="showUsersPre(111,10)" title="跳到尾页" class="iconfont left"><i class="fa fa-angle-double-right"></i> </a>
+
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <script type="text/javascript">
+            loading = '';
+            function offUser(id)
+            {
+                layer.confirm('是否将该用户强制踢线？', {icon: 3, title:'确认'}, function(){
+                    var data = {'uid':id,}
+                    $.ajax({
+                        url: "?m=admin&c=user&a=forcedKick",
+                        data:data,
+                        dataType: 'json',
+                        type: 'post',
+                        beforeSend: function () {
+                            loading = layer.load(1);
+                        },
+                        error: function () {
+                            layer.close(loading);
+                            layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        },
+                        success: function (data) {
+                            if(data['code'] != 0)
+                            {
+                                layer.msg(data['msg'], {icon: 5, shade: [0.5, '#393D49']}, function () {
+                                    return false;
+                                });
+                            }
+                            else
+                            {
+                                layer.msg(data['msg'], {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                    location.href = "?m=admin&c=user&a=lst";
+                                });
+                            }
+                        },
+                        complete:function(){
+                            layer.close(loading);
+                        }
+                    });
+                });
+            }
+            //会员详情
+            function detail(id){
+                location.href="?m=admin&c=user&a=detail&id=" + id;
+            }
+            
+            //团队记录
+            function team(id){
+                location.href = "?m=admin&c=user&a=lst&team=" +　id;
+            }
+            
+          //直属会员记录
+            function leaguer(id){
+                location.href = "?m=admin&c=user&a=leaguerList&type=1&team=" +　id;
+            }
+            
+            leaguer
+            //检测全选
+            function allchk(){
+                var chknum = $("#list :checkbox").size();//选项总个数
+                var chk = 0;
+                $("#list :checkbox").each(function () {
+                    if($(this).prop("checked")==true){
+                        chk++;
+                    }
+                });
+                if(chknum==chk){//全选
+                    $("#all").prop("checked",true);
+                }else{//不全选
+                    $("#all").prop("checked",false);
+                }
+            }
+            //时间插件
+            $(function () {
+                //全选或全不选
+                $("#all").click(function(){
+                    if(this.checked){
+                        $("#list :checkbox").prop("checked", true);
+                    }else{
+                        $("#list :checkbox").prop("checked", false);
+                    }
+                });
+                //设置全选复选框
+                $("#list :checkbox").click(function(){
+                    allchk();
+                });
+                //获取选中选项的值
+                $("#getValue").click(function(){
+                    var valArr = new Array;
+                    $("#list :checkbox[checked]").each(function(i){
+                        valArr[i] = $(this).val();
+                    });
+                    var vals = valArr.join(',');
+                    if(vals == ''){
+                        layer.msg("请选择要设置的用户！！！", {icon: 5, shade: [0.5, '#393D49']});
+                        return false;
+                    }
+                    var index = layer.open({
+                        type: 2,
+                        title: "设置会员层级",
+                        content: "<?=url('','',setUserLayer)?>"+"&ids="+vals,
+                        end:function () {
+                            location.reload(true);
+                        }
+                    });
+                    layer.full(index);
+                });
+                $('#datePicker').date_input();
+                $("#submit_btn").click(function () {
+                    var regtime = $("#datePicker").val();
+                    var reg = /^(\d{4})-(0\d{1}|1[0-2])-(0\d{1}|[12]\d{1}|3[01])$/;
+                    if(regtime != "" && !reg.test(regtime)){
+                        layer.msg('注册时间格式不正确！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        return false;
+                    }
+                    location.href = "?m=admin&c=user&a=lst&" + $("#form").serialize();
+                });
+                $("#cancel_btn").click(function () {
+                    location.href = "?m=admin&c=user&a=lst";
+                });
+                $(".table .username").click(function(){
+                    $(this).toggleClass("username");
+                });
+                
+                
+                $("#hplus").click(function () {
+                    location.href = "?m=admin&c=user&a=hplus";
+                });
+                $("#bootstrap").click(function () {
+                    location.href = "?m=admin&c=user&a=bootstrap";
+                });
+            });
+        </script>
+    </body>
+</html>

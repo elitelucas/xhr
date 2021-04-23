@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>个人中心</title>
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+    <!-- Validform -->
+    <link rel="stylesheet" href="/statics/web/extend/Validform_v5.3.2/css/style.css" type="text/css" media="all" />
+    <script type="text/javascript" src="/statics/web/extend/Validform_v5.3.2/js/Validform_v5.3.2_min.js"></script>
+    <!-- Validform - end -->
+
+    <!-- layer -->
+    <!-- <link rel="stylesheet" href="/statics/web/extend/layui/css/layui.css">
+    <script src="/statics/web/extend/layui/layui.js"></script> -->
+    <script src="/statics/web/extend/layer/mobile/layer.js"></script>
+    <!-- layer - end -->
+</head>
+<body>
+<header>
+    <em onclick="history.go(-1)">返回</em>
+    <h1>选择默认头像</h1>
+
+</header>
+<section class="set_icon">
+    <div class="set_icon_defult">
+
+        <ul>
+
+        </ul>
+
+        <button class="" id="iconSave">保存头像</button>
+    </div>
+</section>
+<script>
+    var avatar_num;
+    var sendData = {};
+    var token = '{$token}';
+    sendData.token = token;
+
+    $(function(){
+        Ajax();
+        $("#iconSave").click(function(){
+            sendData.h5 = 1;
+            sendData.avatar_url = avatar_num;
+            $.ajax({///?m=api&c=user&a=saveDefaultAvatar
+                url : '?m=api&c=user&a=saveDefaultAvatar',
+                type : 'post',
+                data : sendData,
+                dataType:"json",
+                success: function(data){
+                    if(data.status==0){
+                        console.log(data);
+                        window.location.href = '?m=web&c=user&a=userInfo';
+                    }else{
+                        layer.open({
+                            content: data.ret_msg,
+                            skin: 'msg',
+                            time: 2 //2秒后自动关闭
+                        });
+                    }
+                },
+                error: function(error) {
+                    layer.open({
+                        content: '服务器出错了',
+                        skin: 'msg',
+                        time: 2 //2秒后自动关闭
+                    });
+                }
+            });
+        })
+    })
+    //clipArea.destroy();
+    function Ajax(){
+        $.ajax({
+            url : "?m=api&c=avatar&a=avatarList",
+            type : 'post',
+            data : sendData,
+            dataType:"json",
+            success: function(data){
+                if(data.status==0){
+                    console.log(data);
+                    var html = '';
+                    var len = data.avatar_list.length;
+                    for(var i=0; i<len; i++){
+                        html += '<li data-id="'+data.avatar_list[i].id+'"><img src="'+data.avatar_list[i].avatar_url+'" alt=""/></li>'
+                    }
+                    $(".set_icon_defult ul").append(html);
+
+                    $(".set_icon_defult ul li").click(function(){
+                        avatar_num = $(this).find("img").attr("src");
+                        $(this).addClass("active").siblings().removeClass("active");
+                        $(this).append('<div class="sel"></div>').siblings().find(".sel").remove();
+                    })
+
+                }else{
+                    layer.open({
+                        content: data.ret_msg,
+                        skin: 'msg',
+                        time: 2 //2秒后自动关闭
+                    });
+                }
+            },
+            error: function(error) {
+                layer.open({
+                    content: '服务器出错了',
+                    skin: 'msg',
+                    time: 2 //2秒后自动关闭
+                });
+            }
+        });
+    }
+</script>
+</body>
+</html>

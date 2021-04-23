@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="../css/reset.css"  rel="stylesheet" type="text/css">
+    <link href="../css/css.css"  rel="stylesheet" type="text/css">
+    <link href="../css/lyz.calendar.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="../js/jquery-1.5.1.js"></script>
+    <script src="../js/lyz.calendar.min.js" type="text/javascript"></script>
+    <title>pc手游</title>
+</head>
+<body>
+<div class="layout">
+    <div class="head">
+        <div class="fl head-fl">
+            <a>PC客户端</a>
+            <a>手机客户端</a>
+            <a>快速登录器</a>
+            <a>防劫持教程</a>
+        </div>
+        <div class="fr head-fr" style="display: ">
+            <ul>
+                <li><div class="input-warp"><input type="text" placeholder="账号"><i class="ico ico-user"></i></div></li>
+                <li><div class="input-warp"><input type="text" placeholder="密码"><i class="ico ico-pas"></i></div></li>
+                <li><button class="btn-red">立即登录</button></li>
+                <li><button class="btn-white">立即注册</button></li>
+                <li><button class="btn-blue">游客试玩</button></li>
+                <li><a class="forgot-pas" href="#">忘记密码</a> </li>
+                <li><div class="china"><span>|</span><em>CH</em></div></li>
+            </ul>
+        </div>
+        <div class="fr head-login" style="display:none ">
+            <ul>
+                <li><a href="#" class="ico ico-news"><em></em></a></li>
+                <li><a href="#">平台公告</a></li>
+                <li><a href="#">个人中心<i class="ico ico-bot"></i></a></li>
+                <li><a href="#"><i class="ico ico-user2"></i>余额：0.00元<i class="ico ico-bot"></i></a></li>
+                <li><a href="#">充值</a></li>
+                <li><a href="#">提款</a></li>
+                <li><a href="#"><i class="ico ico-cus"></i>客服</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="nav">
+    <div class="layout">
+        <div class="logo fl"><img></div>
+        <ul>
+            <li><a class="active" href="#">购彩大厅</a></li>
+            <li><a href="#">彩票开奖</a></li>
+            <li><a href="#">优惠活动</a></li>
+            <li><a href="#">手机APP</a></li>
+            <li><a href="#">玩法介绍</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="layout">
+    <div class="my clearfix">
+        <div class="my-fl fl">
+            <ul>
+                <li><a href="#"><i class="ico ico-my"></i>个人资料</a></li>
+                <li><a href="#"><i class="ico ico-my"></i>代理制度</a></li>
+                <li><a href="#"><i class="ico ico-my"></i>代理分享</a></li>
+                <li><a href="#"><i class="ico ico-my"></i>投注记录</a></li>
+                <li><a href="#" class="active"><i class="ico ico-my"></i>团队管理<i class="ico ico-bot2"></i></a>
+                    <ul>
+                        <li><a href="#" class="active"><i class="ico ico-right"></i>会员报表</a></li>
+                        <li><a href="#"><i class="ico ico-right"></i>团队报表</a></li>
+                        <li><a href="#"><i class="ico ico-right"></i>自身统计</a></li>
+                        <li><a href="#"><i class="ico ico-right"></i>下线开户</a></li>
+                    </ul>
+                </li>
+                <li><a href="javascript:void(0);" ><i class="ico ico-my"></i>平台设置<i class="ico ico-bot1"></i></a>
+
+                    <ul>
+                        <li><a href="#"><i class="ico ico-right"></i>修改登陆密码</a></li>
+                    </ul>
+
+                </li>
+            </ul>
+        </div>
+        <div class="my-fr fr">
+            <h1>团队管理-会员报表</h1>
+            <div class="my-con">
+                <div class="table-top clearfix">
+                    <div>
+                        <span>搜索类型：</span>
+                        <select>
+                            <option>全部</option>
+                        </select>
+                        &nbsp;&nbsp;
+                        <input type="text">
+                    </div>
+                    <div>
+                        <span>起止时间：</span>
+                        <input type="text" id="txtBeginDate">
+                        <span>&nbsp;至&nbsp;</span>
+                        <input type="text" id="txtEndDate">
+                    </div>
+                    <script>
+                        $(function () {
+                            $("#txtBeginDate").calendar();
+                            $("#txtEndDate").calendar();
+                        })
+                    </script>
+                    <!--<div>-->
+                        <!--<span>彩种：</span>-->
+                        <!--<select>-->
+                            <!--<option>全部</option>-->
+                        <!--</select>-->
+                    <!--</div>-->
+                    <!--<div>-->
+                        <!--<span>状态：</span>-->
+                        <!--<select>-->
+                            <!--<option>全部</option>-->
+                        <!--</select>-->
+                    <!--</div>-->
+                    <div>
+                        <button class="btn-red">查询</button>
+                    </div>
+
+                </div>
+                <div class="table-wap">
+                    <dl>
+                        <dt>账号</dt>
+                        <dt>会员类型</dt>
+                        <dt>投注</dt>
+                        <dt>盈利</dt>
+                        <dt>注册日期</dt>
+                        <dt>状态</dt>
+                        <!--<dt>状态</dt>-->
+                        <!--<dt>操作</dt>-->
+                        <!--<dt>附加码</dt>-->
+                    </dl>
+                    <dl>
+                        <dd>asd123</dd>
+                        <dd>普通会员</dd>
+                        <dd>5.00</dd>
+                        <dd>50000000.00</dd>
+                        <dd>2017-06-01 14:18:04</dd>
+                        <dd>离线</dd>
+                        <!--<dd>处理中</dd>-->
+                        <!--<dd></dd>-->
+                        <!--<dd>ENASHD</dd>-->
+                    </dl>
+                </div>
+                <div class="page">
+                    <em class="ico ico-page-fl"></em>
+                    <a href="javascript:void(0);" class="active">1</a>
+                    <a href="javascript:void(0);">2</a>
+                    <a href="javascript:void(0);">3</a>
+                    <a href="javascript:void(0);">4</a>
+                    <a href="javascript:void(0);">5</a>
+                    <span style="padding-left: 0">...</span>
+                    <em class="ico ico-page-fr"></em>
+                    <span>第一页，共10页</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="copyright">
+    <div class="layout">
+        <div class="copyright-top">
+            <div class="copyright-logo"><img src="logo" /> </div>
+        </div>
+        <div class="copyright-bot">
+            <div class="fl">
+                <p>© 2011-2017 购彩游戏版权所有 <span>菲律宾政府PAGCOR博彩牌照认证</span></p>
+                <p>购彩游戏郑重提示：彩票有风险，投注需谨慎，不向未满18周岁的青少年出售彩票</p>
+            </div>
+
+            <div class="authorized fr">
+                <p>权威认证资质</p>
+                <div class="item-box">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

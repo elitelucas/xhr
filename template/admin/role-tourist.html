@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <!--  <link rel="stylesheet" href="statics/admin/css/pintuer.css"> -->
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+
+    <!-- template-begin+++ -->
+    {template public-new-ui-header}
+    <!-- template-end+++ -->
+
+</head>
+<body style="margin: 15px;background-color: #f3f3f4;">
+<div class="ibox float-e-margins">
+    <div class="ibox-title iboxWTitle">
+        <h5>游客名称设置</h5>
+    </div>
+    <div class="ibox-content bagCol">
+        <div class="ibox-title">
+            <h5>详情</h5>
+            <div class="ibox-tools">
+                <a class="btn btn-white btn-bitbucket btn_sure" id="update" data-title="修改"><i class="fa fa-pencil"></i> </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <form method="post" class="form-horizontal" id="form">
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">游客名称前缀设置</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" name="tourist" value="{$res['value']}" disabled="disabled" />
+                        <p style="color: gray;padding-top: 10px;">1-5个(中文,数字,下滑线)字符,不能以下滑线和0开头</p>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+
+    $("#update").click(function(){
+        $(this).parent().html('<a class="btn btn-white btn-bitbucket btn_sure" onclick="rechar()" data-title="保存"><i class="fa fa-save"></i></a>')
+        $(this).remove();
+        $("input").attr("disabled",false);
+    })
+    function rechar() {
+        var tourist = $.trim($('input[name=tourist]').val());
+        var re = /^(?![_0])[\u4e00-\u9fa5_a-zA-Z0-9_]{1,5}$/;
+        if(!re.test(tourist)){
+            layer.msg('名称前缀为1-5个(中文,数字,下滑线)字符,不能以下滑线和0开头', {icon: 5, shade: [0.5, '#393D49'],time:3000});
+            return false;
+        }
+        $.ajax({
+            type: 'POST',
+            url: '?m=admin&c=role&a=tourist',
+            dataType: 'json',
+            data:{"tourist":tourist},
+            success: function (msg) {
+                if (msg.state) {
+                    layer.msg('设置成功', {icon: 6, shade: [0.5, '#393D49']},function(){
+                        location.reload();
+                    });
+                } else {
+                    layer.msg('设置失败', {icon: 5, shade: [0.5, '#393D49']});
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>

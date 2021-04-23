@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <title></title>
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+        <script src="statics/admin/js/pintuer.js"></script>  
+        <script src="statics/admin/js/jquery.date_input.pack.js"></script>  
+        <style type='text/css'>
+
+            #page{height: 60px;margin-top: 20px;text-align: center;}
+            #page ul li{float: left;margin-right:10px;}
+            #page ul .current{ background-color:#0099ff;text-align:center;}
+        </style>
+    </head>
+    <body>
+        <form action='?m=admin&c=user&a=blacklist' method='post'>
+            <div class="panel admin-panel">
+                <div class="panel-head"><strong class="icon-reorder"> 黑名单</strong> <a href="" style="float:right; display:none;">添加字段</a></div>
+                <div class="padding border-bottom">
+                    <ul class="search" style="padding-left:10px;">
+                        <li>
+                            会员账号：<input type="text" placeholder="" name="username" class="input" style="width:130px; line-height:17px;display:inline-block" value="{$param['username']}"/>
+                        </li>
+                        {if $show_user_info == 1}
+                        <li>
+                            真实姓名：<input type="text" placeholder="" name="realname" class="input" style="width:130px; line-height:17px;display:inline-block" value="{$param['realname']}"/>
+                        </li>
+                        {/if}
+                        <li>
+                            IP地址：<input type="text" placeholder="" name="regip" class="input" style="width:130px; line-height:17px;display:inline-block" value="{$param['regip']}"/>
+                        </li>
+                        <li>
+                            <input type="submit" class="button border-main icon-search" value='搜索'>&nbsp;&nbsp;
+                            <input type="button" onclick="resets()" class="button border-main icon-search" value='重置'>
+                        </li>
+                    </ul>
+                </div>
+                <table class="table table-hover text-center">
+                    <tr>
+                        <th width="5%">账号</th>     
+                        <th>真实姓名：</th>  
+                        <th>IP</th>
+                        <th>IP归属地</th>
+                        <th>添加时间</th>		 
+                        <th width="250">备注</th>
+                    </tr>
+                    {loop $data $v}
+                    <tr height='30'>
+                        <td><?php echo $v['username'];?></td>   
+                        <td>{if $show_user_info == 1}<?php echo $v['realname'];?>{/if}</td> 
+                        <td><?php echo $v['regip'];?></td>
+                        <td><?php echo $v['login_ip_attribution'];?></td>
+                        <td><?php echo date('Y-m-d H:i:s',$v['regtime']);?></td>   
+                        <td><?php echo '';?></td> 
+                    </tr>
+                    {/loop}
+                </table>
+            </div>
+        </form>
+        <script>
+            function resets(){
+                location.href = "?m=admin&c=user&a=blacklist";
+            }
+        </script>
+    </body>
+</html>

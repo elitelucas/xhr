@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>个人中心</title>
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+    <script src="/statics/web/extend/layer/mobile/layer.js"></script>
+</head>
+<body>
+<header>
+    <em onclick="javascript :history.go(-1);">返回</em>
+    <h1>设置</h1>
+
+</header>
+<section class="my_info">
+    <div class="my">
+        {if $rtArr['reg_type'] != '8'}
+        <ul>
+            <li data-href="<?=url('', '', 'uLoginPsdWeb')?>"><label class="icoModifyPas">修改登录密码</label></li>
+        </ul>
+        {/if}
+        <ul>
+            <li data-href="<?=url('web', 'user', 'aboutUs')?>"><div><label class="icoAboutUs">关于我们</label><span>{$version}</span></div></li>
+        </ul>
+
+        <ul>
+            <li id='logout' class="log_out"><a href="#"><label class="icoSignOut">退出登录</label></a></li>
+        </ul>
+    </div>
+</section>
+
+<div class="popup" style="display: none">
+    <div class="config">
+        <p style="color: #ff4f4f;">确定要退出登录吗？</p>
+        <p style="color: #242424;">点击确认继续</p>
+        <div class="cigBtn"><button id='ok'>确认</button><button class="cancel">取消</button></div>
+    </div>
+</div>
+    <script type='text/javascript'>
+        $(function() {
+            $("#logout").click(function() {
+                $(".popup").css("display", "block");
+            });
+            
+            //确定退出
+            $("#ok").click(function() {
+                $.ajax({
+                    url: "<?=url('', '', 'logout')?>",
+                    type: "get",
+                    dataType: "json",
+                    success: function(data) {
+                        if (data.status == 0) {
+                            window.location.href = "<?=url('','user','login')?>";
+                        } else {
+                            layer.open({
+                                content: "<p class='alert_msg'>"+ data.ret_msg +"</p>",
+                                btn: '我知道了'
+                            });
+                        }
+                    },
+                    error: function(error) {
+                        layer.open({
+                            content: "<p class='alert_msg'>服务器出错了</p>",
+                            btn: '我知道了'
+                        });
+                    }
+                });
+            });
+            //取消
+            $(".cancel").click(function() {
+                $(".popup").css("display", "none");
+            });
+        });
+    </script>
+</body>
+</html>

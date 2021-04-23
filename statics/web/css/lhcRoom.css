@@ -1,0 +1,438 @@
+select{
+    width: 100%;
+    height: 30px;
+    border: 1px solid #ccc;
+    border-radius:  3px;
+    text-align: center;
+}
+.checkPanel1{
+    overflow: auto;
+}
+
+.checkPanel1>div{
+    width: 31%;
+    background: #F4F4F6;
+    border: 1px solid #CACACA;
+    margin-right: 3.333%;
+    margin-top: 10px;
+    border-radius: 5px;
+    height: 36px;
+    line-height: 30px;
+    padding: 2px 4px;
+    float: left;
+}
+.checkPanel1>div:nth-child(3n+0){
+    margin-right: 0px;
+}
+.checkPanel1 .yuanIndex{
+    border-radius: 50%;
+    background: white;
+    text-align: center;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    float: left;
+    margin-top: 3px;
+    font-size: 14px;
+}
+.checkPanel1 .peilv1{
+    float: right;
+    color: #D91D37;
+    font-size: 10px;
+}
+
+.checkPanel2{
+    overflow: auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.checkPanel2>div{
+    width: 49%;
+    background: #F4F4F6;
+    border: 1px solid #CACACA;
+    margin-top: 10px;
+    border-radius: 5px;
+    line-height: 20px;
+    padding: 6px 4px;
+    overflow: auto;
+}
+.checkPanel2>div span:first-child{float: left;}
+.checkPanel2>div span:last-child{float: right;color: #D91D37}
+
+/* 投注操作区 */
+.bettPanel{
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    z-index: 999;
+    background: #F2F2F2;
+    padding: 2px 4px;
+    box-shadow: -1px -2px 3px #ccc;
+    display: none;
+}
+.bpTop{
+    overflow: auto;
+    padding-top: 5px;
+}
+.cmPanel{
+    position: absolute;
+    bottom: 50px;
+    z-index: 1000;
+    display: none;
+}
+.cmPanel>div{
+    float: left;
+    
+    background-size: 100% 100%;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    font-size: 10px;
+}
+.ybBg0{
+    background: url('/statics/web/images/chip-1.png')no-repeat;
+}
+.ybBg1{
+    background: url('/statics/web/images/chip-2.png')no-repeat;
+}
+.ybBg2{
+    background: url('/statics/web/images/chip-5.png')no-repeat;
+}
+.ybBg3{
+    background: url('/statics/web/images/chip-10.png')no-repeat;
+}
+.ybBg4{
+    background: url('/statics/web/images/chip-50.png')no-repeat;
+}
+.ybBg5{
+    background: url('/statics/web/images/chip-100.png')no-repeat;
+}
+.ckedYuanbao{
+    position: relative;
+    bottom: 6px;
+}
+.bet-min{
+    float: right;
+    width: 20%;
+    height: 28px;
+    margin-top: 4px;
+    background: #0090DB;
+    font-size: 12px;
+}
+.bpTop p{
+    clear: both;
+    font-size: 12px;
+    color: #999;
+    margin: 2px;
+}
+.bpTop p span{
+    color: #D91D37;
+}
+.bpBottom{
+    overflow: auto;
+    margin-bottom: 4px;
+}
+.moneyInput{
+    float: left;
+    width: 40%;
+}
+.moneyInput input{
+    height: 24px;
+    border-radius: 5px;
+    width: 100%;
+}
+.bpBtnPanel{
+    float: right;
+    display: flex;
+    justify-content: space-between;
+    width: 58%;
+    margin-left: 2%;
+}
+.bpBtnPanel button{
+    height: 24px;
+    width: 30%;
+    font-size: 12px;
+}
+.bettBtn{
+    background: #FF8624;
+}
+.add-list{
+    background: #D22727;
+}
+.bettCancel{
+    background: #666;
+}
+.betRight{
+    padding-bottom: 10px;
+}
+
+/* 期号样式 */
+.issueTitle{
+    background: #F4F4F7;
+    padding: 5px 5%;
+    color: #242424;
+    font-size: 12px;
+    box-shadow: -1.4px 1.4px 0 0 rgba(0, 0, 0, 0.15);
+    text-align: center;
+    overflow: auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+.issueTitle>div{
+    float: left;
+}
+.issueTitle>div:first-child{
+    line-height: 40px;
+}
+.issueStyle{
+    color: #2aa7f6;
+}
+.lotRstPanel{
+    overflow: auto;
+}
+.lotRstPanel>div{
+    float: left;
+    margin-left: 5px;
+}
+.lotRstPanel>div div:first-child{
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+}
+.jiaHao{
+    margin: 0px 5px;
+    line-height: 40px !important;
+}
+.lotRstEnd>div>div:first-child{
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+}
+.lotRstEnd>div>div:last-child{
+    text-align: center;
+}
+.lotRstMore{
+    background: url(../images/cbbrecord_icon@2x.png) no-repeat;
+    background-size: 100% 100%;
+    width: 14px;
+    height: 9px;
+    line-height: 40px;
+    position: absolute;
+    right: 5%;
+    top: 24px;
+}
+.lotListItem{
+    padding: 5px 0px;
+    color: #242424;
+    font-size: 12px;
+    text-align: center;
+    overflow: auto;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.lotListItem>div{
+    float: left;
+    line-height: normal;
+}
+.lotListItem>div:first-child{
+    line-height: 40px;
+}
+.redBox{
+    border-color: #D22727 !important;
+    color: #D22727;
+}
+.blueBox{
+    border-color: #2aa7f6 !important;
+    color: #2aa7f6;
+}
+.greenBox{
+    border-color: #4CA80F !important;
+    color: #4CA80F;
+}
+.redBox1{
+    background: #D22727 !important;
+    color: white !important;
+    border-color: #D22727 !important;
+}
+.blueBox1{
+    background: #2aa7f6 !important;
+    color: white !important;
+    border-color: #2aa7f6 !important;
+}
+.greenBox1{
+    background: #4CA80F !important;
+    color: white !important;
+    border-color: #4CA80F !important;
+}
+.selectPanel2{
+    margin-bottom: 10px;
+}
+/* 半波 */
+.style2{
+    overflow: auto;
+    background: #f1f1f1;
+    border: 1px solid #CACACA;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+}
+.style2 .leftBox{
+    float: left;
+    width: 20%;
+    text-align: center;
+}
+.style2 .leftBox div:first-child{
+    font-size: 14px;
+}
+.style2 .leftBox div:last-child{
+    color: #D22727;
+}
+.style2 .rightBox{
+    float: left;
+    overflow: auto;
+    width: 80%;
+}
+.style2 .rightBox>div{
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    float: left;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    background: white;
+}
+
+.redBo{
+    color: #D22727;
+}
+.blueBo{
+    color: #2aa7f6;
+}
+.greenBo{
+    color: #4CA80F;
+}
+
+.zmTitle{
+    text-align: center;
+    color: #FF8624;
+    padding-top: 10px;
+}
+.ckedOdds1{
+    border: 1px solid #D22727 !important;
+}
+.oddWayTitle{
+    width: 30%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    display: inline-block;
+}
+.userBetting dd{
+    width: 80%;
+}
+#selectPanel1{
+    text-align: center;
+    margin-bottom: 10px;
+}
+#selectPanel1 option{
+    text-align: center;
+}
+.con-r span{
+    line-height: 21px;
+    width: 80% !important;
+    word-break: break-all;
+}
+.userBetting>dl{
+    width: 100%;
+}
+.userBetting dl.right dd{
+    width: 80%;
+    float: right;
+}
+.betWarp .list-con p{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.betWarp .list-con p label{
+    line-height: 21px;
+    word-wrap: break-word;
+
+}
+.quxiao li label{
+    width: 60%;
+    line-height: 21px;
+    text-align: left;
+    word-wrap: break-word;
+}
+.money-text{
+    width: 80px;
+}
+.chaseWarp .chase-wanf{
+    display: inline-block;
+    width: 180px;
+    margin-top: 10px;
+    line-height: normal;
+}
+.tit{
+    text-align: center;
+}
+.chase-table{
+    max-height: 120px;
+    overflow: scroll;
+}
+.checkPanel3>div{
+    width: 31%;
+    background: #F4F4F6;
+    border: 1px solid #CACACA;
+    margin-right: 3.333%;
+    margin-top: 10px;
+    border-radius: 5px;
+    float: left;
+    line-height: normal;
+    padding: 4px 0px;
+    height: auto;
+}
+.checkPanel3 .yuanIndex{
+    border-radius: 50%;
+    background: white;
+    text-align: center;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    display: block;
+    margin: 0 auto;
+    float: none;
+    
+}
+.checkPanel3 .peilv1{
+    float: none;
+    font-size: 10px;
+    margin-top: 5px;
+    text-align: center;
+    display: inline-block;
+    width: 100%;
+}
+.oddsExplain{
+    line-height: 40px;
+    display: block;
+}
+.zhui_details_w{
+    display: none;
+}

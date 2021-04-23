@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <title>网站信息</title>  
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>
+        <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+        <script src="statics/admin/js/pintuer.js"></script> 
+        <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+        <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+        <script src="statics/admin/js/jquery.date_input.pack.js"></script>
+        {template public-new-ui-header}
+    </head>
+    <body class="new_ui_body">
+        <div class="row">
+            <div class="col-sm-12">
+				<div class="ibox float-e-margins">
+                    <div class="ibox-title iboxWTitle">
+                        <h5>直属代理显示开关</h5>
+                    </div>
+                    <div class="ibox-content list" style="width: 100%;">
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label input_title">是否开启</label>
+                                <div class="col-sm-4" style="padding-top: 6px;">
+                                    <input {if $direct['value'] == 0}checked{/if} type='radio' onclick="change(0,'direct')" name='direct' value='0'/> 隐藏
+                                    <input {if $direct['value'] == 1}checked{/if} type='radio' onclick="change(1,'direct')" name='direct' value='1'/> 显示
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title iboxWTitle">
+                        <h5>跨级代理显示开关</h5>
+                    </div>
+                    <div class="ibox-content list" style="width: 100%;">
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label input_title">是否开启</label>
+                                <div class="col-sm-4" style="padding-top: 6px;">
+                                    <input {if $stage['value'] == 0}checked{/if} type='radio' onclick="change(0,'stage')" name='stage' value='0'/> 隐藏
+                                    <input {if $stage['value'] == 1}checked{/if} type='radio' onclick="change(1,'stage')" name='stage' value='1'/> 显示
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title iboxWTitle">
+                        <h5>昵称显示开关</h5>
+                    </div>
+                    <div class="ibox-content list" style="width: 100%;">
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label input_title">是否开启</label>
+                                <div class="col-sm-4" style="padding-top: 6px;">
+                                    <input {if $tznickname['value'] == 0}checked{/if} type='radio' onclick="change(0,'tznickname')" name='tznickname' value='0'/> 隐藏
+                                    <input {if $tznickname['value'] == 1}checked{/if} type='radio' onclick="change(1,'tznickname')" name='tznickname' value='1'/> 显示
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        var loading = "";//加载中
+        function change(state,nid) {
+            $.ajax({
+                type: 'POST',
+                url: '?m=admin&c=role&a=doStage',
+                data:{state:state,nid:nid},
+                dataType: 'json',
+                beforeSend:function(){
+                    loading = layer.load(1);
+                },
+                success: function (msg) {
+                    layer.close(loading);
+                    if (msg.rt) {
+                        layer.msg('设置成功', {icon: 6, shade: [0.5, '#393D49']});
+                    } else {
+                        layer.msg('设置失败', {icon: 5, shade: [0.5, '#393D49']})
+                    }
+                }
+            });
+        }
+    </script>
+</html>

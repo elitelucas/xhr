@@ -1,0 +1,16 @@
+[
+  {
+    "nid":"mi_man_withdraw",
+    "name":"米曼代付",
+    "merchantID":"",
+    "password":"",
+    "privateKey":"",
+    "publicKey":""
+  },
+  {
+    "nid":"quan_yin_withdraw",
+    "name":"全银代付",
+    "merchantID":"",
+    "merchantKey":""
+  }
+]

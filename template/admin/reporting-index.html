@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<title></title>
+	<link rel="stylesheet" href="statics/admin/css/datePicker.css">
+	<link rel="stylesheet" href="statics/admin/css/admin.css">
+	<link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+	<link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+	<script src="statics/admin/js/jquery.js"></script>
+	<script src="statics/admin/js/layer/2.1/layer.js"></script>
+	<script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+	<script src="statics/admin/js/pintuer.js"></script>
+	{template public-new-ui-header}
+
+	<!--日期时间插件 开始-->
+	<script src="statics/admin/js/jquery.date_input.pack.js"></script>
+	<link rel="stylesheet" href="statics/admin/jedate/skin/jedate.css">
+	<script type="text/javascript" src="statics/admin/jedate/jquery.jedate.min.js"></script>
+	<!--日期时间插件 结束-->
+
+	<!--展示配置 开始-->
+	<link rel="stylesheet" href="statics/admin/bootstrap_multiselect/docs/css/bootstrap-3.3.2.min.css" type="text/css"/>
+	<script type="text/javascript" src="statics/admin/bootstrap_multiselect/dist/js/bootstrap-multiselect.js"></script>
+	<link rel="stylesheet" href="statics/admin/bootstrap_multiselect/dist/css/bootstrap-multiselect.css" type="text/css"/>
+	<link rel="stylesheet" href="statics/admin/jedate/skin/jedate.css">
+	<script type="text/javascript" src="statics/admin/jedate/jquery.jedate.min.js"></script>
+	<style type='text/css'>
+		.s_style{
+			background: #fefefe none repeat scroll 0 0;
+			border: 1px solid #bbb;
+			border-radius: 3px;
+			color: #333;
+			font-size: 14px;
+			padding: 7px;
+		}
+		.bc{
+			background-color: #c8c9d2;
+			font-weight: bolder
+		}
+		.search{
+			overflow: inherit;
+			position: relative;
+			height: 60px;
+		}
+		#page{height: 60px;margin-top: 20px;text-align: center;}
+		#page ul li{float: left;margin-right:10px;}
+		#page ul .current{ background-color:#0099ff;text-align:center;}
+	</style>
+	<!--展示配置 结束-->
+
+</head>
+<body style="margin: 15px;background-color: #f3f3f4;">
+<div class="col-sm-12">
+	<div class="ibox float-e-margins">
+		<div class="ibox-title iboxWTitle">
+			<h5>总报表</h5>
+		</div>
+		<div class="ibox-content" style="width: 100%;">
+			<div class="row">
+				<form method="post" id="form" class="form-inline">
+
+					<div class="col-sm-3">
+						<div class="input-group m-b">
+							<span class="input-group-addon">时间</span>
+							<input style="width: 48%" type="text" name="start_time" placeholder="开始时间" class="date_picker form-control" value="{$start_date}" />
+							<span style="float: left">&nbsp;&nbsp;</span>
+							<input style="width: 48%" type="text" name="end_time" placeholder="结束时间" class="date_picker form-control" value="{$end_date}" />
+						</div>
+					</div>
+
+					<div class="col-sm-2">
+						<div class="input-group m-b"><span class="input-group-addon">展示配置</span>
+							<select id="sysSet" multiple="multiple">
+								<option value="1" {if in_array(1,$sysSet)}selected = "selected"{/if}>注册人数</option>
+								<option value="2" {if in_array(2,$sysSet)}selected = "selected"{/if}>当前在线人数</option>
+								<option value="3" {if in_array(3,$sysSet)}selected = "selected"{/if}>当前离线人数</option>
+								<option value="4" {if in_array(4,$sysSet)}selected = "selected"{/if}>投注人数</option>
+								<option value="5" {if in_array(5,$sysSet)}selected = "selected"{/if}>首存人数</option>
+								<option value="6" {if in_array(6,$sysSet)}selected = "selected"{/if}>首存总额</option>
+								<option value="7" {if in_array(7,$sysSet)}selected = "selected"{/if}>首提人数</option>
+								<option value="8" {if in_array(8,$sysSet)}selected = "selected"{/if}>首提总额</option>
+								<option value="9" {if in_array(9,$sysSet)}selected = "selected"{/if}>充值总额</option>
+								<option value="10" {if in_array(10,$sysSet)}selected = "selected"{/if}>提现总额</option>
+								<option value="11" {if in_array(11,$sysSet)}selected = "selected"{/if}>投注总额</option>
+								<option value="12" {if in_array(12,$sysSet)}selected = "selected"{/if}>中奖总额</option>
+								<option value="13" {if in_array(13,$sysSet)}selected = "selected"{/if}>个人返水总额</option>
+								<option value="14" {if in_array(14,$sysSet)}selected = "selected"{/if}>直属会员返水总额</option>
+								<option value="15" {if in_array(15,$sysSet)}selected = "selected"{/if}>团队返水总额</option>
+								<option value="16" {if in_array(16,$sysSet)}selected = "selected"{/if}>其他支出</option>
+								<option value="17" {if in_array(17,$sysSet)}selected = "selected"{/if}>盈利总额</option>
+								<option value="18" {if in_array(18,$sysSet)}selected = "selected"{/if}}>天天返利</option>
+								<option value="25" {if in_array(25,$sysSet)}selected = "selected"{/if}}>大转盘</option>
+								<option value="26" {if in_array(26,$sysSet)}selected = "selected"{/if}}>博饼</option>
+								<option value="27" {if in_array(27,$sysSet)}selected = "selected"{/if}}>双旦</option>
+								<option value="28" {if in_array(28,$sysSet)}selected = "selected"{/if}}>红包</option>
+								<option value="29" {if in_array(29,$sysSet)}selected = "selected"{/if}}>九宫格</option>
+								<option value="30" {if in_array(30,$sysSet)}selected = "selected"{/if}}>平台任务</option>
+								<option value="31" {if in_array(30,$sysSet)}selected = "selected"{/if}}>福袋</option>
+								<option value="32" {if in_array(30,$sysSet)}selected = "selected"{/if}}>刮刮乐</option>
+								<option value="19" {if in_array(19,$sysSet)}selected = "selected"{/if}}>额度调整总额</option>
+								<option value="20" {if in_array(20,$sysSet)}selected = "selected"{/if}>当前平台用户总余额</option>
+								<option value="21" {if in_array(21,$sysSet)}selected = "selected"{/if}>平台盈利</option>
+								<option value="22" {if in_array(21,$sysSet)}selected = "selected"{/if}>充值盈利</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="col-sm-2">
+						<div class="input-group m-b"><span class="input-group-addon">快捷筛选</span>
+							<select id="time_flag" class="s_style reset_input form-control">
+								<option value="1" {if $_REQUEST['time_flag']=='1'}selected = "selected"{/if}>今天</option>
+								<option value="2" {if $_REQUEST['time_flag']=='2'}selected = "selected"{/if}>本周</option>
+								<option value="3" {if $_REQUEST['time_flag']=='3'}selected = "selected"{/if}>本月</option>
+								<option value="4" {if $_REQUEST['time_flag']=='4'}selected = "selected"{/if}>上月</option>
+							</select>
+						</div>
+					</div>
+
+
+
+					<div class="col-sm-3">
+						<div class="input-group m-b">
+							<input type="button" class="btn btn-primary" id="search_btu" value="搜索" />
+							&nbsp;
+							<button type="button" class="btn btn-primary" onclick="javascript:location.href = '?m=admin&c=reporting&a=index'">重置</button>
+							&nbsp;
+							<button type='button' id="export" class="btn btn-primary">导出上月数据</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div id="editable_wrapper" class="dataTables_wrapper form-inline" role="grid" style="width: 100%">
+				<table class="table table-striped table-bordered table-hover  dataTable table-list" id="editable" aria-describedby="editable_info">
+					<thead>
+					<tr>
+						<th>统计项目</th>
+						<th>统计结果(不含游客,假人)</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr id="s_1" {if !in_array(1,$sysSet)}style="display: none"{/if}>
+					<td>注册人数</td>
+					<td>{$data['total_num']}人</td>
+					</tr>
+					<tr id="s_2" {if !in_array(2,$sysSet)}style="display: none"{/if}>
+					<td>当前在线人数(注册人数)</td>
+					<td>{$data['Online_num']}人</td>
+					</tr>
+					<tr id="s_3" {if !in_array(3,$sysSet)}style="display: none"{/if}>
+					<td>当前离线人数(注册人数)</td>
+					<td>{$data['Offline_num']}人</td>
+					</tr>
+					<tr id="s_4" {if !in_array(4,$sysSet)}style="display: none"{/if}>
+					<td>投注人数</td>
+					<td>{$data['betting_num']}人</td>
+					</tr>
+					<tr id="s_5" {if !in_array(5,$sysSet)}style="display: none"{/if}>
+					<td>首存人数</td>
+					<td>{$data['recharge_num']}人</td>
+					</tr>
+					<tr id="s_6" {if !in_array(6,$sysSet)}style="display: none"{/if}>
+					<td>首存总额</td>
+					<td>{$data['recharge_money']}元</td>
+					</tr>
+					<tr id="s_7" {if !in_array(7,$sysSet)}style="display: none"{/if}>
+					<td>首提人数</td>
+					<td>{$data['cash_num']}人</td>
+					</tr>
+					<tr id="s_8" {if !in_array(8,$sysSet)}style="display: none"{/if}>
+					<td>首提总额</td>
+					<td>{$data['cash_money']}元</td>
+					</tr>
+					<tr id="s_9" {if !in_array(9,$sysSet)}style="display: none"{/if}>
+					<td>充值总额</td>
+					<td>{$data['recharge']}元</td>
+					</tr>
+					<tr id="s_10" {if !in_array(10,$sysSet)}style="display: none"{/if}>
+					<td>提现总额</td>
+					<td>{$data['cash']}元</td>
+					</tr>
+					<tr id="s_11" {if !in_array(11,$sysSet)}style="display: none"{/if}>
+					<td>投注总额</td>
+					<td>{$data['betting_money']}元</td>
+					</tr>
+					<tr id="s_12" {if !in_array(12,$sysSet)}style="display: none"{/if}>
+					<td>中奖总额</td>
+					<td>{$data['award_money']}元</td>
+					</tr>
+
+					<tr id="s_13" {if !in_array(13,$sysSet)}style="display: none"{/if}>
+					<td>个人返水总额</td>
+					<td>{$data['selfBackwater_money']}元</td>
+					</tr>
+					<tr id="s_14" {if !in_array(14,$sysSet)}style="display: none"{/if}>
+					<td>直属会员返水总额</td>
+					<td>{$data['directlyBackwater_money']}元</td>
+					</tr>
+					<tr id="s_15" {if !in_array(15,$sysSet)}style="display: none"{/if}>
+					<td>团队返水总额</td>
+					<td>{$data['teamBackwater_money']}元</td>
+					</tr>
+					<tr id="s_16" {if !in_array(16,$sysSet)}style="display: none"{/if}>
+					<td>其他支出</td>
+					<td>{$data['other_money']}元</td>
+					</tr>
+					<tr id="s_17" {if !in_array(17,$sysSet)}style="display: none"{/if}>
+					<td>盈利总额</td>
+					<td>
+						{if $data['profit_money'] < 0}<font style="color: #FF3300;font-weight: bold;">{$data['profit_money']}</font>{/if}
+						{if $data['profit_money'] > 0}<font style="color: #0099ff;font-weight: bold;">{$data['profit_money']}</font>{/if}
+						{if $data['profit_money'] == 0}{$data['profit_money']}{/if}
+						元</td>
+					</tr>
+					<tr id="s_18" {if !in_array(18,$sysSet)}style="display: none"{/if}>
+					<td>天天返利</td>
+					<td>{$data['rebate_money']}元</td>
+					</tr>
+					<tr id="s_25" {if !in_array(25,$sysSet)}style="display: none"{/if}>
+					<td>大转盘</td>
+					<td>{$data['zhuan_pan_money']}元</td>
+					</tr>
+					<tr id="s_26" {if !in_array(26,$sysSet)}style="display: none"{/if}>
+					<td>博饼</td>
+					<td>{$data['bo_bing_money']}元</td>
+					</tr>
+					<tr id="s_27" {if !in_array(27,$sysSet)}style="display: none"{/if}>
+					<td>双旦</td>
+					<td>{$data['christmas_money']}元</td>
+					</tr>
+					<tr id="s_28" {if !in_array(28,$sysSet)}style="display: none"{/if}>
+					<td>红包</td>
+					<td>{$data['hong_bao_money']}元</td>
+					</tr>
+					<tr id="s_29" {if !in_array(29,$sysSet)}style="display: none"{/if}>
+					<td>九宫格</td>
+					<td>{$data['nine_gong_money']}元</td>
+					</tr>
+					<tr id="s_30" {if !in_array(30,$sysSet)}style="display: none"{/if}>
+					<td>平台任务</td>
+					<td>{$data['task_money']}元</td>
+					</tr>
+					<tr id="s_31" {if !in_array(31,$sysSet)}style="display: none"{/if}>
+					<td>福袋</td>
+					<td>{$data['lucky_bag_money']}元</td>
+					</tr>
+					<tr id="s_32" {if !in_array(32,$sysSet)}style="display: none"{/if}>
+					<td>刮刮乐</td>
+					<td>{$data['scratch_money']}元</td>
+					</tr>
+
+					<tr id="s_19" {if !in_array(19,$sysSet)}style="display: none"{/if}>
+					<td>额度调整总额</td>
+					<td>{$data['adjust_money']}元</td>
+					</tr>
+
+					<tr id="s_20" {if !in_array(20,$sysSet)}style="display: none"{/if}>
+					<td>当前平台用户总余额</td>
+					<td>{$data['balance']}元</td>
+					</tr>
+					<tr class="bc" id="s_21" {if !in_array(21,$sysSet)}style="display: none"{/if}>
+					<td>平台盈利</td>
+					<!--<?php
+						$m = $data['betting_money']-$data['award_money'];
+						?>
+					<td {if $m < 0} style="color: red"{/if}>-->
+					<td>
+						{if $data['betting_profit_money'] < 0}<font style="color: #FF3300;font-weight: bold;">{$data['betting_profit_money']}</font>{/if}
+						{if $data['betting_profit_money'] > 0}<font style="color: #0099ff;font-weight: bold;">{$data['betting_profit_money']}</font>{/if}
+						{if $data['betting_profit_money'] == 0}{$data['betting_profit_money']}{/if}
+						元</td>
+					<!--{$m}元</td>-->
+					</tr>
+					<tr class="" id="s_22" {if !in_array(21,$sysSet)}style="display: none"{/if}>
+					<td>充值盈利</td>
+					<td>
+						{if $data['recharge_profit_money'] < 0}<font style="color: #FF3300;font-weight: bold;">{$data['recharge_profit_money']}</font>{/if}
+						{if $data['recharge_profit_money'] > 0}<font style="color: #0099ff;font-weight: bold;">{$data['recharge_profit_money']}</font>{/if}
+						{if $data['recharge_profit_money'] == 0}{$data['recharge_profit_money']}{/if}
+						元</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(function(){
+        //时间插件
+        $(".date_picker").jeDate({
+            isinitVal:true,
+            ishmsVal:true,
+            minDate: '2016-06-16 23:59:59',
+            maxDate: $.nowDate(0),
+            format:"YYYY-MM-DD",
+            zIndex:3000,
+        })
+
+		//重置按钮
+		$('#reset').click(function () {
+            window.location.href = "?m=admin&c=reporting&a=index";
+		});
+		//导出按钮
+		$('#export').click(function () {
+            window.location.href = "?m=admin&c=reporting&a=export";
+		});
+        //今天,本周,本月,上月 下拉搜索
+        $('#time_flag').change(function () {
+            var time_flag = $('#time_flag').val();
+            console.log(time_flag);
+            $.ajax({
+                type: "POST",
+                url: "<?=url('admin','reporting','index')?>",
+                data: {'time_flag':time_flag},
+                beforeSend:function(){
+                    loading = layer.load(0);
+                },
+                success: function(msg){
+                    layer.close(loading);
+                    $("body").html(msg);
+                }
+            });
+        });
+        //设置保存
+        $('#sysSet').multiselect({
+            buttonWidth: '200px',
+            enableFiltering: true,
+            onChange: function(option, checked) {
+                var sysSet = $('#sysSet').val();
+                console.log(sysSet);
+                var arr=[];
+                $(".table-list tbody").find("tr").each(function () {
+
+					if($.inArray($(this).attr("id").split("_")[1], sysSet)=="-1"){
+					    $(this).css("display","none");
+					}else{
+                        $(this).css("display","table-row");
+					}
+                })
+            },
+            onDropdownHide: function(event) {
+                var sysSet = $('#sysSet').val();
+                console.log(sysSet);
+                $.ajax({
+                    type: "POST",
+                    url: "<?=url('admin','reporting','setSys')?>",
+                    data: {'data':sysSet},
+                    beforeSend:function(){
+                        loading = layer.load(0);
+                    },
+                    success: function(msg){
+                        layer.close(loading);
+                        msg = JSON.parse(msg);
+                        console.log(msg.msg);
+                       	if(msg.status){
+                            layer.msg(msg.msg, {icon: 6, shade: [0.5, '#393D49']});
+						}else {
+                            layer.msg(msg.msg, {icon: 5, shade: [0.5, '#393D49']});
+						}
+                    }
+                });
+            },
+            nonSelectedText: '尚未选择!',//Logistics518 尚未选择;
+            nSelectedText: ' - 项选中!',//Too many options selected 项选中
+            allSelectedText: '全部选中',//All selected 全部选中
+            selectAllText: '选中全部',
+            //includeSelectAllOption: true,//全选按钮
+            maxHeight: 260
+        });
+	})
+	$("#search_btu").click(function(){
+        var checks = check();
+        if (checks) {
+            $("#form").submit();
+		}
+	})
+    function check() {
+        var start_time = $("input[name=start_time]").val();
+        var end_time = $("input[name=end_time]").val();
+        if (start_time == "") {
+            layer.msg('起始时间不能为空!!!', {icon: 5, shade: [0.5, '#393D49']});
+            return false;
+        }
+        if (end_time == "") {
+            layer.msg('结束时间不能为空!!!', {icon: 5, shade: [0.5, '#393D49']});
+            return false;
+        }
+
+        if (end_time < start_time) {
+            layer.msg('起始时间不能大于结束时间!!!', {icon: 5, shade: [0.5, '#393D49']});
+            return false;
+        }
+
+        var diff_days = (new Date(end_time).getTime() - new Date(start_time).getTime()) / (24 * 60 * 60 * 1000);
+        if (diff_days > 31) {
+            layer.msg('查询时间跨度不能大于31天!!!', {icon: 5, shade: [0.5, '#393D49']});
+            return false;
+        }
+        var myDate = new Date();
+        //获取当前年
+        var year = myDate.getFullYear();
+        //获取当前月
+        var month = myDate.getMonth() + 1;
+        //获取当前日
+        var date = myDate.getDate();
+        var now = year + '-' + p(month) + "-" + p(date);
+        console.log(now);
+        if (end_time > now) {
+            layer.msg('结束时间不能大于今天日期!!!', {icon: 5, shade: [0.5, '#393D49']});
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     *
+     * 获取当前时间
+     */
+    function p(s) {
+        return s < 10 ? '0' + s : s;
+    }
+
+    $(document).ready(function() {
+
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>修改资金密码</title>
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+    <script src="/statics/web/extend/layer/mobile/layer.js"></script>
+</head>
+<body>
+<header>
+    <em onclick="history.go(-1)">返回</em>
+    <h1>修改资金密码</h1>
+    <div class="headerRight">
+        <ul>
+            <li id="btn">完成</li>
+        </ul>
+    </div>
+</header>
+<section class="pb-0">
+    <div class="my paymentSecurity">
+        <ul>
+            <li style="background: #ffffff;"><label class="">旧密码<input type="password" placeholder="请输入旧密码" name="old_psd"></label></li>
+        </ul>
+        <ul>
+            <li style="background: #ffffff;"><label class="">新密码<input type="password" placeholder="请输入新密码" name="new_psd"></label></li>
+            <li style="background: #ffffff;"><label class="">确认密码<input type="password" placeholder="请再次输入新密码" name="new_psd2"></label></li>
+        </ul>
+        <!-- <div class="button" style="margin-top: 100px"><button id="btn" class="red-btn">下一步</button></div> -->
+    </div>
+</section>
+    <script type="text/javascript">
+        $(function() {
+            $("#btn").click(function() {
+                var old_psd = $("input[name=old_psd]").val();
+                var new_psd = $("input[name=new_psd]").val();
+                var new_psd2 = $("input[name=new_psd2]").val();
+                var reg = /^\d{6}$/;
+                if (!reg.test(old_psd) || !reg.test(new_psd) || !reg.test(new_psd2)) {
+                    layer.open({
+                        content: "<p class='alert_msg'>请输入6位数的密码</p>",
+                        btn: '我知道了'
+                    });
+                    return false;
+                }
+                if (new_psd !== new_psd2) {
+                    layer.open({
+                        content: "<p class='alert_msg'>两次密码不一致</p>",
+                        btn: '我知道了'
+                    });
+                    return false;                    
+                }
+                
+                $.ajax({
+                    url: "<?=url('','user','updPayPsd')?>",
+                    type: "post",
+                    data: {old_psd: old_psd, new_psd: new_psd, new_psd2: new_psd2},
+                    dataType: "json",
+                    success: function(data) {
+                        if (data.status == 0) {
+                            window.location.href = "<?=url('','app','tsSuccess')?>&flag_p=1&title=修改资金密码&msg=修改资金密码成功";
+                        } else {
+                            layer.open({
+                                content: "<p class='alert_msg'>"+ data.ret_msg +"</p>",
+                                btn: '我知道了'
+                            });
+                        }
+                    },
+                    error: function(error) {
+                        layer.open({
+                            content: "<p class='alert_msg'>服务器出错了</p>",
+                            btn: '我知道了'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

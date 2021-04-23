@@ -1,0 +1,117 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>App下载</title>
+    <script type="text/javascript" src="/statics/web/js/jquery.1.8.2.min.js"></script>
+    <link rel="stylesheet" href="/statics/web/css/foundation.css" />
+    <link rel="stylesheet" href="/statics/web/css/app_down.css" />
+</head>
+<body>
+<div class="main_content">
+    <div class="mainCon">
+        <div id="logo">
+            <img class="logo"  src="../up_files/room/avatar.png" />
+        </div>
+        <a class="btn" href="javaScript:void(0) " onclick="hrefClick()" >继续访问</a>
+        <p class="prompt">温馨提示：WAP手机端直接点击链接按钮访问</p>
+
+        <p class="prompt-title" id="updateIso">-- 更新于：{$date1}<i></i></p>
+        <p class="prompt-title" id="updateAndroid">-- 更新于：{$date2}<i></i></p>
+
+        <div class="app-btn" id="downIso" data-id="1"><a class="btn" href="{$re1['url']}">请点击下载App1</a><a class="btn" href="{$re1['url_2']}">请点击下载App2</a><a class="btn" href="{$re1['url_3']}">请点击下载App3</a></div>
+        <div class="app-btn" id="downAndroid" data-id="2"><a class="btn" href="{$re2['url']}">请点击下载App1</a><a class="btn" href="{$re2['url_2']}">请点击下载App2</a><a class="btn" href="{$re2['url_3']}">请点击下载App3</a></div>
+        <div class="qr-code">
+            <img class="code" src="/up_files/app_downlolad.png" />
+            <p>扫一扫二维码下载</p>
+        </div>
+    </div>
+
+
+</div>
+<script>
+    function hrefClick() {
+        if(browser.versions.mobile){
+            window.location.href= location.origin +'/pcmobile/index.html';
+        }else{
+            window.location.href= location.origin +'/pcweb/index.html';
+        }
+    }
+</script>
+<script type="text/javascript">
+    $("#downIso").click(function () {
+        statisticsLinkCount($(this).attr("data-id"));
+    });
+
+    $("#downAndroid").click(function () {
+        statisticsLinkCount($(this).attr("data-id"))
+    });
+
+    function statisticsLinkCount(type){
+        var data={};
+        data.type=type;
+         $.ajax({
+             url: "?m=web&c=lobby&a=downloadNum",
+             type: 'POST',
+             data: data,
+             // async: false,
+             dataType: "json",
+             success: function (msg) {
+                 console.log(msg);
+             }
+         })
+    }
+
+    //判断访问终端
+    var browser={ versions:function(){
+        var u = navigator.userAgent, app = navigator.appVersion;
+        return {
+            trident: u.indexOf('Trident') > -1, //IE内核
+            presto: u.indexOf('Presto') > -1, //opera内核
+            webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+            gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1,//火狐内核
+            mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+            ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+            android: u.indexOf('Android') > -1 || u.indexOf('Adr') > -1, //android终端
+            iPhone: u.indexOf('iPhone') > -1 , //是否为iPhone或者QQHD浏览器
+            iPad: u.indexOf('iPad') > -1, //是否iPad
+            webApp: u.indexOf('Safari') == -1, //是否web应该程序，没有头部与底部
+            weixin: u.indexOf('MicroMessenger') > -1, //是否微信 （2015-01-22新增）
+            qq: u.match(/\sQQ/i) == " qq" //是否QQ
+        };
+    }(),
+        language:(navigator.browserLanguage || navigator.language).toLowerCase()
+    }
+    var dataNews={}; //型号
+    //判断是否IE内核
+    if(browser.versions.android){
+        dataNews.app_type=2;
+    }
+    //判断是否webKit内核
+    if(browser.versions.ios){
+        dataNews.app_type=1;
+    }
+    //判断是否移动端
+    if(browser.versions.weixin || browser.versions.qq){
+        $(".mask").show();
+        $(".mask").click(function(){
+            $(".mask").hide();
+        });
+        // return false;
+    }else{
+        $(".mask").hide();
+    }
+    console.log(dataNews)
+
+    if(dataNews.app_type == 1){
+        $("#downIso").show();
+        $("#updateIso").show();
+    }
+    if(dataNews.app_type == 2){
+        $("#downAndroid").show();
+        $("#updateAndroid").show();
+    }
+</script>
+</body>
+</html>

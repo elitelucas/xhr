@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="renderer" content="webkit">
+        <title>网站信息</title>  
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>
+        <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+        <script src="statics/admin/js/pintuer.js"></script> 
+        {template public-new-ui-header}
+    </head>
+
+<body class="new_ui_body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+
+                <div class="ibox-title iboxWTitle">
+                    <h5>设置导出密码</h5>
+                    <!--<div class="ibox-tools">-->
+                        <!--<a href="javascript:;" class="btn btn-white btn-bitbucket" onclick="history.go(-1);">-->
+                            <!--<i class="fa fa-reply"></i>返回-->
+                        <!--</a>-->
+                    <!--</div>-->
+                </div>
+                <div class="ibox-content bagCol" style="width: 100%;">
+                    <form method="" class="form-x" action="" id='form'>
+
+                        <div class="ibox-title">
+                            <h5>导出密码</h5>
+                        </div>
+                        <div class="ibox-content m-b" style="width: 100%;">
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>重置导出密码</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" id="paypassword" class="input w50" name="paypassword" /> 
+                                        <div class="tipss"></div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>确认重置资金密码</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" id="paypasswords" class="input w50" name="paypasswords" /> 
+                                        <div class="tipss"></div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-10 col-sm-offset-2">
+                                        <button class="btn btn-primary" type="button" id="btn">提交</button>
+                                        <!--<button class="btn btn-white" type="button" onclick="history.go(-1);">取消</button>-->
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+        <script>
+            var loading = "";//加载中
+            $(function () {
+                $('#btn').bind('click', function () {
+                    var password = $.trim($("#paypassword").val());
+                    var passwords = $.trim($("#paypasswords").val());
+                    if(password != passwords){
+                        layer.msg('两次密码输入不一致', {icon: 5, shade: [0.5, '#393D49']});
+                        return false;
+                    }                  
+                    
+                    var data = $('#form').serialize();
+                    $.ajax({
+                        type: 'POST',
+                        url: '?m=admin&c=user&a=export_pw&do=1',
+                        data: data,
+                        dataType: 'json',
+                        beforeSend:function(){
+                            loading = layer.load(1);
+                        },
+                        success: function (msg) {
+                            layer.close(loading);
+                            if (msg.rt) {
+                                layer.msg('修改成功', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                    // location.href = '?m=admin&c=user&a=detail&id={$data["id"]}';
+//                                    history.go(-1);
+                                });
+                            } else {
+                                layer.msg('修改失败', {icon: 5, shade: [0.5, '#393D49']});
+                            }
+                        }
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>

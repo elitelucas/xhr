@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+	    <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+	    <script src="statics/admin/js/jquery.js"></script>
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>
+        <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+        <script src="statics/admin/js/bootstrap.min.js"></script>
+   	    {template public-new-ui-header} 
+        <style>
+            #page{height: 60px;margin-top: 20px;text-align: center;}
+            #page ul li{float: left;margin-right:10px;}
+            #page ul .current{ background-color:#0099ff;text-align:center;}
+        </style>
+    </head>
+    <body class="new_ui_body">
+    <div class="ibox float-e-margins">
+	    <div class="ibox-title iboxWTitle">
+	        <h5>提现设置</h5>
+	        <div class="ibox-tools">
+	            <a  class="btn btn-white btn-bitbucket" id="btn_back">
+	                <i class="fa fa-reply"></i> 返回
+	            </a>
+	        </div>
+	    </div>
+	    <div class="ibox-content bagCol">
+	        <div class="ibox-title ">
+	            <h5>设置信息</h5>
+	            <div class="ibox-tools">
+	            	<a class="btn btn-white btn-bitbucket btn_sure" id="update" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+	        <div class="ibox-content m-b">
+	            <form id='form_update' method="post" class="form-horizontal">
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">N倍流水金额</label>
+	                    <div class="col-sm-8">
+	                    	<span class="col-sm-2" style="padding-left: 0px;">
+	                        	<input type="text" class="form-control"  value="{$cashLimit['value']}" name="cash_limit" id="cash_limit" readonly/>
+                        	</span>
+	                        <span class="col-sm-9 help-block m-b-none">(*0为不限制)</span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">每天免费提现次数</label>
+	                    <div class="col-sm-8">
+	                    	<span class="col-sm-2" style="padding-left: 0px;">
+	                        	<input type="text" class="form-control"  value="{$freeWithdrawCont['value']}" name="free_withdraw_cont" id="free_withdraw_cont" readonly/>
+                        	</span>
+	                        <span class="col-sm-9 help-block m-b-none">（每天免费提现次数(0为不限制)）</span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">每次提现费用</label>
+	                    <div class="col-sm-8">
+	                    	<span class="col-sm-2" style="padding-left: 0px;">
+	                        	<input type="text" class="form-control"  value="{$withdrawFee['value']}" name="withdraw_fee" id="withdraw_fee" readonly/>
+                        	</span>
+	                        <span class="col-sm-9 help-block m-b-none">（每天超出免费提现次数后的每次提现额外费用(默认为0)）</span>
+	                    </div>
+	                </div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">每次提现时间间隔</label>
+						<div class="col-sm-8">
+	                    	<span class="col-sm-2" style="padding-left: 0px;">
+	                        	<input type="text" class="form-control"  value="{$withdraw_interval['value']}" name="withdraw_interval" id="withdraw_interval" readonly/>
+                        	</span>
+							<span class="col-sm-9 help-block m-b-none">（每次提现时间间隔单位为秒）</span>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-2 control-label">提现上限</label>
+						<div class="col-sm-8">
+	                    	<span class="col-sm-2" style="padding-left: 0px;">
+	                        	<input type="text" class="form-control"  value="{$cashValue['cash_upper']}" name="cash_upper" id="cash_upper" readonly/>
+                        	</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">提现下限</label>
+						<div class="col-sm-8">
+	                    	<span class="col-sm-2" style="padding-left: 0px;">
+	                        	<input type="text" class="form-control"  value="{$cashValue['cash_lower']}" name="cash_lower" id="cash_lower" readonly/>
+                        	</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">提现免审核额</label>
+						<div class="col-sm-8">
+	                    	<span class="col-sm-2" style="padding-left: 0px;">
+	                        	<input type="text" class="form-control"  value="{$unaudit['value']}" name="unaudit" id="unaudit" readonly/>
+                        	</span>
+						</div>
+					</div>
+                </form>
+            </div>
+         </div>
+     </div>
+        <script type="text/javascript">
+            var loading = "";//加载中......
+            $(function () {
+            	$(".btn_sure").click(function () {
+                	var form_id = 'form_' + $(this).attr('id');
+            		var i_class = $(this).children('i').attr('class');
+            		if (i_class == 'fa fa-pencil') {
+            			$(this).attr('data-title', '保存');
+            			$(this).children('i').attr('class', 'fa fa-save');
+            			$('#' + form_id).find('input').each(function() {
+            				$(this).attr('readonly', false);
+           				});
+            		}else {
+            			var cash_limit = $("#cash_limit").val();
+                        var free_withdraw_cont = $("#free_withdraw_cont").val();
+                        var withdraw_fee = $("#withdraw_fee").val();
+						var withdraw_interval = $("#withdraw_interval").val();
+						var cash_upper = $("#cash_upper").val();
+						var cash_lower = $("#cash_lower").val();
+						var unaudit = $("#unaudit").val();
+
+                        $.ajax({
+                            url: '?m=admin&c=topup&a=doSetcash',
+                            data: {
+                            	cash_limit: cash_limit,
+                            	free_withdraw_cont: free_withdraw_cont,
+                            	withdraw_fee: withdraw_fee,
+                                withdraw_interval:withdraw_interval,
+                                cash_upper:cash_upper,
+                                cash_lower:cash_lower,
+                                unaudit:unaudit
+                            	},
+                            dataType: 'json',
+                            type: 'post',
+                            beforeSend: function () {
+                                loading = layer.load(1);
+                            },
+                            error: function () {
+                                layer.close(loading);
+                                layer.msg('网络异常！！！', {icon: 5, shade: [0.5, '#393D49']});
+                            },
+                            success: function (result) {
+                                layer.close(loading);
+                                if (result.rt > 0) {
+                                    layer.msg('提交成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function() {
+                                        location.href = "?m=admin&c=topup&a=setCash";
+                                    });
+                                }else{
+                                    layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']});
+                                }
+                            }
+                        });
+            		}
+            	});
+                
+                $("#btn_back").click(function () {
+                    location.href = '?m=admin&c=finance&a=drawal';
+                });
+            });
+
+        </script>
+    </body>
+</html>

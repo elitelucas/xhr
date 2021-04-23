@@ -1,0 +1,412 @@
+/*css Document*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video{margin: 0;padding: 0;border: 0;font-size: 100%;font: inherit;vertical-align: baseline;}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section{display: block;}
+ol, ul{list-style: none;}
+blockquote, q{quotes: none;}
+blockquote:before, blockquote:after,
+q:before, q:after{content: '';content: none;}
+table{border-collapse: collapse;border-spacing: 0;}
+body{font-style: normal;
+	-webkit-font-smoothing:antialiased;
+	/*font-family:"微软雅黑";*/
+	-webkit-tap-highlight-color:rgba(0, 0, 0, 0)!important;
+	font-family: 'Microsoft YaHei','Helvetica Neue', Arial, "Hiragino Sans GB",  sans-serif;
+	/*font-family: Helvetica,arial,sans-serif;*/
+	/*font-size: 65.2%;*/}
+.layui-m-layermain {
+	font-family: 'Microsoft YaHei','Helvetica Neue', Arial, "Hiragino Sans GB",  sans-serif!important;
+}
+img{border: none;vertical-align: middle;}
+input,select,textarea{outline:0 none; border: none;background: none;}
+input[type="button"], input[type="submit"], input[type="reset"], input[type="text"] {-webkit-appearance: none;-moz-appearance: none;appearance: none;}
+textarea{resize: none;}
+a{color:#fff; text-decoration:none; outline:0;}
+
+*,:after,:before {-webkit-box-sizing:  border-box;-moz-box-sizing:  border-box;box-sizing:  border-box;}
+a, img {-webkit-touch-callout: none;}
+html, body {-webkit-user-select: none;}
+*{
+	-webkit-box-sizing: border-box !important;
+	-moz-box-sizing: border-box !important;
+	box-sizing: border-box !important;
+}
+/*清除浮动*/
+.text-center{text-align: center;}
+.clearfix:after{content: ""; display: block;clear: both;}
+.clearfix{zoom: 1;clear: both;}
+.fl{float: left;}
+.fr{float:right;}
+
+
+
+/*.common-mask{*/
+	/*position: fixed;*/
+	/*z-index: 999;*/
+	/*width: 100%;*/
+	/*height: 100%;*/
+	/*background: rgba(0,0,0,0.6);*/
+/*}*/
+.common-error-pop{
+	width: 81.25%;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	-webkit-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+	border-radius: 0.45rem;
+	background: #ffffff;
+	text-align: center;
+	z-index: 999;
+}
+.close-icon{
+	position:absolute;
+	cursor:pointer;
+	bottom: -3.1rem;
+	left: 50%;
+	-webkit-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+	-webkit-transform: translateX(-50%);
+	-moz-transform: translateX(-50%);
+	-ms-transform: translateX(-50%);
+	-o-transform: translateX(-50%);
+	transform: translateX(-50%);
+	width: 1.33rem;
+	height: 1.34rem;
+	background:url(../images/christ/popover_close@2x.png) no-repeat;
+	background-size:cover;
+	z-index: 2;
+}
+.close-icon:active{
+	opacity: 0.8;
+}
+.common-notimes-pop{
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	-webkit-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+	border-radius: 0.45rem;
+	text-align: center;
+	z-index: 999;
+}
+.popup-con{
+	padding-top: 2rem;
+	width: 8.92rem;
+	height: 9.73rem;
+	background:url(../images/christ/popup_bg-@2x.png) no-repeat;
+	background-size:cover;
+}
+.msg-txt{
+	margin-top: 3.5rem;
+	padding: 0 10px;
+	font-size: 0.60rem;
+	color: #a53119;
+}
+.msg{
+	margin-top: 1.54rem;
+	padding: 0 10px;
+	font-size: 0.60rem;
+	color: #a53119;
+}
+.btn-recharge,.btn-gobet{
+	display: inline-block;
+	margin-top: .68rem;
+	width: 4.67rem;
+	height: 1.56rem;
+	line-height: 1.56rem;
+	font-size: 0.725rem;
+	color: #fff;
+}
+.btn-recharge{
+	background:url(../images/christ/button2@2x.png) no-repeat;
+	background-size:cover;
+}
+.btn-gobet{
+	background:url(../images/christ/button1@2x.png) no-repeat;
+	background-size:cover;
+}
+.btn-recharge:active{ opacity: 0.8;}
+.btn-gobet:active{ opacity: 0.8;}
+
+.popWin{
+	display: none;
+	position:fixed;
+	z-index:99;
+	/*top:50%;
+	left:50%;*/
+	background:#fff;
+	border-radius: 0.5rem;
+	/*width:12.25rem;*/
+	width:76.6%;
+	/*transform:translate(-50%,-50%);*/
+	padding-top:0.4rem;
+}
+.popWin .popBtn{
+	display: block;
+	cursor: pointer;
+	width:100%;
+	border-radius: 0.1rem;
+	height:1.75rem;
+	line-height: 1.75rem;
+	background:#fd3458;
+	color:#fff;
+	font-size:0.8rem;
+	text-align: center;
+	margin-bottom: 0.6rem;
+}
+.popClose{
+	display: block;
+	cursor: pointer;
+	position:absolute;
+	top:-0.6rem;
+	right:-0.6rem;
+	width:1.2rem;
+	height:1.2rem;
+	background:url(https://egouimg1.qutu.com/discountplus/home/close.png) no-repeat 0 0;
+	background-size:100% 100%;
+}
+.popTitle{
+	font-size:1rem;
+	color:#666;
+	font-weight: bold;
+	text-align: center;
+	line-height: 1rem;
+	margin-bottom:0.75rem;
+}
+.popBody{
+	padding:0 1.1rem 0.9rem;
+}
+#loginWin .phoneInput{
+	padding:0.5rem 0;
+	height:0.75rem;
+	line-height: 0.75rem;
+	font-size:0.6rem;
+	background:#ededed;
+	width:100%;
+	text-indent:0.65rem;
+}
+#loginWin .inputWrap{
+	position:relative;
+	height: 1.75rem;
+	margin-bottom: 0.5rem;
+	z-index: 79;
+}
+#loginWin .clearBtn{
+	position:absolute;
+	right:0;
+	top:0;
+	bottom:0;
+	margin:auto;
+	display: none;
+	width:1.75rem;
+	height:1.75rem;
+	background:url(https://egouimg1.qutu.com/m_egou/regist/clear.png) no-repeat center center;
+	background-size: 50%;
+	cursor: pointer;
+	z-index:99;
+}
+.public-layer-tishi{
+	font-size:0.75rem;
+	text-align:center;
+	position:fixed;
+	z-index:120;
+	display: none; 
+	border-radius: 0.1rem;
+	-moz-border-radius:0.1rem;
+	-ms-border-radius:0.1rem;
+	-webkit-border-radius:0.1rem;
+	min-width:8rem;
+	width:72%;
+	padding:0.5rem 0.25rem;
+	background:rgba(0,0,0,0.8);
+	color:#fff;
+	left:50%;
+	top:50%;
+	transform:translate(-50%,-50%);
+	-moz-transform:translate(-50%,-50%);
+	-ms-transform:translate(-50%,-50%);
+	-webkit-transform:translate(-50%,-50%);
+	-o-transform:translate(-50%,-50%);
+}
+.public-layer-tishi span{ display: inline-block;line-height:1.3rem;}
+.popWin .popBtn{
+	display: block;
+	cursor: pointer;
+	width:100%;
+	border-radius: 0.1rem;
+	height:1.75rem;
+	line-height: 1.75rem;
+	background:#fd3458;
+	color:#fff;
+	font-size:0.8rem;
+	text-align: center;
+	margin-bottom: 0.5rem;
+}
+.popTip{
+	color:#999;
+	font-size:0.5rem;
+	line-height: 0.9rem;
+	overflow: hidden;
+}
+.popTip label{
+	float:left;
+}
+.popTip .tip{
+	padding-left:1.7rem;
+}
+.popWin .errMess{
+	font-size:0.8rem;
+	color:#666;
+	text-align: center;
+} 
+/*抽奖成功弹层*/
+#lotterWin .signInfo{
+	padding:0.4rem 0 0.7rem;
+}
+#lotterWin .signGet,#againWin .signGet{
+	font-size:0.65rem;
+	color:#666;
+	text-align: center;
+	margin-bottom:0.4rem;
+}
+#lotterWin .signGet .success_icon,#againWin .signGet .success_icon{
+	display: inline-block;
+	vertical-align: middle;
+	width:0.6rem;
+	height:0.6rem;
+	background:url(https://egouimg1.qutu.com/discountplus/lotter/icon2.png) no-repeat 0 0;
+	background-size: 100% 100%;
+	margin-right:0.3rem;
+}
+/*签到成功弹层*/
+#signWin .signInfo{
+	border-top:1px dashed #e7e7e7;
+	padding:0.4rem 0 0.6rem;
+}
+#signWin .signGet{
+	font-size:0.8rem;
+	color:#fd3458;
+	text-align: center;
+	font-weight: bold;
+	margin-bottom:0.4rem;
+}
+#signWin .signGet .money_icon{
+	display: inline-block;
+	vertical-align: middle;
+	width:0.8rem;
+	height:0.8rem;
+	background:url(https://egouimg1.qutu.com/discountplus/home/money_icon1.png) no-repeat 0 0;
+	background-size: 100% 100%;
+	margin-right:0.3rem;
+}
+.signGet .signText{
+	display: inline-block;
+	vertical-align: middle;
+}
+.signTip{
+	font-size:0.5rem;
+	text-align: center;
+	color:#999;
+}
+.againTip{
+	font-size:0.6rem;
+	text-align: center;
+	color:#999;
+	margin-bottom:0.7rem;
+	margin-top:0.5rem;
+}
+.lotteryName{
+	font-size:1rem;
+	font-weight: bold;
+	color:#fd3458;
+	text-align: center;
+}
+
+.thanks{
+	text-align: center;
+	margin-bottom: 0.7rem;
+}
+.thanks_icon{
+	width:1.4rem;
+}
+#thanksWin .lotteryName{
+	font-size:1rem;
+	color:#666;
+	text-align: center;
+	margin-bottom:1rem;
+}
+#lotterWin .lotteryName{
+	font-size:0.8rem;
+	color:#333;
+	text-align: center;
+	font-weight: normal;
+}
+.popAd{
+	margin-bottom: 0.6rem;
+	margin-left:-1.1rem;
+	margin-right:-1.1rem;
+}
+.popAdLink{
+	display: block;
+	cursor: pointer;
+}
+.popAd .adTitle{
+	line-height: 1.6rem;
+	text-align: center;
+	color:#666;
+	font-size:0.65rem;
+}
+.popAd .ad_info{
+	padding:0.45rem 1.1rem 0rem;
+}
+.popAd .ad_info .adBrief{
+	color:#fd3458;
+	font-size:0.5rem;
+	line-height: 1rem;
+}
+.popAd .ad_info .adEndTime{
+	color:#666;
+	font-size:0.55rem;
+	margin-top:0.08rem;
+}
+.useDes{
+	font-size:0.45rem;
+	color:#ff7400;
+}
+#errWin .signInfo{
+	border:none;
+}
+.thanks{
+	text-align: center;
+	margin-bottom: 0.7rem;
+}
+.thanks_icon{
+	width:1.4rem;
+	display: block;
+	margin:0 auto;
+}
+#thanksWin .lotteryName{
+	font-size:1rem;
+	color:#666;
+	text-align: center;
+	margin-bottom:1rem;
+}
+.popAdLink .adImgWrap{
+	max-height:7.5rem;
+	text-align: center;
+	overflow:hidden;
+}

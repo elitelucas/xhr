@@ -1,0 +1,120 @@
+
+  <!-- 投标确认弹出层 -->
+  <div class="ipopup-box hidden">
+    <div class="ipopup">
+      <div class="ipopup-top">
+        <div class="ipopup-top-title">投标</div>
+        <div class="ipopup-close ipopup-top-close">X</div>
+      </div>
+      <div class="ipopup-main">
+        <div class="">
+          您的可用余额：<span class="color-main">{if !empty($info['zhuanrangren'])}{$rs['withdrawAbleBalance']}{else}{$w_account['money_usable']}{/if}</span>元
+          {if !empty($info['zhuanrangren'])}
+          <a class="margin-left10px text-warning" href="<?=url('fengfu','default','recharge')?>" target="_blank">我要充值</a>
+          {else}
+          <a class="margin-left10px text-warning" href="<?=url('member','account','recharge')?>" target="_blank">我要充值</a>
+          {/if}
+
+        </div>
+        <div class="ipopup-warning">请填写并确认下面投标金额：</div>
+
+        <div class="invest-form-item">
+          <div class="invest-form-item-left pull-left">投标限额：</div>
+          <div class="invest-form-item-right pull-left">最低{$info['lowest_account']} - {if $info['most_account']>0}最高{$info['most_account']}{else}不限额{/if}</div>
+        </div>
+
+        <div class="invest-form-item">
+          <div class="invest-form-item-left pull-left">年化利率：</div>
+          <div class="invest-form-item-right pull-left"><?=$info['apr']*100?>%</div>
+        </div>
+    {if !empty($info['zhuanrangren'])}
+        <form id = "tender_post" action="<?=url('fengfu','default','tender')?>" method="post">
+    {else}
+        <form id = "tender_post" action="<?=url('borrow','default','public_tender_ajx')?>" method="post">
+    {/if}
+          <div class="invest-form-item">
+            <div class="invest-form-item-left pull-left">投标金额：</div>
+            <div class="invest-form-item-right pull-left">
+              <input name="money" class="invest-form-input form-control" type="text" placeholder="请输入投标金额，单位：元" value="{if !empty($info['zhuanrangren'])}{$rs['withdrawAbleBalance']}{else}{$w_account['money_usable']}{/if}">
+              <div class="help-block"></div>
+            </div>
+          </div>
+            {if empty($info['zhuanrangren'])}
+          <div class="invest-form-item">
+            <div class="invest-form-item-left pull-left">交易密码：</div>
+            <div class="invest-form-item-right pull-left">
+              <input name="tpassword" class="invest-form-input form-control" type="password" placeholder="请输入交易密码">
+              <div class="help-block"></div>
+            </div>
+          </div>
+            {/if}
+
+                    {if $info['is_dxb']=='1'}
+          <div class="invest-form-item">
+            <div class="invest-form-item-left pull-left">定向密码：</div>
+            <div class="invest-form-item-right pull-left">
+              <input name="pwd" class="invest-form-input form-control" type="password" placeholder="请输入定向密码">
+              <div class="help-block"></div>
+            </div>
+          </div>
+                    {/if}
+          <input name="formhash" type="hidden" value="<?=formhash()?>" />
+          <input name="id" type="hidden" value="{$id}" />
+          <div class="invest-form-item">
+            <div class="invest-form-item-left pull-left">&nbsp;</div>
+            <div class="invest-form-item-right pull-left">
+              <!-- <a class="invest-form-item-btn btn btn-warning" href="javascript:void(0);">确认投标</a> -->
+            <input class="invest-form-item-btn btn btn-warning" type="submit" value="确认投标">
+            </div>
+          </div>
+        </form>
+
+      </div>
+      <div class="ipopup-bottom hidden">
+        <a class="ipopup-close btn btn-default" href="javascript:void(0);">取消</a>
+      </div>
+    </div>
+  </div>
+  <!-- /投标确认弹出层 -->
+<script type="text/javascript" src="<?=SITE_PROTOCOL.C('cdn_path')?>resource/js/jquery.validate.min.js"></script>
+<script type="text/javascript">
+$(function(){
+     $("#tender_post").validate({
+         errorPlacement:function(error,element) {
+               error.appendTo(element.parent().children(".help-block"));
+          },
+          rules: {
+        	  money: {
+                    required: true,
+                    number:true,
+                    min: {$info['lowest_account']},
+                    max: {if !empty($info['zhuanrangren'])}{$rs['withdrawAbleBalance']}{else}{$w_account['money_usable']}{/if}
+        	  },
+              {if $info['is_dxb']=='1'}
+        	  pwd: {
+        		  required: true
+        	  },
+        	  {/if}
+        	  tpassword: {
+        		  required: true
+        	  }
+          },
+          messages: {
+        	  money: {
+                    required: "请输入投标金额",
+                    number: "投标金额只能输入数字",
+                    min: "{$info['lowest_account']}元起投，请至少输入{$info['lowest_account']}",
+                    max: "可用余额不足"
+        	  },
+              {if $info['is_dxb']=='1'}
+        	  pwd: {
+        		  required: "请输入定向密码"
+        	  },
+        	  {/if}
+        	  tpassword: {
+        		  required: "请输入交易密码"
+        	  }
+          }
+     });
+});
+</script>

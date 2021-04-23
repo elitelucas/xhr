@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>填写银行卡信息</title>
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+    <!-- 新增css -->
+    <link href="/statics/web/css/s_min.css" rel="stylesheet" type="text/css">
+
+     <!-- Validform -->
+    <link rel="stylesheet" href="/statics/web/extend/Validform_v5.3.2/css/style.css" type="text/css" media="all" />
+    <script type="text/javascript" src="/statics/web/extend/Validform_v5.3.2/js/Validform_v5.3.2_min.js"></script>
+    <!-- Validform - end -->
+    <!-- layer -->
+    <!-- <link rel="stylesheet" href="/statics/web/extend/layui/css/layui.css">
+    <script src="/statics/web/extend/layui/layui.js"></script> -->
+    <script src="/statics/web/extend/layer/mobile/layer.js"></script>
+    <!-- layer - end -->
+    <script src="/statics/web/js/JSON.js"></script>
+    <script src="/statics/web/js/provinceCity.js"></script>
+
+</head>
+<body>
+<header>
+    <em onclick="history.go(-1)">返回</em>
+    <h1>填写银行卡信息</h1>
+
+</header>
+<section>
+    <div class="modify bgFF">
+        <form class="Validform" action="<?=url('','','bank')?>" method="post">
+        <div class="bankCard2">
+            <dl>
+                <dt><i class="icoBank1"></i>请选择发卡银行<em  style="color: #ff4f4f">*</em></dt>
+                <dd>
+                    <ul class="onLinePad">
+                        <li>
+                            <label >发卡银行：
+                                <div>
+                                    <div class="inputW">请选择</div>
+                                    <select class="select" name="bank" datatype="*">
+                                        <option value>请选择</option>
+                                        {loop $bank $v}
+                                        <option value="{$v['id']}">{$v['name']}</option>
+                                        {/loop}
+                                    </select>
+                                </div>
+                                <span class="s_msg Validform_checktip"></span>
+                            </label>
+                        </li>
+                    </ul>
+                </dd>
+            </dl>
+            <dl>
+                <dt><i class="icoBank1"></i>请填写支行信息<em style="color: #ff4f4f">*</em></dt>
+                <dd>
+                    <ul class="onLinePad">
+
+                        <li>
+
+                            <label  class="area">支行银行：
+                                <div class="provinceCity">
+                                    <div class="inputW">请选择</div>
+                                    <select name="province" class="select" ></select>
+                                </div>
+                                <div class="provinceCity">
+                                    <div class="inputW">请选择</div>
+                                    <select name="city" class="select"></select>
+                                </div>
+                            </label>
+                            <span class="s_msg Validform_checktip"></span>
+                        </li>
+                        <li>
+
+                            <label >&nbsp;
+                                <input name="branch" id="chBank" style="width: 540px;" type="text" datatype="*" placeholder="请输入详细支行名称" autocomplete="off">
+                            </label>
+                            <span class="s_msg Validform_checktip" id="chError"></span>
+                        </li>
+                    </ul>
+                </dd>
+            </dl>
+            <dl>
+                <dt><i class="icoPhone1"></i>请填写银行预留信息<em style="font-size: 28px; color: #999">（非必填）</em></dt>
+                <dd>
+                    <ul class="onLinePad">
+
+                        <li>
+                            <label for="pad" >手机号：
+                                <input name="mobile" style="width: 540px;" type="number" placeholder="请输入真实有效的手机号" autocomplete="off">
+                            </label>
+                            <span class="s_msg Validform_checktip"></span>
+                        </li>
+                    </ul>
+                    <p class="BanText">信息加密处理，仅用于银行验证</p>
+                    <div class="fuxuankuan"><label for="checkbox"><input type="checkbox" id="checkbox" checked disabled> 同意《用户协议》</label></div>
+                </dd>
+            </dl>
+
+        </div>
+            <input type="hidden" name="name" value="{$name}"/>
+            <input type="hidden" name="account" value="{$account}"/>
+            <div class="button" style="margin-top: 100px;"><button type="submit">下一步</button></div>
+        </form>
+    </div>
+</section>
+    <script type="text/javascript">
+        $(function(){
+            $(".Validform").Validform({
+                tiptype:2,
+                ajaxPost: true,
+                tiptype:function(msg,o,cssctl){
+                    //msg：提示信息;
+                    //o:{obj:*,type:*,curform:*}, obj指向的是当前验证的表单元素（或表单对象），type指示提示的状态，值为1、2、3、4， 1：正在检测/提交数据，2：通过验证，3：验证失败，4：提示ignore状态, curform为当前form对象;
+                    //cssctl:内置的提示信息样式控制函数，该函数需传入两个参数：显示提示信息的对象 和 当前提示的状态（既形参o中的type）;
+
+                    if(!o.obj.is("form")){  //验证表单元素时o.obj为该表单元素，全部验证通过提交表单时o.obj为该表单对象;
+                        var objtip=o.obj.parent().siblings(".Validform_checktip");
+                        if(o.type!=2){
+                            cssctl(objtip,o.type);
+                            objtip.text(msg).show();
+                        }else {
+                            cssctl(objtip,0);
+                            objtip.text('').hide();
+                        }
+                    }
+                },
+                beforeSubmit: function(curform) {
+                    
+                    //验证是否填写支行信息
+                    if ($("select[name=province]").val() == -2 || $("select[name=city]").val() == -2) {
+                        $("#chError").show();
+                        $("#chError").addClass("Validform_wrong");
+                        $("#chError").html("请选择支行信息");
+                        return false;
+                    }
+                    
+                    //获取选择表单值
+                    var p_val = curform.find("select[name=province]").children('option:selected').text();
+                    var c_val = curform.find("select[name=city]").children('option:selected').text();
+                    $("select[name=province]").children('option:selected').val(p_val);
+                    $("select[name=city]").children('option:selected').val(c_val);
+                    
+                    return true;
+                },
+                callback: function(data) {
+                    if (data.status == 0) {
+                        window.location.href = "<?=url('','','bankOk')?>&bankName=" + data.bankName + "&id=" + data.id+"&flag_b="+"{$_GET['flag_b']}";
+                    } else {
+                        layer.open({
+                            content: "<p class='alert_msg'>"+data.ret_msg+"</p>",
+                            btn: '<p class="alert_buttom">我知道了</p>'
+                        });
+                    }
+                }
+            });
+            
+            $('.area').citySelect(areaData);
+        });
+    </script>
+</body>
+</html>

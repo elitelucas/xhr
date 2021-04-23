@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>pc手游</title>
+    <link href="/statics/win/css/reset.css"  rel="stylesheet" type="text/css">
+    <link href="/statics/win/css/css.css"  rel="stylesheet" type="text/css">
+    <script src="/statics/win/js/jquery.1.8.2.min.js"></script>
+</head>
+<body>
+<div class="layout">
+    <div class="head">
+        <div class="fl head-fl">
+            <a>PC客户端</a>
+            <a>手机客户端</a>
+            <a>快速登录器</a>
+            <a>防劫持教程</a>
+        </div>
+        <div class="fr head-fr" style="display: ">
+            <ul>
+                <li><div class="input-warp"><input type="text" placeholder="账号"><i class="ico ico-user"></i></div></li>
+                <li><div class="input-warp"><input type="text" placeholder="密码"><i class="ico ico-pas"></i></div></li>
+                <li><button class="btn-red">立即登录</button></li>
+                <li><button class="btn-white">立即注册</button></li>
+                <li><button class="btn-blue">游客试玩</button></li>
+                <li><a class="forgot-pas" href="#">忘记密码</a> </li>
+                <li><div class="china"><span>|</span><em>CH</em></div></li>
+            </ul>
+        </div>
+        <div class="fr head-login" style="display:none ">
+            <ul>
+                <li><a href="#" class="ico ico-news"><em></em></a></li>
+                <li><a href="#">平台公告</a></li>
+                <li><a href="#">个人中心<i class="ico ico-bot"></i></a></li>
+                <li><a href="#"><i class="ico ico-user2"></i>余额：0.00元<i class="ico ico-bot"></i></a></li>
+                <li><a href="#">充值</a></li>
+                <li><a href="#">提款</a></li>
+                <li><a href="#"><i class="ico ico-cus"></i>客服</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="nav">
+    <div class="layout">
+        <div class="logo fl"><img></div>
+        <ul>
+            <li><a  href="#">购彩大厅</a></li>
+            <li><a class="active" href="#">彩票开奖</a></li>
+            <li><a href="#">优惠活动</a></li>
+            <li><a href="#">手机APP</a></li>
+            <li><a href="#">玩法介绍</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="layout content-sub trendMain">
+    <div class="clearfix">
+        <div class="zouhao-title con-title">
+            <!--<p class="title fl">幸运28</p>-->
+            <div class="fl tab-box">
+                <a href="javascript:void(0);" data-type="history" class="fl active">幸运28</a>
+                <a href="javascript:void(0);" data-type="basic" class="fl">加拿大28</a>
+                <a href="javascript:void(0);" data-type="basic" class="fl">北京PK10</a>
+                <a href="javascript:void(0);" data-type="basic" class="fl">幸运飞艇</a>
+
+
+            </div>
+            <div class="fr">
+
+                <div class="fl prl-20" style="font-size: 14px;">
+                    日期:
+                    <input type="text" class="doubledate input-info time flatpickr-input searchTime" readonly="readonly">
+                </div>
+                <button class="btn-blue">查询</button>
+            </div>
+        </div>
+    </div>
+
+        <div class="page">
+            <em class="ico ico-page-fl"></em>
+            <a href="javascript:void(0);" class="active">1</a>
+            <a href="javascript:void(0);">2</a>
+            <a href="javascript:void(0);">3</a>
+            <a href="javascript:void(0);">4</a>
+            <a href="javascript:void(0);">5</a>
+            <span style="padding-left: 0">...</span>
+            <em class="ico ico-page-fr"></em>
+            <span>第一页，共10页</span>
+        </div>
+
+    <div id="contentBox1">
+            <table class="ssc_table sub_table" cellpadding="0" cellspacing="0" border="0">
+                <thead>
+                <tr>
+                    <td colspan="" rowspan="2">期数</td>
+                    <td rowspan="2">时间</td>
+                    <td rowspan="2">开奖号码</td>
+                    <th colspan="9">总和</th>
+
+                </tr>
+                <tr>
+                    <td width="55">和值</td>
+                    <td width="55">大</td>
+                    <td width="55">小</td>
+                    <td width="55">双</td>
+                    <td width="55">单</td>
+                    <td width="55">大单</td>
+                    <td width="55">小单</td>
+                    <td width="55">大双</td>
+                    <td width="55">小双</td>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>间隔</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td class="">1</td>
+                        <td class="">2</td>
+                        <td class="">3</td>
+                        <td class="">4</td>
+                        <td class="">5</td>
+                        <td class="">6</td>
+                        <td class="">7</td>
+                        <td class="">8</td>
+                    </tr>
+                    <tr>
+                        <td>20170818032</td>
+                        <td>2017-08-18 11:20:00 </td>
+                        <td>
+                            <i class="sscBall" data-num="9">09</i>
+                            <i class="sscBall" data-num="8">08</i>
+                            <i class="sscBall" data-num="2">02</i>
+                            <i class="sscBall" data-num="1">01</i>
+                            <i class="sscBall" data-num="2">02</i>
+                        </td>
+                        <td class="col_count">22</td>
+                        <td class="col_big"></td>
+                        <td class="col_small">小</td>
+                        <td class="col_double">双</td>
+                        <td class="col_single"></td>
+                        <td class="col_long">龙</td>
+                        <td class="col_hu"></td>
+                        <td class="col_sum"></td>
+                        <td class="">小小</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    <div class="page">
+        <em class="ico ico-page-fl"></em>
+        <a href="javascript:void(0);" class="active">1</a>
+        <a href="javascript:void(0);">2</a>
+        <a href="javascript:void(0);">3</a>
+        <a href="javascript:void(0);">4</a>
+        <a href="javascript:void(0);">5</a>
+        <span style="padding-left: 0">...</span>
+        <em class="ico ico-page-fr"></em>
+        <span>第一页，共10页</span>
+    </div>
+</div>
+
+
+<div class="copyright">
+    <div class="layout">
+        <div class="copyright-top">
+            <div class="copyright-logo"><img src="logo" /> </div>
+        </div>
+        <div class="copyright-bot">
+            <div class="fl">
+                <p>© 2011-2017 购彩游戏版权所有 <span>菲律宾政府PAGCOR博彩牌照认证</span></p>
+                <p>购彩游戏郑重提示：彩票有风险，投注需谨慎，不向未满18周岁的青少年出售彩票</p>
+            </div>
+
+            <div class="authorized fr">
+                <p>权威认证资质</p>
+                <div class="ico item-box">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport">
+    <meta content="no" name="apple-touch-fullscreen">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>开奖走势</title>
+    <link href="/statics/web/css/css.css" rel="stylesheet" type="text/css"/>
+    <link href="/statics/web/css/trendChart.css" rel="stylesheet" type="text/css"/>
+    <script src="/statics/web/js/jquery.1.8.2.min.js"></script>
+    <script src="/statics/web/js/style.js"></script>
+    <script src="/statics/web/extend/dropload/dropload.min.js"></script>
+</head>
+<body>
+<header>
+    <em onclick="history.go(-1)">返回</em>
+    <h1 class="trendH1"><span class="trendH1_title">开奖走势</span><span class="trendEM"></span></h1>
+    <!---->
+</header>
+<div class="trendNavWarp" style="display: none">
+    <div class="trendNav">
+        <ul>
+        	{loop $gameInfo $v}
+        		{if $v['id'] == $lotteryId}
+        			<li id="{$v['id']}"><span class="active">{$v['name']}</span></li>
+        		{else}
+        			<li id="{$v['id']}"><span>{$v['name']}</span></li>
+        		{/if}
+            {/loop}
+            <!-- 
+	            <li><span class="active">重庆时时彩</span></li>
+	            <li><span>重庆时时彩</span></li>
+	            <li><span>重庆时时彩</span></li>
+	            <li><span>重庆时时彩</span></li>
+	            <li><span>重庆时时彩</span></li>
+	            <li><span>重庆时时彩</span></li>
+	            <li><span>重庆时时彩</span></li>
+	            <li><span>重庆时时彩</span></li>
+	            <li><span>重庆时时彩</span></li>
+	            <li><span>重庆时时彩</span></li>
+            -->
+        </ul>
+    </div>
+</div>
+<section style="padding-top:150px;">
+    <div class="trendItem">
+        <label>可选择日期查询</label><span class="time-item">时间筛选</span>
+        <input type="date" class="inputDate" onchange="getData()">
+    </div>
+    <div class="trendCon">
+        <table class="vertical">
+        <!--<table class="transverse">-->
+           <!--  <thead>
+                <tr>
+                    <th>期号</th>
+                    <th>总和</th>
+                    <th>大</th>
+                    <th>小</th>
+                    <th>单</th>
+                    <th>双</th>
+                    <th>龙虎和</th>
+                    <th>大</th>
+                    <th>小</th>
+                    <th>单</th>
+                    <th>双</th>
+                    <th>龙虎和</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="red">792620</span></td>
+                    <td><span class="bgGray blue">38</span></td>
+                    <td>大</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><span class="bgGray red">38</span></td>
+                    <td><span class="bgGray green">38</span></td>
+                    <td></td>
+                    <td>龙</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><span class="red">792620</span></td>
+                    <td><span class="bgGray blue">38</span></td>
+                    <td>大</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><span class="bgGray">38</span></td>
+                    <td></td>
+                    <td>龙</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+             -->
+             
+            <thead id="issue-title">
+            </thead>
+            <tbody id="issue-num">
+            </tbody>
+        </table>
+    </div>
+</section>
+</body>
+    <script type="text/javascript">
+    var start_time = 0;
+    var lottery_type = {$lotteryId};
+    var flag
+    var windowHeight = $(window).height();
+    //条件筛选s
+    function getData() {
+        flag = true;
+		start_time = $(".inputDate").val();
+        console.log(lottery_type);
+        pageData();
+    }
+    
+    function pageData() {
+        var page = 1; //页码
+        title_flag = 0;
+        $('#issue-title').html("");
+        $('#issue-num').html("");
+        $('.dropload-down').remove();
+        
+        // dropload
+        $('.bettingRecordList').dropload({
+            scrollArea : window,
+            loadDownFn : function(me){
+                //拼接
+                var retTitle = '';
+                var retHtml = '';
+
+                $.ajax({
+                    type: 'GET',
+                    url: "<?=url('','openAward','trendChartList')?>" + "&date=" + start_time + "&lottery_type=" + lottery_type + "&page=" + page,
+                    dataType: 'json',
+                    success: function(data){       
+                        var dataLen = data.list.length;
+                        if(page>2){
+                            $('.zhanwei').removeClass('zhanwei');
+                        }else if (dataLen > 0){
+                            $('.zhanwei').removeClass('zhanwei');
+                        }else {
+                            $('#record_list').append("<tr><td colspan='10' class='s_record'></td></tr>>");
+                            $('.s_record').addClass('zhanwei');
+                            var mainTop = $(".s_record").offset().top;
+                            var newHeight = windowHeight-mainTop;
+                            $(".s_record").css({height:newHeight});
+                        }
+                        if (dataLen > 0) {
+                            if(lottery_type == 1 || lottery_type == 3){
+                                //间隔
+                                if (flag) {
+                                	retHtml += '<tr><td>间隔</td><td>-</td>'
+                                        + '<td>'+ data.list[0].spare_3[0] +'</td>'
+                                        + '<td>'+ data.list[0].spare_3[1] +'</td>'
+                                        + '<td>'+ data.list[0].spare_3[2] +'</td>'
+                                        + '<td>'+ data.list[0].spare_3[3] +'</td>'
+                                        + '<td>'+ data.list[0].spare_3[4] +'</td>'
+                                        + '<td>'+ data.list[0].spare_3[5] +'</td>'
+                                        + '<td>'+ data.list[0].spare_3[6] +'</td>'
+                                        + '<td>'+ data.list[0].spare_3[7] +'</td>'
+                                        + '</tr>'
+                                }
+                            }
+                            
+                            if (title_flag == 0) {
+                                //循环获取列表字段名称
+                                retTitle = '<tr>';
+                                for (var it = 0; it < data.way.length; it++) {
+                                    retTitle += '<th>' + data.way[it] + '</th>';
+                                } 
+                                retTitle += '</tr>';
+                            }
+
+                            for(var i=0; i < dataLen; i++) {
+                                retHtml += '<tr>'
+                                    + '<td><span class="red">'+ data.list[i].issue + '</span></td>'
+                                    + colorStyle(data.list[i].open_result);
+                                    //+ '<td><span class="bgGray blue">' + data.list[i].open_result + '</span></td>';
+		                       //循环筛选
+		                        for (var is = 0; is < data.list[i].spare_2.length; is++) {
+		                           retHtml += colorStyle(data.list[i].spare_2[is]);
+		                        }
+
+		                        retHtml += '</tr>';
+                            }
+                        }else{
+                            // 锁定
+                            me.lock();
+                            // 无数据
+                            me.noData();
+                        }
+
+                        // 为了测试，延迟1秒加载
+                        setTimeout(function(){
+                        	if (title_flag == 0) {
+                        		$('#issue-title').append(retTitle);
+                        		title_flag = 1;
+                        	}
+                            $('#issue-num').append(retHtml);
+                            // 每次数据加载完，必须重置
+                            me.resetload();
+                        },1000);
+                        
+                        flag = false;
+                    },
+                    error: function(xhr, type){
+                        // 即使加载出错，也得重置
+                        me.resetload();
+                    }
+                });
+                
+                page++; //页面加1
+            },
+            threshold : 50
+        });
+    }
+    
+    //循环筛选对应的样式
+   function colorStyle(value) {
+       if (value === '') {
+           return '<td></td>';
+       }else if (!isNaN) {
+    	   return '<td>' + value +'</td>';
+       }else{
+    	   value = value.toString();
+           var text_color =  value.split("-");
+           if (text_color[1] == 'red') {
+        	   return '<td><span class="bgGray red">' + text_color[0] + '</span></td>';
+           }else if(text_color[1] == 'blue') {
+        	   return '<td><span class="bgGray blue">' + text_color[0] + '</span></td>';
+           }else {
+        	   return '<td><span class="bgGray">' + text_color[0] + '</span></td>';
+           }
+       }
+   }
+    
+    $(function(){
+    	$(".trendH1").on("click",function(){
+    		if($(".trendNavWarp").css("display") == "none"){
+    			$(".trendNavWarp").show();
+    			$(".trendEM").css("transform","rotate(180deg)")
+    		}else{
+    			$(".trendNavWarp").hide();
+    			$(".trendEM").css("transform","rotate(0deg)")
+    		}
+    	})
+    	$(".trendNav ul li").on("click",function(){
+    		var val = $(this).text();
+    		$(".trendH1_title").text(val);
+    		$(".trendNavWarp").hide();
+    		$(".trendEM").css("transform","rotate(0deg)");
+    		$(this).siblings().children().removeClass("active");
+    		$(this).children().addClass("active");
+
+    		lottery_type = $(this).attr('id');
+    		
+    		getData();
+    	})
+    	
+		var val = $(".trendNav ul li .active").text();
+		$(".trendH1_title").text(val);
+		
+		getData();
+    })
+    
+    </script>
+</html>

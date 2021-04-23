@@ -1,0 +1,70 @@
+{template header}
+<!-- Investor_center -->
+<link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+
+<!-- 路径导航 -->
+<div class="container">
+    <ol class="breadcrumb">
+        <li><a href="{APP_PATH}">首页</a></li>
+        <li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+        <li class="active">我的账户</li>
+    </ol>
+    <div class="clearfix"></div>
+</div>
+<!-- /路径导航 -->
+{template member-nav-left}
+<!-- 右边正文 -->
+<div class="investor-right pull-right border-radius">
+    <ul class="nav nav-tabs" role="tablist" id="myTab">
+        <li class="active"><a href="<?=url('huifu','default','hfzhifu')?>">汇付支付</a></li>
+    </ul>
+
+    <div class="tab-content">
+
+        <form action="<?=url('huifu','default','hfzhifu')?>" method="post">
+            <br/>
+            <div class="recharge-div">
+                <div class="recharge-div-left pull-left">支付金额：</div>
+                <div class="recharge-div-right pull-right">
+                    <div class="pull-left">
+                        <input type="text" name="money" class="recharge-input form-control" value="{$money['repay_account']}" readonly="true">
+                    </div>
+                    <div class="pull-left margin-left10px">元</div>
+                </div>
+            </div>
+
+            <input type='hidden' name='save' value='save'>
+            <input type='hidden' name='formhash' value='<?=formhash()?>' >
+            <?php if(!empty($money['repay_account'])){?>
+            <div class="recharge-div">
+                <div class="recharge-div-left pull-left"></div>
+                <div class="recharge-div-right pull-right">
+                    <input type="submit" class="withdraw-btn btn btn-warning" value="确认提交"></input>
+                </div>
+            </div>
+            <?php }?>
+        </form>
+
+    </div>
+    <!-- /账户充值 -->
+</div>
+
+
+</div>
+<!-- /右边正文 -->
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        $("#online").click(function() {
+            $("#onlineBox").removeClass("hidden");
+            $("#offlineBox").addClass("hidden");
+        });
+        $("#offline").click(function() {
+            $("#offlineBox").removeClass("hidden");
+            $("#onlineBox").addClass("hidden");
+        });
+
+    });
+</script>
+{template footer}

@@ -1,0 +1,146 @@
+<!DOCTYPE>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>协议书 -  诚汇通-打造国内口碑最好的P2P网络借贷平台</title>
+<meta name="keywords" content="口碑最好的网络借贷平台，网络贷款，借贷网络平台，民间借贷，小额贷款，无抵押贷款，信用贷款，投资理财，诚汇通" />
+<meta name="description" content="诚汇通" />
+<link rel="shortcut icon" href="/favicon.ico">
+<style type="text/css">
+body,div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, blockquote, th, td ,iframe{margin:0;padding:0;}
+body {font:12px/1.5 Tahoma,Microsoft YaHei,Verdana,Arial,Helvetica,sans-serif;color:#666;}
+.fxnwarp{margin:20px auto;width:1000px;overflow:hidden;background:#FFF;}
+.fxnwarp h2{width:800px;margin:0 auto;font-size:16px;text-align:center;background:url(/fxnimg/fxnh2_bg.png) no-repeat bottom;}
+.fxnservice_con{width:650px;margin:0 auto;padding:30px;font-size:14px;}
+</style>
+</head>
+<body>
+<div style="overflow:hidden;background:#FFF;color:#666;">
+	<p style=" font-size:16px;text-align:center;">借款协议书</p>
+    <p style=" font-size:16px;text-align:center;background:url(../../statics/images/fxnh2_bg.png) no-repeat bottom;">&nbsp; </p>
+    <div class="fxnservice_con" style="position: relative;overflow: hidden;">
+      <div style="padding-top:20px;  padding-bottom:20px;">
+        <p> 甲方（出借人）：<br />
+        <table width="90%" border="0" cellpadding="0" cellspacing="0" style="margin:10px auto;border:1px solid #e9e9e9;">
+          <tr>
+            <td height="25" align="center" bgcolor="#e9e9e9">诚汇通用户名</td>
+            <td align="center" bgcolor="#e9e9e9">借出金额</td>
+            <td align="center" bgcolor="#e9e9e9">借款期限</td>
+            {if $var['style']=='3'}
+            	<td align="center" bgcolor="#e9e9e9">每月应收利息</td>
+            	<td align="center" bgcolor="#e9e9e9">到期应还本金</td>
+            {else}
+            	<td align="center" bgcolor="#e9e9e9">每月应收本息</td>
+            {/if}
+          </tr>
+          {loop $list $bor}
+          <tr style="border:1px #e9e9e9 solid;">
+            <td height="25" align="center" style="color:#0070C9">{$bor['username']}</td>
+            <td align="center" style="color:#ff0000">￥{$bor['account_act']}</td>
+			{if $var['isday'] == 1}
+            <td align="center">{$var['time_limit']}天 </td>
+             <td align="center"  style="color:#ff0000">￥<?=round($bor['income_total'],2)?></td>
+			{else}
+            <td align="center">{$var['time_limit']}个月 </td>
+             {if $var['style']=='3'}
+                <td align="center"  style="color:#ff0000">￥<?=round($bor['income_interest']/$var['time_limit'],2)?></td>
+                <td align="center"  style="color:#ff0000">￥{$bor['account_act']}</td>
+             {else}<td align="center"  style="color:#ff0000">￥<?=round($bor['income_total']/$var['time_limit'],2)?></td>{/if}
+
+			{/if}
+          </tr>
+          {/loop}
+          <tr> </tr>
+        </table>
+        <p style="color:#FF6600;">注：因计算中存在四舍五入，最后一期应收本息与之前略有不同</p>
+        <br />
+        乙方（借款人）：{$var['username']}(诚汇通用户名)&nbsp;&nbsp; <?php if(empty($us['realname'])){ echo '';}else {
+                    	echo mb_substr($us['realname'], 0, 1, "UTF-8")."**";
+                    }?>(真实姓名)&nbsp;&nbsp; <?php if(empty($us['card_id'])){ echo '';}else {
+                    	echo f_cardid($us['card_id']);
+
+                    }?>(身份证号)<br />
+        <br />
+        丙方（服务方）：深圳市诚汇通金融信息有限公司<br />
+        联系地址：广东省深圳市福田区福华三路国际商会中心2410-2412<br />
+        鉴于：<br />
+        1、丙方是一家在深圳市合法成立并有效存续的公司，拥有www.chenghuitong.net网站（以下简称“本网站”）的经营权，为客户提供信用咨询，为交易提供信息服务；<br />
+        2、乙方已在该网站注册，并承诺其提供给丙方的信息是完全真实的；<br />
+        3、甲方承诺对本协议涉及的借款具有完全的支配能力，是其自有闲散资金，为其合法所得；并承诺其提供给丙方的信息是完全真实的；<br />
+        4、乙方有借款需求，甲方亦同意借款，双方有意成立借贷关系；<br />
+        <br />
+        各方经协商一致，于<?=date('Y年m月d日',$var['review_time'])?>签订如下协议，共同遵照履行：<br />
+        <br />
+        5、丙方愿意为甲方借款提供保障。当乙方逾期3天仍未清偿借款本息，则甲方本协议项下的债权（逾期本息）自动转让给丙方，丙方将在第4天垫付该标的的未清偿借款本息给甲方；<br />
+        第一条 借款基本信息<br />
+        <br />
+        1、借款本金数额	￥{$var['account']}元<br />
+        2、还款日	 {$var['each_time']}（24:00前，节假日不顺延）<br />
+        还款起止日期	<?=date('Y年m月d日',$var['review_time'])?>起，至<?=date('Y年m月d日',$repayment[count($repayment)-1]['will_time'])?>止<br />
+        3、{if $var['style']=='3'}每月支持利息数额￥{$repayment[0]['will_interest']}(因计算中存在四舍五入,最后一期还款金额与之前略有不同,为￥<?=$repayment[count($repayment)-1]['will_money']?>)<br />
+        4、到期归还本金￥<?=$repayment[count($repayment)-1]['will_capital']?><br />
+        {else}每月偿还本息数额 ￥{$repayment[0]['will_money']} (因计算中存在四舍五入，最后一期还款金额与之前略有不同，为￥<?=$repayment[count($repayment)-1]['will_money']?>)
+        {/if}<br />
+        </p>
+
+        <p><strong>第二条：还款</strong></p>
+		<p>1、借款人承诺按照本协议第一条约定的时间和金额按期足额向出借人还款。</p>
+		<p>2、{if $var['style']=='3'}借款人还款金额计算公式为：还款金额=每月支付利息+到期归还本金。{else}借款人每期还款金额计算公式为：每月还款金额=每月须还利息+每月须还本金。{/if}</p>
+		<p>&nbsp;</p>
+		<p><strong>第三条：逾期还款</strong></p>
+		<p>1、若借款人逾期还款，除应向出借人按日支付正常利息以外，还应向本网站支付逾期罚息（每日罚息金额为未偿还本息的千分之三）。出借人和借款人均同意并认可，本网站可通过短信、电话、上门催收等方式对借款人逾期未偿还的本息进行催收，且本网站有权按照前述标准向借款人收取催收服务费用，逾期未超过一个月的，本网站暂不公开借款人个人隐私资料。</p>
+		<p>2、借款人同意，其逾期还款造成出借人因此支付的费用(包括但不限于律师费)由借款人承担；</p>
+		<p>3、借款人同意，如借款人逾期未偿还任何一期还款，本网站有权采取以下一项或几项措施，出借人亦同意授权并支持本网站采取有关措施：</p>
+		<p>（1）将借款人的有关身份资料及其他个人信息通过本网站&ldquo;逾期黑名单&rdquo;等栏目对外公开；</p>
+		<p>（2）将借款人的有关身份资料及其他个人信息正式备案在&ldquo;不良信用记录&rdquo;,列入全国个人信用评级体系的黑名单(&ldquo;不良信用记录&rdquo;数据将为银行、电信、担保公司、人才中心等有关机构提供个人不良信用信息)；</p>
+		<p>（3）对借款人采取法律措施，由此所产生的所有法律后果均由借款人来承担。</p>
+		<p>4、出借人和借款人均同意，丙方取得出借人在本协议项下的债权后，可依法向借款人追收借款本金、利息、逾期罚息等，清收费用，坏账风险均由丙方承担。</p>
+		<p>5、借款人逾期本网站对逾期仍未还款的借款人收取逾期罚息作为催收费用、采取多种方式进行催收、将借款人的相关信息对外公开或列入&ldquo;不良信用记录&rdquo;或采取法律措施等各项行为，该等服务的法律后果均由借款人自行承担，如债权转让给丙方后，对借款人造成的一切责任与本网站无关，均由借款人自行承担。&nbsp;</p>
+		<p>&nbsp;</p>
+		<p><strong>第四条：借款的支付和还款方式</strong></p>
+		<p>1、出借人在同意向借款人出借相应款项时，视为已委托本网站在本协议生效时将该笔借款直接划付至借款人帐户。</p>
+		<p>2、借款人已委托本网站将还款直接划付至出借人帐户。</p>
+		<p>3、借款人和出借人均同意，本网站接受借款人或出借人委托所采取的划付款项行为，所产生的法律后果均由借款人或出借人分别自行承担。</p>
+		<p>4、
+		若借款人的任何一期还款不足以偿还应还本金、利息和违约金，且出借人为多人时，则出借人同意按照各自出借金额在出借金额总额中的比例收取还款，不足偿还本金时直接由丙方垫付后债权直接转让给丙方再进行追讨。
+		</p>
+		<p>5、本协议的履行地为本网站(丙方)住所地(广东省深圳市)。</p>
+		<p>&nbsp;</p>
+		<p><strong>第五条：提前到期和提前偿还</strong></p>
+		<p>1、双方同意，若借款人出现如下任何一种情况，则本协议项下的全部借款自动提前到期。借款人在收到本网站发出的借款提前到期通知后，应立即清偿全部本金、利息、逾期利息及根据本协议产生的其他全部费用：</p>
+		<p>（1）借款人因任何原因逾期支付任何一期还款超过30天的；</p>
+		<p>（2）借款人的工作单位、职务或住所变更后，未在30天内通知本网站；</p>
+		<p>（3）借款人发生影响其清偿本协议项下借款的其他不利变化，未在30天内通知本网站。</p>
+		<p>2、双方同意，借款人有权提前清偿全部或者部分借款而不承担任何的违约责任(借款超过1日不足1个月者，利息按足月计算)。</p>
+		<p>3、本借款协议中的每一出借人与借款人之间的借款均是相互独立的,一旦借款人逾期未归还借款本息，任何一出借人有权单独对该出借人未收回的借款本息向借款人追索或者提起诉讼。</p>
+		<p>&nbsp;</p>
+		<p><strong>第六条：法律适用和管辖</strong></p>
+		<p>本协议的签订、履行、终止、解释均适用中华人民共和国法律，并由协议履行地的深圳市南山区人民法院管辖。</p>
+		<p>&nbsp;</p>
+		<p><strong>第七条：特别条款</strong></p>
+		<p>1、借款人保证本协议项下的借款用于合法用途，不将所借款项用于任何违法活动(包括但不限于赌博、吸毒、贩毒、卖淫嫖娼等)及一切高风险投资(如证券期货、彩票等)。如借款人违反前述保证或有违反前述保证的嫌疑，则出借人有权采取下列措施：</p>
+		<p>（1）宣布提前收回全部借款；</p>
+		<p>（2）出借人向公安等有关行政机关举报，追回此款并追究借款人的刑事责任。</p>
+		<p>出借人和借款人均同意并授权本网站采取前述措施。</p>
+		<p>2、本网站仅作为网友之间小额资金互助平台，借款人和出借人均不得利用本网站平台进行信用卡套现和其他洗钱等不正当交易行为，否则出借人、借款人和/或本网站及担保方有权向公安等有关行政机关举报，追究其相关法律责任。</p>
+		<p>&nbsp;</p>
+                <p><strong>第八条：其他</strong></p>
+                <p>1、本协议采用电子文本形式制成，并通过站内信的形式发送至协议各方在本网站注册的信箱。</p>
+                <p>2、本协议自借款人在本网站发布的借款标的审核成功之日即本协议题头标明的签订日起生效，借款人
+                出借人、本网站各执一份，并具同等法律效力。</p>
+                <p>3、借款人，出借人在履行本协议过程中，应遵守本网站的各项规定。</p>
+                <p>4、出借人，借款人同意，授权或认可，本网站作为网络借款的中间平台根据本协议的规定和本网站的其他规定行使各项权利，发出各项通知或采取各项设施，一切法 律后果和风险均由借款人或出借人承担。</p>
+                <p>5、本网站拥有对本协议的最终解释权。</p>
+
+                <br/><br/><br/><br/>
+                    <p style="float: left; width: 470px;">乙方：<?php if(empty($us['realname'])){ echo '';}else { echo mb_substr($us['realname'], 0, 1, "UTF-8")."**";}?><br/>
+                    </p>
+                    <p style="float: left; width: 180px;">丙方：<br/>
+                    </p>
+                    <p style="position: absolute; right:0; bottom:80px;"><img src="../../statics/images/22222.png"></p>
+         <p style="text-align:right;margin-top:100px;"><?=date('Y年m月d日',$var['review_time'])?></p>
+      </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<!--说明网站开启webapp 程序的支持-->
+		<meta name="apple-touch-fullscreen" content="yes" />
+		<!--添加到主屏幕后，全屏显示-->
+		<meta name="apple-mobile-web-app-status-bar-style" content="#f96a36" />
+		<!--在web app应用下状态条（屏幕顶部条）的颜色-->
+		<meta name="format-detection" content="telephone=no" />
+		<title>托管账户充值</title>
+		<link rel="stylesheet" href="../../statics/app/css/style.css">
+		<link rel="stylesheet" href="../../statics/app/css/plugs/amazeui.min.css" />
+		<script type="text/javascript" src="../../statics/app/js/plugs/jquery-2.1.3.min.js"></script>
+		<script type="text/javascript" src="../../statics/app/js/plugs/amazeui.min.js"></script>
+		<script type="text/javascript" src="../../statics/app/js/fontSize.js"></script>
+		<script>
+			$(function() {
+				$('.cht-recharge-money').keyup(function() {
+                                        if ($(this).val() == '') {
+                                            $('#cht-tgrecharge-btn').attr('disabled',true);
+                                            $('#cht-tgrecharge-btn').css('background-color','#BEBEBE');
+                                        }else{
+                                            $('#cht-tgrecharge-btn').attr('disabled',false);
+                                            $('#cht-tgrecharge-btn').css('background-color','#F96935');
+                                        }
+				});
+                                
+                                $('#myform').submit(function () {
+					var money = $('.cht-recharge-money').val();
+					if (!/^\d+\.?\d*$/.test(money)) {
+						layer.open({type: 0, content: '请输正确的入充值金额！', time: 2, shade: false});
+						return false;
+					}
+					return true;
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<div class="cht-box">
+                    <form action="<?=url('','','recharge')?>" class="am-form" method="post" id="myform">
+				<!--充值金额-->
+				<section id="cht-tgrecharge">
+					<div class="cht-input-money">
+						<div class="am-form-group">
+							<label for='doc-ipt-text-1'>充值金额（元）</label>
+							<input id="doc-ipt-text-1" class="cht-recharge-money" name="money" type="number" placeholder="充值金额" autocomplete="off"/>
+						</div>
+						<!--确认提交-->
+						<button id="cht-tgrecharge-btn" type="submit" class="cht-tgcz am-btn am-btn-block" disabled="true">确认提交</button>
+					</div>
+				</section>
+				<!--确认提交-->
+			</form>
+		</div>
+	</body>
+
+</html>

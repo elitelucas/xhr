@@ -1,0 +1,49 @@
+
+				<div class="trend_numstat">
+					
+					<div class="trend_numstat_tab">
+						<table class="sub_table double_th" border="0" cellpadding="0" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<td rowspan="2">{{english.序号}}</td>
+									<td rowspan="2">{{english.期号}}</td>
+									<th colspan="10">{{english.开奖结果}}</th>
+									<td rowspan="2">{{english.冠亚和}}</td>
+									<td rowspan="2">{{english.大}}</td>
+									<td rowspan="2">{{english.小}}</td>
+									<td rowspan="2">{{english.单}}</td>
+									<td rowspan="2">{{english.双}}</td>
+									<td rowspan="2">{{english.龙虎}}</td>
+								</tr>
+								<tr>
+									<td style="width:50px;">{{english.冠军}}</td>
+									<td style="width:50px;">{{english.亚军}}</td>
+									<td style="width:50px;">{{english.第三名}}</td>
+									<td style="width:50px;">{{english.第四名}}</td>
+									<td style="width:50px;">{{english.第五名}}</td>
+									<td style="width:50px;">{{english.第六名}}</td>
+									<td style="width:50px;">{{english.第七名}}</td>
+									<td style="width:50px;">{{english.第八名}}</td>
+									<td style="width:50px;">{{english.第九名}}</td>
+									<td style="width:50px;">{{english.第十名}}</td>
+								</tr>
+							</thead>
+							<tbody id="reslist">
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<script type="text/javascript" src="../js/English.js"></script>
+				<script type="text/javascript">
+					(function(exports) {
+						exports.app = new Vue({
+							el: '.trend_numstat',
+							data: function() {
+								return {
+									english: english
+								}
+							}
+						})
+					})(window);
+				</script>

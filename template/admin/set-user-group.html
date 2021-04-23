@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="renderer" content="webkit">
+    <title>网站信息</title>
+    <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+    <script src="statics/admin/js/pintuer.js"></script>
+    {template public-new-ui-header}
+</head>
+<body>
+<div class="panel admin-panel margin-top list">
+    <div class="body-content">
+        <form method="" class="form-x" action="" id='form'>
+            <input type="hidden" name="id"  value="{$data['id']}"/>
+
+            <div class="form-group">
+                <div class="col-sm-2 text-right">
+                    <label>会员账号：</label>
+                </div>
+                <div class="col-sm-10">
+                    {loop $users $u}
+                    <div class="col-sm-3 m-b">
+                        <input type="text" name="username" readonly class="form-control" value="{$u['username']}">
+                    </div>
+                    {/loop}
+                </div>
+
+                <input type="hidden" name="ids" value="{$id}">
+
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2 text-right">
+                    <label>会员层级：</label>
+                </div>
+                <div class="col-sm-10">
+                    <div class="col-sm-3">
+                        <select name="group_id" class="form-control">
+                            {loop $group $l}
+                            <option value="{$l['id']}" {if $gid==$l['id']} selected="selected" {else} {/if}>{$l['name']}</option>
+                            {/loop}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="label">
+                    <label></label>
+                </div>
+                <div class="field">
+                    <button class="button btn-primary" type="button" id='btn'>提交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $(function () {
+        var loading = "";
+        $('#btn').bind('click', function () {
+            var data = $('#form').serialize();
+            $.ajax({
+                type: 'POST',
+                url: '?m=admin&c=user&a=editUserGroup',
+                data: data,
+                dataType: 'json',
+                beforeSend:function(){
+                    loading = layer.load(1);
+                },
+                success: function (msg) {
+                    layer.close(loading);
+                    //msg = JSON.parse(msg);
+                    if (msg.status == 0) {
+                        layer.msg('修改成功', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                            //当你在iframe页面关闭自身时
+                            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                            parent.layer.close(index); //再执行关闭
+                        });
+                    } else {
+                        layer.msg('修改失败', {icon: 5, shade: [0.5, '#393D49']});
+                    }
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

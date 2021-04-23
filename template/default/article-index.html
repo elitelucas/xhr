@@ -1,0 +1,72 @@
+{template header}
+  <!-- News -->
+  <link href="../../statics/resource/css/news_center/news.css" rel="stylesheet">
+  
+  <!-- 路径导航 -->
+  {template article-nav-path}
+<!--  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('','','',array('cateid'=>$now_cate['typeId']))?>">{$now_cate['typeName']}</a></li>
+      <li class="active"><a href="<?=url('','','',array('cateid'=>$now_cate['typeId']))?>">{$now_cate['typeName']}</a></li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>-->
+  <!-- /路径导航 -->
+  
+  <div class="container">
+    <!-- 左边导航 -->
+    {template article-nav-left}
+<!--    <div class="news-left pull-left font16px bold">
+      <a class="{if $now_cate['typeId']==4}news-antive{else}news-nav{/if}" href="<?=url('article','default','index',array('cateid'=>4))?>">平台公告</a>
+      <a class="{if $now_cate['typeId']==8}news-antive{else}news-nav{/if}" href="<?=url('article','default','index',array('cateid'=>8))?>">运营报告</a>
+      <a class="{if $now_cate['typeId']==5}news-antive{else}news-nav{/if}" href="<?=url('article','default','index',array('cateid'=>5))?>">平台动态</a>
+      <a class="{if $now_cate['typeId']==2}news-antive{else}news-nav{/if}" href="<?=url('article','default','index',array('cateid'=>2))?>">行业新闻</a>
+      <a class="{if $now_cate['typeId']==0}news-antive{else}news-nav{/if}" href="news_video.html">视频广场</a>
+    </div>-->
+    <!-- /左边导航 -->
+    
+    <!-- 右边新闻标题列表 -->
+    <div class="news-right pull-right">
+      <div class="news-nav-title font18px bold">{$now_cate['typeName']}</div>
+      <!-- 新闻标题列表 -->
+        <!-- =========================================新闻列表循环========================================= -->
+       {if isset($list)  && !empty($list)}
+		      <ul class="news-list unlist">
+		        <?php foreach($list as $key=>$vo){?> 
+				        <li>
+				          <div class="pull-left">
+				            <span class="glyphicon glyphicon-chevron-right color999 font12px"></span>
+                                            <a href="<?=url('','','disp',array('id'=>$vo['id']))?>">{$vo['title']}</a>
+				          </div>
+				          <div class="font12px color999 pull-right">
+				        <?php if($vo['addtime']=='0'){}else{echo date('Y-m-d H:i:s',$vo['addtime']); }?>
+				          </div>
+				        </li>
+				        
+		        {if $key%5==0  && $key!=0}
+		        </ul>
+		      <ul class="news-list unlist">
+		        {/if}
+		      	<?php }?>   
+		        </ul>
+		{else}
+		      <ul class="news-list unlist">
+		       		<li>暂无文章!</li>
+		       </ul>
+       {/if} 
+        <!-- =========================================/新闻列表循环========================================= -->
+        
+      </ul>
+      <!-- /新闻标题列表 -->
+      
+      <!-- 分页 -->
+      <div class="news-page text-center">
+      	<div class="news-page-div text-center"><?=$page['html']?></div>
+      </div>
+      <!-- /分页 -->
+    </div>
+    <!-- /右边新闻标题列表 -->
+  </div>
+  
+{template footer}

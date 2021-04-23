@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+        <script src="statics/admin/js/pintuer.js"></script>  
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>  
+        <script src="statics/admin/js/jquery.date_input.pack.js"></script> 
+        <style>
+            #page{height: 60px;margin-top: 20px;text-align: center;}
+            #page ul li{float: left;margin-right:10px;}
+            #page ul .current{ background-color:#0099ff;text-align:center;}
+        </style>
+    </head>
+    <body>
+        <form method="post" id="form" action="">
+            <div class="panel admin-panel">
+                <div class="panel-head"><strong class="icon-reorder"> 返水设置</strong></div>
+                <div class="padding border-bottom">
+                    <ul style="padding-left:10px;">
+                        <li>
+                            代理直属会员返水比例&nbsp;
+                            <input type="text" style="width:100px; line-height:17px;display:inline-block" value="{$data}" id="val" class="input val" name="val" placeholder="请输入">%
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <button class="button bg-main icon-check-square-o" onclick="update()" type="button"> 修改</button>
+                        </li>
+                    </ul>                    
+                </div>
+            </div>
+        </form>
+        <script type="text/javascript">
+            var loading = "";//加载中......
+
+            //修改
+            function update() {
+                var nid = 100012;
+                var val = $("#val").val();
+                
+                if($.trim(val) == ""){
+                    layer.msg("参数不能为空！！！",{icon: 5, shade: [0.5, '#393D49']});
+                    return false;
+                }
+                
+                $.ajax({
+                    url: '?m=admin&c=odds&a=doBack',
+                    data: {nid: nid, val: val},
+                    dataType: 'json',
+                    type: 'post',
+                    beforeSend: function () {
+                        loading = layer.load(1);
+                    },
+                    error: function () {
+                        layer.close(loading);
+                        layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                    },
+                    success: function (result) {
+                        layer.close(loading);
+                        if (result.rt) {
+                            layer.msg('修改成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                location.reload();
+                            });
+                        } else {
+                            layer.msg('修改失败！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        }
+                    }
+                })
+            }
+        </script>
+    </body>
+</html>

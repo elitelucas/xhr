@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+    <title>博饼</title>
+    <link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">
+    <link href="/statics/web/css/bobing.css" rel="stylesheet" type="text/css">
+    <script src="/statics/web/js/jquery.1.8.2.min.js"></script>
+    <script>
+        /**
+         * Created by 77 on 2016/1/9.
+         */
+        $(function() {
+            var calculate_size = function() {
+                var BASE_FONT_SIZE = 100;
+                var docEl = document.documentElement,
+                    clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                size =  BASE_FONT_SIZE * (clientWidth / 750) ;
+                docEl.style.fontSize = size + 'px';
+                if(size>56){
+                    size = 56;
+                    docEl.style.fontSize = size + 'px';
+                }
+            };
+
+            if (document.addEventListener) {
+                var resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+                window.addEventListener(resizeEvt, calculate_size, false);
+                document.addEventListener('DOMContentLoaded', calculate_size, false);
+                calculate_size();
+            }
+
+            //判断PC端、移动端
+            browserRedirect();
+            function browserRedirect() {
+                var sUserAgent = navigator.userAgent.toLowerCase();
+                var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+                var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
+                var bIsMidp = sUserAgent.match(/midp/i) == "midp";
+                var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+                var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+                var bIsAndroid = sUserAgent.match(/android/i) == "android";
+                var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+                var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
+                if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
+                    $("body").addClass("WAP-body");
+                } else {
+                    $("body").addClass("PC-body-bg PC-body");
+                }
+            }
+        });
+    </script>
+
+</head>
+<body class="game">
+<div class="top-decoration top-decoration-left"></div>
+<div class="top-decoration top-decoration-right"></div>
+<div class="gg-bg"></div>
+<header style="display: none;">
+    <a class="ph" href="?m=web&c=activity&a=boBinDetail&id={$uid}&h5=1&type=1">排行榜</a>
+    <a class="fh" href="?m=web&c=user&a=my">返回</a>
+    <h1>中秋博饼</h1>
+</header>
+<section>
+    <a class="ph ph_app" href="?m=web&c=activity&a=boBinDetail&id={$uid}&h5=1&type=1">排行榜</a>
+    <div class="gg">
+        <img class="fl" src="/statics/web/images/bobing/laba@2x.png">
+        <marquee class="gg-info" behavior="scroll" loop="-1" scrollamount="3"  onstart="this.firstChild.innerHTML+=this.firstChild.innerHTML;">
+            <?php
+                if(empty($broadcastInfo)){
+                    echo "<p>欢迎光临！</p>";
+                } else {
+                    foreach($broadcastInfo as $val){
+                        echo '【<em id="time">'.$val['add_time'].'</em>&nbsp;&nbsp;<em id="name">'.$val['username'].'</em>&nbsp;博得&nbsp;<em id="result-title" class="title">'.$val['prize_name'].'</em> 】';
+                    }
+                }
+            ?>
+        </marquee>
+    </div>
+    <div class="slogan"></div>
+    <div class="con_warp">
+        <div id="tis1"></div>
+
+        <div id="tis2"></div>
+        <ul>
+            <li><img src="/statics/web/images/bobing/3.png"></li>
+            <li><img src="/statics/web/images/bobing/3.png"></li>
+            <li><img src="/statics/web/images/bobing/3.png"></li>
+            <li><img src="/statics/web/images/bobing/4.png"></li>
+            <li><img src="/statics/web/images/bobing/5.png"></li>
+            <li><img src="/statics/web/images/bobing/6.png"></li>
+        </ul>
+    </div>
+    <div class="buttonW">
+        <!--<select id="result_status">-->
+            <!--<option value="none">正常</option>-->
+            <!--<option value="0">什么都没有</option>-->
+            <!--<option value="1">状元插金花</option>-->
+            <!--<option value="2">红六勃</option>-->
+            <!--<option value="3">三红</option>-->
+            <!--<option value="4">对堂</option>-->
+            <!--<option value="5">遍地锦</option>-->
+            <!--<option value="6">黑六勃</option>-->
+            <!--<option value="7">黑六勃</option>-->
+            <!--<option value="8" >黑六勃</option>-->
+            <!--<option value="9">黑六勃</option>-->
+            <!--<option value="10">黑六勃</option>-->
+            <!--<option value="11">黑六勃</option>-->
+            <!--<option value="12">黑六勃</option>-->
+        <!--</select>-->
+        <button id="running"></button>
+    </div>
+
+    <div class="con1">
+        <p>今日还剩博饼次数：【<em id="count4">{$dayNum}</em>】次</p>
+        <p>每日可博饼次数：【<em id="count1">{$upperLimit}</em>】次</p>
+        <p>剩余博饼次数：【<em id="count2">{$num}</em>】次</p>
+        <p>已博次数：【<em id="count3">{$usedNum}</em>】次</p>
+        {if $ranking > 0}
+            <p>排名：【<em id="rank">{$ranking}</em>】名</p>
+        {else}
+            <p>还未上榜</p>
+        {/if}
+        <!--<p>积分：【<em id="integral">0</em>】名</p>-->
+    </div>
+</section>
+<div class="meu">
+    <a><em></em></a>
+    <a><em></em></a>
+</div>
+<!--提示弹窗-->
+<div class="bomb_box noActivity" style="display: none;">
+    <div class="box-layer">
+        <div class="box-layer-con">
+            <div class="box-title">
+                <img src="/statics/web/images/bobing/count_none@2x.png">
+                <span>活动已经结束！</span>
+            </div>
+            <div class="box-body">
+                <p class="box-info"><span id="msg">活动已经结束！</span></p>
+                <a class="box-btn" href="#">我知道了</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="bomb_box noCount" style="display: none;">
+    <div class="box-layer">
+        <div class="box-layer-con">
+            <div class="box-title">
+                <img src="/statics/web/images/bobing/count_none@2x.png">
+                抽奖次数已用完！
+            </div>
+            <div class="box-body">
+                <p class="box-info box-info-h5">进行充值和投注可增加抽奖次数，去 <a class="link" href="?m=web&c=account&a=index">充值</a> 或 <a class="link" href="?m=web&c=lobby&a=index">投注</a> 。</p>
+                <p class="box-info box-info-app">进行充值和投注可增加抽奖次数。</p>
+                <a class="box-btn" href="#">我知道了</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="bomb_box noCountDay" style="display: none;">
+    <div class="box-layer">
+        <div class="box-layer-con">
+            <div class="box-title">
+                <img src="/statics/web/images/bobing/count_none@2x.png">
+                <span>已经达到当天抽奖上限！</span>
+            </div>
+            <div class="box-body">
+                <a class="box-btn" href="#">我知道了</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="bomb_box guizePop" style="display: none;">
+    <div class="box-layer">
+        <div class="box-layer-con">
+            <img src="/statics/web/images/bobing/guize_con@2x.png" alt=""/>
+        </div>
+    </div>
+</div>
+<div class="bomb_box myPop" style="display: none;">
+    <div class="box-layer">
+        <div class="box-layer-con">
+            <div class="my-nav">
+                <ul>
+                    <li class="active"><a href="#">我的积分</a></li>
+                    <li><a href="#">中奖纪录</a></li>
+                </ul>
+            </div>
+            <div class="my-con integral-con">
+                <div class="integral-none">
+                    <img src="/statics/web/images/bobing/integral_none.png" alt=""/>
+                    <p>暂无记录</p>
+                    <a class="rank-btn" href="#">获取积分</a>
+                </div>
+                <ul class="integral" style="display: none">
+                    <div class="box-warp">
+                    <!--<li>-->
+                        <!--<span class="integral_num">01</span><span class="integral_img"><img src="/statics/web/images/bobing/font_1@2x.png" alt=""/></span><span class="integral_name">対堂</span><em class="integral_score">5000分</em>-->
+                    <!--</li>-->
+                    </div>
+
+                    <div class="integral-bottom">50000</div>
+                </ul>
+
+            </div>
+            <div class="my-con win-con" style="display: none">
+                <ul>
+                    <li></li>
+                    <!--<li>-->
+                        <!--<span class="win-time">2017-09-31</span><span class="win-rank">第一名</span><em class="win-goods">洗衣机</em>-->
+                    <!--</li>-->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 排行榜 Start -->
+<div class="bomb_rank ranking" style="display: none;">
+    <div class="rank_layer">
+        <iframe src="?m=web&c=activity&a=boBinDetail&id=6310&h5=1&type=1" scrolling="no" id="iframe" style="height:600px"></iframe>
+    </div>
+</div>
+<!-- 排行榜 Start -->
+<script>
+    $(function(){
+        document.body.addEventListener('touchstart', function () { });
+        var auth = '{$auth}';
+        var authList = JSON.parse(auth);
+
+        //判断活动是否结束
+        if(authList.code == -6){
+            $(".noActivity").show();
+        }
+
+        //渲染实物中奖纪录
+        var winData = '{$result}';
+        var winList = JSON.parse(winData);
+        var winHtml = "";
+//        if(winList.length <= page_num_set){
+//            var page_num = integralList.length;
+//        }else{
+//            var page_num = page_num_set;
+//            page_num_surplus = integralList.length - page_num;
+//        }
+        if(winList.length>0){
+            for(var i=0; i<winList.length; i++){
+//            var gift = Number(winList[i].gift_id);//显示官级
+//            if(gift<8){
+//                gift = 1;
+//            }
+                winHtml += '<li><span class="win-time">'+winList[i].add_time+'</span><span class="win-rank">第'+winList[i].ranking+'名</span><em class="win-goods">'+winList[i].prize_name+'</em></li>';
+            }
+        }else{
+            winHtml = '<li class="win-none">暂无记录</li>';
+        }
+
+//        if(winList.length <= page_num_set){
+//            winHtml += '<li class="yu">加载完成</li>';
+//        }else{
+//            winHtml += '<li class="yu">正在加载...</li>';
+//        }
+        $(".win-con ul").append(winHtml);
+
+        //初始化塞子数字
+        var saibao = JSON.parse(localStorage.getItem('lastResult'));
+        if(saibao != null){
+            for(var i=0; i<6; i++){
+                $(".con_warp li").eq(i).html("<img src='/statics/web/images/bobing/"+saibao[i]+".png'/>");
+            }
+        }
+
+//        var flag =true;
+        var otis1 = $("#tis1");
+        var otis2 = $("#tis2");
+        var userId = GetRequest().id;
+        var h5 = GetRequest().h5;
+        function GetRequest() {
+            var url = decodeURI(location.search); //获取url中"?"符后的字串
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for(var i = 0; i < strs.length; i ++) {
+                    theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+                }
+            }
+            return theRequest;
+        }
+
+        if(h5 == 1){
+            $("header").show();
+            $("section").addClass("head_app");
+            $(".ph_app").hide();
+            $(".box-info-h5").show();
+            $(".box-info-app").hide();
+        }
+
+        //下拉菜单调整游戏结果
+        $("#result_status").change(function () {
+            this_status = $(this).val();
+            console.log(this_status)
+        })
+
+        $(".box-btn").click(function(){
+            $(".bomb_box").hide();
+        })
+        //规则弹窗
+        $(".meu a").eq(1).click(function(){
+            $(".guizePop").show();
+        })
+        $(".guizePop").click(function(){
+            $(this).hide();
+        })
+        //我弹窗  积分记录渲染
+        var winList = '{$winList}';
+        var integralList = JSON.parse(winList);
+        var page_num_set = 10;//设置一页显示条数
+        var page_num_surplus = 0;//剩余条数
+        var total = 0;
+
+        var listNum = 0;
+        var integralHtml = "";
+        if(integralList.length <= page_num_set){
+            var page_num = integralList.length;
+        }else{
+            var page_num = page_num_set;
+            page_num_surplus = integralList.length - page_num;
+        }
+
+        for(var i=0; i<page_num; i++){
+            listNum = (i+1);//显示序号
+            if(listNum<10){
+                listNum = "0"+listNum;
+            }
+            var gift = Number(integralList[i].gift_id);//显示官级
+            if(gift<8){
+                gift = 1;
+            }
+            total += Number(integralList[i].prize_value);//赢取总积分
+
+            integralHtml += '<li><span class="integral_num">'+listNum+'</span><span class="integral_img"><img src="/statics/web/images/bobing/font_'+gift+'@2x.png" alt=""/></span><span class="integral_name">'+integralList[i].prize_name+'</span><em class="integral_score">'+integralList[i].prize_value+'分</em></li>';
+
+        }
+
+        if(integralList.length > page_num_set){
+            integralHtml += '<li class="yu">正在加载...</li>';
+        }
+
+
+        $(".integral .box-warp").html(integralHtml);
+        $(".integral-bottom").html(total);
+
+        $(".meu a").eq(0).click(function(){
+            $(".myPop").show();
+        })
+
+        //下拉加载效果
+        var range = 20; //距下边界长度/单位px
+        var maxnum = 20;//设置加载最多次数
+        var num = 0;
+        var totalheight = 0;
+        var main = $("#content");//主体元素
+        $(".integral").scroll(function(){
+            var srollPos = $(".integral").scrollTop();    //滚动条距顶部距离(页面超出窗口的高度)
+            totalheight = parseFloat($(".integral-con").height()) + parseFloat(srollPos);
+//            console.log("滚动条到顶部的垂直高度: "+$(".integral").scrollTop());
+            console.log("窗内页面文档高度 ："+$(".box-warp").height());
+//            console.log('窗口的高度：'+$(".integral-con").height());
+            console.log('窗口的高度：'+totalheight);
+
+            if( ($(".box-warp").height()+range) <= totalheight && (num+page_num_set) < integralList.length) {
+//                main.append("<div style='border:1px solid tomato;margin-top:20px;color:#ac"+(num%20)+(num%20)+";height:"+elemt+"' >hello world"+srollPos+"---"+num+"</div>");
+                num = num + page_num_set;
+                console.log("num="+num);
+
+                setTimeout(function () {
+                    $(".yu").remove();
+                }, 500)
+
+                var listNum = 0;
+                var integralHtml = "";
+                if(page_num_surplus <= page_num_set){
+                    var page_num = page_num_surplus;
+                }else{
+                    var page_num = page_num_set;
+                    page_num_surplus = page_num_surplus - page_num;
+                }
+
+                for(var i=num; i<( num+ page_num); i++){
+                    listNum = (i+1);//显示序号
+                    if(listNum<10){
+                        listNum = "0"+listNum;
+                    }
+                    var gift = Number(integralList[i].gift_id);//显示官级
+                    if(gift<8){
+                        gift = 1;
+                    }
+                    total += Number(integralList[i].prize_value);//赢取总积分
+
+                    integralHtml += '<li><span class="integral_num">'+listNum+'</span><span class="integral_img"><img src="/statics/web/images/bobing/font_'+gift+'@2x.png" alt=""/></span><span class="integral_name">'+integralList[i].prize_name+'</span><em class="integral_score">'+integralList[i].prize_value+'分</em></li>';
+
+                }
+
+                if(page_num_surplus != page_num){
+                    integralHtml += '<li class="yu">正在加载...</li>';
+                }
+
+//                if(page_num_surplus == page_num){
+//                    integralHtml += '<li class="yu">加载完成</li>';
+//                }else{
+//                    integralHtml += '<li class="yu">正在加载...</li>';
+//                }
+                $(".integral .box-warp").append(integralHtml);
+                $(".integral-bottom").html(total);
+            }
+        });
+
+        $(".bomb_box").click(function(){
+            $(".myPop").hide();
+        })
+        $(".myPop .box-layer").click(function(ev){
+            var oEvent = ev||window.event;
+            oEvent.stopPropagation();
+        });
+        //我内容选项卡
+        $(".my-nav ul li").click(function() {
+            $(this).addClass("active").siblings().removeClass("active");
+            var index = $(this).index()
+            $(".my-con").eq(index).show().siblings(".my-con").hide();
+        });
+
+        isRank();
+        function isRank(){
+            if(integralList.length == 0){
+                $(".integral").hide();
+                $(".integral-none").show();
+            }else{
+                $(".integral").show();
+                $(".integral-none").hide();
+            }
+        }
+        $(".rank-btn").click(function(){
+            $(".myPop").hide();
+            isRank();
+        });
+
+        //第一次加载需要的页面状态ajax.post  data: user_id token
+//        var newData1 = {
+//            userName: "",//用户姓名
+//            count: ,
+//            rank: ,
+//            integral: 0,//积分
+//        };
+
+        var isGet = false;
+        var outcome = 0;
+        var thisResult = "";
+//        var thisTime = "";
+
+//        state();
+        var numTotal = "{$num}";
+        var dayNum = "{$dayNum}";
+        var thisRank = "{$ranking}";
+        var thisIntegral = 0;
+//        function state(){
+//            $("#count").text(numTotal);
+//            $("#rank").text(thisRank);
+//            var thisIntegral = newData1.integral;
+//            $("#integral").text(thisIntegral);
+//            var message = "";
+//            $(".gg .gg-info").html(message);
+//        }
+
+        //点击进行摇奖
+        $(".buttonW button").removeAttr("disabled");
+        if(authList.code == 0 || authList.code == -5 ){
+            $(".buttonW button").click(function(){
+                if(numTotal <= 0){
+                    $(".noCount").show();
+                    return false;
+                }
+                if(dayNum <= 0){
+                    $(".noCountDay").show();
+                    return false;
+                }
+//                thisCount --;
+                var data = {
+                    id: userId,
+                    outcome : 6,
+                    type:1
+                };
+
+                $.ajax({
+                    url: "?m=web&c=activity&a=boBinEntrance",
+                    type: "post",
+                    data: data,
+                    dataType: "json",
+                    success: function(data) {
+                        var newData = data;
+                        console.log(newData)
+                        if (newData.status == 0) {//口令正确则需要验证金额
+                            //判断是否达到进入资格
+                            isGet = true;
+                            outcome = newData.data.result;
+                            console.log(outcome);
+                            thisCount = newData.data.num;//博饼次数
+                            thisRank = newData.data.ranking;//排行
+                            thisIntegral = newData.data.integral;//增加积分
+                            //13种结果全部进行判断
+                            gameShow(outcome, thisIntegral)
+//                            console.log(saibao)
+                            localStorage.setItem('lastResult', JSON.stringify(saibao));
+                            //更新状态
+//                            state();
+
+                            //$(this).attr('disabled',"true");
+                            $(".buttonW button").attr("disabled","disabled");
+                            $(".con_warp li").html("<img src='/statics/web/images/bobing/timg.gif'/>");//色子开始变动画效果
+                            $(".con_warp li").addClass("transit");
+//                flag =false;
+
+//                if(thisResult){
+//                    message = '【<em id="time">'+thisTime+
+//                            '</em> <em id="name">'+newData2.userName+
+//                            '</em> 博得111 <em id="result-title" class="title">'+thisResult+
+//                            '</em> 】';
+//                }
+
+                            var ball = document.querySelectorAll('.con_warp ul li');
+
+                            //色子开始跑动
+                            for(var i=0; i<6; i++){
+                                ball[i].classList.add("change_state_"+(i+1));
+                            }
+
+                            ball[0].addEventListener("webkitAnimationEnd", function(){ //色子跑动2S后动画结束
+
+                                for(var i=0; i<6; i++){
+                                    ball[i].classList.remove("change_state_"+(i+1));
+                                }
+//                    for(var i=0; i<saibao.length; i++){
+//                        tt[i].classList.add("change_state2_"+(i+1));
+//                    }
+                                //判断ajax是否请求成功  成功设置isGet为true，并停止跑动;
+                                var wait;
+                                over();
+                                function over (){
+                                    if(!isGet){
+                                        for(var i=0; i<6; i++){
+                                            ball[i].classList.add("change_stating_"+(i+1));
+                                        }
+
+                                        wait = setTimeout(function(){
+                                            over()
+                                        },2000)
+
+                                    }else{  //取到结果
+                                        for(var i=0; i<6; i++){
+                                            $(".con_warp li").eq(i).html("<img src='/statics/web/images/bobing/"+saibao[i]+".png'/>");
+                                            $("#tis1").addClass("tis3")
+                                            $("#tis2").addClass("tis4")
+                                        }
+//                            flag =true;
+//                            state();
+                                        clearTimeout(wait);
+                                        setTimeout(function () {
+                                            window.location.reload();
+//                                $(".buttonW button").removeAttr("disabled");
+                                        }, 2000)
+                                    }
+                                }
+
+                            }, false);
+
+                        } else {
+                            console.log(newData.ret_msg);
+                            $("#msg").html(newData.ret_msg);
+                            $(".noActivity").find(".box-title span").text("提示信息");
+                            $(".noActivity").show();
+
+                            return false;
+//                            thisRank = data.message;
+                        }
+                    },
+                    error: function(error) {
+//                layer.open({
+//                    content: "<p class='alert_msg'>服务器出错了</p>",
+//                    btn: '我知道了'
+//                });
+                    }
+                });
+
+
+            })
+        }else if(authList.code == -2 || authList.code == -3 || authList.code == -4){
+            $("#msg").html(authList.msg);
+            $(".buttonW button").click(function(){
+                $(".noCountDay").find(".box-title span").text("提示信息");
+                $(".noActivity").show();
+            });
+        }else{
+            $("#msg").html(authList.msg);
+            $(".buttonW button").click(function(){
+                $(".noActivity").show();
+            });
+
+        }
+
+        var tt = document.querySelector('#tis1');
+        tt.addEventListener("webkitAnimationEnd", function(){ //动画结束时事件
+            $("#tis1").removeClass("tis3");
+            $("#tis2").removeClass("tis4")
+        }, false);
+
+        //随机生成m个不包含n的1-6数字,不重复2次,且不包含4
+        function random (m, n){
+            var arr = [];
+
+            for(var i=0; i<m; i++){
+                var has = 0;
+                var x=Math.round(Math.random()*5 + 1);
+                if(x==4 || x==n){
+                    i--;
+                }else{
+                    for(var j=0; j<arr.length; j++){
+                        if(arr[j] == x){
+                            has ++;
+                        }
+                    }
+                    if(has<2){
+                        arr.push(x);
+                    }else{
+                        i--;
+                    }
+                }
+            }
+            return arr;
+        }
+
+        function gameShow (outcome, integral){
+            if(outcome == 1) {
+                saibao = [4, 4, 4, 4, 1, 1];
+                otis1.html("<img src='/statics/web/images/bobing/" + 1 + "@2x.png' />")
+                otis2.html("+"+ integral);
+                thisResult = true;
+            }
+            if(outcome == 2) {
+                saibao = [4, 4, 4, 4, 4, 4];
+                otis1.html("<img src='/statics/web/images/bobing/" + 2 + "@2x.png' />")
+                otis2.html("+"+ integral);
+                thisResult = true;
+            }
+            if(outcome == 3) {
+                saibao = [1, 1, 1, 1, 1, 1];
+                otis1.html("<img src='/statics/web/images/bobing/" + 3 + "@2x.png' />")
+                otis2.html("+"+ integral);
+                thisResult = true;
+            }
+            if(outcome == 4) {
+                saibao = [6, 6, 6, 6, 6, 6];
+                otis1.html("<img src='/statics/web/images/bobing/" + 4 + "@2x.png' />")
+                otis2.html("+"+ integral);
+                thisResult = true;
+            }
+            if(outcome == 5) {
+                var a = [4, 4, 4, 4, 4];
+                var b = random(1,0);
+                saibao = a.concat(b);
+//                saibao = [4, 4, 4, 4, 4, x];
+                otis1.html("<img src='/statics/web/images/bobing/" + 5 + "@2x.png' />")
+                otis2.html("+"+ integral);
+                thisResult = true;
+            }
+            if(outcome == 6) {
+                var a = [2, 2, 2, 2, 2];
+                var b = random(1, 2);
+                saibao = a.concat(b);
+//                saibao = [2, 2, 2, 2, 2, x];
+                otis1.html("<img src='/statics/web/images/bobing/" + 6 + "@2x.png' />")
+                otis2.html("+"+ integral);
+                thisResult = true;
+            }
+            if(outcome == 7) {
+                var a = [4, 4, 4, 4];
+                var b = random(2,0);
+                saibao = a.concat(b);
+//                saibao = [4, 4, 4, 4, x, x];
+                otis1.html("<img src='/statics/web/images/bobing/" + 7 + "@2x.png' />")
+                otis2.html("+"+ integral);
+                thisResult = true;
+            }
+            if(outcome == 8) {
+                saibao = [1, 2, 3, 4, 5, 6];
+                otis1.html("<img src='/statics/web/images/bobing/" + 8 + "@2x.png' />")
+                otis2.html("+"+ integral);
+                thisResult = true;
+            }
+            if(outcome == 9) {
+                var a = [4, 4 , 4];
+                var b = random(3,0);
+                saibao = a.concat(b);
+//                saibao = [4, 4, 4, x, x, x];
+                otis1.html("<img src='/statics/web/images/bobing/" + 9 + "@2x.png' />")
+                otis2.html("+"+ integral);
+                thisResult = true;
+            }
+            if(outcome == 10) {
+                var a = [3, 3 , 3, 3];
+                var b = random(2, 3);
+                saibao = a.concat(b);
+//                saibao = [3, 3, 3, 3, x, x];
+                otis1.html("<img src='/statics/web/images/bobing/" + 10 + "@2x.png' />")
+                otis2.html("+"+ integral);
+                thisResult = true;
+            }
+            if(outcome == 11) {
+                var a = [4, 4];
+                var b = random(4,0);
+                saibao = a.concat(b);
+//                saibao = [4, 4, x, x, x, x];
+                otis1.html("<img src='/statics/web/images/bobing/" + 11 + "@2x.png' />")
+                otis2.html("+"+ integral);
+                thisResult = true;
+            }
+            if(outcome == 12) {
+                var a = [4];
+                var b = random(5,0);
+                saibao = a.concat(b);
+//                saibao = [4, x, x, x, x, x];
+                otis1.html("<img src='/statics/web/images/bobing/" + 12 + "@2x.png' />")
+                otis2.html("+"+ integral);
+                thisResult = true;
+            }
+            if(outcome == 13) {
+//                var a = [4];
+                var b = random(6,0);
+                saibao = b;
+//                saibao = [x, x, x, x, x, x];
+                otis1.html("<img src='/statics/web/images/bobing/" + 0 + "@2x.png' />")
+//                otis1.html("<img src='/statics/web/images/bobing/guang.gif' />")
+                otis2.html("");
+                thisResult = false;
+            }
+        };
+        
+
+        //排行榜
+        $(".PC-body .ph").attr("href","javascript:void(0)");
+        $(".ph").click(function(){
+            $(".ranking").show();
+        });
+        $(".bomb_rank").click(function(){
+            $(".ranking").hide();
+        })
+        $(".bomb_rank .rank_layer").click(function(ev){
+            var oEvent = ev||window.event;
+            oEvent.stopPropagation();
+        });
+    })
+</script>
+</body>
+</html>

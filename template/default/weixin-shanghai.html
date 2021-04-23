@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <meta name="author" content="ifengjin@ifengjin.cn">
+  
+  <title>2015年上海金博会</title>
+  
+  <style>
+    html, body { color: #333; font: normal 14px/24px "Microsoft Yahei", "\5FAE\8F6F\96C5\9ED1", Verdana, Arial, sans-serif, "Times New Roman", "\5B8B\4F53"; background-color: #f5f5f5; }
+	body { padding: 5px; margin: 0; }
+	div { box-sizing: border-box; padding: 0; margin: 0; }
+	p { text-indent: 2em; }
+	.container { width: 100%; padding: 0 15px 15px 15px; background-color: #fff; border: 1px solid #eee; }
+	.container img { width: 100%; }
+	#youkuplayer { width: 100%; margin-top: 15px; margin-bottom: 10px; }
+  </style>
+  
+</head>
+
+<body>
+  <div class="container">
+    <h2>金博会视频特辑</h2>
+    <div id="youkuplayer"></div>
+    <p>4月12日，2015上海第十三届投资理财金融博览会在上海光大会议中心圆满落幕。博览会吸引了众多P2P平台参展，国内知名的P2P投资理财平台诚汇通也受邀参加了此次盛会。小小的展台，既不大也不华丽，却仍然吸引了大批市民驻足，场面非常火爆，充分显示了人们对P2P这一新兴行业的兴趣，对诚汇通品牌的信赖和追捧。</p>
+    <img src="../../statics/resource/images/shanghai/001.png" alt="诚汇通www.chenghuitong.net">
+    <p>此次金博会以“推动金融改革创新，助力企业转型升级”为主题，汇集了众多国内知名金融投资平台、第三方支付、服务财富、创业致富类优秀企业参加。诚汇通P2P理财展位位于上海光大会议中心西馆1楼，博览会期间展位内座无虚席，现场气氛极为热烈，挤满了前来咨询的市民，一度造成展位前通道的阻塞，成为本届金博会上一道亮丽的风景线。</p>
+    <img src="../../statics/resource/images/shanghai/002.png" alt="诚汇通www.chenghuitong.net">
+    <h2>诚汇通董事长亲临金博会现场</h2>
+    <img src="../../statics/resource/images/shanghai/003.jpg" alt="诚汇通www.chenghuitong.net">
+    <p>4月11日，上海金博会第二天，诚汇通董事长刘建亲自到金博会现场与投资人交流，刘建表示P2P作为互联网金融的一部分，其本质还是金融，其核心还是风险控制。专业的风控团队，全面的运营透明，多方位保障投资人的资金安全。正因为诚汇通业务的真实透明，赢得了广大投资人的认可和信赖。</p>
+    <p>此次参展，不仅是诚汇通与投资者全面沟通的好机会，同时也是诚汇通打造行业知名度和品牌价值的一次积极推进，也进一步推动互联网金融向更健康有序的方面发展。</p>
+    <h2>诚汇通副总经理兰翔接受媒体采访</h2>
+    <img src="../../statics/resource/images/shanghai/004.png" alt="诚汇通www.chenghuitong.net">
+    <p>诚汇通副总经理兰翔表示：诚汇通于2013年上线，虽然在业内成立时间不算早，但却是凭借完善的风控体系做起来的平台。诚汇通的风控体系：1亿注册资本，汇付天下托管系统，1000万风险准备金并由华润银行监管，借款业务真实可查并通过平台尽可能充分披露，运营周报制度等等。</p>
+    <h2>金博会现场图片集</h2>
+    <img src="../../statics/resource/images/shanghai/005.png" alt="诚汇通www.chenghuitong.net">
+    <img src="../../statics/resource/images/shanghai/006.jpg" alt="诚汇通www.chenghuitong.net">
+  </div>
+  
+  <script src="http://cdn.bootcss.com/jquery/2.1.3/jquery.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+		var youkuplayerH = $("#youkuplayer").innerWidth();
+		$("#youkuplayer").height(youkuplayerH*0.75 + 'px');
+		
+	});
+  </script>
+  <script type="text/javascript" src="http://player.youku.com/jsapi">
+    player = new YKU.Player('youkuplayer',{
+      styleid: '0',
+      client_id: 'YOUR YOUKUOPENAPI CLIENT_ID',
+      vid: 'XOTM3ODc2NjI0'
+    });
+  </script>
+</body>
+</html>

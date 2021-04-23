@@ -1,0 +1,131 @@
+{template header}
+  <!-- Investor_center -->
+  <link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+
+  <!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+      <li class="active">我的账户</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->
+{template member-nav-left}
+    <!-- 右边正文 -->
+    <div class="investor-right pull-right border-radius">
+      <ul class="nav nav-tabs" role="tablist" id="myTab">
+        <li class="active"><a href="<?=url('fengfu','default','cash')?>">申请提现</a></li>
+      </ul>
+
+      <div class="tab-content">
+        <!-- 申请提现 -->
+        <div class="tab-pane active" id="home">
+
+          <div class="line-height40px">
+              <br/>
+            <form action="<?=url('fengfu','default','cash')?>" method="post">
+            <table style="width:100%;" border="0" cellpadding="0" cellspacing="0">
+				{if !empty($cardInfo['withdrawBankList'])}
+              <tr>
+                <td align="right" style="white-space:nowrap;line-height:23px;vertical-align:top">温馨提示：</td>
+                <td class="pl15" style="line-height:23px;vertical-align:top;padding-bottom:10px">
+                  <div class="pull-left">根据同卡进出的原则，一键充值的充值提现必须使用同一张卡，您托管账户的银行卡已绑定为：<span class="cmain">{$cardInfo['withdrawBankList'][0]['bankAccount']}</span>（{$cardInfo['withdrawBankList'][0]['bankName']}）。如需变更，请提交申请：[<a style="font-weight:normal" class="red" href="<?=url('','','ffcard')?>">银行卡变更申请</a>]</div>
+                </td>
+              </tr>
+				{/if}
+              <tr>
+                <td align="right" style="white-space:nowrap;">可用余额：</td>
+                <td class="pl15">
+                  <div class="pull-left">￥{$rs['withdrawAbleBalance']}</div>
+                </td>
+              </tr>
+              <tr>
+                <td align="right" style="white-space:nowrap;">提现金额：</td>
+                <td class="pl15">
+                  <div class="pull-left"><input class="form-control" type="text" name="money" id="money"></div>
+				  <div class="pull-left margin-left10px">元</div>
+                  <div class="pull-left"><span class="ml30"><a href="<?=url('activity','carefund','index')?>" style="color:#fc3a3a;">
+                  <!--<span class="glyphicon glyphicon-heart" style="color:#fc3a3a;"></span> 爱心捐助</a></span> </div>-->
+                </td>
+              </tr>
+			  <tr>
+                <td align="right" style="white-space:nowrap;">提现手续费：</td>
+                <td class="pl15">
+                    <span id="cash-fee">￥0.00</span>
+                </td>
+              </tr>
+              <tr>
+                <td align="right">&nbsp;</td>
+                <td class="pl15">
+                    <input type="hidden" name="save" value="save">
+                    <input type="hidden" name="formhash" value="<?=formhash()?>" >
+                    <input type="submit" class="withdraw-btn btn btn-warning" value="确认提交">
+                </td>
+              </tr>
+			  <tr>
+                <td align="right">&nbsp;</td>
+                <td class="pl15">
+                    <div style="line-height:24px; margin-top:30px;">
+						<div>温馨提示：</div>
+						<div>1.提现手续费为提现金额的0.05%，单笔不足2元按2元收取，最高50元封顶</div>
+						<div>2.提现采用批次处理方式，时间分别为：工作日上午9:00、11:00、14:00、16:30、18:00；非工作日20:00。</div>
+						<div>3.到账时间：T+0到账，实际到账时间由银行处理时间决定，处理后最迟24小时内到账。</div>
+						<div>4.提现金额单笔上限为50万元，最低提现金额为2.01元</div>
+						<div>5.提现仅限银行借记卡，不支持存折、信用卡提现</div>
+						<div>6.以上操作如给您带来不便敬请谅解，如您有任何疑问可拨打客服热线400-018-0107或咨询在线客服。</div>
+					</div>
+                </td>
+              </tr>
+            </table>
+			<script type="text/javascript">
+				$(function(){
+					var $fee = $('#cash-fee');
+					var handler = null;
+
+					function cashFee() {
+						handler = null;
+						$.ajax({
+							type: "POST",
+							url: "<?=url('fengfu','default','public_cashfee_ajx')?>",
+							data: {
+								money: $('#money').val()
+							},
+							success: function(data){
+								if (/^\d+\.\d{2}$/.test(data)) {
+									$fee.text('￥' + data);
+								} else {
+									$fee.addClass('red').text(data);
+								}
+							}
+						});
+					}
+
+					$('#money').blur(function(){
+						if ($(this).val() !== '' && /^\d+(\.\d{1,2})?$/.test($(this).val()) === false) {
+							alert("请输入正确的提现金额！");
+							return false;
+						}
+					}).keyup(function(){
+						$fee.removeClass('red').text('正在计算...');
+						if (handler) {
+							clearTimeout(handler);
+						}
+						handler = setTimeout(cashFee, 600);
+					});
+				});
+			</script>
+            </form>
+          </div>
+        </div>
+        <!-- /申请提现 -->
+
+      </div>
+
+
+    </div>
+    <!-- /右边正文 -->
+  </div>
+
+{template footer}

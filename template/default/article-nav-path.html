@@ -1,0 +1,11 @@
+
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('article','default','index')?>">新闻中心</a></li>
+      {if isset($now_cate['typeName'])}
+      <li class="active"><a href="<?=url('article','default','index',array('cateid'=>$now_cate['typeId']))?>">{$now_cate['typeName']}</a></li>
+      {/if}
+    </ol>
+    <div class="clearfix"></div>
+  </div>

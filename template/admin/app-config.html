@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <!--  <link rel="stylesheet" href="statics/admin/css/pintuer.css"> -->
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+            
+    <!-- template-begin+++ -->
+    {template public-new-ui-header}
+   <script src="statics/admin/fileupload/js/vendor/jquery.ui.widget.js"></script>	
+    <script src="statics/admin/fileupload/js/jquery.fileupload.js"></script>
+    <!-- template-end+++ -->
+
+
+
+</head>
+<body style="margin: 15px;background-color: #f3f3f4;">
+<div class="ibox float-e-margins">
+    <div class="ibox-title iboxWTitle">
+        <h5>app信息设置</h5>
+    </div>
+    <div class="ibox-content bagCol">
+        <div class="ibox-title">
+            <h5>详情</h5>
+            <div class="ibox-tools">
+                <a class="btn btn-white btn-bitbucket btn_sure" id="update" data-title="修改"><i class="fa fa-pencil"></i> </a>
+            </div>
+        </div>
+        <div class="ibox-content m-b">
+            <form method="post" class="form-horizontal" id="form">
+                <!-- <div class="form-group">
+                    <label class="col-sm-2 control-label">平台名称</label>
+                    <div class="col-sm-3">
+                        <input type="text" name="platform_name" class="form-control m-b" disabled="disabled" value="{$appData['platform_name']}" />
+                    </div>
+                </div> -->
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">app签到有礼icon</label>
+                    <div class="col-sm-3"  id="sign_icon">
+                        {if $appData['sign_icon'] != ''}
+                        <img class="imag_pic" id="img_sign_icon" src="{$appData['sign_icon']}" style="width:60px;height:60px;cursor:pointer;margin-bottom: 10px;"><br/>
+                        {/if}
+                        <input type="hidden" value="{$appData['sign_icon']}" id="url_sign_icon" name="url_sign_icon">
+                        <input class="file_upload" type="file" name="file" data-validate="required:请选择文件" disabled="disabled"/>
+                        <span class="help-block m-b-nonesmall_pic_size hide_something pic_size_tips">图片尺寸70 X 70，不超过1M</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">app有奖任务icon</label>
+                    <div class="col-sm-3"  id="task_icon">
+                        {if $appData['task_icon'] != ''}
+                        <img class="imag_pic" id="img_task_icon" src="{$appData['task_icon']}" style="width:60px;height:60px;cursor:pointer;margin-bottom: 10px;"><br/>
+                        {/if}
+                        <input type="hidden" value="{$appData['task_icon']}" id="url_task_icon" name="url_task_icon">
+                        <input class="file_upload" type="file" name="file" data-validate="required:请选择文件" disabled="disabled"/>
+                        <span class="help-block m-b-nonesmall_pic_size hide_something pic_size_tips">图片尺寸70 X 70，不超过1M</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">app投注记录icon</label>
+                    <div class="col-sm-3"  id="bet_icon">
+                        {if $appData['bet_icon'] != ''}
+                        <img class="imag_pic" id="img_bet_icon" src="{$appData['bet_icon']}" style="width:60px;height:60px;cursor:pointer;margin-bottom: 10px;"><br/>
+                        {/if}
+                        <input type="hidden" value="{$appData['bet_icon']}" id="url_bet_icon" name="url_bet_icon">
+                        <input class="file_upload" type="file" name="file" data-validate="required:请选择文件" disabled="disabled"/>
+                        <span class="help-block m-b-nonesmall_pic_size hide_something pic_size_tips">图片尺寸70 X 70，不超过1M</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">app立即充值icon</label>
+                    <div class="col-sm-3"  id="recharge_icon">
+                        {if $appData['recharge_icon'] != ''}
+                        <img class="imag_pic" id="img_recharge_icon" src="{$appData['recharge_icon']}" style="width:60px;height:60px;cursor:pointer;margin-bottom: 10px;"><br/>
+                        {/if}
+                        <input type="hidden" value="{$appData['recharge_icon']}" id="url_recharge_icon" name="url_recharge_icon">
+                        <input class="file_upload" type="file" name="file" data-validate="required:请选择文件" disabled="disabled"/>
+                        <span class="help-block m-b-nonesmall_pic_size hide_something pic_size_tips">图片尺寸70 X 70，不超过1M</span>
+                    </div>
+                </div>
+
+                <!-- <div class="form-group">
+                    <label class="col-sm-2 control-label">Android下载链接地址</label>
+                    <div class="col-sm-4">
+                        <input type="text" name="android_line" class="form-control m-b" disabled="disabled" value="{$appData['android_line']}" />
+                        <span class="help-block m-b-nonesmall_pic_size hide_something pic_size_tips">跳转地址为外部链接请按照以下格式配置：http://www.xxx.com</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">IOS下载链接地址</label>
+                    <div class="col-sm-4">
+                        <input type="text" name="ios_line" class="form-control m-b" disabled="disabled" value="{$appData['ios_line']}" />
+                        <span class="help-block m-b-nonesmall_pic_size hide_something pic_size_tips">跳转地址为外部链接请按照以下格式配置：http://www.xxx.com</span>
+                    </div>
+                </div> -->
+
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    var loading = "";//加载中
+
+    $("#update").click(function(){
+        $(this).parent().html('<a class="btn btn-white btn-bitbucket btn_sure" id="btn_submit" data-title="保存"><i class="fa fa-save"></i></a>')
+        $(this).remove();
+        $("select").attr("disabled",false);
+        $("input").attr("disabled",false);
+    })
+    $("body").on("click","#btn_submit",function(){
+        var data = {
+       		'url_sign_icon':$("input[name='url_sign_icon']").val(),
+       		'url_task_icon':$("input[name='url_task_icon']").val(),
+       		'url_bet_icon':$("input[name='url_bet_icon']").val(),
+       		'url_recharge_icon':$("input[name='url_recharge_icon']").val()
+        }
+        $.ajax({
+            type: 'POST',
+            url: '?m=admin&c=message&a=setAppConfig',
+            data:data,
+            dataType: 'json',
+            beforeSend:function(){
+                loading = layer.load(1);
+            },
+            success: function (msg) {
+                layer.close(loading);
+                if (msg.code == 1) {
+                    layer.msg(msg.msg, {icon: 6, shade: [0.5, '#393D49']},function(){
+                        location.reload();
+                    });
+                } else {
+                    layer.msg(msg.msg, {icon: 5, shade: [0.5, '#393D49']})
+                }
+            }
+        });
+    })
+    
+    $(function () {
+    	//上传图片
+        $('.file_upload').fileupload({
+            url: "?m=admin&c=message&a=uploadImg",
+            sequentialUploads: true
+        }).bind('fileuploaddone', function(e, data) {
+            var data_index = $(this).data('index');
+            var div_id = $(this).parent().attr('id');
+            var res = $.parseJSON(data.result);
+
+            if (res.status == 0) {
+            	var src = $('#img_' + div_id).attr('src');
+            	if (src){
+            		$('#img_' + div_id).attr({'src': res.data});
+            	}else {
+            		$('#' + div_id).prepend('<img class="imag_pic" id="img_' + div_id + '"" src="' + res.data + '" style="width:60px;height:60px;cursor:pointer;margin-bottom: 10px;"><br/>');
+            	}
+
+                $('#url_' + div_id).val(res.data);
+            } else {
+                layer.msg(res.data,{icon:5, shade: [0.5, '#393D49']}); //弹出错误信息
+                return false;
+            }
+        });
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>{$title}</title>
+    {template public-header}
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <script type="text/javascript" src="/statics/web/js/yxMobileSlider.js"></script>
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    <script src="/statics/web/extend/layer/mobile/layer.js"></script>
+    <style>
+    .sjbLi{background: url(/statics/web/images/sjb/football_pic.png)no-repeat;background-size: 100% 100%;position: relative;margin-left: 18px;}
+    .groupTitle{margin-top: 10px;text-align: center;color: #fff;}
+    .groupPanel{width: 70%;margin: 0 auto;display: flex;justify-content: space-between;align-items: center;color: #fff;text-align: center}
+    .groupVs{font-size: 24px;}
+    .groupPanel img{width: auto !important;height: auto !important;margin-bottom: 5px;display: block !important;margin: 0 auto;}
+    .groupPanel p{width: 120px;}
+    .groupFot{background:rgba(10,49,52,1);display: flex;justify-content: space-between;color: #DFDFDF;padding: 5px 10px;position: absolute;bottom: 0px;width: 100%;}
+    .bsState{color: #FFE63C;background: rgba(0,0,0,1);padding: 5px 15px;font-size: 21px;margin-bottom: 20px;}
+    </style>
+</head>
+
+<body>
+<!--<script>-->
+    <!--$(function(){-->
+        <!--var u = navigator.userAgent, app = navigator.appVersion;-->
+<!--//        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器-->
+        <!--var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端-->
+        <!--if(isiOS){-->
+            <!--$("#download").attr("href",'itms-services://?action=download-manifest&url=https://www.kagah.com/download/pcdd001.plist');-->
+        <!--}else{-->
+            <!--$("#download").attr("href",'http://www.kagah.com/download/apk/pcdd/pcdd.apk');-->
+        <!--}-->
+        <!--$(".head-close").on("click", function(){-->
+            <!--$(this).parent().hide(100);-->
+            <!--$("section").css("padding-top","88px");-->
+        <!--})-->
+    <!--})-->
+
+<!--</script>-->
+<div class="header_wrap">
+    <header style="position: inherit; top: auto;">
+        <em onclick="javascript :history.go(-1);"></em>
+        <h1>{$title}</h1>
+    </header>
+</div>
+
+<section style="padding:86px 0 0 0;">
+    <div class="subWarp">
+
+        <div class="sub_lottery">
+            <ul>
+                {if in_array($lottery_type,array(12))}
+                    {loop $PublicRoom $val}
+                        <li class="sjbLi" lottery-type="{$val['lottery_type']}" status="{$val['status']}" data-room="{$val['passwd']}" room_id="{$val['id']}" lower="{$val['low_yb']}" upper="{$val['max_yb']}" is-auth-room="{$isAuthRoom}" odds-exp="{$val['odds_exp']}" error-msg="{$val['lack_tips']}">
+                            <div class="groupTitle">{$val['title']}</div>
+                            <div class="groupPanel">
+                                <div>
+                                    <img src="{$val[dh1]}" alt="">
+                                    <p>{$val['against']['team_1_name']}</p>
+                                </div>
+                                <div class="groupVs">
+                                    <div class="bsState">{$st[$val['against']['match_state']]}</div>
+                                    VS
+                                </div>
+                                <div>
+                                    <img src="{$val[dh2]}" alt="">
+                                    <p>{$val['against']['team_2_name']}</p>
+                                </div>
+                            </div>
+                            <div class="groupFot">
+                                <span>竞猜人数：{$val['online']}</span>
+                                <span>比赛时间：<?php echo date('Y年m月d日',$val['against']['match_date']); ?></span>
+                            </div>
+                        </li>
+                    {/loop}
+                {else}
+                    <?php
+                    foreach($PublicRoom as $val){
+                    ?>
+                    <li class="primary" lottery-type="{$val['lottery_type']}" status="{$val['status']}" data-room="{$val['passwd']}" room_id="{$val['id']}" lower="{$val['low_yb']}" upper="{$val['max_yb']}" is-auth-room="{$isAuthRoom}" odds-exp="{$val['odds_exp']}" error-msg="{$val['lack_tips']}">
+                        <img src="{$val['avatar']}" alt=""/>
+                        <span data-href="" class="explain_odds">赔率说明</span>
+                        <span class="population">
+                            {if $val['passwd'] == ''}
+                            <i class="population_ico"></i><em class="primary_onlinenum">{$val['online']}</em>人
+                            {else}
+                            <i class="population_ico"></i><em class="primary_onlinenum">保密</em>
+                            {/if}
+                        </span>
+                    </li>
+                    <?php }  ?>
+                {/if}
+                <!--<li class="primary">-->
+                    <!--<img src="/statics/web/images/roomBg/lucky28_room1_pic@2x.png" alt=""/>-->
+                    <!--<span data-href="" class="explain_odds">赔率说明</span>-->
+                    <!--<span class="population">-->
+                        <!--<i class="population_ico"></i><em class="primary_onlinenum">889</em>人-->
+                    <!--</span>-->
+                <!--</li>-->
+                <!--<li class="Intermediate">-->
+                    <!--<img src="/statics/web/images/roomBg/lucky28_room2_pic@2x.png" alt=""/>-->
+                    <!--<span data-href="" class="explain_odds">赔率说明</span>-->
+                    <!--<span class="population">-->
+                        <!--<i class="population_ico"></i><em class="Intermediate_onlinenum">889</em>人-->
+                    <!--</span>-->
+                <!--</li>-->
+                <!--<li class="advanced">-->
+                    <!--<img src="/statics/web/images/roomBg/lucky28_room3_pic@2x.png" alt=""/>-->
+                    <!--<span data-href="" class="explain_odds">赔率说明</span>-->
+                    <!--<span class="population">-->
+                        <!--<i class="population_ico"></i><em class="advanced_onlinenum">889</em>人-->
+                    <!--</span>-->
+                <!--</li>-->
+                <!--<li class="privacy">-->
+                    <!--<img src="/statics/web/images/roomBg/lucky28_room4_pic@2x.png" alt=""/>-->
+                    <!--<span data-href="" class="explain_odds">赔率说明</span>-->
+                    <!--<span class="population">-->
+                        <!--<i class="population_ico"></i><em class="privacy_onlinenum">889</em>人-->
+                    <!--</span>-->
+                <!--</li>-->
+            </ul>
+        </div>
+    </div>
+</section>
+
+<div class="popup" style="display: none">
+    <div class="config">
+        <h3>请输入房间暗号</h3>
+        <i class="configClose"></i>
+        <div class="configInput"><input type="password" placeholder="" name="secret_pwd" autocomplete="off"></div>
+        <div class="button " style="margin-top: 30px;"><button class="secret_btn" id="secretBtn">提交</button></div>
+    </div>
+</div>
+
+<input type="hidden" id="is_only_one_room" value="{$is_only_one_room}" />
+
+    <script>
+        //是否只有一个房间，且该房间为公开房间
+        var is_only_one_room = $('#is_only_one_room').val();
+
+        $(".explain_odds").on("click", function(){
+            if($(this).parent().attr("data-room") == ""){
+                var msg = $(this).parent().attr('odds-exp').replace(/\n|\r\n/g,'<br/>');
+            }else{
+                var msg = '私密房赔率说明请在进入房间后查看';
+            }
+
+            var alert ='<div class="popupAlert"><div class="config-alert"><div class="tit">赔率说明</div> <p>'+msg+'</p><div class="btn"><button class="confirm">确定</button></div></div></div>';
+            var p = $(alert).appendTo($('body'));
+
+            p.find('.confirm').off().on('click', function () {
+                p.remove();
+            });
+            return false
+        })
+    </script>
+
+    <script>
+        var flag = "<?php  echo $this->userId; ?>";
+        var money = "{$money}";
+        var lottery_type;
+
+        $(function() {
+            //检验是否有权限进入
+            $(".sub_lottery ul li").click(function() {
+                var status = $(this).attr("status");
+                var lower = $(this).attr("lower");
+                var upper = $(this).attr("upper");
+                var room_id = $(this).attr("room_id");
+                var is_auth_room = $(this).attr("is-auth-room");
+                var roomType = $(this).attr("data-room");
+                var error_msg = $(this).attr("error-msg");
+                lottery_type = $(this).attr("lottery-type");
+
+                if (flag === "") {
+                    window.location.href = "<?=url('','user','login')?>";
+                }else{
+                	
+                  	//判断用户是否被限制进入房间是
+                  	if (is_auth_room == 1 && roomType !== "Private") {
+                        fnSet.alert("抱歉，您未开启当前房间权限");
+                        return true;
+                    }
+                	
+                    if (roomType === "Private") {
+                        return true;
+                    }
+
+                    //判断房间是否关闭
+                    if (status == 1) {
+                        fnSet.alert("此房间暂时关闭");
+                        return true;
+                    }
+
+                    //判断是否达到进入资格
+//                    if("{$nickName}" == "") {
+//                        if({$userId}){
+//                              window.location.href = "<?=url('','user','login')?>";
+//                        }else {
+//                            layer.open({
+//                                content: "<p class='alert_msg'>请前往设置昵称</p>",
+//                                btn: '我知道了'
+//                            });
+//                        }
+//                        return false;
+//                    }
+
+                    if ((lower !=0 || upper !=0) && (parseFloat(money) < parseFloat(lower) || parseFloat(money) >= parseFloat(upper))) {
+                        fnSet.alert(error_msg);
+
+                    } else {
+                        //window.location.href = "<?=url('','chatRoom','index')?>&room_id=" + room_id + "&lottery_type=" + lottery_type;
+                        var odds_exp =$(this).attr('odds-exp').replace(/\n|\r\n/g,'<br/>')//赔率说明
+                        localStorage.setItem("odds_exp",odds_exp);
+                        window.location.href = "<?=url('','chatRoom','index')?>&room_id=" + room_id;
+
+                    }
+                }
+            });
+
+            $("li[data-room=Private]").click(function() {
+                $(".popup").css("display", "block");
+            });
+
+            //私密房间校验
+            $("#secretBtn").click(function() {
+                var secret_pwd = $("input[name=secret_pwd]").val();
+                $.ajax({
+                    url: "<?=url('','lobby','privateRoom')?>",
+                    type: "post",
+                    data: {secret_pwd: secret_pwd, lottery_type: lottery_type},
+                    dataType: "json",
+                    success: function(data) {
+                        console.log(data);
+                        if (data.status == 0) {//口令正确则需要验证金额
+                            //判断是否达到进入资格
+                            if ((data['data'].low_yb != 0 || data['data'].max_yb != 0) && (parseFloat(money) < parseFloat(data['data'].low_yb) || parseFloat(money) >= parseFloat(data['data'].max_yb))) {
+                                $(".popup").css("display", "none");
+                                    fnSet.alert(data['data'].lack_tips);
+                            } else if("{$nickname}" == ""){
+                                $(".popup").css("display", "none");
+                                fnSet.alert("请前往设置昵称");
+                            } else {
+                                //window.location.href = "<?=url('','chatRoom','index')?>&room_id=" + data.data.id + "&lottery_type=" + lottery_type;
+                                window.location.href = "<?=url('','chatRoom','index')?>&room_id=" + data.data.id ;
+                            }
+                        } else {
+                            layer.open({
+                                content: data.ret_msg,
+                                skin: 'msg',
+                                time: 2 //2秒后自动关闭
+                            });
+                        }
+                    },
+                    error: function(error) {
+                        layer.open({
+                            content: '服务器出错了',
+                            skin: 'msg',
+                            time: 2 //2秒后自动关闭
+                        });
+                    }
+                });
+            });
+
+
+
+        });
+    </script>
+</body>
+</html>

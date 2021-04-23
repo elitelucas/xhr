@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="renderer" content="webkit">
+    <title>网站信息</title>
+    <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+    <script src="statics/admin/js/pintuer.js"></script>
+    <style>
+        .field span {
+            float: left;
+            line-height: 33px;
+        }
+
+        .input-min {
+            padding: 6px;
+            width: 120px;
+            float: left;
+        }
+
+        .form-x .form-group .label {
+            padding: 0;
+            padding-right: 5px;
+        }
+
+        .input-group {
+            float: right;
+        }
+
+        .label-style {
+            font-weight: normal;
+            margin-left: 30px;
+        }
+
+
+    </style>
+    {template public-new-ui-header}
+</head>
+    <body class="new_ui_body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title iboxWTitle">
+                        <h5>积分配置</h5>
+                        <div class="ibox-tools">
+                            <!-- <a href="javascript:;" class="btn btn-white btn-bitbucket" onclick="history.go(-1);">
+                                <i class="fa fa-reply"></i>返回
+                            </a> -->
+                        </div>
+                    </div>
+                    <div class="ibox-content bagCol" style="width: 100%;">
+                        <!--  -->
+                        <div class="ibox-title">
+                            <h5>开关选项</h5>
+                        </div>
+                        <div class="ibox-content m-b" style="width: 100%;">
+                            <div class="row">
+                                <div class="form-group">
+                                    <!-- <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>名称</label> -->
+                                    <div class="col-sm-4">
+                                        <label class="label-style">
+                                            <span class="addon"><input class="plus_status" name="plus_status" {if $config['plus']['status'] == 1} checked value="1" {else} value="0" {/if} type="checkbox"/></span> 是否开启
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ibox-title">
+                            <h5>配置信息</h5>
+                        </div>
+                        <div class="ibox-content m-b" style="width: 100%;">
+                            <div class="row">
+                                <form class="form-x" action="" method="post" id="from">
+                                    <div class="col-sm-10">
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label input_title">每累计充值</label>
+                                            <div class="col-sm-4">
+                                               <input type="text" min="1" class="form-control two_span_inline" name="remoney" value="{$config['plus']['recharge']['money']}"/>
+                                               <span>元，送</span>
+                                               <input type="text" min="1" class="form-control two_span_inline" name="rescore" value="{$config['plus']['recharge']['score']}"/>
+                                               <span>分</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label input_title">每累计投注</label>
+                                            <div class="col-sm-4">
+                                               <input type="text" min="1" class="form-control two_span_inline" name="bemoney" value="{$config['plus']['betting']['money']}" />
+                                               <span>元，送</span>
+                                               <input type="text" min="1" class="form-control two_span_inline" name="bescore" value="{$config['plus']['betting']['score']}" />
+                                               <span>分</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label input_title">每累计中奖</label>
+                                            <div class="col-sm-4">
+                                               <input type="text" min="1" class="form-control two_span_inline" name="wimoney" value="{$config['plus']['winning']['money']}"/>
+                                               <span>元，送</span>
+                                               <input type="text" min="1" class="form-control two_span_inline" name="wiscore" value="{$config['plus']['winning']['score']}"/>
+                                               <span>分</span>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <div class="col-sm-4 col-sm-offset-2">
+                                                <input class="btn btn-primary" type="button" id="btn_score" value="提交">
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+<script>
+var loading = "";//加载中......
+
+$(function () {
+    $(".plus_status").click(function () {
+        var val = $('.plus_status[name=plus_status]:checked').val() ? 1 : 0;
+        var msg = '';
+        
+        if (val == 1) {
+            msg = '您确定要开启用户积分兑换吗？';
+        } else {
+            msg = '您确定要关闭用户积分兑换吗？';
+        }
+        
+        layer.confirm(msg, {
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+            $.ajax({
+                   url: '?m=admin&c=honor&a=start_plus',
+                   data: {status:val},
+                   dataType: 'json',
+                   type: 'post',
+                   error: function (e) {
+                       console.log(e);
+                       layer.close(loading);
+                       layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                   },
+                   success: function (ret) {
+                       layer.close(loading);
+                       if (ret.code == 1) {
+                        layer.msg(ret.msg, {icon: 6, shade: [0.5, '#393D49']},function(){
+                            location.reload();
+                        });
+                       } else {
+                           layer.msg(ret.msg, {icon: 5, shade: [0.5, '#393D49']});
+                       }
+                   }
+               });
+           }, function () {
+               location.reload();
+       });
+    });
+    
+    $("#btn_score").click(function () {
+        var score_data = {
+                remoney:$('input[name=remoney]').val(),
+                rescore:$('input[name=rescore]').val(),
+                bemoney:$('input[name=bemoney]').val(),
+                bescore:$('input[name=bescore]').val(),
+                wimoney:$('input[name=wimoney]').val(),
+                wiscore:$('input[name=wiscore]').val()
+        }
+        
+        if ($.trim(score_data.remoney) == '') {
+            layer.msg('请输入每充值累计金额！', {icon: 5, shade: [0.5, '#393D49']});
+            return false;
+        }
+        if ($.trim(score_data.rescore) == '') {
+            layer.msg('请输入每充值累计金额送的积分！', {icon: 5, shade: [0.5, '#393D49']});
+            return false;
+        }
+        if ($.trim(score_data.bemoney) == '') {
+            layer.msg('请输入每投注累计金额！', {icon: 5, shade: [0.5, '#393D49']});
+            return false;
+        }
+        if ($.trim(score_data.bescore) == '') {
+            layer.msg('请输入每投注累计金额送的积分！', {icon: 5, shade: [0.5, '#393D49']});
+            return false;
+        }
+        if ($.trim(score_data.wimoney) == '') {
+            layer.msg('请输入每中奖累计金额！', {icon: 5, shade: [0.5, '#393D49']});
+            return false;
+        }
+        if ($.trim(score_data.wiscore) == '') {
+            layer.msg('请输入每中奖累计金额送的积分！', {icon: 5, shade: [0.5, '#393D49']});
+            return false;
+        }
+        
+        $.ajax({
+            url: '?m=admin&c=honor&a=set_conf',
+            data: score_data,
+            dataType: 'json',
+            type: 'POST',
+            error: function () {
+                //layer.close(loading);
+                layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+            },
+            success: function (result) {
+                //layer.close(loading);
+                if (result.code == 1) {
+                    layer.msg(result.msg, {icon: 6, shade: [0.5, '#393D49']});
+                    return false;
+                    //location.href = '?m=admin&c=honor&a=score_conf';
+                } else {
+                    layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']});
+                }
+            }
+        });
+    });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+
+  <!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('article','company','index')?>">关于我们</a></li>
+      <li class="active">
+      {if ROUTE_A=='index'}公司简介{/if}
+      {if ROUTE_A=='team'}管理团队{/if}
+      {if ROUTE_A=='history'}发展历程{/if}
+      {if ROUTE_A=='honor'}资质荣誉{/if}
+      {if ROUTE_A=='counsel'}法律顾问{/if}
+      {if ROUTE_A=='partner'}合作伙伴{/if}
+      {if ROUTE_A=='contact'}联系我们{/if}
+      </li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->

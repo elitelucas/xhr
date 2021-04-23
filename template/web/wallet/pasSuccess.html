@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>{$title}</title>
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+</head>
+<body>
+<header>
+    <em data-href="<?=url('web','account','index')?>">返回</em>
+    <h1>{$title}</h1>
+
+</header>
+<section>
+    <div class="openComplete">
+        <img src="/statics/web/images/ico-complete.png" />
+        <p>{$msg}</p>
+    </div>
+
+    <div class="button" >
+        <?php if($_GET['flag_p']==1){?>
+        <button data-href="<?=url('web','account','index')?>" class="red-btn">完 成</button>
+        <?php }elseif($_GET['flag_p']==3){?>
+        <button id="logout">完 成</button>
+        <?php }else{?>
+        <button data-href="<?=url('web','cash','getBankCard')?>" class="red-btn">完 成</button>
+        <?php }?>
+
+    </div>
+</section>
+<script type='text/javascript'>
+    $(function() {
+        //确定退出
+        $("#logout").click(function() {
+            $.ajax({
+                url: "<?=url('', 'user', 'logout')?>",
+                type: "get",
+                dataType: "json",
+                success: function(data) {
+                    if (data.status == 0) {
+                        window.location.href = "<?=url('','user','login')?>";
+                    } else {
+                        layer.open({
+                            content: "<p class='alert_msg'>"+ data.ret_msg +"</p>",
+                            btn: '我知道了'
+                        });
+                    }
+                },
+                error: function(error) {
+                    layer.open({
+                        content: "<p class='alert_msg'>服务器出错了</p>",
+                        btn: '我知道了'
+                    });
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/pintuer.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/jquery.date_input.pack.js"></script>
+    <script src="statics/admin/fileupload/js/vendor/jquery.ui.widget.js"></script>
+    <script src="statics/admin/fileupload/js/jquery.fileupload.js"></script>
+    {template public-new-ui-header}
+</head>
+<body class="new_ui_body">
+	<div class="ibox float-e-margins">
+	    <div class="ibox-title iboxWTitle">
+	        <h5>代理制度信息设置</h5>
+	    </div>
+	    <div class="ibox-content bagCol">
+	        <div class="ibox-title">
+	            <h5>图片配置信息</h5>
+	        </div>
+	        <div class="ibox-content m-b">
+	            <form method="post" class="form-horizontal" id="form_1" style="width: 49%">
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">app上传代理制度图片</label>
+	                    <div class="col-sm-9">
+                            <img id="view_1" src="{$rows['value']}" alt="" style="width:320px; height: 200px;{if empty($rows['value'])}display: none;{/if}">
+                            <input name="file" id="file_1" type="file">
+                           <span class="help-block m-b-nonesmall_pic_size hide_something pic_size_tips"><font color="red">* 请上传宽度为750px，高度不限的图片</font></span>
+	                    </div>
+	                </div>
+	            </form>
+	            <div class="form-group">
+	            	<div class="col-sm-4 col-sm-offset-2">
+	                	<button class="btn btn-primary" type="submit" id="btn_submit_1">提交</button>
+	            	</div>
+       			</div>
+
+                <form method="post" class="form-horizontal" id="form_2" style="width: 49%">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">pc端上传代理制度图片</label>
+                        <div class="col-sm-9">
+                            <img id="view_2" src="{$result['value']}" alt="" style="width:320px; height: 200px;{if empty($rows['value'])}display: none;{/if}">
+                            <input name="file" id="file_2" type="file">
+                            <span class="help-block m-b-nonesmall_pic_size hide_something pic_size_tips"><font color="red">* 请上传宽度为800px，高度不限的图片</font></span>
+                        </div>
+                    </div>
+                </form>
+                <div class="form-group">
+                    <div class="col-sm-4 col-sm-offset-2">
+                        <button class="btn btn-primary" type="submit" id="btn_submit_2">提交</button>
+                    </div>
+                </div>
+	        </div>
+	        <div class="ibox-title">
+                 <h5>开关选项</h5>
+             </div>
+             <div class="ibox-content m-b" style="width: 100%;">
+                     <div class="form-group">
+                         <div class="col-sm-4">
+                             <label class="label-style">
+                                 <span class="addon"><input id="reg_xiaxian" class="status" name="reg_xiaxian" {if $data['reg_xiaxian'] == 1} checked value="1" {else} value="0" {/if} type="checkbox"/></span> 注册为下线开关
+                             </label>
+                         </div>
+                         <div class="col-sm-4">
+                             <label class="label-style">
+                                 <span class="addon"><input id="reg_caijin" class="status" name="reg_caijin" {if $data['reg_caijin'] == 1} checked value="1" {else} value="0" {/if} type="checkbox"/></span> 注册送彩金开关
+                             </label>
+                         </div>
+                     </div>
+                 </div>
+
+
+            <div class="ibox-title">
+                <h5>返现比例设置</h5>
+            </div>
+            <div class="ibox-content m-b" style="width: 100%;">
+                <div class="ibox-tools">
+                    <a class="btn btn-white btn-bitbucket btn_sure" id="update" data-title="修改"><i class="fa fa-pencil"></i> </a>
+                    <a class="btn btn-white btn-bitbucket btn_sure_add" id="add" data-title="添加"><i class="fa fa-plus-square-o"></i> </a>
+                </div>
+                <form method="post" class="form-horizontal" id="form">
+                    {loop $list $k $v}
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">充值范围</label>
+                        <div class="col-sm-6">
+                            <span class="col-sm-2" style="padding-left: 0px;">
+                       		<input type="number" class="form-control low" name="low_{$k}" value="{$v['low']}" onkeyup="checknum(this);"  readonly/>
+                       		</span>
+                            <span class="col-sm-2" style="padding-left: 0px;">
+                       		<input type="number" class="form-control upper" name="upper_{$k}" value="{$v['upper']}" onkeyup="checknum(this);"  readonly/>
+                       		</span>
+                            <span class="col-sm-4" style="padding-left: 50px;display: inline-flex;line-height: 35px;">
+                                返现比例为
+                       		<input type="number" style="width: 60%" class="form-control rate" name="rate_{$k}" value="{$v['rate']}" onkeyup="checknum(this);"  readonly/>
+                       		</span>
+                            <span class="col-sm-3 help-block m-b-none">（%）</span>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    {/loop}
+                </form>
+             </div>
+             </div>
+
+
+	    </div>
+    <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+        }
+        input[type="number"]{
+            -moz-appearance: textfield;
+        }
+    </style>
+    <script type="text/javascript">
+    var loading = "";//加载中......
+
+
+    $('#reg_caijin').click(function () {
+
+        var val = $('.status[name=reg_caijin]:checked').val() ? 1 : 0;
+        console.log(val);
+        var msg = '';
+        if (val == 1) {
+            msg = '您确定要开启注册送彩金';
+        } else {
+            msg = '您确定要关闭注册送彩金';
+        }
+
+        layer.confirm(msg, {
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+            $.ajax({
+                url: '?m=admin&c=message&a=up_agency',
+                data: {status:val,type:'reg_caijin'},
+                dataType: 'json',
+                type: 'post',
+                error: function (e) {
+                    console.log(e);
+                    layer.close(loading);
+                    layer.msg('网络异常，稍后再试', {icon: 5, shade: [0.5, '#393D49']});
+                },
+                success: function (ret) {
+                    layer.close(loading);
+                    if (ret.code == 1) {
+                        layer.msg(ret.msg, {icon: 6, shade: [0.5, '#393D49']},function(){
+                            location.reload();
+                        });
+                    } else {
+                        layer.msg(ret.msg, {icon: 5, shade: [0.5, '#393D49']});
+                    }
+                }
+            });
+        }, function () {
+            location.reload();
+        });
+    });
+
+
+    $('#reg_xiaxian').click(function () {
+
+        var val = $('.status[name=reg_xiaxian]:checked').val() ? 1 : 0;
+        console.log(val);
+        var msg = '';
+        if (val == 1) {
+            msg = '您确定要开启注册为下线';
+        } else {
+            msg = '您确定要关闭注册为下线';
+        }
+
+        layer.confirm(msg, {
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+            $.ajax({
+                url: '?m=admin&c=message&a=up_agency',
+                data: {status:val,type:'reg_xiaxian'},
+                dataType: 'json',
+                type: 'post',
+                error: function (e) {
+                    console.log(e);
+                    layer.close(loading);
+                    layer.msg('网络异常，稍后再试', {icon: 5, shade: [0.5, '#393D49']});
+                },
+                success: function (ret) {
+                    layer.close(loading);
+                    if (ret.code == 1) {
+                        layer.msg(ret.msg, {icon: 6, shade: [0.5, '#393D49']},function(){
+                            location.reload();
+                        });
+                    } else {
+                        layer.msg(ret.msg, {icon: 5, shade: [0.5, '#393D49']});
+                    }
+                }
+            });
+        }, function () {
+            location.reload();
+        });
+    });
+
+
+    $("#file_1").fileupload({
+        url: "?m=admin&c=role&a=uploadImg",
+        sequentialUploads: true
+    }).bind('fileuploaddone', function(e, data) {
+        console.log(data);
+        var res = $.parseJSON(data.result);
+
+        if (res.status == 0) {
+            $("#view_1").attr({
+                'src': res.data
+            });
+            $("#file_1").attr({
+                'style': "width:320px; height: 200px; opacity: 0 ; position: absolute;left: 0;top: 0;"
+            });
+            $('#view_1').show();
+            $('input[name=url]').val(res.data);
+            $('input[name=flag]').val(2);
+        } else {
+            layer.msg(res.msg,{icon:5, shade: [0.5, '#393D49']}); //弹出错误信息
+            return false;
+        }
+    })
+
+    $("#file_2").fileupload({
+        url: "?m=admin&c=role&a=uploadImg",
+        sequentialUploads: true
+    }).bind('fileuploaddone', function(e, data) {
+        console.log(data);
+        var res = $.parseJSON(data.result);
+
+        if (res.status == 0) {
+            $("#view_2").attr({
+                'src': res.data
+            });
+            $("#file_2").attr({
+                'style': "width:320px; height: 200px; opacity: 0 ; position: absolute;left: 0;top: 0;"
+            });
+            $('#view_2').show();
+            $('input[name=url]').val(res.data);
+            $('input[name=flag]').val(2);
+        } else {
+            layer.msg(res.msg,{icon:5, shade: [0.5, '#393D49']}); //弹出错误信息
+            return false;
+        }
+    })
+
+    $("#btn_submit_1").click(function () {
+        var data = {
+            'img':$("#view_1").attr("src")
+        }
+        if(data.img_url == "")
+        {
+            layer.msg('请选择上传图片', {icon: 5, shade: [0.5, '#393D49']});
+            return false;
+        }
+        $.ajax({
+            url: '?m=admin&c=message&a=addAgencySystemImg',
+            data: data,
+            dataType: 'json',
+            type: 'post',
+            beforeSend: function () {
+                loading = layer.load(1);
+            },
+            error: function () {
+                layer.close(loading);
+                layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+            },
+            success: function (data) {
+                if(data.code == 0)
+                {
+                    layer.msg(data.msg,{icon:6, shade: [0.5, '#393D49']}); //弹出错误信息
+                }
+                else
+                {
+                    layer.msg(data.msg,{icon:5, shade: [0.5, '#393D49']}); //弹出错误信息
+                }
+            },
+            complete:function(){
+                layer.close(loading);
+            }
+        });
+    });
+
+    $("#btn_submit_2").click(function () {
+        var data = {
+            'img':$("#view_2").attr("src")
+        }
+        if(data.img_url == "")
+        {
+            layer.msg('请选择上传图片', {icon: 5, shade: [0.5, '#393D49']});
+            return false;
+        }
+        $.ajax({
+            url: '?m=admin&c=message&a=addWebAgencySystemImg',
+            data: data,
+            dataType: 'json',
+            type: 'post',
+            beforeSend: function () {
+                loading = layer.load(1);
+            },
+            error: function () {
+                layer.close(loading);
+                layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+            },
+            success: function (data) {
+                if(data.code == 0)
+                {
+                    layer.msg(data.msg,{icon:6, shade: [0.5, '#393D49']}); //弹出错误信息
+                }
+                else
+                {
+                    layer.msg(data.msg,{icon:5, shade: [0.5, '#393D49']}); //弹出错误信息
+                }
+            },
+            complete:function(){
+                layer.close(loading);
+            }
+        });
+    });
+
+    function checknum(obj)
+    {
+        if(/^\d+\.?\d{0,2}$/.test(obj.value)){
+            obj.value = Math.abs(obj.value);
+        }else{
+            obj.value = Math.abs(obj.value.substring(0,obj.value.length-1));
+        }
+    }
+    var loading = "";//加载中......
+    $("#update").click(function(){
+        $(this).parent().html('<a class="btn btn-white btn-bitbucket btn_sure" id="btn_submit" data-title="保存"><i class="fa fa-save"></i></a>')
+        $(this).remove();
+        $("input").attr("readonly",false);
+    })
+
+    $(".btn_sure_add").click(function () {
+        var obj = $('.rate');
+//        var i_class = $('#update').children('i').attr('class');
+        if(obj.length>4){
+            layer.msg('最多只能设置5个值!', {icon: 5, shade: [0.5, '#393D49']});
+            return false;
+        }
+//        if (i_class == 'fa fa-pencil') {
+//            $('#update').attr('data-title', '保存');
+//            $('#update').children('i').attr('class', 'fa fa-save');
+//            $('#form_update').find('input').each(function() {
+//                $(this).attr('readonly', false);
+//            });
+//        }
+
+        var html = '<div class="form-group"><label class="col-sm-2 control-label">充值范围</label><div class="col-sm-6"> <span class="col-sm-2" style="padding-left: 0px;"> <input type="number" class="form-control low" name="low_'+obj.length+'"   readonly onkeyup="checknum(this);"/></span><span class="col-sm-2" style="padding-left: 0px;"> <input type="number" class="form-control upper" name="upper_'+obj.length+'" value=""  readonly onkeyup="checknum(this);"/> </span> <span class="col-sm-4" style="padding-left: 50px;display: inline-flex;line-height: 35px;">返现比例为<input type="number" onkeyup="checknum(this);" style="width: 60%" class="form-control rate" name="rate_'+obj.length+'"  readonly/> </span> <span class="col-sm-3 help-block m-b-none">（%）</span> </div> </div> <div class="hr-line-dashed"></div>';
+        $('#form').append(html);
+    });
+    //修改
+    $("body").on("click","#btn_submit",function(){
+        var val = $("#form").serialize()+"&submit=true";
+
+        $.ajax({
+            url: '?m=admin&c=role&a=cash_back',
+            data: val,
+            dataType: 'json',
+            type: 'post',
+            beforeSend: function () {
+                loading = layer.load(1);
+            },
+            error: function () {
+                layer.close(loading);
+                layer.msg('网络错误', {icon: 5, shade: [0.5, '#393D49']});
+            },
+            success: function (result) {
+                layer.close(loading);
+                if (result.rt) {
+                    layer.msg('修改成功', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                        location.reload();
+                    });
+                } else {
+                    layer.msg('修改失败', {icon: 5, shade: [0.5, '#393D49']});
+                }
+            }
+        })
+    })
+</script>
+</html>

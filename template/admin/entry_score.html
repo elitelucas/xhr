@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+   <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+   <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+   <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+   <link type="text/css" href="statics/admin/new_ui/bootstrap.min.css" rel="stylesheet">
+   <link type="text/css" href="statics/admin/new_ui/font-awesome.css" rel="stylesheet">
+   <link type="text/css" href="statics/admin/new_ui/style.css" rel="stylesheet">
+   <script src="statics/admin/js/jquery.js"></script>
+      <script src="statics/admin/js/layer/2.1/layer.js"></script>
+      <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+      <script src="statics/admin/js/bootstrap.min.js"></script>
+    <style>
+        #page{height: 60px;margin-top: 20px;text-align: center;}
+        #page ul li{float: left;margin-right:10px;}
+        #page ul .current{ background-color:#0099ff;text-align:center;}
+    </style>
+</head>
+<body class="new_ui_body">
+    <div class="ibox float-e-margins">
+	    <div class="ibox-title iboxWTitle">
+	        <h5><em style="color:red;">{$matchInfo['status']}</em>比分录入</h5>
+	        <div class="ibox-tools">
+	            <a  class="btn btn-white btn-bitbucket" id="btn_back">
+	                <i class="fa fa-reply"></i> 返回
+	            </a>
+	        </div>
+	    </div>
+   	    <div class="ibox-content bagCol">
+	        <div class="ibox-title ">
+	            <h5>比分录入信息</h5>
+	        </div>
+	        <div class="ibox-content">
+            	<form method="get" class="form-horizontal">
+	            	 <div class="form-group">
+	                    <label class="col-sm-2 control-label">当前赛事</label>
+	                    <div class="col-sm-5">
+                            <input type="text" class="form-control" name="title" value="{$matchInfo['match_name']}" readonly/>
+                            <span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">{$matchInfo['status']}比分</label>
+	                    <div class="col-sm-4">
+	                    	<div class="input-group m-b">
+                                 <input type="text" class="date_picker form-control two_span_inline" value="{$matchInfo[score][0]}" id="match_score_1" name="match_score_1" style="width:50px;text-align:center;"/>
+                                 <span class="to-inline"> : </span>
+                                 <input type="text" class="date_picker form-control two_span_inline" value="{$matchInfo[score][1]}" id="match_score_2" name="match_score_2" style="width:50px;text-align:center;"/>
+                             </div>
+	                    </div>
+	                </div>
+	                <input type="hidden" id="match_id" name="match_id" value="{$match_id}">
+	                <input type="hidden" id="match_status" name="match_status" value="{$match_status}">
+	                </form>
+	                <div class="form-group">
+		            	<div class="col-sm-4 col-sm-offset-2">
+		                	<button class="btn btn-primary" type="submit" id="btn_submit">确定</button>
+		                	<button class="btn btn-white btn_cancel" id="btn_cancel" type="submit">取消</button>
+		            	</div>
+	       			</div>
+       			</div>
+   			</div>
+		</div>
+<script type="text/javascript">
+    var loading = "";//加载中.....
+    //提交
+    $("#btn_submit").bind("click",function(){
+    	var ex = /^\d+$/;
+    	var match_id = $('#match_id').val();
+    	var match_status = $('#match_status').val();
+    	var match_score_1 = $('#match_score_1').val();
+    	var match_score_2 = $('#match_score_2').val();
+    	
+    	if (!ex.test(match_score_1)) {
+    		layer.msg('前置比分请输入整数', {icon: 5, shade: [0.5, '#393D49']});
+            return false;
+     	}
+    	
+    	if (!ex.test(match_score_2)) {
+    		layer.msg('后置比分请输入整数', {icon: 5, shade: [0.5, '#393D49']});
+            return false;
+     	}
+    	
+    	layer.confirm ('当前操作赛事:<em style="color:red;">{$matchInfo['match_name']} </em></br> <em style="color:red;">{$matchInfo['status']}</em>录入比分      <em style="color:red;">' + match_score_1 + " : " + match_score_2 + '</em>', {
+    		 btn: ['确认','取消']
+    	}, function() {
+	        $.ajax({
+	            url: '?m=admin&c=openAward&a=setMatchScore',
+	            data: {match_id:match_id, match_status:match_status, match_score_1:match_score_1, match_score_2:match_score_2},
+	            dataType: 'json',
+	            type: 'post',
+	            beforeSend: function () {
+	                loading = layer.load(1);
+	            },
+	            error: function () {
+	                layer.close(loading);
+	                layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+	            },
+	            success: function (result) {
+	                console.log(result);
+	                layer.close(loading);
+	                if (result.code == 1) {
+	                    layer.msg(result.msg, {icon: 6, shade: [0.5, '#393D49']}, function () {
+	                        location.href = '?m=admin&c=openAward&a=cupList';
+	                    });
+	                }
+	                else{
+	                    layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']});
+	                }
+	            }
+	        });
+    	},function(){});
+
+
+    });
+
+    $(function () {
+        $("#btn_cancel").click(function () {
+            location.href = '?m=admin&c=openAward&a=cupList';
+        });
+        
+        $("#btn_back").click(function () {
+            location.href = '?m=admin&c=openAward&a=cupList';
+        });
+
+    });
+</script>
+</body>
+</html>

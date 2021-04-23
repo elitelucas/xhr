@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="renderer" content="webkit">
+        <title>网站信息</title>  
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>
+        <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+        <script src="statics/admin/js/pintuer.js"></script> 
+        <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+        <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+        <script src="statics/admin/js/jquery.date_input.pack.js"></script>
+        {template public-new-ui-header}
+        <style>
+            .form-group{
+                overflow: auto;
+            }
+        </style>
+    </head>
+
+
+    <body class="new_ui_body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title iboxWTitle">
+                    <h5>更换银行卡开关</h5>
+                </div>
+                <div class="ibox-content list" style="width: 100%;">
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label input_title">是否允许用户更换银行卡</label>
+                            <div class="col-sm-4" style="padding-top: 6px;">
+                                <input {if $value == 1}checked{/if} type='radio' onclick="minchen(1,100010)" name='stage' value='1'/> 开启
+                                <input {if $value == 0}checked{/if} type='radio' onclick="minchen(0,100010)" name='stage' value='0'/> 关闭
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="ibox float-e-margins">
+                <div class="ibox-title iboxWTitle">
+                    <h5>绑定银行卡方式</h5>
+                </div>
+                <div class="ibox-content list" style="width: 100%;">
+                    <form method="post" class="form-x form" action="?m=admin&c=user&a=add_group">
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label input_title">绑定方式</label>
+                                <div class="col-sm-4" style="padding-top: 6px;">
+                                    <input class="status" name="WeChat" {if $conf['WeChat'] == 1}checked{/if} value="1" type="checkbox"/> 微信
+                                    <input class="status" name="Alipay" {if $conf['Alipay'] == 1}checked{/if} value="1" type="checkbox"/> 支付宝
+                                    <input class="status" name="UnionPay" {if $conf['UnionPay'] == 1}checked{/if} value="1" type="checkbox"/> 银联
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="ibox float-e-margins">
+                <div class="ibox-title iboxWTitle">
+                    <h5>绑定相同银行卡开关</h5>
+                </div>
+                <div class="ibox-content list" style="width: 100%;">
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label input_title">是否允许用户绑定相同的银行卡</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label input_title">银联</label>
+                                <div class="col-sm-4" style="padding-top: 6px;">
+                                    <input {if $yinlian == 0}checked{/if} type='radio' onclick="minchen(0,'binding_yinlian')" name='binding_yinlian' value='0'/> 允许
+                                    <input {if $yinlian == 1}checked{/if} type='radio' onclick="minchen(1,'binding_yinlian')" name='binding_yinlian' value='1'/> 不允许
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label input_title">微信</label>
+                                <div class="col-sm-4" style="padding-top: 6px;">
+                                    <input {if $weixin == 0}checked{/if} type='radio' onclick="minchen(0,'binding_weixin')" name='binding_weixin' value='0'/> 允许
+                                    <input {if $weixin == 1}checked{/if} type='radio' onclick="minchen(1,'binding_weixin')" name='binding_weixin' value='1'/> 不允许
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label input_title">支付宝</label>
+                                <div class="col-sm-4" style="padding-top: 6px;">
+                                    <input {if $zhifubao == 0}checked{/if} type='radio' onclick="minchen(0,'binding_zhifubao')" name='binding_zhifubao' value='0'/> 允许
+                                    <input {if $zhifubao == 1}checked{/if} type='radio' onclick="minchen(1,'binding_zhifubao')" name='binding_zhifubao' value='1'/> 不允许
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+    </body>
+    <script>
+        $(".form .status").click(function () {
+            var val1 = $('.status[name=WeChat]:checked').val()?1:0;
+            var val2 = $('.status[name=Alipay]:checked').val()?1:0;
+            var val3 = $('.status[name=UnionPay]:checked').val()?1:0;
+            var val4 = $('.status[name=qqWallet]:checked').val()?1:0;
+            $.post('?m=admin&c=role&a=card_type_edit',{WeChat:val1,Alipay:val2,UnionPay:val3,qqWallet:val4},function (data) {
+                if (data.code == 1) {
+                    layer.msg(data.msg, {icon: 6, shade: [0.5, '#393D49']});
+                } else {
+                    layer.msg(data.msg, {icon: 5, shade: [0.5, '#393D49']});
+                }
+            },'json')
+            console.log(val);
+        })
+        var loading = "";//加载中
+        function minchen(value,nid) {
+            $.ajax({
+                type: 'POST',
+                url: '?m=admin&c=role&a=up_switch',
+                data:{value:value,nid:nid},
+                dataType: 'json',
+                beforeSend:function(){
+                    loading = layer.load(1);
+                },
+                success: function (msg) {
+                    layer.close(loading);
+                    if (msg.state) {
+                        layer.msg('设置成功', {icon: 6, shade: [0.5, '#393D49']});
+                    } else {
+                        layer.msg('设置失败', {icon: 5, shade: [0.5, '#393D49']})
+                    }
+                }
+            });
+        }
+    </script>
+</html>

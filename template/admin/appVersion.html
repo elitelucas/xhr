@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <!--  <link rel="stylesheet" href="statics/admin/css/pintuer.css"> -->
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+            
+    <!-- template-begin+++ -->
+    {template public-new-ui-header}
+   <script src="statics/admin/fileupload/js/vendor/jquery.ui.widget.js"></script>	
+    <script src="statics/admin/fileupload/js/jquery.fileupload.js"></script>
+    <!-- template-end+++ -->
+
+
+
+</head>
+<body style="margin: 15px;background-color: #f3f3f4;">
+<div class="ibox float-e-margins">
+    <div class="ibox-title iboxWTitle">
+        <h5>平台信息设置</h5>
+    </div>
+    <div class="ibox-content bagCol">
+        <div class="ibox-title">
+            <h5>详情</h5>
+            <div class="ibox-tools">
+                <a class="btn btn-white btn-bitbucket btn_sure" id="update" data-title="修改"><i class="fa fa-pencil"></i> </a>
+            </div>
+        </div>
+        <div class="ibox-content m-b">
+            <form method="post" class="form-horizontal" id="form">
+                <!--<div class="form-group">-->
+                    <!--<label class="col-sm-2 control-label">http协议模式</label>-->
+                    <!--<div class="col-sm-3">-->
+                        <!--<select class="form-control m-b" name="stage" disabled="disabled">-->
+                            <!--<option value="1" {if $appData['state'] == 1} selected="selected" {/if}>http</option>-->
+                            <!--<option value="0" {if $appData['state'] != 1} selected="selected" {/if}>https</option>-->
+                        <!--</select>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">平台名称</label>
+                    <div class="col-sm-3">
+                        <input type="text" name="platform_name" class="form-control m-b" disabled="disabled" value="{$appData['platform_name']}" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">pc端logo</label>
+                    <div class="col-sm-3"  id="pc_logo">
+                        {if $appData['qrcode_url'] != ''}
+                        <img class="imag_pic" id="img_pc_logo" src="{$appData['pc_logo']}" style="width:162px;height:62px;cursor:pointer;margin-bottom: 10px;"><br/>
+                        {/if}
+                        <input type="hidden" value="{$appData['pc_logo']}" id="hi_pc_logo" name="hi_pc_logo">
+                        <input class="file_upload" type="file" name="file" data-validate="required:请选择文件" disabled="disabled"/>
+                        <span class="help-block m-b-nonesmall_pic_size hide_something pic_size_tips">图片尺寸162 X 62，不超过1M</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">app端logo</label>
+                    <div class="col-sm-3"  id="app_logo">
+                        {if $appData['qrcode_url'] != ''}
+                        <img class="imag_pic" id="img_app_logo" src="{$appData['app_logo']}" style="width:162px;height:62px;cursor:pointer;margin-bottom: 10px;"><br/>
+                        {/if}
+                        <input type="hidden" value="{$appData['app_logo']}" id="hi_app_logo" name="hi_app_logo">
+                        <input class="file_upload" type="file" name="file_1" data-validate="required:请选择文件" disabled="disabled"/>
+                        <span class="help-block m-b-nonesmall_pic_size hide_something pic_size_tips">图片尺寸162 X 62，不超过1M</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Android下载链接地址</label>
+                    <div class="col-sm-4">
+                        <input type="text" name="android_line" class="form-control m-b" disabled="disabled" value="{$appData['android_line']}" />
+                        <span class="help-block m-b-nonesmall_pic_size hide_something pic_size_tips">跳转地址为外部链接请按照以下格式配置：http://www.xxx.com</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">IOS下载链接地址</label>
+                    <div class="col-sm-4">
+                        <input type="text" name="ios_line" class="form-control m-b" disabled="disabled" value="{$appData['ios_line']}" />
+                        <span class="help-block m-b-nonesmall_pic_size hide_something pic_size_tips">跳转地址为外部链接请按照以下格式配置：http://www.xxx.com</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">二维码链接</label>
+                    <div class="col-sm-3"  id="qrcode_url">
+                        {if $appData['qrcode_url'] != ''}
+                            <img class="imag_pic" id="img_qrcode_url" src="{$appData['qrcode_url']}" style="width:150px;height:150px;cursor:pointer;margin-bottom: 10px;"><br/>
+                        {/if}
+                        <input type="hidden" value="{$appData['qrcode_url']}" id="hi_qrcode_url" name="hi_qrcode_url">
+                        <input class="file_upload" type="file" name="file" data-validate="required:请选择文件" disabled="disabled"/>
+                        <span class="help-block m-b-nonesmall_pic_size hide_something pic_size_tips">图片尺寸150 X 150，不超过1M</span>
+                    </div>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    var loading = "";//加载中
+
+    $("#update").click(function(){
+        $(this).parent().html('<a class="btn btn-white btn-bitbucket btn_sure" id="btn_submit" data-title="保存"><i class="fa fa-save"></i></a>')
+        $(this).remove();
+        $("select").attr("disabled",false);
+        $("input").attr("disabled",false);
+    })
+    $("body").on("click","#btn_submit",function(){
+        var data = {
+            // 'state':$("[name='stage'] option:selected").val(),
+            'qrcode_url':$("input[name='hi_qrcode_url']").val(),
+            'pc_logo':$("input[name='hi_pc_logo']").val(),
+            'ios_line':$("input[name='ios_line']").val(),
+            'android_line':$("input[name='android_line']").val(),
+            'platform_name':$("input[name='platform_name']").val(),
+            'app_logo':$("input[name='hi_app_logo']").val(),
+        }
+        $.ajax({
+            type: 'POST',
+            url: '?m=admin&c=message&a=appVersionAct',
+            data:data,
+            dataType: 'json',
+            beforeSend:function(){
+                loading = layer.load(1);
+            },
+            success: function (msg) {
+                layer.close(loading);
+                if (msg.code == 0) {
+                    layer.msg(msg.msg, {icon: 6, shade: [0.5, '#393D49']},function(){
+                        location.reload();
+                    });
+
+                } else {
+                    layer.msg(msg.msg, {icon: 5, shade: [0.5, '#393D49']})
+                }
+            }
+        });
+    })
+    
+    $(function () {
+    	//上传图片
+        $('.file_upload').fileupload({
+            url: "?m=admin&c=message&a=uploadImg",
+            sequentialUploads: true
+        }).bind('fileuploaddone', function(e, data) {
+            var data_index = $(this).data('index');
+            var div_id = $(this).parent().attr('id');
+            var res = $.parseJSON(data.result);
+
+            if (res.status == 0) {
+                $('#img_' + div_id).attr({
+                    'src': res.data
+                });
+                // $('#file_upload').attr({
+                //     'style': "width:120px; height:120px; float: left; opacity: 0 ; margin-left: -120px"
+                // });
+                $('#hi_' + div_id).val(res.data);
+            } else {
+                layer.msg(res.data,{icon:5, shade: [0.5, '#393D49']}); //弹出错误信息
+                return false;
+            }
+        });
+       // $('.imag_pic').click(function () {
+       //     $(this).siblings('.file_upload').click();
+       // });
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--<script type="text/javascript" src="js/tingyun-rum.js"></script> -->
+    <title>砸金蛋赢大奖</title>
+    <link rel="stylesheet" rev="stylesheet" href="/statics/web/css/popStyle.css" type="text/css"/>
+    <!-- <script src="//static.adhudong.com/p/discountplus/smash-egg/js/rempublic.min.js"></script> -->
+    <link rel="stylesheet" href="/statics/web/css/swiper.min.css">
+    <link rel="stylesheet" href="/statics/web/extend/dropload/dropload.css">
+    <link rel="stylesheet" href="/statics/web/css/smash-egg.css" />
+
+    <script type="text/javascript" src="/statics/web/js/jquery.1.8.2.min.js"></script>
+    <script type="text/javascript" src="/statics/web/js/swiper.jquery.min.js"></script>
+    <script type="text/javascript" src="/statics/web/js/christ/rempublic.js"></script>
+    <script type="text/javascript" src="/statics/web/js/christ/tools.js"></script>
+
+    <style>
+        .swiper-container {
+            width: 10.11rem;
+        }
+        .swiper-button-prev, .swiper-container-rtl .swiper-button-next {
+            background-image: url(/statics/web/images/christ/icon_left@2x.png);
+            background-size: .68rem 1.15rem;
+            left: 1.49rem;
+            right: auto;
+            margin-top: 5px;
+        }
+        .swiper-button-next, .swiper-container-rtl .swiper-button-prev {
+            background-image: url(/statics/web/images/christ/icon_right@2x.png);
+            background-size: .68rem 1.15rem;
+            right: 1.49rem;;
+            left: auto;
+            margin-top: 5px;  
+        }
+    </style>
+</head>
+<body>
+<div class="main">
+    <div class="mask">
+        <div class="popup-wrapper box-wrapper">
+            <div class="close-icon">×</div>
+            <div class="box-bottom">
+                <div class="box-title">新客0元享</div>
+                <div class="box-img"></div>
+                <div class="box-description">
+                    <p>点击马上使用，下载并安装APP，免费领百万</p>
+                </div>
+                <div class="box-btn">立即领取</div>
+            </div>
+        </div>
+        <div class="popup-wrapper list-area rules-list">
+            <div class="close-icon">×</div>
+            <span class="list-title">活动规则</span>
+            <div class="rule-wrapper"></div>
+            <!--<ul></ul>-->
+        </div>
+
+        <div class="popup-wrapper again-wrapper">
+            <div class="common-notimes-pop">
+                <div class="img-word-has"><span>恭喜您获得</span><em class="prize-name">一等奖</em></div>
+                <div class="tit-has">奖品</div>
+                <div class="img-has"></div>
+                <div class="btn-again">再来一次</div>
+            </div>
+        </div>
+        <div class="popup-wrapper thanks-wrapper">
+            <div class="common-notimes-pop">
+                <div class="img-word-none"></div>
+                <div class="img-none"></div>
+                <div class="btn-again">再来一次</div>
+            </div>
+        </div>
+
+        <!--活动详情页-->
+        <div class="activity-detail scaleNone">
+            <span class="close">×</span>
+            <div class="detail-nav">
+                <ul>
+                    <li class="active"><a href="#">活动说明</a></li>
+                    <li><a href="#">我的奖品</a></li>
+                </ul>
+            </div>
+            <div class="detail-con detail-con1" style="display: block">
+                <!--<img src="images/guize_con@2x.png" alt="">-->
+                <div class="activity-time">
+                    <div class="detail-tit">活动时间</div>
+                    <p><?php echo date("Y年m月d H时",$this->config['start_time'])."--".date("Y年m月d H时",$this->config['end_time']);  ?></p>
+                </div>
+                <div class="activity-introduce">
+                    <div class="detail-tit">活动介绍</div>
+                    <p>
+                        <?php echo $this->config['value']['details'];  ?>
+                    </p>
+
+                </div>
+                <div class="activity-rules">
+                    <div class="detail-tit">活动规则</div>
+                    <p>1.活动期间有效投注达到<span><?php echo $this->config['rules_play']['every_bet'];  ?></span>获得<span><?php echo $this->config['rules_play']['every_bet_val'];  ?></span>次砸蛋机会；</p>
+                    <p>2.活动期间有效充值达到<span><?php echo $this->config['rules_play']['every_topup'];  ?></span>获得<span><?php echo $this->config['rules_play']['every_topup_val'];  ?></span>次砸蛋机会；</p>
+                    <p>3.活动期间每日输分达到<span><?php echo $this->config['rules_play']['every_lose'];  ?></span>获得<span><?php echo $this->config['rules_play']['every_lose_val'];  ?></span>次砸蛋机会；</p>
+                    <p>4.活动期间每日赢分达到<span><?php echo $this->config['rules_play']['every_win'];  ?></span>获得<span><?php echo $this->config['rules_play']['every_win_val'];  ?></span>次砸蛋机会；</p>
+                    <p>5.每日输赢分获得的次数将在每日24点统一发放；</p>
+                    <p>6.盈亏赠送次数在 <?php echo date("Y年m月d",$this->config['rules_play']['send_start_time']);  ?>--<?php echo date("Y年m月d",$this->config['rules_play']['send_end_time']);  ?> 有效；</p>
+                    <p>7.以上规则均在此次活动时间内生效。</p>
+                </div>
+            </div>
+            <div class="detail-con detail-con2" style="display: none">
+                <table>
+                    <thead>
+                    <tr>
+                        <th style="width: 40%;">时间</th>
+                        <th style="width: 20%">奖项</th>
+                        <th style="width: 40%">奖品名称</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!--<tr><td>2017.09.22</td><td>一等奖</td><td>苹果电脑</td></tr>-->
+                    </tbody>
+
+                </table>
+                <p id="next"></p>
+            </div>
+        </div>
+    </div>
+    <div class="bg">
+        <div class="wrapper eggs-wrapper">
+            <div class="tit">
+                <img src="/statics/web/images/christ/title@2x.png">
+            </div>
+            <div class="detail go-to-rules vibrate">
+                <!--<span>活动详情</span>-->
+                <img src="/statics/web/images/christ/bag.png">
+            </div>
+            <!--<div class="link go-to-my-gifts"><span>活动规则</span></div>-->
+            <div class="left-times">您还剩
+                <span class="num"><?php echo $this->numInfo['recharge_num'] + $this->numInfo['betting_num'] + $this->numInfo['lose_num'] + $this->numInfo['variable_num'] + $this->numInfo['free_num'] - $this->numInfo['used_num'];  ?></span>
+                <!--<span class="num">5</span>-->
+                次砸蛋机会！</div>
+            <div class="eggs one">
+                <div class="egg"></div>
+                <div class="fire-work"></div>
+                <div class="egg-bottom"></div>
+            </div>
+            <div class="eggs two">
+                <div class="egg"></div>
+                <div class="fire-work"></div>
+                <div class="egg-bottom"></div>
+            </div>
+            <div class="eggs three">
+                <div class="egg"></div>
+                <div class="fire-work"></div>
+                <div class="egg-bottom"></div>
+            </div>
+            <div class="hammer regular"></div>
+            <div class="child"></div>
+            <div class="pedestal" style="display: none;">
+                <img src="statics/web/images/turntable/PCdiz.png" alt="">
+            </div>
+        </div>
+        <div class="list-area gifts-list">
+            <span class="list-title">中奖名单</span>
+            <div class="line"><img src="/statics/web/images/christ/line@2x.png" alt=""/></div>
+
+            <div class="gifts-list-wrapper">
+                <div class="winning-list-bd" id="winningScroll">
+                    <ul>
+                        <?php foreach($prize_list as $val){   ?>
+                        <li>
+                            <span class="list-l">恭喜<em class="user"><?php echo f_name($val['username']);  ?></em></span><span class="list-r">获得<em class="gold">{$val['prize_project']}</em></span>
+                        </li>
+                        <?php }   ?>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="list-area gifts-list2">
+            <span class="list-title">奖品列表</span>
+            <div class="line"><img src="/statics/web/images/christ/line@2x.png" alt=""/></div>
+            <div class="gifts-list-wrapper">
+                <div class="swiper-container">
+                    <ul class="swiper-wrapper">
+                        <?php foreach($this->config['value']['prize_config'] as $key => $val){    ?>
+                        {if $val['prize_type'] != 3}
+                        <li class="swiper-slide">
+                            <div class="gift-title">{$val['prize_project']}</div>
+                            <!--{if $val['prize_id'] == 2} <i class="first"></i> {elseif $val['prize_id'] == 3} <i class="second"></i> {elseif $val['prize_id'] == 4} <i class="third"></i> {/if}-->
+                            <div class="gift-img">
+                                <img src="{if $val['prize_img'] == ''}/statics/web/images/christ/default_prize_img.png{else}{$val['prize_img']}{/if}" alt="">
+                            </div>
+                        </li>
+                        {/if}
+                        <?php }   ?>
+                    </ul>
+
+                </div>
+                <!-- 如果需要导航按钮 -->
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+
+            </div>
+
+            <script>
+                var mySwiper = new Swiper ('.swiper-container', {
+//                    direction: 'horizontal',
+                    loop: true,
+                    autoplay: 3000,
+                    paginationClickable: true,
+                    slidesPerView: 3,
+                    spaceBetween: 10,
+
+                    // 如果需要前进后退按钮
+                    nextButton: '.swiper-button-next',
+                    prevButton: '.swiper-button-prev',
+                })
+            </script>
+        </div>
+
+        <div class="notice"><?php echo $this->config['value']['statement'];   ?></div>
+    </div>
+
+</div>
+<textarea style="display:none" id="data_attend" class="data_redpacket_info">{$attend}</textarea>
+<script>
+    if(!/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+        $('.hammer.regular').css({
+            'position': 'absolute',
+            'left': '50%',
+            'top': '235px',
+        })
+        $('.eggs.three').css({
+            'position': 'absolute',
+            'left': '50%',
+            'marginLeft': '70px',
+        })
+        $('.eggs.one ,.eggs.three').css({
+            'top': '345px',
+            'z-index': '1'
+        })
+        $('.eggs.two').css({
+            'top': '400px',
+            'z-index': '1'
+        })
+        $('.eggs.one,.swiper-button-prev').css({
+            'position': 'absolute',
+            'left': '50%',
+            'marginLeft': '-255px',
+        })
+        $('.swiper-button-next').css({
+            'position': 'absolute',
+            'left': '50%',
+            'marginLeft': '235px'
+        })
+        $('.bg').css({
+            'background': 'url(statics/web/images/turntable/PCback.jpg) no-repeat',
+            'backgroundSize': '100% 100%'
+        })
+        $('.pedestal').css({
+            'position': 'absolute',
+            'left': '50%',
+            'marginLeft': '-300px',
+            'top': '460px',
+            'display': 'block',
+        })
+        $('.wrapper').css({
+            'position': 'relative',
+            'width': '100%',
+            'height': '18.33rem'
+        })
+    } 
+</script>
+<!--<script type="text/javascript" src="/statics/web/js/christ/zepto.min.js"></script>-->
+<script src="/statics/web/extend/dropload/dropload.min.js"></script>
+<!--<script type="text/javascript" src="/statics/web/js/christ/mpopup.min.js"></script>-->
+<script type="text/javascript" src="/statics/web/js/christ/smash-egg.js"></script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<!--说明网站开启webapp 程序的支持-->
+		<meta name="apple-touch-fullscreen" content="yes" />
+		<!--添加到主屏幕后，全屏显示-->
+		<meta name="apple-mobile-web-app-status-bar-style" content="#f96a36" />
+		<!--在web app应用下状态条（屏幕顶部条）的颜色-->
+		<meta name="format-detection" content="telephone=no" />
+		<title>托管账户提现</title>
+		<link rel="stylesheet" href="../../statics/app/css/style.css">
+		<link rel="stylesheet" href="../../statics/app/css/plugs/amazeui.min.css" />
+		<script type="text/javascript" src="../../statics/app/js/plugs/jquery-2.1.3.min.js"></script>
+		<script type="text/javascript" src="../../statics/app/js/plugs/amazeui.min.js"></script>
+		<script type="text/javascript" src="../../statics/app/js/fontSize.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../statics/app/css/plugs/mui.css" />
+		<script type="text/javascript" src="../../statics/app/js/layer.m/layer.m.js"></script>
+		<script type="text/javascript" src="../../statics/app/js/common.js"></script>
+		<script type="text/javascript">
+		$(function () {
+			var $fee = $('#cash-fee');
+			var handler = null;
+			var wait = 0;
+
+			function cashFee() {
+				handler = null;
+				$.ajax({
+					type: "POST",
+					url: "<?=url('fengfu','default','public_cashfee_ajx')?>",
+					data: {
+						money: $('#money').val()
+					},
+					success: function(data){
+						if (wait == 1) {
+							if (/^\d+\.\d{2}$/.test(data)) {
+								$fee.text('￥' + data);
+							} else {
+								$fee.addClass('red').text(data);
+							}
+						}
+					}
+				});
+			}
+
+			$('#money').keyup(function () {
+				wait = 0;
+				if ($(this).val() === '') {
+					$('#submit').attr('disabled', true);
+					$fee.removeClass('red').text('￥0.00');
+					return;
+				}
+				$('#submit').attr('disabled', false);
+				if (/^\d+(\.\d{1,2})?$/.test($(this).val()) === false) {
+					$fee.addClass('red').text('提现金额不正确');
+					return;
+				}
+				var usableMoney = {$rs['withdrawAbleBalance']};
+				if (parseFloat($(this).val()) > usableMoney) {
+					$fee.addClass('red').text("您的余额为{$rs['withdrawAbleBalance']}元");
+					return;
+				}
+				$fee.removeClass('red').text('正在计算...');
+				wait = 1;
+				if (handler) {
+					clearTimeout(handler);
+				}
+				handler = setTimeout(cashFee, 600);
+			});
+
+			$('#myform').submit(function () {
+				$('#money').blur();
+				if (/^\d+(\.\d{1,2})?$/.test($('#money').val()) === false) {
+					layerTips('请输入正确的提现金额！');
+					return false;
+				}
+				if ($fee.hasClass('red')) {
+					layerTips($fee.text());
+					return false;
+				}
+				return true;
+			});
+		});
+		</script>
+		<style>
+			#cash-fee{font-size:1.9rem}
+			.red{color:red}
+		</style>
+	</head>
+
+	<body class="cht-bg">
+		<div class="cht-cz-box">
+			<form id="myform" action="<?=url('','','')?>" method="post">
+				{if !empty($cardInfo['withdrawBankList'])}
+				<div class="cht-cz-item">
+					<div class="am-g" style="padding:0.5em 0">
+						<div class="am-u-sm-12">
+							根据同卡进出的原则，一键充值的充值提现必须使用同一张卡，您托管账户的银行卡已绑定为：<span style="color:#d7a345">{$cardInfo['withdrawBankList'][0]['bankAccount']}</span>（{$cardInfo['withdrawBankList'][0]['bankName']}）。如需变更，请提交申请：[<a style="color:red" href="<?=url('','','card')?>">银行卡变更申请</a>]
+						</div>
+					</div>
+				</div>
+				{/if}
+
+				<div class="cht-cz-item">
+					<div class="am-g">
+						<div class="am-u-sm-12">
+							<h2>提现金额</h2>
+						</div>
+						<div class="am-u-sm-12">
+							<input class="cht-cz-input" name="money" id="money" type="number" step="0.01" placeholder="请输入提现金额" autocomplete="off"/><span class="cht-yuan">元</span>
+						</div>
+						<div class="am-u-sm-12">
+							<h2>手续费：<span id="cash-fee">￥0.00</span></h2>
+						</div>
+					</div>
+				</div>
+				<br/>
+				<div class="am-u-sm-12 cht-qr">
+					<input type="hidden" name="save" value="save">
+					<button type="submit" class="am-btn am-btn-default am-btn-block cht-btn-submit" id="submit" disabled="disabled">确认提交</button>
+				</div>
+				<div class="cht-warmprompt">
+					<div class="am-g">
+						<div class="am-u-sm-12">
+							<p>温馨提示：</p>
+							<p>1.提现手续费为提现金额的0.05%，单笔不足2元按2元收取，最高50元封顶</p>
+							<p>2.提现采用批次处理方式，时间分别为：工作日上午9:00、11:00、14:00、16:30、18:00；非工作日20:00。</p>
+							<p>3.到账时间：T+0到账，实际到账时间由银行处理时间决定，处理后最迟24小时内到账。</p>
+							<p>4.提现金额单笔上限为50万元，最低提现金额为2.01元</p>
+							<p>5.提现仅限银行借记卡，不支持存折、信用卡提现</p>
+							<p>6.以上操作如给您带来不便敬请谅解，如您有任何疑问可拨打客服热线400-018-0107或咨询在线客服。</p>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</body>
+
+</html>

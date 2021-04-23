@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+        <script src="statics/admin/js/pintuer.js"></script>  
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>  
+        <script src="statics/admin/js/jquery.date_input.pack.js"></script> 
+        <style>
+            #page{height: 60px;margin-top: 20px;text-align: center;}
+            #page ul li{float: left;margin-right:10px;}
+            #page ul .current{ background-color:#0099ff;text-align:center;}
+        </style>
+    </head>
+    <body>
+        <form method="post" id="form" action="">
+            <div class="panel admin-panel">
+                <div class="panel-head"><strong class="icon-reorder"> 大厅配置</strong></div>
+                <div class="padding border-bottom">
+                    <ul style="padding-left:10px;">
+                        <li>
+                            已为用户赚取元宝总数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="text" style="width:100px; line-height:17px;display:inline-block" value="{$list['100001']}" class="input val" name="val" placeholder="请输入">$&nbsp;&nbsp;&nbsp;
+                            <a onclick="update(this)" data-value="100001" class="button border-main icon-edit" href="javascript:void(0)"> 修改</a>
+                        </li>
+                        <li>
+                        回扣返水赚钱率&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="text" style="width:100px; line-height:17px;display:inline-block" value="{$list['100002']}" class="input val" name="val" placeholder="请输入">%&nbsp;&nbsp;
+                        <a onclick="update(this)" data-value="100002" class="button border-main icon-edit" href="javascript:void(0)"> 修改</a>
+                    </li>
+                        <li>
+                            注册用户总数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="text" style="width:100px; line-height:17px;display:inline-block" value="{$list['100003']}" class="input val" name="val" placeholder="请输入">人&nbsp;&nbsp;
+                            <a onclick="update(this)" data-value="100003" class="button border-main icon-edit" href="javascript:void(0)"> 修改</a>
+                        </li>
+                    </ul>                    
+                </div>
+            </div>
+        </form>
+        <script type="text/javascript">
+            var loading = "";//加载中......
+
+            //修改
+            function update(note) {
+                var nid = $(note).attr("data-value");
+                var val = $(note).closest("li").find(".val").val();
+                
+                if($.trim(val) == ""){
+                    layer.msg("参数不能为空！！！",{icon: 5, shade: [0.5, '#393D49']});
+                    return false;
+                }
+                
+                $.ajax({
+                    url: '?m=admin&c=role&a=dolobby',
+                    data: {nid: nid, val: val},
+                    dataType: 'json',
+                    type: 'post',
+                    beforeSend: function () {
+                        loading = layer.load(1);
+                    },
+                    error: function () {
+                        layer.close(loading);
+                        layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                    },
+                    success: function (result) {
+                        layer.close(loading);
+                        if (result.rt) {
+                            layer.msg('修改成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                location.reload();
+                            });
+                        } else {
+                            layer.msg('修改失败！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        }
+                    }
+                })
+            }
+        </script>
+    </body>
+</html>

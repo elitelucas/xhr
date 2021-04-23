@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <title></title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/vue.min.js"></script>
+    <script type="text/javascript" src="../js/data.js"></script>
+	<script type="text/javascript" src="../js/English.js"></script>
+
+</head>
+<body id="mybody" v-cloak>
+	<div class="main">
+		<!-- 彩种导航区域开始 -->
+		<div class="quick-nav lottery_draw_nav">
+			<div class="content clearfix">
+				<div class="quick-nav-con">
+					<a v-for="quickNav in quickNavs" href="javascript:void(0);" :class="{'active':quickNavClass==quickNav.id||quickNavClass==quickNav.id2}" data-id="{{quickNav.id>24&&quickNav.id<201?quickNav.id2:quickNav.id}}" @click="quickFun">{{quickNav.name}}</a>
+				</div>
+			</div>
+		</div>
+		<!-- 彩种导航区域结束 -->
+		<div class="content content-sub trendMain">
+			<div class="clearfix">
+				<div class="zouhao-title con-title">
+					<p class="title fl">{{lotteryName}}：{{english.玩法介绍}}</p>
+				</div>
+			</div>
+			<div id="howToPlayContent">
+				
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+    (function(exports) {
+		exports.app = new Vue({
+            el: '#mybody',
+            data: function() {
+                return {
+					english: english,
+                  	lotteryId:"",  //彩种ID
+                  	lotteryName:"",  //彩种名称
+                  	trendMess:"",  //存储的数据
+                  	quickNavs:[],  //快捷导航栏
+                  	dataInfo:"",
+					quickNavClass:"",  //当前彩种class
+					dataName:{},  //传后台
+					// thisUrl:"",  //引入的文件链接
+                }
+            },
+            ready:function(){
+                var vm = this;
+			    vm.dataInfo = lotteryArrFun();
+			    vm.readyFun();
+            },
+            methods:{
+            	quickFun:function(e){
+            		//快捷导航点击
+            		var vm = this;
+                	var el = e.currentTarget;
+            		vm.lotteryId = $(el).attr("data-id");
+            		vm.trendMess.lotteryId = vm.lotteryId;
+                	sessionStorage.setItem("trendMess", JSON.stringify(vm.trendMess));  //存储数据
+            		vm.readyFun();
+            	},
+                readyFun:function(){
+					//初始化
+					var vm = this;
+					vm.dataName = {};
+	                vm.trendMess = JSON.parse(sessionStorage.getItem("trendMess"));
+					if(!vm.trendMess){
+						vm.trendMess = {};
+	                	vm.trendMess.lotteryId = 2;
+	                }
+					vm.lotteryId = vm.trendMess.lotteryId;
+					for(var j in vm.dataInfo){
+						vm.quickNavs.push(vm.dataInfo[j]);
+						if(vm.lotteryId==vm.dataInfo[j].id||vm.lotteryId==vm.dataInfo[j].id2){
+							vm.quickNavClass=vm.dataInfo[j].id;
+							vm.lotteryName = vm.dataInfo[j].name;
+						}
+					}
+
+                },
+            },
+        })
+    })(window);
+</script>

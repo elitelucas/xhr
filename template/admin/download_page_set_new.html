@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<link rel="stylesheet" href="statics/admin/css/pintuer.css">
+	<link rel="stylesheet" href="statics/admin/css/admin.css">
+	<link rel="stylesheet" href="statics/admin/css/datePicker.css">
+	<script src="statics/admin/js/jquery.js"></script>
+	<script src="statics/admin/js/pintuer.js"></script>
+	<script src="statics/admin/js/layer/2.1/layer.js"></script>
+	<script src="statics/admin/js/jquery.date_input.pack.js"></script>
+	<script src="statics/admin/fileupload/js/vendor/jquery.ui.widget.js"></script>
+	<script src="statics/admin/fileupload/js/jquery.fileupload.js"></script>
+	{template public-new-ui-header} 
+</head>
+<body class="new_ui_body">
+	<div class="ibox float-e-margins">
+		<div class="ibox-title iboxWTitle">
+			<h5>下载页面设置</h5>
+		</div>
+		<div class="ibox-content bagCol">
+			<div class="ibox-title">
+				<h5>平台logo及域名设置</h5>
+				<div class="ibox-tools">
+					<a class="btn btn-white btn-bitbucket btn_sure" id="update" data-title="修改"><i class="fa fa-pencil"></i> </a>
+				</div>
+			</div>
+			<div class="ibox-content m-b">
+				<form id='form_update' method="post" class="form-horizontal">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">平台名称</label>
+							<div class="col-sm-8">
+								<span class="col-sm-8" style="padding-left: 0px;">
+									<input type="text" class="form-control"  value="{$data['platform_title']}" name="platform_title" id="platform_title"  disabled="disabled"/>
+								</span>
+								<span class="col-sm-4 help-block m-b-none"></span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">平台LOGO</label>
+							<div class="col-sm-7">
+								{if $data['logo'] != ''}
+									<img class="imag_pic" src="{$data['logo']}" style="height:61px; cursor:pointer;"><br/>
+								{/if}
+								<input type="hidden" value="{$data['logo']}" id="logo" name="logo">
+								<input class="file_upload" type="file"  name="file" data-validate="required:请选择文件"  disabled="disabled"/>
+								建议上传高度为61px的图片
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">平台域名</label>
+							<div class="col-sm-8">
+								<span class="col-sm-8" style="padding-left: 0px;">
+									<input type="text" class="form-control"  value="{$data['website_org']}" name="website_org" id="website_org"  disabled="disabled"/>
+								</span>
+								<span class="col-sm-4 help-block m-b-none"></span>
+							</div>
+						</div>
+				</form>
+			</div>
+			
+			<div class="ibox-title">
+				<h5>首页展示设置</h5>
+				<div class="ibox-tools">
+					<a class="btn btn-white btn-bitbucket btn_sure" id="update" data-title="修改"><i class="fa fa-pencil"></i> </a>
+				</div>
+			</div>
+			<div class="ibox-content m-b" style="width: 100%;">
+				<form id='form_update' method="post" class="form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">PC端图片</label>
+						<div class="col-sm-7">
+							{if $data['pc_pic'] != ''}
+								<img class="imag_pic" src="{$data['pc_pic']}" style="width:205px;height:260px; cursor:pointer;"><br/>
+							{/if}
+							<input type="hidden" value="{$data['pc_pic']}" id="pc_pic" name="pc_pic">
+							<input class="file_upload" type="file"  name="file" data-validate="required:请选择文件"  disabled="disabled"/>
+							建议上传不超过宽度为410px，高度为520px的图片
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">手机端图片</label>
+						<div class="col-sm-7">
+							{if $data['mobile_pic'] != ''}
+								<img class="imag_pic" src="{$data['mobile_pic']}" style="width:160px;height:350px; cursor:pointer;"><br/>
+							{/if}
+							<input type="hidden" value="{$data['mobile_pic']}" id="mobile_pic" name="mobile_pic">
+							<input class="file_upload" type="file"  name="file" data-validate="required:请选择文件"  disabled="disabled"/>
+							建议上传宽度为160px，高度为350px的图片
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">下载二维码图片</label>
+						<div class="col-sm-7">
+							{if $data['download_qrcode'] != ''}
+								<img class="imag_pic" src="{$data['download_qrcode']}" style="width:75px;height:75px; cursor:pointer;"><br/>
+							{/if}
+							<input type="hidden" value="{$data['download_qrcode']}" id="download_qrcode" name="download_qrcode">
+							<input class="file_upload" type="file"  name="file" data-validate="required:请选择文件"  disabled="disabled"/>
+							建议上传宽度为75px，高度为75px的图片
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">PC端首页链接</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<input type="text" class="form-control"  value="{$data['pc_home_link']}" name="pc_home_link" id="pc_home_link"  disabled="disabled"/>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">H5端首页链接</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<input type="text" class="form-control"  value="{$data['h5_home_link']}" name="h5_home_link" id="h5_home_link"  disabled="disabled"/>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">下载链接</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<input type="text" class="form-control"  value="{$data['download_link']}" name="download_link" id="download_link"  disabled="disabled"/>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">第一行描述</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<input type="text" class="form-control"  value="{$data['desc_a1']}" name="desc_a1" id="desc_a1"  disabled="disabled"/>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">第二行描述</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<input type="text" class="form-control"  value="{$data['desc_a2']}" name="desc_a2" id="desc_a2"  disabled="disabled"/>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">第三行描述</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<input type="text" class="form-control"  value="{$data['desc_a3']}" name="desc_a3" id="desc_a3"  disabled="disabled"/>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">第四行描述</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<textarea class="form-control" name="desc_a4" id="desc_a4"  disabled="disabled">{$data['desc_a4']}</textarea>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+				</form>
+			</div>
+				
+		   
+			<div class="ibox-title">
+				<h5>APP界面展示设置</h5>
+				<div class="ibox-tools">
+					<a class="btn btn-white btn-bitbucket btn_sure" id="update" data-title="修改"><i class="fa fa-pencil"></i> </a>
+				</div>
+			</div>
+			<div class="ibox-content m-b" style="width: 100%;">
+				<form id='form_update' method="post" class="form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">展示1</label>
+						<div class="col-sm-7">
+							{if $data['show_pic1'] != ''}
+								<img class="imag_pic" src="{$data['show_pic1']}" style="width:124px;height:224px; cursor:pointer;"><br/>
+							{/if}
+							<input type="hidden" value="{$data['show_pic1']}" id="show_pic1" name="show_pic1">
+							<input class="file_upload" type="file"  name="file" data-validate="required:请选择文件"  disabled="disabled"/>
+							建议上传宽度为124px，高度为224px的图片
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">展示1文案描述</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<textarea class="form-control" name="show_desc1" id="show_desc1"  disabled="disabled">{$data['show_desc1']}</textarea>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">展示2</label>
+						<div class="col-sm-7">
+							{if $data['show_pic2'] != ''}
+								<img class="imag_pic" src="{$data['show_pic2']}" style="width:124px;height:224px; cursor:pointer;"><br/>
+							{/if}
+							<input type="hidden" value="{$data['show_pic2']}" id="show_pic2" name="show_pic2">
+							<input class="file_upload" type="file"  name="file" data-validate="required:请选择文件"  disabled="disabled"/>
+							建议上传宽度为124px，高度为224px的图片
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">展示2文案描述</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<textarea class="form-control" name="show_desc2" id="show_desc2"  disabled="disabled">{$data['show_desc2']}</textarea>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">展示3</label>
+						<div class="col-sm-7">
+							{if $data['show_pic3'] != ''}
+								<img class="imag_pic" src="{$data['show_pic3']}" style="width:124px;height:224px; cursor:pointer;"><br/>
+							{/if}
+							<input type="hidden" value="{$data['show_pic3']}" id="show_pic3" name="show_pic3">
+							<input class="file_upload" type="file"  name="file" data-validate="required:请选择文件"  disabled="disabled"/>
+							建议上传宽度为124px，高度为224px的图片
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">展示3文案描述</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<textarea class="form-control" name="show_desc3" id="show_desc3"  disabled="disabled">{$data['show_desc3']}</textarea>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+				</form>
+			</div>
+			
+			<div class="ibox-title">
+				<h5>巨资打造实力平台</h5>
+				<div class="ibox-tools">
+					<a class="btn btn-white btn-bitbucket btn_sure" id="update" data-title="修改"><i class="fa fa-pencil"></i> </a>
+				</div>
+			</div>
+			<div class="ibox-content m-b" style="width: 100%;">
+				<form id='form_update' method="post" class="form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">文案描述</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<textarea class="form-control" name="desc_b" id="desc_b"  disabled="disabled">{$data['desc_b']}</textarea>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">图标1</label>
+						<div class="col-sm-7">
+							{if $data['ico_pic1'] != ''}
+								<img class="imag_pic" src="{$data['ico_pic1']}" style="width:172px;height:118px; cursor:pointer;"><br/>
+							{/if}
+							<input type="hidden" value="{$data['ico_pic1']}" id="ico_pic1" name="ico_pic1">
+							<input class="file_upload" type="file"  name="file" data-validate="required:请选择文件"  disabled="disabled"/>
+							建议上传宽度为172px，高度为118px的图片
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">图标1标题</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<input type="text" class="form-control"  value="{$data['ico_title1']}" name="ico_title1" id="ico_title1"  disabled="disabled"/>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">图标1文案描述</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<textarea class="form-control" name="ico_desc1" id="ico_desc1"  disabled="disabled">{$data['ico_desc1']}</textarea>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">图标2</label>
+						<div class="col-sm-7">
+							{if $data['ico_pic2'] != ''}
+								<img class="imag_pic" src="{$data['ico_pic2']}" style="width:172px;height:118px; cursor:pointer;"><br/>
+							{/if}
+							<input type="hidden" value="{$data['ico_pic2']}" id="ico_pic2" name="ico_pic2">
+							<input class="file_upload" type="file"  name="file" data-validate="required:请选择文件"  disabled="disabled"/>
+							建议上传宽度为172px，高度为118px的图片
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">图标2标题</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<input type="text" class="form-control"  value="{$data['ico_title2']}" name="ico_title2" id="ico_title2"  disabled="disabled"/>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">图标2文案描述</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<textarea class="form-control" name="ico_desc2" id="ico_desc2"  disabled="disabled">{$data['ico_desc2']}</textarea>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">图标3</label>
+						<div class="col-sm-7">
+							{if $data['ico_pic3'] != ''}
+								<img class="imag_pic" src="{$data['ico_pic3']}" style="width:172px;height:118px; cursor:pointer;"><br/>
+							{/if}
+							<input type="hidden" value="{$data['ico_pic3']}" id="ico_pic3" name="ico_pic3">
+							<input class="file_upload" type="file"  name="file" data-validate="required:请选择文件"  disabled="disabled"/>
+							建议上传宽度为172px，高度为118px的图片
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">图标3标题</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<input type="text" class="form-control"  value="{$data['ico_title3']}" name="ico_title3" id="ico_title3"  disabled="disabled"/>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">图标3文案描述</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<textarea class="form-control" name="ico_desc3" id="ico_desc3"  disabled="disabled">{$data['ico_desc3']}</textarea>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">图标4</label>
+						<div class="col-sm-7">
+							{if $data['ico_pic4'] != ''}
+								<img class="imag_pic" src="{$data['ico_pic4']}" style="width:172px;height:118px; cursor:pointer;"><br/>
+							{/if}
+							<input type="hidden" value="{$data['ico_pic4']}" id="ico_pic4" name="ico_pic4">
+							<input class="file_upload" type="file"  name="file" data-validate="required:请选择文件"  disabled="disabled"/>
+							建议上传宽度为172px，高度为118px的图片
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">图标4标题</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<input type="text" class="form-control"  value="{$data['ico_title4']}" name="ico_title4" id="ico_title4"  disabled="disabled"/>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">图标4文案描述</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<textarea class="form-control" name="ico_desc4" id="ico_desc4"  disabled="disabled">{$data['ico_desc4']}</textarea>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+				</form>
+			</div>
+			
+			<div class="ibox-title">
+				 <h5>ios客户端下载安装教程</h5>
+				 <div class="ibox-tools">
+					<a class="btn btn-white btn-bitbucket btn_sure" id="update" data-title="修改"><i class="fa fa-pencil"></i> </a>
+				</div>
+			 </div>
+			 <div class="ibox-content m-b" style="width: 100%;">
+				<form id='form_update' method="post" class="form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">安装步骤1</label>
+						<div class="col-sm-7">
+							{if $data['setup_pic1'] != ''}
+								<img class="imag_pic" src="{$data['setup_pic1']}" style="width:107px;height:218px; cursor:pointer;"><br/>
+							{/if}
+							<input type="hidden" value="{$data['setup_pic1']}" id="setup_pic1" name="setup_pic1">
+							<input class="file_upload" type="file"  name="file" data-validate="required:请选择文件"  disabled="disabled"/>
+							建议上传宽度为107px，高度为218px的图片
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">安装步骤1文案描述</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<input type="text" class="form-control"  value="{$data['setup_desc1']}" name="setup_desc1" id="setup_desc1"  disabled="disabled"/>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">安装步骤2</label>
+						<div class="col-sm-7">
+							{if $data['setup_pic2'] != ''}
+								<img class="imag_pic" src="{$data['setup_pic2']}" style="width:107px;height:218px; cursor:pointer;"><br/>
+							{/if}
+							<input type="hidden" value="{$data['setup_pic2']}" id="setup_pic2" name="setup_pic2">
+							<input class="file_upload" type="file"  name="file" data-validate="required:请选择文件"  disabled="disabled"/>
+							建议上传宽度为107px，高度为218px的图片
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">安装步骤2文案描述</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<input type="text" class="form-control"  value="{$data['setup_desc2']}" name="setup_desc2" id="setup_desc2"  disabled="disabled"/>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">安装步骤3</label>
+						<div class="col-sm-7">
+							{if $data['setup_pic3'] != ''}
+								<img class="imag_pic" src="{$data['setup_pic3']}" style="width:107px;height:218px; cursor:pointer;"><br/>
+							{/if}
+							<input type="hidden" value="{$data['setup_pic3']}" id="setup_pic3" name="setup_pic3">
+							<input class="file_upload" type="file"  name="file" data-validate="required:请选择文件"  disabled="disabled"/>
+							建议上传宽度为107px，高度为218px的图片
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">安装步骤3文案描述</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<input type="text" class="form-control"  value="{$data['setup_desc3']}" name="setup_desc3" id="setup_desc3"  disabled="disabled"/>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">安装步骤4</label>
+						<div class="col-sm-7">
+							{if $data['setup_pic4'] != ''}
+								<img class="imag_pic" src="{$data['setup_pic4']}" style="width:107px;height:218px; cursor:pointer;"><br/>
+							{/if}
+							<input type="hidden" value="{$data['setup_pic4']}" id="setup_pic4" name="setup_pic4">
+							<input class="file_upload" type="file"  name="file" data-validate="required:请选择文件"  disabled="disabled"/>
+							建议上传宽度为107px，高度为218px的图片
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">安装步骤4文案描述</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<input type="text" class="form-control"  value="{$data['setup_desc4']}" name="setup_desc4" id="setup_desc4"  disabled="disabled"/>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">安装步骤5</label>
+						<div class="col-sm-7">
+							{if $data['setup_pic5'] != ''}
+								<img class="imag_pic" src="{$data['setup_pic5']}" style="width:107px;height:218px; cursor:pointer;"><br/>
+							{/if}
+							<input type="hidden" value="{$data['setup_pic5']}" id="setup_pic5" name="setup_pic5">
+							<input class="file_upload" type="file"  name="file" data-validate="required:请选择文件"  disabled="disabled"/>
+							建议上传宽度为107px，高度为218px的图片
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">安装步骤5文案描述</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<input type="text" class="form-control"  value="{$data['setup_desc5']}" name="setup_desc5" id="setup_desc5"  disabled="disabled"/>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">安装步骤6</label>
+						<div class="col-sm-7">
+							{if $data['setup_pic6'] != ''}
+								<img class="imag_pic" src="{$data['setup_pic6']}" style="width:107px;height:218px; cursor:pointer;"><br/>
+							{/if}
+							<input type="hidden" value="{$data['setup_pic6']}" id="setup_pic6" name="setup_pic6">
+							<input class="file_upload" type="file"  name="file" data-validate="required:请选择文件"  disabled="disabled"/>
+							建议上传宽度为107px，高度为218px的图片
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">安装步骤6文案描述</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<input type="text" class="form-control"  value="{$data['setup_desc6']}" name="setup_desc6" id="setup_desc6"  disabled="disabled"/>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+				</form>
+			</div>
+			
+			<div class="ibox-title">
+				 <h5>客服及底部文案设置</h5>
+				 <div class="ibox-tools">
+					<a class="btn btn-white btn-bitbucket btn_sure" id="update" data-title="修改"><i class="fa fa-pencil"></i> </a>
+				</div>
+			 </div>
+			 <div class="ibox-content m-b" style="width: 100%;">
+				<form id='form_update' method="post" class="form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">在线客服链接</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<input type="text" class="form-control"  value="{$data['service_link']}" name="service_link" id="service_link"  disabled="disabled"/>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">QQ客服1</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<input type="text" class="form-control"  value="{$data['qq1']}" name="qq1" id="qq1"  disabled="disabled"/>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">QQ客服2</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<input type="text" class="form-control"  value="{$data['qq2']}" name="qq2" id="qq2"  disabled="disabled"/>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">微信客服1</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<input type="text" class="form-control"  value="{$data['wx1']}" name="wx1" id="wx1"  disabled="disabled"/>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">微信客服2</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<input type="text" class="form-control"  value="{$data['wx2']}" name="wx2" id="wx2"  disabled="disabled"/>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">关注二维码</label>
+						<div class="col-sm-7">
+							{if $data['focus_qrcode'] != ''}
+								<img class="imag_pic" src="{$data['focus_qrcode']}" style="width:120px;height:120px; cursor:pointer;"><br/>
+							{/if}
+							<input type="hidden" value="{$data['focus_qrcode']}" id="focus_qrcode" name="focus_qrcode">
+							<input class="file_upload" type="file"  name="file" data-validate="required:请选择文件"  disabled="disabled"/>
+							建议上传宽度为120px，高度为120px的图片
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">备案信息</label>
+						<div class="col-sm-8">
+							<span class="col-sm-8" style="padding-left: 0px;">
+								<input type="text" class="form-control"  value="{$data['website_records']}" name="website_records" id="website_records"  disabled="disabled"/>
+							</span>
+							<span class="col-sm-4 help-block m-b-none"></span>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var loading = "";//加载中......
+
+		$(function () {
+			$(".btn_sure").click(function(){
+				var btn_index = $(".btn_sure").index(this);
+				
+				var i_class = $(this).children('i').attr('class');
+				if (i_class == 'fa fa-pencil') {
+					$(this).attr('data-title', '保存');
+					$(this).children('i').attr('class', 'fa fa-save');
+					$('form').eq(btn_index).find("input").attr('disabled',false);
+					$('form').eq(btn_index).find("textarea").attr('disabled',false);
+					
+				}else {
+					var form_data = $('form').eq(btn_index).serialize();
+					$.ajax({
+                    type: 'POST',
+                    data: form_data,
+                    url: '?m=admin&c=message&a=download_page_set_new&ispost=1',
+                    dataType: 'json',
+                    beforeSend:function(){
+                        loading = layer.load(1);
+                    },
+                    success: function (msg) {
+                        layer.close(loading);
+                        if (msg.status == 0) {
+                            layer.msg('设置成功！！！', {icon: 6, shade: [0.5, '#393D49']},function(){
+                                //location.href = '?m=admin&c=message&a=room';
+                                location.reload();
+                            });
+                        } else {
+                            layer.msg('设置失败！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        }
+                    },
+					error:function() {
+						layer.msg('网络错误！！！', {icon: 5, shade: [0.5, '#393D49']},function(){
+							//location.href = '?m=admin&c=message&a=room';
+							<!-- location.reload(); -->
+						});
+					}
+                });
+				}
+			})
+
+			//上传图片
+			$('.file_upload').fileupload({
+				url: "?m=admin&c=message&a=uploadImg",
+				sequentialUploads: true
+			}).bind('fileuploaddone', function(e, data) {
+				var data_index = $(this).data('index');
+				var div_id = $(this).parent().attr('id');
+				var res = $.parseJSON(data.result);
+
+				if (res.status == 0) {
+					$(this).parent().find('.imag_pic').attr({'src': res.data+'?'+Math.random()});
+					$(this).prev().val(res.data);
+				} else {
+					layer.msg(res.data,{icon:5, shade: [0.5, '#393D49']}); //弹出错误信息
+					return false;
+				}
+			});
+			$('.imag_pic').click(function () {
+				$(this).siblings('.file_upload').click();
+			});
+
+			$("#btn_submit").click(function () {
+				//var article_id = $('#article_id').val();
+				
+				//if (article_id == '') {
+				//  layer.msg('请选择彩种玩法！',{icon:5, shade: [0.5, '#393D49']});
+				//    return false;
+				//}
+				
+				var star_level = $('#star_level').val();
+				
+				if (star_level == '') {
+				  layer.msg('请选择星级评价！',{icon:5, shade: [0.5, '#393D49']});
+					return false;
+				}
+				
+				var formData = new FormData($("#form_update")[0]);
+				$.ajax({
+					url: '?m=admin&c=message&a=download_page_set_new',
+					data: formData,
+					dataType: 'json',
+					processData: false,
+					contentType: false,
+					type: 'post',
+					beforeSend: function () {
+						loading = layer.load(1);
+					},
+					error: function () {
+						layer.close(loading);
+						layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+					},
+					success: function (result) {
+						layer.close(loading);
+						
+						if (parseInt(result.status) == 0) {
+
+							layer.msg('保存成功！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+								window.location.reload();
+							});
+						} else {
+							layer.msg(result.ret_msg, {icon: 5, shade: [0.5, '#393D49']});
+						}
+					}
+				});
+			});
+		});
+
+	</script>
+</body>
+</html>

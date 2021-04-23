@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <!--  <link rel="stylesheet" href="statics/admin/css/pintuer.css"> -->
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+
+    <!-- template-begin+++ -->
+    {template public-new-ui-header}
+    <!-- template-end+++ -->
+    <style type='text/css'>
+        .rules-1{
+            float: left;
+            height: 35px;
+            line-height: 35px;
+            padding-right:10px;
+        }
+        .rules-2{
+            float: left;
+            height: 35px;
+            line-height: 35px;
+            padding:0 10px 0 10px;
+        }
+        .rules-3{
+            float: left;
+            width: 20%;
+        }
+    </style>
+</head>
+<body style="margin: 15px;background-color: #f3f3f4;">
+<div class="ibox float-e-margins">
+    <div class="ibox-title iboxWTitle">
+        <h5>扫码返现</h5>
+    </div>
+    <div class="ibox-content bagCol">
+        <div class="ibox-title">
+            <h5>详情</h5>
+            <div class="ibox-tools">
+                <a class="btn btn-white btn-bitbucket btn_sure" id="update" data-title="修改"><i class="fa fa-pencil"></i> </a>
+                <a class="btn btn-white btn-bitbucket btn_sure_add" id="add" data-title="添加"><i class="fa fa-plus-square-o"></i> </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <form method="post" class="form-horizontal" id="form">
+                {loop $list $k $v}
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">充值范围</label>
+                    <div class="col-sm-6">
+                            <span class="col-sm-2" style="padding-left: 0px;">
+                       		<input type="number" class="form-control low" name="low_{$k}" value="{$v['low']}" onkeyup="checknum(this);"  readonly/>
+                       		</span>
+                            <span class="col-sm-2" style="padding-left: 0px;">
+                       		<input type="number" class="form-control upper" name="upper_{$k}" value="{$v['upper']}" onkeyup="checknum(this);"  readonly/>
+                       		</span>
+                            <span class="col-sm-3" style="padding-left: 50px;">
+                       		返现比例为
+                                <input type="number" class="form-control rate" name="rate_{$k}" value="{$v['rate']}" onkeyup="checknum(this);"  readonly/>
+                       		</span>
+                        <span class="col-sm-3 help-block m-b-none">（%）</span>
+                    </div>
+                </div>
+                <div class="hr-line-dashed"></div>
+                {/loop}
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function checknum(obj)
+    {
+        if(/^\d+\.?\d{0,2}$/.test(obj.value)){
+            obj.value = obj.value;
+        }else{
+            obj.value = obj.value.substring(0,obj.value.length-1);
+        }
+    }
+    var loading = "";//加载中......
+    $("#update").click(function(){
+        $(this).parent().html('<a class="btn btn-white btn-bitbucket btn_sure" id="btn_submit" data-title="保存"><i class="fa fa-save"></i></a>')
+        $(this).remove();
+        $("input").attr("readonly",false);
+    })
+
+    $(".btn_sure_add").click(function () {
+        var obj = $('.rate');
+//        var i_class = $('#update').children('i').attr('class');
+        if(obj.length>4){
+            layer.msg('最多只能设置5个值!', {icon: 5, shade: [0.5, '#393D49']});
+            return false;
+        }
+//        if (i_class == 'fa fa-pencil') {
+//            $('#update').attr('data-title', '保存');
+//            $('#update').children('i').attr('class', 'fa fa-save');
+//            $('#form_update').find('input').each(function() {
+//                $(this).attr('readonly', false);
+//            });
+//        }
+
+        var html = '<div class="form-group"><label class="col-sm-2 control-label">充值范围</label><div class="col-sm-6"> <span class="col-sm-2" style="padding-left: 0px;"> <input type="number" class="form-control low" name="low_'+obj.length+'"   readonly onkeyup="checknum(this);"/></span><span class="col-sm-2" style="padding-left: 0px;"> <input type="number" class="form-control upper" name="upper_'+obj.length+'" value=""  readonly onkeyup="checknum(this);"/> </span> <span class="col-sm-3" style="padding-left: 50px;">返现比例为<input type="number" onkeyup="checknum(this);" class="form-control rate" name="rate_'+obj.length+'"  readonly/> </span> <span class="col-sm-3 help-block m-b-none">（%）</span> </div> </div> <div class="hr-line-dashed"></div>';
+        $('#form').append(html);
+    });
+    //修改
+    $("body").on("click","#btn_submit",function(){
+        var val = $("#form").serialize()+"&submit=true";
+
+        $.ajax({
+            url: '?m=admin&c=role&a=cash_back',
+            data: val,
+            dataType: 'json',
+            type: 'post',
+            beforeSend: function () {
+                loading = layer.load(1);
+            },
+            error: function () {
+                layer.close(loading);
+                layer.msg('网络错误', {icon: 5, shade: [0.5, '#393D49']});
+            },
+            success: function (result) {
+                layer.close(loading);
+                if (result.rt) {
+                    layer.msg('修改成功', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                        location.reload();
+                    });
+                } else {
+                    layer.msg('修改失败', {icon: 5, shade: [0.5, '#393D49']});
+                }
+            }
+        })
+    })
+</script>
+</body>
+</html>

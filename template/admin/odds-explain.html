@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+        <script src="statics/admin/js/pintuer.js"></script>  
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>  
+        <script src="statics/admin/js/jquery.date_input.pack.js"></script> 
+        <style>
+            #page{height: 60px;margin-top: 20px;text-align: center;}
+            #page ul li{float: left;margin-right:10px;}
+            #page ul .current{ background-color:#0099ff;text-align:center;}
+        </style>
+    </head>
+    <body>
+<div class="panel admin-panel">
+            <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>赔率说明</strong></div>
+            <div class="body-content">
+                <form method="post" class="form-x" action="" id="form">  
+                    <div class="form-group">
+                        <div class="label">
+                            <label>活动内容：</label>
+                        </div>
+                        <div class="field">
+                            <textarea class="input w50" style="height:300px; width: 300px;" name="contents" id="content">{$list['value']}</textarea>
+                            <div class="tips" title=""></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="label">
+                            <label></label>
+                        </div>
+                        <div class="field">
+                            <button class="button bg-main icon-check-square-o" type="button" id="btn_submit"> 修改</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script type="text/javascript">
+            var loading = "";//加载中......
+
+            //修改
+            $("#btn_submit").click(function() {  
+                var nid = "{$nid}";
+                var val = $("#content").val();
+
+                if($.trim(val) == ""){
+                    layer.msg("请输入数值！！！",{icon: 5, shade: [0.5, '#393D49']});
+                    return false;
+                }
+                
+                $.ajax({
+                    url: '?m=admin&c=role&a=odds_explain',
+                    data: {nid: nid, val: val, submit: "true"},
+                    dataType: 'json',
+                    type: 'post',
+                    beforeSend: function () {
+                        loading = layer.load(1);
+                    },
+                    error: function () {
+                        layer.close(loading);
+                        layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                    },
+                    success: function (result) {
+                        layer.close(loading);
+                        if (result.rt) {
+                            layer.msg('修改成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                location.reload();
+                            });
+                        } else {
+                            layer.msg('修改失败！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        }
+                    }
+                })
+            });
+        </script>
+    </body>
+</html>

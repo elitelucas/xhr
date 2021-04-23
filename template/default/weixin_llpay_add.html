@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>添加银行卡</title>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,minimal-ui">
+
+		<meta name="location" content="province=广东;city=深圳市;coord=114.063497,22.538715">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta content="telephone=no,email=no" name="format-detection">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="author" content="ifengjin@ifengjin.cn">
+
+		<link rel="stylesheet" href="../../statics/weixin/css/llpay.css">
+		<script src="../../statics/weixin/assets/js/jquery.js"></script>
+		<script language="javascript" type="text/javascript" src="../../statics/js/district.js" charset="UTF-8"></script>
+		<script type="text/javascript">
+			var addressInit = function (_cmbProvince, _cmbCity, _cmbArea, defaultProvince, defaultCity, defaultArea) {
+				var cmbProvince = document.getElementById(_cmbProvince);
+				var cmbCity = document.getElementById(_cmbCity);
+				var cmbArea = document.getElementById(_cmbArea);
+				function cmbSelect(cmb, str) {
+					if (str) {
+						$(cmb).attr("value", str);
+					}
+				}
+				function cmbAddOption(cmb, str, val) {
+					var option = document.createElement("OPTION");
+					cmb.options.add(option);
+					option.innerHTML = val;
+					option.value = str;
+				}
+				function changeCity() {
+					cmbArea.options.length = 0;
+					if (cmbCity.selectedIndex == -1)
+						return;
+					var item = cmbCity.options[cmbCity.selectedIndex].value;
+					$.each(area[item], function (key, val) {
+						cmbAddOption(cmbArea, key, val[0]);
+					});
+					cmbSelect(cmbArea, defaultArea);
+				}
+				function changeProvince() {
+					cmbCity.options.length = 0;
+					cmbCity.onchange = null;
+					if (cmbProvince.selectedIndex == -1)
+						return;
+					var item = cmbProvince.options[cmbProvince.selectedIndex].value;
+					$.each(city[item], function (key, val) {
+						cmbAddOption(cmbCity, key, val[0]);
+					});
+					cmbSelect(cmbCity, defaultCity);
+					changeCity();
+					cmbCity.onchange = changeCity;
+					if (cmbProvince.options[0].value == 0) {
+						cmbProvince.options.remove(0);
+					}
+				}
+				$.each(province, function (key, val) {
+					cmbAddOption(cmbProvince, key, val[0]);
+				});
+				cmbProvince.onchange = changeProvince;
+				cmbSelect(cmbProvince, defaultProvince);
+			};
+
+			$(function () {
+				addressInit('province', 'city', 'area');
+				$('#myform').submit(function () {
+					var money = $('#money').val();
+					if (!/^\d+\.?\d*$/.test(money)) {
+						$('#error_tips').show().text('请输正确的入充值金额！');
+						$('#money').focus();
+						return false;
+					}
+					money = parseFloat(money);
+					if (money < 100 || money > 10000000) {
+						$('#error_tips').show().text('充值金额范围：100-10000000');
+						$('#money').focus();
+						return false;
+					}
+					if (!/^\d{16,19}$/.test($('#account').val())) {
+						$('#error_tips').show().text('银行卡账号为16-19位纯数字！');
+						$('#account').focus();
+						return false;
+					}
+					if (!$('#bank').val()) {
+						$('#error_tips').show().text('请选择开户行！');
+						$('#bank').focus();
+						return false;
+					}
+					if (!$('#province').val()) {
+						$('#error_tips').show().text('请选择开户行省份！');
+						$('#bank').focus();
+						return false;
+					}
+					if ($('#branch').val().length < 4) {
+						$('#error_tips').show().text('请输入正确的支行信息！');
+						$('#branch').focus();
+						return false;
+					}
+					if (!/^[\u4e00-\u9fa5]+$/.test($('#branch').val())) {
+						$('#error_tips').show().text('支行名称只允许填写中文');
+						$('#branch').focus();
+						return false;
+					}
+					return true;
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<div class="container divider_">
+			<form id="myform" action="<?=url('weixin','default','llpay')?>" method="post">
+				<input name="money" id="money" type="text" placeholder="请输入充值金额，100元起充">
+				<input name="account" id="account" type="text" placeholder="请输入银行卡账号">
+				<div class="e-divider error">*此卡将绑定为您的提现卡</div>
+				<select name="bank" id="bank">
+					<option class="tips" disabled selected>请选择开户行</option>
+					{loop $glossary $vo}
+					<option value="{$vo['id']}">{$vo['name']}</option>
+					{/loop}
+				</select>
+				<div class="form-col">
+					<div>
+						<select id="province" name="province">
+							<option class="tips" disabled selected>省份</option>
+						</select>
+					</div>
+					<div>
+						<select id="city" name="city">
+							<option class="tips" disabled selected>城市</option>
+						</select>
+					</div>
+					<div>
+						<select id="area" name="area">
+							<option class="tips" disabled selected>区/县</option>
+						</select>
+					</div>
+				</div>
+				<input name="branch" id="branch" type="text" placeholder="请输入正确支行信息，如南山分行南油支行">
+				<div class="banks-mes">
+					<div class="red">真实姓名：<?=f_realname($userInfo['realname'])?></div>
+					<div class="red">身份证号：<?=f_cardid($userAtt['card_id'])?></div>
+				</div>
+				<div class="e-divider error" id="error_tips" style="display:none"></div>
+				<input type="hidden" name="save" value="add">
+				<input type="hidden" name="formhash" value="<?=formhash()?>">
+				<button type="submit">确认提交</button>
+			</form>
+		</div>
+		<div class="container divider">
+			<h2>温馨提示：</h2>
+			<ol>
+				<li>1. 为保障资金安全，平台第三方支付合作方连连支付采取同卡进出原则，<b class="red">您的微信端充值卡必须与提现银行卡一致</b>；</li>
+				<li>2. <b class="red">根据同卡进出原则：通过微信成功充值后，您的提现银行卡将不允许被修改</b>；</li>
+				<li>3. 如果您还未绑定提现银行卡，您在微信首次充值的银行卡将默认绑定为您的<b class="red">提现银行卡</b>；</li>
+				<li>4. 此为<b class="red">非托管通道</b>充值，汇付托管通道请登录PC端；</li>
+				<li>5. 请注意您的银行卡充值额度限制，以免造成不便；</li>
+				<li>6. 如有疑问，请拨打客服热线400-018-0107</li>
+			</ol>
+		</div>
+	</body>
+</html>

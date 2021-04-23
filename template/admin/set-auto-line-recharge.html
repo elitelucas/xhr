@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+	    <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+	    <script src="statics/admin/js/jquery.js"></script>
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>
+        <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+        <script src="statics/admin/js/bootstrap.min.js"></script>
+   	    {template public-new-ui-header} 
+        <style>
+            #page{height: 60px;margin-top: 20px;text-align: center;}
+            #page ul li{float: left;margin-right:10px;}
+            #page ul .current{ background-color:#0099ff;text-align:center;}
+        </style>
+    </head>
+    <body class="new_ui_body">
+    <div class="ibox float-e-margins">
+	    <div class="ibox-title iboxWTitle">
+	        <h5>线上自动充值设置</h5>
+	        <div class="ibox-tools">
+	            <a  class="btn btn-white btn-bitbucket" id="btn_back">
+	                <i class="fa fa-reply"></i> 返回
+	            </a>
+	        </div>
+	    </div>
+	    
+	    <div class="ibox-content bagCol">
+	        <div class="ibox-title ">
+	            <h5>线上自动充值设置</h5>
+	        </div>
+	        <div class="ibox-content m-b">
+	            <form id='form_update' method="post" class="form-horizontal">
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">线上自动充值开关设置</label>
+	                    <div class="col-sm-10"  style="padding-top: 10px;float:left;">
+	                   		 <span class="col-sm-2" style="padding-left: 0px;">
+	                        	<input {if $autoLineRecharge['value'] == 1} checked="checked" {/if} type="radio" value="1" name="auto_line_recharge" />开启
+                                <input {if $autoLineRecharge['value'] != 1} checked="checked" {/if} type="radio" value="0" name="auto_line_recharge" />关闭
+                        	</span>
+	                        <span class="col-sm-10 help-block m-b-none">（说明:开启时：线上通过第三方支付成功后，会自动更新用户资金（自动到账）
+	                    	<br/>关闭时：线上通过第三方支付成功后，不会自动更新用户资金（需要后台手动确认））</span>
+	                    </div>
+	                </div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">充值送彩金</label>
+						<div class="col-sm-6">
+	                        <span class="col-sm-4" style="padding-left: 0px;">
+	                        	<input type="number" class="form-control" value="{$handsel_set['value']}" name="handsel" id="handsel" onkeyup="checknum(this);"/>
+                        	</span>
+							<span class="col-sm-8 help-block m-b-none">（单位:%）</span>
+						</div>
+					</div>
+                </form>
+                <div class="form-group">
+	            	<div class="col-sm-4 col-sm-offset-2">
+	                	<button class="btn btn-primary" type="submit" id="btn_submit">提交</button>
+	                	<button class="btn btn-white" id="btn_cancel" type="submit">取消</button>
+	            	</div>
+       			</div>
+            </div>
+         </div>
+     </div>
+        <script type="text/javascript">
+            var loading = "";//加载中......
+
+            $(function () {
+                $("#btn_submit").click(function () {
+                    var auto_line_recharge = $("input[name=auto_line_recharge]:checked").val();
+                    var handsel = $("#handsel").val();
+
+                    $.ajax({
+                        url: '?m=admin&c=topup&a=doSetAutoLineRecharge',
+                        data: {
+                        	auto_line_recharge: auto_line_recharge,
+                            handsel:handsel
+                        	},
+                        dataType: 'json',
+                        type: 'post',
+                        beforeSend: function () {
+                            loading = layer.load(1);
+                        },
+                        error: function () {
+                            layer.close(loading);
+                            layer.msg('网络异常！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        },
+                        success: function (result) {
+                            layer.close(loading);
+                            if (result.rt > 0) {
+                                layer.msg('提交成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function() {
+                                    location.href = "?m=admin&c=topup&a=setAutoLineRecharge";
+                                });
+                            }else{
+                                layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']});
+                            }
+                        }
+                    });
+                });
+
+                $("#btn_back").click(function () {
+                    location.href = '?m=admin&c=topup&a=topup';
+                });
+                $("#btn_cancel").click(function () {
+                    location.href = '?m=admin&c=topup&a=topup';
+                });
+            });
+
+        </script>
+    </body>
+</html>

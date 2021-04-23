@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <!--  <link rel="stylesheet" href="statics/admin/css/pintuer.css"> -->
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+    <script src="statics/admin/js/pintuer.js"></script>
+    <script src="statics/admin/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- template-begin+++ -->
+    {template public-new-ui-header}
+    <!-- template-end+++ -->
+    <script src="statics/admin/js/jquery.date_input.pack.js"></script>
+    <link rel="stylesheet" href="statics/admin/jedate/skin/jedate.css">
+    <script type="text/javascript" src="statics/admin/jedate/jquery.jedate.min.js"></script>
+
+</head>
+<body style="margin: 15px;background-color: #f3f3f4;">
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title iboxWTitle">
+                <h5>用户飘窗列表</h5>
+            </div>
+            <div class="ibox-content" style="width: 100%;">
+                <div class="row">
+                    <form method="post" id="form" class="form-inline">
+
+                        <div class="col-sm-2">
+                            <div class="input-group m-b"><span class="input-group-addon">彩种名称</span>
+                                <select class="form-control" id='lottery_type' name="lottery_type">
+                                    <option value="">选择</option>
+                                    {loop $lottery_list $v}
+                                    <option value="{$v['id']}" {if $lottery_type == $v['id']}selected{/if}>{$v['name']}</option>
+                                    {/loop}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="input-group m-b"><span class="input-group-addon">中奖时间</span>
+                                <input style="width: 48%" type="text" name="start_time" id="start_time" placeholder="开始时间" class="date_picker form-control" value="{$start_time}" />
+                                <span style="float: left">&nbsp;&nbsp;</span>
+                                <input style="width: 48%" type="text" name="end_time" id="end_time" placeholder="结束时间" class="date_picker form-control" value="{$end_time}" />
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="input-group m-b"><span class="input-group-addon">会员昵称</span>
+                                <input value="{$nickname}" type="text" placeholder="会员昵称" class="form-control" name="nickname" />
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="input-group m-b">
+                                <button type="submit" class="btn btn-primary">搜索</button>
+                                &nbsp;
+                                <button type="button" class="btn btn-primary" onclick="javascript:location.href = '?m=admin&c=activity&a=barrageList'">重置</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div id="editable_wrapper" class="dataTables_wrapper form-inline" role="grid" style="width: 100%">
+                    <table class="table table-striped table-bordered table-hover  dataTable" id="editable" aria-describedby="editable_info">
+                        <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>中奖时间</th>
+                            <th>彩种</th>
+                            <th>期数</th>
+                            <th>会员昵称</th>
+                            <th>中奖金额</th>
+                            <th>提醒类别</th>
+                        </tr>
+                        </thead>
+                        <tbody id="list_tb">
+                        {if empty($data)}
+                        <tr>
+                            <td colspan="7" align="center"> 暂无信息 </td>
+                        </tr>
+                        {else}
+                        {loop $data $v}
+                        <tr>
+                            <td>{$v['id']}</td>
+                            <td>{$v['win_time']}</td>
+                            <td>{$v['lottery_name']}</td>
+                            <td>{$v['event_num']}</td>
+                            <td>{$v['nickname']}</td>
+                            <td>{$v['win_money']}</td>
+                            <td>{$v['alert_type']}</td>
+                        </tr>
+                        {/loop}
+                        {/if}
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <?php echo $show;?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        //时间插件
+        $(".date_picker").jeDate({
+            //isinitVal:true,
+            ishmsVal:true,
+            format:"YYYY-MM-DD",
+            zIndex:3000,
+        });
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Meta, title, CSS, favglyphicons, etc. -->
+        <meta charset="utf-8">
+        <title>诚汇通</title>
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+        <meta name="description" content="">
+
+        <!-- Bootstrap -->
+        <link href="../../statics/weixin/assets/css/bootstrap.css" rel="stylesheet" media="screen">
+        <link href="../../statics/weixin/css/cht.css" rel="stylesheet" media="screen">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    </head>
+    <body>
+        <form class="bs-example form-horizontal" id='myform' action="<?=url('weixin','default','hfcash')?>" method="post">
+            <div class="container">
+                <div class="row mt10">			
+
+                    <div class="form-group">
+                        <span class="col-12 zc_mc">提现金额：</span>
+                        <div class="col-12">
+                            <input  name='account' id="account" type="text" class="form-control" id="inputEmail1" placeholder="请输入提现金额">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <p style="padding:8px 0; line-height:22px; color:#ff0000" id="info">{$tips}</p>
+                </div>
+                <div class="row mt20">
+
+                    <div class="col-12">
+                        <p class="tcdl">
+                            <input type="hidden" name="save" value="save">
+                            <input class="btn btn-primary btn-lg yanse_1" name="" type="submit" id="button" value="确认提交" />				
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </form>	
+
+    </body>
+</html>

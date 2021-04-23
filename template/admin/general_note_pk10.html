@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <title>网站信息</title>  
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>
+        <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+        <script src="statics/admin/js/pintuer.js"></script> 
+    </head>
+    <body>
+        <div class="panel admin-panel margin-top list" >
+            <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>下注限额设置</strong></div>
+            <div class="body-content">
+                <form method="post" class="form-x" id="form">   
+                    <input type="hidden" name="id"  value="{$id}" />  
+                    <div class="form-group">
+                        <div class="label">
+                            <label>总注:</label>
+                        </div>
+                        <div class="field">
+                            <input type="text" class="input w50" name="general_note" value="{$arr['general_note']}" /> 
+                            <div class="tipss">元，封顶 (0为不限制)</div>
+                            <div class="tipss"><button class="input" type="button" onclick="general()">修改</button></div>
+                        </div>
+                    </div> 
+                    <div class="form-group">
+                        <div class="label">
+                            <label>单点数字：</label>
+                        </div>
+                        <div class="field">
+                            <div class="tipss">  
+                                &nbsp;&nbsp;1：<input type="text" style="width:100px;" name="single_digit[]" value="{$arr['single_digit'][0]}" /> 
+                                &nbsp;&nbsp;2：<input type="text" style="width:100px;" name="single_digit[]" value="{$arr['single_digit'][1]}" /> 
+                                &nbsp;&nbsp;3：<input type="text" style="width:100px;" name="single_digit[]" value="{$arr['single_digit'][2]}" /> 
+                                &nbsp;&nbsp;4：<input type="text" style="width:100px;" name="single_digit[]" value="{$arr['single_digit'][3]}" /> 
+                                &nbsp;&nbsp;5：<input type="text" style="width:100px;" name="single_digit[]" value="{$arr['single_digit'][4]}" /> 
+                                &nbsp;&nbsp;6：<input type="text" style="width:100px;" name="single_digit[]" value="{$arr['single_digit'][5]}" /> 
+                                <br/>
+                                &nbsp;&nbsp;7：<input type="text" style="width:100px;" name="single_digit[]" value="{$arr['single_digit'][6]}" /> 
+                                &nbsp;&nbsp;8：<input type="text" style="width:100px;" name="single_digit[]" value="{$arr['single_digit'][7]}" /> 
+                                &nbsp;&nbsp;9：<input type="text" style="width:100px;" name="single_digit[]" value="{$arr['single_digit'][8]}" /> 
+                                10：<input type="text" style="width:100px;" name="single_digit[]" value="{$arr['single_digit'][9]}" /> 
+                            </div>
+                            <div class="tipss"><button class="input" type="button" onclick="general()">修改</button></div>
+                        </div>
+                    </div> 
+                    <div class="form-group">
+                        <div class="label">
+                            <label>大小单双：</label>
+                        </div>
+                        <div class="field">
+                            <input type="text" class="input w50" name="size_ds" value="{$arr['size_ds']}" />
+                            <div class="tipss">元，封顶 (0为不限制)</div>		  
+                            <div class="tipss"><button class="input" type="button" onclick="general()">修改</button></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="label">
+                            <label>组合：</label>
+                        </div>
+                        <div class="field">
+                            <input type="text" class="input w50" name="parts" value="{$arr['parts']}" />
+                            <div class="tipss">元，封顶 (0为不限制)</div>		  
+                            <div class="tipss"><button class="input" type="button" onclick="general()">修改</button></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="label">
+                        </div>
+                        <div class="field">
+                            <button class="button bg-main icon-check-square-o" type="button" onclick="general()"> 一键修改</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script>
+            var loading = "";
+            
+            function general() {
+                $.ajax({
+                    type: 'POST',
+                    data: $("#form").serialize(),
+                    url: '?m=admin&c=message&a=doOddsRecord',
+                    dataType: 'json',
+                    beforeSend:function(){
+                        loading = layer.load(1);
+                    },
+                    success: function (msg) {
+                        layer.close(loading);
+                        if (msg.rt) {
+                            layer.msg('设置成功！！！', {icon: 6, shade: [0.5, '#393D49']},function(){
+                                location.href = '?m=admin&c=message&a=room';
+                            });
+                        } else {
+                            layer.msg('设置失败！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        }
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>

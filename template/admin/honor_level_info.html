@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="renderer" content="webkit">
+        <title>网站信息</title>  
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>
+        <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+        <script src="statics/admin/js/pintuer.js"></script>
+        <style>
+            .field .on{
+                background: #0ae;
+            }
+            .form-group .radio_label{
+                margin-top: 5px;
+                margin-right: 8px;
+            }
+        </style>
+        {template public-new-ui-header}
+    </head>
+    <body class="new_ui_body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title iboxWTitle">
+                        <h5>{if $data['id']}修改荣誉等级{else}新增荣誉等级{/if}</h5>
+                        <div class="ibox-tools">
+                            <a href="javascript:;" class="btn btn-white btn-bitbucket" onclick="history.go(-1);">
+                                <i class="fa fa-reply"></i>返回
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content bagCol" style="width: 100%;">
+                        <form method="post" class="form-x" action="" id="form">
+                            <input type="hidden" name="id"  value="{$data['id']}" />
+
+                            <div class="ibox-title">
+                                <h5>荣誉资料</h5>
+                            </div>
+                            <div class="ibox-content m-b" style="width: 100%;">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>名称</label>
+                                        <div class="col-sm-4">
+                                            <input class="w50 form-control" type="text" name="name" value="{$data['name']}" data-validate="required:不能为空" />
+                                            <div class="tips"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>积分</label>
+                                        <div class="col-sm-4">
+                                            <input class="w50 form-control" type="number" min="0" name="score" value="{$data['score']}" data-validate="required:不能为空" {if $data['id'] && $data['sort'] == 1  } readonly {/if}/>
+                                            <div class="tips"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        {if $data['id'] && $data['sort'] < 6 }
+                                        <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>图标</label>
+                                        <div class="col-sm-10">
+                                            <div class="field">
+                                                <img src="{$data['icon']}" style="cursor: pointer" num="{$data['grade']}" class="img-border border-blue radius-small on" />
+                                            </div>
+                                        </div>
+                                        {else}
+                                        <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>选择图标</label>
+                                        <div class="col-sm-10">
+                                            <div class="field">
+                                                <?php for ($i = 6; $i <= $config['level']; $i++) { ?>
+                                                <img src="/up_files/honor/level0{$i}.png" style="cursor: pointer" num="{$i}" class="img-border border-blue radius-small <?php if ($data['icon'] == "/up_files/honor/level0" . $i . ".png") echo 'on'; ?>" />
+                                                <? }?>
+                                            </div>
+                                        </div>
+                                        {/if}
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>是否启用</label>
+                                        <div class="col-sm-4">
+                                            <label class="radio_label">
+                                                <input id="ishome" type="radio" name="status" value="0" {if $data['status']==0} checked {/if}/> 否
+                                            </label>
+                                            <label class="radio_label">
+                                                <input id="isvouch" type="radio" name="status" value="1" {if $data['status']==1} checked {/if}/> 是
+                                            </label>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <div class="col-sm-4 col-sm-offset-2">
+                                            <button class="btn btn-primary" type="button" id="btn" onclick="dis()">提交</button>
+                                            &nbsp;
+                                            <button class="btn btn-white" type="button" onclick="history.go(-1);">取消</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script>
+            $('.field img').click(function () {
+                for(var i=1; i<=3; i++){
+                    $('.field img').removeClass('on');
+                }
+                $(this).addClass('on');
+            })
+            function dis() {
+                //数据
+                var data = $('#form').serialize();
+                //提示信息
+                var msg = new Object();
+                msg.name = '名称不能为空';
+                msg.score = '分数不能小于0';
+                //检查的值
+                if(data.name == ''){
+                    layer.msg(msg.name, {icon: 5, shade: [0.5, '#393D49']});
+                    return false;
+                }
+                var name = $('input[name=name]').val();
+                if(name.length > 4 || name.length < 2){
+                    layer.msg('名称长度为2~4个字符', {icon: 5, shade: [0.5, '#393D49']});
+                    return false;
+                }
+                if(data.score < 0){
+                    layer.msg(msg.score, {icon: 5, shade: [0.5, '#393D49']});
+                    return false;
+                }
+                var data = {id:$('input[name=id]').val(), name:$('input[name=name]').val(), score:$('input[name=score]').val(), icon:$('.field .on').attr('src'), num:$('.field .on').attr('num'), status:$('input[name=status]:checked').val()}
+
+                $.ajax({
+                    type: 'POST',
+                    url: '?m=admin&c=honor&a=level_ok',
+                    data: data,
+                    dataType: 'json',
+                    success: function (ss) {
+                        if (ss.code) {
+                            layer.msg(ss.msg, {icon: 6, shade: [0.5, '#393D49']});
+                            setTimeout(function () {
+                                location.href = "?m=admin&c=honor&a=index";
+                            },1500);
+                        } else {
+                            layer.msg(ss.msg, {icon: 5, shade: [0.5, '#393D49']});
+                        }
+                    }
+                });
+            }
+            function addAction(obj){
+                var obj = $(obj);
+                obj.next().html("未上传文件");
+                var formData = new FormData();
+                formData.append("file",obj.siblings(".upload")[0].files[0]);
+                $.ajax({
+                    url : "?m=admin&c=honor&a=uploadFile",
+                    type : 'POST',
+                    data : formData,
+                    processData : false,
+                    contentType : false,
+                    beforeSend:function(){
+                        obj.next().html("正在进行，请稍候");
+                        obj.attr("disabled",true);
+                    },
+                    success : function(responseStr) {
+                        var data = JSON.parse(responseStr);
+                        if(data.code == 0)
+                        {
+                            obj.siblings("input[name='icon']").val("/"+data.msg);
+                            $("#img").attr('src',"/"+data.msg);
+                            obj.next().html("已上传").css("color","green");
+                        }
+                        else
+                        {
+                            obj.next().html(data.msg).css("color","red");
+                        }
+                        obj.attr("disabled",false);
+                    },
+                    error : function(responseStr) {
+                        obj.next().html(responseStr.responseText).css("color","red");
+                    }
+                });
+            };
+        </script>
+    </body>
+</html>

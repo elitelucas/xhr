@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <title>绑定新的银行卡</title>
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+    <!-- 新增css -->
+    <link href="/statics/web/css/s_min.css" rel="stylesheet" type="text/css">
+    <script src="/statics/web/extend/layer/mobile/layer.js"></script>
+    <!-- Validform -->
+    <link rel="stylesheet" href="/statics/web/extend/Validform_v5.3.2/css/style.css" type="text/css" media="all" />
+    <script type="text/javascript" src="/statics/web/extend/Validform_v5.3.2/js/Validform_v5.3.2_min.js"></script>
+    <!-- Validform - end -->
+    <script src="/statics/web/js/JSON.js"></script>
+    <script src="/statics/web/js/provinceCity.js"></script>
+</head>
+
+<body>
+    <header>
+        <em onclick="history.go(-1)">返回</em>
+        <h1><?php if($flag_b == 1){ echo "绑定微信号"; }elseif($flag_b == 2){ echo "绑定支付宝"; }elseif($flag_b == 17){ echo "绑定QQ钱包"; }else{ echo "绑定银行卡"; }    ?></h1>
+    </header>
+    <section class="pb-0">
+        <?php if($flag_b == 124){  ?>
+        <div class="modify">
+            <form class="Validform1" action="<?=url('','','bindWeChatAndAlipay')?>&flag_b={$flag_b}" method="post">
+                <div class="">
+                    <dl>
+                        <dt class="card-box">
+                            <img src="/up_files/room/weixin1.png" height="150">
+                            <p style="font-size: 34px;">QQ钱包</p>
+                        </dt>
+                        <dd>
+                            <ul class="lineRecharge-input no-padding">
+                                <li>
+                                    <label for="money"><span class="left">QQ账号：</span>
+                                        <input name="account" class="xxxx" value="" type="text" value="" datatype="*" placeholder="请填写微信账号" errormsg="微信账号不能为空">
+                                    </label>
+                                    <span class="s_msg Validform_checktip"></span>
+                                </li>
+                                <li>
+                                    <label for="money1"><span class="left">昵称：</span>
+                                        <input name="nikename" value="" type="text" datatype="*" placeholder="请填写昵称" errormsg="昵称不能为空">
+                                    </label>
+                                    <span class="s_msg Validform_checktip"></span>
+                                </li>
+                                <li>
+                                    <label for="money2"><span class="left">真实姓名：</span>
+                                        <input name="name" value="{$bankInfo['name']}" {if !empty($bankInfo['name'])} readonly="readonly" {/if} type="text" datatype="*" placeholder="请填写真实姓名" errormsg="真实姓名不能为空">
+                                    </label>
+                                    <span class="s_msg Validform_checktip"></span>
+                                </li>
+                                <li>
+                                    <label for="money3"><span class="left">手机号码：</span>
+                                        <input name="mobile" value="" type="text" datatype="*" placeholder="请填写手机号码" errormsg="手机号码不能为空">
+                                    </label>
+                                    <span class="s_msg Validform_checktip"></span>
+                                </li>
+                            </ul>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="button" style="margin-top: 100px">
+                    <button type="submit" class="red-btn">确定</button>
+                </div>
+            </form>
+        </div>
+        <?php }elseif($flag_b == 1){  ?>
+        <div class="modify lineRecharge-input">
+            <form class="Validform1" action="<?=url('','','bindWeChatAndAlipay')?>&flag_b={$flag_b}" method="post">
+                <div class="">
+                    <dl style="background: #fff">
+                        <dt class="card-box">
+                            <img src="/up_files/room/weixin1.png" height="260">
+                            <p class="bank-title left">
+                                请输入微信信息  <span>*</span>
+                            </p>
+                        </dt>
+                        <dd>
+                            <ul class="lineRecharge-input no-padding">
+                                <li>
+                                    <label  for=" money"><span class="left">微信账号：</span><input name="account" class="xxxx " value="" type="text " datatype="*" placeholder="请填写微信账号 " errormsg="微信账号不能为空 "></label>
+                                    <span class="s_msg Validform_checktip "></span>
+                                </li>
+                                <li>
+                                    <label for="money1"><span class="left">昵称：</span><input name="nikename" value="" type="text" datatype="*" placeholder="请填写昵称 " errormsg="昵称不能为空 "></label>
+                                    <span class="s_msg Validform_checktip "></span>
+                                </li>
+                                <li>
+                                    <label for="money2"><span class="left">真实姓名：</span><input name="name" value="{$bankInfo['name']}" {if !empty($bankInfo['name'])} readonly="readonly "{/if} type="text " datatype="*" placeholder="请填写真实姓名 " errormsg="真实姓名不能为空 "></label>
+                                    <span class="s_msg Validform_checktip "></span>
+                                </li>
+                                <li>
+                                    <label for="money3"><span class="left">手机号码：</span><input name="mobile" value="" type="text" datatype="*" placeholder="请填写手机号码 " errormsg="手机号码不能为空 "></label>
+                                    <span class="s_msg Validform_checktip "></span>
+                                </li>
+                            </ul>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="button" style="margin-top: 100px"><button type="submit" class="red-btn">下一步</button></div>
+            </form>
+        </div>
+    <?php }elseif($flag_b == 2){  ?>
+        <div class="modify ">
+            <form class="Validform1 " action="<?=url( '', '', 'bindWeChatAndAlipay')?>&flag_b={$flag_b}" method="post">
+                                <div class="card-box">
+                                    <dl>
+                                        <dt class="">
+                                            <img src="/up_files/room/zhifubao1.png" height="260">
+                                            <p class="bank-title left">
+                                                请输入支付宝信息  <span>*</span>
+                                            </p>
+                                        </dt>
+                                        <dd>
+                                            <ul class="onLinePad lineRecharge-input">
+                                                <li>
+                                                    <label for="money"><span class="left">支付宝账号：</span>
+                                                        <input name="account" class="xxxx" value="" type="text" value="" datatype="*" placeholder="请填写支付宝账号" errormsg="支付宝账号不能为空">
+                                                    </label>
+                                                    <span class="s_msg Validform_checktip"></span>
+                                                </li>
+                                                <li>
+                                                    <label for="money1"><span class="left">昵称：</span>
+                                                        <input name="nikename" value="" type="text" datatype="*" placeholder="请填写昵称" errormsg="昵称不能为空">
+                                                    </label>
+                                                    <span class="s_msg Validform_checktip"></span>
+                                                </li>
+                                                <li>
+                                                    <label for="money2"><span class="left">真实姓名：</span>
+                                                        <input name="name" value="{$bankInfo['name']}" {if !empty($bankInfo[ 'name'])} readonly="readonly" {/if} type="text" datatype="*" placeholder="请填写真实姓名" errormsg="真实姓名不能为空">
+                                                    </label>
+                                                    <span class="s_msg Validform_checktip"></span>
+                                                </li>
+                                                <li>
+                                                    <label for="money3"><span class="left">手机号码：</span>
+                                                        <input name="mobile" value="" type="text" datatype="*" placeholder="请填写手机号码" errormsg="手机号码不能为空">
+                                                    </label>
+                                                    <span class="s_msg Validform_checktip"></span>
+                                                </li>
+                                            </ul>
+                                        </dd>
+                                    </dl>
+                                </div>
+                                <div class="button" style="margin-top: 100px">
+                                    <button type="submit" class="red-btn">下一步</button>
+                                </div>
+            </form>
+            </div>
+            <?php }else{  ?>
+            <div class="modify ">
+                <form class="Validform" action="<?=url('','','bank')?>" method="post">
+                    <div class=" no-icon">
+                        <dl>
+                            <dd>
+                                <ul class="lineRecharge-input no-padding">
+                                    <li>
+                                        <label for="money"><span class="name">持卡人：</span>
+                                            <input name="name" type="text" value="{$bankInfo['name']}" {if !empty($bankInfo[ 'name'])} readonly="readonly" {/if} datatype="*" placeholder="请填写持卡人">
+                                        </label>
+                                        <span class="s_msg Validform_checktip" id="chError"></span>
+                                    </li>
+                                    <li>
+                                        <label for="money1"><span class="name">银行卡号：</span>
+                                            <!--<input name="account" type="number" datatype="/^(\d{16}|\d{19})$/" placeholder="请填写卡号" errormsg="请输入16-19位卡号">-->
+                                            <input name="account" type="number" datatype="/^(\d{16}|\d{19})$/" placeholder="请填写卡号" errormsg="请输入16-19位卡号">
+                                        </label>
+                                        <span class="s_msg Validform_checktip"></span>
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dd class="bank-title">
+                                请选择发卡银行 <span>*</span>
+                            </dd>
+                            <dd>
+                                <ul class="lineRecharge-input no-padding">
+                                    <li>
+                                        <label>
+                                            <span class="name">发卡银行：</span>
+                                            <select class="select" name="bank" datatype="*">
+                                                <option value>请选择</option>
+                                                {loop $bank $v}
+                                                <option value="{$v['id']}">{$v['name']}</option>
+                                                {/loop}
+                                            </select>
+                                            <span class="s_msg Validform_checktip"></span>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dd class="bank-title">
+                                请填写支行信息 <span>*</span>
+                            </dd>
+                            <dd>
+                                <ul class="lineRecharge-input fkyh no-padding">
+                                    <li>
+                                        <div class="area">
+                                            <span class="name" style="font-size: 30px">支行银行：</span>
+                                            <div class="provinceCity select-wrap">
+                                                <select name="province" class="select"></select>
+                                            </div>
+                                            <div class="provinceCity select-wrap">
+                                                <select name="city" class="select"></select>
+                                            </div>
+                                            
+                                            <span class="s_msg Validform_checktip"></span>
+                                            <input name="branch" id="chBank" type="text" datatype="*" placeholder="请输入详细支行名称" autocomplete="off">
+                                            <span class="s_msg Validform_checktip" id="chError"></span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dd class="bank-title">
+                                请填写银行预留信息（非必填）
+                            </dd>
+                            <dd>
+                                <ul class="lineRecharge-input no-padding">
+                                    <li>
+                                        <label>
+                                            <span class="name">手机号码：</span>
+                                            <input name="mobile" type="number" placeholder="请输入真实有效的手机号" autocomplete="off">
+                                            <span class="s_msg Validform_checktip"></span>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dd class="jm-tips">
+                                信息加密，仅用于银行验证
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="button" style="margin-top: 20px">
+                        <button type="submit" class="red-btn">提交</button>
+                    </div>
+                </form>
+            </div>
+            <?php }    ?>
+    </section>
+    <script type="text/javascript">
+    $(function() {
+        $(".Validform1").Validform({
+            tiptype: 2,
+            ajaxPost: true,
+            tiptype: function(msg, o, cssctl) {
+                //msg：提示信息;
+                //o:{obj:*,type:*,curform:*}, obj指向的是当前验证的表单元素（或表单对象），type指示提示的状态，值为1、2、3、4， 1：正在检测/提交数据，2：通过验证，3：验证失败，4：提示ignore状态, curform为当前form对象;
+                //cssctl:内置的提示信息样式控制函数，该函数需传入两个参数：显示提示信息的对象 和 当前提示的状态（既形参o中的type）;
+
+                if (!o.obj.is("form")) { //验证表单元素时o.obj为该表单元素，全部验证通过提交表单时o.obj为该表单对象;
+                    var objtip = o.obj.parent().siblings(".Validform_checktip");
+                    if (o.type != 2) {
+                        cssctl(objtip, o.type);
+                        objtip.text(msg).show();
+                    } else {
+                        cssctl(objtip, 0);
+                        objtip.text('').hide();
+                    }
+                }
+            },
+            callback: function(data) {
+                if (data.status == 0) {
+                    window.location.href = "<?=url('','','weChatAndAlipayOk')?>";
+                } else {
+                    layer.open({
+                        content: "<p class='alert_msg'>" + data.ret_msg + "</p>",
+                        btn: '<p class="alert_buttom">我知道了</p>'
+                    });
+                }
+            }
+        });
+        if($('.provinceCity').length){
+            $('.area').citySelect(areaData);
+        }
+    });
+
+    $(".Validform").Validform({
+        tiptype: 2,
+        ajaxPost: true,
+        tiptype: function(msg, o, cssctl) {
+            //msg：提示信息;
+            //o:{obj:*,type:*,curform:*}, obj指向的是当前验证的表单元素（或表单对象），type指示提示的状态，值为1、2、3、4， 1：正在检测/提交数据，2：通过验证，3：验证失败，4：提示ignore状态, curform为当前form对象;
+            //cssctl:内置的提示信息样式控制函数，该函数需传入两个参数：显示提示信息的对象 和 当前提示的状态（既形参o中的type）;
+
+            if (!o.obj.is("form")) { //验证表单元素时o.obj为该表单元素，全部验证通过提交表单时o.obj为该表单对象;
+                var objtip = o.obj.parent().siblings(".Validform_checktip");
+                if (o.type != 2) {
+                    cssctl(objtip, o.type);
+                    objtip.text(msg).show();
+                } else {
+                    cssctl(objtip, 0);
+                    objtip.text('').hide();
+                }
+            }
+        },
+        beforeSubmit: function(curform) {
+            var new_name = $("input[name=name]").val();
+            var y_name = "{$name}";
+            //如果是修改银行卡，则验证与之前的账号名是否一致
+            if (y_name !== "") {
+                if (y_name !== new_name) {
+                    $("#chError").show();
+                    $("#chError").addClass("Validform_wrong");
+                    $("#chError").html("输入的名称与之前的不一致");
+                    return false;
+                }
+            }
+            
+          //验证是否填写支行信息
+            if ($("select[name=province]").val() == -2 || $("select[name=city]").val() == -2) {
+                $("#chError").show();
+                $("#chError").addClass("Validform_wrong");
+                $("#chError").html("请选择支行信息");
+                return false;
+            }
+            
+            //获取选择表单值
+            var p_val = curform.find("select[name=province]").children('option:selected').text();
+            var c_val = curform.find("select[name=city]").children('option:selected').text();
+            $("select[name=province]").children('option:selected').val(p_val);
+            $("select[name=city]").children('option:selected').val(c_val);
+            
+            return true;
+        },
+        callback: function(data) {
+            if (data.status == 0) {
+                window.location.href = "<?=url('','','bankOk')?>&bankName=" + data.bankName + "&id=" + data.id+"&flag_b="+"{$_GET['flag_b']}";
+            } else {
+                layer.open({
+                    content: "<p class='alert_msg'>"+data.ret_msg+"</p>",
+                    btn: '<p class="alert_buttom">我知道了</p>'
+                });
+            }
+        }
+    });
+</script>
+</body>
+
+</html>

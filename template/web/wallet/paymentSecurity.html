@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>支付安全</title>
+    <!--<link href="/statics/web/css/css.css?v=3" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+</head>
+<body>
+<header>
+    <em onclick="history.go(-1)">返回</em>
+    <h1>支付安全</h1>
+
+</header>
+<section class="pb-0">
+    <div class="my paymentSecurity">
+        <ul>
+            <li data-href="<?=url('','','uPsdWeb')?>"><a href="#"> <label class="">修改资金密码</label></a></li>
+            <li id="wjPsd"><a href="#"> <label class="">忘记密码</label></a></li>
+        </ul>
+        <ul>
+            <li data-href="<?php echo C('kefu');?>"><a href="#"><label class="">联系客服</label></a></li>
+        </ul>
+    </div>
+</section>
+
+<div class="popup" style="display: none">
+
+    <div class="config">
+        <i class="configClose"></i>
+        <p style="color: #ff4f4f;">您好找回密码请联系客服</p>
+        <p style="color: #242424;">点击联系客服</p>
+        <div class="cigBtn"><button data-href="<?php echo C('kefu'); ?>">联系客服</button><button class="cancel">取消</button></div>
+
+    </div>
+</div>
+    <script type="text/javascript">
+        $(function() {
+            $("#wjPsd").click(function() {
+                $(".popup").css("display","block");
+            });
+            
+            //点击取消关闭弹窗
+            $(".cancel").click(function() {
+                $(".popup").css("display","none");
+            })
+        });
+    </script>
+</body>
+</html>

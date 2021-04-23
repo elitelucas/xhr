@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>团队管理</title>
+    
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+	{template public-header}
+    <!-- 新增css -->
+    <link href="/statics/web/css/s_min.css" rel="stylesheet" type="text/css">
+    <!-- 新增css - end -->
+    <!-- Validform -->
+    <link rel="stylesheet" href="/statics/web/extend/Validform_v5.3.2/css/style.css" type="text/css" media="all" />
+    <script type="text/javascript" src="/statics/web/extend/Validform_v5.3.2/js/Validform_v5.3.2_min.js"></script>
+    <!-- Validform - end -->
+	<!-- 密码强度-->
+    <link rel="stylesheet" href="/statics/web/extend/Validform_v5.3.2/plugin/passwordStrength/passwordStrength.css" type="text/css" media="all" />
+    <script type="text/javascript" src="/statics/web/extend/Validform_v5.3.2/plugin/passwordStrength/passwordStrength-min.js"></script>
+    <!-- 密码强度 - end -->
+    <!-- layer -->
+    <!-- <link rel="stylesheet" href="/statics/web/extend/layui/css/layui.css">
+    <script src="/statics/web/extend/layui/layui.js"></script> -->
+    <script src="/statics/web/extend/layer/mobile/layer.js"></script>
+    <!-- layer - end -->
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">-->
+    <style type="text/css">
+    	.Validform_checktip {
+    		display: none;
+		    margin-left: 8px;
+		    line-height: 20px;
+		    height: 40px; 
+		    overflow: hidden;
+		    color: #999;
+		    font-size: 26px; 
+		}
+		.passwordStrength b, .passwordStrength span {
+		    line-height: 22px;
+		    height: 26px;
+		}
+		.passwordStrength span {
+			width: 100px;
+		}
+    </style>
+</head>
+<body>
+<header>
+    <em onclick="javascript :history.go(-1);">返回</em>
+    <h1>下线开户</h1>
+
+</header>
+<section>
+    <div class="modify">
+    	<form class="Validform" method="post">
+	        <ul>
+	            <li>
+	
+	                <label class="icoGirl3" for="name" checked="checked">开户名称： <input type="text" id="name" name="username" id="user" maxlength="15" datatype="/^[a-zA-Z0-9]{6,15}$/" ajaxurl="{$selectName}" sucmsg="用户名验证通过！" nullmsg="请输入您的账号！" errormsg="账号由字母和数字组成,范围在6~15位之间！" placeholder="请输入开户名称" /></label>
+					<p class="Validform_checktip" id="m-user"></p>
+	            </li>
+	            <li>
+	
+	                <label class="icoPas2 pas" for="pas">开户密码：<input type="password" id="pas" name="password" id="pas" maxlength="15" a plugin="passwordStrength" datatype="/^((?![^a-zA-Z]+$)(?!\D+$)(_*)){6,15}/" nullmsg="请输入您的密码！" errormsg="密码由字母和数字以及下划线组成,范围在6~15位之间！" placeholder="请输入开户密码" /></label>
+	                <em class="see"></em>
+	                <p class="passwordStrength" style="display:none;"><b>密码强度：</b> <span>弱</span><span>中</span><span class="last">强</span></p>
+	                <p class="Validform_checktip" id="m-pas"></p>
+	            </li>
+	            <li>
+	
+	                <label class="icoPas2 pas" for="pas1">确认密码： <input type="password" id="pas1" name="password2" id="pas1" maxlength="15" datatype="*" recheck="password"  nullmsg="请再次输入您的密码！" errormsg="两次密码输入不一致！" placeholder="请再次输入开户密码" /></label>
+	                <!--<em class="see"></em>-->
+	                <p class="Validform_checktip" id="m-pas2"></p>
+	            </li>
+	        </ul>
+	        <input type="hidden" name="flag" id="flag" value="3"/>
+	        <input type="hidden" name="referrer" value="{$username}" />
+	        <input type="hidden" name="type" value="4" />
+	        <input type="hidden" name="reg_type" value="1" />
+	        <div class="button"><button>确认开户</button></div>
+        </form>
+    </div>
+</section>
+<script type="text/javascript">
+    $(function(){
+        $(".Validform").Validform({
+        	url:"{$ValidUrl}",
+        	usePlugin:{
+                passwordstrength:{
+                    minLen:6,//设置密码长度最小值，默认为0;
+                    maxLen:16,//设置密码长度最大值，默认为30;
+                    trigger:function(obj,error){
+                        //该表单元素的keyup和blur事件会触发该函数的执行;
+                        //obj:当前表单元素jquery对象;
+                        //error:所设密码是否符合验证要求，验证不能通过error为true，验证通过则为false;
+
+                        //console.log(error);
+                        if(error){
+                            obj.parent().siblings(".passwordStrength").hide();
+                        }else{
+                            obj.parent().siblings(".passwordStrength").show();
+                        }
+                    }
+                }
+            },
+            tiptype:function(msg,o,cssctl){
+                //msg：提示信息;
+                //o:{obj:*,type:*,curform:*}, obj指向的是当前验证的表单元素（或表单对象），type指示提示的状态，值为1、2、3、4， 1：正在检测/提交数据，2：通过验证，3：验证失败，4：提示ignore状态, curform为当前form对象;
+                //cssctl:内置的提示信息样式控制函数，该函数需传入两个参数：显示提示信息的对象 和 当前提示的状态（既形参o中的type）;
+
+                if(!o.obj.is("form")){  //验证表单元素时o.obj为该表单元素，全部验证通过提交表单时o.obj为该表单对象;
+                    var objtip=o.obj.parent().siblings(".Validform_checktip");
+                    if(o.type!=2){
+                        cssctl(objtip,o.type);
+                        objtip.text(msg).show();
+                    }else {
+                        cssctl(objtip,0);
+                        objtip.text('').hide();
+                    }
+                }
+            },
+            ajaxPost:true,
+            callback:function(data){
+                if(data.status==0){
+                    /*layer.open({
+                        content: "<p class='alert_msg'>注册成功!</p>",
+                        btn: '<p class="alert_buttom">我知道了</p>'
+                    });
+                    $("input[type=password]").val('');*/
+                    location.href="<?=url('web','user','openAccountOk')?>";
+                }else {
+                	layer.open({
+                        content: "<p class='alert_msg'>"+data.ret_msg+"</p>",
+                        btn: '<p class="alert_buttom">我知道了</p>'
+                    });
+                    //$.Showmsg(data.ret_msg);
+                }
+            }
+        });
+    })
+</script>
+
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+        <script src="statics/admin/js/pintuer.js"></script>
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>
+        <script src="statics/admin/js/jquery.date_input.pack.js"></script>
+        {template public-new-ui-header}
+        <style></style>
+    </head>
+    <body class="new_ui_body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title iboxWTitle">
+                        <h5>冻结账号</h5>
+                        <div class="ibox-tools">
+                            <a href="?m=admin&c=user&a=fx_watch" class="btn btn-white btn-bitbucket">
+                                <i class="fa fa-reply"></i>返回
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content bagCol" style="width: 100%;">
+                        <form method="post" class="form-x" action="" id="form">
+                            <input type="hidden" value="{$data['id']}" name="id"/>
+                            <input type="hidden" value="2" name="state"/>
+
+                            <div class="ibox-title">
+                                <h5>账号资料</h5>
+                            </div>
+                            <div class="ibox-content m-b" style="width: 100%;">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>账户</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" readonly class="w50 form-control" name="username" value="{$data['username']}" data-validate="required:请输入账户"/>
+                                            <div class="tips"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>微信</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" readonly class="w50 form-control" name="weixin" value="{$data['weixin']}"/>
+                                            <div class="tips"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>当前ip</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" readonly class="w50 form-control" name="lastloginip" value="{$data['lastloginip']}" />
+                                            <div class="tips"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>备注</label>
+                                        <div class="col-sm-4">
+                                            <textarea class="form-control input_content" data-validate="required:备注信息" name="remark"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title">历史记录</label>
+                                        <div class="col-sm-4">                                            
+                                            <div style="width:900px;height:200px;background-color: menu;padding: 10px 10px; overflow: scroll">
+                                                {loop $list $v}
+                                                <div style="line-height: 30px;">
+                                                    操作人：{$v['change_name']} &nbsp;&nbsp;
+                                                    操作时间：{$v['time']} &nbsp;&nbsp;
+                                                    IP：{$v['ip']} &nbsp;&nbsp;
+                                                </div>
+                                                {/loop}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-4 col-sm-offset-2">
+                                            <button class="btn btn-primary" type="button" onclick="submitForm()" id="btn_submit"> 提交</button>
+                                            &nbsp;
+                                            <button class="btn btn-white" type="button" onclick="history.go(-1);">取消</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <!--  -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            function submitForm(){
+                $.ajax({
+                    type: 'POST',
+                    url: '?m=admin&c=user&a=up_remark',
+                    data: $("#form").serialize(),
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result.rt) {
+                            layer.msg("操作成功！", {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                location.href = "?m=admin&c=user&a=fx_watch";
+                            });
+                        } else {
+                            layer.msg('修改失败',{icon: 5, shade: [0.5, '#393D49']});
+                        }
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>

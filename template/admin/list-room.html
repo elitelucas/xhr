@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+        <script src="statics/admin/js/pintuer.js"></script>  
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>  
+        <script src="statics/admin/js/jquery.date_input.pack.js"></script> 
+        {template public-new-ui-header}
+        <style>
+            #page{height: 60px;margin-top: 20px;text-align: center;}
+            #page ul li{float: left;margin-right:10px;}
+            #page ul .current{ background-color:#0099ff;text-align:center;}
+        </style>
+    </head>
+    <body class="new_ui_body">
+	    <div class="ibox float-e-margins">
+		    <div class="ibox-title iboxWTitle">
+		        <h5>房间列表</h5>
+		        <div class="ibox-tools">
+		            <a  class="btn btn-white btn-bitbucket" href="?m=admin&c=message&a=addRoom&lottery_id={$lottery_id}">
+		                <i class="fa fa-plus-square-o"></i> 新增公共房间
+		            </a>
+		            <a  class="btn btn-white btn-bitbucket" href="?m=admin&c=message&a=addRooms&lottery_id={$lottery_id}">
+		                <i class="fa fa-plus-square-o"></i> 新增私密房间
+		            </a>
+		        </div>
+	        </div>
+	   		<div class="ibox float-e-margins">
+		       <div class="ibox-content" style="width: 100%;">
+		           <div class="row">
+		               <div class="col-sm-3">
+	               			<div class="input-group m-b"><span class="input-group-addon">彩种</span>
+                               <select name="lottery_id" class="form-control" id="lottery_id" onchange="lottery_change()">
+                                  {loop $lottyList $vl}
+                                   		<option value="{$vl['id']}" {if $lottery_id == $vl['id']} selected {/if}>{$vl['name']}</option>
+                                  {/loop}
+                               </select>
+                           </div>
+		               </div>
+		               <div class="col-sm-4">
+		                   <div class="input-group m-b"><span class="input-group-addon">房间名称</span>
+		                       <input type="text" value="{$room_name}" class="form-control" id="room_name" name="room_name" placeholder="房间名模糊搜索">
+		                   </div>
+		               </div>	
+		               <div class="col-sm-2">
+							<button class="btn btn-primary" type="submit" id="btn_search_room">搜索</button>
+		               </div>	
+               		</div>
+	           		<div id="editable_wrapper" class="dataTables_wrapper form-inline" role="grid" style="width: 100%">
+	   	                <table class="table table-striped table-bordered table-hover  dataTable" id="editable" aria-describedby="editable_info">
+		  	                <thead>
+			  	                <tr role="row">
+									<th>编号</th>
+									<th>彩种</th>
+									{if $_REQUEST['lottery_id'] == 12}
+									<th>赛事名称</th>
+									<th>对阵双方</th>
+									<th>比赛开场时间</th>
+									<th>场次号</th>
+									{/if}
+									<th>Logo</th>
+									<th>房间名称</th>
+									<th>满员限制(人)</th>
+									<th>最低投注(元)</th>
+			                        <th>虚拟在线人数</th>
+									<th>元宝最低</th>
+									<th>元宝最高</th>
+									<th>限时踢人(分)</th>
+									<th>当前状态</th>
+									<th>封盘时间(秒)</th>
+									<th>密码</th>
+									<th>操作</th>
+			                   </tr>
+		                  	</thead>    
+	                    	<tbody>
+	                    	<tr class="odd" style="display: none"></tr>
+	                        {loop $list $v}
+	                        <tr>
+	                            <td>{$v['id']}</td>
+	                            <td>{$v['lottery_type_text']}</td>
+								{if $_REQUEST['lottery_id'] == 12}
+								<td>{$v['event_name']}</td>
+								<td>{$v['team_name']}</td>
+								<td>{$v['time']}</td>
+								<td>{$v['match_id']}</td>
+								{/if}
+	                            <td class="img_show"><img src="{$v['avatar']}" style="height:30px;width:50px;"/></td>
+	                            <td>{$v['title']}</td>
+	                            <td>{$v['max_number']}</td>
+	                            <td>{$v['lower']}</td>
+	                            <td>{$v['online']}</td>
+	                            <td>{$v['low_yb']}</td>
+	                            <td>{$v['max_yb']}</td>
+	                            <td>{$v['shove_time']}</td>
+	                            <td>{$v['status']}</td>
+	                            <td>{$v['closure_time']}</td>
+	                            <!--<td>{$v['odds_cof']}</td>-->
+	                            <td>{$v['passwd']}</td>
+	                            <td>
+	                            	<a href="javascript:void(0)" data-title="修改" onclick="updateRecord({$v['id']})"><i class="fa fa-pencil"></i> </a>
+	                            	<a href="javascript:void(0)" data-title="查看发布信息" onclick="issueRecord({$v['id']},'{$v['title']}', '{$v['lottery_type']}')"><i class="fa fa-file-text-o"></i> </a>
+	                            	<a href="javascript:void(0)" data-title="下注限额设置" onclick="oddsRecord({$v['id']},'{$v['title']}')"><i class="fa fa-cog"></i> </a>
+	                            	<a href="javascript:void(0)" data-title="删除" onclick="delRecord({$v['id']})"><i class="fa fa-trash-o"></i> </a>
+	                            </td>
+	                        </tr>
+	                        {/loop}
+	                    </tbody>
+	                </table>
+	            </div>
+            </div>
+        <script type="text/javascript">
+            var loading = "";//加载中......
+
+            //删除
+            function delRecord(id) {
+                layer.confirm('确认删除？', {
+                    btn: ['确认', '取消'] //可以无限个按钮
+                }, function () {
+                    $.ajax({
+                        url: '?m=admin&c=message&a=delRoom',
+                        data: {id: id},
+                        dataType: 'json',
+                        type: 'post',
+                        beforeSend: function () {
+                            loading = layer.load(1);
+                        },
+                        error: function () {
+                            layer.close(loading);
+                            layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        },
+                        success: function (result) {
+                            layer.close(loading);
+                            if (result.rt) {
+                                layer.msg('删除成功，请手动刷新缓存,新数据才会生效', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                    location.reload();
+                                });
+                            } else {
+                                layer.msg('删除失败！！！', {icon: 5, shade: [0.5, '#393D49']}, function () {
+                                    location.reload();
+                                });
+                            }
+                        }
+                    })
+                }, function () {
+                });
+            }
+            
+            //修改
+            function updateRecord(id) {
+                location.href = '?m=admin&c=message&a=updateRoom' + '&id=' + id;
+            }
+            
+            //逆向投注开关
+            function reverse(id){
+                location.href = '?m=admin&c=message&a=reverse' + '&id=' + id;
+            }
+            
+            //发布信息
+            function issueRecord(id, room, lottery_type) {
+                location.href = '?m=admin&c=message&a=issueRecord' + '&id=' + id + "&room=" + room + "&lottery_type=" + lottery_type;
+            }
+            
+            //限额设置
+            function oddsRecord(id){
+                location.href = '?m=admin&c=message&a=oddsRecord' + '&id=' + id;
+            }
+
+            //搜索
+            function index() {
+                var url = '?m=admin&c=message&a=room' + '&title=' + $("#title").val();
+                location.href = url;
+            }
+            
+            function lottery_change()
+            {
+               	var room_name = $("#room_name").val();
+               	var lottery_id  = $("#lottery_id").val();
+               	
+               	var url = '?m=admin&c=message&a=room&room_name=' + room_name + '&lottery_id=' + lottery_id;
+                   location.href = url;
+            }
+
+            $(function () {
+                $(".img_show > img").mousemove(function () {
+                    $(this).css({"width": "200px", "height": "100px"});
+                }).mouseleave(function () {
+                    $(this).css({"width": "50px", "height": "30px"});
+                });
+                
+                $("#btn_search_room").click(function() {
+                	var room_name = $("#room_name").val();
+                	var lottery_id  = $("#lottery_id").val();
+                	
+                	var url = '?m=admin&c=message&a=room&room_name=' + room_name + '&lottery_id=' + lottery_id;
+                    location.href = url;
+                });
+            });
+        </script>
+    </body>
+</html>

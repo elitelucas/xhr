@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="renderer" content="webkit">
+        <title>网站信息</title>  
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>
+        <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+        <script src="statics/admin/js/pintuer.js"></script>
+        <style>
+            input.form-control {
+                color: #555;
+            }
+        </style>
+        {template public-new-ui-header}
+    </head>
+    <body class="new_ui_body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title iboxWTitle">
+                        <h5>荣誉积分修改</h5>
+                        <div class="ibox-tools">
+                            <a href="javascript:;" class="btn btn-white btn-bitbucket" onclick="history.go(-1);">
+                                <i class="fa fa-reply"></i>返回
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content bagCol" style="width: 100%;">
+                        <form method="post" class="form-x" action="" id="form">
+                            <input type="hidden" name="id"  value="{$data['id']}" />
+                            <div class="ibox-title">
+                                <h5>荣誉积分资料</h5>
+                            </div>
+                            <div class="ibox-content m-b" style="width: 100%;">
+                                <div class="row">
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title">用户名</label>
+                                        <div class="col-sm-4">
+                                            <input class="w50 form-control" readonly type="text" value="{$userData['username']}" />
+                                            <div class="tipss"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title">总积分</label>
+                                        <div class="col-sm-4">
+                                            <input class="w50 form-control" readonly type="text" value="{$userData['honor_score']}" />
+                                            <div class="tipss"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+		                                <label class="col-sm-2 control-label input_title">调整类型</label>
+		                                <div class="col-sm-4">
+		                                    <div class="field">
+		                                        <select name="plus_type" class="input w50" style="line-height:17px; display:inline-block">
+		                                            <option value="1">增加</option>
+		                                            <option value="2">减去</option>
+		                                        </select>
+		                                    </div>
+		                                </div>
+		                            </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title">调整积分</label>
+                                        <div class="col-sm-4">
+                                            <input class="w50 form-control" type="text" name="plus_score" value="0" data-validate="required:给用户加积分" />
+                                            <div class="tips"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title">备注</label>
+                                        <div class="col-sm-4">
+                                            <textarea type="text" class="input form-control" name="remark" style="height:100px;width:363px;"></textarea>
+                                            <div class="tips"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-4 col-sm-offset-2">
+                                            <button class="btn btn-primary" type="button" id="btn" onclick="dis()">提交</button>
+                                            &nbsp;
+                                            <button class="btn btn-white" type="button" onclick="history.go(-1);">取消</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function dis() {
+                //数据
+                var user_id = {$userData['id']};
+                var plus_score = $('input[name=plus_score]').val();
+                var plus_type  = $('select[name=plus_type]').val();
+                var remark = $('textarea[name=remark]').val();
+                if(plus_score == '' || plus_score < 0){
+                    layer.msg('调整积分必须大于0', {icon: 5, shade: [0.5, '#393D49']});
+                    return false;
+                }
+                
+                $.ajax({
+                    type: 'POST',
+                    url: '?m=admin&c=honor&a=honor_user_score_edit',
+                    data: {id:user_id,plus_score:plus_score,plus_type:plus_type,remark:remark},
+                    dataType: 'json',
+                    success: function (ret) {
+                        if (ret.code == 1) {
+                            layer.msg(ret.msg, {icon: 6, shade: [0.5, '#393D49']});
+                            setTimeout(function () {
+                                location.href = "?m=admin&c=honor&a=honor_score_list";
+                            },1500);
+                        } else {
+                            layer.msg(ret.msg, {icon: 5, shade: [0.5, '#393D49']});
+                        }
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>

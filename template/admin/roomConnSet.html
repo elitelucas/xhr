@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <!--  <link rel="stylesheet" href="statics/admin/css/pintuer.css"> -->
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+
+    <!-- template-begin+++ -->
+    {template public-new-ui-header}
+    <!-- template-end+++ -->
+
+</head>
+<body style="margin: 15px;background-color: #f3f3f4;">
+<div class="ibox float-e-margins">
+    <div class="ibox-title iboxWTitle">
+        <h5>进入房间连接配置列表</h5>
+    </div>
+    <div class="ibox-content bagCol">
+        <div class="ibox-title">
+            <h5>详情</h5>
+            <div class="ibox-tools">
+                <a class="btn btn-white btn-bitbucket btn_sure" id="update" data-title="修改"><i class="fa fa-pencil"></i> </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <form method="post" class="form-horizontal" id="form">
+                <input type="hidden" name="id"  value="" />
+                {loop $list $k $v}
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">域名:</label>
+                    <div class="col-sm-2">
+                        <input type="text"  value="{$k}" class="form-control conn_k" disabled="disabled">
+                    </div>
+
+                    <label class="col-sm-2 control-label">房间连接:</label>
+                    <div class="col-sm-2">
+                        <input type="text" value="{$v}" class="form-control conn_v" disabled="disabled" >
+                    </div>
+                    <div class="col-sm-2">
+                        <span style="display: none;" onclick="del(this)" class="btn btn-primary del">删除</span>
+                    </div>
+                </div>
+                {/loop}
+                <div class="form-group" id="add">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-2">
+                        <span class="btn btn-primary" id="add_btn" style="display: none">添加</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    var loading = "";
+    $("#update").click(function(){
+        $(this).parent().html('<a class="btn btn-white btn-bitbucket btn_sure" id="btn_submit" data-title="保存"><i class="fa fa-save"></i></a>');
+        $(this).remove();
+        $("input").attr("disabled",false);
+        $('#add_btn').show();
+        $('.del').show();
+    });
+
+    function del(obj) {
+        $(obj).parents('.form-group').remove();
+    }
+    
+    $('#add_btn').click(function () {
+        var html = '<div class="form-group">\n' +
+            '                    <label class="col-sm-2 control-label">域名:</label>\n' +
+            '                    <div class="col-sm-2">\n' +
+            '                        <input type="text" value="" class="form-control conn_k">\n' +
+            '                    </div>\n' +
+            '\n' +
+            '                    <label class="col-sm-2 control-label">房间连接:</label>\n' +
+            '                    <div class="col-sm-2">\n' +
+            '                        <input type="text" value="" class="form-control conn_v" >\n' +
+            '                    </div>\n' +
+            '                    <div class="col-sm-2">\n' +
+            '                       <span onclick="del(this)" class="btn btn-primary del">删除</span>\n' +
+            '                    </div>\n' +
+            '                </div>';
+        $('#add').before(html);
+    });
+
+
+    $("body").on("click","#btn_submit",function(){
+        var data = [];
+        var obj = $(".conn_k");
+        var objv = $(".conn_v");
+        for (var a = 0; a < obj.length; a++) {
+            var k = $(obj[a]).val();
+            var v = $(objv[a]).val();
+            var newData= {};
+            newData[k] = v;
+            data.push(newData);
+        }
+        console.log(data);
+//        return false;
+        $.ajax({
+            url: '?m=admin&c=role&a=roomConnSet&do=1',
+            data: {data:data},
+            dataType: 'json',
+            type: 'post',
+            beforeSend: function () {
+                loading = layer.load(1);
+            },
+            error: function () {
+                layer.close(loading);
+                layer.msg('网络异常，稍后再试！！！', {icon: 5, shade: [0.5, '#393D49']});
+            },
+            success: function (result) {
+                layer.close(loading);
+                if (result.state==1) {
+                    layer.msg(result.msg, {icon: 6, shade: [0.5, '#393D49']}, function () {
+                        location.reload();
+                    });
+                } else {
+                    if (result.msg) {
+                        layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']}, function () {
+                            location.reload();
+                        });
+                    }
+                }
+            }
+        });
+
+    });
+
+    function up_length(vm) {
+        var auto_open = $(vm).parent().siblings("input").val();
+        var type = $(vm).attr("data-id");
+        var re = /^[0-9]*$/;
+        if(auto_open=='' || !re.test(auto_open)){
+            layer.msg($(vm).attr('data-name')+'自动开奖持续时长必须为正整数', {icon: 5, shade: [0.5, '#393D49']});
+            return false;
+        }
+
+
+    }
+</script>
+    </body>
+</html>

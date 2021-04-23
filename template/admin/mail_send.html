@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <!--  <link rel="stylesheet" href="statics/admin/css/pintuer.css"> -->
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/jquery-migrate-1.2.1.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+
+    {template public-new-ui-header}
+
+    <style type='text/css'>
+        #page{height: 60px;margin-top: 20px;text-align: center;}
+        #page ul li{float: left;margin-right:10px;}
+        #page ul .current{ background-color:#0099ff;text-align:center;}
+        .table td div.username{
+            height: 23px;
+            overflow: hidden;
+            white-space:nowrap;
+            text-overflow: ellipsis;
+        }
+        .table tbody tr td{
+            vertical-align: middle;
+        }
+        .table>thead>tr>th {
+            vertical-align: middle;
+        }
+        .rules-1{
+            float: left;
+            height: 35px;
+            line-height: 35px;
+            padding-right:10px;
+        }
+        .rules-2{
+            float: left;
+            height: 35px;
+            line-height: 35px;
+            padding:0 10px 0 10px;
+        }
+        .rules-3{
+            float: left;
+            width: 20%;
+        }
+    </style>
+</head>
+<body style="margin: 15px;background-color: #f3f3f4;">
+<div class="ibox float-e-margins">
+    <div class="ibox-title iboxWTitle">
+        <h5>{$_REQUEST['title']}</h5>
+        <div class="ibox-tools">
+            <a href="javascript:void(0)" class="btn btn-white btn-bitbucket" onclick="javascript:history.go(-1);">
+                <i class="fa fa-reply"></i> 返回
+            </a>
+        </div>
+    </div>
+    <div class="ibox-content bagCol">
+        <div class="ibox-title">
+            <h5>详情</h5>
+        </div>
+        <div class="ibox-content">
+            <form method="get" class="form-horizontal" id="form2">
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">公告标题</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" name="title" value="{$list['title']}" id="title" maxlength="20" placeholder="公告标题20字以内" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">公告内容</label>
+                    <div class="col-sm-4">
+                        <textarea class="form-control" name="contents" id="contents" maxlength="500" placeholder="公告内容500字以内" rows="5">{$list['content']}</textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">是否滚动</label>
+                    <div class="col-sm-3">
+                        <select class="form-control m-b" name="recom">
+                            <option value="2" {if $list['recom'] == 2} selected = 'selected'{/if}>是</option>
+                            <option value="1" {if empty($list)} selected='selected' {else} {if $list['recom'] == 1} selected='selected' {/if}{/if} >否</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">是否弹窗</label>
+                    <div class="col-sm-3">
+                        <select class="form-control m-b" name="is_popup">
+                            <option value="1" {if $list['is_popup'] == 1} selected='selected'{/if}>弹窗</option>
+                            <option value="2" {if empty($list)} selected='selected' {else} {if $list['is_popup'] == 2} selected ='selected'{/if}{/if}>不弹窗</option>
+                        </select>
+                        <p style="color: gray;padding-top: 10px;">每次添加弹出公告需替换当前已有弹出公告，请谨慎操作！</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">失效日期</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" name="expired_time" id="expired_time" maxlength="20" disabled="disabled" value="{$expired_time}" />
+                    </div>
+                </div>
+
+                <br />
+                <div class="form-group">
+                    <label class="col-sm-1 control-label"></label>
+                    <div class="col-sm-3 col-sm-offset-1">
+                        <button class="btn btn-primary" type="button" id="btn">发送给所有人</button>
+                        <button class="btn btn-white" type="button" style="border: 1px solid #e7eaec" onclick="javascript:history.go(-1);" id="qx_submit">取消</button>
+                    </div>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+</div>
+
+        <script type="text/javascript">
+
+            $(function () {
+                if ("{$id}" != '') {
+                    $("input,select,textarea").attr("disabled",true);
+                    $("#btn").remove();
+                }
+                //切换是否显示弹窗失效日期
+                $('[name="is_popup"]').change(function () {
+                    if ($(this).val() == '1') {
+                        $('#expired_time').prop('disabled', false);
+                    } else {
+                        $('#expired_time').prop('disabled', true);
+                    }
+                });
+
+                $("#btn").bind("click",function () {
+                    // $("#btn").unbind('click');
+                    var $this = $(this);
+                    $this.prop('disabled', true);
+                    var contents = $("#contents").val();
+                    var title = $("#title").val();
+                    if(contents == "" || contents == null || title == "" || title == null){
+                        layer.msg('请输入公告内容、标题！', {icon: 5, shade: [0.5, '#393D49']});
+                        $this.prop('disabled', false);
+                        return false;
+                    }
+
+                    var form_data = $('#form2').serialize();
+
+                    if ($('[name="is_popup"]').val() == '1') {
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '?m=admin&c=mail&a=checkHasPopupAnnouncement',
+                            dataType: 'json',
+                            success: function (msg0) {
+                                $this.prop('disabled', false);
+                                if (msg0.state == 0) {
+                                    layer.confirm(msg0.msg, {
+                                        btn: ['确定', '取消'] //按钮
+                                    }, function () {
+                                        ajaxAddAnnouncement(form_data);
+                                    }, function () {
+                                    });
+                                } else {
+                                    ajaxAddAnnouncement(form_data);
+                                }
+                            }
+                        });
+
+                    } else {
+                        ajaxAddAnnouncement(form_data);
+                    }
+
+                    return false;
+
+                })
+            })
+
+            //新增公告消息
+            function ajaxAddAnnouncement(form_data) {
+                var loading = null;
+                $.ajax({
+                    type: 'POST',
+                    url: '?m=admin&c=mail&a=send_msg',
+                    data: form_data + "&type=1&id=0",
+                    dataType: 'json',
+                    success: function (msg) {
+                        if (msg.state) {
+                            layer.msg('发送成功', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                layer.close(loading);
+                                location.href = "?m=admin&c=mail&a=mail_lst"
+                            });
+                        }else{
+                            $("#btn").prop('disabled', false);
+                            layer.close(loading);
+                            layer.alert(msg.msg, {icon: 5, shade: [0.5, '#393D49']});
+                            return ;
+                        }
+                    },
+                    beforeSend:function () {
+                        loading = layer.load(1);
+                    }
+                });
+            }
+        </script>
+    
+    </body>
+</html>

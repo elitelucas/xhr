@@ -1,0 +1,412 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <meta name="author" content="ifengjin@ifengjin.cn">
+  
+  <title>诚汇通-P2P网贷平台最可靠的民间借贷公司-致力于打造国内最好的P2P网络借贷平台</title>
+  
+  <link href="favicon.ico" mce_href="favicon.ico" rel="shortcut icon" type="image/x-icon">
+  
+  <link rel="stylesheet" href="../../statics/regbaidu/css/style.css">
+  <link rel="stylesheet" href="../../statics/regbaidu/js/owl-carousel/owl.carousel.css">
+  <link rel="stylesheet" href="../../statics/regbaidu/js/picbox/2.2/css/picbox.css">
+  
+  <script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?58b625f2fae8bd6127a23680606506af";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+  </script>
+</head>
+
+<body>
+    <script type="text/javascript">
+    var _py = _py || [];
+    _py.push(['a', 'Tm..DUK-NY5HfP8gsyvUJdDDO_']);
+    _py.push(['domain','stats.ipinyou.com']);
+    _py.push(['e','']);
+    -function(d) {
+            var s = d.createElement('script'),
+            e = d.body.getElementsByTagName('script')[0]; e.parentNode.insertBefore(s, e),
+            f = 'https:' == location.protocol;
+            s.src = (f ? 'https' : 'http') + '://'+(f?'fm.ipinyou.com':'fm.p0y.cn')+'/j/adv.js';
+    }(document);
+    </script>
+<noscript><img src="//stats.ipinyou.com/adv.gif?a=Tm..DUK-NY5HfP8gsyvUJdDDO_&e=" style="display:none;"/></noscript>
+  <div class="header">
+    <div class="topbar">
+      <div class="container">
+        <div class="pull-left">
+          <img src="../../statics/regbaidu/image/icon_tel.png" alt="">
+          <span>客服电话:400-018-0107</span>
+        </div>
+        <div class="pull-right">
+          <span><a href="https://www.chenghuitong.net/">首页</a></span>
+          <span>|</span>
+          <span><a href="http://www.chenghuitong.net/article/services-help.html">帮助中心</a></span>
+          <span>|</span>
+          <img src="../../statics/regbaidu/image/icon_calculator.png" alt="">
+          <span><a href="http://www.chenghuitong.net/article/default-calculator.html">投资计算器</a></span>
+        </div>
+      </div>
+    </div>
+    <div class="nav">
+      <div class="container">
+        <div class="pull-left"><a href="https://www.chenghuitong.net/"><img src="../../statics/regbaidu/image/logo.png" alt=""></a></div>
+        <div class="pull-right">已有诚汇通账号？<a href="https://www.chenghuitong.net/content/login-index.html">登录</a></div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="banner" id="banner">
+    <div class="container">
+      <div class="reg-box">
+        <div class="title">免费注册送现金</div>
+        <form class="regform" action="<?=url('','','');?>" method="post">
+          <div class="item">
+            <div class="pull-left">*用 户 名：</div>
+            <div class="pull-right">
+              <input type="text" placeholder="请输入用户名" name='username' value="{$data['username']}">
+              <div class="help">{$info_arr['username']}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pull-left">*设置密码：</div>
+            <div class="pull-right">
+              <input type="password" placeholder="请输入6-16位密码" name='pwd' value="{$data['pwd']}">
+              <div class="help">{$info_arr['pwd']}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pull-left">*确认密码：</div>
+            <div class="pull-right">
+              <input type="password" placeholder="请再次确认密码" name='compwd' value="{$data['compwd']}">
+              <div class="help">{$info_arr['compwd']}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pull-left">*手机号码：</div>
+            <div class="pull-right">
+              <input type="text" placeholder="请输入手机号码" name='phone' value="{$data['phone']}">
+              <div class="help">{$info_arr['phone']}</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pull-left">*验 证 码：</div>
+            <div class="pull-right">
+              <input type="text" placeholder="不区分大小写" style="width:90px;" name="code" value="{$data['code']}">
+              <div class="regcode"><a href="javascript:document.getElementById('code_img').src='{APP_PATH}api/checkcode.php?code_len=4&font_size=20&width=88&height=32&font_color=&background=&time='+Math.random();void(0);">
+                      <img id="code_img" src="{APP_PATH}api/checkcode.php?code_len=4&font_size=20&width=88&height=32&font_color=&background=" alt="" onclick='this.src = this.src + "&" + Math.random()'></a></div>
+              <div class="help">{$info_arr['code']}</div>
+            </div>
+          </div>
+          <div class="agreement">
+            <label>
+              <input type="checkbox" name="xieyi" {if (!empty($data['xieyi']))}checked{/if}> 阅读并同意服务协议《<a href="http://www.chenghuitong.net/article/default-xieyi.html" target="_blank">诚汇通协议书</a>》
+            </label>
+              <div class="help">{$info_arr['xieyi']}</div>
+          </div>
+          <div class="subbtn"><input type="submit" value=""></div>
+          <input type="hidden" value="save" name="save"/>
+        </form>
+      </div>
+    </div>
+    <div class="banner01"></div>
+    <div class="banner02"></div>
+    <div class="banner03"></div>
+    <div class="banner04"></div>
+  </div>
+  
+  <div class="module module-one">
+    <div class="container">
+      <div class="title"><img src="../../statics/regbaidu/image/module_one_title.png" alt=""></div>
+      <div>
+        <div class="module-item pull-left">
+          <div class="title">宝宝类</div>
+          <div class="yield">
+            <p>4%-4.5%</p>
+            <div>年化收益率</div>
+          </div>
+          <table border="0" cellpadding="0" cellspacing="0">
+            <tr>
+              <td>
+                <p>投资门槛</p>
+                <div>无</div>
+              </td>
+              <td>
+                <p>安全性</p>
+                <div>无担保公司</div>
+                <div>亏损性小</div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p>资金期限</p>
+                <div>无限制</div>
+              </td>
+              <td>
+                <p>银行活期的</p>
+                <div>12倍</div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="module-cht pull-left">
+          <div class="yield">
+            <p>17%-21%</p>
+            <div>年化收益率</div>
+          </div>
+          <table border="0" cellpadding="0" cellspacing="0">
+            <tr>
+              <td>
+                <p>投资门槛</p>
+                <div>50元起投</div>
+              </td>
+              <td>
+                <p>安全性</p>
+                <div>风险准备金垫付</div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p>资金期限</p>
+                <div>1~6个月</div>
+              </td>
+              <td>
+                <p>银行活期的</p>
+                <div>52倍</div>
+              </td>
+            </tr>
+          </table>
+          <div class="btnbar"><a class="btn" href="#banner">立即注册</a></div>
+        </div>
+        <div class="module-item pull-right">
+          <div class="title">银行理财</div>
+          <div class="yield">
+            <p>5%-7%</p>
+            <div>年化收益率</div>
+          </div>
+          <table border="0" cellpadding="0" cellspacing="0">
+            <tr>
+              <td>
+                <p>投资门槛</p>
+                <div>5万起投</div>
+              </td>
+              <td>
+                <p>安全性</p>
+                <div>亏损性小</div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p>资金期限</p>
+                <div>依产品而定</div>
+              </td>
+              <td>
+                <p>银行活期的</p>
+                <div>17倍</div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="module module-two">
+    <div class="container">
+      <div class="title"><img src="../../statics/regbaidu/image/module_two_title.png" alt=""></div>
+      <div class="module-title">平台实力，资金雄厚运营透明</div>
+    </div>
+  </div>
+  
+  <div class="feature container">
+    <div class="item">
+      <img src="../../statics/regbaidu/image/icon_feature_one.png" alt="">
+      <p>安全保障</p>
+      <div>资金托管，1千万风险准备金垫付</div>
+    </div>
+    <div class="item">
+      <img src="../../statics/regbaidu/image/icon_feature_two.png" alt="">
+      <p>运营透明</p>
+      <div>运营报告制度，每天公示数据</div>
+    </div>
+    <div class="item">
+      <img src="../../statics/regbaidu/image/icon_feature_three.png" alt="">
+      <p>超强抗风险能力</p>
+      <div style="text-align: center;">注册资本1亿元</div>
+    </div>
+    <div class="item">
+      <img src="../../statics/regbaidu/image/icon_feature_four.png" alt="">
+      <p>视频互动</p>
+      <div>真实 直观 全方位了解小诚</div>
+    </div>
+  </div>
+  
+  <div class="module module-two">
+    <div class="container">
+      <div class="module-title">多方认可，实力见证！</div>
+    </div>
+  </div>
+  
+  <div class="pic container">
+    <div class="pic-item">
+      <div class="pic-box owl-carousel">
+        <div class="item">
+          <a class="img-item" href="../../statics/regbaidu/image/pic/big/gsrz/gsrz_1.jpg" title="企业法人营业执照"><img src="../../statics/regbaidu/image/pic/small/gsrz/gsrz_1.jpg" alt="企业法人营业执照"></a>
+          <div class="tit">企业法人营业执照</div>
+        </div>
+        <div class="item">
+          <a class="img-item" href="../../statics/regbaidu/image/pic/big/gsrz/gsrz_2.jpg" title="组织机构代码证"><img src="../../statics/regbaidu/image/pic/small/gsrz/gsrz_2.jpg" alt="组织机构代码证"></a>
+          <div class="tit">组织机构代码证</div>
+        </div>
+        <div class="item">
+          <a class="img-item" href="../../statics/regbaidu/image/pic/big/gsrz/gsrz_3.jpg" title="税务登记证"><img src="../../statics/regbaidu/image/pic/small/gsrz/gsrz_3.jpg" alt="税务登记证"></a>
+          <div class="tit">税务登记证</div>
+        </div>
+        <div class="item">
+          <a class="img-item" href="../../statics/regbaidu/image/pic/big/gsrz/gsrz_4.jpg" title="前海股权交易中心挂牌企业"><img src="../../statics/regbaidu/image/pic/small/gsrz/gsrz_4.jpg" alt="前海股权交易中心挂牌企业"></a>
+          <div class="tit">前海股权交易中心挂牌企业</div>
+        </div>
+      </div>
+      <p>工商认证</p>
+      <div class="tips">见证诚信企业</div>
+    </div>
+    <div class="pic-item">
+      <div class="pic-box owl-carousel">
+        <div class="item">
+          <a class="img-item" href="../../statics/regbaidu/image/pic/big/hyrz/hyrz_1.jpg" title="华尊奖-中国网贷平台十大影响力品牌"><img src="../../statics/regbaidu/image/pic/small/hyrz/hyrz_1.jpg" alt="华尊奖-中国网贷平台十大影响力品牌"></a>
+          <div class="tit">华尊奖-中国网贷平台十大影响力品牌</div>
+        </div>
+        <div class="item">
+          <a class="img-item" href="../../statics/regbaidu/image/pic/big/hyrz/hyrz_2.jpg" title="广东互联网金融协会会员单位"><img src="../../statics/regbaidu/image/pic/small/hyrz/hyrz_2.jpg" alt="广东互联网金融协会会员单位"></a>
+          <div class="tit">广东互联网金融协会会员单位</div>
+        </div>
+        <div class="item">
+          <a class="img-item" href="../../statics/regbaidu/image/pic/big/hyrz/hyrz_3.jpg" title="可信网站认证"><img src="../../statics/regbaidu/image/pic/small/hyrz/hyrz_3.jpg" alt="可信网站认证"></a>
+          <div class="tit">可信网站认证</div>
+        </div>
+        <div class="item">
+          <a class="img-item" href="../../statics/regbaidu/image/pic/big/hyrz/hyrz_4.jpg" title="专家推荐诚信企业"><img src="../../statics/regbaidu/image/pic/small/hyrz/hyrz_4.jpg" alt="专家推荐诚信企业"></a>
+          <div class="tit">专家推荐诚信企业</div>
+        </div>
+      </div>
+      <p>行业认证</p>
+      <div class="tips" style="text-align:left;">中国网贷平台十大影响力品牌</div>
+    </div>
+    <div class="pic-item">
+      <div class="pic-box owl-carousel">
+        <div class="item">
+          <a class="img-item" href="../../statics/regbaidu/image/pic/big/mtcf/mtcf_1.JPG" title="前海股权交易中心挂牌仪式"><img src="../../statics/regbaidu/image/pic/small/mtcf/mtcf_1.jpg" alt="前海股权交易中心挂牌仪式"></a>
+          <div class="tit">前海股权交易中心挂牌仪式</div>
+        </div>
+        <div class="item">
+          <a class="img-item" href="../../statics/regbaidu/image/pic/big/mtcf/mtcf_2.JPG" title="诚汇通关爱基金新闻发布会"><img src="../../statics/regbaidu/image/pic/small/mtcf/mtcf_2.jpg" alt="诚汇通关爱基金新闻发布会"></a>
+          <div class="tit">诚汇通关爱基金新闻发布会</div>
+        </div>
+        <div class="item">
+          <a class="img-item" href="../../statics/regbaidu/image/pic/big/mtcf/mtcf_3.JPG" title="诚汇通董事长刘建在2015中国经济大趋势及投资机会大讲堂发表主题演讲"><img src="../../statics/regbaidu/image/pic/small/mtcf/mtcf_3.JPG" alt="诚汇通董事长刘建在2015中国经济大趋势及投资机会大讲堂发表主题演讲"></a>
+          <div class="tit">诚汇通董事长刘建在2015中国经济大趋势及投资机会大讲堂发表主题演讲</div>
+        </div>
+      </div>
+      <p>媒体采访</p>
+      <div class="tips">CEO刘建接受采访</div>
+    </div>
+    <div class="pic-item">
+      <div class="pic-box owl-carousel">
+        <div class="item">
+          <a class="img-item" href="../../statics/regbaidu/image/pic/big/zytd/zytd_1.jpg" title="2014年度首届互联网金融百杰创始人CEO"><img src="../../statics/regbaidu/image/pic/small/zytd/zytd_1.jpg" alt="2014年度首届互联网金融百杰创始人CEO"></a>
+          <div class="tit">2014年度首届互联网金融百杰创始人CEO</div>
+        </div>
+        <div class="item">
+          <a class="img-item" href="../../statics/regbaidu/image/pic/big/zytd/zytd_2.JPG" title="团队照片"><img src="../../statics/regbaidu/image/pic/small/zytd/zytd_2.JPG" alt="团队照片"></a>
+          <div class="tit">团队照片</div>
+        </div>
+        <div class="item">
+          <a class="img-item" href="../../statics/regbaidu/image/pic/big/zytd/zytd_3.JPG" title="全体员工集体合照 "><img src="../../statics/regbaidu/image/pic/small/zytd/zytd_3.JPG" alt="全体员工集体合照 "></a>
+          <div class="tit">全体员工集体合照 </div>
+        </div>
+      </div>
+      <p>专业团队</p>
+      <div class="tips" style="width:100%;">更专注、高效、严谨、务实</div>
+    </div>
+  </div>
+  
+  <div class="module module-three">
+    <div class="container">
+      <div class="title"><img src="../../statics/regbaidu/image/module_three_title.png" alt=""></div>
+      <div class="module-three-pic"><img src="../../statics/regbaidu/image/pic.png" alt=""></div>
+    </div>
+  </div>
+  
+  <div class="footer">
+    <div class="container">
+      <div class="pull-left">
+        <div class="links">
+          <a href="http://www.chenghuitong.net/article/company-index.html">关于我们</a>
+          <a href="http://www.chenghuitong.net/article/safety-index.html">安全保障</a>
+          <a href="http://www.chenghuitong.net/article/services-help-cateid-3.html">帮助中心</a>
+          <a href="http://www.chenghuitong.net/article/services-index.html">服务中心</a>
+          <a href="http://www.chenghuitong.net/article/default-index.html">新闻中心</a>
+          <a href="http://www.chenghuitong.net/article/company-contact.html">联系我们</a>
+        </div>
+        <div class="c666">深圳市诚汇通金融信息有限公司</div>
+        <div class="c666">深圳市福田区福华三路168号国际商会中心2408-2412室</div>
+        <div class="c666">Copyright© 2015 www.chenghuitong.net 粤ICP备13044593号</div>
+        <div class="renzheng">
+          <script id='ebsgovicon' src='https://cert.ebs.gov.cn/govicon.js?id=A71F6F48-ABB7-4F8A-92C4-D73F8FA0DE56&width=100&height=137&type=1' type='text/javascript' charset='utf-8'></script
+		  ><a href="http://www.miibeian.gov.cn/" target="_blank">
+            <img src="https://www.chenghuitong.net/statics/resource/images/bottom/bottom_23.jpg" alt="ICP备案查询" height="30">
+          </a>
+          <a href="https://search.szfw.org/cert/l/CX20140305003565003628" target="_blank">
+            <img src="https://www.chenghuitong.net/statics/resource/images/bottom/bottom_25.jpg" alt="诚信网站" height="30">
+          </a>
+          <a href="https://ss.knet.cn/verifyseal.dll?sn=e13101844030042941tvh5000000&amp;ct=df&amp;a=1&amp;pa=0.2732217316515744" target="_blank">
+            <img src="https://www.chenghuitong.net/statics/resource/images/bottom/cnnic.png" alt="可信网站" height="30">
+          </a>
+          <a href="https://trustsealinfo.websecurity.norton.com/splash?form_file=fdf/splash.fdf&amp;dn=www.chenghuitong.net&amp;lang=en" target="_blank">
+            <img src="https://www.chenghuitong.net/statics/resource/images/bottom/bottom_24.jpg" alt="NORTON" height="30">
+          </a>
+        </div>
+      </div>
+      <div class="pull-right">
+        <div class="telephone">400-018-0107</div>
+        <div class="time">（周一至周五 9:00-17:30）</div>
+        <div class="contact">
+          <a class="weibo" href="http://weibo.com/cht608710" target="_blank"></a>
+          <a class="tweibo" href="http://e.t.qq.com/cht608710" target="_blank"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="../../statics/regbaidu/js/jquery/1.11.2/jquery.min.js"></script>
+  <script src="../../statics/regbaidu/js/owl-carousel/owl.carousel.min.js"></script>
+  <script src="../../statics/regbaidu/js/picbox/2.2/js/picbox.js"></script>
+  <script src="../../statics/regbaidu/js/placeholder/2.0.8/jquery.placeholder.min.js"></script>
+  <script>
+    $(function() {
+	  $('input').placeholder();
+	  $(".img-item").picbox();
+	  $(".pic-box").owlCarousel({ 
+		navigation : true,
+		navigationText : ["", ""],   
+		slideSpeed: 300,
+		paginationSpeed: 400,
+		singleItem: true,
+		lazyLoad: true,
+		autoPlay: 5000,
+		stopOnHover: true
+	  });
+	  
+	});
+  </script>
+</body>
+</html>

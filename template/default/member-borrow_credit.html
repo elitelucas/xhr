@@ -1,0 +1,159 @@
+{template header}
+  <!-- Investor_center -->
+  <link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+  
+  <!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+      <li class="active">我的账户</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->
+  {template member-nav-left}
+
+    <!-- 右边正文 -->
+    <div class="investor-right pull-right border-radius">
+      <ul class="nav nav-tabs" role="tablist" id="myTab">
+        <li {if ROUTE_A=='index'}class="active"{/if}><a href="<?=url('member','borrow','index')?>" >正在招标的借款</a></li>
+        <li {if ROUTE_A=='repayno'}class="active"{/if}><a href="<?=url('member','borrow','repayno')?>">尚未发布的借款</a></li>
+        <li {if ROUTE_A=='repaywill'}class="active"{/if}><a href="<?=url('member','borrow','repaywill')?>">正在还款的借款</a></li>
+        <li {if ROUTE_A=='repayyes'}class="active"{/if}><a href="<?=url('member','borrow','repayyes')?>">已还完的借款</a></li>
+        <li {if ROUTE_A=='credit'}class="active"{/if}><a href="<?=url('member','borrow','credit')?>">额度申请</a></li>
+      </ul>
+
+      <div class="tab-content">
+        
+        <!-- 额度申请 -->
+        <div class="tab-pane active" id="investde5">
+          
+          <table class="table table-bordered margin-top25px table-hover">
+            <tr class="text-center">
+              <td>申请时间</td>
+              <td>申请金额(元)</td>
+              <td>通过金额(元)</td>
+              <td>状态</td>
+              <td>审核时间</td>
+              <td>备注说明</td>
+              <td>审核备注</td>
+            </tr>
+            {if isset($list) && !empty($list)}
+            {loop $list $vo}
+            <tr>
+                <td align='center'><?=date('Y-m-d',$vo['addtime'])?></td>  
+                <td align='right'>￥<?=empty($vo['money'])?'0.00':$vo['money']?></td> 
+                <td align='right'>￥<?=empty($vo['money_pass'])?'0.00':$vo['money_pass']?></td>
+                <td align='center'>
+                <?=$vo['status']==0?'审核中':''?>
+                <?=$vo['status']==1?'未通过':''?>
+                <?=$vo['status']==2?'已通过':''?>
+                </td> 
+                <td align='center'><?=empty($vo['verify_time'])?'-':date('Y-m-d',$vo['verify_time'])?></td>  
+                <td>
+                    <div style="width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" class="itooltip text-center" data-toggle="tooltip" data-trigger="hover" data-placement="top" title="<?=htmlspecialchars($vo['user_explain'])?>">
+                      <?=htmlspecialchars($vo['user_explain'])?>
+                    </div>
+                </td>  
+                <td class="text-center"><?=htmlspecialchars($vo['remark'])?></td> 
+            </tr>
+            {/loop}
+            {else}
+            <tr class="text-center font12px color999"><td colspan="7">暂无记录</td></tr>
+            {/if}
+          </table>
+            <div class="fanye">
+                <?php echo $page['html'];?>
+            </div>
+          
+          <form action="<?=url('','','credit')?>" method="post">
+            <div class="loaned-form">
+              <div class="pull-left">申请金额：</div>
+              <div class="pull-left margin-right20px"><input class="form-control loaned-form-input" type="text" name='money' id='money' value="{$data['money']}"></div>
+              <?php if(!empty($info_show['money']) || $is_wrong == 0){?>
+              <div class="pull-left"><span class="glyphicon glyphicon-info-sign"></span> 请输入￥100以上的金额</div>
+              <?php }?>
+            </div>
+            <div class="loaned-form">
+              <div class="pull-left">详细说明：</div>
+              <div class="pull-left margin-right20px"><textarea name="user_explain" id="user_explain" class="form-control loaned-form-textarea" rows="3">{$data['user_explain']}</textarea></div>
+              <?php if(!empty($info_show['user_explain']) || $is_wrong == 0){?>
+              <div class="pull-left"><span class="glyphicon glyphicon-info-sign"></span> 请输入1-255个字的说明</div>
+              <?php }?>
+            </div>
+            <div class="loaned-form">
+              <div class="pull-left margin-right30px"></div>
+              <div class="loaned-form-btn pull-left margin-right20px margin-left30px">
+<!--                  <a href="javascript:void(0);" class="btn btn-warning">确认提交</a>-->
+                  <input type="submit" value="确认提交" class="btn btn-warning" />
+              </div>
+              <div class="pull-left"></div>
+            </div>
+              <input type='hidden' name='save' value='save'>
+            <input type='hidden' name='formhash' value='<?=formhash()?>' >
+          </form>
+          
+        </div>
+        <!-- /额度申请 -->
+      </div>
+      
+      
+    </div>
+    <!-- /右边正文 -->
+  </div>
+
+<script type="text/javascript" src="../../statics/resource/js/jquery.validate.min.js"></script>
+<script type="text/javascript">
+$(function(){
+     $("#paypswd").validate({
+         errorPlacement:function(error,element) {
+               error.appendTo(element.parent().parent().children(".help-block"));
+          },
+          rules: {
+        	  money: {
+                    required: true, 
+            	   minlength: 3, 
+            	   maxlength: 100
+               }, 
+               user_explain: {
+            	    required: true, 
+            	   minlength: 1, 
+            	   maxlength: 255
+               }
+          }, 
+          messages: {
+        	  money: {
+                  required: "必须字段", 
+          	   minlength: "额度申请最小金额为100", 
+          	   maxlength: "超出允许的数字长度, 请复检您的输入"
+             }, 
+             user_explain: {
+          	    required: "必选字段, 请输入您的额度申请说明", 
+          	   minlength: "可允许输入最多255个字符", 
+          	   maxlength: "可允许输入最多255个字符"
+             }
+          }
+     });
+});
+jQuery.extend(jQuery.validator.messages, {
+    required: "必选字段",
+     remote: "字段非法或者已经存在",
+     email: "请输入正确格式的电子邮件",
+     url: "请输入合法的网址",
+     date: "请输入合法的日期",
+     dateISO: "请输入合法的日期 (ISO).",
+     number: "请输入合法的数字",
+     digits: "只能输入整数",
+     creditcard: "请输入合法的信用卡号",
+     equalTo: "请再次输入相同的值",
+     accept: "请输入拥有合法后缀名的字符串",
+     maxlength: jQuery.validator.format("请输入一个 长度最多是 {0} 的字符串"),
+     minlength: jQuery.validator.format("请输入一个 长度最少是 {0} 的字符串"),
+     rangelength: jQuery.validator.format("请输入 一个长度介于 {0} 和 {1} 之间的字符串"),
+     range: jQuery.validator.format("请输入一个介于 {0} 和 {1} 之间的值"),
+     max: jQuery.validator.format("请输入一个最大为{0} 的值"),
+     min: jQuery.validator.format("请输入一个最小为{0} 的值")
+});
+</script>
+{template footer}

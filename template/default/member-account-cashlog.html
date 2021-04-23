@@ -1,0 +1,84 @@
+{template header}
+  <!-- Investor_center -->
+  <link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+  
+  <!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+      <li class="active">我的账户</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->
+{template member-nav-left}
+    <!-- 右边正文 -->
+    <div class="investor-right pull-right border-radius">
+      <ul class="nav nav-tabs" role="tablist" id="myTab">
+        <li><a href="<?=url('member','account','cash')?>">申请提现</a></li>
+        <li><a href="<?=url('member','account','cash_bank')?>">提现银行账号</a></li>
+        <li class="{if ROUTE_A=='bankup'}active{/if}"><a href="<?=url('member','account','bankup')?>">修改提现银行</a></li>
+        <li class="active"><a href="<?=url('member','account','cash_log')?>">提现记录</a></li>
+      </ul>
+
+      <div class="tab-content">
+        <!-- 提现记录 -->
+        <div class="tab-pane active" id="messages">
+          <div class="withdraw-info bg-warning">
+            <div>
+              <span class="margin-right30px">提现成功总额 ￥{$ACCash['credited']}</span>
+              <span class="margin-left30px">提现手续费 ￥{$ACCash['fee']}</span>
+            </div>
+          </div>
+          <table class="table table-bordered table-hover">
+            <tr class="font12px text-center">
+              <td>提现银行</td>
+              <td>提现账号</td>
+              <td>提现总额</td>
+              <td>到账金额</td>
+              <td>手续费</td>
+              <td>提现时间</td>
+              <td>状态</td>
+              <td>操作/审核备注</td>
+            </tr>
+      {if isset($list) && !empty($list)}
+      {loop $list $vo}
+            <tr class="font12px text-center">
+              <td><?=empty($glossary[$vo['bank']]['name'])?'-':$glossary[$vo['bank']]['name']?></td>
+              <td><?=empty($vo['account'])?'-':f_bank($vo['account'])?></td>
+              <td class="text-right">￥<?=empty($vo['money'])?'0.00':$vo['money']?></td>
+              <td class="text-right">￥<?=empty($vo['credited'])?'0.00':$vo['credited']?></td>
+              <td class="text-right">￥<?=empty($vo['fee'])?'0.00':$vo['fee']?></td>
+              <td>
+                <span class="itooltip" data-toggle="tooltip" data-trigger="hover" data-placement="top" title="<?=date('Y-m-d H:i:s',$vo['addtime'])?>">
+                  <?=date('Y-m-d',$vo['addtime'])?> <span class="itool-tip">[...]</span>
+                </span>
+              </td>
+              <td><?=$vo['status']==0?'审核中':''?>
+		          <?=$vo['status']==1?'审核受理':''?>
+		          <?=$vo['status']==2?'审核不通过':''?>
+		          <?=$vo['status']==3?'已取消':''?>
+              </td>
+              <td></td>
+            </tr>
+      {/loop}
+      {else}
+      <tr>
+        <td colspan="8" height='40px' align='center'><p>暂无此记录!</td>
+      </tr>
+      {/if}
+          </table>
+        </div>
+      <div class="page-box">
+      <?php echo $page['html'];?>
+      </div>
+        <!-- /提现记录 -->
+      </div>
+      
+      
+    </div>
+    <!-- /右边正文 -->
+  </div>
+  
+{template footer}

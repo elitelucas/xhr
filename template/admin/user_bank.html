@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <title>网站信息</title>  
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>
+        <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+        <script src="statics/admin/js/pintuer.js"></script> 
+        {template public-new-ui-header}
+    </head>
+
+<body class="new_ui_body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+
+                <div class="ibox-title iboxWTitle">
+                    <h5>银行资料修改</h5>
+                    <div class="ibox-tools">
+                        <a href="javascript:;" class="btn btn-white btn-bitbucket" onclick="history.go(-1);">
+                            <i class="fa fa-reply"></i>返回
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content bagCol" style="width: 100%;">
+                    <form method="" class="form-x" action="" id='form'>
+
+                        <div class="ibox-title">
+                            <h5>修改信息</h5>
+                        </div>
+                        <div class="ibox-content m-b" style="width: 100%;">
+                            <input type="hidden" name="user_id"  value="{$list['user_id']}"/>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>户名</label>
+                                <div class="col-sm-10">
+
+                                    <div class="field">
+                                        <input type="text" class="input w50" name="name" value="{$list['new']['name']}" /> 
+                                        <div class="tipss"></div>
+                                        <!-- <span style="margin-left: 20px;">密码长度6-15位，支持数字、字母及下划线。</span> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>卡号</label>
+                                <div class="col-sm-10">
+
+                                    <div class="field">
+                                        <input type="text" class="input w50" name="account" value="{$list['new']['account']}" /> 
+                                        <div class="tipss"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>发卡银行</label>
+                                <div class="col-sm-10">
+                                    <div class="field">
+                                        <select name="bank" class="input w50" style="line-height:17px; display:inline-block">
+                                            <option value="">全部</option>
+                                            {loop $bank $v}
+                                            <option value="{$v['id']}" {if $list['new']['bank']==$v['id']} selected {/if}>{$v['name']}</option>
+                                            {/loop}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>支行信息</label>
+                                <div class="col-sm-10">
+
+                                    <div class="field">
+                                        <input type="text" class="input w50" name="branch" value="{$list['new']['branch']}" />
+                                        <div class="tips"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>手机号</label>
+                                <div class="col-sm-10">
+
+                                    <div class="field">
+                                        <input type="text" class="input w50" name="mobile" value="{$list['mobile']}" />         
+                                        <div class="tips"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>历史记录</label>
+                                <div class="col-sm-10">
+
+                                    <div class="field">
+                                        <div style="width:900px;height:200px;background-color: menu;padding: 10px 10px; overflow: scroll">
+                                            {loop $list['log'] $v}
+                                            <div style="line-height: 30px;">
+                                            户名：{$v['name']} &nbsp;&nbsp;
+                                            卡号：{$v['account']} &nbsp;&nbsp;
+                                            发卡行：{$v['bank']} &nbsp;&nbsp;
+                                            支行信息：{$v['branch']} &nbsp;&nbsp;
+                                            修改时间：{$v['addtime']} &nbsp;&nbsp;
+                                            操作人：{$v['last_mod_name']}
+                                            </div>
+                                            {/loop}
+                                        </div>
+                                        <div class="tips"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-10 col-sm-offset-2">
+                                    <button class="btn btn-primary" type="button" id="submit_btn">提交</button>
+                                    &nbsp;
+                                    <button class="btn btn-white" type="button" onclick="history.go(-1);" id="cancel_btn">取消</button>
+                                    &nbsp;
+                                    <button class="btn btn-primary" type="button" id="reset_btn">重置</button>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+        <script>
+            $(function () {
+                $('#submit_btn').bind('click', function () {
+                    var data = $('#form').serialize();
+                    $.ajax({
+                        type: 'POST',
+                        url: '?m=admin&c=user&a=user_bank_ok',
+                        data: data,
+                        dataType: 'json',
+                        success: function (ss) {
+                            if (ss.rt) {
+                                layer.msg('提交成功', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                    // location.href = "?m=admin&c=user&a=detail&id={$list['user_id']}";
+                                    history.go(-1);
+                                });
+                            } else {
+                                layer.msg('提交失败', {icon: 5, shade: [0.5, '#393D49']});
+                            }
+                        }
+                    });
+                });
+                $('#cancel_btn').bind('click', function () {
+                    history.back(-1);
+                });
+
+                $('#reset_btn').bind('click', function () {
+                    var data = $('#form').serialize();
+                    $.ajax({
+                        type: 'POST',
+                        url: '?m=admin&c=user&a=user_bank_reset',
+                        data: data,
+                        dataType: 'json',
+                        success: function (ss) {
+                            if (ss.rt) {
+                                layer.msg('重置成功', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                    history.go(-1);
+                                });
+                            } else {
+                                layer.msg('重置失败', {icon: 5, shade: [0.5, '#393D49']});
+                            }
+                        }
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>

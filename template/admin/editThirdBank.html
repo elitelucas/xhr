@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+    <script src="statics/admin/js/pintuer.js"></script>  
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>  
+    <script src="statics/admin/js/jquery.date_input.pack.js"></script> 
+    {template public-new-ui-header}
+    <style>
+        #page{height: 60px;margin-top: 20px;text-align: center;}
+        #page ul li{float: left;margin-right:10px;}
+        #page ul .current{ background-color:#0099ff;text-align:center;}
+    </style>
+</head>
+<body class="new_ui_body">
+    <div class="ibox float-e-margins">
+	    <div class="ibox-title iboxWTitle">
+	        <h5>修改银行简码信息</h5>
+	        <div class="ibox-tools">
+	            <a  class="btn btn-white btn-bitbucket" id="btn_back">
+	                <i class="fa fa-reply"></i> 返回
+	            </a>
+	        </div>
+	    </div>
+	    <div class="ibox-content bagCol">
+	        <div class="ibox-title ">
+	            <h5>{$data['name']}简码信息</h5>
+	        </div>
+         	<div class="ibox-content">
+            	<form id='form_bank' method="post" class="form-horizontal">
+            		<div class="form-group">
+	                    <label class="col-sm-2 control-label">银行名称</label>
+	                    <div class="col-sm-3">
+	                        <input type="text" class="form-control" value="{$data['name']}" name="name" readonly/>
+	                        <span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">银行标准简码</label>
+	                    <div class="col-sm-3">
+	                        <input type="text" class="form-control" value="{$data['bank_code']}" name="bank_code" readonly/>
+	                        <span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                {loop $data $ks $vs}
+			        	{if (!in_array($ks,['id','name','bank_code','bank_info','sort','status'])) }
+			        		<div class="hr-line-dashed"></div>
+				        	<div class="form-group">
+			                    <label class="col-sm-2 control-label">{$code_name[$ks]}</label>
+			                    <div class="col-sm-3">
+			                        <input type="text" class="form-control" value="{$vs}" name="{$ks}"/>
+			                        <span class="help-block m-b-none"></span>
+			                    </div>
+			                </div>
+			        	{/if}
+			        {/loop}    	
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">银行信息</label>
+	                    <div class="col-sm-3">
+	                        <input type="text" class="form-control" value="{$data['bank_info']}" name="bank_info"/>
+	                        <span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">排序</label>
+	                    <div class="col-sm-3">
+	                        <input type="text" class="form-control" value="{$data['sort']}" name="sort"/>
+	                        <span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">状态</label>
+	                    <div class="col-sm-3">
+	                        <input type="radio" name="status" value='0' <?php if($data['status'] == 0){echo "checked"; }   ?> />停用&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                			<input type="radio" name="status" value='1' <?php if($data['status'] == 1){echo "checked"; }   ?>/>启用
+	                        <span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+                </form>
+                <div class="form-group">
+	            	<div class="col-sm-4 col-sm-offset-2">
+	                	<button class="btn btn-primary" type="submit" id="btn_submit">提交</button>
+	                	<button class="btn btn-white" id="btn_cancel" type="submit">取消</button>
+	            	</div>
+       			</div>
+          </div>
+      </div>
+<script type="text/javascript">
+    var loading = "";//加载中......
+    $(function () {
+        $("#btn_submit").click(function () {
+            $.ajax({
+                url: "<?=url('admin','role','updateThirdBank')?>",
+                //data: {data},
+                data : $('#form_bank').serialize() + "&id={$data['id']}",    
+                dataType: 'json',
+                type: 'post',
+                beforeSend: function () {
+                    loading = layer.load(1);
+                },
+                error: function () {
+                    layer.close(loading);
+                    layer.msg('服务器错误！', {icon: 5, shade: [0.5, '#393D49']});
+                },
+                success: function (data) {
+                    layer.close(loading);
+                    if(data['code'] != 0)
+                    {
+                        layer.msg(data['msg'], {icon: 5, shade: [0.5, '#393D49']}, function () {
+                            return false;
+                        });
+                    }
+                    else
+                    {
+                        layer.msg(data['msg'], {icon: 6, shade: [0.5, '#393D49']}, function () {
+                            location.href = "<?=url('admin','role','editThirdBank',['id'=>$data['id']])?>";
+                        });
+                    }
+
+                }
+            });
+        });
+        
+        $("#btn_cancel").click(function () {
+            location.href = '?m=admin&c=role&a=thirdBankList';
+        });
+        $("#btn_back").click(function () {
+            location.href = '?m=admin&c=role&a=thirdBankList';
+        });
+    });
+</script>
+</body>
+</html>

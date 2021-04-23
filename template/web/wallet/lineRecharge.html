@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <title>钱包</title>
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+    <script src="/statics/web/extend/layer/mobile/layer.js"></script>
+</head>
+
+<body>
+    <header>
+        <em onclick="history.go(-1)">返回</em>
+        <h1>线下充值</h1>
+        <!---->
+    </header>
+    <section class="pb-0">
+        <div class="modify">
+            <div class="wallet1">
+                <div class="wallet1Tel" style="margin: auto;text-align: center;">
+                    <?php if(!empty($payInfo['code'])){   ?>
+                    <div style="display: inline-block;">
+                        <img src="{$payInfo['code']}" width="150" height="150" />
+                        <p>{$payInfo['name']}扫码支付</p>
+                    </div>
+                    <?php }else{  ?>
+                    <div style="display: inline-block;">
+                        <img src="{$payInfo['logo']}" />
+                        <p>{$payInfo['name']}支付</p>
+                    </div>
+                    <?php }?>
+                </div>
+                <div class="wallet1Tel1" style="clear: both;">
+                    {if $payInfo['name'] == '微信'}
+                    <p>微信账号：<span>{$payInfo['account']}</span><em class="icoCopy" data-clipboard-text="{$payInfo['account']}"></em></p>
+                    <p>账号名称：<span>{$payInfo['account_name']}</span><em class="icoCopy" data-clipboard-text="{$payInfo['account_name']}"></em></p>
+                    {elseif $payInfo['name'] == '支付宝'}
+                    <p>支付宝账号：<span>{$payInfo['account']}</span><em class="icoCopy" data-clipboard-text="{$payInfo['account']}"></em></p>
+                    <p>账号名称：<span>{$payInfo['account_name']}</span><em class="icoCopy" data-clipboard-text="{$payInfo['account_name']}"></em></p>
+                    {elseif $payInfo['name'] == 'QQ钱包'}
+                    <p>QQ账号：<span>{$payInfo['account']}</span><em class="icoCopy" data-clipboard-text="{$payInfo['account']}"></em></p>
+                    <p>账号名称：<span>{$payInfo['account_name']}</span><em class="icoCopy" data-clipboard-text="{$payInfo['account_name']}"></em></p>
+                    {elseif $payInfo['name'] == '云闪付'}
+                    <p>云闪付账号：<span>{$payInfo['account']}</span><em class="icoCopy" data-clipboard-text="{$payInfo['account']}"></em></p>
+                    <p>账号名称：<span>{$payInfo['account_name']}</span><em class="icoCopy" data-clipboard-text="{$payInfo['account_name']}"></em></p>
+                    {else}
+                    <p>开户行：<span>{$payInfo['branch']}</span><em class="icoCopy" data-clipboard-text="{$payInfo['branch']}"></em></p>
+                    <p>银行卡号：<span>{$payInfo['account']}</span><em class="icoCopy" data-clipboard-text="{$payInfo['account']}"></em></p>
+                    <p>账号名称：<span>{$payInfo['account_name']}</span><em class="icoCopy" data-clipboard-text="{$payInfo['account_name']}"></em></p>
+                    {/if}
+                </div>
+            </div>
+            <ul class="lineRecharge-input">
+                <li class="bt-d7">
+                    <label class="icoMoney" for="money">充值金额：
+                        <input type="number" id="money" autocomplete="off">
+                    </label>
+                    <p style="position: absolute;top: 30px;right: 53px; color: #ccc">(人民币)</p>
+                    <p class="remarks"><span style="color: red;">*</span>充值限额：{if ($payInfo['max_recharge'] == -1)} 该方式额度已达充值限额 {else} {$payInfo['min_recharge']} ~ {$payInfo['max_recharge']} {/if}
+                        <br>，建议通过银行卡转账入款</p>
+                </li>
+                <li>
+                    <label class="icoCode">附加码： <span class="Attached">{$code}</span>
+                        <em class="icoCopy code" data-clipboard-text="{$code}"></em></label>
+                    <input name="payment_id" type="hidden" value="{$payInfo['id']}" />
+                    <input name="bank_link" type="hidden" value="{$payInfo['bank_link']}" />
+                </li>
+                <!--<li>
+                <span id="rechargeEx" style="margin-left: 25px;font-size: 30px;color: red;border-bottom: 1px solid red">*线下转账说明及注意事项</span>
+            </li>-->
+            </ul>
+            <div class="popup line-recharge" style="display: none">
+                <div class="config">
+                    <i class="configClose"></i>
+                    <p>1.选择您可进行转账的方式</p>
+                    <p>2.通过相应的转账软件，转入我们提供的平台账户</p>
+                    <p>3.转账金额需要和填写金额保持一致。</p>
+                    <p>4.在转账时，把附加码填写到备注或附言。</p>
+                </div>
+            </div>
+            <div class="button m-top60" style="margin-top: 30px !important;">
+                <button class="red-btn bgCol">我已完成支付</button>
+            </div>
+            <?php if(!empty($payInfo['code'])){   ?>
+            <div class="warmth-tips">
+                <p>温馨提示</p>
+                <p>1.点击保存二维码至相册</p>
+                <p>2.打开{$payInfo['name']}扫一扫，点击右上角相册，从相册中选择保存的二维码</p>
+                <p>3.输了正确金额，完成支付后联系在线客服上分</p>
+            </div>
+            <?php  } ?>
+        </div>
+    </section>
+    <script src="/statics/web/js/clipboard.min.js"></script>
+    <script type='text/javascript'>
+        var clipboard = new Clipboard('.icoCopy');
+        clipboard.on('success', function(e) {
+            console.info('Action:', e.action);
+            console.info('Text:', e.text);
+            console.info('Trigger:', e.trigger);
+            layer.open({
+                content: "复制成功",
+                skin: 'msg',
+                time: 2 //2秒后自动关闭
+            });
+            e.clearSelection();
+        });
+
+    $(function() {
+        var min_recharge = "{$payInfo['min_recharge']}";
+        var max_recharge = "{$payInfo['max_recharge']}";
+
+        //充值说明
+        $("#rechargeEx").click(function() {
+            $(".popup").css("display", "block");
+        });
+
+
+        //提交
+        $(".bgCol").click(function() {
+            var money = $("#money").val();
+            var extra_code = $(".icoCode span").html();
+            var id = $("input[name=payment_id]").val();
+            var bank_link = $("input[name=bank_link]").val();
+
+            //判断是否选择支付方式
+            if (id === "0") {
+                layer.open({
+                    content: "<p class='alert_msg'>请选择支付方式</p>",
+                    btn: '我知道了'
+                })
+                return;
+            }
+            if (max_recharge == -1) {
+                layer.open({
+                    content: "<p class='alert_msg'>该方式额度已达充值限额 ,请返回选择其他充值方式！</p>",
+                    btn: '我知道了'
+                })
+                return;
+            }
+
+            if (Number(money) <= 0 || Number(money) == '' || Number(money) == 'Nan') {
+                //判断金额是否小于最大充值额度
+                layer.open({
+                    content: "<p class='alert_msg'>请输入有效金额</p>",
+                    btn: '我知道了'
+                })
+                return;
+            }
+
+            if (Number(max_recharge) > 0) {
+                //判断金额是否小于最大充值额度
+                if (Number(money) > Number(max_recharge)) {
+                    layer.open({
+                        content: "<p class='alert_msg'>输入的金额大于最大充值额度：" + max_recharge + "</p>",
+                        btn: '我知道了'
+                    })
+                    return;
+                }
+            }
+            if (Number(min_recharge) > 0) {
+                //判断金额是否大于最小充值额度
+                if (Number(money) < Number(min_recharge)) {
+                    layer.open({
+                        content: "<p class='alert_msg'>输入的金额小于最低充值额度：" + min_recharge + "</p>",
+                        btn: '我知道了'
+                    })
+                    return;
+                }
+                //判断金额是否小于最大充值额度
+            }
+
+            //将按钮置为不可提交
+            $(".bgCol").attr("disabled", "true");
+
+            $.ajax({
+                url: "<?=url('','','rechargeOffline')?>",
+                type: "post",
+                data: { "id": id, "money": money, "extra_code": extra_code },
+                dataType: "json",
+                success: function(data) {
+                    if (data.status == 0) { //成功
+                        window.location.href = "<?=url('','','rechargeOk')?>&type=2&order_sn=" + data.order_sn + "&extra_code=" + extra_code + "&bank_link=" + bank_link;
+                    } else {
+                        $(".bgCol").removeAttr("disabled");
+                        layer.open({
+                            content: "<p class='alert_msg'>" + data.ret_msg + "</p>",
+                            btn: '我知道了'
+                        });
+                    }
+
+                },
+                error: function(error) {
+                    $(".bgCol").removeAttr("disabled");
+                    layer.open({
+                        content: "<p class='alert_msg'>当前网络异常,请尝试刷新!</p>",
+                        btn: '刷新'
+                        ,yes: function(){
+                            location.reload();
+                        }
+                    });
+                }
+            });
+        });
+    });
+    </script>
+</body>
+
+</html>

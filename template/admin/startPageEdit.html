@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title><?php echo C("app_webname"); ?> 管理平台</title>
+    <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <!--  <link rel="stylesheet" href="statics/admin/css/pintuer.css"> -->
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+    <script src="statics/admin/js/pintuer.js"></script>
+    <script src="statics/admin/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- template-begin+++ -->
+    {template public-new-ui-header}
+    <!-- template-end+++ -->
+    <script src="statics/admin/js/jquery.date_input.pack.js"></script>
+    <link rel="stylesheet" href="statics/admin/jedate/skin/jedate.css">
+    <script type="text/javascript" src="statics/admin/jedate/jquery.jedate.min.js"></script>
+
+    <!-- 图片上传 引入插件 -->
+    <script src="statics/admin/fileupload/js/vendor/jquery.ui.widget.js"></script>
+    <script src="statics/admin/fileupload/js/jquery.fileupload.js"></script>
+</head>
+<body style="margin: 15px;background-color: #f3f3f4;">
+<div class="ibox float-e-margins">
+    <div class="ibox-title iboxWTitle">
+        <h5>{$_REQUEST['title']}</h5>
+        <div class="ibox-tools">
+            <a href="javascript:void(0)" class="btn btn-white btn-bitbucket" onclick="javascript:history.go(-1);">
+                <i class="fa fa-reply"></i> 返回
+            </a>
+        </div>
+    </div>
+    <div class="ibox-content bagCol">
+        <div class="ibox-title">
+            <h5>启动页详情</h5>
+        </div>
+        <div class="ibox-content">
+            <form method="get" class="form-horizontal" id="form">
+                {if $list['type'] == 3}
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">请上传图片</label>
+                    <div class="col-sm-4">
+                        <input type="hidden" value="{$list['id']}" name="id" />
+                        <input type="hidden" value="{$list['type']}" name="type" />
+                        <input type="hidden" value="{$list['state']}" name="state" />
+                        <input type="file" class="upload" onchange="upload_pic()" />
+                        <p style="color: gray; padding-top: 10px;" >建议图片大小为1242*1774px</p>
+                        <input type="hidden" name="img_path" value="{$list['img_path']}" />
+                        <img src="{$list['img_path']}" {if $list['img_path'] == ""} style="display: none" {/if} id="path" width="310" />
+                    </div>
+                </div>
+
+                {else}
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">请选择图片类型</label>
+                    <div class="col-sm-4">
+                        <select class="form-control m-b" name="type">
+                            <option value="1" {if $list['type'] == 1} selected="selected" {/if}>广告启动页</option>
+                            <option value="2" {if $list['type'] == 2} selected="selected" {/if}>宣传启动页</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">请上传图片</label>
+                    <div class="col-sm-4">
+                        <input type="file" class="upload" onchange="upload_pic()" />
+                        <p style="color: gray; padding-top: 10px;" >建议上传宽度为620px，高度为320px的图片</p>
+                        <input type="hidden" name="img_path" value="{$list['img_path']}" />
+                        <img src="{$list['img_path']}" {if $list['img_path'] == ""} style="display: none" {/if} id="path" width="310" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">图片有效时间</label>
+                    <div class="col-sm-7">
+                        <div class="input-group">
+                            <input style="width: 43%" type="text" name="start_time" id="start_time" class="date_picker form-control" value="{$list['start_time']}" />
+                            <span style="float: left;line-height: 34px;padding: 0 20px 0 20px;">至</span>
+                            <input style="width: 43%" type="text" name="end_time" id="end_time" class="date_picker form-control" value="{$list['end_time']}" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">链接地址</label>
+                    <div class="col-sm-4">
+                        <input type="hidden" value="{$list['id']}" name="id" />
+                        <input type="text" class="form-control" name="url" value="{$list['url']}" />
+                        <p style="color: gray; padding-top: 10px;" >跳转地址为外部链接请按照以下格式配置:http://www.xxx.com;</p>
+                    </div>
+                </div>
+
+
+
+                {/if}
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">是否上架</label>
+                    <div class="col-sm-4">
+                        <select class="form-control m-b" name="state">
+                            <option value="1" {if $list['state'] == 1} selected="selected" {/if}>上架</option>
+                            <option value="2" {if $list['state'] == 2} selected="selected" {/if}>下架</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label"></label>
+                    <div class="col-sm-2 col-sm-offset-1">
+                        <button class="btn btn-primary" type="button" id="btn_submit">保存内容</button>
+                        <button class="btn btn-white" type="button" style="border: 1px solid #e7eaec" onclick="javascript:history.go(-1);">取消</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var loading = "";//加载中......
+    $("select[name='type']").change(function(){
+        if($(this).val() == 2){
+            $("input[name='url']").attr("disabled",true);
+        } else {
+            $("input[name='url']").attr("disabled",false);
+        }
+    });
+    $(function(){
+        $("select[name='type']").change();
+    });
+    function upload_pic(){
+        var formData = new FormData();
+        formData.append("file",$(".upload")[0].files[0]);
+        $.ajax({
+            url : "?m=admin&c=role&a=uploadFile",
+            type : 'POST',
+            data : formData,
+            processData : false,
+            contentType : false,
+            beforeSend: function () {
+                loading = layer.load(1);
+            },
+            success : function(responseStr) {
+                var data = JSON.parse(responseStr);
+                if(data.code == 0) {
+                    $("#path").attr("src",data.msg);
+                    $("#path").css("display","block");
+                    $("input[name='img_path']").val(data.msg);
+                } else {
+                    layer.msg(data.msg,{icon:5, shade: [0.5, '#393D49']}); //弹出错误信息
+                }
+            },
+            error : function(responseStr) {
+                layer.msg(responseStr.responseText,{icon:5, shade: [0.5, '#393D49']}); //弹出错误信息
+            },
+            complete:function(){
+                layer.close(loading);
+            }
+        });
+    };
+
+
+    $(function () {
+        $("[name='start_time']").jeDate({
+            isinitVal:true,
+            festival:true,
+            ishmsVal:true,
+            minDate: $.nowDate(0),
+            format:"YYYY-MM-DD hh:mm:ss",
+            zIndex:3000,
+        });
+        $("input[name='end_time']").jeDate({
+            isinitVal:true,
+            festival:true,
+            ishmsVal:true,
+            minDate: $.nowDate(0),
+            initAddVal:[7],
+            format:"YYYY-MM-DD hh:mm:ss",
+            zIndex:3000,
+        });
+
+
+        $("#btn_submit").click(function () {
+            var data = $("#form").serialize()
+            $.ajax({
+                url: '?m=admin&c=role&a=startPageAct',
+                data: data ,
+                dataType: 'json',
+                type: 'post',
+                beforeSend: function () {
+                    loading = layer.load(1);
+                },
+                error: function () {
+                    layer.close(loading);
+                    layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                },
+                success: function (result) {
+                    layer.close(loading);
+
+                    if (result.code == 0) {
+                        layer.msg(result.msg, {icon: 6, shade: [0.5, '#393D49']}, function () {
+                            location.href = '?m=admin&c=role&a=startPageList';
+                        });
+                    } else {
+                        layer.alert(result.msg, {icon: 5, shade: [0.5, '#393D49']});
+                    }
+                }
+            });
+        });
+    });
+
+</script>
+</body>
+</html>

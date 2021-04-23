@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="renderer" content="webkit">
+    <title>网站信息</title>  
+    <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+	<link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+	<link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+	<script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+	<script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+    <script src="statics/admin/js/pintuer.js"></script> 
+</head>
+<body>
+<div class="panel admin-panel">
+  <div class="panel-head"><strong class="icon-reorder">单点数字投注显示设置</strong></div>
+</div>
+<script>
+
+</script>
+<div class="panel admin-panel margin-top list">
+  <div class="body-content">
+    <form method="" class="form-x" action="" id='form'>   
+      <input type="hidden" name="id"  value=""/>
+      <div class="form-group">
+        <div class="label">
+          <label>显示格式:  </label>
+        </div>
+        <div class="field">
+          <select name="val" class="input"  style="width:300px; line-height:17px; display:inline-block">
+		  <?php foreach($value as $k=>$v){?>
+            <option value="<?php echo $v;?>" <?php if($v==$val){ echo "selected";}?>><?php echo $k;?></option>
+		 <?php }?>
+          </select>
+          <div class="tipss"></div>		  
+        </div>
+      </div> 
+     
+     <div class="form-group">
+        <div class="label">
+          <label></label>
+        </div>
+        <div class="field">
+          <button class="button bg-main icon-check-square-o" type="button" id='btn'> 确定</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+<script>
+  
+    
+	$('#btn').bind('click',function(){
+		var data = $('#form').serialize();
+		$.ajax({
+			type: 'GET',
+			url: '?m=admin&c=role&a=tz_set_ok',
+			data:data,
+			dataType:'json',
+			success: function(ss){
+		       if(ss.state){
+				layer.msg('设置成功',{icon:6, shade: [0.5, '#393D49']});
+				//location.href="?m=admin&c=role&a=tz_set";
+				
+			   }else{
+			      
+				layer.msg('设置失败',{icon:5, shade: [0.5, '#393D49']});
+			   }
+		    }
+		});
+	
+	})
+
+</script>
+</html>

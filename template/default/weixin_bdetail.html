@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- Meta, title, CSS, favglyphicons, etc. -->
+	<meta charset="utf-8">
+	<title>诚汇通</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+	<meta name="description" content="">
+
+	<!-- Bootstrap -->
+	<link href="../../statics/weixin/assets/css/bootstrap.css" rel="stylesheet" media="screen">
+	<link href="../../statics/weixin/css/cht.css" rel="stylesheet" media="screen">
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="../../statics/weixin/assets/js/html5shiv.js"></script>
+	<script src="../../statics/weixin/assets/js/respond/respond.min.js"></script>
+	<![endif]-->
+
+</head>
+<body>
+	
+	<div class="navbar navbar-inverse dh_sy">
+		<div class="container toubu">
+			
+			<ul class="nav top_cent">
+				<li>
+					借款详情
+				</li>
+			</ul>
+<!--			<a class="navbar-brand" href="#">
+				<img src="../../statics/weixin/images/fanhui.png">
+			</a>
+			<a class="nav-home" href="#">
+				<img src="../../statics/weixin/images/shouye.png">
+			</a>-->
+			<!--/.nav-collapse -->
+		</div>
+	</div>
+
+	<!-- Carousel
+	================================================== -->
+<!-- /container -->
+	<div class="container">
+		<div class="row">
+			<div class="jk_xq">
+				<div class="jk_name">
+					<p class="tit">
+                                            {if !empty($info['zhuanrangren'])}托 <span style='color:red;'>{$info['title']}</span>{else}{$info['title']}{/if}
+                                            <i>CHT<?=str_pad($info['id'],6,'0',STR_PAD_LEFT)?></i></p>
+				</div>
+				<div class="jk_jine">
+					<div class="col-9">
+						<p><span>借款金额</span>￥<?=number_format($info['account'],2)?>元</p>
+						<p><span>可投金额</span><i>￥<?=number_format(bcsub($info['account'],$info['account_tender'],2),2)?></i></p>
+						<p><span>投标限额</span>￥{$info['lowest_account']} - 不限{if $info['most_account']>0}{$info['most_account']}{/if}</p>
+					</div>
+					<div class="col-3 pd0">
+						<div class="jindu">
+							<div class="progress progress-striped">
+								<div style="width: <?=round(($info['account_tender']/$info['account'])*100,2)?>%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="80" role="progressbar" class="progress-bar progress-bar-danger">
+									<span class="sr-only"><?=round(($info['account_tender']/$info['account'])*100,2)?>%</span>
+								</div>
+							</div>
+							<div class="hkz">{if $info['status']==2}<a href="javascript:void(0)" id="tender">投标中</a>{elseif $info['status']==3}<a href="javascript:void(0)">等待复审</a>{/if}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="jk_xq">
+				<div class="jk_jine">
+					<div class="col-12">
+						<p><span>借款年利率</span><i><?=$info['apr']*100?>%</i></p>
+						<p><span>投资奖励</span><i>{if $info['award']==1}{$info['bonus']}元{elseif $info['award']==2}{$info['bonus']}%{else}无{/if}</i></p>
+						<p><span>借款期限</span>{$info['time_limit']}{if $info['is_datetype']==0}个月{else} 天{/if}</p>
+						<p><span>还款方式</span>{if !empty($info['style'])}{$hkfx[$info['style']]['name']}{else}{$hkfx[$info['style']]['name']}{/if}</p>
+					</div>
+				</div>
+			</div>
+			<div class="jk_xq">
+				<div class="jk_jine">
+					<div class="col-12">
+						<p><span>发标时间</span><?=date("Y-m-d H:i:s",$info['verify_time'])?></p>
+						<p><span>截至时间</span><?=date("Y-m-d H:i:s",strtotime($info['time_limit']." months",$info['addtime']))?></p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row mt10">
+			<p class="tcdl"><button onClick="window.location='<?=url('weixin','default','tender',array('id'=>$info['id']))?>';" type="button" class="btn btn-primary btn-lg yanse_1">投标</button></p>
+		</div>
+</div>
+	
+
+<!-- JavaScript plugins (requires jQuery) -->
+<script src="../../statics/weixin/assets/js/jquery.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="../../statics/weixin/assets/js/bootstrap.min.js"></script>
+
+<script src="../../statics/weixin/assets/js/holder/holder.js"></script>
+
+<script type="text/javascript"></script>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>充值</title>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,minimal-ui">
+
+		<meta name="location" content="province=广东;city=深圳市;coord=114.063497,22.538715">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta content="telephone=no,email=no" name="format-detection">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="author" content="ifengjin@ifengjin.cn">
+
+		<link rel="stylesheet" href="../../statics/weixin/css/llpay.css">
+		<script src="../../statics/weixin/assets/js/jquery.js"></script>
+		<script type="text/javascript">
+			$(function () {
+				$('#myform').submit(function () {
+					var money = $('#money').val();
+					if (!/^\d+\.?\d*$/.test(money)) {
+						$('#error_tips').show().text('请输正确的入充值金额！');
+						$('#money').focus();
+						return false;
+					}
+					money = parseFloat(money);
+					if (money < 100 || money > 10000000) {
+						$('#error_tips').show().text('充值金额范围：100-10000000');
+						$('#money').focus();
+						return false;
+					}
+					return true;
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<div class="container divider_">
+			<ul class="banks-list banks-list2 divider">
+				<li class="container">
+					<div><img src="../../statics/weixin/images/bank/bank_card.png"></div>
+					<div>
+						<h3>{$userBank['bankname']}</h3>
+						<p><?=f_bank($userBank['account'])?></p>
+					</div>
+					<div><?=f_realname($userInfo['realname'])?></div>
+				</li>
+			</ul>
+			<form id="myform" action="<?=url('weixin','default','llpay')?>" method="post">
+				<input name="money" id="money" type="text" placeholder="请输入充值金额，100元起充">
+				<input type="hidden" name="no_agree" value="{$noAgree}">
+				<input type="hidden" name="save" value="save">
+				<input type="hidden" name="formhash" value="<?=formhash()?>">
+				<div class="e-divider error" id="error_tips" style="display:none"></div>
+				<button type="submit">立即提交</button>
+			</form>
+		</div>
+
+		<div class="container divider">
+			<h2>温馨提示：</h2>
+			<ol>
+				<li>1. 为保障资金安全，平台第三方支付合作方连连支付采取同卡进出原则，<b class="red">您的微信端充值卡必须与提现银行卡一致</b>；</li>
+				<li>2. <b class="red">根据同卡进出原则：通过微信成功充值后，您的提现银行卡将不允许被修改</b>；</li>
+				<li>3. 如果您还未绑定提现银行卡，您在微信首次充值的银行卡将默认绑定为您的<b class="red">提现银行卡</b>；</li>
+				<li>4. 此为<b class="red">非托管通道</b>充值，汇付托管通道请登录PC端；</li>
+				<li>5. 请注意您的银行卡充值额度限制，以免造成不便；</li>
+				<li>6. 如有疑问，请拨打客服热线400-018-0107</li>
+			</ol>
+		</div>
+	</body>
+</html>

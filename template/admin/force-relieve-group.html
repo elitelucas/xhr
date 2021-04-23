@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+        <script src="statics/admin/js/pintuer.js"></script>  
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>  
+        <script src="statics/admin/js/jquery.date_input.pack.js"></script> 
+        <style>
+            #page{height: 60px;margin-top: 20px;text-align: center;}
+            #page ul li{float: left;margin-right:10px;}
+            #page ul .current{ background-color:#0099ff;text-align:center;}
+        </style>
+    </head>
+    <body>
+        <div class="panel admin-panel">
+            <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>强制解除卡组绑定</strong></div>
+            <div class="body-content">
+                <form method="post" class="form-x" action="" id='form'>  
+                    <div class="form-group">
+                        <div class="label">
+                            <label>请输入解绑卡组编号：</label>
+                        </div>
+                        <div class="field">
+                            <input type="text" class="input w50" value="" name="group_id" id="group_id" data-validate="required:卡组编号" />
+                            <div class="tips">（卡组编号可从“充值卡设置”列表里面"编号"列获取）</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="label">
+                            <label></label>
+                        </div>
+                        <div class="field">
+                            <button class="button bg-main icon-check-square-o" type="button" id="btn_submit"> 提交</button>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <button class="button bg-main icon-check-square-o" type="button" id="btn_cancel"> 返回</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script type="text/javascript">
+            var loading = "";//加载中......
+
+            $(function () {
+                $("#btn_submit").click(function () {
+                	layer.confirm('确认需要强制解绑该银行卡', {
+                        btn: ['确定','取消'] //按钮
+                    }, function(){
+                    	var group_id = $("#group_id").val();
+                    	
+                    	if ($group_id == '') {
+                    		layer.close(loading);
+                    		layer.msg('卡组编号不能为空', {icon: 5, shade: [0.5, '#393D49']});
+                    		return false;
+                    	}
+	                    $.ajax({
+	                        url: '?m=admin&c=finance&a=setForceRelieveGroup()',
+	                        data: {
+	                        	group_id: group_id,
+	                        	},
+	                        dataType: 'json',
+	                        type: 'post',
+	                        beforeSend: function () {
+	                            loading = layer.load(1);
+	                        },
+	                        error: function () {
+	                            layer.close(loading);
+	                            layer.msg('网络异常！！！', {icon: 5, shade: [0.5, '#393D49']});
+	                        },
+	                        success: function (result) {
+	                            layer.close(loading);
+	                            if (result.rt > 0) {
+	                                layer.msg('强制解绑成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function() {
+	                                    location.href = "?m=admin&c=finance&a=listPayGroup&purpose=0";
+	                                });
+	                            }else{
+	                                layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']});
+	                            }
+	                        }
+	                    });
+                    });
+                });
+            });
+
+        </script>
+    </body>
+</html>

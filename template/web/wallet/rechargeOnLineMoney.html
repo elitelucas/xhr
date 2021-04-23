@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>钱包</title>
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+    <script src="/statics/web/extend/layer/mobile/layer.js"></script>
+</head>
+<body>
+<header>
+    <em onclick="history.go(-1)">返回</em>
+    <h1>{$payTypeName}线上充值</h1>
+</header>
+<section class="pb-0" style="padding: 0;margin-top: 86px;">
+    <div class="modify ">
+
+        <div class="wallet">
+            <div class="onLineGirl"><i><img src="{$avatar}" /></i> </div>
+            <div class="onLineGirl4"><em>会员账号：{$nickname}</em></div>
+        </div>
+        <div>
+	        <ul class="lineRecharge-input">
+	            <li style="border-bottom:none">
+	
+	                <label class="icoMoney" for="money">充值金额：<input type="number" id="money">
+	
+	                </label>
+	                <p style="position: absolute;top: 35px;right: 53px; color: #ccc">(人民币)</p>
+	<!--                <p class="remarks"><span class="red">*</span>范围：100-500000<br>
+	                    建议通过银行卡转账入款</p>-->
+	
+	            </li>
+	            <li style="border-bottom:none">
+		           <div class="amount-tab" id="amount-tab">
+					    {loop $cashing $v}
+					    <div><span>{$v}</span></div>
+					    {/loop}
+				    </div>
+	            </li>
+	            <?php if(!empty($bank_info)) { ?>
+	            <li>
+	
+	                <label class="icoMoney" for="bank_code">选择充值银行：<select name="bank_code" id="bank_code" style="opacity: 1; width: 300px; position: initial;font-size: 24px;">
+	                <option style="font-size: 18px;" selected="selected" value=''>请选择银行</option>
+	                {loop $bank_info $v}
+	                <option style="font-size: 18px;" value="{$v['bank_code']}">{$v['name']}</option>
+	                {/loop}
+	                </select></label>
+	                
+	            </li>
+            	<?php } ?>
+	        </ul>
+        </div>
+        <div class="weixintishi">
+        	<p>【温馨提示】</p>
+           	{if (!empty($prompt))}
+            	{loop $prompt $v}
+            		<p>{$v}</p>
+            	{/loop}
+             	{else}
+               	  <p>1.填入正确的金额，然后点击“立即充值”按钮</p>
+                  <p>2.系统会返回支付二维码或跳转第三方支付平台进行充值。</p>
+                  <p>3.充值完成之后，等待账户到账。</p>
+                  <p>4.如充值未及时到账，请联系在线客服。</p>
+            {/if}
+        </div>
+        <div class="button" style="margin-top: 50px"><button class="red-btn bgCol" id="xsBtn">立即支付</button></div>
+    </div>
+<div id="jumpHtml">
+</div>
+</section>
+    <script type="text/javascript">
+        var url = "<?=url('','','recharge')?>";
+        var lower_limit = "{$Config['value']}";
+        var payment_id = "{$payment_id}";
+        var channel_type = "{$channel_type}";
+        var type_mode = "{$configArr['type']}";
+        //var host = window.location.host;
+        var nid = "{$paymentInfoArr['nid']}";
+        {if empty($bank_info)}
+        var bank_status = 0;
+        {else}
+        var bank_status = 1;
+        {/if}
+
+        //判断客户端
+        if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+            //alert(navigator.userAgent);
+//            window.location.href ="iPhone.html";
+            url = url + "&method=mobile"
+        } else if (/(Android)/i.test(navigator.userAgent)) {
+            //alert(navigator.userAgent);
+//            window.location.href ="Android.html";
+            url = url + "&method=mobile"
+        } else {
+//            window.location.href ="pc.html";
+            url = url + "&method=pc"
+        };
+
+        $(function() {
+        	$('#amount-tab').children("div").click(function(){
+        		var money = $(this).children('span').text();
+        		
+        		$('#money').attr('value', money);
+        		$(this).attr('class', 'active');
+        		$(this).siblings().removeClass('active');
+        	});
+        	
+            $("#xsBtn").click(function() {
+                var money = $("#money").val();
+                var bank_code = '';
+                
+                //金额判断
+                if (money == '') {
+                    layer.open({
+                        content: "<p class='alert_msg'>请输入充值金额</p>",
+                        btn: '我知道了'
+                    });
+                    return;
+                }
+                
+                if (bank_status == 1) {
+                    bank_code = $("#bank_code").val();
+                    if (bank_code == '') {
+                        layer.open({
+                            content: "<p class='alert_msg'>请选择充值银行</p>",
+                            btn: '我知道了'
+                        });
+                        return;
+                    }
+                }
+              	
+
+                //判断金额是否正确
+                if (parseInt(money) < parseInt(lower_limit)) {
+                    layer.open({
+                        content: "<p class='alert_msg'>输入的金额不能小于"+lower_limit+"元</p>",
+                        btn: '我知道了'
+                    })
+                    return;
+                }
+
+               $.ajax({
+                   url: url,
+                   type: 'post',
+                   data: {payment_id: payment_id, money: money,channel_type: channel_type, bank_code: bank_code},
+                   typeData: 'json',
+                   beforeSend:function(){
+                       $("#xsBtn").text("加载中...");
+                       $("#xsBtn").attr("disabled",true);
+                   },
+                   success: function(data) {
+                       data = $.parseJSON(data);
+                       console.log(data);
+                       if (data.status == 0) { //成功
+                    	   if (data.type == 1) {
+                           		window.location.href = "<?=url('','','rechargeQrcode')?>&money=" + money + '&order_no=' + data.order_no + '&payment_id=' + payment_id;
+                       
+                    	   }else if (data.type == 2) {
+
+                               if (data.html.indexOf('renxin') != -1) {
+                                   window.location.href = data.html;
+                               } else {
+                                   document.write(data.html);
+                                   $('#payFrom').submit();
+                               }
+                    	   }
+                   	   } else {
+                          $(".bgCol").removeAttr("disabled");
+                          if (data.ret_msg) {
+                        	  layer.open({
+                                  content: "<p class='alert_msg'>"+ data.ret_msg +"</p>",
+                                  btn: '我知道了'
+                              });
+                          }else {
+                              layer.open({
+                                  content: "<p class='alert_msg'>获取支付信息失败</p>",
+                                  btn: '我知道了'
+                              });
+                          }
+                       }
+                   },
+                   error: function(error) {
+                       $(".bgCol").removeAttr("disabled");
+                       layer.open({
+                           content: "<p class='alert_msg'>服务器出错了</p>",
+                           btn: '我知道了'
+                       });
+                   },
+                   complete:function(){
+                       $("#xsBtn").text("立即支付");
+                       $("#xsBtn").attr("disabled",false);
+                   }
+               });
+                
+            });
+        });
+    </script>
+
+</body>
+</html>

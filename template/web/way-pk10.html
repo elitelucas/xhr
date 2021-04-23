@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>玩法介绍</title>
+    {template public-header}
+</head>
+<body>
+<header style="display: none;">
+    <em onclick="javascript :history.go(-1);">返回</em>
+    <h1>玩法介绍</h1>
+
+</header>
+<section style="padding-top: 0;">
+    <div class="modify">
+        <img src="/statics/web/images/way-pk10.jpg" alt="">
+    </div>
+
+</section>
+<script>
+    var h5 = GetRequest().h5;
+    if(h5 == 1){
+        $("header").show();
+        $("section").css("padding-top", "86px");
+    }
+</script>
+</body>
+</html>

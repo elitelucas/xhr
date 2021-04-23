@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <!--  <link rel="stylesheet" href="statics/admin/css/pintuer.css"> -->
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+    <script src="statics/admin/js/pintuer.js"></script>
+    <script src="statics/admin/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- template-begin+++ -->
+    {template public-new-ui-header}
+    <!-- template-end+++ -->
+    <script src="statics/admin/js/jquery.date_input.pack.js"></script>
+    <link rel="stylesheet" href="statics/admin/jedate/skin/jedate.css">
+    <script type="text/javascript" src="statics/admin/jedate/jquery.jedate.min.js"></script>
+
+    <!-- 图片上传 引入插件 -->
+    <script src="statics/admin/fileupload/js/vendor/jquery.ui.widget.js"></script>
+    <script src="statics/admin/fileupload/js/jquery.fileupload.js"></script>
+</head>
+<body style="margin: 15px;background-color: #f3f3f4;">
+<div class="ibox float-e-margins">
+    <div class="ibox-title iboxWTitle">
+        <h5>{$_REQUEST['title']}</h5>
+        <div class="ibox-tools">
+            <a href="javascript:void(0)" class="btn btn-white btn-bitbucket" onclick="javascript:history.go(-1);">
+                <i class="fa fa-reply"></i> 返回
+            </a>
+        </div>
+    </div>
+    <div class="ibox-content bagCol">
+        <div class="ibox-title">
+            <h5>轮播图详情</h5>
+        </div>
+        <div class="ibox-content">
+            <form method="get" class="form-horizontal" id='form'>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">轮播图类型</label>
+                    <div class="col-sm-4 m-b">
+                        <select class="form-control" name="banner_type">
+                            <option value="1" {if $list['banner_type'] == 1} selected="selected" {/if}>移动端</option>
+                            <option value="2" {if $list['banner_type'] == 2} selected="selected" {/if}>电脑端</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span style="color: red">*</span> 标题</label>
+                    <div class="col-sm-4 m-b">
+                        <input type="text" class="form-control" value="{$list['title']}" name="title" />
+                        <input type="hidden" value="{$list['id']}" name="id" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span style="color: red">*</span> 排序</label>
+                    <div class="col-sm-4 m-b">
+                        <input type="text" class="form-control" value="{$list['sort']}" name="sort" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">请上传默认图片</label>
+                    <div class="col-sm-4 m-b">
+                        <input type="file" class="upload_1" onchange="upload_pic(1)" />
+                            <p class="upload_tips" data-banner-type="1" style="color: gray; padding-top: 10px;display:none;" >建议上传宽度为620px，高度为280px的图片</p>
+                            <p class="upload_tips" data-banner-type="2" style="color: gray; padding-top: 10px;display:none;" >建议上传宽度为1920px，高度为600px的图片</p>
+                        <img src="{$list['default_path']}" {if $list['default_path'] == ""} style="display: none" {/if} id="default_path" width="200" />
+                        <input type="hidden" name="default_path" value="{$list['default_path']}" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">链接地址</label>
+                    <div class="col-sm-4 m-b">
+                        <input type="text" class="form-control" value="{$list['default_url']}" name="default_url" />
+                        <p style="color: gray; padding-top: 10px;" >跳转地址为外部链接请按照以下格式配置：http://www.xxx.com</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">请上传替换图片</label>
+                    <div class="col-sm-4 m-b">
+                        <input type="file" class="upload_2" onchange="upload_pic(2)" />
+                            <p class="upload_tips" data-banner-type="1" style="color: gray; padding-top: 10px;display:none;" >建议上传宽度为620px，高度为280px的图片</p>
+                            <p class="upload_tips" data-banner-type="2" style="color: gray; padding-top: 10px;display:none;" >建议上传宽度为1920px，高度为600px的图片</p>
+                        <input type="hidden" name="replace_path" value="{$list['replace_path']}" />
+                        <img src="{$list['replace_path']}" {if $list['replace_path'] == ""} style="display: none" {/if} id="replace_path" width="200" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">图片有效时间</label>
+                    <div class="col-sm-7 m-b">
+                        <div class="input-group">
+                            <input style="width: 43%" type="text" name="start_time" id="start_time" class="time form-control" value="{$list['start_time']}" />
+                            <span style="float: left;line-height: 34px;padding: 0 20px 0 20px;">至</span>
+                            <input style="width: 43%" type="text" name="end_time" id="end_time" class="time form-control" value="{$list['end_time']}" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">链接地址</label>
+                    <div class="col-sm-4 m-b">
+                        <input type="text" class="form-control" value="{$list['replace_url']}" name="replace_url" />
+                        <p style="color: gray; padding-top: 10px;" >跳转地址为外部链接请按照以下格式配置：http://www.xxx.com</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">是否上架</label>
+                    <div class="col-sm-4 m-b">
+                        <select class="form-control" name="is_show">
+                            <option value="1" {if $list['is_show'] == 1} selected="selected" {/if}>上架</option>
+                            <option value="2" {if $list['is_show'] == 2} selected="selected" {/if}>下架</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label"></label>
+                    <div class="col-sm-2 col-sm-offset-1">
+                        <button class="btn btn-primary" type="button" id="btn_submit">保存内容</button>
+                        <button class="btn btn-white" type="button" style="border: 1px solid #e7eaec" onclick="javascript:history.go(-1);">取消</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var loading = "";//加载中......
+
+    function upload_pic(type){
+        var formData = new FormData();
+        formData.append("file",$(".upload_"+type)[0].files[0]);
+        $.ajax({
+            url : "?m=admin&c=role&a=uploadImg",
+            type : 'POST',
+            data : formData,
+            processData : false,
+            contentType : false,
+            beforeSend: function () {
+                loading = layer.load(1);
+            },
+            success : function(responseStr) {
+                var data = JSON.parse(responseStr);
+                if(data.status == 0) {
+                    if(type == 1){
+                        $("#default_path").attr("src",data.data);
+                        $("#default_path").css("display","block");
+                        $("input[name='default_path']").val(data.data);
+                    } else {
+                        $("#replace_path").attr("src",data.data);
+                        $("#replace_path").css("display","block");
+                        $("input[name='replace_path']").val(data.data);
+                    }
+                } else {
+                    layer.msg(data.msg,{icon:5, shade: [0.5, '#393D49']}); //弹出错误信息
+                }
+            },
+            error : function(responseStr) {
+                layer.msg(responseStr.responseText,{icon:6, shade: [0.5, '#393D49']}); //弹出错误信息
+            },
+            complete:function(){
+                layer.close(loading);
+            }
+        });
+    };
+
+
+    $(function () {
+        $(".time").jeDate({
+            isinitVal:true,
+            festival:true,
+            ishmsVal:true,
+            minDate: $.nowDate(0),
+            format:"YYYY-MM-DD hh:mm:ss",
+            zIndex:3000,
+        })
+        var init_banner_type = "{$list['banner_type']}" == 2 ? 2 : 1 ;
+        $('.upload_tips[data-banner-type=' + init_banner_type + ']').show();
+        //切换移动端和电脑端
+        $('[name="banner_type"]').change(function () {
+            var banner_type = $(this).val();
+            $('.upload_tips[data-banner-type!=' + banner_type + ']').hide();
+            $('.upload_tips[data-banner-type=' + banner_type + ']').show();
+
+        });
+
+
+        $("#btn_submit").click(function () {
+            $.ajax({
+                url: '?m=admin&c=role&a=bannerAct',
+                data: $("#form").serialize(),
+                dataType: 'json',
+                type: 'post',
+                beforeSend: function () {
+                    loading = layer.load(1);
+                },
+                error: function () {
+                    layer.close(loading);
+                    layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                },
+                success: function (result) {
+                    layer.close(loading);
+
+                    if (result.code == 0) {
+                        layer.msg(result.msg, {icon: 6, shade: [0.5, '#393D49']}, function () {
+                            location.href = '?m=admin&c=role&a=banner';
+                        });
+                    } else {
+                        layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']});
+                    }
+                }
+            });
+        });
+
+        $("#btn_cancel").click(function () {
+            location.href = '?m=admin&c=role&a=banner';
+        });
+    });
+
+</script>
+</body>
+</html>

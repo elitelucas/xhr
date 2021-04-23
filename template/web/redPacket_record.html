@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+    <title>红包记录</title>
+    <link href="/statics/web/css/redpacket.css" rel="stylesheet" type="text/css">
+    <script src="/statics/web/js/jquery.1.8.2.min.js"></script>
+
+    <link rel="stylesheet" href="/statics/web/extend/dropload/dropload.css">
+    <script src="/statics/web/extend/dropload/dropload.min.js"></script>
+    <!-- layer -->
+    <!-- <link rel="stylesheet" href="/statics/web/extend/layui/css/layui.css">
+    <script src="/statics/web/extend/layui/layui.js"></script> -->
+    <script src="/statics/web/extend/layer/mobile/layer.js"></script>
+    <!-- layer - end -->
+</head>
+<body>
+<section class="redpacket">
+    <!--<div class="record-top">-->
+        <div class="header">
+            <em onclick="javascript :history.go(-1);">返回</em>
+            <h1>红包记录</h1>
+            <!--<a class="goto-rule" href="?m=web&c=redpacket&a=redPacket">活动规则</a>-->
+        </div>
+    <!--</div>-->
+
+    <div class="record-con">
+        <div class="view-date"><?php echo date('Y');?></div>
+        <div class="popupAlert" style="display: none;">
+            <div class="my-view-date">
+                <div class="tit-view-date">选择年份</div>
+                <ul>
+                    <?php
+                        $year = date('Y');
+                        $year_html = [];
+                        for ($i = 0; $i < 3; $i++) {
+                            if ($i == 0) {
+                                $default_year_class = 'sel';
+                            } else {
+                                $default_year_class = '';
+                            }
+                            $year_html[] = '<li>' . ($year - $i) . '<span class="yes"><i class="' . $default_year_class . '"></i></span></li>';
+                        }
+                        echo implode('', $year_html);
+                    ?>
+                    <!-- <li>2017<span class="yes"><i class="sel"></i></span></li>
+                    <li>2016<span class="yes"><i></i></span></li> -->
+                </ul>
+
+            </div>
+        </div>
+
+        <div class="con-packet-icon">
+            <!--<img src="/up_files/room/avatar.png" />-->
+        </div>
+
+        <div class="con-packet-text">共收到</div>
+        <div class="con-packet-gold"></div>
+        <div class="packet-statist">
+            <div class="packet-statist-num"><p class="packet-num"></p><p>收到红包</p></div>
+            <div class="packet-statist-lucky"><p class="lucky-num"></p><p>手气最佳</p></div>
+        </div>
+    </div>
+
+    <div class="record-my">
+        <ul></ul>
+    </div>
+    <!--<div class="record-check"><a href="?m=web&c=redpacket&a=redPacket">查看我的红包记录</a></div>-->
+</section>
+<!--<textarea style="display:none" id="data_redpacket_info" class="data_redpacket_info">{$redpacket_count}</textarea>-->
+
+<script type="text/javascript">
+//    var redpacketData = JSON.parse($("#data_redpacket_info").html());
+//    fill(redpacketData);
+//    function fill(data){
+//        $(".con-packet-gold").html(data.all_gain_money);
+//        $(".packet-num").html(data.gain_redpacket_num);
+//        $(".lucky-num").html(data.best_lucky_times);
+//
+//        var list = data.history_list;
+//        var ht='';
+//        for (var i = 0; i < list.length; i++) {
+//            ht += '<li class="record-item" data-id="'+list[i].redpacket_id+'">'+
+//                    '<div class="packet-icon"><img src="'+list[i].redpacket_pic+'" /></div>'+
+//                    '<div class="packet-info">'+
+//                    '<p class="packet-name">'+list[i].redpacket_title+'</p>'+
+//                    '<p class="packet-time">'+
+//                    '<span class="time-data">'+list[i].gain_date+'</span></p></div>'+
+//                    '<div class="packet-money right">'+list[i].user_gain_money+'</div></li>'
+//        }
+//        var p = $(ht).appendTo($('.record-my ul'));
+//    }
+
+    var sendData = {};
+    getRecordData();
+    function getRecordData (){
+        sendData.token = '{$token}';
+//        sendData.year = new Date().getFullYear();
+        $.ajax({
+            url: "?m=api&c=redpacket&a=redpacketCount",
+            type: "post",
+            data: sendData,
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+                if (data.status == 0) {
+                    if(data.self_pic == ''){
+                        $(".con-packet-icon").css("background","url(/up_files/room/avatar.png) no-repeat center center");
+                    }else{
+                        $(".con-packet-icon").css("background","url("+ data.self_pic +") no-repeat center center");
+                    }
+
+                    $(".con-packet-gold").html(data.all_gain_money);
+                    $(".packet-num").html(data.gain_redpacket_num);
+                    $(".lucky-num").html(data.best_lucky_times);
+
+                    var list = data.history_list;
+                    var arrLen = list.length;
+                    var ht='';
+                    if(arrLen > 0) {
+                        for (var i = 0; i < arrLen; i++) {
+                            ht += '<li class="record-item" data-id="' + list[i].redpacket_id + '">' +
+                                    '<div class="packet-icon"><img src="' + list[i].redpacket_pic + '" /></div>' +
+                                    '<div class="packet-info">' +
+                                    '<p class="packet-name">' + list[i].redpacket_title + '</p>' +
+                                    '<p class="packet-time">' +
+                                    '<span class="time-data">' + list[i].gain_date + '</span></p></div>' +
+                                    '<div class="packet-money right">' + list[i].user_gain_money + '</div></li>'
+                        }
+                        $('.record-my ul').html(ht);
+                    }else{
+                        $('.record-my ul').html('<div class="dropload-noData" style="font-size: 14px;">暂无数据</div>');
+                    }
+
+                    $('.record-item').off().on('click', function () {
+                        var id = $(this).attr("data-id");
+                        window.location.href = '?m=web&c=redpacket&a=redPacket&redpacket_id='+id+'&noback=1';
+                    })
+                } else if(data.status == 1202) {
+                    window.location.href = "<?=url('','user','login')?>";
+                } else {
+                    layer.open({
+                        content: data.ret_msg,
+                        skin: 'msg',
+                        time: 2 //2秒后自动关闭
+                    });
+                }
+            },
+            error: function(error) {
+                layer.open({
+                    content: '网络异常',
+                    skin: 'msg',
+                    time: 2 //2秒后自动关闭
+                });
+            }
+        });
+    }
+
+    var page = 1;
+    // 每页展示5个
+//    var size = 5;
+    $('.record-my').dropload({
+        scrollArea : window,
+        domDown : {
+//            domClass   : 'dropload-down',
+//            // 滑动到底部显示内容
+//            domRefresh : '<div class="dropload-refresh">↑上拉加载更多</div>',
+//            // 内容加载过程中显示内容
+//            domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+            // 没有更多内容-显示提示
+            domNoData  : '<div class="dropload-noData"></div>'
+        },
+        loadDownFn : function(me){
+//            var year = new Date().getFullYear();
+            var year = $(".view-date").text();
+
+            page++;
+            var ht='';
+            $.ajax({
+                type: 'GET',
+                url: '?m=api&c=redpacket&a=selfRedpacketHistory',
+                data: {token:'{$token}',year: year,page: page},
+                dataType: 'json',
+                success: function(data){
+                    console.log(data);
+                    if (data.status == 0) {
+                        var list = data.history_list;
+                        var arrLen = list.length;
+                        if(arrLen > 0) {
+                            for (var i = 0; i < arrLen; i++) {
+                                ht += '<li class="record-item" data-id="' + list[i].redpacket_id + '">' +
+                                        '<div class="packet-icon"><img src="' + list[i].redpacket_pic + '" /></div>' +
+                                        '<div class="packet-info">' +
+                                        '<p class="packet-name">' + list[i].redpacket_title + '</p>' +
+                                        '<p class="packet-time">' +
+                                        '<span class="time-data">' + list[i].gain_date + '</span></p></div>' +
+                                        '<div class="packet-money right">' + list[i].user_gain_money + '</div></li>'
+                            }
+                        }else{
+                            me.lock(); // 锁定
+                            me.noData(); // 无数据
+                        }
+
+                        // 为了测试，延迟1秒加载
+                        setTimeout(function(){
+                            // 插入数据到页面，放到最后面
+                            $('.record-my ul').append(ht);
+                            // 每次数据插入，必须重置
+                            me.resetload();
+
+                            $('.record-item').off().on('click', function () {
+                                var id = $(this).attr("data-id");
+                                window.location.href = '?m=web&c=redpacket&a=redPacket&redpacket_id='+id+'&noback=1';
+                            })
+                        },800);
+
+                    } else if(data.status == 1202) {
+                        window.location.href = "<?=url('','user','login')?>";
+                    } else {
+                        layer.open({
+                            content: data.ret_msg,
+                            skin: 'msg',
+                            time: 2 //2秒后自动关闭
+                        });
+                    }
+                },
+                error: function(xhr, type){
+                    layer.open({
+                        content: '服务器出错了',
+                        skin: 'msg',
+                        time: 2 //2秒后自动关闭
+                    });
+
+                    // 即使加载出错，也得重置
+//                    me.resetload();
+                }
+            });
+        }
+    });
+
+    $(".view-date").click(function(){
+        $('.popupAlert').fadeIn(function () {
+            $('.my-view-date').show();
+        });
+    });
+    $(".my-view-date ul li").click(function(){
+        console.log($(this).find("i").hasClass("sel"))
+        if(!$(this).find("i").hasClass("sel")){
+            $(this).find("i").addClass("sel");
+            $(this).siblings().find("i").removeClass("sel");
+            sendData.year = $(this).text();
+            getRecordData();
+            $(".view-date").html(sendData.year);
+        }
+
+        $('.popupAlert').fadeOut(function () {
+            $('.my-view-date').hide();
+        });
+    });
+</script>
+</body>
+</html>

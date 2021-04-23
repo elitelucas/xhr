@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- Meta, title, CSS, favglyphicons, etc. -->
+	<meta charset="utf-8">
+	<title>诚汇通</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+	<meta name="description" content="">
+
+	<!-- Bootstrap -->
+	<link href="../../statics/weixin/assets/css/bootstrap.css" rel="stylesheet" media="screen">
+	<link href="../../statics/weixin/css/cht.css" rel="stylesheet" media="screen">
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="../../statics/weixin/assets/js/html5shiv.js"></script>
+	<script src="../../statics/weixin/assets/js/respond/respond.min.js"></script>
+	<![endif]-->
+
+</head>
+<body>
+	
+	<div class="navbar navbar-inverse dh_sy">
+		<div class="container toubu">
+			
+			<ul class="nav top_cent">
+				<li>
+					微信绑定
+				</li>
+			</ul>
+			<a class="navbar-brand" href="#">
+				<!--<img src="../../statics/weixin/images/fanhui.png">-->
+			</a>
+			<a class="nav-home" href="#">
+				<!--<img src="../../statics/weixin/images/shouye.png">-->
+			</a>
+			<!--/.nav-collapse -->
+		</div>
+	</div>
+
+	<!-- Carousel
+	================================================== -->
+<!-- /container -->
+	<div class="container">
+		<div class="row mt10">
+			<form class="bs-example form-horizontal" method="post" action="">
+      <div class="form-group">
+        <span class="col-12 zc_mc">账　　号：</span>
+        <div class="col-12">
+          <input type="text" class="form-control" id="inputEmail" name="inputEmail" placeholder="诚汇通用户名">
+        </div>
+      </div>
+      <div class="form-group">
+        <span class="col-12 zc_mc">密　　码：</span>
+        <div class="col-12">
+          <input type="password" class="form-control" id="inputPassword" name="inputPassword" placeholder="请输入密码">
+        </div>
+		<div class="col-12">
+          <p style="padding:8px 0; line-height:22px; color:#ff0000" id="info"></p>
+        </div>
+		<div class="col-12">
+		   <input type="hidden" value="todo" name="action">
+          <p class="tcdl">
+              <button class="btn btn-primary bd" type="button" id="tobind">绑定</button> 
+              <!--<button class="btn btn-primary bd_right" type="button" id="tozhuce">注册</button>-->
+              <a class="btn btn-primary bd_right" href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxbdd9a6c44e78c842&redirect_uri=https%3A%2F%2Fwww.chenghuitong.net%2F%3Fm%3Dweixin%26c%3Ddefault%26a%3Dzhuce&response_type=code&scope=snsapi_base&state=123#wechat_redirect">注册</a>
+          </p>
+          <div class="form-group" id="zhuceinfo" style="font-size: 14px; color:red; display: none;">
+              备注：请到官网 <a href="https://www.chenghuitong.net/content/regedit-index.html" target="_blank"><span style="color:red;">https://www.chenghuitong.net/content/regedit-index.html</span></a>注册实名后登陆。
+          </div>
+        </div>
+      </div>
+    </form>
+	</div>
+
+</div>
+	
+
+<!-- JavaScript plugins (requires jQuery) -->
+<script src="../../statics/weixin/assets/js/jquery.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="../../statics/weixin/assets/js/bootstrap.min.js"></script>
+
+<script src="../../statics/weixin/assets/js/holder/holder.js"></script>
+
+<script type="text/javascript"></script>
+
+<script language="JavaScript" type="text/javascript">
+$(function(){
+		
+	$("#tobind").attr('disabled',false);
+
+  	$("#tobind").click( function () { 
+		 
+		 if($.trim( $("#inputEmail").val() )==''){
+		 	$("#info").text('请输入用户名!');
+			return false;
+		 }
+		 
+		 if($.trim( $("#inputPassword").val() )==''){
+		 	$("#info").text('请输入密码!');
+			return false;
+		 }
+		 
+		 $("#info").text('');
+		 
+		 $.post("?m=weixin&c=default&a=bindaccount", { inputEmail: $.trim( $("#inputEmail").val() ), inputPassword: $.trim( $("#inputPassword").val() ), action: "todo" },
+		   function(data){
+                       var aaa = '<?php echo $iddddd;?>';
+                       if(aaa ==55){
+                           alert(data);
+                       }
+			 //alert("Data Loaded: " + data);
+			 $("#tobind").text('处理中...');
+//			 if(data==-1){
+//			 	$("#info").text('绑定失败!');
+//				$("#tobind").text('帐号绑定');
+//			 }
+			 
+			 if(data==1){
+			 	 $("#tobind").text('绑定成功!');
+			 	 $("#tobind").attr('disabled',true);
+			 }
+			 
+			 if(data==-2){
+			 	 $("#info").text('绑定失败!');
+				 $("#tobind").text('帐号绑定');
+			 }
+			 
+			 if(data==-3){
+			 	 $("#info").text('请先到网站进行实名认证!');
+				 $("#tobind").text('帐号绑定');
+			 }
+			 
+			 if(data==-4){
+			 	 $("#info").text('请先到网站进行邮箱认证!');
+				 $("#tobind").text('帐号绑定');
+			 }
+			 
+			 if(data==-5){
+			 	 $("#info").text('请先到网站进行手机认证!');
+				 $("#tobind").text('帐号绑定');
+			 }
+			 
+			  if(data==-6){
+			 	 $("#info").text('请先到网站设置交易密码!');
+				 $("#tobind").text('帐号绑定');
+			 }
+			
+                        if(data==-7){
+			 	 $("#info").text('用户名不存在或密码错误!');
+				 $("#tobind").text('帐号绑定');
+			 }
+                        if(data==-8){
+                               $("#info").text('该用户名已绑定过!');
+                               $("#tobind").text('帐号绑定');
+                       }
+                       if(data ==11){
+                           window.location.href="https://www.chenghuitong.net/weixin/default-wxredbag.html";
+                       }
+		 });
+		 
+		 return false;
+		 
+	});
+        
+        $("#tozhuce").click( function () {
+            window.location.href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxbdd9a6c44e78c842&redirect_uri=https%3A%2F%2Fwww.chenghuitong.net%2F%3Fm%3Dweixin%26c%3Ddefault%26a%3Dzhuce&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
+//            $("#zhuceinfo").show();
+//            $("#zhuceinfo").text('备注：请到官网 https://www.chenghuitong.net/content/regedit-index.html 注册实名后登陆。');
+        });
+});
+</script>
+
+
+</body>
+</html>

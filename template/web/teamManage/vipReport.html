@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>团队管理</title>
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+    <!-- 新增css -->
+    <!--<link href="/statics/web/css/s_min.css" rel="stylesheet" type="text/css">-->
+    <!-- 新增css - end -->
+
+    <!-- layer -->
+    <script src="/statics/web/extend/layer/mobile/layer.js"></script>
+    <!-- layer - end -->
+
+    <!--时间选择插件-->
+    <link rel="stylesheet" href="/statics/web/extend/datepick/datepick.css">
+    <link rel="stylesheet" href="/statics/web/css/minirefresh.min.css">    
+    <script src="/statics/web/extend/datepick/date.js"></script>
+    <script src="/statics/web/extend/datepick/iscroll.js"></script>
+    <script src="/statics/web/js/minirefresh.min.js"></script>
+    <style>
+        #minirefresh{
+            top: 230px;
+        }
+        .noData{
+            text-align: center;
+            padding: 30px;
+            font-size: 24px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <em onclick="goAccountIndex()">返回</em>
+    <h1>会员报表</h1>
+    <div class="headerRight">
+        <ul>
+            <li id="reset">重置</li>
+        </ul>
+    </div>
+</header>
+<section>
+    <div class="teamWarp">
+        <div class="teamSearchW">
+            <div class="vipreport_date_ico" id="timeSelect">投注时间</div>
+            <div class="list-search">
+                <input type="text" name="user_value" value="{$user_value}" placeholder="搜素账号">
+                <label class="iconfont icon-Search" id="searchSubmit"></label>
+            </div>
+        </div>
+
+        <div class="time-betting">
+            <span id="startT">投注时间: <em>{$start_time}</em></span><span class="time_text">全部</span><span id="endT"><em>{$end_time}</em></span>
+        </div>
+
+        <div id="minirefresh" class="minirefresh-wrap minirefresh-theme-default vipReport teamReport zhanwei">
+            <div class="minirefresh-scroll">
+            
+            </div>
+            <div class="noData">没有更多数据了</div>
+        </div>
+    </div>
+
+    <!--底部弹窗-->
+    <div class="mask" style="display: none"></div>
+    <div class="pop-wrap down" id="date-pop">
+        <div class="pop-select pop-bg-white">
+            <div class="title">选择时间</div>
+            <div class="content">
+                <div class="demo">
+                    <div class="lie">日期设置-1:<input  id="beginTime" class="kbtn" /></div>
+                    <div class="lie">日期设置-2:<input id="endTime" class="kbtn" /></div>
+                </div>
+                <div id="datePlugin-begin"></div>
+                <div id="datePlugin-end"></div>
+                <div class="btn_warp"><span id="confirm-getDate">确定</span></div>
+            </div>
+        </div>
+        <div class="bottom-con">
+            <a javascript="void(0)" ; type="button" class="pop-cansel">取消</a>
+        </div>
+    </div>
+
+</section>
+<script type="text/javascript">
+    var token = '{$token}';
+    var typeId = 0;
+    var id; //时间选择插件变量
+    var data = new Object();
+    data.token = token;
+    data.start_time = '';
+    data.end_time = '';
+    data.online = typeId;
+    data.page=1;
+    data.user_value = '';
+    var miniRefresh = new MiniRefresh({
+        container: '#minirefresh',
+        offset: 1,
+        down: {
+            callback: function() {
+                // 下拉事件
+                setTimeout(function(){                    
+                    data.page=1;
+                    $.post("?m=api&c=user&a=myMember",data,function(ret){
+                        var ret = JSON.parse(ret);
+                        console.log(ret);
+                        if(ret.status==0){
+                            var ret = ret.list;
+                            var retLen = ret.length;
+                            var ht = '';
+                            if (retLen > 0){
+                                $('.zhanwei').removeClass('zhanwei');
+                                for(var i=0; i<ret.length; i++){
+                                    total_profit_amt = ret[i].total_profit_amt || 0;
+                                    ht += '<li data-href="/?m=web&c=user&a=memberDetailWeb&user_value=' + data.user_value + '&start_time=' + data.start_time + '&end_time=' + data.end_time +'&id='+ret[i].user_id+'"><div>'+
+                                            '<label class="report_acc">账号：<em>'+ret[i].username+'</em></label><label class="report_team_bet">会员盈利：<em>'+total_profit_amt+'</em></label></div>'+
+                                            '<div><label>'+timeHandle(ret[i].regtime)+'</label><label class="report_profit">现金余额：<em>'+ret[i].money+'</em></label>'+
+                                            '</div></li>';
+                                }
+                            }
+                            $(".minirefresh-scroll ul").html(ht);
+                            $('.noData').hide();
+                        }else {
+                            layer.open({
+                                content: ret.ret_msg,
+                                skin: 'msg',
+                                time: 2
+                            });
+                        }
+                    })
+                    console.log('下拉事件');
+                    miniRefresh.endDownLoading();
+                });
+            }
+        },
+        up: {
+            isAuto:false,
+            isShowUpLoading:true,
+            offset:1,
+            callback: function() {
+                // 上拉事件
+                data.page++;
+                setTimeout(function(){
+                    $.post("?m=api&c=user&a=myMember",data,function(ret){
+                    var ret = JSON.parse(ret);
+                    console.log(ret);
+                    if(ret.status==0){
+                        var ret = ret.list;
+                        var retLen = ret.length;
+                        var ht = '';
+                        if (retLen > 0){
+                            $('.zhanwei').removeClass('zhanwei');
+                            for(var i=0; i<ret.length; i++){
+                                total_profit_amt = ret[i].total_profit_amt || 0;
+                                ht += '<li data-href="/?m=web&c=user&a=memberDetailWeb&user_value=' + data.user_value + '&start_time=' + data.start_time + '&end_time=' + data.end_time +'&id='+ret[i].user_id+'"><div>'+
+                                    '<label class="report_acc">账号：<em>'+ret[i].username+'</em></label><label class="report_team_bet">会员盈利：<em>'+total_profit_amt+'</em></label></div>'+
+                                    '<div><label>'+timeHandle(ret[i].regtime)+'</label><label class="report_profit">现金余额：<em>'+ret[i].money+'</em></label>'+
+                                    '</div></li>';
+                            }
+                        }else{
+                            miniRefresh.endUpLoading(true);
+                            $(".noData").show();
+                            return;
+                        }
+                        $(".minirefresh-scroll ul").append(ht);
+                        console.log('上拉事件');                    
+                        // 注意，由于默认情况是开启满屏自动加载的，所以请求失败时，请务必endUpLoading(true)，防止无限请求
+                        miniRefresh.endUpLoading();
+                    }else {
+                        layer.open({
+                            content: ret.ret_msg,
+                            skin: 'msg',
+                            time: 2 
+                        });
+                    }
+                });
+                },600);
+            }
+        }
+    });
+    $(function(){
+        //初始化时间选择插件
+        $('#beginTime').date();
+        //	$('#endTime').date({theme:"datetime"});
+        $('#endTime').date();
+        $('#beginTime').click();
+        id = 1;
+        $('#endTime').click();
+        seach(data);
+
+        //时间选择确定按钮
+        $('#confirm-getDate').click(function(){
+            $('#dateconfirm').click();
+            $('#dateconfirm2').click();
+            $("#startT em").text($("#beginTime").val());
+            $("#endT em").text($("#endTime").val());
+
+            data.start_time = $("#startT em").text();
+            data.end_time = $("#endT em").text();
+            data.page = 1;
+
+            if(new Date(data.start_time.replace(/-/g, '/')).getTime() <= new Date(data.end_time.replace(/-/g, '/')).getTime()){
+                $(".mask").hide();
+                $("#date-pop").addClass("down");
+                seach(data);
+                return false;
+            }else{
+                layer.open({
+                    content: "起始日期大于结束日期，请重新选择！",
+                    skin: 'msg',
+                    time: 2 //2秒后自动关闭
+                });
+            }
+        });
+        
+    })
+
+    $(document).on("click","*[data-href]",function(){
+        //alert($(this).attr("data-href"));
+        var href = $(this).attr("data-href");
+        window.location.href= href;
+    })
+
+    //重置
+    $("#reset").click(function(){
+        window.location.reload();
+    })
+
+    //时间选择
+    $("#timeSelect").click(function() {
+        $(".mask").show();
+        $("#date-pop").removeClass("down");
+        //$("#status").addClass("active");
+    })
+
+
+    //搜素提交
+    $("#searchSubmit").click(function(){
+        if($("input[name=user_value]").val() != ''){
+            var data = new Object();
+            data.token = token;
+            seach(data);
+        }else{
+            layer.open({
+                content: '请输入搜素内容',
+                skin: 'msg',
+                time: 2 //2秒后自动关闭
+            });
+        }
+    })
+
+    function seach(data){
+        data.user_value = $.trim($("input[name=user_value]").val());
+        data.start_time = $("#startT em").text();
+        data.end_time = $("#endT em").text();
+
+        if(data.start_time != ''){
+            $(".time_text").text("至");
+        }
+
+        //与APP接口一致
+//        	$.post("{$ValidUrl}",$data,function(data){
+        $.post("?m=api&c=user&a=myMember",data,function(ret){
+            var ret = JSON.parse(ret);
+            if(ret.status==0){
+                var ret = ret.list;
+                var retLen = ret.length;
+                var ht = '<ul>';
+                if (retLen > 0){
+                    $('.zhanwei').removeClass('zhanwei');
+                    for(var i=0; i<ret.length; i++){
+                        total_profit_amt = ret[i].total_profit_amt || 0;
+
+                        ht += '<li data-href="/?m=web&c=user&a=memberDetailWeb&user_value=' + data.user_value + '&start_time=' + data.start_time + '&end_time=' + data.end_time + '&id='+ret[i].user_id+'"><div>'+
+                                '<label class="report_acc">账号：<em>'+ret[i].username+'</em></label><label class="report_bet">会员盈亏：<em>'+total_profit_amt+'</em></label></div>'+
+                                '<div><label>'+timeHandle(ret[i].regtime)+'</label><label class="report_money">现金余额：<em>'+ret[i].money+'</em></label>'+
+                                '</div></li>';
+                    }
+                }
+                ht += '</ul>';
+                $(".minirefresh-scroll").html(ht);
+                //window.location.href= data.JumpUrl;
+            }else {
+                layer.open({
+                    content: ret.ret_msg,
+                    skin: 'msg',
+                    time: 2 //2秒后自动关闭
+                });
+
+            }
+        })
+    }
+
+    function goAccountIndex()
+    {
+    	location.href= "{$backUrl}";
+    }
+</script>
+</body>
+</html>

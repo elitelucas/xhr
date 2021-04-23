@@ -1,0 +1,305 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width">
+  <meta name="keywords" content="诚汇通,诚汇通官网,诚汇通官方网站,投资理财,网络投资,网络理财,互联网理财,互联网投资,互联网金融,固定收益,p2p,网络投融资平台,风险准备金垫付, 风险准备金垫付投资理财,chenghuitong.net">
+  <meta name="description" content="诚汇通(www.chenghuitong.net) – 国内首批专注于P2P网络投融资服务的平台，年化收益率20%+，无投资服务费，50元就可理财，100%本息全保障计划，第三方资金监管，保卫资金安全。">
+  <meta name="author" content="ifengjin@ifengjin.cn">
+  
+  <title>诚汇通-P2P网贷平台最可靠的民间借贷公司-致力于打造国内最好的P2P网络借贷平台</title>
+  
+  <!-- favicon -->
+  <link rel="shortcut icon" href="favicon.ico" mce_href="favicon.ico" type="image/x-icon">
+  
+  <!-- swipebox -->
+  <link href="https://www.chenghuitong.net/statics/marketing/js/swipebox/1.3.0.2/css/swipebox.css" rel="stylesheet" type="text/css">
+  <!-- base -->
+  <link href="https://www.chenghuitong.net/statics/marketing/css/base.css" rel="stylesheet" type="text/css">
+  <!-- index -->
+  <link href="https://www.chenghuitong.net/statics/marketing/css/index/index.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="//stat.tf.360.cn/search/c.js?u=1339090459" charset="utf-8"></script>
+  <script type="text/javascript">
+    (function() {
+        var obj = document.createElement('script');
+        obj.src = '//s.va.cn/va.js?id=18388';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(obj, s);
+    })();
+  </script>
+</head>
+
+<body>
+  <!-- header -->
+  <div class="header">
+    <div class="container">
+      <div class="logo pull-left"><a href="https://www.chenghuitong.net/"><img src="https://www.chenghuitong.net/statics/marketing/image/logo.png" alt="诚汇通"></a></div>
+      <div class="home pull-right">
+        <div class="icon-tel pull-left"></div>
+        <div class="tel pull-left">0755-88303356</div>
+        <div class="go pull-left"><a href="https://www.chenghuitong.net/">返回首页</a></div>
+        <div class="icon-go pull-left"></div>
+      </div>
+    </div>
+  </div>
+  <!-- /header -->
+  
+  <!-- 引导注册 -->
+  <div class="reg-block">
+    <!-- 注册 -->
+    <div class="reg-box">
+      <div class="container">
+        <div class="reg border-radius8">
+          <div class="reg-header">
+            <div class="pull-left">用户注册</div>
+            <div class="pull-right">已有账号？<a href="<?=url('content','login','index')?>">登录</a></div>
+          </div>
+          <form action="<?=url('','','add')?>" method="post">
+            <div class="form-item">
+              <label class="form-title" for="email">手机号码</label>
+              <div class="form-content">
+                <input class="form-input" id="phone" name="phone" type="text" value="{$data['phone']}">
+                <!-- 输入正确时显示 yes -->
+                <!--<div class="errIcon yes"></div>-->
+                <!-- 输入错误时显示 no -->
+                <!--<div class="errIcon no"></div>-->
+                <div id="errEmail" class="help-block">{$info_arr['phone']}</div>
+              </div>
+            </div>
+            
+            <div class="form-item">
+              <label class="form-title" for="uname">用户名</label>
+              <div class="form-content">
+                <input class="form-input" id="username" name="username" type="text" value="{$data['username']}">
+                <div class="errIcon"></div>
+                <div id="errUname" class="help-block">{$info_arr['username']}</div>
+              </div>
+            </div>
+            
+            <div class="form-item">
+              <label class="form-title" for="pwd">密码</label>
+              <div class="form-content">
+                <input class="form-input" id="password" name="password"  value="{$data['password']}" type="password">
+                <div class="errIcon"></div>
+                <div id="errPwd" class="help-block">{$info_arr['password']}</div>
+              </div>
+            </div>
+            
+            <div class="form-item">
+              <label class="form-title" for="rpwd">确认密码</label>
+              <div class="form-content">
+                <input class="form-input" id="compassword" name="compassword"  value="{$data['compassword']}" type="password">
+                <div class="errIcon"></div>
+                <div id="errRpwd" class="help-block">{$info_arr['compassword']}</div>
+              </div>
+            </div>
+            
+            <div class="form-item">
+              <label class="form-title" for="rcode">验证码</label>
+              <div class="form-content">
+                  <div class="yzm2">
+                    <img id='code_img' title='点击换验证码' onclick='this.src = this.src + "&" + Math.random()' src='{APP_PATH}api/checkcode.php?code_len=4&font_size=20&width=100&height=35&font_color=&background='>
+                </div>
+                <input class="form-input" id="code" name="code" value="" type="text" style="width:80px">
+                <div class="errIcon"></div>
+                <div id="errRcode" class="help-block">{$info_arr['code']}</div>
+              </div>
+            </div>
+            
+            <div class="form-item">
+              <div class="form-title"><input class="form-checkbox" id="xieyi" name="xieyi" value="1" type="checkbox" checked></div>
+              <div class="form-content">
+                <label for="contract">阅读并同意 《<a href="<?=url('article','default','xieyi')?>" target="_blank">诚汇通协议书</a>》</label>
+                <div id="errContract" class="help-block">{$info_arr['xieyi']}</div>
+              </div>
+            </div>
+            
+            <div class="form-item mt10">
+              <!--<div class="form-title"></div>-->
+              <div class="form-content" style="left:-25px;">
+                  <input type="hidden" value="{$source}" name="source" />
+                <input class="form-btn" id="btnSubmit" name="btnSubmit" type="submit" value="立即注册">
+                <div id="errBtnSubmit" class="help-block"></div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- /注册 -->
+    <!-- 广告引导注册 -->
+    <div class="reg-ad-block">
+      <div class="container">
+        <div class="reg-ad">
+          <table border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td><div class="tab-title-item">活动</div></td>
+              <td><div class="tab-title-item">现金券</div></td>
+              <td class="tab-title-item"></td>
+            </tr>
+            <tr>
+              <td><div class="tab-cont-title">注册</div></td>
+              <td><div class="tab-cont-jiang">10元现金券</div></td>
+              <td><a class="btn-reg-ad" href="#">领取</a></td>
+            </tr>
+            <tr>
+              <td><div class="tab-cont-title">实名认证</div></td>
+              <td><div class="tab-cont-jiang">10元现金券</div></td>
+              <td><a class="btn-reg-ad" href="{if !empty($user)}<?=url('member','verify','real');?>{else}#{/if}">领取</a></td>
+            </tr>
+            <tr>
+              <td><div class="tab-cont-title">首投</div></td>
+              <td><div class="tab-cont-jiang">首投金额的0.2%奖励</div></td>
+              <td><a class="btn-reg-ad" href="{if !empty($user)}<?=url('borrow','default','index');?>{else}#{/if}">领取</a></td>
+            </tr>
+          </table>
+        </div>
+		<?php
+		if($source=='c822c1b63853ed273b89687ac505f9fa'){
+		?>
+        <div class="note">注：P2P理财不等于银行存款， 市场有风险，投资需谨慎</div>
+		<?php
+		}
+		?>
+      </div>
+    </div>
+    <!-- /广告引导注册 -->
+    
+    <div class="statistics-block">
+      <div class="bubble">
+        <div class="container">
+          <!-- 统计数据 -->
+          <div class="statistics-box">
+            <div class="statistics-item1 pull-left"></div>
+            <div class="statistics-item2 pull-left"></div>
+            <div class="statistics-item3 pull-left"></div>
+          </div>
+          <div class="statistics">
+            <div class="statistics-item pull-left">519天</div>
+            <div class="statistics-item pull-left">￥603,837,326</div>
+            <div class="statistics-item pull-left">￥38,683,867</div>
+          </div>
+          <div class="statistics-note">（数据截止于2014年12月10日）</div>
+          <!-- /统计数据 -->
+          
+          <!--用户评价-->
+          <div class="assessment">
+            <div class="assessment-item1">
+              <p>一位老客户这样评价的：</p>
+              <p>一年有365个日日夜夜，我看到了小诚人的兢兢业业。</p>
+            </div>
+            <div class="assessment-item2">
+              <p>一位考察过小诚的客户写到：</p>
+              <p>小诚，这个名字最先应该是诚汇通自己先叫出来的，基于谦恭的思想，就这点，足以让我敬佩。</p>
+            </div>
+            <div class="assessment-item3">
+              <p>一位开业就注册的老客户说：</p>
+              <p>诚汇通已经不再是小诚了，她有了功能齐全完备的网站投资页面、有了成熟的团队架构、有了高远的战略目标定位。</p>
+            </div>
+            <div class="assessment-item4">
+              <p>一位新客户在征文里提到：</p>
+              <p>小诚稳稳迈出了问世的一步，也正是这坚定的一步，开启了小诚随后一年披荆斩棘中的勇往直前。</p>
+            </div>
+          </div>
+          <!--/用户评价-->
+        </div>
+        
+        <!-- 资质证件 -->
+        <div class="container">
+          <table class="aptitude-tab" border="0" cellspacing="0" cellpadding="20">
+            <tr>
+              <td>
+                <a href="https://www.chenghuitong.net/statics/marketing/image/aptitude/big/pic_big_01.jpg" class="swipebox" title="企业法人营业执照">
+                  <img src="https://www.chenghuitong.net/statics/marketing/image/aptitude/small/pic_small_01.jpg" alt="企业法人营业执照">
+                </a>
+              </td>
+              <td>
+                <a href="https://www.chenghuitong.net/statics/marketing/image/aptitude/big/pic_big_02.jpg" class="swipebox" title="前海股权交易中心挂牌企业">
+                  <img src="https://www.chenghuitong.net/statics/marketing/image/aptitude/small/pic_small_02.jpg" alt="前海股权交易中心挂牌企业">
+                </a>
+              </td>
+              <td rowspan="2">
+                <a href="https://www.chenghuitong.net/statics/marketing/image/aptitude/big/pic_big_05.jpg" class="swipebox" title="诚信网站认证书">
+                  <img src="https://www.chenghuitong.net/statics/marketing/image/aptitude/small/pic_small_05.jpg" alt="诚信网站认证书">
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://www.chenghuitong.net/statics/marketing/image/aptitude/big/pic_big_03.jpg" class="swipebox" title="广东互联网金融协会会员证书">
+                  <img src="https://www.chenghuitong.net/statics/marketing/image/aptitude/small/pic_small_03.jpg" alt="广东互联网金融协会会员证书">
+                </a>
+              </td>
+              <td>
+                <a href="https://www.chenghuitong.net/statics/marketing/image/aptitude/big/pic_big_04.jpg" class="swipebox" title="华鼎奖荣誉证书">
+                  <img src="https://www.chenghuitong.net/statics/marketing/image/aptitude/small/pic_small_04.jpg" alt="华鼎奖荣誉证书">
+                </a>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <!-- /资质证件 -->
+        
+        <div class="pic-bottom"></div>
+      </div>
+    </div>
+  </div>
+  <!-- /引导注册 -->
+  
+  <div class="bottom">
+    <div class="container">
+      <div class="bottom-left pull-left">
+        <div class="erweima"></div>
+        <div class="clearfix"></div>
+        <div class="mt10">深圳市诚汇通金融信息有限公司</div>
+        <div>深圳市福田区福华三路168号国际商会中心2408-2412室</div>
+      </div>
+      <div class="bottom-right pull-right">
+        <div class="f18 mb10">客服热线</div>
+        <div class="f12">（周一至周五 9:00-18:00）</div>
+        <div class="mb10 mt10 f24">0755-88303356</div>
+        <div class="links mt10">
+          <a class="pull-left bottom-weibo" href="http://weibo.com/cht608710" target="_blank"></a>
+          <a class="pull-left bottom-tqq" href="http://e.t.qq.com/cht608710" target="_blank"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="copyright container">
+    <div>Copyright © 2014 Www.ChengHuiTong.Net, 深圳市诚汇通金融信息有限公司 Inc. All Rights Reserved. 粤ICP备13044593号</div>
+    <div class="mt20">
+      <a class="margin-left10px margin-left10px" href="https://cert.ebs.gov.cn/a71f6f48-abb7-4f8a-92c4-d73f8fa0de56" target="_blank">
+        <img src="https://www.chenghuitong.net/statics/marketing/image/bottom/newGovIcon.gif" alt="工商网商电子标示" height="30">
+      </a>
+      <a class="margin-left10px margin-left10px" href="http://www.miibeian.gov.cn/" target="_blank">
+        <img src="https://www.chenghuitong.net/statics/marketing/image/bottom/bottom_23.jpg" alt="ICP备案查询" height="30">
+      </a>
+      <a class="margin-left10px margin-left10px" href="https://search.szfw.org/cert/l/CX20140305003565003628" target="_blank">
+        <img src="https://www.chenghuitong.net/statics/marketing/image/bottom/bottom_25.jpg" alt="诚信网站" height="30">
+      </a>
+      <a class="margin-left10px margin-left10px" href="https://ss.knet.cn/verifyseal.dll?sn=e13101844030042941tvh5000000&ct=df&a=1&pa=0.2732217316515744" target="_blank">
+        <img src="https://www.chenghuitong.net/statics/marketing/image/bottom/cnnic.png" alt="可信网站" height="30">
+      </a>
+      <a class="margin-left10px margin-left10px" href="https://ss.knet.cn/verifyseal.dll?sn=e13101844030042941tvh5000000&ct=df&a=1&pa=0.2732217316515744" target="_blank">
+        <img src="https://www.chenghuitong.net/statics/marketing/image/bottom/bottom_24.jpg" alt="NORTON" height="30">
+      </a>
+    </div>
+  </div>
+  
+  <!-- jQuery 1.10.2 -->
+  <script src="https://www.chenghuitong.net/statics/marketing/js/jquery/1.10.2/jquery-1.10.2.min.js"></script>
+  <!-- swipebox -->
+  <script src="https://www.chenghuitong.net/statics/marketing/js/swipebox/1.3.0.2/js/jquery.swipebox.min.js"></script>
+
+  <script type="text/javascript"> $(function(){ $( '.swipebox' ).swipebox(); }); </script>
+  
+  <div style="display:none">
+  <script type="text/javascript">
+    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Ffcea50ed98bbb8dbc8dc4834e1024dfd' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+  </div>
+</body>
+</html>

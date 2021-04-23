@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title><?php echo C("app_webname"); ?> 管理平台</title>
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <!--  <link rel="stylesheet" href="statics/admin/css/pintuer.css"> -->
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+
+    <!-- template-begin+++ -->
+    {template public-new-ui-header}
+    <!-- template-end+++ -->
+
+
+    <style type='text/css'>
+        .rules-1{
+            float: left;
+            height: 35px;
+            line-height: 35px;
+            padding-right:10px;
+        }
+        .rules-2{
+            float: left;
+            height: 35px;
+            line-height: 35px;
+            padding:0 10px 0 10px;
+            width: 160px;
+            text-align: right;
+        }
+        .rules-1 textarea{
+            width: 450px;
+        }
+        .rules-3{
+            clear: both;
+            padding-top: 20px;
+            padding-left: 160px;
+            color: #b3b1b1;
+            margin-bottom: 10px;
+        }
+
+    </style>
+</head>
+<body style="margin: 15px;background-color: #f3f3f4;">
+<div class="ibox float-e-margins">
+    <div class="ibox-title iboxWTitle">
+        <h5>任务配置</h5>
+    </div>
+    <div class="ibox-content bagCol">
+        <div class="ibox-title">
+            <h5>常规任务设置</h5>
+            <div class="ibox-tools">
+                <a class="btn btn-white btn-bitbucket btn_sure" onclick="show(this)" data-title="修改" data-type="1"><i class="fa fa-pencil"></i> </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <form method="get" class="form-horizontal">
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-10">
+                        <span class="rules-2">常规任务总额</span>
+                        <span class="rules-1">
+                            <input type="number" class="form-control total-money" value="{if $config[1]['total'] == ''}10000{else}{$config[1]['total']}{/if}" />
+                        </span>
+                        <span class="rules-1">元宝</span>
+                        <span class="rules-1" style="color: #b3b1b1">大于1的正整数，设置0表示不设置任务总额</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><input type="checkbox" data-name="首次绑卡" data-id="1" {if empty($config[1]['config'][0]['state'])}checked="checked"{else}{if $config[1]['config'][0]['state'] == 2}checked="checked"{/if}{/if}  /></label>
+                    <div class="col-sm-10">
+                        <span class="rules-2">首次绑卡获得</span>
+                        <span class="rules-1"><input type="number" class="form-control money" value="{if $config[1]['config'][0]['money'] == 0}50{else}{$config[1]['config'][0]['money']}{/if}"  /></span>
+                        <span class="rules-1">元宝</span>
+                        <span class="rules-1" style="color: #b3b1b1">1~100000元宝，为正整数</span>
+                        <br /><br />
+                        <span class="rules-2">规则说明</span>
+                        <span class="rules-1"><textarea class="form-control explain">{if !isset($config[1]['config'][0]['explain'])}1.首次绑卡获得50元宝&#10;2.只能获取一次奖励{else}{$config[1]['config'][0]['explain']}{/if}</textarea></span>
+                        <span class="rules-3 rules-1">10~200个字符，不填写为不设置说明</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><input type="checkbox" data-name="绑定QQ" data-id="2" {if empty($config[1]['config'][1]['state'])}checked="checked"{else}{if $config[1]['config'][1]['state'] == 2}checked="checked"{/if}{/if} /></label>
+                    <div class="col-sm-10">
+                        <span class="rules-2">绑定QQ获得</span>
+                        <span class="rules-1"><input type="number" class="form-control money" value="{if $config[1]['config'][1]['money'] == 0}50{else}{$config[1]['config'][1]['money']}{/if}" /></span>
+                        <span class="rules-1">元宝</span>
+                        <span class="rules-1" style="color: #b3b1b1">1~100000元宝，为正整数</span>
+                        <br /><br />
+                        <span class="rules-2">规则说明</span>
+                        <span class="rules-1"><textarea class="form-control explain">{if !isset($config[1]['config'][1]['explain'])}1.首次QQ获得50元宝&#10;2.只能获取一次奖励{else}{$config[1]['config'][1]['explain']}{/if}</textarea></span>
+                        <span class="rules-3 rules-1">10~200个字符，不填写为不设置说明</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><input type="checkbox" data-name="绑定微信" data-id="3" {if empty($config[1]['config'][2]['state'])}checked="checked"{else}{if $config[1]['config'][2]['state'] == 2}checked="checked"{/if}{/if} /></label>
+                    <div class="col-sm-10">
+                        <span class="rules-2">绑定微信获得</span>
+                        <span class="rules-1"><input type="number" class="form-control money" value="{if $config[1]['config'][2]['money'] == 0}50{else}{$config[1]['config'][2]['money']}{/if}" /></span>
+                        <span class="rules-1">元宝</span>
+                        <span class="rules-1" style="color: #b3b1b1">1~100000元宝，为正整数</span>
+                        <br /><br />
+                        <span class="rules-2">规则说明</span>
+                        <span class="rules-1"><textarea class="form-control explain">{if !isset($config[1]['config'][2]['explain'])}1.首次微信获得50元宝&#10;2.只能获取一次奖励{else}{$config[1]['config'][2]['explain']}{/if}</textarea></span>
+                        <span class="rules-3 rules-1">10~200个字符，不填写为不设置说明</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><input type="checkbox" data-name="绑定邮箱" data-id="4" {if empty($config[1]['config'][3]['state'])}checked="checked"{else}{if $config[1]['config'][3]['state'] == 2}checked="checked"{/if}{/if} /></label>
+                    <div class="col-sm-10">
+                        <span class="rules-2">绑定邮箱获得</span>
+                        <span class="rules-1"><input type="number" class="form-control money" value="{if $config[1]['config'][3]['money'] == 0}50{else}{$config[1]['config'][3]['money']}{/if}" /></span>
+                        <span class="rules-1">元宝</span>
+                        <span class="rules-1" style="color: #b3b1b1">1~100000元宝，为正整数</span>
+                        <br /><br />
+                        <span class="rules-2">规则说明</span>
+                        <span class="rules-1"><textarea class="form-control explain">{if !isset($config[1]['config'][3]['explain'])}1.首次邮箱获得50元宝 &#10;2.只能获取一次奖励{else}{$config[1]['config'][3]['explain']}{/if}</textarea></span>
+                        <span class="rules-3 rules-1">10~200个字符，不填写为不设置说明</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><input type="checkbox" data-name="修改昵称" data-id="5" {if empty($config[1]['config'][4]['state'])}checked="checked"{else}{if $config[1]['config'][4]['state'] == 2}checked="checked"{/if}{/if} /></label>
+                    <div class="col-sm-10">
+                        <span class="rules-2">修改昵称获得</span>
+                        <span class="rules-1"><input type="number" class="form-control money" value="{if $config[1]['config'][4]['money'] == 0}50{else}{$config[1]['config'][4]['money']}{/if}" /></span>
+                        <span class="rules-1">元宝</span>
+                        <span class="rules-1" style="color: #b3b1b1">1~100000元宝，为正整数</span>
+                        <br /><br />
+                        <span class="rules-2">规则说明</span>
+                        <span class="rules-1"><textarea class="form-control explain">{if !isset($config[1]['config'][4]['explain'])}1.首次修改昵称获得50元宝&#10;2.只能获取一次奖励{else}{$config[1]['config'][4]['explain']}{/if}</textarea></span>
+                        <span class="rules-3 rules-1">10~200个字符，不填写为不设置说明</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><input type="checkbox" data-name="修改头像" data-id="6" {if empty($config[1]['config'][5]['state'])}checked="checked"{else}{if $config[1]['config'][5]['state'] == 2}checked="checked"{/if}{/if} /></label>
+                    <div class="col-sm-10">
+                        <span class="rules-2">修改头像获得</span>
+                        <span class="rules-1"><input type="number" class="form-control money" value="{if $config[1]['config'][5]['money'] == 0}50{else}{$config[1]['config'][5]['money']}{/if}" /></span>
+                        <span class="rules-1">元宝</span>
+                        <span class="rules-1" style="color: #b3b1b1">1~100000元宝，为正整数</span>
+                        <br /><br />
+                        <span class="rules-2">规则说明</span>
+                        <span class="rules-1"><textarea class="form-control explain">{if !isset($config[1]['config'][5]['explain'])}1.首次修改头像获得50元宝&#10;2.只能获取一次奖励{else}{$config[1]['config'][5]['explain']}{/if}</textarea></span>
+                        <span class="rules-3 rules-1">10~200个字符，不填写为不设置说明</span>
+                    </div>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+    <div class="ibox-content bagCol">
+        <div class="ibox-title">
+            <h5>每日任务设置</h5>
+            <div class="ibox-tools">
+                <a class="btn btn-white btn-bitbucket btn_sure" onclick="show(this)" data-title="修改" data-type="2"><i class="fa fa-pencil"></i> </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <form method="get" class="form-horizontal">
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-10">
+                        <span class="rules-2">每日任务总额</span>
+                        <span class="rules-1">
+                            <input type="number" class="form-control total-money" value="{if $config[2]['total'] == ''}10000{else}{$config[2]['total']}{/if}" />
+                        </span>
+                        <span class="rules-1">元宝</span>
+                        <span class="rules-1" style="color: #b3b1b1">大于1的正整数，设置0表示不设置任务总额</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><input type="checkbox" data-name="每日签到" data-id="7" {if empty($config[2]['config'][0]['state'])}checked="checked"{else}{if $config[2]['config'][0]['state'] == 2}checked="checked"{/if}{/if} /></label>
+                    <div class="col-sm-10">
+                        <span class="rules-2">每日签到获得</span>
+                        <span class="rules-1"><input type="number" class="form-control money" value="{if $config[2]['config'][0]['money'] == 0}50{else}{$config[2]['config'][0]['money']}{/if}" /></span>
+                        <span class="rules-1">元宝，第7次签到获得</span>
+                        <span class="rules-1"><input type="number" class="form-control money_bal" value="{if $config[2]['config'][0]['money_bal'] == 0}100{else}{$config[2]['config'][0]['money_bal']}{/if}" /></span>
+                        <span class="rules-1">元宝</span>
+                        <span class="rules-1" style="color: #b3b1b1">1~100000元宝，为正整数</span>
+                        <br /><br />
+                        <span class="rules-2">规则说明</span>
+                        <span class="rules-1"><textarea class="form-control explain">{if !isset($config[2]['config'][0]['explain'])}1.每日签到获得50元宝&#10;2.第7次签到获得100元宝&#10;3.每日清空计算{else}{$config[2]['config'][0]['explain']}{/if}</textarea></span>
+                        <span class="rules-3 rules-1">10~200个字符，不填写为不设置说明</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><input type="checkbox" data-name="单次充值" data-id="8" {if empty($config[2]['config'][1]['state'])}checked="checked"{else}{if $config[2]['config'][1]['state'] == 2}checked="checked"{/if}{/if} /></label>
+                    <div class="col-sm-10">
+                        <span class="rules-2">今日单次充值达</span>
+                        <span class="rules-1"><input type="number" class="form-control money_bal" value="{if $config[2]['config'][1]['money_bal'] == 0}1000{else}{$config[2]['config'][1]['money_bal']}{/if}" /></span>
+                        <span class="rules-1">元宝，获得</span>
+                        <span class="rules-1"><input type="number" class="form-control money" value="{if $config[2]['config'][1]['money'] == 0}10{else}{$config[2]['config'][1]['money']}{/if}" /></span>
+                        <span class="rules-1">元宝</span>
+                        <br /><br />
+                        <span class="rules-2">规则说明</span>
+                        <span class="rules-1"><textarea class="form-control explain">{if !isset($config[2]['config'][1]['explain'])}1.每日充值达1000元宝1次获得10元宝奖励&#10;2.当日未达到充值金额，次日将清空当日的充值金额重新计算&#10;3.该任务每日只能完成一次{else}{$config[2]['config'][1]['explain']}{/if}</textarea></span>
+                        <span class="rules-3 rules-1">10~200个字符，不填写为不设置说明</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><input type="checkbox" data-name="累计充值" data-id="9" {if empty($config[2]['config'][2]['state'])}checked="checked"{else}{if $config[2]['config'][2]['state'] == 2}checked="checked"{/if}{/if} /></label>
+                    <div class="col-sm-10">
+                        <span class="rules-2">今日累计充值达</span>
+                        <span class="rules-1"><input type="number" class="form-control money_bal" value="{if $config[2]['config'][2]['money_bal'] == 0}1000{else}{$config[2]['config'][2]['money_bal']}{/if}" /></span>
+                        <span class="rules-1">元宝，获得</span>
+                        <span class="rules-1"><input type="number" class="form-control money" value="{if $config[2]['config'][2]['money'] == 0}10{else}{$config[2]['config'][2]['money']}{/if}" /></span>
+                        <span class="rules-1" style="color: #b3b1b1">1~100000元宝，为正整数</span>
+                        <br /><br />
+                        <span class="rules-2">规则说明</span>
+                        <span class="rules-1"><textarea class="form-control explain">{if !isset($config[2]['config'][2]['explain'])}1.每日充值总额达1000元宝获得10元宝奖励&#10;2.当日未达到充值总额，次日将清空当日的充值总额重新计算&#10;3.该任务每日只能完成一次{else}{$config[2]['config'][2]['explain']}{/if}</textarea></span>
+                        <span class="rules-3 rules-1">10~200个字符，不填写为不设置说明</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><input type="checkbox" data-name="投注幸运28" data-id="10" {if empty($config[2]['config'][3]['state'])}checked="checked"{else}{if $config[2]['config'][3]['state'] == 2}checked="checked"{/if}{/if} /></label>
+                    <div class="col-sm-10">
+                        <span class="rules-2">今日投注幸运28达</span>
+                        <span class="rules-1"><input type="number" class="form-control money_bal" value="{if $config[2]['config'][3]['money_bal'] == 0}1000{else}{$config[2]['config'][3]['money_bal']}{/if}" /></span>
+                        <span class="rules-1">元宝，获得</span>
+                        <span class="rules-1"><input type="number" class="form-control money" value="{if $config[2]['config'][3]['money'] == 0}10{else}{$config[2]['config'][3]['money']}{/if}" /></span>
+                        <span class="rules-1">元宝</span>
+                        <span class="rules-1" style="color: #b3b1b1">1~100000元宝，为正整数</span>
+                        <br /><br />
+                        <span class="rules-2">规则说明</span>
+                        <span class="rules-1"><textarea class="form-control explain">{if !isset($config[2]['config'][3]['explain'])}1.每日投注达幸运28彩种1000元宝1次获得10元宝奖励&#10;2.当日未达到投注金额，次日将清空当日的投注金额重新计算&#10;3.该任务每日只能完成一次{else}{$config[2]['config'][3]['explain']}{/if}</textarea></span>
+                        <span class="rules-3 rules-1">10~200个字符，不填写为不设置说明</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><input type="checkbox" data-name="投注加拿大28" data-id="11" {if empty($config[2]['config'][4]['state'])}checked="checked"{else}{if $config[2]['config'][4]['state'] == 2}checked="checked"{/if}{/if} /></label>
+                    <div class="col-sm-10">
+                        <span class="rules-2">今日投注加拿大28达</span>
+                        <span class="rules-1"><input type="number" class="form-control money_bal" value="{if $config[2]['config'][4]['money_bal'] == 0}1000{else}{$config[2]['config'][4]['money_bal']}{/if}" /></span>
+                        <span class="rules-1">元宝，获得</span>
+                        <span class="rules-1"><input type="number" class="form-control money" value="{if $config[2]['config'][4]['money'] == 0}10{else}{$config[2]['config'][4]['money']}{/if}" /></span>
+                        <span class="rules-1">元宝</span>
+                        <span class="rules-1" style="color: #b3b1b1">1~100000元宝，为正整数</span>
+                        <br /><br />
+                        <span class="rules-2">规则说明</span>
+                        <span class="rules-1"><textarea class="form-control explain">{if !isset($config[2]['config'][4]['explain'])}1.每日投注加拿大28彩种达1000元宝获得10元宝奖励&#10;2.当日未达到投注总额，次日将清空当日的投注总额重新计算&#10;3.该任务每日只能完成一次{else}{$config[2]['config'][4]['explain']}{/if}</textarea></span>
+                        <span class="rules-3 rules-1">10~200个字符，不填写为不设置说明</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><input type="checkbox" data-name="投注北京PK10" data-id="12" {if empty($config[2]['config'][5]['state'])}checked="checked"{else}{if $config[2]['config'][5]['state'] == 2}checked="checked"{/if}{/if} /></label>
+                    <div class="col-sm-10">
+                        <span class="rules-2">今日投注北京PK10达</span>
+                        <span class="rules-1"><input type="number" class="form-control money_bal" value="{if $config[2]['config'][5]['money_bal'] == 0}1000{else}{$config[2]['config'][5]['money_bal']}{/if}" /></span>
+                        <span class="rules-1">元宝，获得</span>
+                        <span class="rules-1"><input type="number" class="form-control money" value="{if $config[2]['config'][5]['money'] == 0}10{else}{$config[2]['config'][5]['money']}{/if}" /></span>
+                        <span class="rules-1">元宝</span>
+                        <span class="rules-1" style="color: #b3b1b1">1~100000元宝，为正整数</span>
+                        <br /><br />
+                        <span class="rules-2">规则说明</span>
+                        <span class="rules-1"><textarea class="form-control explain">{if !isset($config[2]['config'][5]['explain'])}1.每日投注北京PK10彩种达1000元宝获得10元宝奖励&#10;2.当日未达到投注总额，次日将清空当日的投注总额重新计算&#10;3.该任务每日只能完成一次{else}{$config[2]['config'][5]['explain']}{/if}</textarea></span>
+                        <span class="rules-3 rules-1">10~200个字符，不填写为不设置说明</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><input type="checkbox" data-name="投注幸运飞艇" data-id="13" {if empty($config[2]['config'][6]['state'])}checked="checked"{else}{if $config[2]['config'][6]['state'] == 2}checked="checked"{/if}{/if} /></label>
+                    <div class="col-sm-10">
+                        <span class="rules-2">今日投注幸运飞艇达</span>
+                        <span class="rules-1"><input type="number" class="form-control money_bal" value="{if $config[2]['config'][6]['money_bal'] == 0}1000{else}{$config[2]['config'][6]['money_bal']}{/if}" /></span>
+                        <span class="rules-1">元宝，获得</span>
+                        <span class="rules-1"><input type="number" class="form-control money" value="{if $config[2]['config'][6]['money'] == 0}10{else}{$config[2]['config'][6]['money']}{/if}" /></span>
+                        <span class="rules-1">元宝</span>
+                        <span class="rules-1" style="color: #b3b1b1">1~100000元宝，为正整数</span>
+                        <br /><br />
+                        <span class="rules-2">规则说明</span>
+                        <span class="rules-1"><textarea class="form-control explain">{if !isset($config[2]['config'][6]['explain'])}1.每日投注幸运飞艇彩种达1000元宝获得10元宝奖励&#10;2.当日未达到投注总额，次日将清空当日的投注总额重新计算&#10;3.该任务每日只能完成一次{else}{$config[2]['config'][6]['explain']}{/if}</textarea></span>
+                        <span class="rules-3 rules-1">10~200个字符，不填写为不设置说明</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><input type="checkbox" data-name="投注急速赛车" data-id="14" {if empty($config[2]['config'][7]['state'])}checked="checked"{else}{if $config[2]['config'][7]['state'] == 2}checked="checked"{/if}{/if} /></label>
+                    <div class="col-sm-10">
+                        <span class="rules-2">今日投注急速赛车达</span>
+                        <span class="rules-1"><input type="number" class="form-control money_bal" value="{if $config[2]['config'][7]['money_bal'] == 0}1000{else}{$config[2]['config'][7]['money_bal']}{/if}" /></span>
+                        <span class="rules-1">元宝，获得</span>
+                        <span class="rules-1"><input type="number" class="form-control money" value="{if $config[2]['config'][7]['money'] == 0}10{else}{$config[2]['config'][7]['money']}{/if}" /></span>
+                        <span class="rules-1">元宝</span>
+                        <span class="rules-1" style="color: #b3b1b1">1~100000元宝，为正整数</span>
+                        <br /><br />
+                        <span class="rules-2">规则说明</span>
+                        <span class="rules-1"><textarea class="form-control explain">{if !isset($config[2]['config'][7]['explain'])}1.每日投注急速PK10彩种达1000元宝获得10元宝奖励&#10;2.当日未达到投注总额，次日将清空当日的投注总额重新计算&#10;3.该任务每日只能完成一次{else}{$config[2]['config'][7]['explain']}{/if}</textarea></span>
+                        <span class="rules-3 rules-1">10~200个字符，不填写为不设置说明</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><input type="checkbox" data-name="投注重庆时时彩" data-id="15" {if empty($config[2]['config'][8]['state'])}checked="checked"{else}{if $config[2]['config'][8]['state'] == 2}checked="checked"{/if}{/if} /></label>
+                    <div class="col-sm-10">
+                        <span class="rules-2">今日投注重庆时时彩达</span>
+                        <span class="rules-1"><input type="number" class="form-control money_bal" value="{if $config[2]['config'][8]['money_bal'] == 0}1000{else}{$config[2]['config'][8]['money_bal']}{/if}" /></span>
+                        <span class="rules-1">元宝，获得</span>
+                        <span class="rules-1"><input type="number" class="form-control money" value="{if $config[2]['config'][8]['money'] == 0}10{else}{$config[2]['config'][8]['money']}{/if}" /></span>
+                        <span class="rules-1">元宝</span>
+                        <span class="rules-1" style="color: #b3b1b1">1~100000元宝，为正整数</span>
+                        <br /><br />
+                        <span class="rules-2">规则说明</span>
+                        <span class="rules-1"><textarea class="form-control explain">{if !isset($config[2]['config'][8]['explain'])}1.每日投注重庆时时彩彩种达1000元宝获得10元宝奖励&#10;2.当日未达到投注总额，次日将清空当日的投注总额重新计算&#10;3.该任务每日只能完成一次{else}{$config[2]['config'][8]['explain']}{/if}</textarea></span>
+                        <span class="rules-3 rules-1">10~200个字符，不填写为不设置说明</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><input type="checkbox" data-name="投注三分彩" data-id="16" {if empty($config[2]['config'][9]['state'])}checked="checked"{else}{if $config[2]['config'][9]['state'] == 2}checked="checked"{/if}{/if} /></label>
+                    <div class="col-sm-10">
+                        <span class="rules-2">今日投注三分彩达</span>
+                        <span class="rules-1"><input type="number" class="form-control money_bal" value="{if $config[2]['config'][9]['money_bal'] == 0}1000{else}{$config[2]['config'][9]['money_bal']}{/if}" /></span>
+                        <span class="rules-1">元宝，获得</span>
+                        <span class="rules-1"><input type="number" class="form-control money" value="{if $config[2]['config'][9]['money'] == 0}10{else}{$config[2]['config'][9]['money']}{/if}" /></span>
+                        <span class="rules-1">元宝</span>
+                        <span class="rules-1" style="color: #b3b1b1">1~100000元宝，为正整数</span>
+                        <br /><br />
+                        <span class="rules-2">规则说明</span>
+                        <span class="rules-1"><textarea class="form-control explain">{if !isset($config[2]['config'][9]['explain'])}1.每日投注三分彩彩种达1000元宝获得10元宝奖励&#10;2.当日未达到投注总额，次日将清空当日的投注总额重新计算&#10;3.该任务每日只能完成一次{else}{$config[2]['config'][9]['explain']}{/if}</textarea></span>
+                        <span class="rules-3 rules-1">10~200个字符，不填写为不设置说明</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><input type="checkbox" data-name="投注香港六合彩" data-id="17" {if empty($config[2]['config'][10]['state'])}checked="checked"{else}{if $config[2]['config'][10]['state'] == 2}checked="checked"{/if}{/if} /></label>
+                    <div class="col-sm-10">
+                        <span class="rules-2">今日投注香港六合彩达</span>
+                        <span class="rules-1"><input type="number" class="form-control money_bal" value="{if $config[2]['config'][10]['money_bal'] == 0}1000{else}{$config[2]['config'][10]['money_bal']}{/if}" /></span>
+                        <span class="rules-1">元宝，获得</span>
+                        <span class="rules-1"><input type="number" class="form-control money" value="{if $config[2]['config'][10]['money'] == 0}10{else}{$config[2]['config'][10]['money']}{/if}" /></span>
+                        <span class="rules-1">元宝</span>
+                        <span class="rules-1" style="color: #b3b1b1">1~100000元宝，为正整数</span>
+                        <br /><br />
+                        <span class="rules-2">规则说明</span>
+                        <span class="rules-1"><textarea class="form-control explain">{if !isset($config[2]['config'][10]['explain'])}1.每日投注急速六合彩彩种达1000元宝获得10元宝奖励&#10;2.当日未达到投注总额，次日将清空当日的投注总额重新计算&#10;3.该任务每日只能完成一次{else}{$config[2]['config'][10]['explain']}{/if}</textarea></span>
+                        <span class="rules-3 rules-1">10~200个字符，不填写为不设置说明</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><input type="checkbox" data-name="投注急速六合彩" data-id="18" {if empty($config[2]['config'][11]['state'])}checked="checked"{else}{if $config[2]['config'][11]['state'] == 2}checked="checked"{/if}{/if} /></label>
+                    <div class="col-sm-10">
+                        <span class="rules-2">今日投注急速六合彩达</span>
+                        <span class="rules-1"><input type="number" class="form-control money_bal" value="{if $config[2]['config'][11]['money_bal'] == 0}1000{else}{$config[2]['config'][11]['money_bal']}{/if}" /></span>
+                        <span class="rules-1">元宝，获得</span>
+                        <span class="rules-1"><input type="number" class="form-control money" value="{if $config[2]['config'][11]['money'] == 0}10{else}{$config[2]['config'][11]['money']}{/if}" /></span>
+                        <span class="rules-1">元宝</span>
+                        <span class="rules-1" style="color: #b3b1b1">1~100000元宝，为正整数</span>
+                        <br /><br />
+                        <span class="rules-2">规则说明</span>
+                        <span class="rules-1"><textarea class="form-control explain">{if !isset($config[2]['config'][11]['explain'])}1.每日投注急速六合彩彩种达1000元宝获得10元宝奖励&#10;2.当日未达到投注总额，次日将清空当日的投注总额重新计算&#10;3.该任务每日只能完成一次{else}{$config[2]['config'][11]['explain']}{/if}</textarea></span>
+                        <span class="rules-3 rules-1">10~200个字符，不填写为不设置说明</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><input type="checkbox" data-name="投注百人牛牛" data-id="19" {if empty($config[2]['config'][12]['state'])}checked="checked"{else}{if $config[2]['config'][12]['state'] == 2}checked="checked"{/if}{/if} /></label>
+                    <div class="col-sm-10">
+                        <span class="rules-2">今日投注百人牛牛达</span>
+                        <span class="rules-1"><input type="number" class="form-control money_bal" value="{if $config[2]['config'][12]['money_bal'] == 0}1000{else}{$config[2]['config'][12]['money_bal']}{/if}" /></span>
+                        <span class="rules-1">元宝，获得</span>
+                        <span class="rules-1"><input type="number" class="form-control money" value="{if $config[2]['config'][12]['money'] == 0}10{else}{$config[2]['config'][12]['money']}{/if}" /></span>
+                        <span class="rules-1">元宝</span>
+                        <span class="rules-1" style="color: #b3b1b1">1~100000元宝，为正整数</span>
+                        <br /><br />
+                        <span class="rules-2">规则说明</span>
+                        <span class="rules-1"><textarea class="form-control explain">{if !isset($config[2]['config'][12]['explain'])}1.每日投注百人牛牛达1000元宝获得10元宝奖励&#10;2.当日未达到投注总额，次日将清空当日的投注总额重新计算&#10;3.该任务每日只能完成一次{else}{$config[2]['config'][12]['explain']}{/if}</textarea></span>
+                        <span class="rules-3 rules-1">10~200个字符，不填写为不设置说明</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><input type="checkbox" data-name="投注分分彩" data-id="24" {if empty($config[2]['config'][13]['state'])}checked="checked"{else}{if $config[2]['config'][13]['state'] == 2}checked="checked"{/if}{/if} /></label>
+                    <div class="col-sm-10">
+                        <span class="rules-2">今日投注分分彩达</span>
+                        <span class="rules-1"><input type="number" class="form-control money_bal" value="{if $config[2]['config'][13]['money_bal'] == 0}1000{else}{$config[2]['config'][13]['money_bal']}{/if}" /></span>
+                        <span class="rules-1">元宝，获得</span>
+                        <span class="rules-1"><input type="number" class="form-control money" value="{if $config[2]['config'][13]['money'] == 0}10{else}{$config[2]['config'][13]['money']}{/if}" /></span>
+                        <span class="rules-1">元宝</span>
+                        <span class="rules-1" style="color: #b3b1b1">1~100000元宝，为正整数</span>
+                        <br /><br />
+                        <span class="rules-2">规则说明</span>
+                        <span class="rules-1"><textarea class="form-control explain">{if !isset($config[2]['config'][13]['explain'])}1.每日投注分分彩达1000元宝获得10元宝奖励&#10;2.当日未达到投注总额，次日将清空当日的投注总额重新计算&#10;3.该任务每日只能完成一次{else}{$config[2]['config'][13]['explain']}{/if}</textarea></span>
+                        <span class="rules-3 rules-1">10~200个字符，不填写为不设置说明</span>
+                    </div>
+                </div>
+				
+				<div class="form-group">
+                    <label class="col-sm-2 control-label"><input type="checkbox" data-name="投注分分pk10" data-id="25" {if empty($config[2]['config'][14]['state'])}checked="checked"{else}{if $config[2]['config'][14]['state'] == 2}checked="checked"{/if}{/if} /></label>
+                    <div class="col-sm-10">
+                        <span class="rules-2">今日投注分分pk10达</span>
+                        <span class="rules-1"><input type="number" class="form-control money_bal" value="{if $config[2]['config'][14]['money_bal'] == 0}1000{else}{$config[2]['config'][14]['money_bal']}{/if}" /></span>
+                        <span class="rules-1">元宝，获得</span>
+                        <span class="rules-1"><input type="number" class="form-control money" value="{if $config[2]['config'][14]['money'] == 0}10{else}{$config[2]['config'][14]['money']}{/if}" /></span>
+                        <span class="rules-1">元宝</span>
+                        <span class="rules-1" style="color: #b3b1b1">1~100000元宝，为正整数</span>
+                        <br /><br />
+                        <span class="rules-2">规则说明</span>
+                        <span class="rules-1"><textarea class="form-control explain">{if !isset($config[2]['config'][14]['explain'])}1.每日投注分分pk10达1000元宝获得10元宝奖励&#10;2.当日未达到投注总额，次日将清空当日的投注总额重新计算&#10;3.该任务每日只能完成一次{else}{$config[2]['config'][14]['explain']}{/if}</textarea></span>
+                        <span class="rules-3 rules-1">10~200个字符，不填写为不设置说明</span>
+                    </div>
+                </div>
+				
+				<div class="form-group">
+                    <label class="col-sm-2 control-label"><input type="checkbox" data-name="投注欢乐骰宝" data-id="26" {if empty($config[2]['config'][15]['state'])}checked="checked"{else}{if $config[2]['config'][15]['state'] == 2}checked="checked"{/if}{/if} /></label>
+                    <div class="col-sm-10">
+                        <span class="rules-2">今日投注欢乐骰宝达</span>
+                        <span class="rules-1"><input type="number" class="form-control money_bal" value="{if $config[2]['config'][15]['money_bal'] == 0}1000{else}{$config[2]['config'][15]['money_bal']}{/if}" /></span>
+                        <span class="rules-1">元宝，获得</span>
+                        <span class="rules-1"><input type="number" class="form-control money" value="{if $config[2]['config'][15]['money'] == 0}10{else}{$config[2]['config'][15]['money']}{/if}" /></span>
+                        <span class="rules-1">元宝</span>
+                        <span class="rules-1" style="color: #b3b1b1">1~100000元宝，为正整数</span>
+                        <br /><br />
+                        <span class="rules-2">规则说明</span>
+                        <span class="rules-1"><textarea class="form-control explain">{if !isset($config[2]['config'][15]['explain'])}1.每日投注欢乐骰宝达1000元宝获得10元宝奖励&#10;2.当日未达到投注总额，次日将清空当日的投注总额重新计算&#10;3.该任务每日只能完成一次{else}{$config[2]['config'][15]['explain']}{/if}</textarea></span>
+                        <span class="rules-3 rules-1">10~200个字符，不填写为不设置说明</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="ibox-content bagCol">
+        <div class="ibox-title">
+            <h5>每日任务达成设置</h5>
+            <div class="ibox-tools">
+                <a class="btn btn-white btn-bitbucket btn_sure" onclick="show(this)" data-title="修改" data-type="3"><i class="fa fa-pencil"></i> </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <form method="get" class="form-horizontal">
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-10">
+                        <span class="rules-2">每日任务总额</span>
+                        <span class="rules-1">
+                            <input type="number" class="form-control total-money" value="{if $config[3]['total'] == ''}10000{else}{$config[3]['total']}{/if}" />
+                        </span>
+                        <span class="rules-1">元宝</span>
+                        <span class="rules-1" style="color: #b3b1b1">大于1的正整数，设置0表示不设置任务总额</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><input type="checkbox" data-name="任务达成数3" data-id="20" {if empty($config[3]['config'][0]['state'])}checked="checked"{else}{if $config[3]['config'][0]['state'] == 2}checked="checked"{/if}{/if} /></label>
+                    <div class="col-sm-10">
+                        <span class="rules-2">任务达成数3获得</span>
+                        <span class="rules-1"><input type="number" class="form-control money" value="{if $config[3]['config'][0]['money'] == 0}100{else}{$config[3]['config'][0]['money']}{/if}" /></span>
+                        <span class="rules-1">元宝</span>
+                        <span class="rules-1" style="color: #b3b1b1">1~100000元宝，为正整数</span>
+                        <br /><br />
+                        <span class="rules-2">规则说明</span>
+                        <span class="rules-1"><textarea class="form-control explain">{if !isset($config[3]['config'][0]['explain'])}1.每日任务达成数为3获得100元宝&#10;2.次日任务重置计算{else}{$config[3]['config'][0]['explain']}{/if}</textarea></span>
+                        <span class="rules-3 rules-1">10~200个字符，不填写为不设置说明</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><input type="checkbox" data-name="任务达成数7" data-id="21" {if empty($config[3]['config'][1]['state'])}checked="checked"{else}{if $config[3]['config'][1]['state'] == 2}checked="checked"{/if}{/if} /></label>
+                    <div class="col-sm-10">
+                        <span class="rules-2">任务达成数7获得</span>
+                        <span class="rules-1"><input type="number" class="form-control money" value="{if $config[3]['config'][1]['money'] == 0}300{else}{$config[3]['config'][1]['money']}{/if}" /></span>
+                        <span class="rules-1">元宝</span>
+                        <span class="rules-1" style="color: #b3b1b1">1~100000元宝，为正整数</span>
+                        <br /><br />
+                        <span class="rules-2">规则说明</span>
+                        <span class="rules-1"><textarea class="form-control explain">{if !isset($config[3]['config'][1]['explain'])}1.每日任务达成数为7得300元宝&#10;2.次日任务重置计算{else}{$config[3]['config'][1]['explain']}{/if}</textarea></span>
+                        <span class="rules-3 rules-1">10~200个字符，不填写为不设置说明</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><input type="checkbox" data-name="任务达成数13" data-id="22" {if empty($config[3]['config'][2]['state'])}checked="checked"{else}{if $config[3]['config'][2]['state'] == 2}checked="checked"{/if}{/if} /></label>
+                    <div class="col-sm-10">
+                        <span class="rules-2">任务达成数13获得</span>
+                        <span class="rules-1"><input type="number" class="form-control money" value="{if $config[3]['config'][2]['money'] == 0}500{else}{$config[3]['config'][2]['money']}{/if}" /></span>
+                        <span class="rules-1">元宝</span>
+                        <span class="rules-1" style="color: #b3b1b1">1~100000元宝，为正整数</span>
+                        <br /><br />
+                        <span class="rules-2">规则说明</span>
+                        <span class="rules-1"><textarea class="form-control explain">{if !isset($config[3]['config'][2]['explain'])}1.每日任务达成数为13得500元宝&#10;2.次日任务重置计算{else}{$config[3]['config'][2]['explain']}{/if}</textarea></span>
+                        <span class="rules-3 rules-1">10~200个字符，不填写为不设置说明</span>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    var loading = "";//加载中......
+
+    $("input,textarea").attr("disabled",true);
+
+    //保存按钮显示
+    function show(obj){
+        $(obj).parent().parent().parent().find("input,textarea").attr("disabled",false);
+        var type = $(obj).data('type');
+        $(obj).parent().html('<a href="javascript:void(0)" class="btn btn-white btn-bitbucket" data-title="保存" onclick="save(this)" data-type="'+type+'"> <i class="fa fa-save"></i> </a>');
+        $(obj).remove();
+    };
+
+
+    function save(obj) {
+        var new_obj = $(obj).parent().parent().parent().find(".form-group [type='checkbox']");
+        var type = $(obj).data("type");
+        var total = $(obj).parent().parent().parent().find(".total-money").val();
+        if (total != "") {
+            total = parseInt(total);
+        } else {
+            total = 0;
+        }
+
+        var data = {
+            'type': type,
+            'config': [],
+            'total': total
+        }
+
+        for (var a = 0; a < new_obj.length; a++) {
+            var tmp = {
+                'money':parseInt($(new_obj[a]).parent().parent().find(".money").val()),
+                'money_bal':parseInt($(new_obj[a]).parent().parent().find(".money_bal").val()),
+                'explain':$(new_obj[a]).parent().parent().find(".explain").val(),
+                'id':$(new_obj[a]).data('id'),
+                'name':$(new_obj[a]).data('name'),
+                'state':1//关闭
+            }
+            if (isNaN(tmp.money)) {
+                tmp.money = 0;
+            }
+            if (isNaN(tmp.money_bal)) {
+                tmp.money_bal = 0;
+            }
+            if ($(new_obj[a]).prop("checked") == true) {
+                if (tmp.money < 1 || tmp.money > 100000) {
+                    layer.tips('金额不正确', $(new_obj[a]).parent().parent().find(".money"), {tips:[1, 'red'], time: 4000});
+                    $(new_obj[a]).parent().parent().find(".money").focus();
+                    return false;
+                }
+                if (type == 2) {
+                    if (tmp.money_bal < 1 || tmp.money_bal > 100000 ) {
+                        layer.tips('金额不正确', $(new_obj[a]).parent().parent().find(".money_bal"), {tips:[1, 'red'], time: 4000});
+                        $(new_obj[a]).parent().parent().find(".money_bal").focus();
+                        return false;
+                    }
+                }
+
+                if (tmp.explain && tmp.explain.length && (tmp.explain.length < 10 || tmp.explain.length > 200)) {
+                    layer.tips('规则说明不正确', $(new_obj[a]).parent().parent().find(".explain"), {tips:[1, 'red'], time: 4000});
+                    $(new_obj[a]).parent().parent().find(".explain").focus();
+                    return false;
+                }
+                tmp.state = 2//开启
+            }
+            data.config.push(tmp)
+        }
+
+        $.ajax({
+            url: '?m=admin&c=activity&a=taskConfAct',
+            data: data,
+            dataType: 'json',
+            type: 'post',
+            beforeSend: function () {
+                loading = layer.load(1);
+            },
+            error: function () {
+                layer.close(loading);
+                layer.msg('网络错误，请重试', {icon: 5, shade: [0.5, '#393D49']});
+            },
+            success: function (result) {
+                layer.close(loading);
+                if (result.code == 0) {
+                    layer.msg(result.msg, {icon: 6, shade: [0.5, '#393D49']}, function () {
+                        location.reload();
+                    });
+                } else {
+                    layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']});
+                }
+            }
+        });
+    }
+</script>
+</html>

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+      	<link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+        <script src="statics/admin/js/pintuer.js"></script>  
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>  
+        <script src="statics/admin/js/jquery.date_input.pack.js"></script> 
+        {template public-new-ui-header}
+        <style>
+            #page{height: 60px;margin-top: 20px;text-align: center;}
+            #page ul li{float: left;margin-right:10px;}
+            #page ul .current{ background-color:#0099ff;text-align:center;}
+        </style>
+    </head>
+    <body class="new_ui_body">
+    <div class="ibox float-e-margins">
+	    <div class="ibox-title iboxWTitle">
+	        <h5>{if $_GET['a'] == 'addRooms'}新增私密房间{else}修改私密房间{/if}</h5>
+	        <div class="ibox-tools">
+	            <a href="javascript:history.go(-1)" class="btn btn-white btn-bitbucket">
+	                <i class="fa fa-reply"></i> 返回
+	            </a>
+	        </div>
+	        
+	    </div>
+	    <div class="ibox-content bagCol">
+	        <div class="ibox-title ">
+	            <h5>房间信息</h5>
+	        </div>
+         	<div class="ibox-content">
+         		<form id='form' method="post" class="form-horizontal">
+         			<div class="form-group">
+	                    <label class="col-sm-2 control-label">移动端（APP、H5）房间图片</label>
+	
+	                    <div class="col-sm-4">
+	                        {if $roomInfo['avatar'] != ''}
+                                <img  class="form-control" src="{$roomInfo['avatar']}" style="width:200px;height:100px;"><br/>
+                            {/if}
+                            <input type="file" name="avatar" id="avatar" data-validate="required:请选择图片" />
+                            &nbsp;&nbsp;图片尺寸建议 (710*280)，不超过1M
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">电脑端（PC）房间图片</label>
+	
+	                    <div class="col-sm-5">
+	                        {if $roomInfo['pc_avatar'] != ''}
+                                <img class="form-control" src="{$roomInfo['pc_avatar']}" style="width:198px;height:178px;"><br/>
+                            {/if}
+                            <input type="file" name="pc_avatar" id="pc_avatar" data-validate="required:请选择图片" />
+                            &nbsp;&nbsp;图片尺寸建议 (198*178)，不超过1M
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">房间名称</label>
+	                    <div class="col-sm-3">
+	                        <input type="text" class="form-control" value="{$roomInfo['title']}" name="title" id="title" data-validate="required:请输入房间名称" />
+	                        <span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">满员人数</label>
+	                    <div class="col-sm-6">
+	                    	<span class="col-sm-3" style="padding-left: 0px;">
+	                        <input type="text" class="form-control" value="{$roomInfo['max_number']}" name="max_number" id="max_number" data-validate="required:请输入满员人数" />
+	                        </span>
+	                        <span class="col-sm-5" style="padding-top: 5px;">*(人) 最大上限：65535人</span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">最低投注</label>
+	                    <div class="col-sm-6">
+	                    	<span class="col-sm-3" style="padding-left: 0px;">
+	                        <input type="text" class="form-control" value="{$roomInfo['lower']}" name="lower" id="lower" data-validate="required:请输入最低投注" />
+	                        </span>
+	                        <span class="col-sm-2" style="padding-top: 5px;">*(元)</span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">最低元宝</label>
+	                    <div class="col-sm-6">
+	                    	<span class="col-sm-3" style="padding-left: 0px;">
+	                        <input type="text" class="form-control" value="{$roomInfo['low_yb']}" name="low_yb" id="low_yb" data-validate="required:请输入最低元宝" />
+	                        </span>
+	                        <span class="col-sm-2" style="padding-top: 5px;"></span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">最高元宝</label>
+	                    <div class="col-sm-6">
+	                    	<span class="col-sm-3" style="padding-left: 0px;">
+	                        	<input type="text" class="form-control" value="{$roomInfo['max_yb']}" name="max_yb" id="max_yb" data-validate="required:请输入最高元宝" />
+	                        </span>
+	                        <span class="col-sm-2" style="padding-top: 5px;"></span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">限时踢人</label>
+	                    <div class="col-sm-6">
+	                    	<span class="col-sm-3" style="padding-left: 0px;">
+	                        <input type="text" class="form-control" value="{$roomInfo['shove_time']}" name="shove_time" id="shove_time" data-validate="required:请输入限时踢人" />
+	                        </span>
+	                        <span class="col-sm-2" style="padding-top: 5px;">*(分)</span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">封盘线时间</label>
+	                    <div class="col-sm-6">
+	                    	<span class="col-sm-3" style="padding-left: 0px;">
+	                        <input type="text" class="form-control" value="{$roomInfo['closure_time']}" name="closure_time" id="closure_time" data-validate="required:请输入封盘线时间" />
+	                        </span>
+	                        <span class="col-sm-2" style="padding-top: 5px;">*(秒)</span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">虚拟在线人数</label>
+	                    <div class="col-sm-6">
+	                    	<span class="col-sm-3" style="padding-left: 0px;">
+	                        <input type="text" class="form-control" value="{$roomInfo['online']}" name="online" id="online" data-validate="required:请输入虚拟在线人数" />
+	                        </span>
+	                        <span class="col-sm-5" style="padding-top: 5px;">*(人) 最大上限：65535人</span>
+	                    </div>
+	                </div>
+	                {if $roomInfo['lottery_type'] != ''}
+		                <div class="hr-line-dashed"></div>
+		                <div class="form-group">
+		                    <label class="col-sm-2 control-label">彩种</label>
+		                    <div class="col-sm-2">
+			                     {loop $lottyList $v}
+	                                {if $roomInfo['lottery_type'] == $v['id']}
+	                                    <div>{$v['name']}</div>
+	                                    <input type="hidden" id="lottery_type" value="{$roomInfo['lottery_type']}" name="lottery_type" />
+	                                {/if}
+	                            {/loop}
+		                        <span class="help-block m-b-none"></span>
+		                    </div>
+		                </div>
+		            {else}
+			            <div class="hr-line-dashed"></div>
+		                <div class="form-group">
+		                    <label class="col-sm-2 control-label">彩种</label>
+		                    <div class="col-sm-2">
+			                    <select class="input" id='lottery_type' name="lottery_type" >
+	                                <option value="">选择</option>
+	                                {loop $lottyList $v}
+	                                <option value="{$v['id']}">{$v['name']}</option>
+	                                {/loop}
+	                            </select>
+		                        <span class="help-block m-b-none"></span>
+		                    </div>
+		                </div>
+	                {/if}
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">是否开启</label>
+	                    <div class="col-sm-2">
+	                        <select class="form-control m-b" id='status' name="status">
+	                           	<option value="0">开启</option>
+                                <option value="1">关闭</option>
+	                        </select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">密码</label>
+	                    <div class="col-sm-3">
+	                        <input type="text" class="form-control" value="{$roomInfo['passwd']}" name="passwd" id="passwd" data-validate="required:请输入密码" />
+	                        <span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+                    <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">进入房间余额不足提示</label>
+	                    <div class="col-sm-3">
+	                        <textarea id="room_account" name="lack_tips"  style="width:355px;height:160px;">{$roomInfo['lack_tips']}</textarea>
+	                        <span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">欢迎提醒</label>
+						<div class="col-sm-3">
+							<textarea id="greet" name="greet" style="width:355px;height:160px;">{$roomInfo['greet']}</textarea>
+							<span class="help-block m-b-none"></span>
+						</div>
+					</div>
+
+					<div class="form-group">
+	                    <label class="col-sm-2 control-label">赔率说明</label>
+	                    <div class="col-sm-3">
+	                        <textarea id="odds_desc" name="odds_exp" style="width:355px;height:160px;">{$roomInfo['odds_exp']}</textarea>
+	                        <span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+                        <label class="col-sm-2 control-label">限制用户</label>
+                        <div class="col-sm-3" id="usernames"  style="height:180px;border:1px solid #EAEAEA;">
+                        	{loop $userData $userInfo}
+		                		{if $userInfo != ''}
+                					<input type="checkbox" style="margin-left: 15px;" checked value="{$userInfo['id']}" name="uids[]"/>{$userInfo['username']}
+		                		{/if}
+	                		{/loop}
+	                    </div>
+                        <div class="tips col-sm-6" style="margin-left:10px;">
+                        	<div style="width:120px;height:30px;margin-top:60px;float: left;">
+                        		<input type="text" autocomplete="off" class="input w50" name="username" id="username" style="width:120px;height:30px;"/>
+                        		<p><span id='search-username'></span></p>
+                       		</div>
+                        	<button class="button bg-main" type="button" id="btn_username" style="height:32px;margin-top:60px;padding-top:6px;margin-left:10px;">添加限制用户</button>
+                        </div>
+                    </div>  
+                    <input type='hidden' value="{$roomInfo['id']}" name='id'>
+                </form>
+                 <div class="form-group">
+	            	<div class="col-sm-4 col-sm-offset-2">
+	                	<button class="btn btn-primary" type="submit" id="btn_submit">提交</button>
+	                	<button class="btn btn-white" id="btn_cancel" type="submit">取消</button>
+	            	</div>
+       			</div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            var loading = "";//加载中......
+            //获取url中的参数
+            function getUrlParam(name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+                var r = window.location.search.substr(1).match(reg); //匹配目标参数
+                if (r != null) return unescape(r[2]); return null; //返回参数值
+            }
+            $(function () {
+                $("#lottery_type option[value='{$roomInfo['lottery_type']}']").attr("selected",true);
+                $("#status option[value='{$roomInfo['status']}']").attr("selected",true);
+
+                $("#btn_submit").click(function () {
+                    var room_account = $('#room_account').val();
+                    if(room_account == ''){
+                        layer.msg('房间余额不足提示不得为空！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        return false;
+                    }
+
+                    var odds_desc = $('#odds_desc').val();
+                    if(odds_desc == ''){
+                        layer.msg('赔率说明不得为空！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        return false;
+                    }
+
+                    var lottery_type = $('#lottery_type').val();
+                    if(lottery_type == ''){
+                        layer.msg('请选择一个彩种！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        return false;
+                    }
+                    if (lottery_type == ""){
+                        lottery_type = '{$_REQUEST["lottery_id"]}';
+                    }
+
+
+                    var max_number = $("input[name=max_number]").val();
+                    if(parseInt(max_number, 10) != max_number || max_number<1 || max_number > 65535){
+                        layer.msg('满员人数,请输入1-65535之间的整数！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        return false;
+                    }
+                    var lower = $("input[name=lower]").val();
+                    if(parseInt(lower, 10) != lower || lower<1 || lower > 999999999){
+                        layer.msg('最低投注,请输入1-999999999之间的正整数！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        return false;
+                    }
+                    var low_yb = $("input[name=low_yb]").val();
+                    if(parseInt(low_yb, 10) != low_yb || low_yb<0 || low_yb > 999999999){
+                        layer.msg('最低元宝,请输入0-999999999之间的正整数！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        return false;
+                    }
+                    var max_yb = $("input[name=max_yb]").val();
+                    if(parseInt(max_yb, 10) != max_yb || max_yb<1 || max_yb > 999999999){
+                        layer.msg('最高元宝,请输入1-999999999之间的正整数！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        return false;
+                    }
+                    if(parseInt(max_yb, 10) <= parseInt(low_yb, 10)){
+                        layer.msg('最高元宝必须大于最低元宝！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        return false;
+                    }
+                    var shove_time = $("input[name=shove_time]").val();
+                    if(parseInt(shove_time, 10) != shove_time || shove_time<1 || shove_time > 720){
+                        layer.msg('限时踢人,请输入1-720之间的整数！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        return false;
+                    }
+                    var closure_time = $("input[name=closure_time]").val();
+                    if(parseInt(closure_time, 10) != closure_time || closure_time<0/* || closure_time > 120*/){
+                        layer.msg('封盘线时间,请输入大于等于0的整数！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        return false;
+                    }
+                    var online = $("input[name=online]").val();
+                    if(parseInt(online, 10) != online || online<0 || online > 65535){
+                        layer.msg('虚拟在线人数,请输入1-65535之间的整数！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        return false;
+                    }
+                    var passwd = $("#passwd").val();
+                    if(passwd == ""){
+                        layer.msg("请输入密码！！！",{icon: 5, shade: [0.5, '#393D49']});
+                        return false;
+                    }                    
+                    var formData = new FormData($("#form")[0]);
+                    $.ajax({
+                        url: '?m=admin&c=message&a=doAddRoom',
+                        data: formData,
+                        dataType: 'json',
+                        processData: false,
+                        contentType: false,
+                        type: 'post',
+                        timeout : 60000,
+                        beforeSend: function () {
+                            loading = layer.load(1);
+                        },
+                        error: function () {
+                            layer.close(loading);
+                            layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        },
+                        success: function (result) {
+                            layer.close(loading);
+                            
+                            if (parseInt(result.rt) > 0) {
+                                layer.msg('提交成功,请手动刷新缓存,新数据才会生效' +
+									'!', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                    if(getUrlParam('a')=='addRooms'){
+                                        layer.confirm('', {
+                                            btn: ['继续添加', '返回列表'] //可以无限个按钮
+                                        }, function () {
+                                            location.href = '?m=admin&c=message&a=addRooms';
+                                        }, function () {
+                                            location.href = '?m=admin&c=message&a=room&lottery_id='+lottery_type;
+                                        });
+                                    }else{
+                                        location.href = '?m=admin&c=message&a=room&lottery_id='+lottery_type;
+                                    }
+                                });
+                            } else if (result.rt == -1) {
+                                layer.msg('文件上传失败！！！', {icon: 5, shade: [0.5, '#393D49']});
+                            } else if(result.rt == -3){
+                                layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']});
+							} else {
+                            	if (result.msg) {
+                            		layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']});
+                            	} else {
+                            		layer.msg('提交失败！！！', {icon: 5, shade: [0.5, '#393D49']});
+                            	}
+                            }
+                        }
+                    });
+                });
+
+                $("#btn_back").click(function () {
+                    var lottery_type = $('#lottery_type').val();
+                    if (lottery_type == ""){
+                        lottery_type = '{$_REQUEST["lottery_id"]}';
+                    }
+                    location.href = '?m=admin&c=message&a=room&lottery_id='+lottery_type;
+                });
+                
+                $("#btn_cancel").click(function () {
+                    var lottery_type = $('#lottery_type').val();
+                    if (lottery_type == ""){
+                        lottery_type = '{$_REQUEST["lottery_id"]}';
+                    }
+                    location.href = '?m=admin&c=message&a=room&lottery_id='+lottery_type;
+                });
+                
+                //用户名动态搜索
+               	$("#username").keyup(function(){
+	               	var username = $("#username").val();
+
+	               	$.ajax({
+                        url: '?m=admin&c=user&a=searchUsername',
+                        data:{username:username},
+                        dataType: 'json',
+                        type: 'get',
+                        error: function () {
+                            layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        },
+                        success: function(ret) {
+               				if (ret.code == 1) {
+               					for (var i = ret.data.length - 1; i >= 0; i--) {        
+              	                     $('#search-username').append(ret.data[i]['username']+'<br/>')
+              	                 };
+               				}
+           	            }
+	               	})
+          	     });
+
+           	     $('#username').keydown(function(){
+          	         $('#search-username').empty();
+           	     })
+           	     $('#username').blur(function(){
+           	         $('#search-username').empty();
+           	     })
+           	     
+           	  $("#btn_username").click(function () {
+           			var username = $("#username").val();
+           			
+           			$.ajax({
+                        url: '?m=admin&c=user&a=getUsernameId',
+                        data:{username:username},
+                        dataType: 'json',
+                        type: 'get',
+                        error: function () {
+                            layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        },
+                        success: function(ret) {
+               				if (ret.code == 1) {
+               					$('#usernames').append('<input type="checkbox" style="margin-left: 15px;" checked value="' + ret.data.id + '" name="uids[]"/>' + ret.data.username);
+               				} else {
+               					layer.msg(ret.msg, {icon: 5, shade: [0.5, '#393D49']});
+               				}
+           	            }
+	               	})
+           		 	
+           			
+              });
+            });
+
+        </script>
+    </body>
+</html>

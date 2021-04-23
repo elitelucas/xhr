@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset=utf-8>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="keywords" content="诚汇通官网，诚汇通，www.chenghuitong.net，p2p网贷平台，p2p理财公司，网络借贷平台，p2p理财产品——深圳市诚汇通金融信息有限公司">
+    <meta name="description" content="诚汇通官网（www.chenghuitong.net）, 国内首批专注于P2P网络投融资服务的平台。投资免手续费，22%年化收益，100%保本保息，第三方托管，广东互联网金融协会会员；每天公布运营数据，为你的资金保驾护航。">
+    <meta name="author" content="ifengjin@ifengjin.cn">
+    <title>诚汇通邀您去旅游</title>
+    <link rel="stylesheet" href="../../statics/activity/tcly/css/base.css">
+</head>
+
+<body>
+<!--头部-->
+<div id="header" class="clearfix">
+	<div class="container">
+        <h1 class="float-left"><a href="https://www.chenghuitong.net/" target="_blank"><img src="../../statics/activity/tcly/image/{if $type}logo2.gif{else}logo.gif{/if}" alt="诚汇通LOGO"></a></h1>
+        <div class="float-right">400-018-0107</div>
+    </div>
+</div>
+
+<!--banner-->
+<div class="banner">
+	{if empty($this->user)}
+	<div class="container">
+		<form id="form" class="form-inline" role="form" action="<?=url('','','',array('type'=>$type))?>" method="post" target="_top">
+        <div class="register_box tc">
+            <h2 class="f18">50元起投、100%本息担保</h2>
+          <div class="item">
+                <div class="float-left">用&nbsp;户&nbsp;&nbsp;名</div>
+                <div class="float-right">
+                    <input class="text" type="text" placeholder="请输入用户名" name="username" autofocus value="{$data['username']}" maxlength="20">
+                    <div class="help">{$info_arr['username']}</div>
+                </div>
+            </div>
+          <div class="item">
+                <div class="float-left">设置密码</div>
+                <div class="float-right">
+                    <input class="text" type="password" placeholder="请输入8-20位密码" name="pwd" value="" maxlength="20">
+                    <div class="help">{$info_arr['pwd']}</div>
+                </div>
+            </div>
+          <div class="item">
+                <div class="float-left">确认密码</div>
+                <div class="float-right">
+                    <input class="text" type="password" placeholder="请再次确认密码" name="compwd" value="" maxlength="20">
+                    <div class="help">{$info_arr['compwd']}</div>
+                </div>
+            </div>
+          <div class="item">
+                <div class="float-left">手&nbsp;&nbsp;机&nbsp;&nbsp;号</div>
+                <div class="float-right">
+                    <input class="text" type="text" placeholder="请输入手机号码" name="phone" value="{$data['phone']}" maxlength="11">
+                    <div class="help">{$info_arr['phone']}</div>
+                </div>
+            </div>
+		  <div class="agreement"><input type="checkbox" id="xieyi" checked>阅读并同意服务协议《<a href="http://www.chenghuitong.net/article/default-xieyi.html" target="_blank">诚汇通协议书</a>》</div>
+         <div class="text-center"><button type="submit" class="btn-register">立即注册</button></div>
+		  </div>
+		</form>
+    </div>
+	{/if}
+</div>
+
+<!--内容-->
+<!--活动一-->
+<div class="activity1">
+    <div class="container">
+      <div class="card">
+            <div class="card_con">
+              <a href="#" class="card_btn">同城旅游卡</a>
+              <div class="card_text">
+                    <h4>同程旅游卡说明：</h4>
+                    <p>1. 同城旅游卡：同程旅游是国内领先的旅游网站。同程旅游卡可实现 景区/酒店/机票/车票/周边游/国内游/出境类/邮轮类/签证类及电影票 等全站在线预付费产品支付</p>
+					<p>2. 同程旅游网址：www.ly.com</p>
+                </div>
+            </div>
+        </div>
+        <ul class="ecard">
+          <li>
+              <img src="../../statics/activity/tcly/image/ecard-img1.jpg">
+              <p>首次投资满500元<br>同程旅游电子卡<em>30</em>元</p>
+          </li>
+          <li>
+              <img src="../../statics/activity/tcly/image/ecard-img2.jpg">
+              <p>首次投资满1000元<br>同程旅游电子卡<em>50</em>元</p>
+          </li>
+          <li>
+              <img src="../../statics/activity/tcly/image/ecard-img3.jpg">
+              <p>首次投资满10000元<br>同程旅游电子卡<em>150</em>元</p>
+          </li>
+          <li>
+              <img src="../../statics/activity/tcly/image/ecard-img4.jpg">
+              <p class="ecard_p">首次投资满50000元<br>同程旅游电子卡<em>350</em>元和<br>超值同程旅游大礼包</p>
+          </li>
+        </ul>
+        <div class="path">
+            <a href="https://www.chenghuitong.net/content/regedit-index.html" class="path_btn" target="_blank">立即注册</a>
+        </div>
+    </div>
+</div>
+<!--活动二-->
+<div class="activity2">
+    <div class="container">
+        <div class="con">
+            <div class="card">
+                <p>活动期内：3月22日22:00-3月31日22:00，加权投资额最高的前五名直接奖励同程旅游实卡+同程旅游大礼包</p>
+            </div>
+            <div class="clearfix">
+                <div class="award float-left">
+                  <div class="title"><span><i>奖励</i></span></div>
+                  <ul class="list">
+                      <li>
+                          <img src="../../statics/activity/tcly/image/list-img1.png">
+                          <p>第一名：同程旅游卡 5000元</p>
+                      </li>
+                      <li>
+                          <img src="../../statics/activity/tcly/image/list-img2.png">
+                          <p>第二名：同程旅游卡 4000元</p>
+                      </li>
+                      <li>
+                          <img src="../../statics/activity/tcly/image/list-img3.png">
+                          <p>第三名：同程旅游卡 3000元</p>
+                      </li>
+                      <li>
+                          <img src="../../statics/activity/tcly/image/list-img4.png">
+                          <p>第四名：同程旅游卡 2000元</p>
+                      </li>
+                      <li>
+                          <img src="../../statics/activity/tcly/image/list-img5.png">
+                          <p>第五名：同程旅游卡 1000元</p>
+                      </li>
+                    </ul>
+                    <div class="decorate"><img src="../../statics/activity/tcly/image/award-decorate.png"></div>
+              </div>
+                <div class="level float-right">
+                    <div class="title"><span><i>英雄榜</i></span></div>
+                    <ul class="list">
+                      <li class="bold">
+                        <span>排名</span>
+                        <span>用户名</span>
+                        <span>加权投资额</span>
+                      </li>
+					  <?php $ming=array('一','二','三','四','五','六');?>
+					  {loop $list $k $vo}
+                      <li>
+                        <span>第{$ming[$k]}名</span>
+                        <span><?=f_name($vo['username'])?></span>
+                        <span><?=number_format($vo['jqsy']/10000,2,'.','')?>万</span>
+                      </li>
+					  {/loop}
+                    </ul>
+                    <div class="decorate"><img src="../../statics/activity/tcly/image/level-decorate.png"></div>
+                </div>
+            </div>
+            <div class="bold">
+                加权投资额计算公式=1月标投资额*1+3月标投资额*3+6月标投资额*6+12月标投资额*12<a href="https://www.chenghuitong.net/borrow/default-index.html" class="invest_btn" target="_blank">立即投标</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="strategy">
+	<div class="container">
+    	<div class="item item1">
+        	<p class="bold">初出江湖</p>
+            <p>投资本金：1000元</p>
+            <p>投资收益：>210元</p>
+            <p>活动收益：50元</p>
+            <p>旅游攻略：市内2天随心游走起</p>
+        </div>
+    	<div class="item item2">
+        	<p class="bold">小试牛刀</p>
+            <p>投资本金：10000元</p>
+            <p>投资收益：>2100元</p>
+            <p>活动收益：150元</p>
+            <p>旅游攻略：国内双飞任意游走起</p>
+        </div>
+    	<div class="item item3">
+        	<p class="bold">名震天下</p>
+            <p>投资本金：50000元</p>
+            <p>投资收益：>10500元</p>
+            <p>活动收益：350元</p>
+            <p>旅游攻略：世界这么大，你去任性游吧</p>
+        </div>
+    </div>
+</div>
+<div id="rule">
+    <div class="rule clearfix">
+        <div class="leftArea">
+            <div class="area">
+                <div class="title"><span><i>奖励获取实时榜</i></span></div>
+                <ul>
+                    <li class="bold">
+                        <span class="username">用户名</span>
+                        <span class="get-award">奖励</span>
+                        <span class="time">时间</span>
+                    </li>
+                </ul>
+                <div id="goodAward" class="good-award">
+                    <ul>
+						{loop $list2 $vo}
+						<?php
+						if($vo['account_act']<1000){
+							$money = 30;
+						}elseif($vo['account_act']>=1000 && $vo['account_act']<10000){
+							$money = 50;
+						}elseif($vo['account_act']>=10000 && $vo['account_act']<50000){
+							$money = 150;
+						}else{
+							$money = 350;
+						}
+						?>
+                        <li>
+                            <span class="username"><?=f_name($vo['username'])?></span>
+                            <span class="get-award">同程旅游卡{$money}元</span>
+                            <span class="time"><?=date('n月j日 H:i',$vo['addtime'])?></span>
+                        </li>
+						{/loop}
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center"><a href="https://www.chenghuitong.net/borrow/default-index.html" class="invest_btn" target="_blank">立即获得</a></div>
+        </div>
+        <div class="rightArea">
+            <div class="area">
+                <div class="title"><span><i>奖品发放规则</i></span><a href="javascript:;" class="title_btn">查看详情 >></a></div>
+                <p>1. 首投奖励（同程旅游电子卡）将于满标复审后三个工作日内通过短信的方式发送。</p>
+                <p>2. 活动期内前五名英雄奖（同程旅游卡）将于活动结束7个工作日内通过快递的形式发送，届时会联系获奖者提供收货地址(敬请关注获奖情况和保持手机畅通)。</p>
+                <p>3. 同程旅游卡使用说明：到同程旅游官方网站：www.ly.com 注册账户，到账户中心激活电子卡。电子卡一经激活即失效，请妥善保管密码。</p>
+                <p>4. 本次活动最终解释权归深圳诚汇通金融信息有限公司所有。</p>
+            </div>
+            <div class="text-center"><img src="../../statics/activity/tcly/image/cooperation-img.png"></div>
+        </div>
+        <div class="moreBox">
+        	<a href="javascript:;" class="close" title="关闭">关闭</a>
+            <p class="bold text-center font16 mgb10">奖品发放规则详解</p>
+        	<div class="con">
+                <p>1. 首投奖励（同程旅游电子卡）将于满标复审后三个工作日内通过短信的方式发送给客户。</p>
+                <p>2. 活动期内前五名英雄奖（同城旅游卡）将于活动结束7个工作日内通过快递的形式发送，届时会联系获奖者提供收货地址（敬请关注获奖情况和保持手机畅通）</p>
+                <p>3. 同程旅游卡使用说明：到同程旅游官方网站：www.ly.com注册账户，到账户中心激活电子卡（实卡），一经激活即失效，请妥善保管电子卡密码和实卡。</p>
+                <p>4. 同城大礼包仅限100份，先到先得，用户在获得此奖项后，客服会致电客户提供同程旅游账号，诚汇通核实后会联系同程旅游安排发放（7个工作日内）</p>
+                <p>5. 本次活动的最终解释权归诚汇通金融信息有限公司所有</p>
+                <p class="bold">附一、同程旅游卡使用说明详解：</p>
+                <p>1. 同程旅游卡激活 访问 www.LY.com/Card</p>
+                <p>进入同程旅游卡首页(或 我的同程-我的财富-同程旅游卡账户)</p>
+                <p>点击激活使用/激活同程旅游卡</p>
+                <p>2. 输入卡激活信息</p>
+                <p>刮开封漆(实体卡) 录入激活码 验证支付密码/手机验证码 激活卡片</p>
+                <p>同程旅游卡激活后将会与同程账户关联,仅限该账户使用,使用卡支付部分不再开具发票</p>
+                <p>3. 查看账户信息 访问 www.LY.com/Card</p>
+                <p>进入同程旅游卡首页(或 我的同程-我的财富-同程旅游卡账户)</p>
+                <p>点击查询卡信息 查看卡账户余额及有效期</p>
+                <p>4. 预定产品</p>
+                <p>到同程旅游消费,选择需要预定的产品(台湾游线路与部分银行活动产品因销售资质和银行指定支付渠道原因暂不支持同程旅游卡支付)</p>
+                <p>5. 同程旅游卡支付</p>
+                <p>在提交订单后的支付页面勾选使用同程旅游卡支付,验证支付密码</p>
+                <p>6. 支付完成</p>
+                <p>账户余额充足则确认支付成功,不足需另购卡激活支付或使用第三方支付</p>
+                <p class="bold">附二、同程旅游卡注意事项：</p>
+                <p>1. 甲方购买的同程旅游卡可在同程旅游(www.LY.com）购买甲方所需商品（仅限同程旅游卡支持产品）。</p>
+                <p>2. 甲方应在同程旅游卡有效期内使用，卡激活后有效期3年,超限将对每张同程旅游卡收取30元每年的账户管理费,扣完即止。</p>
+                <p>3. 甲方应妥善保管同程旅游卡，乙方不对同程旅游卡的丢失和被盗负责。</p>
+                <p>4. 同程旅游卡的使用规则以同程旅游(www.LY.com/Card）所公布的内容为准。</p>
+                <p class="bold">附三、同程旅游大礼包详细介绍和说明：</p>
+                <table class="text-center mgt10 mgb10">
+                	<tr class="bold">
+                	  <td>项目</td>
+                	  <td>面额(元）</td>
+                	  <td>使用规则</td>
+                	  <td>数量</td>
+                	</tr>
+                	<tr>
+                	  <td rowspan="2">邮轮</td>
+                	  <td>100</td>
+                	  <td>单笔订单满3000元以上可用</td>
+                	  <td>1</td>
+                	</tr>
+                	<tr>
+                	  <td>200</td>
+                	  <td>单笔订单满4000元以上可用</td>
+                	  <td>1</td>
+                	</tr>
+                	<tr>
+                	  <td rowspan="5">国长</td>
+                	  <td>50</td>
+                	  <td>单笔订单满2500元以上可用</td>
+                	  <td>1</td>
+                	</tr>
+                	<tr>
+                	  <td>100</td>
+                	  <td>单笔订单满5000元以上可用</td>
+                	  <td>1</td>
+                	</tr>
+                	<tr>
+                	  <td>150</td>
+                	  <td>单笔订单满7500元以上可用</td>
+                	  <td>1</td>
+                	</tr>
+                	<tr>
+                	  <td>200</td>
+                	  <td>单笔订单满10000元以上可用</td>
+                	  <td>1</td>
+                	</tr>
+                	<tr>
+                	  <td>300</td>
+                	  <td>单笔订单满15000元以上可用</td>
+                	  <td>1</td>
+                	</tr>
+                	<tr>
+                	  <td rowspan="2">景点</td>
+                	  <td>5</td>
+                	  <td>单笔订单满6元以上可用</td>
+                	  <td>1</td>
+                	</tr>
+                	<tr>
+                	  <td>10</td>
+                	  <td>单笔订单满11元以上可用</td>
+                	  <td>1</td>
+                	</tr>
+                	<tr>
+                	  <td rowspan="2">玩乐</td>
+                	  <td>5</td>
+                	  <td>单笔订单满6元以上可用</td>
+                	  <td>1</td>
+                	</tr>
+                	<tr>
+                	  <td>10</td>
+                	  <td>单笔订单满11元以上可用</td>
+                	  <td>1</td>
+                	</tr>
+                	<tr>
+                	  <td>国际机票</td>
+                	  <td>50</td>
+                	  <td>单笔订单满500元以上可用</td>
+                	  <td>1</td>
+                	</tr>
+                	<tr>
+                	  <td rowspan="3">酒店</td>
+                	  <td>5</td>
+                	  <td>不限金额使用</td>
+                	  <td>1</td>
+                	</tr>
+                	<tr>
+                	  <td>10</td>
+                	  <td>单笔订单满200元以上可用</td>
+                	  <td>1</td>
+                	</tr>
+                	<tr>
+                	  <td>20</td>
+                	  <td>单笔订单满300元以上可用</td>
+                	  <td>1</td>
+                	</tr>
+                	<tr>
+                	  <td>共计</td>
+                	  <td>1215</td>
+                	  <td>&nbsp;</td>
+                	  <td>15个</td>
+                	</tr>
+                </table>
+                <p>获得同程旅游大礼包的客户，在7个工作日内，客服会指引您如何获取同程大礼包，届时请关注获奖情况和保持手机畅通。</p>
+                <p>（备注：一个用户，30天内只能领取一次礼包）</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--底部-->
+<div class="footer">
+  <div class="container">
+    <div class="pull-left">
+      <div class="links">
+        <a href="http://www.chenghuitong.net/article/company-index.html">关于我们</a>
+        <a href="http://www.chenghuitong.net/article/safety-index.html">安全保障</a>
+        <a href="http://www.chenghuitong.net/article/services-help-cateid-3.html">帮助中心</a>
+        <a href="http://www.chenghuitong.net/article/services-index.html">服务中心</a>
+        <a href="http://www.chenghuitong.net/article/default-index.html">新闻中心</a>
+        <a href="http://www.chenghuitong.net/article/company-contact.html">联系我们</a>
+      </div>
+      <div class="copyright">深圳市诚汇通金融信息有限公司<br>深圳市福田区福华三路168号国际商会中心2408-2412室<br>Copyright© 2016 www.chenghuitong.net 粤ICP备13044593号</div>
+      <div class="beian">
+        <a href="https://cert.ebs.gov.cn/A71F6F48-ABB7-4F8A-92C4-D73F8FA0DE56" target="_blank">
+          <img src="../../statics/activity/tcly/image/need/beian_gswj.jpg" title="深圳市市场监督管理局企业主体身份公示" alt="深圳市市场监督管理局企业主体身份公示">
+        </a>
+        <a href="http://www.miibeian.gov.cn/" target="_blank">
+          <img src="../../statics/activity/tcly/image/need/beian_icp.jpg" title="ICP备案查询" alt="ICP备案查询">
+        </a>
+        <a href="https://search.szfw.org/cert/l/CX20140305003565003628" target="_blank">
+          <img src="../../statics/activity/tcly/image/need/beian_cxwz.jpg" title="诚信网站" alt="诚信网站">
+        </a>
+        <a href="https://ss.knet.cn/verifyseal.dll?sn=e13101844030042941tvh5000000&amp;ct=df&amp;a=1&amp;pa=0.2732217316515744" target="_blank">
+          <img src="../../statics/activity/tcly/image/need/beian_cnnic.png" title="可信网站" alt="可信网站">
+        </a>
+        <a href="https://trustsealinfo.websecurity.norton.com/splash?form_file=fdf/splash.fdf&amp;dn=www.chenghuitong.net&amp;lang=en" target="_blank">
+        <img src="../../statics/activity/tcly/image/need/beian_norton.jpg" title="NORTON" alt="NORTON">
+      </a>
+      </div>
+    </div>
+    <div class="pull-right">
+      <div class="tel">400-018-0107</div>
+      <div class="time">（周一至周五 9:00-17:30）</div>
+      <div class="attention">
+        <a class="weibo" href="http://weibo.com/cht608710" target="_blank"></a>
+        <a class="tweibo" href="http://e.t.qq.com/cht608710" target="_blank"></a>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="../../statics/activity/tcly/js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../../statics/activity/tcly/js/jq_scroll.js"></script>
+<script type="text/javascript" src="../../statics/resource/js/jquery.validate.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('#xieyi').click(function() {
+		if (!$(this).attr('checked')) {
+			alert('您必须同意服务协议才能注册本站账号');
+		}
+		$(this).prop('checked', true);
+	});
+
+	$("#form").validate({
+	    errorPlacement:function(error,element) {
+			error.appendTo(element.siblings('.help'));
+		},
+		rules: {
+			username: {
+				required: true,
+				minlength: 3,
+				maxlength: 20,
+				remote: {
+					url: "<?=url('content', 'regedit', 'public_username_ajx')?>".replace(/^https?:\/\/[^\/]+/, '')
+				}
+			},
+ 			phone: {
+				required: true,
+				digits: true,
+				minlength: 11,
+				maxlength: 11,
+				remote: {
+					url: "<?=url('content', 'regedit', 'public_phone_ajx')?>".replace(/^https?:\/\/[^\/]+/, '')
+				}
+ 			},
+			pwd: {
+				required: true,
+				minlength: 8,
+				maxlength: 20
+			},
+			compwd: {
+				required: true,
+				equalTo: "[name='pwd']"
+			}
+		},
+		messages: {
+			username: {
+				required: "用户名不能为空",
+				minlength: "用户名至少3位",
+				maxlength: "用户名至多20位",
+				remote: "该用户名已存在，请重新输入"
+			},
+			phone: {
+				required: "电话号码不能留空",
+				digits: "请输入正确的电话号码",
+				minlength: "目前只接受11位的国内手机号码",
+				maxlength: "目前只接受11位的国内手机号码",
+				remote: "该电话号码已经存在，请重新输入"
+ 			},
+			pwd: {
+				required: "密码不能为空",
+				minlength: "密码至少8位",
+				maxlength: "密码至多20位"
+			},
+			compwd: {
+				required: "确认密码不能为空",
+				equalTo: "确认密码不一致，请重新输入"
+			}
+		}
+	});
+
+	$(".card_con").hover(function(){
+		$(this).children(".card_text").show();
+	}, function(){
+		$(this).children(".card_text").hide();
+	});
+
+	$("#goodAward").Scroll({line:1,speed:500,timer:3000,up:"but_up",down:"but_down"});
+
+	$(".title_btn").click(function(e) {
+        $(".moreBox").show();
+    });
+	$(".moreBox .close").click(function(e) {
+        $(".moreBox").hide();
+    });
+});
+</script>
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?58b625f2fae8bd6127a23680606506af";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<script type="text/javascript">
+var _py = _py || [];
+_py.push(['a', 'Tm..DUK-NY5HfP8gsyvUJdDDO_']);
+_py.push(['domain','stats.ipinyou.com']);
+_py.push(['e','']);
+-function(d) {
+	var s = d.createElement('script'),
+	e = d.body.getElementsByTagName('script')[0]; e.parentNode.insertBefore(s, e),
+	f = 'https:' == location.protocol;
+	s.src = (f ? 'https' : 'http') + '://'+(f?'fm.ipinyou.com':'fm.p0y.cn')+'/j/adv.js';
+}(document);
+</script>
+<noscript><img src="//stats.ipinyou.com/adv.gif?a=Tm..DUK-NY5HfP8gsyvUJdDDO_&e=" style="display:none;"/></noscript>
+</body>
+</html>

@@ -1,0 +1,246 @@
+{template header}
+  <!-- Calculator -->
+  <link href="../../statics/resource/css/calculator/calculator.css" rel="stylesheet">
+  <div class="calculator-container container">
+    <div class="calculator-title color-main bold font18px line-height40px">借款利息计算器</div>
+    <div class="calculator-warning bg-warning">
+      <p>温馨提示:</p>
+      <p>1、“按月分期还款”采用银行房贷等通用的“等额本息还款法”,即借款者每月以相等的金额偿还贷款本息。</p>
+      <p>2、“按季分期还款”采用每月付息，按季等额还本的计算方式。</p>
+      <p>3、“到期还本按月付息”采用每月付息，到期全额还本的计算方式。</p>
+      <p>4、“按天一次性还款”采用：利息总额=借款本金*借款利率*借款天数 的方式计算。</p>
+      <p>（注意：本工具计算结果与实际可能会有以分为单位的误差。）</p>
+    </div>
+
+    <!-- 计算结果 -->
+      {if $list}
+    <div class="calculator-result bg-primary">
+       <table class="table table-bordered text-center">
+          <tr>
+            <td>月化收益率</td>
+            <td>年化收益率</td>
+            <td>可得总收益</td>
+            <td>可得奖励</td>
+          </tr>
+          <tr>
+            <td>{$mapr}%</td>
+            <td>{$yapr}%</td>
+            <td><?=$award+$list['interest']?>元</td>
+            <td>{$award}元</td>
+          </tr>
+        </table>
+        <div class="line-height30px">如果<span class="margin-left5px margin-right5px color-main bold"><?=date("Y-m-d",$starttime);?></span>日投标<span class="margin-left5px margin-right5px color-main bold">{$account}</span>元（<span class="margin-left5px margin-right5px color-main bold">（{$borrow_style[$style]['name']}）</span>）,分期待收明细如下:</div>
+        <table class="table table-bordered text-center">
+          <tr>
+            <td>期号</td>
+            <td>本期待收</td>
+            <td>含：利息</td>
+            <td>含：本金</td>
+            <td>到期日期</td>
+            <td>星期</td>
+            <td>净利息</td>
+            <td>净待收</td>
+          </tr>
+          {loop $list $k $v}
+          {if is_numeric($k)}
+          <tr>
+            <td><?=$k+1?>/{$time_limit}</td>
+            <td>{$v['will_money']}</td>
+            <td>{$v['will_interest']}</td>
+            <td>{$v['will_capital']}</td>
+            <td><?=date("Y-m-d",$v['will_time'])?></td>
+            <td>周<?=$weekarray[date("w",$v['will_time'])]?></td>
+            <td>{$v['will_interest']}</td>
+            <td>{$v['will_money']}</td>
+          </tr>
+          {/if}
+          {/loop}
+        </table>
+        <div class="line-height30px text-right">注：净利息和净待收已扣除管理费</div>
+    </div>
+    <!-- /计算结果 -->
+        {/if}
+    
+    <div class="calculator-form">
+      <form class="form-horizontal" role="form" action="<?=url('article','default','calculator')?>" method="post">
+        <div class="form-group">
+          <label for="input1" class="control-label pull-left">投标日期</label>
+          <div class="pull-left">
+            <input type="text" name="starttime" class="form-control" id="starttime" placeholder="请输入投标日期">
+          </div>
+          <div class="help-block">{if (!isset($valid_))}{else}<?=$valid_->error('starttime')?>{/if}</div>
+        </div>
+        <div class="form-group">
+          <label for="input2" class="control-label pull-left">借款金额</label>
+          <div class="pull-left">
+            <input type="text" name="account" class="form-control" id="input2" placeholder="请输入借款金额">
+          </div>
+          <div class="help-block">{if (!isset($valid_))}{else}<?=$valid_->error('account')?>{/if}</div>
+        </div>
+        <div class="form-group">
+          <label for="input3" class="control-label pull-left">期限</label>
+          <div class="pull-left margin-right20px">
+            <input type="text" name="time_limit" class="form-control" id="input3" placeholder="请输入借款期限">
+          </div>
+          <div class="pull-left line-height35px">
+            <input type="radio" name="is_datetype" value="0" checked> 个月
+            <input type="radio" name="is_datetype" value="1" > 天
+          </div>
+          <div class="help-block">{if (!isset($valid_))}{else}<?=$valid_->error('time_limit')?>{/if}</div>
+        </div>
+        <div class="form-group">
+          <label for="input4" class="control-label pull-left">还款方式</label>
+          <div class="pull-left">
+            <select class="form-control" name="style">
+                {loop $borrow_style $k $v}
+                <option value="{$k}" {if isset($style) && $style==$k}selected{/if}>{$v['name']}</option>
+                {/loop}
+            </select>
+          </div>
+          <div class="help-block">{if (!isset($valid_))}{else}<?=$valid_->error('style')?>{/if}</div>
+        </div>
+        <div class="form-group">
+          <label for="input5" class="control-label pull-left">利率</label>
+          <div class="pull-left margin-right20px">
+            <input type="text" name="apr" class="form-control" id="input5" placeholder="请输入利率">
+          </div>
+          <div class="pull-left line-height35px">
+            <input type="radio" name="apr_type" value="0" checked> 年利率
+            <input type="radio" name="apr_type" value="1" > 日利率
+          </div>
+          <div class="help-block">{if (!isset($valid_))}{else}<?=$valid_->error('apr')?>{/if}</div>
+        </div>
+        <div class="form-group">
+          <label for="input6" class="control-label pull-left">投标奖励</label>
+          <div class="pull-left">
+            <input type="text" name="tender_award" class="form-control" id="input6" placeholder="无奖励可不填">
+          </div>
+          <div class="pull-left margin-left5px line-height35px">%</div>
+          <div class="help-block">{if (!isset($valid_))}{else}<?=$valid_->error('tender_award')?>{/if}</div>
+        </div>
+        <div class="form-group">
+          <label for="input7" class="control-label pull-left">线下奖励</label>
+          <div class="pull-left">
+            <input type="text" name="offline_award" class="form-control" id="input7" placeholder="无奖励可不填">
+          </div>
+          <div class="pull-left margin-left5px line-height35px">%</div>
+          <div class="help-block">{if (!isset($valid_))}{else}<?=$valid_->error('offline_award')?>{/if}</div>
+        </div>
+        <div class="form-group">
+          <label for="input8" class="control-label pull-left"></label>
+          <div class="pull-left">
+            <input type="submit" class="calculator-btn form-control btn btn-warning" id="input8" value="开始计算">
+          </div>
+        </div>
+      </form>
+    </div>
+    
+  </div>
+
+<link rel="stylesheet" type="text/css" href="../../statics/js/calendar/jscal2.css"/>
+<link rel="stylesheet" type="text/css" href="../../statics/js/calendar/border-radius.css"/>
+<link rel="stylesheet" type="text/css" href="../../statics/js/calendar/win2k.css"/>
+<script type="text/javascript" src="../../statics/js/calendar/calendar.js"></script>
+<script type="text/javascript" src="../../statics/js/calendar/lang/en.js"></script>
+<script src="../../statics/resource/js/placeholder/2.0.8/jquery.placeholder.min.js"></script>
+<script type="text/javascript">
+Calendar.setup({ 
+	weekNumbers: true, 
+	inputField : "starttime", 
+	trigger : "starttime", 
+	dateFormat: "%Y-%m-%d", 
+	showTime: false, 
+	onSelect : function() {
+		this.hide();
+	} 
+});
+</script>
+<script type="text/javascript" src="../../statics/resource/js/jquery.validate.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('input, textarea').placeholder();
+	$("form").validate({
+	    errorPlacement:function(error,element) {
+			error.appendTo(element.parent().parent().children(".help-block"));
+		},
+		rules: {
+			starttime: { 
+				required: true
+			},
+			account: { 
+				required: true, 
+				number: true
+			}, 
+			time_limit: { 
+				required: true, 
+				number: true
+			}, 
+			apr: { 
+				required: true, 
+				number: true
+			}, 
+			tender_award: { 
+				number: true
+			}, 
+			offline_award: { 
+				number: true
+			}, 
+			continue_award: { 
+				number: true
+			}, 
+			style: { 
+				required: true 
+			}
+		},
+		messages: {
+			starttime: { 
+				required: "请输入投标日期"
+			},
+			account: { 
+				required: "请输入借款金额", 
+				number: "只能输入数字"
+			}, 
+			time_limit: { 
+				required: "请输入借款期限", 
+				number: "只能输入数字"
+			}, 
+			apr: { 
+				required: "请输入利率", 
+				number: "只能输入数字"
+			}, 
+			tender_award: { 
+				number: "只能输入数字"
+			}, 
+			offline_award: { 
+				number: "只能输入数字"
+			}, 
+			continue_award: { 
+				number: "只能输入数字"
+			}, 
+			style: { 
+				required: "" 
+			}
+		}
+	});
+});
+/*jQuery.extend(jQuery.validator.messages, {
+    required: "必选字段",
+	remote: "字段非法或者已经存在",
+	email: "请输入正确格式的电子邮件",
+	url: "请输入合法的网址",
+	date: "请输入合法的日期",
+	dateISO: "请输入合法的日期 (ISO).",
+	number: "请输入合法的数字",
+	digits: "只能输入整数",
+	creditcard: "请输入合法的信用卡号",
+	equalTo: "请再次输入相同的值",
+	accept: "请输入拥有合法后缀名的字符串",
+	maxlength: jQuery.validator.format("请输入一个 长度最多是 {0} 的字符串"),
+	minlength: jQuery.validator.format("请输入一个 长度最少是 {0} 的字符串"),
+	rangelength: jQuery.validator.format("请输入 一个长度介于 {0} 和 {1} 之间的字符串"),
+	range: jQuery.validator.format("请输入一个介于 {0} 和 {1} 之间的值"),
+	max: jQuery.validator.format("请输入一个最大为{0} 的值"),
+	min: jQuery.validator.format("请输入一个最小为{0} 的值")
+});*/
+</script>
+{template footer}

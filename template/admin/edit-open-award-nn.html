@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/jedate/skin/jedate.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+    <script src="statics/admin/js/pintuer.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script type="text/javascript" src="statics/admin/jedate/jquery.jedate.min.js"></script>
+    {template public-new-ui-header}
+    <style></style>
+</head>
+
+<body class="new_ui_body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+
+                <div class="ibox-title iboxWTitle">
+                    <h5>編輯预开奖</h5>
+                    <div class="ibox-tools">
+                        <a href="javascript:;" class="btn btn-white btn-bitbucket" onclick="history.go(-1);">
+                            <i class="fa fa-reply"></i>返回
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content bagCol" style="width: 100%;">
+                    <form method="post" class="form-x" action="" id="form">
+                        <div class="ibox-title">
+                            <h5>开奖信息</h5>
+                        </div>
+                        <div class="ibox-content m-b" style="width: 100%;">
+                            <div class="row">
+
+                                <div class="form-group">
+                                    <!-- <label class="col-sm-2 control-label input_title"></label> -->
+                                    <div class="col-sm-10">
+                                        <div style="margin-left: 100px; ">温馨提示：花色请按【方块、梅花、红心、黑桃】填写，牌面请按【A、2、3、4、5、6、7、8、9、10、J、Q、K】填写。如：红心A、方块10、梅花K </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label input_title">开奖彩种</label>
+                                    <div class="col-sm-10">
+                                        <div class="field">
+                                            <input type="text" id="name" class="form-control ip-tips-box pull-left" readonly="readonly" value="{$game}" />
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>开奖期号</label>
+                                    <div class="col-sm-10">
+                                        <div class="field">
+                                            <input type="number" class="form-control ip-tips-box pull-left" name="issue" id="issue" value="{$data['issue']}" readonly="readonly" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>开奖时间</label>
+                                    <div class="col-sm-10">
+                                        <div class="field">
+                                            <input type="text" class="form-control ip-tips-box pull-left" name="open_time" id="open_time" value="<?php echo date('Y-m-d H:i:s', $data['insert_time']);?>" readonly="readonly" />
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <?php foreach($numberArr as $k=>$v):?>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>开奖牌面{$k}({$v})</label>
+                                        <div class="col-sm-2">
+                                            <div class="field">
+                                                <select class="s_style reset_input form-control">
+                                                    <option value="">选择</option>
+                                                    <?php foreach($keyArr as $key):?>
+                                                        <option value="{$key}" {if $key==$data['lottery_result'][$k][0]}selected{/if}>{$key}</option>
+                                                    <?php endforeach;?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="field">
+                                                <select class="s_style reset_input form-control">
+                                                    <option value="">选择</option>
+                                                    <?php foreach($keyArr2 as $key):?>
+                                                        <option value="{$key}" {if $key==$data['lottery_result'][$k][1]}selected{/if}>{$key}</option>
+                                                    <?php endforeach;?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="number{$k}" id="number{$k}" value="<?= implode($data['lottery_result'][$k])?>" />
+                                    </div>
+                                <?php endforeach;?>
+								
+                                <input type="hidden" name="lottery_type" id="lottery_type" value="{$lottery_type}"/>
+                                <div class="form-group">
+                                    <div class="col-sm-10 col-sm-offset-2">
+                                        <button class="btn btn-primary" type="button" id="btn_submit">提交</button>
+                                        &nbsp;
+                                        <button class="btn btn-white" type="button" onclick="history.go(-1);">取消</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript">
+    var loading = "";//加载中......
+    var type = 1;
+
+    var url = '?m=admin&c=preopen&a=dealPreOpendAWard';    
+    
+    var issue,open_time;
+    var number = new Array(10);
+    $(function () {
+		var func = {
+			setNumberVal:function() {
+				var arr = ["A", "B", "C", "D", "E", 'F', 'G', 'H', 'I', 'J'];
+				$.each(arr, function(k, v) {
+					var number1 = $("#number"+v).parents(".form-group").find('select').eq(0).val();
+					var number2 = $("#number"+v).parents(".form-group").find('select').eq(1).val();
+					$("#number"+v).val(number1 + number2);
+				});
+			},
+		};
+	
+        $("#btn_submit").click(function () {
+			func.setNumberVal();
+            //合理校验
+            if ($("#issue").val() == "") {
+                layer.alert('开奖期号不能为空', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+            if ($("#open_time").val() == "") {
+                layer.alert('开奖时间不能为空', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+            var arr = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J",];
+            var reg = /^(?:方块|梅花|红心|黑桃)(?:[2-9]|10|[AJQK])$/i;
+            var lottery_pai_arr = [];
+            var switches = true;
+            var openNumber = '';
+            $.each(arr, function(index, value) {
+                var number_value = $("#number" + value).val();
+                if (number_value == "") {
+                    layer.alert('开奖牌面' + value + '不能为空', {icon: 5, shade: [0.5, '#393D49']});
+                    switches = false;
+                    return false;
+
+                }
+                if (! reg.test(number_value)) {
+                    layer.alert('开奖牌面' + value + '【' + number_value + '】不合法，请按示例正确选择', {icon: 5, shade: [0.5, '#393D49']});
+                    switches = false;
+                    return false;
+                }
+
+                //如果存在相同的牌面值，则提示
+                if ($.inArray(number_value, lottery_pai_arr) > -1) {
+                    layer.alert('开奖牌面' + value + '【' + number_value + '】已存在', {icon: 5, shade: [0.5, '#393D49']});
+                    switches = false;
+                    return false;
+
+                } else {
+                    lottery_pai_arr[index] = number_value;
+                }
+                openNumber += '<div style="panding:10px 0px;"><label>开奖牌面' + value + ':</label><label  style="margin-left:10px">【' + number_value + '】</label></div>';
+            });
+            
+            if(switches== false){
+                return false;
+            }
+            layer.open({
+            title:'手动开奖确认信息',
+            type: 1,
+            skin: 'layui-layer-lan', //加上边框
+            area: ['420px', '380px'], //宽高
+            btn: ['确认', '取消'],
+            closeBtn: 0, //不显示关闭按钮
+            //content: '<div type="hidden" id="tips"><div class="form-group"><label class="col-sm-2 control-label input_title"><i class="red_star">*</i>开奖时间</label><div class="col-sm-10"><div class="field"><input type="text" class="form-control ip-tips-box pull-left" name="open_time" id="open_time" value="" data-validate="required:请输入开奖时间" /><div class="tips"></div></div></div></div>'
+            content: '<div style="margin:10px;">' +
+                        '<div style="panding:10px 0px;"><label>开奖彩种:</label><label style="margin-left:10px">' + $("#name").val() + '</label></div>' + 
+                        '<div style="panding:10px 0px;"><label>开奖期号:</label><label style="margin-left:10px">' + $("#issue").val() + '</label></div>' + 
+                        '<div style="panding:10px 0px;"><label>开奖时间:</label><label style="margin-left:10px">' + $("#open_time").val() + '</label></div>' + 
+                        openNumber + '</div>',
+                yes: function(){
+                        var formData = new FormData($("#form")[0]);
+                        loading = layer.load(1);
+                        $.ajax({
+                            url: url,
+                            type: 'POST',
+                            data: formData,
+                            dataType: 'JSON',
+                            cache: false,
+                            processData: false,
+                            contentType: false
+                        }).done(function (result) {
+                            console.log(result);
+                            layer.close(loading);
+                            if (result.status === 0) {
+                                layer.alert('提交成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                    window.location.href = "<?=url('','preopen','list')?>&lottery_type={$lottery_type}";//返回上一页并刷新
+                                });
+                            } else {
+                                layer.alert(result.ret_msg, {icon: 5, shade: [0.5, '#393D49']});
+                            }
+                        }).fail(function (err) {
+                            layer.close(loading);
+                            layer.alert('网络异常！开奖需要时间，请到开奖列表检查结果！', {icon: 5, shade: [0.5, '#393D49']});
+                        });
+                    }
+                
+            });
+        });
+    });
+
+</script>
+</body>
+</html>

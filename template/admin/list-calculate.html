@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+
+<html lang="zh-cn">
+
+    <head>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+
+        <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+
+        <script src="statics/admin/js/jquery.js"></script>
+
+        <script src="statics/admin/js/pintuer.js"></script>  
+
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>
+
+        {template public-new-ui-header}
+
+        <script src="statics/admin/js/jquery.date_input.pack.js"></script>
+
+        <link rel="stylesheet" href="statics/admin/jedate/skin/jedate.css">
+
+        <script type="text/javascript" src="statics/admin/jedate/jquery.jedate.min.js"></script>
+
+        <style>
+
+            .color-s1{color: #008000;}
+
+            .color-s2{color: #f50e39;}
+
+            .color-s3{color: #35bbee;}
+
+        </style>
+
+    </head>
+
+    <body style="margin: 15px;background-color: #f3f3f4;">
+
+    <div class="row">
+
+        <div class="col-sm-12">
+
+            <div class="ibox float-e-margins">
+
+                <div class="ibox-title iboxWTitle">
+
+                    <h5>返水计算</h5>
+
+                </div>
+
+                <div class="ibox-content" style="width: 100%;">
+
+                    <div class="row">
+
+                        <form method="post" id="form" class="form-inline">
+
+
+
+                            <div class="col-sm-3">
+
+                                <div class="input-group m-b"><span class="input-group-addon">会员帐号</span>
+
+                                    <input type="text" value="{$where['account']}" class="form-control" name="account" id='account' placeholder="请输入帐号" />
+
+                                </div>
+
+                            </div>
+
+
+
+
+
+                            <div class="col-sm-3">
+
+                                <div class="input-group m-b"><span class="input-group-addon">有/无反水</span>
+
+                                    <select class="form-control" id='back' name="back">
+
+                                        <option value="1" {if $back == 1}selected="selected"{/if}>有返水</option>
+
+                                        <option value="0" {if $back == 0}selected="selected"{/if}>无返水</option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+
+
+
+
+                            <div class="col-sm-3">
+
+                                <div class="input-group m-b"><span class="input-group-addon">时间</span>
+
+                                    <input class="date_picker form-control" value="{$where['addtime']}" id="addtime" name="addtime" />
+
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="col-sm-3">
+
+                                <div class="input-group m-b"><span class="input-group-addon">快捷查询</span>
+
+                                    <select class="form-control" id='quick' name="quick">
+
+                                        <option value="0" {if $quick == 0}selected{/if}>全部</option>
+
+                                        <option value="1" {if $quick == 1}selected{/if}>今日</option>
+
+                                        <option value="2" {if $quick == 2}selected{/if}>昨日</option>
+
+                                        <option value="3" {if $quick == 3}selected{/if}>本周</option>
+
+                                        <option value="4" {if $quick == 4}selected{/if}>本月</option>
+
+                                        <option value="5" {if $quick == 5}selected{/if}>上月</option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="col-sm-1">
+
+                                <div class="input-group m-b">
+
+                                    <button type="button" class="btn btn-primary" onclick="index()">搜索</button>
+
+
+
+                                    {if $back_model >0 }
+
+                                    &nbsp;&nbsp;
+
+                                    <b style="color: blue;">返水计算中...</b>
+
+                                    {else}
+                                        {if $back_success==1}
+
+                                        &nbsp;&nbsp;
+                                            {if $backAll == 1 && $back == 1}
+                       
+                                            <button type="button" class="btn btn-primary" onclick="submitAll()">一键返水</button>
+
+                                            {/if}
+
+                                        {else}
+
+                                        &nbsp;&nbsp;
+
+                                        <button type="button" id="set_back" class="btn btn-primary">继续计算返水</button>
+
+                                        {/if}
+
+                                    {/if}
+
+                                </div>
+
+                            </div>
+
+
+
+                        </form>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-sm-12">
+
+                            <span class="color-s2">* 可返水: 符合三无返水的投注与返水, 不可返水: 不符合三无返水限制的投注与返水: 总投注与总返水: 团队的总投注与总返水(包含符合与不符合三无返水的投注与返水) ; </span>
+
+                        </div>
+
+                    </div>
+
+                    <br />
+
+                    <div id="editable_wrapper" class="dataTables_wrapper form-inline" role="grid" style="width: 100%">
+
+                        <table class="table table-striped table-bordered table-hover  dataTable" id="editable" aria-describedby="editable_info">
+
+                            <thead>
+
+                            <tr>
+
+                                <th>ID</th>
+
+                                <th>昵称</th>
+
+                                <th>个人有效值<br />(可返水|输分 / 不可返水)</th>
+
+                                <th>会员返水<br />(可返水 / 不可返水)</th>
+
+                                <th>直属会员人数</th>
+
+                                <th>直属会员有效值<br />(可返水 / 不可返水)</th>
+
+                                <th>直属会员返水<br />(可返水 / 不可返水)</th>
+
+                                <th>团队人数</th>
+
+                                <th>团队有效值<br />(可返水 / 不可返水 )</th>
+
+                                <th>团队返水<br />(可返水 / 不可返水)</th>
+
+                                <th>合计返水<br />(可返水 / 不可返水)</th>
+
+                                <th>昨日返水</th>
+
+                                <th>操作</th>
+
+                            </tr>
+
+                            </thead>
+
+                            <tbody id="list_tb">
+
+                            {loop $list $v}
+
+                            <tr>
+
+                                <td>{$v['user_id']}</td>
+
+                                <td>{$v['username']}</td>
+
+                                <td><span class="color-s1">{$v['selfMoney']}</span>|<span class="color-s1">{$v[selfLose]}</span><span class="color-s2"> / </span><span class="color-s3">{$v['limitSelfMoney']}</span></td>
+
+                                <td><span class="color-s1">{$v['selfBack']}</span><span class="color-s2"> / </span><span class="color-s3">{$v['limitSelfBack']}</span></td>
+
+                                <td>{$v['sonCnt']}</td>
+
+                                <td><span class="color-s1">{$v['sonMoney']}</span><span class="color-s2"> / </span><span class="color-s3">{$v['limitSonMoney']}</span></td>
+
+                                <td><span class="color-s1">{$v['sonBack']}</span><span class="color-s2"> / </span><span class="color-s3">{$v['limitSonBack']}</span></td>
+
+                                <td>{$v['teamCnt']}</td>
+
+                                <td><span class="color-s1">{$v['teamMoney']}</span><span class="color-s2"> / </span><span class="color-s3">{$v['limitTeamMoney']}</span></td>
+
+                                <!--<td>{$v['teamRate']}%</td>-->
+
+                                <td><span class="color-s1">{$v['teamBack']}</span><span class="color-s2"> / </span><span class="color-s3">{$v['limitTeamBack']}</span></td>
+
+                                <td><span class="color-s1">{$v['cntBack']}</span><span class="color-s2"> / </span><span class="color-s3">{$v['limitCntBack']}</span></td>
+
+                                <td>{$v['yesdayBack']}</td>
+
+                                <td>
+
+                                    {if $v['state'] == 1 && $v['cntBack'] > 0}
+
+                                    <a href="javascript:" style="color: #0099ff;" onclick="submit('{$v['username']}')" data-title="确认返水"><i class="fa fa-check-circle"></i></a>&nbsp;&nbsp;
+
+                                    <a href="javascript:" style="color: #0099ff;" onclick="cancel('{$v['username']}')" data-title="取消返水"><i class="fa fa-times-circle"></i></a>
+
+                                    {/if}
+
+                                    {if $v['state'] >1 && $v['cntBack'] > 0}
+
+                                    {if $v['state'] == 2}<font style="color: turquoise;">已确认返水</font>{/if}
+
+                                    {if $v['state'] == 3}<font style="color: #bbb;">已取消返水</font>{/if}
+
+                                    {/if}
+
+                                </td>
+
+                            </tr>
+
+                            {/loop}
+
+                            <tr style="background-color: #e3edff;{if !isset($current_total)}display:none;{/if}">
+
+                                <td colspan="2"> 当前页返水:</td>
+
+                                <td><span class="color-s1">{$current_total['selfMoney']}</span>|<span class="color-s1">{$current_total['selfLose']}</span><span class="color-s2"> / </span><span class="color-s3">{$current_total['limitSelfMoney']}</span></td>
+
+                                <td><span class="color-s1">{$current_total['selfBack']}</span><span class="color-s2"> / </span><span class="color-s3">{$current_total['limitSelfBack']}</span></td>
+
+                                <td>-</td>
+
+                                <td><span class="color-s1">{$current_total['sonMoney']}</span><span class="color-s2"> / </span><span class="color-s3">{$current_total['limitSonMoney']}</span></td>
+
+                                <td><span class="color-s1">{$current_total['sonBack']}</span><span class="color-s2"> / </span><span class="color-s3">{$current_total['limitSonBack']}</span></td>
+
+                                <td>-</td>
+
+                                <td><span class="color-s1">{$current_total['teamMoney']}</span><span class="color-s2"> / </span><span class="color-s3">{$current_total['limitTeamMoney']}</span></td>
+
+
+
+                                <td><span class="color-s1">{$current_total['teamBack']}</span><span class="color-s2"> / </span><span class="color-s3">{$current_total['limitTeamBack']}</span></td>
+
+                                <td><span class="color-s1">{$current_total['cntBack']}</span><span class="color-s2"> / </span><span class="color-s3">{$current_total['limitCntBack']}</span></td>
+
+                                <td>{$current_total['yesdayBack']}</td>
+
+                                <td>
+
+
+
+                                </td>
+
+                            </tr>
+
+                            <tr style="background-color: #e1edf7;{if !isset($total)}display:none;{/if}">
+
+                                <td colspan="2"> 总计返水:</td>
+
+                                <td><span class="color-s1">{$total['selfMoney']}</span>|<span class="color-s1">{$total['selfLose']}</span><span class="color-s2"> / </span><span class="color-s3">{$total['limitSelfMoney']}</span></td>
+
+                                <td><span class="color-s1">{$total['selfBack']}</span><span class="color-s2"> / </span><span class="color-s3">{$total['limitSelfBack']}</span></td>
+
+                                <td>-</td>
+
+                                <td><span class="color-s1">{$total['sonMoney']}</span><span class="color-s2"> / </span><span class="color-s3">{$total['limitSonMoney']}</span></td>
+
+                                <td><span class="color-s1">{$total['sonBack']}</span><span class="color-s2"> / </span><span class="color-s3">{$total['limitSonBack']}</span></td>
+
+                                <td>-</td>
+
+                                <td><span class="color-s1">{$total['teamMoney']}</span><span class="color-s2"> / </span><span class="color-s3">{$total['limitTeamMoney']}</span></td>
+
+                                <td><span class="color-s1">{$total['teamBack']}</span><span class="color-s2"> / </span><span class="color-s3">{$total['limitTeamBack']}</span></td>
+
+                                <td><span class="color-s1">{$total['cntBack']}</span><span class="color-s2"> / </span><span class="color-s3">{$total['limitCntBack']}</span></td>
+
+                                <td>{$total['yesdayBack']}</td>
+
+                                <td>
+
+
+
+                                </td>
+
+                            </tr>
+
+                            </tbody>
+
+
+
+                        </table>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-sm-12">
+
+                            <?php echo $show;?>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    </body>
+
+        <script type="text/javascript">
+
+            var loading = "";//加载中......
+
+
+
+            //设置返水
+
+            $('#set_back').click(function () {
+
+                $.ajax({
+
+                    url: '?m=admin&c=odds&a=set_back',
+
+//                    data: {username:username,addtime:addtime},
+
+                    dataType: 'json',
+
+                    type: 'post',
+
+                    beforeSend: function () {
+
+                        loading = layer.load(1);
+
+                    },
+
+                    error: function () {
+
+                        layer.close(loading);
+
+                        layer.msg('网络异常，稍后再试！！！', {icon: 5, shade: [0.5, '#393D49']});
+
+                    },
+
+                    success: function (result) {
+
+                        layer.close(loading);
+
+                        if (result.status==0) {
+
+                            layer.msg(result.msg, {icon: 6, shade: [0.5, '#393D49']}, function () {
+
+                                    location.reload();
+
+                            });
+
+                        } else {
+
+                            if (result.msg) {
+
+                                layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']}, function () {
+
+                                    location.reload();
+
+                                });
+
+
+
+                            }/* else {
+
+                                layer.msg('返水失败！！！', {icon: 5, shade: [0.5, '#393D49']});
+
+                            }*/
+
+                        }
+
+                    }
+
+                });
+
+            });
+
+
+
+            //搜索列表
+
+            function index(){
+
+                var account = $("#account").val();
+
+                var addtime = $("#addtime").val();
+
+                var back = $("#back").val();
+
+                var quick = $("#quick").val();
+
+
+
+                var search_date = addtime.split("-");
+
+                var now_date = new Date();
+
+                var search_y = parseInt(search_date[0]);
+
+                var search_m = parseInt(search_date[1]);
+
+                var search_d = parseInt(search_date[2]);
+
+                var now_y = parseInt(now_date.getFullYear());
+
+                var now_m = parseInt(now_date.getMonth()) + 1;
+
+                var now_d = parseInt(now_date.getDate());
+
+                if(search_y > now_y || (search_y == now_y && search_m > now_m) || (search_y == now_y && search_m == now_m && search_d >= now_d)){
+
+//                    layer.msg('请于搜索日期后一天再来进行返水操作！！！', {icon: 5, shade: [0.5, '#393D49']});
+
+//                    return false;
+
+                }
+
+                
+
+                var url = "?m=admin&c=odds&a=calculate" + "&account=" + account + "&addtime=" +　addtime + "&back=" +　back+"&quick="+quick;
+
+                location.href = url;
+
+            }
+
+            
+
+            //一键返水
+
+            function submitAll(){
+
+                layer.confirm('确认一键返水？', {
+
+                    btn: ['确认', '取消']  //可以无限个按钮
+
+                }, function () {
+
+                    var addtime = "{$where['addtime']}";
+
+                    $.ajax({
+
+                        url: '?m=admin&c=odds&a=submitCalculateAll',
+
+                        data: {addtime:addtime},
+
+                        dataType: 'json',
+
+                        type: 'post',
+
+                        beforeSend: function () {
+
+                            loading = layer.load(1);
+
+                        },
+
+                        error: function () {
+
+                            layer.close(loading);
+
+                            layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+
+                        },
+
+                        success: function (result) {
+
+                            layer.close(loading);
+
+                            if (result.rt) {
+
+                                layer.msg(result.msg, {icon: 6, shade: [0.5, '#393D49']}, function () {
+
+                                    location.reload();
+
+                                });
+
+                            } else {
+
+                                layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']});
+
+                            }
+
+                        }
+
+                    });
+
+                }, function () {
+
+                });
+
+            }
+
+
+
+            //确认返水
+
+            function submit(username) {
+
+                layer.confirm('确认返水？', {
+
+                    btn: ['确认', '取消'] //可以无限个按钮
+
+                }, function () {
+
+                    var addtime = "{$where['addtime']}";
+
+                    $.ajax({
+
+                        url: '?m=admin&c=odds&a=submitCalculate',
+
+                        data: {username:username,addtime:addtime},
+
+                        dataType: 'json',
+
+                        type: 'post',
+
+                        beforeSend: function () {
+
+                            loading = layer.load(1);
+
+                        },
+
+                        error: function () {
+
+                            layer.close(loading);
+
+                            layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+
+                        },
+
+                        success: function (result) {
+
+                            layer.close(loading);
+
+                            if (result.rt) {
+
+                                layer.msg(result.msg, {icon: 6, shade: [0.5, '#393D49']}, function () {
+
+                                    location.reload();
+
+                                });
+
+                            } else {
+
+                            	if (result.msg) {
+
+                                    layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']}, function () {
+
+                                        location.reload();
+
+                                    });
+
+                                    
+
+                            	} else {
+
+                            		layer.msg('返水失败！！！', {icon: 5, shade: [0.5, '#393D49']});
+
+                            	}
+
+                            }
+
+                        }
+
+                    });
+
+                }); 
+
+            }
+
+            
+
+             //取消返水
+
+            function cancel(username) {
+
+                layer.confirm('取消返水？', {
+
+                    btn: ['确认', '取消'] //可以无限个按钮
+
+                }, function () {                
+
+                    var addtime = "{$where['addtime']}";
+
+                    $.ajax({
+
+                        url: '?m=admin&c=odds&a=cancelCalculate',
+
+                        data: {username:username,addtime:addtime},
+
+                        dataType: 'json',
+
+                        type: 'post',
+
+                        beforeSend: function () {
+
+                            loading = layer.load(1);
+
+                        },
+
+                        error: function () {
+
+                            layer.close(loading);
+
+                            layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+
+                        },
+
+                        success: function (result) {
+
+                            layer.close(loading);
+
+                            if (result.rt) {
+
+                                layer.msg('操作成功！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+
+                                    location.reload();
+
+                                });
+
+                            } else {
+
+                                layer.msg('操作失败！', {icon: 5, shade: [0.5, '#393D49']});
+
+                            }
+
+                        }
+
+                    });
+
+                });
+
+            }
+
+            
+
+            $(function(){
+
+                $(".date_picker").jeDate({
+
+                    //isinitVal:true,
+
+                    ishmsVal:true,
+
+                    format:"YYYY-MM-DD",
+
+                    zIndex:3000,
+
+                });
+
+            });
+
+            
+
+        </script>
+
+</html>

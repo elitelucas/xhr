@@ -1,0 +1,16 @@
+.s_msg{
+        display: none;
+	float: right;
+	margin-right: 60px;
+	margin-top: 5px;
+	font-size: 26px;
+}
+.alert_msg{
+	font-size: 24px; 
+	color: #ff2222; 
+	font-weight: 700;
+}
+.alert_buttom{
+	font-size: 30px;
+	font-weight: 700;
+}

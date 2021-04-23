@@ -1,0 +1,40 @@
+
+					<div class="trend_numstat_tab">
+						<table class="sub_table double_th" border="0" cellpadding="0" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th>{{english.时间}}</th>
+									<th>{{english.期号}}</th>
+									<th>{{english.开奖点数}}</th>
+									<th>{{english.总和}}</th>
+									<th>{{english.大}}</th>
+									<th>{{english.小}}</th>
+									<th>{{english.单}}</th>
+									<th>{{english.双}}</th>
+									<th>{{english.豹子}}</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>	
+									
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="../js/English.js"></script>
+		<script type="text/javascript">
+			(function(exports) {
+				exports.app = new Vue({
+					el: '.trend_numstat_tab',
+					data: function() {
+						return {
+							english: english
+						}
+					}
+				})
+			})(window);
+		</script>

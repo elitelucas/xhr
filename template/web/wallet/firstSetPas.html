@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>个人中心</title>
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+    <script src="/statics/web/extend/layer/mobile/layer.js"></script>
+</head>
+<body>
+<header>
+    <em onclick="history.go(-1)">返回</em>
+    <h1>设置资金密码</h1>
+
+</header>
+<section>
+    <div class="firstSetPas">
+        <dl class="first-psd">
+            <dt><em class="icoModifyPas"></em>请设置您的资金密码，用于安全验证</dt>
+            <dd>
+                <div class="pasFrame">
+                    <div class="dang"></div>
+                    <input name="password" type="number" maxlength="6" class="inputPas" autocomplete="off"/>
+                    <ul>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                </div>
+            </dd>
+        </dl>
+        <dl class="agin-psd" style="display: none">
+            <dt><em class="icoModifyPas"></em>请再次确认你的资金密码</dt>
+            <dd>
+                <div class="pasFrame">
+                    <div class="dang"></div>
+                    <input name="password2" type="number" maxlength="6" class="inputPas" autocomplete="off" />
+                    <ul>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                </div>
+            </dd>
+        </dl>
+
+        <!-- <div class="button" style="margin-top: 100px"><button id="setBtn" class="red-btn">下一步</button></div> -->
+    </div>
+</section>
+    <script type='text/javascript'>
+        $(function() {
+            // $("#setBtn").click(function() {
+                
+            // }); 
+            function setMoneyPsd(){
+                //合法性验证
+                var password = $("input[name=password]").val();
+                var password2 = $("input[name=password2]").val();
+
+                if (password.length < 6) {
+                    layer.open({
+                        content: "<p class='alert_msg'>请输入6位数的密码</p>",
+                        btn: '我知道了'
+                    });
+                    return false;
+                }
+                if (password2.length == '') {
+                    layer.open({
+                        content: "<p class='alert_msg'>请再次输入密码</p>",
+                        btn: '我知道了'
+                    });
+                    return false;
+                }
+                
+                if (password2.length < 6) {
+                    layer.open({
+                        content: "<p class='alert_msg'>请输入6位数的密码</p>",
+                        btn: '我知道了'
+                    });
+                    return false;
+                }
+                
+                if (password !== password2) {
+                    layer.open({
+                        content: "<p class='alert_msg'>两次密码不一致</p>",
+                        btn: '我知道了'
+                    });
+                    return false;                   
+                }
+                
+                //验证通过提交数据
+                $.ajax({
+                    url: "<?=url('','','setPayPSD')?>",
+                    type: "post",
+                    data: {password: password, password2: password2},
+                    dataType: "json",
+                    success: function(data) {
+                        if (data.status == 0) {
+                            window.location.href = "<?=url('','app','tsSuccess')?>&title=设置资金密码&msg=设置资金密码成功&flag_p={$_GET['flag_p']}";
+                        } else {
+                            layer.open({
+                                content: "<p class='alert_msg'>"+ data.ret_msg +"</p>",
+                                btn: '我知道了'
+                            });
+                        }
+                    },
+                    error: function(error) {
+                        layer.open({
+                            content: "<p class='alert_msg'>服务器出错了</p>",
+                            btn: '我知道了'
+                        });
+                    }
+                });
+            }
+            $(".first-psd .inputPas").keyup(function(){
+                if($(this).val().length == 6){
+                    $(".first-psd").css("display","none");
+                    $(".agin-psd").css("display","block");
+                }
+            });
+            $(".agin-psd .inputPas").keyup(function(){
+                if($(this).val().length == 6){
+                    setMoneyPsd();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<!--说明网站开启webapp 程序的支持-->
+		<meta name="apple-touch-fullscreen" content="yes" />
+		<!--添加到主屏幕后，全屏显示-->
+		<meta name="apple-mobile-web-app-status-bar-style" content="#f96a36" />
+		<!--在web app应用下状态条（屏幕顶部条）的颜色-->
+		<meta name="format-detection" content="telephone=no" />
+		<title>绑定银行卡账号</title>
+		<link rel="stylesheet" href="../../statics/app/css/style.css">
+		<link rel="stylesheet" href="../../statics/app/css/plugs/amazeui.min.css" />
+		<script type="text/javascript" src="../../statics/app/js/plugs/jquery-2.1.3.min.js"></script>
+		<script type="text/javascript" src="../../statics/app/js/plugs/amazeui.min.js"></script>
+		<script type="text/javascript" src="../../statics/app/js/fontSize.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../statics/app/css/plugs/mui.css" />
+		<script type="text/javascript" src="../../statics/app/js/layer.m/layer.m.js"></script>
+		<script type="text/javascript" src="../../statics/app/js/common.js"></script>
+	</head>
+
+	<body class="cht-bg">
+		<!--修改银行卡账号-->
+		<div class="cht-box-change">
+			<form  class="mui-input-group am-form" id='myform' action="<?=url('','','')?>" method="post">
+				<div class="cht-form-block">
+					<section class="cht-form">
+						<div class="cht-form-bank">
+							<div class="am-form-group mui-input-row">
+								<label style="width:30%">开户银行</label>
+								<select name="bank" id="bank">
+									<option value="0">请选择开户银行</option>
+									{loop $glossary $vo}
+									<option value="{$vo['id']}">{$vo['name']}</option>
+									{/loop}
+								</select>
+							</div>
+						</div>
+					</section>
+					<section class="cht-form">
+						<div class="cht-form-bank">
+							<div class="am-form-group mui-input-row">
+								<label style="width:30%">开户地</label>
+								<select class="cht-from-small" id="province" name="province">
+									<option value="0">省份</option>
+								</select>
+								<select class="cht-from-small" id="city" name="city">
+									<option value="0">城市</option>
+								</select>
+								<select class="cht-from-small" id="area" name="area">
+									<option value="0">区/县</option>
+								</select>
+							</div>
+						</div>
+					</section>
+					<section class="cht-form">
+						<div class="cht-form-pepoleInfo">
+							<div class="mui-input-row">
+								<label>持卡人</label>
+								<span class="cht-comInfo" style="padding-top:0.3rem;display:inline-block"><?=f_realname($realname)?></span>
+							</div>
+							<div class="mui-input-row">
+								<label>银行账号</label>
+								<input name="account" id="account" type="number" class="cht-comInfo" placeholder="请输入银行账号" autocomplete="off">
+							</div>
+							<div class="mui-input-row">
+								<label>支行名称</label>
+								<input name="branch" id="branch" type="text" placeholder="请输入支行名称" autocomplete="off">
+							</div>
+						</div>
+					</section>
+				</div>
+				<input type="hidden" name="save" value="save">
+				<button type="submit" class="am-btn am-btn-default am-btn-block cht-btn-submit" id="submit" disabled="disabled">确认提交</button>
+			</form>
+		</div>
+
+		<script language="javascript" type="text/javascript" src="../../statics/js/district.js" charset="UTF-8"></script>
+		<script type="text/javascript">
+			var addressInit = function(_cmbProvince, _cmbCity, _cmbArea, defaultProvince, defaultCity, defaultArea) {
+				var cmbProvince = document.getElementById(_cmbProvince);
+				var cmbCity = document.getElementById(_cmbCity);
+				var cmbArea = document.getElementById(_cmbArea);
+				function cmbSelect(cmb, str) {
+					if (str) {
+						$(cmb).val(str).change();
+					}
+				}
+				function cmbAddOption(cmb, str, val) {
+					var option = document.createElement("OPTION");
+		  			cmb.options.add(option);
+		    		option.innerHTML = val;
+					option.value = str;
+				}
+				function changeCity() {
+					cmbArea.options.length = 0;
+					if (cmbCity.selectedIndex == -1)
+						return;
+					var item = cmbCity.options[cmbCity.selectedIndex].value;
+					$.each(area[item], function(key, val) {
+						cmbAddOption(cmbArea, key, val[0]);
+					});
+					cmbSelect(cmbArea, defaultArea);
+				}
+				function changeProvince(){
+					cmbCity.options.length = 0;
+					cmbCity.onchange = null;
+					if (cmbProvince.selectedIndex == -1)
+						return;
+					var item = cmbProvince.options[cmbProvince.selectedIndex].value;
+					$.each(city[item], function(key, val) {
+						cmbAddOption(cmbCity, key, val[0]);
+					});
+					cmbSelect(cmbCity, defaultCity);
+					changeCity();
+					cmbCity.onchange = changeCity;
+					if (cmbProvince.options[0].value == 0) {
+						cmbProvince.options.remove(0);
+					}
+				}
+				$.each(province, function(key, val) {
+					cmbAddOption(cmbProvince, key, val[0]);
+				});
+				cmbProvince.onchange = changeProvince;
+				cmbSelect(cmbProvince, defaultProvince);
+				cmbSelect(cmbCity, defaultCity);
+				cmbSelect(cmbArea, defaultArea);
+			};
+
+			$(function() {
+				addressInit('province', 'city', 'area', '{$bank['province']}', '{$bank['city']}', '{$bank['area']}');
+
+				function checkVal() {
+					if ($("#bank").val() == '0' || $("#province").val() == '0' || $("#branch").val() == '' || $("#account").val() == '') {
+						$("#submit").attr('disabled', true);
+					} else {
+						$("#submit").attr('disabled', false);
+					}
+				}
+
+				//判断是否输入值
+				$("#bank, #province").change(function () {
+					checkVal();
+				});
+				$("#account, #branch").keyup(function () {
+					checkVal();
+				}).bind('input propertychange', function () {
+					checkVal();
+				});
+
+				$("#submit").click(function () {
+					$('input, select').blur();
+
+					if ($("#bank").val() == '0') {
+						layerTips('请选择开户银行！');
+						return false;
+					}
+
+					if ($("#province").val() == '0') {
+						layerTips('请选择省份！');
+						return false;
+					}
+
+					if ($("#branch").val() == '') {
+						layerTips('请输入开户支行名称！');
+						return false;
+					}
+					if (!/^[\u4e00-\u9fa5]+$/.test($('#branch').val())) {
+						layerTips('支行名称只允许填写中文');
+						return false;
+					}
+					if (!/^\d{16,19}$/.test($("#account").val())) {
+						layerTips('银行卡账号为16-19位纯数字！');
+						return false;
+					}
+
+					$('#submit').attr('disabled', true);
+					$.ajax({
+						type: 'POST',
+						url: "<?=url('','','')?>",
+						data: {
+							bank: $('#bank').val(),
+							province: $('#province').val(),
+							city: $('#city').val(),
+							area: $('#area').val(),
+							branch: $('#branch').val(),
+							account: $('#account').val(),
+							save: 'save',
+							portal: "<?=$portal?>",
+						},
+						dataType: 'json',
+						success: function (data) {
+							$('#submit').attr('disabled', false);
+							if (data.status == 1) {
+								layerTips(data.msg);
+							} else {
+								location.href = data.url;
+							}
+						}
+					});
+
+					return false;
+				});
+			});
+		</script>
+	</body>
+
+</html>

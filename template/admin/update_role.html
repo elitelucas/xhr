@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="renderer" content="webkit">
+        <title>网站信息</title>  
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>
+        <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+        <script src="statics/admin/js/pintuer.js"></script>
+        {template public-new-ui-header}
+    </head>
+    <body class="new_ui_body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title iboxWTitle">
+                        <h5>修改角色</h5>
+                        <div class="ibox-tools">
+                            <a href="javascript:;" class="btn btn-white btn-bitbucket" onclick="history.go(-1);">
+                                <i class="fa fa-reply"></i>返回
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content bagCol" style="width: 100%;">
+                        <form method="post" class="form-x" action="" id="form">
+                            <div class="ibox-title">
+                                <h5>角色信息</h5>
+                            </div>
+                            <div class="ibox-content m-b" style="width: 100%;">
+                                <div class="row">
+                                    <input type="hidden" name="id"  value="{$data['roleid']}" />
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>名称</label>
+                                        <div class="col-sm-4">
+                                            <input class="form-control" placeholder="请输入名称" type="text" name="rolename" value="{$data['rolename']}" />
+                                            <div class="tipss"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title">角色描述</label>
+                                        <div class="col-sm-4">
+                                            <textarea type="text" placeholder="请输入角色描述" class="input" name="description" style="height:100px;width:363px;" >{$data['description']}</textarea>
+                                            <div class="tipss"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title">状态</label>
+                                        <div class="col-sm-4" style="margin-top: 6px;">
+                                            <input id="ishome"  type="radio" name="disabled[]" value='0' {if $data['disabled']==0} checked {/if}/> 开启
+                                            <input id="isvouch"  type="radio" name="disabled[]" value='1' {if $data['disabled']==1} checked {/if}/> 禁用
+                                            <div class="tipss"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title"></label>
+                                        <div class="col-sm-4">
+                                            <button class="btn btn-primary" type="button" id='btn' onclick="dis()"> 提交</button>
+                                            <button class="btn btn-white" type="button" onclick="history.go(-1);">取消</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        function dis() {
+            //数据
+            var data = new Object();
+            data.rolename = $.trim($("input[name=rolename]").val());
+            data.description = $.trim($("textarea[name=description]").val());
+            //提示信息
+            var msg = new Object();
+            msg.rolename = '名称不能为空';
+            msg.description = '角色描述不能为空';
+            //检查的值
+            var arr = [ 'rolename', 'description'];
+
+            var onOff = true;
+            $.each(data, function(k, v){
+                if($.inArray(k,arr) != -1){
+                    if(v==''){
+                        layer.open({
+                            content: "<p class='alert_msg'>"+msg[k]+"</p>",
+                            btn: '<p class="alert_buttom">我知道了</p>'
+                        });
+                        onOff = false;
+                        return false;
+                    }
+                }
+            });
+            if(!onOff){
+                return false;
+            }
+            var data = $('#form').serialize();
+            $.ajax({
+                type: 'POST',
+                url: '?m=admin&c=role&a=update_role_ok',
+                data: data,
+                dataType: 'json',
+                success: function (ss) {
+                    if (ss.state) {
+                        layer.msg('修改成功！！！', {icon: 6, shade: [0.5, '#393D49']},function(){
+                            location.href = "?m=admin&c=role&a=role_lst";
+                        });
+                    } else {
+                        layer.msg('修改失败！！！', {icon: 5, shade: [0.5, '#393D49']});
+                    }
+                }
+            });
+        }
+    </script>
+</html>

@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <!--  <link rel="stylesheet" href="statics/admin/css/pintuer.css"> -->
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+    <script src="statics/admin/js/pintuer.js"></script>
+    <script src="statics/admin/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- template-begin+++ -->
+    {template public-new-ui-header}
+    <!-- template-end+++ -->
+    <script src="statics/admin/js/jquery.date_input.pack.js"></script>
+    <link rel="stylesheet" href="statics/admin/jedate/skin/jedate.css">
+    <script type="text/javascript" src="statics/admin/jedate/jquery.jedate.min.js"></script>
+
+    <!-- 图片上传 引入插件 -->
+    <script src="statics/admin/fileupload/js/vendor/jquery.ui.widget.js"></script>
+    <script src="statics/admin/fileupload/js/jquery.fileupload.js"></script>
+
+    <style type='text/css'>
+        #page{height: 60px;margin-top: 20px;text-align: center;}
+        #page ul li{float: left;margin-right:10px;}
+        #page ul .current{ background-color:#0099ff;text-align:center;}
+        .table td div.username{
+            height: 23px;
+            overflow: hidden;
+            white-space:nowrap;
+            text-overflow: ellipsis;
+        }
+        .table tbody tr td{
+            vertical-align: middle;
+        }
+        .table>thead>tr>th {
+            vertical-align: middle;
+        }
+        .rules-1{
+            float: left;
+            height: 35px;
+            line-height: 35px;
+            padding-right:10px;
+        }
+        .rules-2{
+            float: left;
+            height: 35px;
+            line-height: 35px;
+            padding:0 10px 0 10px;
+        }
+        .rules-3{
+            float: left;
+            width: 20%;
+        }
+    </style>
+</head>
+<body style="margin: 15px;background-color: #f3f3f4;">
+<div class="ibox float-e-margins">
+    <div class="ibox-title iboxWTitle">
+        <h5>新增活动</h5>
+        <div class="ibox-tools">
+            <a href="javascript:void(0)" class="btn btn-white btn-bitbucket" onclick="javascript:history.go(-1);">
+                <i class="fa fa-reply"></i> 返回
+            </a>
+        </div>
+    </div>
+    <div class="ibox-content bagCol">
+        <div class="ibox-title">
+            <h5>活动详情</h5>
+        </div>
+        <div class="ibox-content">
+            <form method="get" class="form-horizontal">
+                <div class="form-group">
+                    <div style="margin-left: 25px;">
+                        <p><b>免费中奖概率一栏说明：</b>比例可为"0"，所有序号内对应层级中奖率相加必须为100%，每个奖项中奖率最多保留2位小数</p>
+                        <p><b>付费中奖概率一栏说明：</b>比例可为"0"，所有序号内对应层级中奖率相加必须为100%，每个奖项中奖率最多保留2位小数</p>
+                        <p><b>付免费抽奖次数一栏说明：</b>可设置为"0"，表示不赠送抽奖次数</p>
+                        <p><b>每天抽奖最高次数一栏说明：</b>可设置为"0"，表示没有上限</p>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">活动名称</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" name="title" value="{if empty($list)} 博饼第{$maxNum}期活动  {else} {$list['title']} {/if}" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">活动时间</label>
+                    <div class="col-sm-7">
+                        <div class="input-group">
+                            <input style="width: 43%" type="text" name="start_time" id="start_time" class="date_picker form-control" value="<?php if(!empty($list['start_time'])){ echo date('Y-m-d H:i:s',$list['start_time']);}   ?>" />
+                            <span style="float: left;line-height: 34px;padding: 0 20px 0 20px;">至</span>
+                            <input style="width: 43%" type="text" name="end_time" id="end_time" class="date_picker form-control" value="<?php if(!empty($list['end_time'])){ echo date('Y-m-d H:i:s',$list['end_time']);}   ?>" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">是否开启</label>
+                    <div class="col-sm-1">
+                        <select class="form-control m-b" name="state">
+                            <option value="1" {if $list['state'] == 1} selected="selected" {/if}>开启</option>
+                            <option value="2" {if $list['state'] == 2} selected="selected" {/if}>停止</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">玩法规则</label>
+                    <div class="col-sm-7">
+                        <span class="rules-1">活动期间有效充值达到</span>
+                        <input class="form-control rules-3" name="recharge_money" value="{if empty($list)} 100 {else} {$list['rules_play']['recharge_money']} {/if}" type="text" />
+                        <span class="rules-2">元宝，可以玩</span>
+                        <input class="form-control rules-3" name="recharge_num" value="{if empty($list)} 1 {else} {$list['rules_play']['recharge_num']} {/if}" type="text" />
+                        <span class="rules-2">次 <font color="gray">(充值赠送次数即时生效)</font></span>
+
+                        <br /><br />
+
+                        <span class="rules-1">活动期间有效投注达到</span>
+                        <input class="form-control rules-3" name="betting_money" value="{if empty($list)} 100 {else} {$list['rules_play']['betting_money']} {/if}" type="text" />
+                        <span class="rules-2">元宝，可以玩</span>
+                        <input class="form-control rules-3" name="betting_num" value="{if empty($list)} 1 {else} {$list['rules_play']['betting_num']} {/if}" type="text" />
+                        <span class="rules-2">次 <font color="gray">(投注赠送次数即时生效)</font></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">会员组限制</label>
+                    <div class="col-sm-10">
+                        {loop $groupInfo $val}
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="group" value="{$val['id']}" {if empty($list)} checked="checked" {else} {loop $list['level_limit'] $va} {if $va == $val['id']} checked="checked" {/if} {/loop} {/if} />{$val["name"]}
+                        </label>
+                        {/loop}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">活动期数</label>
+                    <div class="col-sm-10">
+                        <span class="rules-1">第 {$maxNum} 期</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">免费抽奖次数</label>
+                    <div class="col-md-1">
+                        <input name="free_num" type="text" class="form-control" value="{if empty($list)} 0 {else} {$list['value']['free_num']} {/if}" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">每天抽奖最高次数</label>
+                    <div class="col-md-1">
+                        <input name="upper_limit" type="text" class="form-control" value="{if empty($list)} 100 {else} {$list['value']['upper_limit']} {/if}" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">活动设置</label>
+                    <div class="col-sm-11">
+                        <div class="dataTables_wrapper form-inline">
+                            <table class="table table-striped table-bordered table-hover  dataTable" aria-describedby="editable_info">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>奖项</th>
+                                    <th>中奖积分</th>
+                                    <th>免费中奖概率(%)</th>
+                                    <th>付费中奖概率(%)</th>
+                                </tr>
+                                </thead>
+                                <tbody id="activity_config">
+                                <tr>
+                                    <td>1</td>
+                                    <td><input name="config_name" type="text" class="form-control" readonly="readonly" value="状元插金花" /></td>
+                                    <td><input name="config_reward" type="text" class="form-control" value="{if empty($list)} 100 {else} {$list['value']['activity_config'][0]['config_reward']} {/if}" /></td>
+                                    <td><input name="config_free" type="text" class="form-control" value="{if empty($list)} 0 {else} {$list['value']['activity_config'][0]['config_free']} {/if}" /></td>
+                                    <td><input name="config_paid" type="text" class="form-control" value="{if empty($list)} 0.01 {else} {$list['value']['activity_config'][0]['config_paid']} {/if}" /></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td><input name="config_name" type="text" class="form-control" readonly="readonly" value="满堂红" /></td>
+                                    <td><input name="config_reward" type="text" class="form-control" value="{if empty($list)} 50 {else} {$list['value']['activity_config'][1]['config_reward']} {/if}" /></td>
+                                    <td><input name="config_free" type="text" class="form-control" value="{if empty($list)} 0 {else} {$list['value']['activity_config'][1]['config_free']} {/if}" /></td>
+                                    <td><input name="config_paid" type="text" class="form-control" value="{if empty($list)} 0.03 {else} {$list['value']['activity_config'][1]['config_paid']} {/if}" /></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td><input name="config_name" type="text" class="form-control" readonly="readonly" value="遍地锦" /></td>
+                                    <td><input name="config_reward" type="text" class="form-control" value="{if empty($list)} 50 {else} {$list['value']['activity_config'][2]['config_reward']} {/if}" /></td>
+                                    <td><input name="config_free" type="text" class="form-control" value="{if empty($list)} 0 {else} {$list['value']['activity_config'][2]['config_free']} {/if}" /></td>
+                                    <td><input name="config_paid" type="text" class="form-control" value="{if empty($list)} 0.03 {else} {$list['value']['activity_config'][2]['config_paid']} {/if}" /></td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td><input name="config_name" type="text" class="form-control" readonly="readonly" value="黑六勃" /></td>
+                                    <td><input name="config_reward" type="text" class="form-control" value="{if empty($list)} 50 {else} {$list['value']['activity_config'][3]['config_reward']} {/if}" /></td>
+                                    <td><input name="config_free" type="text" class="form-control" value="{if empty($list)} 0 {else} {$list['value']['activity_config'][3]['config_free']} {/if}" /></td>
+                                    <td><input name="config_paid" type="text" class="form-control" value="{if empty($list)} 0.03 {else} {$list['value']['activity_config'][3]['config_paid']} {/if}" /></td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td><input name="config_name" type="text" class="form-control" readonly="readonly" value="五红" /></td>
+                                    <td><input name="config_reward" type="text" class="form-control" value="{if empty($list)} 50 {else} {$list['value']['activity_config'][4]['config_reward']} {/if}" /></td>
+                                    <td><input name="config_free" type="text" class="form-control" value="{if empty($list)} 0 {else} {$list['value']['activity_config'][4]['config_free']} {/if}" /></td>
+                                    <td><input name="config_paid" type="text" class="form-control" value="{if empty($list)} 0.03 {else} {$list['value']['activity_config'][4]['config_paid']} {/if}" /></td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td><input name="config_name" type="text" class="form-control" readonly="readonly" value="五子登科" /></td>
+                                    <td><input name="config_reward" type="text" class="form-control" value="{if empty($list)} 50 {else} {$list['value']['activity_config'][5]['config_reward']} {/if}" /></td>
+                                    <td><input name="config_free" type="text" class="form-control" value="{if empty($list)} 0 {else} {$list['value']['activity_config'][5]['config_free']} {/if}" /></td>
+                                    <td><input name="config_paid" type="text" class="form-control" value="{if empty($list)} 0.03 {else} {$list['value']['activity_config'][5]['config_paid']} {/if}" /></td>
+                                </tr>
+                                <tr>
+                                    <td>7</td>
+                                    <td><input name="config_name" type="text" class="form-control" readonly="readonly" value="四点红" /></td>
+                                    <td><input name="config_reward" type="text" class="form-control" value="{if empty($list)} 50 {else} {$list['value']['activity_config'][6]['config_reward']} {/if}" /></td>
+                                    <td><input name="config_free" type="text" class="form-control" value="{if empty($list)} 0 {else} {$list['value']['activity_config'][6]['config_free']} {/if}" /></td>
+                                    <td><input name="config_paid" type="text" class="form-control" value="{if empty($list)} 0.03 {else} {$list['value']['activity_config'][6]['config_paid']} {/if}" /></td>
+                                </tr>
+                                <tr>
+                                    <td>8</td>
+                                    <td><input name="config_name" type="text" class="form-control" readonly="readonly" value="对堂" /></td>
+                                    <td><input name="config_reward" type="text" class="form-control" value="{if empty($list)} 20 {else} {$list['value']['activity_config'][7]['config_reward']} {/if}" /></td>
+                                    <td><input name="config_free" type="text" class="form-control" value="{if empty($list)} 0 {else} {$list['value']['activity_config'][7]['config_free']} {/if}" /></td>
+                                    <td><input name="config_paid" type="text" class="form-control" value="{if empty($list)} 0.05 {else} {$list['value']['activity_config'][7]['config_paid']} {/if}" /></td>
+                                </tr>
+                                <tr>
+                                    <td>9</td>
+                                    <td><input name="config_name" type="text" class="form-control" readonly="readonly" value="三红" /></td>
+                                    <td><input name="config_reward" type="text" class="form-control" value="{if empty($list)} 10 {else} {$list['value']['activity_config'][8]['config_reward']} {/if}" /></td>
+                                    <td><input name="config_free" type="text" class="form-control" value="{if empty($list)} 0 {else} {$list['value']['activity_config'][8]['config_free']} {/if}" /></td>
+                                    <td><input name="config_paid" type="text" class="form-control" value="{if empty($list)} 0.05 {else} {$list['value']['activity_config'][8]['config_paid']} {/if}" /></td>
+                                </tr>
+                                <tr>
+                                    <td>10</td>
+                                    <td><input name="config_name" type="text" class="form-control" readonly="readonly" value="四进" /></td>
+                                    <td><input name="config_reward" type="text" class="form-control" value="{if empty($list)} 5 {else} {$list['value']['activity_config'][9]['config_reward']} {/if}" /></td>
+                                    <td><input name="config_free" type="text" class="form-control" value="{if empty($list)} 0 {else} {$list['value']['activity_config'][9]['config_free']} {/if}" /></td>
+                                    <td><input name="config_paid" type="text" class="form-control" value="{if empty($list)} 0.05 {else} {$list['value']['activity_config'][9]['config_paid']} {/if}" /></td>
+                                </tr>
+                                <tr>
+                                    <td>11</td>
+                                    <td><input name="config_name" type="text" class="form-control" readonly="readonly" value="二举" /></td>
+                                    <td><input name="config_reward" type="text" class="form-control" value="{if empty($list)} 2 {else} {$list['value']['activity_config'][10]['config_reward']} {/if}" /></td>
+                                    <td><input name="config_free" type="text" class="form-control" value="{if empty($list)} 0 {else} {$list['value']['activity_config'][10]['config_free']} {/if}" /></td>
+                                    <td><input name="config_paid" type="text" class="form-control" value="{if empty($list)} 0.05 {else} {$list['value']['activity_config'][10]['config_paid']} {/if}" /></td>
+                                </tr>
+                                <tr>
+                                    <td>12</td>
+                                    <td><input name="config_name" type="text" class="form-control" readonly="readonly" value="一秀" /></td>
+                                    <td><input name="config_reward" type="text" class="form-control" value="{if empty($list)} 1 {else} {$list['value']['activity_config'][11]['config_reward']} {/if}" /></td>
+                                    <td><input name="config_free" type="text" class="form-control" value="{if empty($list)} 0 {else} {$list['value']['activity_config'][11]['config_free']} {/if}" /></td>
+                                    <td><input name="config_paid" type="text" class="form-control" value="{if empty($list)} 0.05 {else} {$list['value']['activity_config'][11]['config_paid']} {/if}" /></td>
+                                </tr>
+                                <tr>
+                                    <td>13</td>
+                                    <td><input name="config_name" type="text" class="form-control" readonly="readonly" value="什么都没有" /></td>
+                                    <td><input name="config_reward" readonly="readonly" type="text" class="form-control" value="{if empty($list)} 0 {else} {$list['value']['activity_config'][12]['config_reward']} {/if}" /></td>
+                                    <td><input name="config_free" type="text" class="form-control" value="{if empty($list)} 100 {else} {$list['value']['activity_config'][12]['config_free']} {/if}" /></td>
+                                    <td><input name="config_paid" type="text" class="form-control" value="{if empty($list)} 99.56 {else} {$list['value']['activity_config'][12]['config_paid']} {/if}" /></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">奖励设置</label>
+                    <div class="col-sm-11">
+                        <div class="dataTables_wrapper form-inline">
+                            <table class="table table-striped table-bordered table-hover  dataTable" aria-describedby="editable_info">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>积分排名</th>
+                                    <th>是否实物</th>
+                                    <th>金额</th>
+                                    <th>实物名</th>
+                                    <th>数量</th>
+                                </tr>
+                                </thead>
+                                <tbody id="reward_config">
+                                <tr align="center">
+                                    <td>1</td>
+                                    <td>第1名</td>
+                                    <td>
+                                        <select name="prize_type" class="form-control">
+                                            <option value="2" {if $list['value']['reward_config'][0]['prize_type'] == 2} selected="selected" {/if}>否</option>
+                                            <option value="1" {if $list['value']['reward_config'][0]['prize_type'] == 1} selected="selected" {/if}>是</option>
+                                        </select>
+                                    </td>
+                                    <td><input name="prize_money" type="text" class="form-control" value="{if empty($list)} 20 {else} {$list['value']['reward_config'][0]['prize_money']} {/if}" /></td>
+                                    <td><input name="prize_name" type="text" class="form-control" value="{$list['value']['reward_config'][0]['prize_name']}" /></td>
+                                    <td><input name="prize_num" type="text" class="form-control" value="1" readonly="readonly" /></td>
+                                </tr>
+                                <tr align="center">
+                                    <td>2</td>
+                                    <td>第2-3名</td>
+                                    <td>
+                                        <select name="prize_type" class="form-control">
+                                            <option value="2" {if $list['value']['reward_config'][1]['prize_type'] == 2} selected="selected" {/if}>否</option>
+                                            <option value="1" {if $list['value']['reward_config'][1]['prize_type'] == 1} selected="selected" {/if}>是</option>
+                                        </select>
+                                    </td>
+                                    <td><input name="prize_money" type="text" class="form-control" value="{if empty($list)} 10 {else} {$list['value']['reward_config'][1]['prize_money']} {/if}" /></td>
+                                    <td><input name="prize_name" type="text" class="form-control" value="{$list['value']['reward_config'][1]['prize_name']}" /></td>
+                                    <td><input name="prize_num" type="text" class="form-control" value="2" readonly="readonly" /></td>
+                                </tr>
+                                <tr align="center">
+                                    <td>3</td>
+                                    <td>第4-10名</td>
+                                    <td>
+                                        <select name="prize_type" class="form-control">
+                                            <option value="2" {if $list['value']['reward_config'][2]['prize_type'] == 2} selected="selected" {/if}>否</option>
+                                            <option value="1" {if $list['value']['reward_config'][2]['prize_type'] == 1} selected="selected" {/if}>是</option>
+                                        </select>
+                                    </td>
+                                    <td><input name="prize_money" type="text" class="form-control" value="{if empty($list)} 5 {else} {$list['value']['reward_config'][2]['prize_money']} {/if}" /></td>
+                                    <td><input name="prize_name" type="text" class="form-control" value="{$list['value']['reward_config'][2]['prize_name']}" /></td>
+                                    <td><input name="prize_num" type="text" class="form-control" value="7" readonly="readonly" /></td>
+                                </tr>
+                                <tr align="center">
+                                    <td>4</td>
+                                    <td>第11-50名</td>
+                                    <td>
+                                        <select name="prize_type" class="form-control">
+                                            <option value="2" {if $list['value']['reward_config'][3]['prize_type'] == 2} selected="selected" {/if}>否</option>
+                                            <option value="1" {if $list['value']['reward_config'][3]['prize_type'] == 1} selected="selected" {/if}>是</option>
+                                        </select>
+                                    </td>
+                                    <td><input name="prize_money" type="text" class="form-control" value="{if empty($list)} 2 {else} {$list['value']['reward_config'][3]['prize_money']} {/if}" /></td>
+                                    <td><input name="prize_name" type="text" class="form-control" value="{$list['value']['reward_config'][3]['prize_name']}" /></td>
+                                    <td><input name="prize_num" type="text" class="form-control" value="40" readonly="readonly" /></td>
+                                </tr>
+                                <tr align="center">
+                                    <td>5</td>
+                                    <td>第50-100名</td>
+                                    <td>
+                                        <select name="prize_type" class="form-control">
+                                            <option value="2" {if $list['value']['reward_config'][4]['prize_type'] == 2} selected="selected" {/if}>否</option>
+                                            <option value="1" {if $list['value']['reward_config'][4]['prize_type'] == 1} selected="selected" {/if}>是</option>
+                                        </select>
+                                    </td>
+                                    <td><input name="prize_money" type="text" class="form-control" value="{if empty($list)} 1 {else} {$list['value']['reward_config'][4]['prize_money']} {/if}" /></td>
+                                    <td><input name="prize_name" type="text" class="form-control" value="{$list['value']['reward_config'][4]['prize_name']}" /></td>
+                                    <td><input name="prize_num" type="text" class="form-control" value="50" readonly="readonly" /></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">上传奖励规则</label>
+                    <div class="col-md-1">
+                        {if empty($list['id'])}
+                        <input type="file" id="uploadImg" />
+                        <img src="{$list['value']['bonus_rule_img']}" id="bonus_rule_img" <?php if(empty($list['value']['bonus_rule_img'])){ echo 'style="display: none;"';} ?> width="690"/>
+                        {else}
+                        <img src="{$list['value']['bonus_rule_img']}" id="bonus_rule_img" <?php if(empty($list['value']['bonus_rule_img'])){ echo 'style="display: none;"';} ?> width="690"/>
+                        {/if}
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-2 col-sm-offset-1">
+                        <button class="btn btn-primary" type="button" data-id="{$activity_info['id']}" id="btn_submit">保存内容</button>
+                        <button class="btn btn-white" type="button" style="border: 1px solid #e7eaec" onclick="javascript:history.go(-1);" id="qx_submit">取消</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    var loading = "";//加载中......
+    $(function(){
+        if("{$list['id']}" != "") {
+            $("input").attr("disabled",true);
+            $("select").attr("disabled",true);
+            $("textarea").attr("disabled",true);
+            $("button").attr("disabled",true);
+            $("#btn_submit").css("display","none");
+            $("#qx_submit").css("display","none");
+        } else {
+            $("select[name='prize_type']").change();
+        }
+
+        $("#start_time").jeDate({
+            isinitVal:true,
+            festival:true,
+            ishmsVal:true,
+            minDate: $.nowDate(0),
+            format:"YYYY-MM-DD hh:mm:ss",
+            zIndex:3000,
+        })
+        var id = "<?php echo $list['id']  ?>";
+        if(id != "") {
+            $("#end_time").jeDate({
+                isinitVal:true,
+                festival:true,
+                ishmsVal:true,
+                minDate: $.nowDate(0),
+                format:"YYYY-MM-DD hh:mm:ss",
+                zIndex:3000,
+            })
+        } else {
+            $("#end_time").jeDate({
+                isinitVal:true,
+                festival:true,
+                ishmsVal:true,
+                minDate: $.nowDate(0),
+                initAddVal:[30],
+                format:"YYYY-MM-DD hh:mm:ss",
+                zIndex:3000,
+            })
+        }
+
+    })
+
+    $("select[name='prize_type']").change(function(){
+        var value = $(this).val();
+        if (value == 2) {
+            $(this).parent().parent().find("input[name='prize_name']").attr("readonly",true);
+        } else {
+            $(this).parent().parent().find("input[name='prize_name']").attr("readonly",false);
+        }
+    });
+
+    //上传图片
+    $("#uploadImg").change(function(){
+        var formData = new FormData();
+        formData.append("file",$("#uploadImg")[0].files[0]);
+        $.ajax({
+            url : "?m=admin&c=role&a=uploadFile",
+            type : 'POST',
+            data : formData,
+            processData : false,
+            contentType : false,
+            beforeSend:function(){
+                loading = layer.load(1);
+            },
+            success : function(responseStr) {
+                var data = JSON.parse(responseStr);
+                if(data.code == 0) {
+                    $("#bonus_rule_img").attr("src",data.msg);
+                    $("#bonus_rule_img").css("display","block");
+                } else {
+                    layer.alert(data.msg, {icon: 5, shade: [0.5, '#393D49']});
+                }
+            },
+            error : function(responseStr) {
+                layer.alert(responseStr.responseText, {icon: 5, shade: [0.5, '#393D49']});
+            },
+            complete:function(){
+                layer.close(loading);
+            }
+        });
+    });
+
+
+    $("#btn_submit").on("click",function(){
+        var reg = /^[0-9]\d*$/;
+        var data = {
+            'id':"<?php echo $list['id']   ?>",
+            'title':$("input[name='title']").val(),
+            'start_time':$("input[name='start_time']").val(),
+            'end_time':$("input[name='end_time']").val(),
+            'state':$("select[name='state']").val(),
+            'rules_play':{
+                'recharge_money':$.trim($("input[name='recharge_money']").val()),
+                'recharge_num':$.trim($("input[name='recharge_num']").val()),
+                'betting_money':$.trim($("input[name='betting_money']").val()),
+                'betting_num':$.trim($("input[name='betting_num']").val())
+            },
+            'level_limit':[],
+            'event_num':"{$maxNum}",
+            'value':"",
+            'type' : "{$type}"
+        };
+
+        if(data.title == "" || data.title.length > 50) {
+            layer.alert('活动名称不能为空，并且长度50个字符', {icon: 5, shade: [0.5, '#393D49']});
+            return false;
+        }
+
+        if(data.start_time == "" || data.end_time == "") {
+            layer.alert('活动时间不能为空', {icon: 5, shade: [0.5, '#393D49']});
+            return false;
+        }
+
+        if(!reg.test(data.rules_play.recharge_money) || !reg.test(data.rules_play.recharge_num) || !reg.test(data.rules_play.betting_money) || !reg.test(data.rules_play.betting_num)) {
+            layer.alert('玩法规则只能输入正整数,不包括【0】', {icon: 5, shade: [0.5, '#393D49']});
+            return false;
+        }
+
+        if(data.rules_play.recharge_money == "" || data.rules_play.recharge_num == "" || data.rules_play.betting_money == "" || data.rules_play.betting_num == "") {
+            layer.alert('玩法规则不能为空', {icon: 5, shade: [0.5, '#393D49']});
+            return false;
+        }
+
+        var group = $("input[name='group']:checked");
+        for(var a=0;a<group.length;a++){
+            data.level_limit.push($(group[a]).val());
+        }
+
+        var value_tmp = {
+            //'tourist_state':$("input[name='tourist_state']:checked").val(),
+            'free_num':$.trim($("input[name='free_num']").val()),
+            'upper_limit':$.trim($("input[name='upper_limit']").val()),
+            'activity_config':[],
+            'reward_config':[],
+            'bonus_rule_img':$("#bonus_rule_img").attr("src")
+        }
+        var paid_count_num = 0;
+        var free_count_num = 0;
+        var paid_check_rate_num_decimal = true;
+        var free_check_rate_num_decimal = true;
+        var activity_config = [];
+        for(var a=0;a<$("#activity_config").find("tr").length;a++){
+            var obj = $($("#activity_config").find("tr")[a]);
+            var activity_config_tmp = {
+                'config_id':parseInt(a)+1,
+                'config_name':obj.find("input[name='config_name']").val(),
+                'config_reward':$.trim(obj.find("input[name='config_reward']").val()),
+                'config_free':$.trim(obj.find("input[name='config_free']").val()),
+                'config_paid':$.trim(obj.find("input[name='config_paid']").val())
+            }
+            if(!reg.test(activity_config_tmp.config_reward)) {
+                layer.alert('中奖积分只能输入正整数0-9', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+            if (activity_config_tmp.config_paid.split('.')[1] !== undefined && activity_config_tmp.config_paid.split('.')[1].length > 2) {
+                paid_check_rate_num_decimal = false;
+            }
+            if (activity_config_tmp.config_free.split('.')[1] !== undefined && activity_config_tmp.config_free.split('.')[1].length > 2) {
+                free_check_rate_num_decimal = false;
+            }
+            paid_count_num += (activity_config_tmp.config_paid) * 100;
+            free_count_num += (activity_config_tmp.config_free) * 100;
+            activity_config.push(activity_config_tmp);
+        }
+        if (! paid_check_rate_num_decimal) {
+            layer.alert('付费中奖概率只能保留2位小数', {icon: 5, shade: [0.5, '#393D49'], time:1200});
+            return false;
+        }
+        if (! free_check_rate_num_decimal) {
+            layer.alert('免费中奖概率只能保留2位小数', {icon: 5, shade: [0.5, '#393D49'], time:1200});
+            return false;
+        }
+
+        paid_count_num /= 100;
+        free_count_num /= 100;
+        if (paid_count_num != 100) {
+            layer.alert('付费中奖率之和不等于100(当前值为' + paid_count_num + ')，请确认！', {icon: 5, shade: [0.5, '#393D49'], time:1200});
+            return false;
+        }
+        if (free_count_num != 100) {
+            layer.alert('免费中奖率之和不等于100(当前值为' + paid_count_num + ')，请确认！', {icon: 5, shade: [0.5, '#393D49'], time:1200});
+            return false;
+        }
+        var reward_config = [];
+        for(var a=0;a<$("#reward_config").find("tr").length;a++){
+            var obj = $($("#reward_config").find("tr")[a]);
+            var reward_config_tmp = {
+                'prize_id':parseInt(a)+1,
+                'prize_type':obj.find("select[name='prize_type']").val(),
+                'prize_money':$.trim(obj.find("input[name='prize_money']").val()),
+                'prize_name':obj.find("input[name='prize_name']").val(),
+                'prize_num':obj.find("input[name='prize_num']").val()
+            }
+            if(reward_config_tmp.prize_money != ""){
+                if(!reg.test(reward_config_tmp.prize_money)) {
+                    layer.alert('金额只能输入正整数', {icon: 5, shade: [0.5, '#393D49']});
+                    return false;
+                }
+            }
+
+            reward_config.push(reward_config_tmp);
+        }
+        value_tmp.activity_config = activity_config
+        value_tmp.reward_config = reward_config
+        data.value = value_tmp;
+        $.ajax({
+            url: "?m=admin&c=activity&a=activityEditAct",
+            data: data,
+            dataType: 'json',
+            type: 'post',
+            beforeSend: function () {
+                loading = layer.load(1);
+            },
+            error: function () {
+                layer.close(loading);
+                layer.alert('网络错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+            },
+            success: function (data) {
+                layer.close(loading);
+                if(data['code'] == 0) {
+                    layer.alert(data.msg, {icon: 6, shade: [0.5, '#393D49']}, function () {
+                        location.href = '?m=admin&c=activity&a=boBinList';
+                    });
+                } else {
+                    layer.alert(data.msg, {icon: 5, shade: [0.5, '#393D49']});
+                }
+            }
+        });
+
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>开奖走势</title>
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+    <link rel="stylesheet" href="/statics/web/extend/dropload/dropload.css">
+    <script src="/statics/web/extend/dropload/dropload.min.js"></script>
+</head>
+<body>
+<header>
+    <em onclick="history.go(-1)">返回</em>
+    <h1>开奖走势</h1>
+    <!---->
+</header>
+<section>
+    <div class="teamWarp">
+        <div class="teamSearchW teamSearchT">
+            <div class="teamSearch">
+                <em></em>
+                <input type="text" class="inputDate" placeholder="开奖时间：今天"  />
+                <input name="date" type="date" placeholder="开奖时间：今天" onchange="getData()" style="position: absolute;">
+            </div>
+            <div class="teamSearch">
+                <input type="text" class="sel" value="幸运28" />
+                <select class="select" name="type" onchange="getData()">
+                    {loop $gameInfo $v}
+                    <option value="{$v['id']}">{$v['name']}</option>
+                    {/loop}
+                </select>
+                <em></em>
+            </div>
+        </div>
+        <table class="kjzs xy28">
+            <thead>
+                  <tr>
+                      <th width="15">期号 </th>
+                      <th width="9">值</th>
+                      <th width="9">大</th>
+                      <th width="9">小</th>
+                      <th width="9">单</th>
+                      <th width="9">双</th>
+                      <th width="10">大单</th>
+                      <th width="10">大双</th>
+                      <th width="10">小单</th>
+                      <th width="10">小双</th>
+                  </tr>
+            </thead>
+            <tbody id="record_list">
+            </tbody>
+        </table>
+        <table class="kjzs bjPk10" style="display: none;">
+            <thead>
+            <tr>
+                <th width="15">期号 </th>
+                <th width="9">冠亚和</th>
+                <th width="9">大</th>
+                <th width="9">小</th>
+                <th width="9">单</th>
+                <th width="9">双</th>
+                <th width="10">龙虎</th>
+
+            </tr>
+            </thead>
+            <tbody id="pk10">
+            <!--  <tr>
+                 <td>间隔</td>
+                 <td>-</td>
+                 <td>3</td>
+                 <td>0</td>
+                 <td>0</td>
+                 <td>2</td>
+                 <td>7</td>
+
+             </tr> -->
+            <!--<tr>
+                <td>790429</td>
+                <td><label>11</label></td>
+                <td></td>
+                <td><em class="bgLan">小</em></td>
+                <td><em class="bgLan">单</em></td>
+
+                <td><em class="bgLan">小单</em></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>790428</td>
+                <td><label>18</label></td>
+                <td><em class="bgCol">大</em></td>
+
+                <td></td>
+                <td><em class="bgCol">大双</em></td>
+                <td></td>
+                <td></td>
+            </tr>-->
+            </tbody>
+        </table>
+    </div>
+</section>
+    <script type="text/javascript">
+        var start_time = 0;
+        var lottery_type = 0;
+        var flag
+        var windowHeight = $(window).height();
+        //条件筛选s
+        function getData() {
+            flag = true;
+            start_time = $("input[name=date]").val();
+            lottery_type = $("select option:selected").val();
+            console.log(lottery_type);
+            if(lottery_type ==2 || lottery_type ==4){
+                $(".xy28").hide();
+                $(".bjPk10").show();
+            }else{
+                $(".xy28").show();
+                $(".bjPk10").hide();
+            }
+            pageData();
+        }
+        
+        function pageData() {
+            var page = 1; //页码
+            $('#record_list').html("");
+            $('#pk10').html("");
+            $('.dropload-down').remove();
+            
+            // dropload
+            $('.bettingRecordList').dropload({
+                scrollArea : window,
+                loadDownFn : function(me){
+                    //拼接
+                    var result = '';
+                    $.ajax({
+                        type: 'GET',
+                        url: "<?=url('','openAward','trendList')?>" + "&date=" + start_time + "&lottery_type=" + lottery_type + "&page=" + page,
+                        dataType: 'json',
+                        success: function(data){       
+                            var dataLen = data.list.length;
+                            if(page>2){
+                                $('.zhanwei').removeClass('zhanwei');
+                            }else if (dataLen > 0){
+                                $('.zhanwei').removeClass('zhanwei');
+                            }else {
+                                $('#record_list').append("<tr><td colspan='10' class='s_record'></td></tr>>");
+                                $('.s_record').addClass('zhanwei');
+                                var mainTop = $(".s_record").offset().top;
+                                var newHeight = windowHeight-mainTop;
+                                $(".s_record").css({height:newHeight});
+                            }
+                            if (dataLen > 0) {
+                                if(lottery_type == 2 || lottery_type == 4){
+
+                                }else {
+                                    //间隔
+                                    if (flag) {
+                                        result += '<tr><td>间隔</td><td>-</td>'
+                                            + '<td>'+ data.list[0].spare_3[0] +'</td>'
+                                            + '<td>'+ data.list[0].spare_3[1] +'</td>'
+                                            + '<td>'+ data.list[0].spare_3[2] +'</td>'
+                                            + '<td>'+ data.list[0].spare_3[3] +'</td>'
+                                            + '<td>'+ data.list[0].spare_3[4] +'</td>'
+                                            + '<td>'+ data.list[0].spare_3[5] +'</td>'
+                                            + '<td>'+ data.list[0].spare_3[6] +'</td>'
+                                            + '<td>'+ data.list[0].spare_3[7] +'</td>'
+                                            + '</tr>'
+                                    }
+                                }
+
+                                for(var i=0; i < dataLen; i++) {
+                                    var str = '';                 
+                                    result += '<tr>'
+                                                + '<td>'+ data.list[i].issue + '</td>'
+                                                + '<td><label>'+ data.list[i].open_result +'</label></td>'
+                                   //循环筛选
+                                    for (var i2=0; i2 < data.list[i].spare_2.length; i2++) {
+                                       str += styleFun(i2,data.list[i].spare_2[i2]);
+                                    } 
+                                    
+                                    result += str;
+                                    result += '</tr>';
+                                }
+                            }else{
+                                // 锁定
+                                me.lock();
+                                // 无数据
+                                me.noData();
+                            }
+
+                            // 为了测试，延迟1秒加载
+                            setTimeout(function(){
+                                if(lottery_type == 2 || lottery_type == 4){
+                                    $('#pk10').append(result);
+                                }else {
+                                    $('#record_list').append(result);
+                                }
+
+                                // 每次数据加载完，必须重置
+                                me.resetload();
+                            },1000);
+                            
+                            flag = false;
+                        },
+                        error: function(xhr, type){
+                            // 即使加载出错，也得重置
+                            me.resetload();
+                        }
+                    });
+                    
+                    page++; //页面加1
+                },
+                threshold : 50
+            });
+        }
+        
+        getData();
+        
+        /**
+         * 循环筛选对应的样式
+         */
+        function styleFun(index,value) {
+            if (value === '') {
+                return '<td></td>';
+            }else{
+                var spare_2 =  value.split("-");
+                switch(index) {
+                    case 1:
+                    case 2:
+                    case 6:
+                        return '<td><em class="colorDan" style="background:'+spare_2[1]+' ">' + spare_2[0] + '</em></td>';
+                      break;
+                    default:
+                        return '<td><em class="colorDan" style="background:'+spare_2[1]+' ">' + spare_2[0] + '</em></td>';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

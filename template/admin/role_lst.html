@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="renderer" content="webkit">
+    <title>网站信息</title>
+    <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+    <script src="statics/admin/js/pintuer.js"></script>
+    {template public-new-ui-header}
+</head>
+<body class="new_ui_body">
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title iboxWTitle">
+                <h5 id="title_name">角色管理</h5>
+                <div class="ibox-tools padding">
+                    <a class="btn btn-white btn-bitbucket addRole" data-i="1"><i class="fa fa-plus-square-o"> </i>新增角色</a>
+                    <a class="btn btn-white btn-bitbucket addRole" href="javascript:;" style="display:none;" onclick="location.reload();"><i class="fa fa-reply"></i>返回</a>
+                </div>
+            </div>
+            <div class="ibox-content list" style="width: 100%;">
+                <div id="editable_wrapper" class="dataTables_wrapper form-inline" role="grid" style="width: 100%">
+                    <table class="table table-striped table-bordered table-hover  dataTable" id="editable"
+                           aria-describedby="editable_info">
+                        <thead>
+                        <tr>
+                            <th width="5%">ID</th>
+                            <th>角色</th>
+                            <th>角色描述</th>
+                            <th>状态</th>
+                            <th width="250">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="list">
+                        {loop $data $v}
+                        <tr>
+                            <td>{$v['roleid']}</td>
+                            <td>{$v['rolename']}</td>
+                            <td>{$v['description']}</td>
+                            <td>{if $v['disabled']==0} 开启 {else}禁用 {/if}</td>
+                            <td class="font-icon">
+                                {if $v['roleid'] != 1}
+                                <div class="button-group" style="color:#5aa4eb;">
+                                    <a type="button" data-title="权限设置" class=""
+                                       href="?m=admin&c=role&a=role_auth&id={$v['roleid']}"><i
+                                            class="fa fa-cog"></i></a>
+                                    <a type="button" data-title="编辑" class=""
+                                       href="?m=admin&c=role&a=update_role&id={$v['roleid']}"><i
+                                            class="fa fa-pencil"></i>
+                                        <a class="" data-title="删除" href="#" onclick="del({$v['roleid']})"><i
+                                                class="fa fa-trash-o"></i></a>
+                                </div>
+                                {/if}
+                            </td>
+                        </tr>
+                        {/loop}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="ibox-content bagCol list" style='display:none;'>
+                <div class="ibox-title">
+                    <h5>角色信息</h5>
+                </div>
+                <div class="ibox-content" style="width: 100%;">
+                    <div class="row">
+                        <form method="post" class="form-x" id="form-add">
+                            <input type="hidden" name="id" value=""/>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label input_title"><i
+                                        class="red_star">*</i>名称</label>
+                                <div class="col-sm-4">
+                                    <input style="width:363px;" class="w50 form-control" placeholder="请输入名称" type="text" name="rolename" value=""/>
+                                    <div class="tipss"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label input_title">角色描述</label>
+                                <div class="col-sm-4">
+                                    <textarea placeholder="请输入角色描述" type="text" class="input" name="description"
+                                              style="height:100px;width:363px;"></textarea>
+                                    <div class="tipss"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label input_title">状态</label>
+                                <div class="col-sm-4" style="margin-top:6px;">
+                                    <input id="ishome" type="radio" name="disabled[]" value='0' checked="checked"/>
+                                    开启
+                                    <input id="isvouch" type="radio" name="disabled[]" value='1'/> 禁用
+                                    <div class="tipss"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label input_title"></label>
+                                <div class="col-sm-4">
+                                    <button class="btn btn-primary" type="button" onclick="add()" id='btn'>提交</button>
+                                    <button class="btn btn-white" type="button" onclick="location.reload()">取消</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var loading = "";
+
+    function del(id) {
+        layer.confirm('您确定要删除吗？', {
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+            $.ajax({
+                url: '?m=admin&c=role&a=del_role',
+                data: {id: id},
+                dataType: 'json',
+                type: 'post',
+                beforeSend: function () {
+                    loading = layer.load(1);
+                },
+                error: function () {
+                    layer.close(loading);
+                    layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                },
+                success: function () {
+                    layer.close(loading);
+                    layer.msg('删除成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                        location.reload();
+                    });
+                }
+            });
+        }, function () {
+        });
+    }
+    
+    $('.addRole').click(function () {
+        var i = $(this).attr('data-i');
+        
+        $('.list').hide();
+        $(".list:eq(" + i + ")").show();
+
+        $('#title_name').text('新增角色');
+
+        $(this).hide();
+        $(this).next().show();
+    });
+
+    function add() {
+        //数据
+        var data = new Object();
+        data.rolename = $.trim($("input[name=rolename]").val());
+        data.description = $.trim($("textarea[name=description]").val());
+        //提示信息
+        var msg = new Object();
+        msg.rolename = '名称不能为空';
+        msg.description = '角色描述不能为空';
+        //检查的值
+        var arr = ['rolename', 'description'];
+
+        var onOff = true;
+        $.each(data, function (k, v) {
+            if ($.inArray(k, arr) != -1) {
+                if (v == '') {
+                    layer.open({
+                        content: "<p class='alert_msg'>" + msg[k] + "</p>",
+                        btn: '<p class="alert_buttom">我知道了</p>'
+                    });
+                    onOff = false;
+                    return false;
+                }
+            }
+        });
+        if (!onOff) {
+            return false;
+        }
+        $.ajax({
+            url: '?m=admin&c=role&a=add_role',
+            data: $("#form-add").serialize(),
+            dataType: 'json',
+            type: 'post',
+            beforeSend: function () {
+                loading = layer.load(1);
+            },
+            error: function () {
+                layer.close(loading);
+                layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+            },
+            success: function () {
+                layer.close(loading);
+                layer.msg('新增成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                    location.href = '?m=admin&c=role&a=role_lst';
+                });
+            }
+        });
+    }
+
+    // $(function () {
+    //     var a = $('.padding').find('a');
+    //     a.bind('click', function () {
+    //         var i = $(this).index();
+    //         $('.list').css('display', 'none');
+    //         $(".list:eq(" + i + ")").css('display', 'block');
+    //         //alert($(this).index());
+    //     });
+    // });
+</script>
+</body>
+</html>

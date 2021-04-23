@@ -1,0 +1,72 @@
+<nav>
+    <ul>
+        <li class="active" data-href="<?=url('web','lobby','index')?>">首页</li>
+        <li data-href="<?=url('web','account','index')?>">钱包</li>
+        <li data-href="" id="kefuUrl">客服</li>
+        
+        <!-- <?php if(empty($_SESSION)){  ?>
+            <li data-href="?m=web&c=user&a=login">客服</li>
+        <?php }else{ ?>
+            <li data-href="<?php echo C('kefu');?>">客服</li>
+        <?php } ?> -->
+        <?php  ?>
+
+        <li data-href="<?=url('web','user','my')?>">我的</li>
+
+    </ul>
+</nav>
+<script type="text/javascript">
+    $(function() {
+        //获取当前选项
+        $.ajax({
+            url: '?m=api&c=app&a=customerType',
+            type: 'post',
+            success: function(res){
+                res=JSON.parse(res)
+                $('#kefuUrl').attr('data-href',res.info[res.info.length-1].value)
+            },
+            error: function(err){
+            }
+        })
+        var getUrlParam = function(e){
+            var array = location.search.slice(1).split('&'), obj = {};
+            for (var i = 0; i < array.length; i++){
+                var key = array[i].split('=')[0],
+                        val = array[i].split('=')[1];
+                obj[key] = val;
+            }
+            return obj[e] || null;
+        }
+        var getParam = function(url,e){
+            //console.log(url);
+            var array = url.slice(1).split('&'), obj = {};
+            for (var i = 0; i < array.length; i++){
+                var key = array[i].split('=')[0],
+                        val = array[i].split('=')[1];
+                obj[key] = val;
+            }
+            return obj[e] || null;
+        }
+
+        var n_c = getUrlParam('c');
+        var n_a = getUrlParam('a');
+        var now_href = n_c+n_a;
+        //var now_href = window.location.href;
+       // console.log(now_href);
+        $("nav ul li").each(function() {
+            var href =  $(this).attr("data-href");
+            var c = getParam(href,'c');
+            var a = getParam(href,'a');
+            var href = c+a;
+            //console.log(href);
+            if (now_href == href) {
+                $("nav ul li").removeClass("active");
+                $(this).addClass("active");
+            }
+        });
+    })
+
+
+</script>
+</body>
+</html>

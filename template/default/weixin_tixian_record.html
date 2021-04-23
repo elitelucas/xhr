@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- Meta, title, CSS, favglyphicons, etc. -->
+	<meta charset="utf-8">
+	<title>诚汇通</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+	<meta name="description" content="">
+
+	<!-- Bootstrap -->
+	<link href="../../statics/weixin/assets/css/bootstrap.css" rel="stylesheet" media="screen">
+	<link href="../../statics/weixin/css/cht.css" rel="stylesheet" media="screen">
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="assets/js/html5shiv.js"></script>
+	<script src="assets/js/respond/respond.min.js"></script>
+	<![endif]-->
+
+</head>
+<body>
+	<!-- 
+	<div class="navbar navbar-inverse navbar-fixed-top dh_sy">
+		<div class="container toubu">
+
+			<ul class="nav top_cent">
+				<li>提现记录</li>
+			</ul>
+			<a class="navbar-brand" href="#">
+				<img src="../../statics/weixin/images/fanhui.png"></a>
+			<a class="nav-home" href="#">
+				<img src="../../statics/weixin/images/shouye.png"></a>			
+		</div>
+	</div>
+	 -->
+	<!-- Carousel
+	================================================== -->
+	<!-- /container -->
+	<div class="container">
+		<div class="row mt10">
+			<div class="col-12">
+				<div class="daishou">
+					<h3>提现记录<span style="font-size:13px;">(最新10条)</span></h3>
+					<table class="mx_biao">
+						<tbody>
+						
+							<tr>								
+								<th width="20%">提现账号</th>
+								<th width="20%">提现总额</th>
+								<th width="20%">手续费</th>
+								<th width="20%">状态</th>
+							</tr>
+							{if isset($list) && !empty($list)}
+							{loop $list $vo}
+							<tr>
+								<!-- <td><?=empty($glossary[$vo['bank']]['name'])?'-':$glossary[$vo['bank']]['name']?></td> -->			
+								<td><?=empty($vo['account'])?'-':f_bank($vo['account'])?></td>
+								<td><i>￥<?=empty($vo['money'])?'0.00':$vo['money']?></i></td>
+								<td><i>￥<?=empty($vo['fee'])?'0.00':$vo['fee']?></i></td>
+								<td><?=$vo['status']==0?'申请中':''?>
+                                    <?=$vo['status']==1?'通过':''?>
+                                    <?=$vo['status']==2?'不通过':''?>
+                                    <?=$vo['status']==3?'已取消':''?>
+                                </td>
+							</tr>
+							{/loop}			
+							{else}
+								 <tr>
+								     <td colspan="4"align='center'><p>暂无此记录!</td>
+								 </tr>
+							{/if}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- JavaScript plugins (requires jQuery) -->
+	<script src="../../statics/weixin/assets/js/jquery.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="../../statics/weixin/assets/js/bootstrap.min.js"></script>
+
+	<script src="../../statics/weixin/assets/js/holder/holder.js"></script>
+
+	<script type="text/javascript">
+	
+	
+	</script>
+
+</body>
+</html>

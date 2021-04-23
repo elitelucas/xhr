@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-AU-Compatible" content="IE=edge,chrome=1">
+<!--  <meta name="keywords" content="诚汇通官网，诚汇通，www.chenghuitong.net，p2p网贷平台，p2p理财公司，网络借贷平台，p2p理财产品——深圳市诚汇通金融信息有限公司">
+  <meta name="description" content="诚汇通官网（www.chenghuitong.net）, 国内首批专注于P2P网络投融资服务的平台。投资免手续费，22%年化收益，100%保本保息，第三方托管，广东互联网金融协会会员；每天公布运营数据，为你的资金保驾护航。">
+  <meta name="author" content="ifengjin@ifengjin.cn">
+  <title>诚汇通 - 一起回家领红包吧</title>
+  <link rel="shortcut icon" type="image/x-icon" href="../../statics/newyear/favicon.icon">
+  <link rel="stylesheet" href="../../statics/newyear/css/style.css">-->
+  <style type="text/css">
+     body { font-size: 14px; color: #555; line-height: 25px; background-color: #f2f2f2; }
+    .cj-box { width: 980px; margin: 50px auto; padding: 30px; background-color: #fff; }
+	.cj-box tr td { border-bottom: 1px solid #ccc; padding: 3px 15px; }
+	.pagination { list-style-type: none; }
+	.pagination li { display: inline-block; padding: 0 5px;}
+	.pagination li a { text-decoration: none; }
+        .cj-box2 { width: 980px; padding: 30px; background-color: #fff; }
+        .cj-box2 tr td { border-bottom: 1px solid #ccc; padding: 3px 15px; }
+  </style>
+</head>
+
+<body>
+    
+  <table align="center" id="cjlist" class="cj-box" border="0" cellpadding="0" cellspacing="0">    
+      {if !empty($u2info)}
+      <div ><a href="<?=url('content','accesslog','inds')?>">汇总</a></div>
+      {else}
+      <div ><a href="<?=url('content','accesslog','index')?>">汇总</a></div>
+      {/if}
+      <tr align="center"><td colspan="7"><h2>用户信息表</h2></td></tr>
+      <tr style="font-weight:700;">
+            <td>来源</td>
+            <td>注册时间</td>
+            <td>用户名</td>
+            <td>电话号码</td>
+            <td>真实姓名</td>
+            <td>账户总额</td>
+            <td>充值金额</td>
+      </tr>
+            {if !empty($list)}
+            {loop $list $vv}
+          <tr>
+              <td>{$vv['source']}</td>
+              <td><?=date("Y-m-d H:i:s",$vv['addtime'])?></td>
+            <td>{$vv['username']}</td>
+            <td>{$vv['phone']}</td>
+            <td>{$vv['realname']}</td>
+            <td>￥{$vv['ze']}</td>
+            <td>￥{$vv['cz']}</td>
+          </tr>
+            {/loop}
+            {/if}
+          <tr align="center"><td colspan="7"><?php echo $page['html'];?></td></tr> 
+        </table>
+</body>
+</html>

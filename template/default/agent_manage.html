@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="renderer" content="webkit">
+    <title>网站信息</title>  
+    <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/pintuer.js"></script> 
+</head>
+<body>
+<div class="panel admin-panel">
+  <div class="panel-head"><strong class="icon-reorder">代理等级管理</strong></div>
+  <div class="padding border-bottom">  
+  <a class="button border-yellow" href="javascript:;"><span class=""></span>代理等级列表</a>
+  <a class="button border-green" href="javascript:;"><span class="icon-plus-square-o"></span>添加代理等级</a>
+  </div>
+  <div class='list'>
+  <table class="table table-hover text-center">
+    <tr>
+	  <th width='5%'><input type="checkbox" name="id[]" value="1" /></th>
+	  <th>等级</th>
+      <th>投注下线</th>     
+      <th>投注上线</th>  
+      <th>回水比例</th>     
+      <th>操作</th>
+    </tr>
+    {loop $data $v}
+    <tr height='30'>
+      <td><input type="checkbox" name="id[]" value="1"/></td>
+	  <td><?php echo $v['id'];?></td>
+      <td><?php echo $v['lower'];?></td>	  
+      <td><?php echo $v['upper'];?></td>  
+      <td><?php echo $v['backwater'];?></td>      
+      <td>
+      <div class="button-group">
+       <a type="button" class="button border-main" href="?m=admin&c=user&a=update_agent&id=<?php echo $v['id'];?>"><span class="icon-edit"></span>修改</a>
+       <a class="button border-red" href='?m=admin&c=user&a=del_agent&id=<?php echo $v['id'];?>' onclick="if(confirm('确定要删除吗?')==false)return false;" ><span class="icon-trash-o"></span>删除</a>
+      </div>
+      </td>
+    </tr>  
+	{/loop}
+  </table>
+  </div>
+</div>
+<script>
+
+</script>
+<div class="panel admin-panel margin-top list" style='display:none;'>
+  <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>添加代理等级</strong></div>
+  <div class="body-content">
+    <form method="post" class="form-x" action="?m=admin&c=user&a=add_agent">   
+      <input type="hidden" name="id"  value=""/>
+      <div class="form-group">
+        <div class="label">
+          <label>等级：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" name="id" value="" data-validate="required:请输入等级" /> 
+          <div class="tipss">*(等级必须是唯一性的) </div>		  
+        </div>
+      </div> 
+      <div class="form-group">
+        <div class="label">
+          <label>投注额下限：</label>
+        </div>
+        <div class="field">
+          <input type="text" id="url1" name="lower" class="input tips" style="width:25%; float:left;"  value="" data-toggle="hover" data-place="right" data-image="" />
+		  <div class="tipss">*</div>
+        </div>
+      </div>
+       <div class="form-group">
+        <div class="label">
+          <label>投注额上限</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" name="upper" value="" />         
+          <div class="tipss">*</div>
+        </div>
+      </div>       
+      <div class="form-group">
+        <div class="label">
+          <label>回水比例：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" name="backwater" value="" />   
+           <div class="tipss">%*</div>		  
+        </div>
+      </div>
+      
+     <div class="form-group">
+        <div class="label">
+          <label></label>
+        </div>
+        <div class="field">
+          <button class="button bg-main icon-check-square-o" type="submit"> 提交</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+<script>
+	$(function(){
+	  
+	  var a = $('.padding').find('a');
+	  a.bind('click',function(){
+	     var i = $(this).index();
+		 $('.list').css('display','none');
+	     $(".list:eq("+i+")").css('display','block');
+	     //alert($(this).index());
+	  });
+	
+	});
+</script>
+</html>

@@ -1,0 +1,109 @@
+{template header}
+  <!-- Investor_center -->
+  <link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+  
+  <!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+      <li class="active">我的账户</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->
+  {template member-nav-left}
+    
+    <!-- 右边正文 -->
+    <div class="investor-right pull-right border-radius">
+      <ul class="nav nav-tabs" role="tablist" id="myTab">
+        <li {if ROUTE_A=='index'}class="active"{/if}><a href="<?=url('member','tender','index')?>">所有借款列表</a></li>
+        <li {if ROUTE_A=='repay'}class="active"{/if}><a href="<?=url('member','tender','repay')?>">正在收款的借款</a></li>
+        <li {if ROUTE_A=='repayno'}class="active"{/if}><a href="<?=url('member','tender','repayno')?>">未收款明细帐</a></li>
+        <li {if ROUTE_A=='repayyes'}class="active"{/if}><a href="<?=url('member','tender','repayyes')?>">已收款明细帐</a></li>
+        <li {if ROUTE_A=='indexno'}class="active"{/if}><a href="<?=url('member','tender','indexno')?>">已还清的借款</a></li>
+      </ul>
+
+      <div class="tab-content">
+        
+        <!-- 已收款明细帐 -->
+        <div class="tab-pane active" id="investde4">
+          <div class="withdraw-info bg-warning">
+            <div class="recharge-info-div pull-left">
+              <div>借出总额 ：￥{$tender_total['account_act']}</div>
+              <div>应收利息 ：￥{$tender_total['income_interest']}</div>
+            </div>
+            <div class="recharge-info-div pull-left">
+              <div>已还总额 ：￥{$tender_total['repayment_total']}</div>
+              <div>已还利息 ：￥{$tender_total['repayment_interest']}</div>
+            </div>
+            <div class="recharge-info-div pull-left">
+              <div>未还总额 ：￥{$tender_total['norepayment_total']}</div>
+              <div>未还利息 ：￥{$tender_total['norepayment_interest']}</div>
+            </div>
+          </div>
+          
+          <form action="<?=url('','','')?>" method="post">
+            <ul class="investor-fund-form unlist">
+              <li>时间：</li>
+              <li><?=form::date('starttime',$data['starttime'])?></li>
+              <li>到</li>
+              <li><?=form::date('endtime',$data['endtime'])?></li>
+              <li>关键字：</li>
+              <li><input class="fund-form-input2 form-control" name="keywords" type="text" value="{$data['keywords']}"></li>
+              <li><input name="" type="submit" class="btn btn-warning btn-sm" value="搜索" /></li>
+              <li><a class="btn btn-warning btn-sm" href="<?php echo url('','','',array('exportexecl'=>'execl'));?>" target="_blank">导出Excel</a></li>
+            </ul>
+          </form>
+          
+          <table class="table table-bordered table-hover">
+            <tr class="text-center">
+              <td>借款标题</td>
+              <td>借款者</td>
+              <td>还款日期</td>
+              <td>第几期/总期</td>
+              <td>还款总额</td>
+              <td>还款本金</td>
+              <td>还款利息</td>
+              <td>逾期</td>
+              <td>逾期利息</td>
+            </tr>
+            {if isset($list) && !empty($list)}
+            {loop $list $vo}
+            <tr class="text-center f12">
+                <td>
+                  <div style="width:60px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" class="itooltip" data-toggle="tooltip" data-trigger="hover" data-placement="top" title="<?=$vo['title']?>">
+                    {if !empty($vo['zhuanrangren'])}
+                        <span class="flg-tuo"></span>
+                    {/if}
+                    <a href="<?=url('borrow','default','info',array('id'=>$vo['borrow_id']))?>">{if !empty($vo['zhuanrangren'])}<span style="color:red;">{else}<span>{/if}<?=$vo['title']?></span></a>
+                  </div>
+                </td>
+                <td align='center'><?=$vo['username']?></td>
+                <td><?=date('Y-m-d',$vo['repay_yestime'])?></td>
+                <td align='center'>{if $vo['is_datetype']}1/1{else}{$vo['periods']}/{$vo['time_limit']}{/if}</td>
+                <td align='right'>￥{$vo['repay_yesaccount']}</td>
+                <td align='right'>￥{$vo['capital']}</td>
+                <td align='right'>￥{$vo['interest']}</td>
+                <td align='center'><?=!empty($vo['late_days'])?$vo['late_days'].'天':'-'?></td>
+                <td align='right'>￥<?=empty($vo['late_interest'])?'0.00':$vo['late_interest']?></td>
+            </tr>
+            {/loop}
+            {else}
+            <tr class="text-center font12px color999"><td colspan="9">查无此记录</td></tr>
+              {/if}
+              </table>
+
+            </div>
+            <div class="fanye text-center">  	
+                <?php echo $page['html'];?>
+            </div>
+        <!-- /已收款明细帐 -->
+      </div>
+      
+      
+    </div>
+    <!-- /右边正文 -->
+  </div>
+  
+{template footer}

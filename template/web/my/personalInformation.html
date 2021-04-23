@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>个人中心</title>
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+    <!-- Validform -->
+    <link rel="stylesheet" href="/statics/web/extend/Validform_v5.3.2/css/style.css" type="text/css" media="all" />
+    <script type="text/javascript" src="/statics/web/extend/Validform_v5.3.2/js/Validform_v5.3.2_min.js"></script>
+    <!-- Validform - end -->
+
+    <!-- layer -->
+    <!-- <link rel="stylesheet" href="/statics/web/extend/layui/css/layui.css">
+    <script src="/statics/web/extend/layui/layui.js"></script> -->
+    <script src="/statics/web/extend/layer/mobile/layer.js"></script>
+    <!-- layer - end -->
+
+
+    <!---------截取图片---------->
+    <script src="/statics/web/js/iscroll-zoom.js"></script>
+    <script src="/statics/web/js/hammer.js"></script>
+    <script src="/statics/web/js/lrz.all.bundle.js"></script>
+    <script src="/statics/web/js/jquery.photoClip.min.js"></script>
+    <!-----------截取图片 end------------- -->
+</head>
+<body>
+<header>
+    <em data-href="{$JumpUrl['23']}">返回</em>
+    <h1>个人信息</h1>
+
+</header>
+<section class="my_info">
+    <div class="my">
+        <ul>
+            <li class="girl"><div>
+                <label class="icoGirl">头像</label>
+                <i id="view"><img id="avatar" src="<?php echo session::get('avatar'); ?>" /></i>
+                <!--<input type="file" id="file" accept="image/*">-->
+            </div></li>
+            <li style="background: url('')"><div><label class="icoChineseName">账号</label><span>{$userInfo['username']}</span></div></li>
+
+            <li {if $userInfo['reg_type'] != '8'}data-href="{$JumpUrl['15']}"{else} style="background: url('')"{/if}><div><label class="icoNickname">昵称</label><span>{if !empty($userInfo['nickname'])}{$userInfo['nickname']}{/if}</span></div></li>
+            <!--<li data-href="{$JumpUrl['16']}"><label class="icoGender">性别</label><span>{if $userInfo['sex'] ==1 }男{else}女{/if}</span></li>-->
+            <li style="background: url('')"><div><label class="icoChineseName">持卡人中文名</label><span>{$userInfo['realname']}</span></div></li>
+            <!--<li data-href="{$JumpUrl['18']}"><label class="icoBirth">出生日期</label><span><?php echo date("Y年m月d日",$userInfo['birthday'])?></span></li>-->
+        </ul>
+
+        <ul>
+            <li data-href="{$JumpUrl['19']}"><div><label class="icoWeixin">微信号</label><span>{$userInfo['weixin']}</span></div></li>
+            <li data-href="{$JumpUrl['62']}"><div><label class="icoqq">QQ号</label><span>{$userInfo['qq']}</span></div></li>
+            <li data-href="{$JumpUrl['20']}"><div><label class="icoEmail">电子邮箱</label><span>{$userInfo['email']}</span></div></li>
+            <li style="background: url('')"><div><label class="icoPhone">手机号</label><span>{$userInfo['mobile']}</span></div></li>
+        </ul>
+    </div>
+</section>
+
+<div class="imgFile" style="display: none">
+    <button class="imgBut" id="clipBtn">确认上传</button>
+    <div id="clipArea"></div>
+</div>
+
+<!--底部弹窗-->
+<div class="mask" style="display: none"></div>
+<div class="pop-wrap down" id="type-pop">
+    <div class="pop-select pop-select-setIcon">
+
+        <div class="content">
+            <ul class="content-setIcon clearfix">
+                <li data-href="?m=web&c=user&a=setIcon">从系统头像选择</li>
+                <li data-id="">从手机相册选择<input type="file" id="file" accept="image/*"></li>
+            </ul>
+        </div>
+    </div>
+    <div class="bottom-con bottom-setIcon">
+        <a javascript="void(0)" ; type="button" class="pop-cansel">取消</a>
+    </div>
+</div>
+<script>
+    //方式选择
+    $(".girl").click(function() {
+        showMask();
+    });
+    $(".pop-cansel, .mask").click(function() {
+        closeMask();
+    })
+    //头像选择方式
+    $("#type-pop li").click(function() {
+        $(".dropload-down").remove();
+        closeMask();
+    });
+    function showMask() {
+        $(".mask").show();
+        $("#type-pop").removeClass("down");
+    }
+    function closeMask() {
+        $(".mask").hide();
+        $("#type-pop").addClass("down");
+    }
+
+    $(function(){
+        $("#file").change(function(){
+            $(".imgFile").show();
+        })
+
+    //document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+        var clipArea = new bjj.PhotoClip("#clipArea", {
+            size: [750, 750],
+            outputSize: [200, 200],
+            file: "#file",
+            view: "#view",
+            ok: "#clipBtn",
+            loadStart: function() {
+                //console.log("照片读取中");
+            },
+            loadComplete: function() {
+                //console.log("照片读取完成");
+            },
+            clipFinish: function(dataURL) {
+
+               // console.log(dataURL);
+                $.post("{$JumpUrl['50']}",{avatar:dataURL},function(data){
+                	var data = $.parseJSON(data);
+                	
+                	if(data.status==0){
+                		$("#avatar").attr({ src: data.avatar});
+                    	//window.location.href= data.JumpUrl;
+	                }else {
+                        layer.open({
+                            content: data.ret_msg,
+                            skin: 'msg',
+                            time: 2 //2秒后自动关闭
+                        });
+	                }
+                    //console.log(result);
+                    
+                    $(".imgFile").hide();
+                    
+                });
+            }
+        });
+    })
+    //clipArea.destroy();
+
+</script>
+
+<!--<div class="popup" style="display: none;">-->
+
+   <!--<div class="modifyAvatar">-->
+       <!--<i class="configClose"></i>-->
+       <!--<h2>修改头像</h2>-->
+       <!--<ul>-->
+           <!--<li>上传<input type="file" name="" id="" value="" /></li>-->
+       <!--</ul>-->
+       <!--<div class="button"><button>保存</button></div>-->
+   <!--</div>-->
+<!--</div>-->
+<!--<script type="text/javascript">-->
+    <!--$(function(){-->
+        <!--$(".girl").click(function(){-->
+        	<!--$(".popup").show();-->
+        <!--})-->
+        <!--$(".configClose").click(function(){-->
+        	<!--$(".popup").hide();-->
+        <!--})-->
+    <!--})-->
+<!--</script>-->
+
+</body>
+</html>

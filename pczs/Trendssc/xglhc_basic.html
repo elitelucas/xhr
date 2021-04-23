@@ -1,0 +1,51 @@
+
+				<div class="trend_numstat">
+					
+					<div class="trend_numstat_tab">
+						<table class="sub_table double_th xglhc_table" border="0" cellpadding="0" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<td rowspan="2">{{english.序号}}</td>
+									<td rowspan="2">{{english.期号}}</td>
+									<th colspan="7">{{english.彩球号}}</th>
+									<td rowspan="2">{{english.总号}}</td>
+									<td rowspan="2">{{english.特码}}</td>
+									<td rowspan="2">{{english.特码合数}}</td>
+									<td rowspan="2">{{english.特码生肖}}</td>
+									<td rowspan="2">{{english.色波}}</td>
+								</tr>
+								<tr>
+									<td style="width:50px;">{{english.正码}}1</td>
+									<td style="width:50px;">{{english.正码}}2</td>
+									<td style="width:50px;">{{english.正码}}3</td>
+									<td style="width:50px;">{{english.正码}}4</td>
+									<td style="width:50px;">{{english.正码}}5</td>
+									<td style="width:50px;">{{english.正码}}6</td>
+									<td style="width:50px;">{{english.特码}}</td>
+								</tr>
+							</thead>
+							<tbody id="reslist" linnos="0,1,2,5">
+
+							</tbody>
+						</table>
+						
+						
+					</div>
+				</div>
+				
+			</div>
+		</div>
+
+		<script type="text/javascript" src="../js/English.js"></script>
+		<script type="text/javascript">
+			(function(exports) {
+				exports.app = new Vue({
+					el: '.trend_numstat',
+					data: function() {
+						return {
+							english: english
+						}
+					}
+				})
+			})(window);
+		</script>

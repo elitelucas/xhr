@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>钱包</title>
+    <!--<link href="/statics/web/css/css.css?v=3" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+</head>
+<body>
+<header class="head-wallet">
+    <em onclick="history.go(-1)">返回</em>
+    <h1>充值</h1>
+    <!---->
+</header>
+<section class="pb-0">
+    <div class="modify">
+        <!-- <h3 class="yuE">账户余额<em>{$money_usable}</em></h3> -->
+        <div class="bankCard2 chongzhi">
+            
+            <dl>
+                <dt>
+                    <div class="tab-item active"><span><i class="icoTop"></i>线上充值</span></div>
+                    <div class="tab-item"><span><i class="icoBot"></i>线下充值</span></div>
+                </dt>
+                <dd>
+                    <?php  if(!empty($onlineList)){ ?>
+                    <ul id="onlineCharge">
+                        {loop $onlineList $k $v}
+                        <li><input id="radio{$v['channel_type']}{$v['payment_id']}" name="radio" type="radio" value="{$v['payment_id']},{$v['channel_type']}" {if $k == 0 }checked{/if}/><label for="radio{$v['channel_type']}{$v['payment_id']}" style="background: url({$v['logo']}) no-repeat left; background-size: 53px 53px;" class="icoWeix2">{$v['payment_name']}</label></li>
+                        {/loop}
+                        <!-- <li class="button" style="margin-top: 20px; padding-bottom: 40px;">
+                            <button class="colorDa" id="xsBtn">去支付</button>
+                        </li> -->
+                    </ul>
+                    <?php  }  ?>
+                </dd>
+                <dd style="display: none">
+                    <?php  if(!empty($offlineList)){ ?>
+                    <ul>
+                    <?php foreach ($offlineList as $k => $v) { ?>
+                        <?php if ($v['max_recharge'] == -1) { ?>
+                            <li>
+                        <?php } else { ?>
+                            <li data-href="<?=url('','recharge','rechargeOfflineMoney', array('payment_id' => $v['payment_id']))?>">
+                        <?php } ?>
+                        <label class="{if $v['pay_type'] == 35} icoWeix2 {elseif $v['pay_type'] == 36} icoZfb2 {elseif $v['pay_type'] == 125} icoQQ {elseif $v['pay_type'] == 202} icoYsf {elseif $v['pay_type'] == 211} icobl {elseif $v['pay_type'] == 213} icojd {else} icoYinl2 {/if}">
+                        {$v['name']}<em>(充值限额：{if ($v['max_recharge'] == -1)}该方式额度已达充值限额{else} {$v['min_recharge']}~{$v['max_recharge']}{/if})</em>
+                        </label>
+                        </li>
+                        <?php } ?>
+                    </ul>
+                    <?php  }  ?>
+                </dd>
+            </dl>
+        </div>
+    </div>
+</section>
+    <script type="text/javascript">
+        $(function() {
+            $("#onlineCharge li").click(function() {
+                var payment_data =  $('input[name=radio]:checked').val();
+                var arrPayment = payment_data.split(',');
+               	window.location.href = "<?=url('','recharge','rechargeOnlineMoney')?>&payment_id=" + arrPayment[0] + "&channel_type=" + arrPayment[1];
+            });
+            $('.tab-item').click(function(){
+                var _index = $(this).index();
+                $(this).addClass("active").siblings().removeClass('active');
+                $('.bankCard2 dd').eq(_index).show().siblings("dd").hide();
+            });
+        });
+    </script>
+</body>
+</html>

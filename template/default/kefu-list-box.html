@@ -1,0 +1,72 @@
+
+  <!-- 客服弹出框 -->
+  <div class="kefu-box hidden">
+    <div class="container">
+      <!-- 客服主管 -->
+      <div class="kefu-left pull-left">
+        <div class="kefu-left-top">
+          <div class="kefu-img">
+            <img class="img-circle" src="../../statics/resource/images/kefu/kf_12.jpg" alt="" width="99">
+            <a class="kefu-qq hidden" href="http://wpa.qq.com/msgrd?v=3&uin=2729661380&site=qq&menu=yes" target="_blank"></a>
+          </div>
+        </div>
+        <div class="kefu-left-bottom">
+          <div class="kefu-left-job">客服主管</div>
+          <div class="kefu-left-name">妮妮</div>
+          <div class="kefu-icon"></div>
+          <div class="kefu-left-tel">400-018-0107</div>
+          <div class="kefu-tel">-8010</div>
+        </div>
+      </div>
+      <!-- /客服主管 -->
+      <!-- 客服列表 -->
+      <div class="kefu-right pull-right">
+        <div class="kefu-right-top">
+          <div class="pull-left">
+            <div class="font18px bold">用我们的真心,换取你们的放心！</div>
+            <div>更改vip专属客服、投诉与建议请与主管联系</div>
+            </div>
+          <div class="kefu-qun pull-right">官方QQ群：<a href="http://jq.qq.com/?_wv=1027&k=Xz3UxB" target="_blank">169423466</a></div>
+        </div>
+        <div class="clearfix"></div>
+        <!-- 客服列表 -->
+        <div class="kefu-list-box">
+          <div class="kefu-list">
+    {loop $this->kefu $k $v}
+            <div class="kefu-item item">
+              <div class="kefu-img">
+                <img class="img-circle" src="../../statics/resource/images/kefu/kf_{$v['id']}.jpg" alt="">
+                <!--<a class="kefu-qq hidden" href="http://wpa.qq.com/msgrd?v=3&amp;uin={$v['qq']}&amp;site=qq&amp;menu=yes" target="_blank"></a>-->
+                <a class="kefu-qq hidden" href="http://wpa.qq.com/msgrd?v=3&uin={$v['qq']}&site=qq&menu=yes" target="_blank"></a>
+              </div>
+              <div class="kefu-name">{$v['realname']}</div>
+              <div class="kefu-icon"></div>
+              <div class="kefu-tel">{$v['mobile']}</div>
+            </div>
+      {/loop}
+          </div>
+        </div>
+        <!-- /客服列表 -->
+      </div>
+      <!-- /客服列表 -->
+    </div>
+  </div>
+  <!-- /客服弹出框 -->
+  
+  <!-- 客服 -->
+  <div class="rightbar-box">
+    <div class="rightbar-qq rightbar-item">客服中心</div>
+  </div>
+  <!-- /客服 -->
+  <script type="text/javascript">
+    $(function() {
+		// 选择专属客服
+		$(".ipopup-close").click(function(e) {
+			$(".kefu-item").removeClass("kefu-item-active");
+		})
+		$(".kefu-item").click(function(e) {
+			$(".kefu-item").removeClass("kefu-item-active");
+			$(this).toggleClass("kefu-item-active");
+        });
+	});
+  </script>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+    <script src="statics/admin/js/pintuer.js"></script>  
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>  
+    <script src="statics/admin/js/jquery.date_input.pack.js"></script> 
+    {template public-new-ui-header}
+    <style>
+        #page {
+            height: 60px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #page ul li {
+            float: left;
+            margin-right: 10px;
+        }
+
+        #page ul .current {
+            background-color: #0099ff;
+            text-align: center;
+        }
+    </style>
+</head>
+   <body class="new_ui_body">
+    <div class="ibox float-e-margins">
+	    <div class="ibox-title iboxWTitle">
+	        <h5>新增卡组</h5>
+	        <div class="ibox-tools">
+	            <a  class="btn btn-white btn-bitbucket" id="btn_back">
+	                <i class="fa fa-reply"></i> 返回
+	            </a>
+	        </div>
+	        
+	    </div>
+	    <div class="ibox-content bagCol">
+	        <div class="ibox-title ">
+	            <h5>卡组信息</h5>
+	        </div>
+	        <div class="ibox-content">
+	            <form id='form_update' method="post" class="form-horizontal">
+	             	<div class="form-group">
+	                    <label class="col-sm-2 control-label">用户组</label>
+	                    <div class="col-sm-2">
+							{loop $user_group_list $v}
+							<input type="checkbox" value="{$v['id']}" name="user_group_{$v['id']}" style="margin-left: 10px;">{$v['name']}
+							{/loop}
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">{if $purpose == 0}充值{/if}{if $purpose == 1}提现{/if}方式</label>
+	                    <div class="col-sm-2">
+	                    	<select class="form-control" id="pay_type" name="pay_type">
+	                    		<option value="">请选择支付方式</option>
+								{loop $pay_type_list $v}
+			                             <option value="{$v['id']}">{$v['name']}</option>
+								{/loop}
+	                    	</select>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">客户端</label>
+	                    <div class="col-sm-5" style="padding: 5px;">
+	                        {loop $entrance_list $v}
+	                    		<input type="checkbox" value="{$v['value']}" name="entrance[]" style="margin-left: 10px;">{$v['name']}
+                            {/loop}
+	                    </div>
+	                </div>
+	                <input type="hidden" value="{$purpose}" id="purpose" name="purpose">
+                </form>
+                <div class="form-group">
+		           	<div class="col-sm-4 col-sm-offset-2">
+		               	<button class="btn btn-primary" type="submit" id="btn_submit">保存</button>
+		               	<button class="btn btn-white" id="btn_cancel" type="submit">取消</button>
+		           	</div>
+       			</div>
+   			</div>
+		</div>
+	</div>
+<script type="text/javascript">
+    var loading = "";//加载中......
+
+    var purpose = {$purpose};
+    function changePayType(type) {
+        var payTypeLists = '{$pay_type_lists}';
+        payTypeLists = JSON.parse(payTypeLists);
+        var options = '';
+        for (var i = 0; i < payTypeLists[type].length; i++) {
+            options += '<option value =" ' + payTypeLists[type][i].id + '">' +
+                payTypeLists[type][i].name +
+                '</option>';
+        }
+
+        $('#pay_type').html(options);
+    }
+
+    $(function () {
+        $("#btn_submit").click(function () {
+            var pay_type = $('#pay_type').val();
+            var user_group =  $("input[name='user_group[]']:checked").val();
+            var entrance = $("input[name='entrance[]']:checked").val();
+            
+            if (user_group == '') {
+                layer.msg('请选择用户组类型', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+            
+            if (pay_type == '') {
+                layer.msg('请选择充值方式', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+            
+            if (entrance == '') {
+                layer.msg('请勾选客户端（可多选）', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+
+            var formData = $('#form_update').serialize();
+            var arr = formData.split("&");
+			var temp = [];
+            $.each(arr, function(index, value) {
+                if(value.indexOf("user_group")>=0) {
+				    temp.push(value.substring(value.indexOf("=")+1));
+                    delete arr[index];
+                }
+            });
+            arr.sort();
+            formData = arr.join("&");
+            formData+="&user_group="+temp.join(",");
+            $.ajax({
+                url: '?m=admin&c=finance&a=doAddPayGroup',
+                /*
+              	data: {
+                    pay_type: pay_type,
+                    user_group: user_group,
+                    entrance: entrance,
+                    purpose: $('#purpose').val()
+                },
+                */
+                data:formData,
+                dataType: 'json',
+                type: 'post',
+                beforeSend: function () {
+                    loading = layer.load(1);
+                },
+                error: function (e) {
+                    console.log(e);
+                    layer.close(loading);
+                    layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                },
+                success: function (result) {
+                    layer.close(loading);
+                    if (result.code > 0) {
+                    	layer.msg(result.msg, {icon: 6, shade: [0.5, '#393D49']}, function (){
+                    		location.href = '?m=admin&c=finance&a=listPayGroup&purpose=' + $('#purpose').val();
+                    		});
+                    } else {
+                    	layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']});
+                    }
+                }
+            })
+        });
+
+        
+        $("#btn_cancel").click(function () {
+            location.href = '?m=admin&c=finance&a=listPayGroup&purpose=' + $('#purpose').val();
+        });
+        $("#btn_back").click(function () {
+            location.href = '?m=admin&c=finance&a=listPayGroup&purpose=' + $('#purpose').val();
+        });
+        
+        $("#user_group").change(function(){
+            var htmls = '<option value="">请选择</option>';
+            var url = '?m=admin&c=finance&a=getPaymentType';
+            var user_group = $("#user_group option:selected").val();
+
+            if(purpose == 0) {
+            	if (user_group == '') {
+                	return false;
+                }
+
+	            $.ajax({
+	                url: url,
+	                data: {user_group:user_group},
+	                dataType: 'json',
+	                type: 'post',
+	                beforeSend: function () {
+	                },
+	                error: function (e) {
+	                    layer.msg('获取支付方式失败！', {icon: 5,shade: [0.5, '#393D49']});
+	                },
+	                success: function (result) {
+	                    console.log(result);
+	                    if (result.code == 1) {
+	                    	if (result.data.payType.length > 0) {
+	                            $.each(result.data.payType, function(idx, obj) {
+	                                htmls += '<option value="' + obj.id + '">' + obj.name + '</option>';
+	                            });
+	                        }else {
+	                        	layer.msg('该用户组关闭了线下支付方式！', {icon: 5,shade: [0.5, '#393D49']});
+	                        }
+	                    	
+	                    	 
+	                    }else {
+	                    	layer.msg('获取支付方式失败！', {icon: 6,shade: [0.5, '#393D49']});
+	                    }
+
+	                    $("#pay_type").empty();
+	                    $("#pay_type").html(htmls);
+	                }
+	            });
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+{template header}
+  <!-- Investor_center -->
+  <link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+  
+  <!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+      <li class="active">我的账户</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->
+{template member-nav-left}
+    
+    <!-- 右边正文 -->
+    <div class="investor-right pull-right border-radius">
+      <div class="investor-title">汇付明细</div>
+      
+      <form action="<?=url('','','')?>" method="post">
+      <ul class="investor-fund-form unlist">
+        <li>时间：</li>
+        <li><?=form::date('starttime',$data['starttime'])?></li>
+        <li>到</li>
+        <li><?=form::date('endtime',$data['endtime'])?></li>
+        <li>
+          <select class="fund-form-input1 form-control" name='type'>
+            <option value="">全部</option>
+            {loop $type $v}         
+             <option value="{$v['id']}"  {if $data['type']==$v['id']} selected="selected" {/if}>{$v['name']}</option>
+            {/loop}
+          </select>
+        </li>
+        
+        <li><input name="" type="submit" class="btn btn-warning btn-sm" value="搜索" /></li>
+      </ul>
+      </form>
+      <a href="<?=url('huifu','default','hflog',array('exportexecl'=>'execl'))?>" target="_blank" class="btn btn-warning btn-sm">导出Excel</a>
+      
+      <table class="table table-bordered mt20 table-hover">
+        <tr class="text-center">
+           <td>订单号</td>
+          <td>操作金额</td>        
+          <td>类型</td>     
+          <td>记录时间</td>
+          <td>备注信息</td>
+        </tr>
+        {if isset($list) && !empty($list)}
+            {loop $list $vo}    
+        <tr>
+         <!---
+          <td class="text-center"><?=empty($glossary[$vo['toid']]['name'])?'-':$glossary[$vo['toid']]['name']?></td>
+          --->
+         <td class="text-center"><?=empty($vo['orderno'])?'-':$vo['orderno']?></td>
+          <td class="text-center">￥<?=empty($vo['money'])?'0.00':$vo['money']?> 
+          </td>       
+          <td class="text-center">{if $vo['type']=='1'}充值{elseif $vo['type']=='2'}投标冻结{elseif $vo['type']=='3'}放款解冻
+          {elseif $vo['type']=='4'}还款{elseif $vo['type']=='5'}提现{else}转账{/if} </td>     
+          <td class="text-center f12">
+            <span class="itooltip" data-toggle="tooltip" data-trigger="hover" data-placement="top" title="<?=date('Y-m-d H:i:s',$vo['addtime'])?>">
+              <?=date('Y-m-d',$vo['addtime'])?> <span class="itool-tip">[...]</span>
+            </span>
+          </td>
+          <td class="text-center f12">
+            <div style="width:85px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" class="itooltip" data-toggle="tooltip" data-trigger="hover" data-placement="top" title="<?=empty($vo['remark'])?'-':$vo['remark']?>">
+              <?=empty($vo['remark'])?'-':$vo['remark']?>
+            </div>
+          </td>
+        </tr>
+            {/loop}
+        {else}
+        <tr class="text-center font12px color999"><td colspan="6">查无此记录</td></tr>
+        {/if}
+      </table>
+      <div class="fanye text-center">
+        <?php echo $page['html'];?>
+    </div>
+    </div>
+    
+    <!-- /右边正文 -->
+  </div>
+  
+{template footer}

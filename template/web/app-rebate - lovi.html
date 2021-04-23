@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>天天返利</title>
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">-->
+    {template public-header}
+    <style>
+        .PC-body {
+            max-width: 1200px;
+            background: none;
+        }
+        #PC, #PC .rebate {
+            padding: 0;
+            border-bottom: 0;
+            width: 100%;
+            background: none;
+        }
+        #PC h1 {
+            height: 50px;
+            font-size: 28px;
+            line-height: 50px;
+        }
+        #PC .content {
+            padding: 25px;
+            height: 550px;
+            word-break:break-all;
+            word-wrap:break-word;
+            overflow-y: auto;
+            background: #fff;
+            border-radius: 5px;
+            overflow-y: auto;
+        }
+        #PC .content h3 {
+            font-size: 22px;
+            line-height: 1.5;
+        }
+        #PC .rebateTime {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #999;
+            margin-bottom: 10px;
+        }
+        #PC .rebate p {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div id="H5">
+        <section style="padding-top: 0;">
+            <div class="rebate">
+                <h1 style="text-align: center;">{$infoArr[0]['title']}</h1>
+                <h3>{$infoArr[0]['short']}</h3>
+                <div class="rebateTime">
+                    <span> 活动时间: <!--<?=date('Y-m-d', $infoArr[0]['addtime'])?>-->
+                        <?php
+                    $times = explode('|',$infoArr[0]['time']);
+                    echo $times[0];
+                ?>
+                        到 {$times[1]}
+                    </span>
+                </div>
+                <p>{$infoArr[0]['content']}</p>
+            </div>
+        </section>
+    </div>
+    <div id="PC">
+            <section style="padding-top: 0;">
+                <div class="rebate">
+                    <h1 style="text-align: center;">{$infoArr[0]['title']}</h1>
+                    <h3>{$infoArr[0]['short']}</h3>
+                    <div class="rebateTime">
+                        <span> 活动时间: <!--<?=date('Y-m-d', $infoArr[0]['addtime'])?>-->
+                            <?php
+                        $times = explode('|',$infoArr[0]['time']);
+                        echo $times[0];
+                    ?>
+                            到 {$times[1]}
+                        </span>
+                    </div>
+                    <p>{$infoArr[0]['content']}</p>
+                </div>
+            </section>
+        </div>
+    <script>
+        if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+            document.getElementById("PC").style.display = "none";
+            document.getElementById("H5").style.display = "block";
+        } else {
+            document.getElementById("H5").style.display = "none";
+            document.getElementById("PC").style.display = "block";
+            $("body").addClass("PC-body");
+        }
+    </script>
+</body>
+</html>

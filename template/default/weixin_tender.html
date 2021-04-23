@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- Meta, title, CSS, favglyphicons, etc. -->
+	<meta charset="utf-8">
+	<title>诚汇通</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+	<meta name="description" content="">
+
+	<!-- Bootstrap -->
+	<link href="../../statics/weixin/assets/css/bootstrap.css" rel="stylesheet" media="screen">
+	<link href="../../statics/weixin/css/cht.css" rel="stylesheet" media="screen">
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="../../statics/weixin/assets/js/html5shiv.js"></script>
+	<script src="../../statics/weixin/assets/js/respond/respond.min.js"></script>
+	<![endif]-->
+
+</head>
+<body>
+	
+	<div class="navbar navbar-inverse dh_sy">
+		<div class="container toubu">
+			
+			<ul class="nav top_cent">
+				<li>
+					投标
+				</li>
+			</ul>
+<!--			<a class="navbar-brand" href="#">
+				<img src="../../statics/weixin/images/fanhui.png">
+			</a>
+			<a class="nav-home" href="#">
+				<img src="../../statics/weixin/images/shouye.png">
+			</a>-->
+			<!--/.nav-collapse -->
+		</div>
+	</div>
+
+	<!-- Carousel
+	================================================== -->
+<!-- /container -->
+	<div class="container">
+		<div class="row">
+			<div class="toubiao">
+                    <p class="bb1"><span class="col-5">账户可用余额</span>{if !empty($info['zhuanrangren'])}￥{$rs['AvlBal']}{else}￥{$account}{/if}</p>
+				<!--<p><span class="col-5">账户可用余额</span>￥0.00</p>-->
+			</div>
+		</div>
+	</div>
+        {if !empty($info['zhuanrangren'])}
+        <form id = "myform" action="<?=url('','','hftender')?>" method="post">
+            {else}
+            <form id = "myform" action="<?=url('','','tender_deal')?>" method="post">
+                {/if}
+            <div class="container">
+		<div class="row">
+			<div class="col-12">
+			<div class="tz_je">
+				<p><input type="text" placeholder="投标金额"  name="money" id="money" class="form-control col-8"><!--<i class="col-4">收益：￥0.00</i>--></p>
+                                {if empty($info['zhuanrangren'])}
+                                <p class="mt10"><span id="divpass"><input type="password" placeholder="交易密码" name="tpassword" id="tpassword" class="form-control col-8"></span><!--<i class="col-4"><a href="#">忘记密码?</a></i>--></p>
+                                {/if}
+                                {if $info['is_dxb']=='1'}
+                                <p class="mt10"><input type="checkbox" name="passdip" value="1" id="passdip" /> 明文显示密码</p>
+                                <p class="mt10">
+                                    <input name="pwd" placeholder="定向密码" id="pwd" type="password" class="form-control col-8" />
+                                </p>
+                                {/if}
+			</div>
+			<label class="xieyi">
+                <!--<input type="checkbox"> 我已阅读并同意<a href="#">《诚汇通借款协议》</a>-->
+              </label>
+			</div>
+		</div>
+                
+                <div class="col-12">
+                        <p style="padding:8px 0; line-height:22px; color:#ff0000" id="info">{$err}</p>
+                </div>
+            
+            </div>
+            <div class="container">
+                <div class="row mt10">
+                    <input type="hidden" id="id" name="id" value="{$id}">
+                    <input name="type" type="hidden" id="type" value="{$info['borrow_type']}" />
+                        {if !empty($info['zhuanrangren'])}
+                            <p class="tcdl"><button  type="submit" id="" class="btn btn-primary btn-lg yanse_1">投标</button></p>
+                        {else}
+                            <p class="tcdl"><button  type="button" id="totender" class="btn btn-primary btn-lg yanse_1">投标</button></p>
+                        {/if}
+                </div>
+            </div>
+	</form>
+
+<!-- JavaScript plugins (requires jQuery) -->
+<script src="../../statics/weixin/assets/js/jquery.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="../../statics/weixin/assets/js/bootstrap.min.js"></script>
+
+<script src="../../statics/weixin/assets/js/holder/holder.js"></script>
+
+<script type="text/javascript">
+$(function(){
+    $("#totender").click( function () { 
+        $("#totender").attr('disabled',true);
+        if($.trim( $("#id").val() )==''){
+                $("#info").text('参数错误!');
+                $("#totender").attr('disabled',false);
+                return false;
+         }
+        if($.trim( $("#money").val() )==''){
+                $("#info").text('请输入投资金额!');
+                $("#totender").attr('disabled',false);
+                return false;
+         }
+         if(!$.isNumeric($("#money").val())){
+                $("#info").text('投资金额必须是数字!');
+                $("#totender").attr('disabled',false);
+                return false;
+         }
+         if($("#money").val() < 0){
+                $("#info").text('投资金额必须大于0!');
+                $("#totender").attr('disabled',false);
+                return false;
+         }
+         if($.trim( $("#tpassword").val() )==''){
+                $("#info").text('请输入交易密码!');
+                $("#totender").attr('disabled',false);
+                return false;
+         }
+         $.post("?m=weixin&c=default&a=tender_deal", { id: $.trim( $("#id").val() ), money: $.trim( $("#money").val() ),tpassword: $.trim( $("#tpassword").val() ),type: $.trim( $("#type").val() ),pwd: $.trim( $("#pwd").val() ), action: "todo" },
+            function(data){
+                $("#totender").text('处理中...');
+                if(data==1){
+                       $("#info").text('交易密码错误!');
+                       $("#totender").text('投标');
+                       $("#totender").attr('disabled',false);
+                       return false;
+                }else if(data==2){
+                        $("#info").text('参数错误!');
+                        $("#totender").text('投标');
+                        $("#totender").attr('disabled',false);
+                        return false;
+                }else if(data==3){
+                        $("#info").text('投标成功!');
+                        $("#totender").attr('disabled',false);
+                        $("#money").val("");
+                        $("#tpassword").val("");
+                        $("#pwd").val("");
+                        $("#totender").text('投标');
+                        return false;
+                }else if(data==4){
+                        $("#info").text('投标失败!');
+                        $("#totender").attr('disabled',false);
+                        $("#totender").text('投标');
+                        return false;
+                }else if(data==5){
+                        $("#info").text('请输入定向密码!');
+                        $("#totender").attr('disabled',false);
+                        $("#totender").text('投标');
+                        return false;
+                }else if(data==6){
+                        $("#info").text('定向密码错误!');
+                        $("#totender").attr('disabled',false);
+                        $("#totender").text('投标');
+                        return false;
+                }else if(data==7){
+                        $("#info").text('6月新用户专享!');
+                        $("#totender").attr('disabled',false);
+                        $("#totender").text('投标');
+                        return false;
+                }else{
+                        $("#info").text(data);
+                        $("#totender").attr('disabled',false);
+                        $("#totender").text('投标');
+                        return false;
+                }
+            });
+            return false;
+		 
+        });
+});
+</script>
+
+<script language="JavaScript" type="text/javascript">
+$(document).ready(function(){
+  $("#passdip").click(function(){
+		var is_display = $("#passdip").is(':checked');
+		if(is_display){
+			var val = $("#tpassword").val();
+			$("#divpass").html('<input type="text" placeholder="交易密码" name="tpassword" id="tpassword" class="form-control col-8">');
+			$("#tpassword").val(val);
+		}
+		else{
+			var val = $("#tpassword").val();
+			$("#divpass").html('<input type="password" placeholder="交易密码" name="tpassword" id="tpassword" class="form-control col-8">');
+			$("#tpassword").val(val);
+		}
+  });
+
+  
+});
+</script>
+
+</body>
+</html>

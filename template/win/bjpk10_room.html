@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>pc手游</title>
+    <link href="/statics/win/css/reset.css"  rel="stylesheet" type="text/css">
+    <link href="/statics/win/extend/layui/css/layui.css"  rel="stylesheet" type="text/css">
+    <link href="/statics/win/css/css.css"  rel="stylesheet" type="text/css">
+    <style type="text/css">
+        /*北京PK10和幸运飞艇开奖号码*/
+        .bjpk-odd-3 li div span{display: inline-block; font-size: 14px; margin-top: 3px;}
+        .bjpk-odd-2 li div span{display: inline-block; font-size: 20px; margin-top: 3px; text-shadow: 1px 1px 5px #000;}
+        .bjpk-odd-2 li div.color{
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: solid 1px #c7c7c7;
+            color:white;
+        }
+        .bjpk-odd-2 li div.color p{color:white;}
+        .bjpk-odd-2 li{padding: 0; border: none;}
+        /*.bjpk-odd-2 li p { background: #e09a5f;}*/
+        .play2 li div.color1{background-color:#fcf53c;color:white}
+        .play2 li div.color2{background-color:#4990e2;color:white}
+        .play2 li div.color3{background-color:#4a4a4a;color:white}
+        .play2 li div.color4{background-color:#f6a623;color:white}
+        .play2 li div.color5{background-color:#50b8e3;color:white}
+        .play2 li div.color6{background-color:#5d12fe;color:white}
+        .play2 li div.color7{background-color:#b4b3b3;color:white}
+        .play2 li div.color8{background-color:#d0011b;color:white}
+        .play2 li div.color9{background-color:#801111;color:white}
+        .play2 li div.color10{background-color:#7ed321;color:white}
+
+        .room-issue i{color:white; text-shadow: 0 0 1px #000;  }
+
+        .color1{background-color:#fcf53c;}
+        .color2{background-color:#4990e2;}
+        .color3{background-color:#4a4a4a;}
+        .color4{background-color:#f6a623;}
+        .color5{background-color:#50b8e3;}
+        .color6{background-color:#5d12fe;}
+        .color7{background-color:#b4b3b3;}
+        .color8{background-color:#d0011b;}
+        .color9{background-color:#801111;}
+        .color10{background-color:#7ed321;}
+        .room-issue .colorjieguo{
+            line-height: 22px;
+        }
+        .colorjieguo{
+        width: 22px;
+        display: inline-block;
+        margin-right: 2px;
+        }
+        .colorjieguo_down{
+        color:white;
+        }
+        .colorjieguo_down i{
+        width: 20px;
+        display: inline-block;
+        margin-bottom: 2px;
+        text-shadow: 0 0 1px #000;
+        }
+    </style>
+    <script src="/statics/win/js/jquery.1.8.2.min.js"></script>
+    <script src="/statics/win/extend/layer/layer.js"></script>
+    <script src="/statics/win/extend/layui/layui.js"></script>
+
+    <script>
+        var userinfo = {$userInfo};
+//        var userinfo = {
+//            userid: "1449",
+//            nickname: "第20144位用户",
+//            head_url: "/up_files/avatar/144959ae67d9236de.jpg",
+//            room_id: "1",
+//            token: "0khjnhgg2g6v20hsiddondm4v3",
+//            lottery_type:"1"
+//        };
+        var btn_url = "<?=url('', 'user', 'setInfo')?>";
+        var aWanf =new Array();
+        var aJine =new Array();
+        var fag1 =true;//防止重复提交投注
+        var tz_record = "{$JumpUrl[5]}";//投注记录
+        var qihao ={$list[0]['qihao']};//上期期号
+    </script>
+</head>
+<body>
+<div class="layout">
+    <div class="head">
+        <div class="fl head-fl">
+            <a>PC客户端</a>
+            <a>手机客户端</a>
+            <a>快速登录器</a>
+            <a>防劫持教程</a>
+        </div>
+        <div class="fr head-fr" style="display: ">
+            <ul>
+                <li><div class="input-warp"><input type="text" placeholder="账号"><i class="ico ico-user"></i></div></li>
+                <li><div class="input-warp"><input type="text" placeholder="密码"><i class="ico ico-pas"></i></div></li>
+                <li><button class="btn-red">立即登录</button></li>
+                <li><button class="btn-white">立即注册</button></li>
+                <li><button class="btn-blue">游客试玩</button></li>
+                <li><a class="forgot-pas" href="#">忘记密码</a> </li>
+                <li><div class="china"><span>|</span><em>CH</em></div></li>
+            </ul>
+        </div>
+        <div class="fr head-login" style="display:none ">
+            <ul>
+                <li><a href="#" class="ico ico-news"><em></em></a></li>
+                <li><a href="#">平台公告</a></li>
+                <li><a href="#">个人中心<i class="ico ico-bot"></i></a></li>
+                <li><a href="#"><i class="ico ico-user2"></i>余额：0.00元<i class="ico ico-bot"></i></a></li>
+                <li><a href="#">充值</a></li>
+                <li><a href="#">提款</a></li>
+                <li><a href="#"><i class="ico ico-cus"></i>客服</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="nav">
+    <div class="layout">
+        <div class="logo fl"><img src="images/logo.png"></div>
+        <ul>
+            <li><a class="active" href="#">购彩大厅</a></li>
+            <li><a href="#">彩票开奖</a></li>
+            <li><a href="#">优惠活动</a></li>
+            <li><a href="#">手机APP</a></li>
+            <li><a href="#">玩法介绍</a></li>
+        </ul>
+    </div>
+</div>
+<div class="room-web">
+    <div class="layout">
+        <div class="room-warp clearfix">
+            <div class="room-title">
+                <div class="fl room-t-fl">
+                    <h1>{$room_name['title']}</h1>
+                    <div class="room-tab">
+                        <span class="room-checked">初级房</span>
+
+                        <ul style="display: none">
+                            <!--{loop $v['room'] $v2}-->
+                            <!--<li status="{$v2['status']}" data-room="{$v2['passwd']}" lower="{$v2['low_yb']}" upper="{$v2['max_yb']}" room_id="{$v2['id']}" lottery_type="{$v2['lottery_type']}" error_msg="{$v2['lack_tips']}"></li>-->
+                            <!--{/loop}-->
+                            <li>初级房</li>
+                            <li>中级房</li>
+                            <li>高级房</li>
+                            <li>私密房</li>
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="fr room-t-fr">
+                    <a href="/template/win/trendHeader.html">结果走势</a>
+                    <a href="#">历史记录</a>
+                    <a href="/template/win/lotteryResult.html">彩票介绍</a>
+                </div>
+            </div>
+            <div class="room-con">
+                <div class="fl room-con-fl">
+                    <div class="room-con-fl-top">
+                        <div class="fl">距离&nbsp;<em id="issue"></em>&nbsp;期&nbsp;截止:&nbsp;<span class="icoTime">04:33:33</span></div>
+                        <div class="fr"><em class="icoAcer">{$ybMoney}</em>&nbsp;元</div>
+                    </div>
+                    <div class="room-issue">
+                        <span>第 <em id="issue2">{$list[0]['qihao']}</em> 期</span>  <span>{$list[0]['kaijianghaoma']}</span> <span></span><i class="ico ico-triangle-bot"></i>
+                    </div>
+
+                    <!--开奖结果-->
+                    <div class="lottery" style="display: none;">
+                        <dl>
+                            <dt>
+                            <ul>
+                                <li>期号</li>
+                                <li>开奖时间</li>
+                                <li>开奖结果</li>
+                            </ul>
+                            </dt>
+                            <dd>
+                                {loop $list $v}
+                                <ul>
+                                    <li>{$v['qihao']}</li>
+                                    <li>{$v['kaijiangshijian']}</li>
+                                    <li class='colorjieguo_down'>{$v['kaijianghaoma']}</li>
+                                </ul>
+                                {/loop}
+                            </dd>
+                        </dl>
+                        <div class="lotteryBut"><button data-href="{$JumpUrl[11]}">更多开奖结果</button></div>
+                    </div>
+                    <!--开奖结果-->
+
+                    <!--房间开始-->
+                    <div class="room-chat-warp">
+                        <div id="scroller" class="room-chat-con">
+                            <!--<div class="userBetting">-->
+                                <!--<ul>-->
+                                    <!--<li class="fr">-->
+                                        <!--<div class="head-image"><img src="images/1.png"> </div>-->
+                                        <!--<div class="news-fl">-->
+                                            <!--<h3>有钱任性</h3>-->
+                                            <!--<div class="news-con">-->
+                                                <!--<pre>大家好大家好大好大家好大家好大家好大家好大家好</pre>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</li>-->
+                                <!--</ul>-->
+                            <!--</div>-->
+
+                            <!--投注结果显示-->
+                            <!--<div class="userBetting">-->
+                                <!--<ul>-->
+                                    <!--<li class="fl">-->
+                                        <!--<div class="head-image"><img src="images/1.png"> </div>-->
+                                        <!--<div class="news-fl">-->
+                                            <!--<h3>有钱任性</h3>-->
+                                            <!--&lt;!&ndash;<div class="news-con">&ndash;&gt;-->
+                                            <!--<div class="betting-con">-->
+                                                <!--<ul>-->
+                                                    <!--<li><label>投注类型：<em>2</em></label><span><i class="ico1 ico1-money"></i>金额：<em>200</em></span></li>-->
+                                                    <!--<li><label>投注类型：<em>2</em></label><span><i class="ico1 ico1-money"></i>金额：<em>200</em></span></li>-->
+                                                    <!--<li><label>投注类型：<em>2</em></label><span><i class="ico1 ico1-money"></i>金额：<em>200</em></span></li>-->
+                                                <!--</ul>-->
+                                                <!--<p><span>14:09:12</span><span>第<em>840019</em>期</span></p>-->
+                                            <!--</div>-->
+                                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                        <!--</div>-->
+                                    <!--</li>-->
+                                <!--</ul>-->
+                            <!--</div>-->
+                            <!--<div class="userBetting">-->
+                                <!--<ul>-->
+                                    <!--<li class="fr">-->
+                                        <!--<div class="head-image"><img src="images/1.png"> </div>-->
+                                        <!--<div class="news-fl">-->
+                                            <!--<h3>有钱任性</h3>-->
+                                            <!--&lt;!&ndash;<div class="news-con">&ndash;&gt;-->
+                                            <!--<div class="betting-con">-->
+                                                <!--<ul>-->
+                                                    <!--<li><label>投注类型：<em>2</em></label><span><i class="ico1 ico1-money"></i>金额：<em>200</em></span></li>-->
+                                                <!--</ul>-->
+                                                <!--<p><span>14:09:12</span><span>第<em>840019</em>期</span></p>-->
+                                            <!--</div>-->
+                                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                        <!--</div>-->
+                                    <!--</li>-->
+                                <!--</ul>-->
+                            <!--</div>-->
+
+
+                        </div>
+
+                    </div>
+                    <!--房间结束-->
+
+
+                    <!--客服浮动图标开始-->
+                    <div class="customer" id="drag" data-href="<?php echo C('kefu');?>&username=<?php echo $_SESSION['SN_']['username'];  ?>"></div>
+                    <!--客服结束-->
+
+                    <!--视频-->
+                    <div class="video" id="video"></div>
+                    <div class="video_post">
+                        <iframe width="100%" height="100%" scrolling="no" frameborder="0" src=""></iframe>
+                        <span>关闭</span>
+                    </div>
+                    <!--视频-->
+
+                    <!--追号详情浮动图标-->
+                    <div class="ioc_zhuihao" id="dZh" <?php if($isZhuiHao['unm'] > 0){ echo 'style="display: block"';}else{ echo 'style="display: none"';}     ?>></div>
+
+                    <div class="room-trend"><i class="ico ico-trend"></i></div>
+                    <div class="room-con-bot clearfix">
+                        <div class="room-con-bot-fl fl">
+                            <div contenteditable="true" class="textArea" style="color: #cccccc; ">好想说点什么...</div>
+                            <div class="betting" style="display: none">
+                                <ul>
+                                    <!--<li><span class="wanf">大</span> <span class="money"><em>50</em>元</span><i class="ico ico-delete"></i></li>-->
+
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="room-but fr">
+                            <button id="speak" class="btn-blue">发送</button>
+                            <button id="bettingBtu1" class="btn-red" style="display: none">投注</button>
+                            <button id="chaseNumber" class="btn-chase">追号</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="fr room-con-fr">
+                    <div class="room-con-fr-top">本期已下&nbsp;<em>0</em>&nbsp;注</div>
+                    <div class="room-con-fr-mid" >
+                        <div class="room-con-fr-mid-title">
+                            <span>投注类型</span>
+                            <span>投注金额</span>
+                            <span><button class="btn-blue-bor" id="quxiaoSy">一键撤单</button></span>
+                        </div>
+                        <div class="room-con-fr-mid-con">
+                            <ul>
+                                <!--<li>-->
+                                    <!--<span class="wanf2">大</span>-->
+                                    <!--<span class="money2">2000.00</span>-->
+                                    <!--<span class="delete2"><i class="ico ico-delete2"></i></span>-->
+                                <!--</li>-->
+
+
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="room-con-fr-odd">
+                        <div class="room-con-fr-odd-1 bjpk-odd-1 clearfix">
+                            <ul>
+                                <!--<li><span>大</span><p>1.94</p></li>-->
+
+                            </ul>
+                        </div>
+                        <div class="room-con-fr-odd-3 bjpk-odd-3 clearfix">
+                            <ul>
+                                <!--<li><span>红</span><p>1.94</p></li>-->
+
+                            </ul>
+                        </div>
+                        <div class="room-con-fr-odd-2 bjpk-odd-2 clearfix">
+                            <ul>
+                                <!--<li><span>0</span><p>1.94</p></li>-->
+                                <!--<li><span>1</span><p>1.94</p></li>-->
+                            </ul>
+                            <div class="odds-explain"><i class="ico ico-explain fl"></i>赔率说明</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!--追号工具开始-->
+    <div class="zhuiHao popup" style="display: none">
+        <div class="config" style="padding-top: 30px;"><i class="configClose"></i>
+        <p style="color: #5e97fe;">追号工具</p>
+        <div class="bgffShow"></div>
+        <div class="chase-form">
+            <ul>
+                <li>
+                    <div class="chase-form-left"><em class="left">玩法：</em>
+                        <select class="sel"></select>
+                    </div>
+                    <div class="chase-form-right">
+                        投注金额：
+                        <input class="money-text" placeholder="请输入金额" type="number">
+                        元
+                    </div>
+                </li>
+                <li>
+                    <div class="chase-form-left">
+                        <em class="left">追号：</em>
+                        <div class="input-main">
+                            <i class="icon-size lessB">-</i>
+                            <input type="text" id="zhuiQs" class="input-c" value="1" readonly="readonly">
+                            <i class="icon-size add">+</i>
+                        </div>
+                        <em class="left">期</em>
+                    </div>
+                    <div class="chase-form-right">
+                        <em class="left">翻倍：</em>
+                        <div class="input-main left">
+                            <i class="icon-size lessB">-</i>
+                            <input type="text" id="zhuiBs" class="input-c" value="1" readonly="readonly">
+                            <i class="icon-size add">+</i>
+                        </div>
+                        <em class="left">倍</em>
+                        <button class="generate">生成</button>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+        <div class="chase-table">
+            <table>
+                <thead>
+                <tr>
+                    <th width="34%">期号</th>
+                    <th width="33%">投注金额</th>
+                    <th width="33%">翻倍</th>
+                    <!--<th>是否中奖</th>-->
+                </tr>
+                </thead>
+            </table>
+            <div class="listQs">
+                <table>
+                    <tbody id="zhuiHList">
+                    <!--<tr><td width="34%">第<em>619941</em>期</td><td width="33%"><em>1</em>元</td><td width="33%">1倍</td></tr>-->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="Stop">
+            <div class="squaredThree">
+                <input type="checkbox" value="None" id="if_win_stop" name="check" checked="checked">
+                <label for="if_win_stop"> &nbsp;</label>
+            </div>
+            是否追停
+            <button class="Stop-btn" id="querenTz">确认投注</button>
+        </div>
+        </div>
+    </div>
+    <!--追号工具结束-->
+
+    <!--追号列表 开始-->
+    <div class="zhui_details popup" style="display: none">
+        <!--<div class="config" style="padding-top: 30px;"><i class="configClose"></i>-->
+            <div class="zhui_details_w">
+                <i class="configClose"></i>
+                <div>
+                    <h3>追号详情</h3>
+                    <div class="zhui_details_con"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--追号列表 结束-->
+
+<!--投注确认单-->
+<div class="place-order cenMoneyWarp" style="display: none">
+    <div class="order-title">下单详情<i class="ico ico-close fr"></i></div>
+    <div class="order-con">
+        <div class="order-con-wanf"><span id="touzhuzhi">大</span><em id="touzhuOdd">1.94</em></div>
+        <div class="order-con-money moneyInput"><input type="number" id="inputNumber" placeholder="请输入下注金额"></div>
+        <div class="order-con-xz text-ul">
+            <i class="ico ico-money"></i>
+            <a href="javascript:void(0);">1</a>
+            <a href="javascript:void(0);">2</a>
+            <a href="javascript:void(0);">5</a>
+            <a href="javascript:void(0);">10</a>
+            <a href="javascript:void(0);">50</a>
+            <a href="javascript:void(0);">100</a>
+            <a href="javascript:void(0);">500</a>
+            <a href="javascript:void(0);" class="butzhi">梭哈</a>
+        </div>
+        <div class="order-con-btn cigBtn" id="butJp">
+            <button class="btn-blue">确认下单</button>
+            <a href="javascript:void(0);"  class="cancel keyboard">取消</a>
+        </div>
+    </div>
+</div>
+<!--投注金额 开始-->
+<div class="cenMoneyWarp" style="display: none">
+    <div class="cenMoney">
+        <h1 id="touzhuzhi">大数</h1>
+        <ul class="text-ul">
+            <!--<li>20</li>-->
+            <!--<li>50</li>-->
+            <!--<li>100</li>-->
+            <!--<li>200</li>-->
+            <!--<li>500</li>-->
+            <!--<li>800</li>-->
+            <!--<li>1000</li>-->
+            <!--<li>2000</li>-->
+            <!--<li>5000</li>-->
+            <li class="butzhi">梭哈</li>
+        </ul>
+        <div class="moneyInput">
+            输入金额：<input type="number" id="inputNumber">
+        </div>
+
+        <div class="cigBtn" id="butJp">
+            <button>确认</button>
+            <button class="cancel">取消</button></div>
+    </div>
+</div>
+<!--投注金额 结束-->
+
+<!--结果走势-->
+<div class="layer" style="display: none">
+    <div class="layer-con">
+        <i class="ico1 ico-roomClose"></i>
+        <div class="clearfix">
+            <div class="zouhao-title con-title">
+                <!--<p class="title fl">幸运28</p>-->
+                <div class="fl tab-box">
+                    <a href="javascript:void(0);" data-type="history" class="fl active">幸运28</a>
+                    <a href="javascript:void(0);" data-type="basic" class="fl">加拿大28</a>
+                    <a href="javascript:void(0);" data-type="basic" class="fl">北京PK10</a>
+                    <a href="javascript:void(0);" data-type="basic" class="fl">幸运飞艇</a>
+                </div>
+                <div class="fr">
+
+                    <div class="fl prl-20" style="font-size: 14px;">
+                        日期:&nbsp;&nbsp;
+                        <input type="text" class="doubledate input-info time flatpickr-input searchTime" readonly="readonly">
+                        <i class="calendar"></i>
+                    </div>
+                    <button class="btn-blue" id="inquire">查询</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="page">
+            <em class="ico ico-page-fl"></em>
+            <a href="javascript:void(0);" class="active">1</a>
+            <a href="javascript:void(0);">2</a>
+            <a href="javascript:void(0);">3</a>
+            <a href="javascript:void(0);">4</a>
+            <a href="javascript:void(0);">5</a>
+            <span style="padding-left: 0">...</span>
+            <em class="ico ico-page-fr"></em>
+            <span>第一页，共10页</span>
+        </div>
+        <div id="contentBox1">
+            <table class="ssc_table sub_table" cellpadding="0" cellspacing="0" border="0">
+                <thead>
+                <tr>
+                    <td colspan="" rowspan="2">期数</td>
+                    <td rowspan="2">时间</td>
+                    <td rowspan="2">开奖号码</td>
+                    <th colspan="9">总和</th>
+
+                </tr>
+                <tr>
+                    <td width="55">和值</td>
+                    <td width="55">大</td>
+                    <td width="55">小</td>
+                    <td width="55">双</td>
+                    <td width="55">单</td>
+                    <td width="55">大单</td>
+                    <td width="55">小单</td>
+                    <td width="55">大双</td>
+                    <td width="55">小双</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>间隔</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td class="">1</td>
+                    <td class="">2</td>
+                    <td class="">3</td>
+                    <td class="">4</td>
+                    <td class="">5</td>
+                    <td class="">6</td>
+                    <td class="">7</td>
+                    <td class="">8</td>
+                </tr>
+                <tr>
+                    <td>20170818032</td>
+                    <td>2017-08-18 11:20:00 </td>
+                    <td>
+                        9+9+9=
+                        <i class="sscBall" data-num="9">27</i>
+                        <!--<i class="sscBall" data-num="8">08</i>-->
+                        <!--<i class="sscBall" data-num="2">02</i>-->
+                        <!--<i class="sscBall" data-num="1">01</i>-->
+                        <!--<i class="sscBall" data-num="2">02</i>-->
+                    </td>
+                    <td class="col_count">22</td>
+                    <td class="col_big"></td>
+                    <td class="col_small">小</td>
+                    <td class="col_double">双</td>
+                    <td class="col_single"></td>
+                    <td class="col_long">龙</td>
+                    <td class="col_hu"></td>
+                    <td class="col_sum"></td>
+                    <td class="">小小</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<div class="copyright">
+    <div class="layout">
+        <div class="copyright-top">
+            <div class="copyright-logo"><img src="images/logo.png" /> </div>
+        </div>
+        <div class="copyright-bot">
+            <div class="fl">
+                <p>© 2011-2017 购彩游戏版权所有 <span>菲律宾政府PAGCOR博彩牌照认证</span></p>
+                <p>购彩游戏郑重提示：彩票有风险，投注需谨慎，不向未满18周岁的青少年出售彩票</p>
+            </div>
+
+            <div class="authorized fr">
+                <p>权威认证资质</p>
+                <div class="ico item-box">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="popup" style="display: none"></div>
+<!---跟投开始--->
+<!---跟投结束--->
+<audio style="display:none" id="room_play" src="" controls="controls" autoplay="autoplay"></audio>
+
+
+<script src="/statics/win/js/style.js"></script>
+<script src="/statics/win/js/ws-client.js"></script>
+<script src="/statics/win/js/store.js"></script>
+<script src="/statics/win/js/room.js"></script>
+<script>
+    if(userinfo.nickname ==""){
+        $(".popup").show();
+        $(".popup").html('<div class="config"><h3>修改昵称</h3><div class="configInput"><input type="text" name="nickname" placeholder="请输入新的昵称"></div><div class="cigBtn" style="margin-top: 30px;"><button class="cancel" id="ncquxiao">取消</button><button id="keepName">保存</button></div></div>');
+    }else{
+        initWebSocket();
+    }
+
+    $("#video").on("click",function(){
+        var video_post =$(".video_post");
+        if(userinfo.lottery_type ==2){
+            video_post.children("iframe").attr("src","https://pk10.kirin88.com");
+        }else if(userinfo.lottery_type ==4){
+            video_post.children("iframe").attr("src","https://feiting.kirin88.com");
+        }
+        video_post.show();
+    })
+    $(".video_post").on("click","span",function(){
+        $(this).parent().hide();
+    })
+</script>
+<script>
+    //初级，中级，高级，私密房间切换
+    var flag = "{$userId}";
+    var money = "{$reData['money_usable']}";
+    var lottery_type;
+
+    $(function() {
+
+        var tt = "{$room_name['title']}";
+        if(tt.indexOf("初级") != -1){
+            $(".room-checked").text("初级房");
+        }else if(tt.indexOf("中级") != -1){
+            $(".room-checked").text("中级房");
+        }else if(tt.indexOf("高级") != -1){
+            $(".room-checked").text("高级房");
+        }else if(tt.indexOf("私密") != -1){
+            $(".room-checked").text("私密房");
+        }
+
+        var checked = $(".room-checked").text();
+        $(".room-tab ul li:contains('" + checked + "')").addClass("active");
+
+        //初级，中级，高级，私密房间切换
+
+        $("body").on("click",".room-checked", function(){
+            $(".room-tab ul").toggle();
+        });
+        $("body").on("click",".room-tab ul li", function(){
+            $(".room-checked").html($(this).text());
+            $(this).addClass("active").siblings().removeClass("active");
+            $(".room-tab ul").hide();
+        });
+
+
+        //检验是否有权限进入
+        $(".room-tab ul li").click(function() {
+            var status = $(this).attr("status");
+            var lower = $(this).attr("lower");
+            var upper = $(this).attr("upper");
+            var room_id = $(this).attr("room_id");
+            var error_msg = $(this).attr("error_msg");
+            lottery_type = $(this).attr("lottery_type");
+
+            if (flag === "") {
+                window.location.href = "<?=url('','user','login')?>";
+            }else{
+                if ($(this).attr("data-room") === "Private") {
+                    return true;
+                }
+
+                //判断房间是否关闭
+                if (status == 1) {
+                    layer.open({
+                        content: "<p class='alert_msg'>此房间暂时关闭</p>",
+                        btn: '我知道了'
+                    });
+                    return true;
+                }
+
+                //判断是否达到进入资格
+//                    if("{$nickName}" == "") {
+//                        if({$userId}){
+//                              window.location.href = "<?=url('','user','login')?>";
+//                        }else {
+//                            layer.open({
+//                                content: "<p class='alert_msg'>请前往设置昵称</p>",
+//                                btn: '我知道了'
+//                            });
+//                        }
+//                        return false;
+//                    }
+
+                if ((lower !=0 || upper !=0) && (parseFloat(money) < parseFloat(lower) || parseFloat(money) >= parseFloat(upper))) {
+                    layer.open({
+                        content: "<p class='alert_msg'>"+ error_msg +"</p>",
+                        btn: '我知道了'
+                    });
+                } else {
+                    //window.location.href = "<?=url('','chatRoom','index')?>&room_id=" + room_id + "&lottery_type=" + lottery_type;
+                    window.location.href = "<?=url('','chatRoom','index')?>&room_id=" + room_id;
+                }
+            }
+        });
+
+        $("li[data-room=Private]").click(function() {
+            $(".popup").css("display", "block");
+        });
+
+        //私密房间校验
+        $("#secretBtn").click(function() {
+            var secret_pwd = $("input[name=secret_pwd]").val();
+            $.ajax({
+                url: "<?=url('','lobby','privateRoom')?>",
+                type: "post",
+                data: {secret_pwd: secret_pwd, lottery_type: lottery_type},
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+                    if (data.status == 0) {//口令正确则需要验证金额
+                        //判断是否达到进入资格
+                        if ((data['data'].low_yb != 0 || data['data'].max_yb != 0) && (parseFloat(money) < parseFloat(data['data'].low_yb) || parseFloat(money) >= parseFloat(data['data'].max_yb))) {
+                            $(".popup").css("display", "none");
+                            layer.open({
+                                content: "<p class='alert_msg'>"+ data['data'].lack_tips +"</p>",
+                                btn: '我知道了'
+                            });
+                        } else if("{$nickName}" == ""){
+                            $(".popup").css("display", "none");
+                            layer.open({
+                                content: "<p class='alert_msg'>请前往设置昵称</p>",
+                                btn: '我知道了'
+                            });
+                        }else {
+                            //window.location.href = "<?=url('','chatRoom','index')?>&room_id=" + data.data.id + "&lottery_type=" + lottery_type;
+                            window.location.href = "<?=url('','chatRoom','index')?>&room_id=" + data.data.id ;
+                        }
+                    } else {
+                        layer.open({
+                            content: "<p class='alert_msg'>"+ data.ret_msg +"</p>",
+                            btn: '我知道了'
+                        });
+                    }
+                },
+                error: function(error) {
+                    layer.open({
+                        content: "<p class='alert_msg'>服务器出错了</p>",
+                        btn: '我知道了'
+                    });
+                }
+            });
+        });
+    });
+
+    $(function() {
+        // var nowData = new Date();
+        $(".searchTime").val(show());
+        function show(){
+            var mydate = new Date();
+            if((mydate.getMonth()+1)<10){
+                var yue = "0"+(mydate.getMonth()+1);
+            }else{
+                var yue = (mydate.getMonth()+1);
+            }
+            if((mydate.getDate())<10){
+                var ri = "0"+(mydate.getDate());
+            }else{
+                var ri = (mydate.getDate());
+            }
+            var str = "" + mydate.getFullYear() + "-";
+            str += yue + "-";
+            str += ri;
+            return str;
+        }
+
+        //查询
+        var dataNews = {};
+        dataNews.lottery_type = 2;
+        //trendFun(dataNews);
+        $("#inquire").click(function(){
+            layer.msg('拼命加载中...', {
+                icon: 16
+                ,shade: 0.4
+                ,time: 0
+            });
+            dataNews.time=$(".searchTime").val();
+            console.log(dataNews.time);
+            //trendFun(dataNews);
+        })
+
+        //走势图页面日期选择弹框
+        layui.use('laydate', function(){
+            $(".searchTime").click(function(){
+                layui.laydate({
+                    elem: this, //需显示日期的元素选择器
+                    format: 'YYYY-MM-DD', //日期格式 'YYYY-MM-DD hh:mm:ss'
+                    istime: false, //是否开启时间选择
+                    isclear: true, //是否显示清空
+                    istoday: true, //是否显示今天
+                    issure: true, //是否显示确认
+                    //				festival: true, //是否显示节日
+                    min: '1900-01-01', //最小日期
+                    max: '2099-12-31', //最大日期
+                    //				start: '2014-6-15',  //开始日期
+                    //				fixed: false, //是否固定在可视区域
+                    //				zIndex: 99999999, //css z-index
+                    choose: function(dates){ //选择好日期的回调
+
+                    }
+                })
+            })
+        });
+
+
+
+    });
+</script>
+</body>
+</html>

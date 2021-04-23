@@ -1,0 +1,320 @@
+﻿html, body, div, span, button, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+    /*font-family:"微软雅黑","Microsoft Yahei","Myriad Set Pro","Lucida Grande","Helvetica Neue","Helvetica","Arial","Verdana","sans-serif";*/
+    font-family: "Helvetica Neue", Helvetica, Arial, "Microsoft Yahei", "Hiragino Sans GB", "Heiti SC", "WenQuanYi Micro Hei", sans-serif;
+}
+ul{ list-style: none;}
+img,a img { border:none ;}
+div p.biaoti1{
+    font-size: 34px;
+    /*text-align: center;*/
+    padding: 80px 0 50px 0;
+}
+
+#logo{width:100%;text-align:center;padding-top:20px;}
+
+#xm-banner{
+    height: 880px;
+    width:100%;
+    background: url(../himg/xiangmu_banner1.png);
+    clear: both;
+    /*position:absolute;*/
+}
+.xm-right{
+    width:50%;
+    height: 700px;
+    float: right;
+    z-index: 99;
+}
+#xm-zi{
+    width: 600px;
+    /*text-align: center;*/
+    padding: 160px 0 0 40px;
+	color:#ffffff;
+}
+.xm-left{
+    width:50%;
+    height: 700px;
+    float: left;
+    z-index: 99;
+}
+#xm-ylb{
+/*    height: 764px;
+    width: 646px;*/
+    clear: both;
+    float: right;
+	height:700px;
+	width:600px;
+/*margin-right: 0;*/
+    padding: 100px 50px 0 0;
+
+/*    position:absolute;*/
+}
+                                          /*main2设置*/
+#zhanshi{
+    height: 700px;
+    width: 1200px;
+    clear: both;
+    margin: 0 auto;
+}
+
+#xm-anniu1{
+    position: absolute;
+    margin: 80px 0 0 40px;
+    height: 70px;
+    width: 220px;
+    background: url(../himg/sy_xiazai_anniu.png);
+}
+#xm-anniu2{
+    position: absolute;
+    margin: 160px 0 0 40px;
+    height: 70px;
+    width: 220px;
+    background: url(../himg/sy_xiazai_anniu.png);
+}
+#xm-anniu1:hover{
+    position: absolute;
+    margin: 80px 0 0 40px;
+    height: 70px;
+    width: 220px;
+    background: url(../himg/sy_xiazai_anniu_an.png);
+}
+
+
+#xm-zhanshi1{
+    clear: both;
+    margin: 100px 0 0 40px;
+	line-height:1.5;
+}
+
+#xm-zs-anniu{
+    position: absolute;
+    margin: 90px 0 0 30px;
+    height: 70px;
+    width: 220px;
+    background: url(../himg/xm_anniu.png);
+}
+#xm-zs-anniu:hover{
+    position: absolute;
+    margin: 90px 0 0 30px;
+    height: 70px;
+    width: 220px;
+    background: url(../himg/xm_anniu_an.png);
+}
+
+
+#yemian1{
+    margin: 90px 0 0 0;
+}
+#main{
+    width:1200px;
+    height: 600px;
+    /*background:#ffffff;*/
+    margin:auto auto;
+}
+ .div1{
+     width: 600px;
+     height:200px;
+     float: left;
+     display: table-cell;
+     vertical-align: middle;
+ }
+#hd-box1{
+    float: left;
+
+}
+#hd-box2{
+    float: right;
+}
+ .sy-icon{
+     width: 180px;
+     height: 120px;
+     margin: 20px 0 0 0;
+     float: left;
+     position: absolute;
+ }
+.div1 dl{
+     margin: 24px 0 0 200px;
+}
+
+                                                /*main3设置*/
+#xm-main3{
+    height: 880px;
+    width: 100%;
+    clear: both;
+    margin: 0 auto;
+    background: url(../himg/xiangmu_banner2.png);
+}
+#xm-main3-zi{
+    margin: 0 auto;
+    width: 1200px;
+    text-align: center;
+    padding: 60px 0 0 0;
+
+}
+#xm-m3-tu{
+    width: 1200px;
+    height: 880px;
+    margin:0 auto;
+   /* text-align: center;*/
+}
+#phone2{
+    width: 360px;
+    height: 592px;
+    padding-top:16px ;
+    padding-left: 40px;
+    float: left;
+}
+
+#chat1{
+     width: 640px;
+     height: 260px;
+     background: url(../himg/Quote.png);
+     margin-top: 160px;
+    float: left;
+
+ }
+#chat1 p{
+    width: 400px;
+    margin: 0 auto;
+    padding: 40px 20px 0 40px;
+	line-height:1.5;
+
+}
+.color-6{
+	color:#F00;
+	}
+.btcolor{font-size:36px;font-weight:bold;color:#ffffff;}
+#down{
+    width: 1200px;
+    height: 600px;
+    margin: auto auto;
+    background: #ffffff;
+    clear: both;
+}
+
+.down-ma{
+    width: 900px;
+    height: 500px;
+    margin: 0 auto;
+    overflow:hidden;
+}
+.down_anzhuo,.down_ios{
+	width:257px;
+	height:329px;
+	position:relative;
+}
+.down_anzhuo{
+	float:left;
+}
+.down_ios{
+	float:right;
+}
+.down_anzhuo .m1,.down_ios .m1{
+	width:100%;
+	position:absolute;
+	top:50%;
+	-moz-transform:translateY(-50%);
+	-webkit-transform:translateY(-50%);
+	transform:translateY(-50%);
+	display:none;
+}
+.down_anzhuo:hover > .m1{display:block;}
+.down_anzhuo:hover > .m2{display:none;}
+
+.down_ios:hover > .m1{display:block;}
+.down_ios:hover > .m2{display:none;}
+
+
+div p.biaoti{
+   font-size: 34px;
+   text-align: center;
+   padding: 80px 0 50px 0;
+   font-weight:bold;
+   color:#999999;
+ }
+.font-2{
+	line-height:1.8;
+	color:#666666;
+	}
+#foot{
+    width: 100%;
+    height: 274px;
+    margin: auto auto;
+    background: #212123;
+    clear: both;
+    z-index:100;
+}
+
+#ft-top{
+    width: 1200px;
+    margin: 0 auto;
+    height: 216px;
+}
+#ylb-ft-z{
+    float:left;
+    width: 628px;
+    height: 216px;
+	color:#666666;
+	line-height:2.0;
+	padding:80px 0px 0px 20px;
+	font-size:30px;
+}
+
+#ylb-lg{
+    background: url(../himg/pc-logo.png);
+    float: left;
+    width: 120px;
+    height: 137px;
+    margin-top: 50px;
+}
+#ft-top dl{
+    display:inline-block;
+    width: 628px;
+    padding: 40px 0 0 88px;
+}
+
+#ul1{
+    display:inline-block;
+    width: 628px;
+    padding: 50px 0 0 88px;
+}
+#ul1 li{
+    display:inline-block;
+
+}
+#ft-lx{
+    display:inline-block;
+    width: 300px;
+    margin-top: 40px;
+	float:right;
+}
+#ft-lx ul li{
+    line-height: 30px;
+    float: left;
+    width: 452px;
+
+}
+#ft-lx ul li img{
+      float: left;
+	  width:24px;
+	  height:24px;
+	  margin-right:6px;
+	  margin-top:4px;
+  }
+ #ft-lx ul li p{
+     line-height: 30px;
+	 color:#666;
+ }
+#ft-bottom{
+    height: 48px;
+    width: 100%;
+	line-height:48px;
+    margin:0 auto;
+    margin-top: 10px;
+    text-align: center;
+	clear:both;
+}

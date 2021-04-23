@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+    <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+    <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+    <script src="statics/admin/js/bootstrap.min.js"></script>
+    {template public-new-ui-header}
+    <style type='text/css'>
+        .rules-1{
+            float: left;
+            height: 35px;
+            line-height: 35px;
+            padding-right:10px;
+        }
+        .rules-2{
+            float: left;
+            height: 35px;
+            line-height: 35px;
+            padding:0 10px 0 10px;
+        }
+        .rules-3{
+            float: left;
+            width: 20%;
+        }
+    </style>
+</head>
+<body class="new_ui_body">
+<div class="ibox float-e-margins">
+    <div class="ibox-title iboxWTitle">
+        <h5>任务限制</h5>
+    </div>
+    <div class="ibox-content bagCol">
+        <div class="ibox-title ">
+            <h5>配置详情</h5>
+            <div class="ibox-tools">
+                <a class="btn btn-white btn-bitbucket btn_sure" id="update" data-title="修改"><i class="fa fa-pencil"></i> </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <form id='form_update' method="post" class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label"></label>
+                    <div class="col-sm-7">
+                        <span class="rules-1">用户当天有效充值达到</span>
+                        <input class="form-control rules-3" name="recharge" value="{$config['recharge']}" type="number" disabled="disabled" />
+                        <span class="rules-2">或者，当天有效投注达到</span>
+                        <input class="form-control rules-3" name="betting" value="{$config['betting']}" type="number" disabled="disabled" />
+                        <span class="rules-2">元宝，可以参与活动</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<body>
+<script type="text/javascript">
+    var loading = "";//加载中......
+
+    $(function () {
+        $(".btn_sure").click(function () {
+            var form_id = 'form_' + $(this).attr('id');
+            var i_class = $(this).children('i').attr('class');
+            if (i_class == 'fa fa-pencil') {
+                $(this).attr('data-title', '保存');
+                $(this).children('i').attr('class', 'fa fa-save');
+                $('#' + form_id).find('input').each(function() {
+                    $(this).attr('disabled', false);
+                });
+                $('#' + form_id).find('select').each(function() {
+                    $(this).attr('disabled', false);
+                });
+            }else {
+                var data = {
+                    'recharge':$("[name='recharge']").val(),
+                    'betting':$("[name='betting']").val(),
+                }
+                var url = '?m=admin&c=activity&a=taskLimitAct';
+
+                $.ajax({
+                    url: url,
+                    data: data,
+                    dataType: 'json',
+                    type: 'post',
+                    error: function (e) {
+                        layer.close(loading);
+                        console.log(e);
+                        layer.msg('网络错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                    },
+                    success: function (result) {
+                        layer.close(loading);
+                        if (result.code == 0) {
+                            layer.msg('操作成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                location.reload();
+                            });
+                        }else {
+                            layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']});
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>
+</body>
+</html>

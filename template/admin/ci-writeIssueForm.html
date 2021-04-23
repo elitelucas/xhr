@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+<html lang="zh-cn">
+
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title></title>
+
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+
+    <!--  <link rel="stylesheet" href="statics/admin/css/pintuer.css"> -->
+
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+
+    <script src="statics/admin/js/jquery.js"></script>
+
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+
+    <script src="statics/admin/js/pintuer.js"></script>
+
+
+
+    <!-- template-begin+++ -->
+
+    {template public-new-ui-header}
+
+    <!-- template-end+++ -->
+
+    <script src="statics/admin/js/jquery.date_input.pack.js"></script>
+
+    <link rel="stylesheet" href="statics/admin/jedate/skin/jedate.css">
+
+    <script type="text/javascript" src="statics/admin/jedate/jquery.jedate.min.js"></script>
+
+</head>
+
+<body style="margin: 15px;background-color: #f3f3f4;">
+
+<div class="ibox float-e-margins">
+
+    <div class="ibox-title iboxWTitle">
+
+        <h5>手工生成期号</h5>
+
+    </div>
+
+    <div class="ibox-content bagCol">
+
+        <div class="ibox-title">
+
+            <h5>详情</h5>
+
+        </div>
+
+        <div class="ibox-content">
+
+            <form method="post" class="form-horizontal form-x" id="form">
+
+
+
+                <div class="form-group">
+
+                    <label class="col-sm-2 control-label">彩种</label>
+
+                    <div class="col-sm-3">
+
+                        <select name="lottery_type" class="form-control m-b lottery_type">
+
+                            {loop $lottery_type_arr $l_id $l_val}
+
+                            <option value="{$l_id}">{$l_val}</option>
+
+                            {/loop}
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label class="col-sm-2 control-label">开奖期号</label>
+
+                    <div class="col-sm-3">
+
+                        <input type="number" class="form-control" value="" name="issue" id="issue" placeholder="期号必须是历史开奖期号，且只能填入当天期号" />
+
+                        <p style="color: gray;padding-top: 10px;">期号必须是历史开奖期号，且只能填入当天期号</p>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label class="col-sm-2 control-label">开奖时间</label>
+
+                    <div class="col-sm-3">
+
+                        <div class="input-group">
+
+                            <input type="text" class="date_picker form-control" value="" name="open_time" id="open_time" />
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label class="col-sm-2 control-label"></label>
+
+                    <div class="col-sm-3">
+
+                        <div class="input-group">
+
+                            <input type="hidden" name="lottery_type" value="{$lottery_type}"/>
+
+                            <button class="btn btn-primary" type="button" id="btn_submit">提交</button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script type="text/javascript">
+
+    var loading = "";//加载中......
+
+    var type = 1;
+
+    //或者为这样的
+
+    $("#open_time").jeDate({
+
+        isinitVal:true,
+
+        festival:true,
+
+        ishmsVal:true,
+
+        minDate: '2016-06-16 23:59:59',
+
+        maxDate: $.nowDate(0),
+
+        format:"YYYY-MM-DD hh:mm:ss",
+
+        zIndex:3000,
+
+    })
+
+
+
+
+
+    //提交
+
+    $("body").on("click","#btn_submit",function(){
+
+        //合理校验
+
+        if ($("#issue").val() == "") {
+
+            layer.msg('开奖期号不能为空', {icon: 5, shade: [0.5, '#393D49']});
+
+            return false;
+
+        }
+
+        if ($("#open_time").val() == "") {
+
+            layer.msg('开奖时间不能为空', {icon: 5, shade: [0.5, '#393D49']});
+
+            return false;
+
+        }
+
+
+
+        if (type === 1) {
+
+            issue = $("#issue").val();
+
+            open_time = $("#open_time").val();
+
+
+
+            $(".lottery_type").attr("readonly", "readonly");
+
+            $("#issue").val("");
+
+            $("#open_time").val("");
+
+            $("#btn_submit").html("再次确认");
+
+            type = 2;
+
+            return false;
+
+        }
+
+        //校验两次输入是否一致
+
+        if (issue !== $("#issue").val()) {
+
+            layer.msg('两次输入的开奖期号不一致', {icon: 5, shade: [0.5, '#393D49']});
+
+            return false;
+
+        }
+
+        //校验两次输入是否一致
+
+        if (open_time !== $("#open_time").val()) {
+
+            layer.msg('两次输入的开奖时间不一致', {icon: 5, shade: [0.5, '#393D49']});
+
+            return false;
+
+        }
+
+
+
+        $.ajax({
+
+            url : '?m=admin&c=compareissue&a=writeIssueIntoFile',
+
+            type : 'get',
+
+            dataType: 'JSON',
+
+            data : {
+
+                lottery_type : $(".lottery_type").val(),
+
+                begin_create_time : open_time,
+
+                begin_create_issue : issue,
+
+            },
+
+            beforeSend:function(){
+
+                loading = layer.load(1);
+
+            },
+
+            success : function () {
+
+
+
+                layer.msg('提交成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+
+                    location.reload();
+
+                });
+
+            },
+
+            error : function () {
+
+                layer.close(loading);
+
+                layer.msg('网络异常！开奖需要时间，请到开奖列表检查结果！', {icon: 5, shade: [0.5, '#393D49']});
+
+            },
+
+            complete:function(){
+
+                layer.close(loading);
+
+            }
+
+        });
+
+    })
+
+
+
+</script>
+
+</body>
+
+</html>

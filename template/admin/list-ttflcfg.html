@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <!--  <link rel="stylesheet" href="statics/admin/css/pintuer.css"> -->
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+    <script src="statics/admin/js/pintuer.js"></script>
+    <script src="statics/admin/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- template-begin+++ -->
+    {template public-new-ui-header}
+    <!-- template-end+++ -->
+    <script src="statics/admin/js/jquery.date_input.pack.js"></script>
+    <link rel="stylesheet" href="statics/admin/jedate/skin/jedate.css">
+    <script type="text/javascript" src="statics/admin/jedate/jquery.jedate.min.js"></script>
+
+    <!-- 图片上传 引入插件 -->
+    <script src="statics/admin/fileupload/js/vendor/jquery.ui.widget.js"></script>
+    <script src="statics/admin/fileupload/js/jquery.fileupload.js"></script>
+
+    <style type='text/css'>
+        #page{height: 60px;margin-top: 20px;text-align: center;}
+        #page ul li{float: left;margin-right:10px;}
+        #page ul .current{ background-color:#0099ff;text-align:center;}
+        .table td div.username{
+            height: 23px;
+            overflow: hidden;
+            white-space:nowrap;
+            text-overflow: ellipsis;
+        }
+        .table tbody tr td{
+            vertical-align: middle;
+        }
+        .table>thead>tr>th {
+            vertical-align: middle;
+        }
+        .rules-1{
+            float: left;
+            height: 35px;
+            line-height: 35px;
+            padding-right:10px;
+            padding-left:10px;
+        }
+        .rules-2{
+            float: left;
+            height: 35px;
+            line-height: 35px;
+            padding:0 10px 0 30px;
+        }
+        .rules-3{
+            float: left;
+            width: 20%;
+        }
+    </style>
+</head>
+<body style="margin: 15px;background-color: #f3f3f4;">
+<div class="ibox float-e-margins">
+    <div class="ibox-title iboxWTitle">
+        <h5>天天返利配置</h5>
+    </div>
+
+    <div class="ibox-content bagCol">
+        <div class="ibox-title">
+            <h5>配置详情</h5>
+        </div>
+        <div class="ibox-content">
+            <form method="post" class="form-horizontal" id="form">
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">起始时间</label>
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <input style="width: 25%" type="text" name="start_time" id="start_time" class="date_picker form-control" value="{$data['data']['start_time']}" />
+                                <span style="float: left;line-height: 34px;padding: 0 20px 0 20px;">至</span>
+                                <input style="width: 25%;margin-right: 30px;" type="text" name="end_time" id="end_time" class="date_picker form-control" value="{$data['data']['end_time']}" />
+                                <span style="float: left;line-height: 34px;padding: 0 20px 0 20px;">（两项不填则默认活动关闭--开始时间是设置日期的0时0分0秒，结束时间是设置日期的23时59分59秒）</span>
+                                <button class="btn btn-primary" type="button" onclick="upRecord(1)">修改内容</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">金额限制</label>
+                    <div class="col-sm-7">
+                        <span class="rules-1" style="padding-left:0px;">金额上限</span>
+                        <input class="form-control rules-3" name="max_money" id="max_money" value="{$data['data']['max_money']}" type="text" placeholder="请输入上限" />
+                        <span class="rules-2">金额下限</span>
+                        <input class="form-control rules-3" name="low_money" id="low_money" value="{$data['data']['low_money']}" type="text" placeholder="请输入下限" />
+                        <button style="margin-left: 30px;" class="btn btn-primary" type="button" onclick="upRecord(2)">修改内容</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">赠送配置(¥)</label>
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <span style="float: left;line-height: 34px;padding: 0 10px 0 0px;">第</span>
+                                <input style="width: 15%" type="text" name="cz_cnt" class="form-control" value="{$v['cz_cnt']}" />
+                                <span style="float: left;line-height: 34px;padding: 0 10px 0 10px;">次成功充值</span>
+                                <select class="form-control cz_type" name="cz_type" id="cz_type" style="width: 30%;margin-right: 30px;">
+                                    <option value="">选择满足条件</option>
+                                    <option value="1">充值</option>
+                                    <option value="2">充值次数</option>
+                                    <option value="3">直属充值</option>
+                                    <option value="4">直属充值次数</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group cz_type_1" style="display: none">
+                    <label class="col-sm-2 control-label"></label>
+
+                    <div class="col-sm-9">
+                        <div class="input-group" style="width: 90%">
+                            <select style="width: 150px;margin-right: 10px;" class="form-control cz_type" id="fl_type" name="cz_type">
+                                <option value="">选择返利方式</option>
+                                <option value="1">按比例返利</option>
+                                <option value="2">按范围返利</option>
+                            </select>
+                            <div style="float: left;line-height: 35px;display: none" class="fl_type_1">
+                                <span class="rules-1">每</span>
+                                <input type="text" style="width:100px;" value="{$v['cz_money']}" class="form-control" name="cz_money">
+                                <span class="rules-1">元</span>
+                            </div>
+                            <div style="float: left;line-height: 35px;display: none" class="fl_type_2">
+                                <input type="text" style="width:100px;display:inline-block" value="{$v['cz_money']}" class="form-control" id="s_money">
+                                <span class="rules-1">-</span>
+                                <input type="text" style="width:100px;display:inline-block" value="{$v['cz_money']}" class="form-control" id="e_money">
+                                <span class="rules-1"></span>
+                            </div>
+
+                            <span class="rules-1">返</span>
+                            <input type="text" style="width: 100px;" value="{$v['rt_money']}" class="form-control" name="rt_money">
+                            <select style="width: 80px;margin-right: 30px;" class="form-control" name="rt_type">
+                                <option value="1">元</option>
+                                <option value="2">%</option>
+                            </select>
+                            <button style="float: left;margin-left: 30px;" class="btn btn-primary" type="button" onclick="add_cfg()">添加配置</button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group cz_type_2" style="display: none">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <span style="float: left;line-height: 34px;padding: 0 10px 0 0px;">历史累计充值</span>
+                                <input type="text" style="width: 100px;margin-right: 10px;" value="{$v['cz_money']}" class="form-control" name="cz_money">
+                                <span style="float: left;line-height: 34px;padding: 0 10px 0 0px;">返</span>
+                                <input type="text" style="width: 100px;" value="{$v['rt_money']}" class="form-control" name="rt_money">
+                                <select style="width: 80px;margin-right: 30px;" class="form-control" name="rt_type">
+                                    <option value="1">元</option>
+                                    <option value="2">%</option>
+                                </select>
+                                <button style="margin-left: 30px;" class="btn btn-primary" type="button" onclick="add_cfg()">添加配置</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="row">
+                        <div class="col-sm-9">
+                            {loop $data['list'] $v}
+                            <div class="input-group m-b">
+                                    <input type="hidden" name="id" value="{$v['id']}"/>
+                                    第
+                                    <u>{$v['cz_cnt']}</u>
+                                    次成功充值
+                                    &nbsp;&nbsp;
+                                    <u>
+                                        {if $v['cz_type'] == 1}充值{/if}
+                                        {if $v['cz_type'] == 2}充值次数{/if}
+                                        {if $v['cz_type'] == 3}直属充值{/if}
+                                        {if $v['cz_type'] == 4}直属充值次数{/if}
+                                    </u>
+                                    &nbsp;&nbsp;
+
+                                    {if $v['cz_type'] == 1 or $v['cz_type'] == 3}
+                                    <u>
+                                        {if $v['fl_type'] == 1}按比例返利{/if}
+                                        {if $v['fl_type'] == 2}按范围返利{/if}
+                                    </u>
+                                    &nbsp;&nbsp;
+                                    {if $v['fl_type'] == 1}
+                                    每
+                                    <u>{$v['cz_money']}</u>
+                                    元
+                                    &nbsp;&nbsp;
+                                    {/if}
+                                    {if $v['fl_type'] == 2}
+                                    {loop $v['range'] $y}
+                                    <u>{$y['s_money']}-{$y['e_money']}</u>
+                                    返
+                                    <u>{$y['rt_money']}</u>
+                                    {if $y['rt_type'] == 1}元{/if}
+                                    {if $y['rt_type'] == 2}%{/if}
+                                    &nbsp;&nbsp;
+                                    {/loop}
+                                    {/if}
+                                    {/if}
+                                    {if $v['cz_type'] == 2 or $v['cz_type'] == 4}
+                                    历史累计充值
+                                    <u>{$v['cz_money']}</u>
+                                    次&nbsp;&nbsp;
+                                    {/if}
+                                    <span style="{if ($v['cz_type'] == 1 or $v['cz_type'] == 3) and $v['fl_type'] == 2}display:none;{/if}">
+                                返
+                                <u>{$v['rt_money']}</u>
+                                {if $v['rt_type'] == 1}元{/if}
+                                {if $v['rt_type'] == 2}%{/if}
+                                </span>
+                                    <button class="btn btn-primary remove_btn" type="button" onclick="remove_cfg(this)"> 删除</button>
+                            </div>
+                            {/loop}
+                        </div>
+                    </div>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+</div>
+
+        <script type="text/javascript">
+            var loading = "";//加载中......
+
+            //添加记录
+            function add_cfg() {
+                var max_rt = parseInt("{$data['data']['max_money']}");
+                var min_rt = parseInt("{$data['data']['low_money']}");
+                var cz_cnt = parseInt($("input[name='cz_cnt']").val());
+                var cz_type = $("select[name='cz_type']").val();
+                var cz_money = parseInt($("input[name='cz_money']:visible").val());
+
+                if (cz_type == 2 || cz_type ==4) {
+                    var rt_money = parseFloat($(".cz_type_2").find("input[name='rt_money']").val());
+                } else {
+                    var rt_money = parseFloat($(".cz_type_1").find("input[name='rt_money']").val());
+                }
+
+                var rt_type = parseInt($("select[name='rt_type']").val());
+                var fl_type = $("#fl_type").val();
+                var s_money = parseInt($("#s_money").val());
+                var e_money = parseInt($("#e_money").val());
+                var number_reg = /^\d+$/; //正整数
+                if(cz_type == ""){
+                    layer.msg("选择满足条件！", {icon: 5, shade: [0.5, '#393D49']});
+                    return false;
+                }  
+                if(!number_reg.test(cz_cnt) ){
+                    layer.msg("请输入完整参数,参数只能为正整数！", {icon: 5, shade: [0.5, '#393D49']});
+                    return false;
+                }
+                if((cz_type == 1 || cz_type == 3) && fl_type == ""){
+                    layer.msg("请选择返利方式！", {icon: 5, shade: [0.5, '#393D49']});
+                    return false;
+                }             
+                if((cz_type == 2 || cz_type == 4) && !number_reg.test(cz_money)){
+                    layer.msg("请输入累计充值次数！", {icon: 5, shade: [0.5, '#393D49']});
+                    return false;
+                }
+                if((cz_type == 1 || cz_type == 3) && fl_type == 1 && !number_reg.test(cz_money)){
+                    layer.msg("请输入完整参数,参数只能为正整数！", {icon: 5, shade: [0.5, '#393D49']});
+                    return false;
+                }
+                if((cz_type == 1 || cz_type == 3) && (fl_type == 2) && (!number_reg.test(s_money) || !number_reg.test(e_money))){
+                    layer.msg("请输入范围金额！", {icon: 5, shade: [0.5, '#393D49']});
+                    return false;                    
+                }                
+                if((cz_type == 1 || cz_type == 3) && fl_type == 2 && e_money <= s_money){
+                    layer.msg("范围金额输入不正确！", {icon: 5, shade: [0.5, '#393D49']});
+                    return false;                    
+                }
+                if((cz_type == 2 || cz_type == 4) && rt_type == 2){
+                    layer.msg("充值次数返利方式不能为百分比返利！", {icon: 5, shade: [0.5, '#393D49']});
+                    return false;                    
+                }                
+                if((cz_type == 1 || cz_type == 3) && fl_type == 1 && rt_type == 2){
+                    layer.msg("按比例返利不能设置百分比！", {icon: 5, shade: [0.5, '#393D49']});
+                    return false;                    
+                }                
+                if((cz_type == 1 || cz_type == 3) && (rt_money > max_rt || rt_money < min_rt)){
+                    layer.msg("返利金额不满足 '天天返利金额限制' 条件！", {icon: 5, shade: [0.5, '#393D49']});
+                    return false;                    
+                }    
+                
+                $.ajax({
+                    url: '?m=admin&c=message&a=addTTfl',
+                    data: {cz_cnt:cz_cnt,cz_type:cz_type,cz_money:cz_money,rt_money:rt_money,rt_type:rt_type,fl_type:fl_type,s_money:s_money,e_money:e_money},
+                    dataType: 'json',
+                    type: 'post',
+                    beforeSend: function () {
+                        loading = layer.load(1);
+                    },
+                    error: function () {
+                        layer.close(loading);
+                        layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                    },
+                    success: function (result) {
+                        layer.close(loading);
+                        if (result.rt > 0) {
+                            layer.msg('添加成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                location.reload();
+                            });
+                        } else if(result.rt == -999){
+                            layer.msg('添加范围不正确！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        } else if(result.rt == -998){
+                            layer.msg('不能重复添加！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        } else{
+                            layer.msg('添加失败！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        }
+                    }
+                });
+            }
+
+            //修改主干信息
+            function upRecord(type) {
+                var data = "";
+                if (type == 1) {
+                    var start_time = $("#start_time").val();
+                    var end_time = $("#end_time").val();
+                    if(start_time > end_time){
+                        layer.msg('开始时间不能大于结束时间！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        return false;
+                    }
+                    data = {start_time: start_time, end_time: end_time};
+                }
+                if (type == 2) {
+                    var low_money = parseInt($("#low_money").val());
+                    var max_money = parseInt($("#max_money").val());
+                    
+                    if(low_money >= max_money){
+                        layer.msg('金额上限必须大于金额下限！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        return false;
+                    }                    
+                    data = {low_money: low_money, max_money: max_money};
+                }
+                $.ajax({
+                    url: '?m=admin&c=message&a=upTTfl',
+                    data: data,
+                    dataType: 'json',
+                    type: 'post',
+                    beforeSend: function () {
+                        loading = layer.load(1);
+                    },
+                    error: function () {
+                        layer.close(loading);
+                        layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                    },
+                    success: function (result) {
+                        layer.close(loading);
+                        if (result.rt) {
+                            layer.msg('修改成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                location.reload();
+                            });
+                        } else {
+                            layer.msg('修改失败！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        }
+                    }
+                });
+            }
+
+            //删除记录
+            function remove_cfg(note) {
+                var id = $(note).closest("div").find("input[name='id']").val();
+
+                $.ajax({
+                    url: '?m=admin&c=message&a=delTTfl',
+                    data: {id: id},
+                    dataType: 'json',
+                    type: 'post',
+                    beforeSend: function () {
+                        loading = layer.load(1);
+                    },
+                    error: function () {
+                        layer.close(loading);
+                        layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                    },
+                    success: function (result) {
+                        layer.close(loading);
+                        if (result.rt) {
+                            layer.msg('删除成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                location.reload();
+                            });
+                        } else {
+                            layer.msg('删除失败！！！', {icon: 5, shade: [0.5, '#393D49']});
+                        }
+                    }
+                });
+            }
+            
+            $(function () {
+                $("#cz_type option[value='']").attr("selected",true);
+                $(".date_picker").jeDate({
+                    ishmsVal:true,
+                    format:"YYYY-MM-DD",
+                    zIndex:3000,
+                });
+
+
+
+                $("#cz_type").change(function(){
+                    var value = $(this).val();
+                    if (value != '' && (value == 1 || value == 3)) {
+                        $(".cz_type_1").show().find("input,select").attr("disabled",false);
+                        $(".cz_type_2").hide().find("input,select").attr("disabled",true);
+                    } else if (value != '' && (value == 2 || value == 4)) {
+                        $(".cz_type_1").hide().find("input,select").attr("disabled",true);
+                        $(".cz_type_2").show().find("input,select").attr("disabled",false);
+                    } else {
+                        $(".cz_type_1").hide().find("input,select").attr("disabled",true);
+                        $(".cz_type_2").hide().find("input,select").attr("disabled",true);
+                    }
+                });
+                
+                $("#fl_type").change(function(){
+                    var val = parseInt($(this).val());
+                    if(val == 1){
+                        $(".fl_type_1").show().find("input").attr("disabled",false);
+                        $(".fl_type_2").hide().find("input").attr("disabled",true);
+                    }else{
+                        $(".fl_type_1").hide().find("input").attr("disabled",true);
+                        $(".fl_type_2").show().find("input").attr("disabled",false);
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

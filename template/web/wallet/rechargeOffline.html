@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <title>钱包</title>
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+    <script src="/statics/web/extend/layer/mobile/layer.js"></script>
+</head>
+
+<body>
+    <header>
+        <em onclick="history.go(-1)">返回</em>
+        <h1>{$orderDetail['pay_name']}线下充值</h1>
+        <!---->
+    </header>
+    <section class="pb-0">
+        <div class="modify">
+            <div class="wallet1">
+                <div class="wallet1Tel" style="margin: auto;text-align: center;">
+                    <?php if(!empty($orderDetail['code'])){   ?>
+                    <div style="display: inline-block;">
+                        <img src="{$orderDetail['code']}" width="150" height="150" />
+                        <p>{$orderDetail['pay_name']}扫码支付</p>
+                    </div>
+                    <?php }else{  ?>
+                    <div style="display: inline-block;">
+                        <img src="{$orderDetail['logo']}" />
+                        <p>{$orderDetail['pay_name']}支付</p>
+                    </div>
+                    <?php }?>
+                </div>
+                <div class="wallet1Tel1" style="clear: both;">
+                    {if $payType['classid'] == 14}
+                    <p>微信账号：<span>{$orderDetail['account']}</span><em class="icoCopy" data-clipboard-text="{$orderDetail['account']}"></em></p>
+                    <p>账号名称：<span>{$orderDetail['account_name']}</span><em class="icoCopy" data-clipboard-text="{$orderDetail['account_name']}"></em></p>
+                    {elseif $payType['classid'] == 15}
+                    <p>支付宝账号：<span>{$orderDetail['account']}</span><em class="icoCopy" data-clipboard-text="{$orderDetail['account']}"></em></p>
+                    <p>账号名称：<span>{$orderDetail['account_name']}</span><em class="icoCopy" data-clipboard-text="{$orderDetail['account_name']}"></em></p>
+                    {elseif $payType['classid'] == 17}
+                    <p>QQ账号：<span>{$orderDetail['account']}</span><em class="icoCopy" data-clipboard-text="{$orderDetail['account']}"></em></p>
+                    <p>账号名称：<span>{$orderDetail['account_name']}</span><em class="icoCopy" data-clipboard-text="{$orderDetail['account_name']}"></em></p>
+                    {elseif $payType['classid'] == 18}
+                    <p>云闪付账号：<span>{$orderDetail['account']}</span><em class="icoCopy" data-clipboard-text="{$orderDetail['account']}"></em></p>
+                    <p>账号名称：<span>{$orderDetail['account_name']}</span><em class="icoCopy" data-clipboard-text="{$orderDetail['account_name']}"></em></p>
+                    {else}
+                    <p>开户行：<span>{$orderDetail['branch']}</span><em class="icoCopy" data-clipboard-text="{$orderDetail['branch']}"></em></p>
+                    <p>银行卡号：<span>{$orderDetail['account']}</span><em class="icoCopy" data-clipboard-text="{$orderDetail['account']}"></em></p>
+                    <p>账号名称：<span>{$orderDetail['account_name']}</span><em class="icoCopy" data-clipboard-text="{$orderDetail['account_name']}"></em></p>
+                    {/if}
+                </div>
+            </div>
+            <ul class="lineRecharge-input">
+                <li class="bt-d7">
+                    <label class="icoMoney" for="money">充值金额：
+                        <input type="number" id="money" autocomplete="off" value="{$orderDetail['money']}" readonly>
+                    </label>
+                    <p style="position: absolute;top: 30px;right: 53px; color: #ccc">(人民币)</p>
+                </li>
+                <li>
+                    <label class="icoCode">附加码： <span class="Attached">{$code}</span>
+                        <em class="icoCopy code" data-clipboard-text="{$code}"></em></label>
+                    <input name="payment_id" type="hidden" value="{$orderDetail['payment_id']}" />
+                    <input name="bank_link" type="hidden" value="{$orderDetail['bank_link']}" />
+                </li>
+            </ul>
+            <div class="weixintishi">
+            	<p>【温馨提示】</p>
+            	{if (!empty($prompt))}
+	            	{loop $prompt $v}
+	            		<p>{$v}</p>
+	            	{/loop}
+              	{else}
+	               <p>1.选择您可进行转账的方式</p>
+                   <p>2.通过相应的转账软件，转入我们提供的平台账户</p>
+                   <p>3.转账金额需要和订单充值金额保持一致。</p>
+                   <p>4.在转账时，把附加码填写到备注或附言。</p>
+                {/if}
+            </div>
+            <div class="button m-top60" style="margin-top: 30px !important;">
+                <button class="red-btn bgCol">我已完成支付</button>
+            </div>
+            
+        </div>
+    </section>
+    <script src="/statics/web/js/clipboard.min.js"></script>
+    <script type='text/javascript'>
+        var clipboard = new Clipboard('.icoCopy');
+        var order_sn  = "{$order_sn}";
+        clipboard.on('success', function(e) {
+            console.info('Action:', e.action);
+            console.info('Text:', e.text);
+            console.info('Trigger:', e.trigger);
+            layer.open({
+                content: "复制成功",
+                skin: 'msg',
+                time: 2 //2秒后自动关闭
+            });
+            e.clearSelection();
+        });
+
+    $(function() {
+        var min_recharge = "{$orderDetail['min_recharge']}";
+        var max_recharge = "{$orderDetail['max_recharge']}";
+
+        //充值说明
+        $("#rechargeEx").click(function() {
+            $(".popup").css("display", "block");
+        });
+
+
+        //提交
+        $(".bgCol").click(function() {
+            var money = $("#money").val();
+            var extra_code = $(".icoCode span").html();
+            var id = $("input[name=payment_id]").val();
+            var bank_link = $("input[name=bank_link]").val();
+
+            $.ajax({
+                url: "<?=url('','','setRechargeMusic')?>",
+                type: "post",
+                data: {order_sn: order_sn},
+                dataType: "json",
+                beforeSend:function(){
+                	$(".bgCol").attr("disabled",true);
+                },
+                success: function(result) {
+                    if (result.code == 1) { //成功
+                    	 window.location.href = "<?=url('','','rechargeOk')?>&type=2&order_sn=" + order_sn + "&extra_code=" + extra_code + "&bank_link=" + bank_link;
+                    } else {
+                        layer.open({
+                            content: "<p class='alert_msg'>" + result.msg + "</p>",
+                            btn: '我知道了'
+                        });
+                    }
+
+                },
+                error: function(error) {
+                    layer.open({
+                        content: "<p class='alert_msg'>当前网络异常,请尝试刷新!</p>",
+                        btn: '刷新'
+                        ,yes: function(){
+                            location.reload();
+                        }
+                    });
+                },
+                complete:function(){
+                	$(".bgCol").attr("disabled",false);
+                }
+            });
+           
+        });
+    });
+    </script>
+</body>
+
+</html>

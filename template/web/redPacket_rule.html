@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+    <title>红包活动规则</title>
+    <link href="/statics/web/css/redpacket.css" rel="stylesheet" type="text/css">
+    <script src="/statics/web/js/jquery.1.8.2.min.js"></script>
+    <!-- layer -->
+    <!-- <link rel="stylesheet" href="/statics/web/extend/layui/css/layui.css">
+    <script src="/statics/web/extend/layui/layui.js"></script> -->
+    <script src="/statics/web/extend/layer/mobile/layer.js"></script>
+    <!-- layer - end -->
+</head>
+<body class="bg-f5">
+<section class="redpacket">
+
+    <div class="header">
+        <em onclick="javascript :history.go(-1);">返回</em>
+        <h1>活动规则</h1>
+        <!--<a class="goto-rule" href="?m=web&c=redpacket&a=redPacket">活动规则</a>-->
+    </div>
+
+    <div class="rule-con">
+        <ul>
+            <li>会员组：<span></span>。</li>
+        </ul>
+        <ul>
+            <!--<li>上线次数大于等于10</li>-->
+            <!--<li>有效打码量大于等于1000</li>-->
+            <!--<li>充值次数大于等于10</li>-->
+            <!--<li>充值额度大于等于10000</li>-->
+        </ul>
+
+        <div class="valid-time">红包活动时间(<span></span>)内需满足会员组条件并同时满足其他条件中一个方可领取红包。</div>
+
+        <div class="condition-check"><span class="check">查看我的条件</span></div>
+    </div>
+
+    <div class="popupAlert" style="display: none;">
+        <div class="myCondition">
+            <div class="tit-condition">我的条件</div>
+            <ul>
+                <!--<li>我的代理级别：一级代理</li>-->
+                <li>我的会员层级：<em></em><span class="yes"><i class="allright"></i> 满足</span></li>
+            </ul>
+            <ul>
+                <!--<li>有效打码量1000</li>-->
+                <!--<li>充值次数10次</li>-->
+                <!--<li>充值额度10000</li>-->
+            </ul>
+
+            <div class="btn-condition"><button class="confirm">我知道了</button></div>
+        </div>
+    </div>
+
+</section>
+
+<script type="text/javascript">
+    $(".check").bind("click",function(){
+        $(".popupAlert").show();
+        $(".myCondition").show();
+        $(".myCondition").find('.confirm').off().on('click', function () {
+            $(".popupAlert").hide();
+            $(".myCondition").hide();
+        });
+
+    });
+
+    $.ajax({
+        url: "?m=api&c=redpacket&a=redpacketRules",
+        type: "post",
+        data: {
+            redpacket_id : '{$redpacket_id}',
+            token : '{$token}',
+        },
+        dataType: "json",
+        success: function(data) {
+            console.log(data);
+            var ht='';
+            var ht2='';
+            var rules = data.redpacket_rules_arr;
+            var reach = data.self_reach_arr;
+            if (data.status == 0) {
+                //活动规则
+                $(".rule-con ul").eq(0).find("span").html(data.redpacket_group_limit_arr.join(","));
+                for (var i = 0; i < rules.length; i++) {
+                    ht += '<li>' + rules[i] + '</li>';
+                }
+                $(".rule-con ul").eq(1).append(ht);
+                $(".valid-time span").html(data.redpacket_duration);
+
+                //我的条件
+                $(".myCondition ul").eq(0).find("em").html(data.self_group);
+                if(data.self_is_group_reach == 1){
+                    $(".yes").show();
+                }
+                for (var i = 0; i < reach.length; i++) {
+                    if(reach[i].is_reach == 1){
+                        ht2 += '<li>' + reach[i].rules_txt + '<span class="yes" style="display: block"><i class="allright"></i> 满足</span></li>';
+                    }else{
+                        ht2 += '<li>' + reach[i].rules_txt + '</li>';
+                    }
+                }
+                $(".myCondition ul").eq(1).append(ht2);
+
+                //判断是否达到进入资格
+            } else if(data.status == 1202) {
+                window.location.href = "<?=url('','user','login')?>";
+            } else {
+                layer.open({
+                    content: data.ret_msg,
+                    skin: 'msg',
+                    time: 2 //2秒后自动关闭
+                });
+            }
+        },
+        error: function(error) {
+            layer.open({
+                content: '服务器出错了',
+                skin: 'msg',
+                time: 2 //2秒后自动关闭
+            });
+        }
+    });
+
+</script>
+</body>
+</html>

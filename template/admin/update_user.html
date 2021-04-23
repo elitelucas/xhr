@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="renderer" content="webkit">
+        <title>网站信息</title>  
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+        <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>
+        <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+        <script src="statics/admin/js/pintuer.js"></script> 
+        {template public-new-ui-header}
+    </head>
+    <body class="new_ui_body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title iboxWTitle">
+                        <h5>修改会员资料</h5>
+                        <div class="ibox-tools">
+                            <a href="javascript:;" class="btn btn-white btn-bitbucket" onclick="history.go(-1);">
+                                <i class="fa fa-reply"></i>返回
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content bagCol" style="width: 100%;">
+                        <form method="" class="form-x" action="" id='form'>
+                            <input type="hidden" name="id"  value="{$data['id']}"/>
+                            <div class="ibox-title">
+                                <h5>会员资料</h5>
+                            </div>
+                            <div class="ibox-content m-b" style="width: 100%;">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>会员账号</label>
+                                        <div class="col-sm-4">
+                                            <input class="w50 form-control" readonly type="text" name="username" id="user" value="{$data['username']}" />
+                                            <div class="tipss"></div>
+                                        </div>
+                                    </div>
+                                    {if in_array(1,$show_user_info)}
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>姓名</label>
+                                        <div class="col-sm-4">
+                                            <input class="w50 form-control" type="text" name="realname" value="{$data['realname']}" />
+                                            <div class="tipss"></div>
+                                        </div>
+                                    </div>
+                                    {/if}
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>会员组</label>
+                                        <div class="col-sm-4">
+                                            <select name="group_id" class="input form-control" onchange="changesearch()"  style="width:150px; line-height:17px;display:inline-block">
+                                                {loop $group $o}
+                                                <option value="{$o['id']}" {if $data['group_id']==$o['id']} selected="selected" {else} {/if}>{$o['name']}</option>
+                                                {/loop}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>会员层级</label>
+                                        <div class="col-sm-4">
+                                            <select name="layer_id" class="input form-control"  style="width:150px; line-height:17px;display:inline-block">
+                                                {loop $layer $l}
+                                                <option value="{$l['layer']}" {if $data['layer_id']==$l['layer']} selected="selected" {else} {/if}>{$l['layer']}</option>
+                                                {/loop}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    {if in_array(1,$show_user_info)}
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>手机号</label>
+                                        <div class="col-sm-4">
+                                            <input class="w50 form-control" type="text" name="mobile" value="{$data['mobile']}" />
+                                            <div class="tipss"></div>
+                                        </div>
+                                    </div>
+                                    {/if}
+
+                                    {if in_array(1,$show_user_info)}
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>QQ号</label>
+                                        <div class="col-sm-4">
+                                            <input class="w50 form-control" type="text" name="qq" value="{$data['qq']}" />
+                                            <div class="tipss"></div>
+                                        </div>
+                                    </div>
+                                    {/if}
+                                    {if in_array(1,$show_user_info)}
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>邮箱</label>
+                                        <div class="col-sm-4">
+                                            <input class="w50 form-control" type="text" name="email" value="{$data['email']}" />
+                                            <div class="tipss"></div>
+                                        </div>
+                                    </div>
+                                    {/if}
+                                    {if in_array(1,$show_user_info)}
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>微信</label>
+                                        <div class="col-sm-4">
+                                            <input class="w50 form-control" type="text" name="weixin" value="{$data['weixin']}" />
+                                            <div class="tipss"></div>
+                                        </div>
+                                    </div>
+                                    {/if}
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>历史记录</label>
+                                        <div class="col-sm-4">
+                                            <div style="width:900px;height:200px;background-color: menu;padding: 10px 10px; overflow: scroll">
+                                                {loop $list $v}
+                                                <div style="line-height: 30px;">
+                                                    操作人：{$v['change_name']} &nbsp;&nbsp;
+                                                    操作时间：{$v['time']} &nbsp;&nbsp;
+                                                    IP：{$v['ip']} &nbsp;&nbsp;
+                                                </div>
+                                                {/loop}
+                                            </div>
+                                            <div class="tipss"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-4 col-sm-offset-2">
+                                            <button class="btn btn-primary" type="button" id="btn">提交</button>
+                                            &nbsp;
+                                            <button class="btn btn-white" type="button" onclick="history.go(-1);">取消</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <script>
+        $(function () {
+            var loading = ""; 
+            $('#btn').bind('click', function () {
+                var data = $('#form').serialize();
+                $.ajax({
+                    type: 'GET',
+                    url: '?m=admin&c=user&a=update_user_ok&id={$data["id"]}',
+                    data: data,
+                    dataType: 'json',
+                    beforeSend:function(){
+                        loading = layer.load(1);
+                    },
+                    success: function (msg) {
+                        layer.close(loading);
+                        if (msg.rt) {
+                            layer.msg('修改成功', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                // location.href = "?m=admin&c=user&a=detail&id={$data['id']}";
+                                history.go(-1);
+                            });
+                        } else {
+                            layer.msg('修改失败', {icon: 5, shade: [0.5, '#393D49']});
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+    </body>
+</html>

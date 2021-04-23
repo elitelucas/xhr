@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="renderer" content="webkit">
+<title></title>
+<link rel="stylesheet" href="statics/admin/css/pintuer.css">
+<link rel="stylesheet" href="statics/admin/css/admin.css">
+<link rel="stylesheet" href="statics/admin/css/datePicker.css">
+<script src="statics/admin/js/jquery.js"></script>
+<script src="statics/admin/js/jquery.min.js" type="text/javascript"></script>
+<script src="statics/admin/js/pintuer.js"></script>  
+<script src="statics/admin/js/jquery.date_input.pack.js"></script>  
+<style type='text/css'>
+
+ #page{height: 60px;margin-top: 20px;text-align: center;}
+ #page ul li{float: left;margin-right:10px;}
+ #page ul .current{ background-color:#0099ff;text-align:center;}
+</style>
+</head>
+<body>
+<form action='?m=admin&c=user&a=search_black' method='post'>
+  <div class="panel admin-panel">
+    <div class="panel-head"><strong class="icon-reorder">会员累计金额统计</strong> <a href="" style="float:right; display:none;">添加字段</a></div>
+    <div class="padding border-bottom">
+      <ul class="search" style="padding-left:10px;">
+	    <li>
+          会员账号：<input type="text" placeholder="" name="username" class="input" style="width:130px; line-height:17px;display:inline-block" value='<?php echo $serdata['username'];?>'/>
+		</li>
+		 <li>
+          真实姓名：<input type="text" placeholder="" name="realname" class="input" style="width:130px; line-height:17px;display:inline-block" value="<?php echo $serdata['realname'];?>"/>
+		</li>
+		 <li>
+          IP地址：<input type="text" placeholder="" name="regip" class="input" style="width:130px; line-height:17px;display:inline-block" value="<?php echo $serdata['regip'];?>"/>
+		</li>
+		
+        <li>
+          <input type='submit' class="button border-main icon-search" value='搜索'>
+		</li>
+      </ul>
+    </div>
+    <table class="table table-hover text-center">
+        <tr>
+         <th width="5%">账号</th>     
+         <th>真实姓名：</th>  
+         <th>IP</th>
+		 <th>设备</th>
+         <th>添加时间</th>		 
+         <th width="250">备注</th>
+        </tr>
+	   {loop $data $v}
+		<tr height='30'>
+		  <td><?php echo $v['username'];?></td>      
+		  <td><?php echo $v['realname'];?></td>  
+		  <td><?php echo $v['regip'];?></td>
+		  <td></td>
+		  <td><?php echo date('Y-m-d H:i:s',$v['regtime']);?></td>   
+		  <td><?php echo '';?></td> 
+		</tr> 
+   	    {/loop}
+    </table>
+  </div>
+</form>
+<script type="text/javascript">
+//时间插件
+ $(function(){
+	$('#datePicker').date_input();
+	})
+
+//搜索
+function changesearch(){	
+		
+}
+
+//单个删除
+function del(id,mid,iscid){
+	if(confirm("您确定要删除吗?")){
+		
+	}
+}
+
+//全选
+$("#checkall").click(function(){ 
+  $("input[name='id[]']").each(function(){
+	  if (this.checked) {
+		  this.checked = false;
+	  }
+	  else {
+		  this.checked = true;
+	  }
+  });
+})
+
+//批量删除
+function DelSelect(){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){
+		var t=confirm("您确认要删除选中的内容吗？");
+		if (t==false) return false;		
+		$("#listform").submit();		
+	}
+	else{
+		alert("请选择您要删除的内容!");
+		return false;
+	}
+}
+
+//批量排序
+function sorts(){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){	
+		
+		$("#listform").submit();		
+	}
+	else{
+		alert("请选择要操作的内容!");
+		return false;
+	}
+}
+
+
+//批量首页显示
+function changeishome(o){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){
+		
+		$("#listform").submit();	
+	}
+	else{
+		alert("请选择要操作的内容!");		
+	
+		return false;
+	}
+}
+
+//批量推荐
+function changeisvouch(o){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){
+		
+		
+		$("#listform").submit();	
+	}
+	else{
+		alert("请选择要操作的内容!");	
+		
+		return false;
+	}
+}
+
+//批量置顶
+function changeistop(o){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){		
+		
+		$("#listform").submit();	
+	}
+	else{
+		alert("请选择要操作的内容!");		
+	
+		return false;
+	}
+}
+
+
+//批量移动
+function changecate(o){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){		
+		
+		$("#listform").submit();		
+	}
+	else{
+		alert("请选择要操作的内容!");
+		
+		return false;
+	}
+}
+
+//批量复制
+function changecopy(o){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){	
+		var i = 0;
+	    $("input[name='id[]']").each(function(){
+	  		if (this.checked==true) {
+				i++;
+			}		
+	    });
+		if(i>1){ 
+	    	alert("只能选择一条信息!");
+			$(o).find("option:first").prop("selected","selected");
+		}else{
+		
+			$("#listform").submit();		
+		}	
+	}
+	else{
+		alert("请选择要复制的内容!");
+		$(o).find("option:first").prop("selected","selected");
+		return false;
+	}
+}
+
+</script>
+</body>
+</html>

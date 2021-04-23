@@ -1,0 +1,67 @@
+{template header}
+  <!-- Investor_center -->
+  <link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+  
+  <!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+      <li class="active">我的账户</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->
+  {template member-nav-left}
+    
+    <!-- 右边正文 -->
+    <div class="investor-right pull-right border-radius">
+      <div class="investor-title">站内短信</div>
+        <div class="pull-left"><a class="btn btn-warning" href="<?=url('member','msg','index')?>">返回消息列表</a>
+            &nbsp;&nbsp;&nbsp;&nbsp;{if !empty($s_id['id'])}<a class="btn btn-warning" href="<?=url('member','msg','disp',array('id'=>$s_id['id']))?>">上一条</a>
+        &nbsp;{/if}{if !empty($x_id['id'])}&nbsp;<a class="btn btn-warning" href="<?=url('member','msg','disp',array('id'=>$x_id['id']))?>">下一条</a>{/if}
+        </div>
+        <form id='myform'>
+        <div class="pull-right"><input type="hidden" name='checkboxid[]' value="{$id}">
+            <a class="btn btn-default" href="javascript:void(0);">删除</a></div>
+       </form>
+        <div class="clearfix"></div>
+        <div class="msg-box">
+          <div class="msg-title">
+            <div class="pull-left">标题：</div>
+            <div class="pull-right">{$data['title']}</div>
+            <div class="pull-left">发送人：</div>
+            <div class="pull-right">{$data['send_username']}</div>
+            <div class="pull-left">发送时间：</div>
+            <div class="pull-right"><?=date('Y--m-d H:i:s',$data['addtime'])?></div>
+          </div>
+          <div class="msg-content">
+            <p>{$data['content']}</p>
+          </div>
+        </div>
+        
+     </div> 
+  </div>
+  <script type="text/javascript">
+    /*删除*/
+    $('.btn-default').click(function() {
+        if (confirm('您确定要删除吗？')) {  		
+            $.ajax({
+                    url: "<?=url('','','public_delmsg_ajax')?>",
+                    type: 'POST',
+                    data: $('#myform').serialize(),
+                    dataType: 'json',
+                    success: function(data){
+                        if(data){
+                                alert('删除成功!');
+                                window.location.href="<?=url('','','index')?>";
+                        }else
+                        {						
+                                alert('删除失败!');
+                        }
+                    }
+            });
+        }
+    });    
+</script> 
+{template footer}

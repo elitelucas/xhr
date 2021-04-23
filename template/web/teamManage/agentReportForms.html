@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>团队管理</title>
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+    <!-- 新增css -->
+    <!--<link href="/statics/web/css/s_min.css" rel="stylesheet" type="text/css">-->
+    <!-- 新增css - end -->
+
+    <!-- layer -->
+    <script src="/statics/web/extend/layer/mobile/layer.js"></script>
+    <!-- layer - end -->
+
+    <!--时间选择插件-->
+    <link rel="stylesheet" href="/statics/web/extend/datepick/datepick.css">
+    <link rel="stylesheet" href="/statics/web/css/minirefresh.min.css">    
+    <script src="/statics/web/extend/datepick/date.js"></script>
+    <script src="/statics/web/extend/datepick/iscroll.js"></script>
+    <script src="/statics/web/js/minirefresh.min.js"></script>
+    <style>
+        #minirefresh{
+            top: 230px;
+        }
+        .noData{
+            text-align: center;
+            padding: 30px;
+            font-size: 24px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <em onclick="goAccountIndex()">返回</em>
+    <h1>会员报表</h1>
+    <div class="headerRight">
+        <ul>
+            <li id="reset">重置</li>
+        </ul>
+    </div>
+</header>
+<section>
+    <div class="teamWarp">
+        <div class="teamSearchW">
+            <div class="vipreport_date_ico" id="timeSelect">查询时间</div>
+            <div class="vipreport_user_type" id="userType" data-type="{$type}">{if $type == 2}代理+团队{else}代理+直属{/if}</div>
+            <!--<div class="list-search">-->
+                <!--<input type="text" name="user_value" value="{$user_value}" placeholder="搜素账号或昵称">-->
+                <!--<label class="iconfont icon-Search" id="searchSubmit"></label>-->
+            <!--</div>-->
+        </div>
+
+        <div class="time-betting">
+            <span id="startT">查询时间: <em>{$start_time}</em></span><span class="time_text">全部</span><span id="endT"><em>{$end_time}</em></span>
+        </div>
+
+        <div id="minirefresh" class="minirefresh-wrap minirefresh-theme-default vipReport teamReport zhanwei">
+            <div class="minirefresh-scroll">
+                <div class="details details_bet">
+                    <p>注册人数：<span id="regCountUser"></span></p>
+                    <p>登录人数：<span id="logCountUser"></span><p>
+                    <p>团队总人数：<span id="teamCountUser"></span></p>
+                    <p>首存人数：<span id="firstRechargeCountUser"></span></p>
+                    <p>首存额：<span id="firstRechargeCountAmt"></span></p>
+                    <p>入款额：<span id="rechargeCountAmt"></span></p>
+                    <p>出款额：<span id="withdrawCountAmt"></span></p>
+                    <p>中奖额：<span id="winCountAmt"></span></p>
+                    <p>投注额：<span id="betCountAmt"></span></p>
+                    <p>团队总返水：<span id="BackCountAmt"></span></p>
+                    <p>活动优惠：<span id="hdCountAmt"></span></p>
+                    <p>其他收入：<span id="otherCountAmt"></span></p>
+                    <p>团队总盈亏：<span id="teamProfit"></span></p>
+                </div>
+            </div>
+            <div class="noData">没有更多数据了</div>
+        </div>
+    </div>
+
+    <!--底部弹窗-->
+    <div class="mask" style="display: none"></div>
+    <div class="pop-wrap down" id="date-pop">
+        <div class="pop-select pop-bg-white">
+            <div class="title">选择时间</div>
+            <div class="content">
+                <div class="demo">
+                    <div class="lie">日期设置-1:<input  id="beginTime" class="kbtn" /></div>
+                    <div class="lie">日期设置-2:<input id="endTime" class="kbtn" /></div>
+                </div>
+                <div id="datePlugin-begin"></div>
+                <div id="datePlugin-end"></div>
+                <div class="btn_warp"><span id="confirm-getDate">确定</span></div>
+            </div>
+        </div>
+        <div class="bottom-con">
+            <a javascript="void(0)" ; type="button" class="pop-cansel">取消</a>
+        </div>
+    </div>
+
+    <div class="pop-wrap down" id="type-pop">
+        <div class="pop-select">
+            <div class="title">选择搜索类型</div>
+            <div class="content">
+                <ul class="content-inner clearfix">
+                    <li data-type="1" class="active">代理+直属</li>
+                    <li data-type="2">代理+团队</li>
+                </ul>
+            </div>
+        </div>
+        <div class="bottom-con">
+            <a javascript="void(0)" ; type="button" class="pop-cansel">取消</a>
+        </div>
+    </div>
+
+</section>
+<script type="text/javascript">
+    var token = '{$token}';
+    var typeId = 0;
+    var id; //时间选择插件变量
+    var data = new Object();
+    data.token = token;
+    data.start_time = '';
+    data.end_time = '';
+    data.online = typeId;
+    data.page=1;
+    data.user_type = '';
+    data.user_value = '';
+
+    $(function(){
+        //初始化时间选择插件
+        $('#beginTime').date();
+        //	$('#endTime').date({theme:"datetime"});
+        $('#endTime').date();
+        $('#beginTime').click();
+        id = 1;
+        $('#endTime').click();
+        seach(data);
+
+        //时间选择确定按钮
+        $('#confirm-getDate').click(function(){
+            $('#dateconfirm').click();
+            $('#dateconfirm2').click();
+            $("#startT em").text($("#beginTime").val());
+            $("#endT em").text($("#endTime").val());
+
+            data.start_time = $("#startT em").text();
+            data.end_time = $("#endT em").text();
+
+            if(new Date(data.start_time.replace(/-/g, '/')).getTime() <= new Date(data.end_time.replace(/-/g, '/')).getTime()){
+                $(".mask").hide();
+                $("#date-pop").addClass("down");
+                seach(data);
+                return false;
+            }else{
+                layer.open({
+                    content: "起始日期大于结束日期，请重新选择！",
+                    skin: 'msg',
+                    time: 2 //2秒后自动关闭
+                });
+            }
+        });
+        
+    })
+
+    $(document).on("click","*[data-href]",function(){
+        //alert($(this).attr("data-href"));
+        var href = $(this).attr("data-href");
+        window.location.href= href;
+    })
+
+    //重置
+    $("#reset").click(function(){
+        window.location.reload();
+    })
+
+    //时间选择
+    $("#timeSelect").click(function() {
+        $(".mask").show();
+        $("#date-pop").removeClass("down");
+        //$("#status").addClass("active");
+    })
+
+    //类型选择
+    $("#userType").click(function() {
+        $(".mask").show();
+        $("#type-pop").removeClass("down");
+        $("#userType").addClass("active")
+    });
+
+    //搜素类型选择
+    $("#type-pop li").click(function() {
+        $(this).addClass("active").siblings().removeClass();
+        var id = $(this).attr('data-type');
+        $("#userType").text($(this).text());
+        $("#userType").attr("data-type", id);
+        closeMask();
+    });
+
+    $(".pop-cansel, .mask").click(function() {
+        closeMask();
+    })
+    function closeMask(){
+        $(".mask").hide();
+        $("#type-pop").addClass("down");
+        $("#userType").removeClass("active");
+        $("#date-pop").addClass("down");
+    }
+
+    //搜素提交
+    $("#searchSubmit").click(function(){
+        if($("input[name=user_value]").val() != ''){
+            var data = new Object();
+            data.token = token;
+            data.start_time = $("#startT em").text();
+            data.end_time = $("#endT em").text();
+            seach(data);
+        }else{
+            layer.open({
+                content: '请输入搜素内容',
+                skin: 'msg',
+                time: 2 //2秒后自动关闭
+            });
+        }
+    })
+
+    function seach(data){
+        data.user_type = $("#userType").attr("data-type");
+        data.user_value = $.trim($("input[name=user_value]").val());
+        data.isSeach = 1;
+
+        if(data.start_time != ''){
+            $(".time_text").text("至");
+        }
+
+        //与APP接口一致
+        $.post("?m=api&c=user&a=agentReportForms",data,function(ret){
+            var ret = JSON.parse(ret);
+
+            if(ret.status==0){
+                $("#regCountUser").text(ret.regCountUser);
+                $("#logCountUser").text(ret.logCountUser);
+                $("#teamCountUser").text(ret.teamCountUser);
+                $("#firstRechargeCountUser").text(ret.firstRechargeCountUser);
+                $("#firstRechargeCountAmt").text(ret.firstRechargeCountAmt);
+                $("#rechargeCountAmt").text(ret.rechargeCountAmt);
+                $("#withdrawCountAmt").text(ret.withdrawCountAmt);
+                $("#winCountAmt").text(ret.winCountAmt);
+                $("#betCountAmt").text(ret.betCountAmt);
+                $("#hdCountAmt").text(ret.hdCountAmt);
+                $("#otherCountAmt").text(ret.otherCountAmt);
+                $("#teamProfit").text(ret.teamProfitCountAmt);
+                if(data.user_type == 1) {
+                    $("#BackCountAmt").text(ret.zsBackCountAmt);
+                }else {
+                    $("#BackCountAmt").text(ret.teamBackCountAmt);
+                }
+            }else {
+                layer.open({
+                    content: ret.ret_msg,
+                    skin: 'msg',
+                    time: 2 //2秒后自动关闭
+                });
+
+            }
+        })
+    }
+
+    function goAccountIndex()
+    {
+    	location.href= "{$backUrl}";
+    }
+</script>
+</body>
+</html>

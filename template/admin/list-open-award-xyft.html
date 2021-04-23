@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+        <script src="statics/admin/js/pintuer.js"></script>  
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>  
+        <script src="statics/admin/js/jquery.date_input.pack.js"></script> 
+        <style>
+            #page{height: 60px;margin-top: 20px;text-align: center;}
+            #page ul li{float: left;margin-right:10px;}
+            #page ul .current{ background-color:#0099ff;text-align:center;}
+        </style>
+    </head>
+    <body>
+        <form method="post" id="form" action="">
+            <div class="panel admin-panel">
+                <div class="panel-head"><strong class="icon-reorder"> 列表</strong></div>
+                                <div class="padding border-bottom">
+                    <ul style="padding-left:10px;" class="search">
+                        <li>
+                            期号：
+                            <input type="text" style="width:150px; line-height:17px;display:inline-block" value="{$_REQUEST['issue']}" class="input" name="issue" placeholder="请输入期号">
+                        </li>
+                        <li>
+                            处理状态：
+                            <select style="width:150px; line-height:17px;display:inline-block" class="input" id='status' name="state">
+                                <option value="">选择</option>
+                                <option {if $_REQUEST['state'] == 2}selected{/if} value="2">未开奖</option>
+                            </select>
+                        </li>
+                        <li>
+                            <a onclick="index()" class="button border-main icon-search" href="javascript:void(0)"> 搜索</a>
+                        </li>
+                        <li>
+                            <a class="button border-red icon-plus-square-o" href="<?=url('','openAward','openward')?>&lottery_type={$lottery_type}"> 手动补单</a>
+                        </li>
+                        {if $cancal_order_supper==1}
+                            <li>
+                                <a class="button border-red icon-plus-square-o" href="<?=url('','openAward','cancalOrdersByIssue')?>&lottery_type={$lottery_type}"> 一键撤单</a>
+                            </li>
+                        {/if}
+                    </ul>
+                </div>
+                <table class="table table-hover text-center table-bordered">
+                    <tr>
+                        <th>期号</th>
+                        <th>开奖号码</th>
+                        <th>开奖结果</th>
+                        <th>实际开奖时间</th>
+                        <th>开奖状态</th>
+                        <th>操作</th>
+                    </tr>      
+                    <tbody id="list_tb">
+                        {loop $list $v}
+                        <tr>
+                            <td>{$v['issue']}</td>
+                            <td>{$v['open_result']}</td>
+                            <td><?php
+                                echo implode($v['open_result1'],',');
+                        ?></td>
+                            <td>{$v['open_time']}</td>
+                            <td>{if $v['state'] === '0'}自动{else}手动{/if}</td>
+                            <td>
+                                {if $v['state'] !== '0' && $v['state'] !== '1' && (empty($v['user_id']) || $v['user_id']== $adminUid)}
+                                    <a href="?m=admin&c=openAward&a=openward&issue={$v['issue']}&lottery_type={$lottery_type}&id={$v['id']}" style="color: #0099ff;" >手动开奖</a>
+                                {elseif $v['state'] !== '0' && $v['state'] !== '1'}
+                                    {$v['admin']}-处理中
+                                {/if}
+                                {if $v['state'] == 1}
+                                    {$v['admin']}-手动开奖
+                                {/if}
+                                {if $v['is_call_back']==1}
+                                    <a href="javascript:;" style="color: #0099ff;" onclick="order_back({$lottery_type},{$v['issue']})">回滚</a>
+                                {elseif $callback_supper==1 && $v['cbadmin']==''}
+                                    <a href="javascript:;" style="color: #0099ff;" onclick="order_back({$lottery_type},{$v['issue']})">回滚</a>
+                                {/if}
+                                {if $v['cbadmin']!=''}
+                                    {$v['cbadmin']}--回滚
+                                    {if $callback_supper==1}
+                                        | <a href="javascript:;" style="color: #0099ff;" onclick="order_back({$lottery_type},{$v['issue']})">回滚</a>
+                                    {/if}
+                                {/if}
+                            </td>
+                        </tr>
+                        {/loop}
+                    </tbody>
+                    <!-- 分页 -->
+                    <tr>
+                        <td colspan="9">
+                            <div class="pagelist" id='page' style="{if $show == ''}display:none;{/if}">
+                                {$show}
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </form>
+        <script type="text/javascript">
+            var loading = "";//加载中......
+
+            function order_back(lt,lid) {
+                $.ajax({
+                    type:"post",
+                    url:"?m=admin&c=orders&a=order_call_back",
+                    data:{"lottery_type":lt,"issue":lid},
+                    dataType:"json",
+                    beforeSend:function(){
+                        loading = layer.load(1);
+                    },
+                    success:function(data){
+                        layer.close(loading);
+                        alert(data.msg);
+                        if(data.err==0){
+                            window.location.reload();
+                        }
+                    },
+                    complete:function(XMLHttpRequest,textStatus){
+                        layer.close(loading);
+                    },
+                    error:function(data){
+                        alert('失败');
+                    }
+                })
+            }
+            //列表搜索
+            function index() {
+                var url = "<?=url('','','')?>" + '&' + $("#form").serialize();
+                location.href = url;
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="ifengjin@ifengjin.cn">
+  
+  <title>诚汇通-P2P网贷平台最可靠的民间借贷公司-致力于打造国内最好的P2P网络借贷平台</title>
+  
+  <style type="text/css">
+    body, div, form, input {
+		padding: 0;
+		margin: 0;
+		box-sizing: border-box;
+	}
+    html, body {
+		color: #333;
+	    font: normal 16px/24px "Microsoft Yahei", "\5FAE\8F6F\96C5\9ED1", Verdana, Arial, sans-serif, "Times New Roman", "\5B8B\4F53";
+		background-color: #eaeceb;
+	}
+	a, a:hover {
+		display: block;
+		text-decoration: none;
+	}
+	.container {
+		padding: 15px;
+		margin: 10px;
+		background-color: #fff;
+		border: 1px solid #ddd;
+	}
+    h1 {
+		padding: 10px 15px;
+		margin-bottom: 10px;
+		font-size: 24px;
+		text-align: center;
+		background-color: #fff;
+		border: 1px solid #ddd;
+	}
+  </style>
+</head>
+
+<body>
+  <hgroup>
+    <nav>
+      <h1>{if !empty($hfid)}<a href="<?=url('weixin','default','balance')?>" target="_blank">查看账户</a>{else}<a href="<?=url('weixin','default','hfaccount')?>" target="_blank">绑定汇付</a>{/if}</h1>
+      <h1><a href="<?=url('weixin','default','bindcard')?>" target="_blank">汇付绑定银行卡</a></h1>
+      <h1><a href="<?=url('weixin','default','hfcash')?>">汇付提现</a></h1>
+      <h1><a href="<?=url('weixin','default','hflog')?>">资金明细</a></h1>
+    </nav>
+  </hgroup>
+</body>
+</html>
+    

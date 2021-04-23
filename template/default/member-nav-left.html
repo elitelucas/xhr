@@ -1,0 +1,108 @@
+<div class="container">
+	<!-- 左边导航 -->
+	<div class="investor-left pull-left">
+		<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+			<div class="panel panel-default">
+				<a class="collapse-title1 {if ROUTE_C=='account' || ROUTE_C=='main'}collapse-active1{/if}" data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expanded="true" aria-controls="collapse1"><span class="glyphicon glyphicon-user"></span> 账户中心
+				</a>
+				<div id="collapse1" class="panel-collapse collapse {if ROUTE_C=='account' || ROUTE_C=='main'}in{/if}" role="tabpanel">
+					<div class="panel-body">
+						<a class="collapse-title2 {if ROUTE_C=='main' && ROUTE_A=='index'}collapse-active2{/if}" href="<?=url('member','main','index')?>">我的账户</a>
+						<a class="collapse-title2 {if ROUTE_C=='account' && ROUTE_A=='index'}collapse-active2{/if}" href="<?=url('member','account','index')?>">账户详情</a>
+						<a class="collapse-title2 {if ROUTE_C=='account' && ROUTE_A=='recharge'}collapse-active2{/if}" href="<?=url('member','account','recharge')?>">账户充值</a>
+						<a class="collapse-title2 {if ROUTE_C=='account' && ROUTE_A=='cash'}collapse-active2{/if}" href="<?=url('member','account','cash')?>">账户提现</a>
+						<a class="collapse-title2 {if ROUTE_C=='account' && ROUTE_A=='log'}collapse-active2{/if}" href="<?=url('member','account','log')?>">资金明细</a>
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<a class="collapse-title1 {if ROUTE_M=='fengfu'}collapse-active1{/if}" data-toggle="collapse" data-parent="#accordion" href="#collapse8" aria-expanded="true" aria-controls="collapse1">
+					<span class="glyphicon glyphicon-user"></span> <span style="color: red">丰付托管</span>
+				</a>
+				<div id="collapse8" class="panel-collapse collapse collapse-left-body {if ROUTE_M=='fengfu'}in{/if}" role="tabpanel">
+					<div class="panel-body">
+						{if empty($this->user['ffid'])}
+						<a class="collapse-title2" href="<?=url('fengfu','default','bind')?>" style="font-weight:bold;color:red">我要绑定</a>
+						{else}
+						<a class="collapse-title2" href="<?=url('fengfu','default','account')?>" target="_blank">账户管理</a>
+						{/if}
+						<a class="collapse-title2 {if ROUTE_M=='fengfu' && ROUTE_A=='recharge'}collapse-active2{/if}" href="<?=url('fengfu','default','recharge')?>">丰付充值</a>
+						<a class="collapse-title2 {if ROUTE_M=='fengfu' && ROUTE_A=='cash'}collapse-active2{/if}" href="<?=url('fengfu','default','cash')?>">丰付提现</a>
+						<a class="collapse-title2 {if ROUTE_M=='fengfu' && ROUTE_A=='fflog'}collapse-active2{/if}" href="<?=url('fengfu','default','fflog')?>">丰付明细</a>
+					</div>
+				</div>
+			</div>
+			{if $this->user['hfid']}
+			<div class="panel panel-default">
+				<a class="collapse-title1 {if ROUTE_M=='huifu'}collapse-active1{/if}" data-toggle="collapse" data-parent="#accordion" href="#collapse7" aria-expanded="true" aria-controls="collapse1">
+					<span class="glyphicon glyphicon-user"></span> 汇付托管
+				</a>
+				<div id="collapse7" class="panel-collapse collapse collapse-left-body {if ROUTE_M=='huifu'}in{/if}" role="tabpanel">
+					<div class="panel-body">
+						<a class="collapse-title2 {if ROUTE_M=='huifu' && ROUTE_A=='hfcash'}collapse-active2{/if}" href="<?=url('huifu','default','hfcash')?>">汇付提现</a>
+						<a class="collapse-title2 {if ROUTE_M=='huifu' && ROUTE_A=='hflog'}collapse-active2{/if}" href="<?=url('huifu','default','hflog')?>">汇付明细</a>
+					</div>
+				</div>
+			</div>
+			{/if}
+			<div class="panel panel-default">
+				<a class="collapse-title1 {if ROUTE_C=='tender'}collapse-active1{/if}" data-toggle="collapse" data-parent="#accordion" href="#collapse2" aria-expanded="true" aria-controls="collapse1">
+					<span class="glyphicon glyphicon-th-list"></span> 投资管理
+				</a>
+				<div id="collapse2" class="panel-collapse collapse collapse-left-body {if ROUTE_C=='tender'}in{/if}" role="tabpanel">
+					<div class="panel-body">
+						<a class="collapse-title2 {if ROUTE_C=='tender' && ROUTE_A=='index'}collapse-active2{/if}" href="<?=url('member','tender','index')?>">所有已投标列表</a>
+						<a class="collapse-title2 {if ROUTE_C=='tender' && ROUTE_A=='bid'}collapse-active2{/if}" href="<?=url('member','tender','bid')?>">正在投标的借款</a>
+						<a class="collapse-title2 {if ROUTE_C=='tender' && ROUTE_A=='auto'}collapse-active2{/if}" href="<?=url('member','tender','auto')?>">自动投标设置</a>
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<a class="collapse-title1 {if ROUTE_C=='borrow'}collapse-active1{/if}" data-toggle="collapse" data-parent="#accordion" href="#collapse3" aria-expanded="true" aria-controls="collapse1">
+					<span class="glyphicon glyphicon-list-alt"></span> 借款管理
+				</a>
+				<div id="collapse3" class="panel-collapse collapse collapse-left-body {if ROUTE_C=='borrow'}in{/if}" role="tabpanel">
+					<div class="panel-body">
+						<a class="collapse-title2 {if ROUTE_C=='borrow' && ROUTE_A=='index'}collapse-active2{/if}" href="<?=url('member','borrow','index')?>">所有借款列表</a>
+						<a class="collapse-title2 {if ROUTE_C=='borrow' && ROUTE_A=='material'}collapse-active2{/if}" href="<?=url('member','borrow','material')?>">借款资料管理</a>
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<a class="collapse-title1 {if ROUTE_C=='userinfo' || ROUTE_C=='verify' || ROUTE_C=='security' || ROUTE_C=='setmsg' || ROUTE_C=='msg'}collapse-active1{/if}" data-toggle="collapse" data-parent="#accordion" href="#collapse4" aria-expanded="true" aria-controls="collapse1">
+					<span class="glyphicon glyphicon-cog"></span> 基本设置
+				</a>
+				<div id="collapse4" class="panel-collapse collapse collapse-left-body {if ROUTE_C=='userinfo' || ROUTE_C=='verify' || ROUTE_C=='security' || ROUTE_C=='setmsg' || ROUTE_C=='msg'}in{/if}" role="tabpanel">
+					<div class="panel-body">
+						<a class="collapse-title2 {if ROUTE_C=='userinfo' && ROUTE_A=='index'}collapse-active2{/if}" href="<?=url('member','userinfo','index')?>">个人资料</a>
+						<a class="collapse-title2 {if ROUTE_C=='verify' && ROUTE_A=='real'}collapse-active2{/if}" href="<?=url('member','verify','real')?>">认证中心</a>
+						<a class="collapse-title2 {if ROUTE_C=='security' && ROUTE_A=='pass'}collapse-active2{/if}" href="<?=url('member','security','pass')?>">安全中心</a>
+						<a class="collapse-title2 {if ROUTE_C=='setmsg' && ROUTE_A=='remind'}collapse-active2{/if}" href="<?=url('member','setmsg','remind')?>">设置提醒</a>
+						<a class="collapse-title2 {if ROUTE_C=='msg' && ROUTE_A=='index'}collapse-active2{/if}" href="<?=url('member','msg','index')?>">站内信</a>
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<a class="collapse-title1 {if ROUTE_C=='thankful'}collapse-active1{/if}" data-toggle="collapse" data-parent="#accordion" href="#collapse5" aria-expanded="true" aria-controls="collapse1">
+					<span class="glyphicon glyphicon-star"></span> 好友推荐
+				</a>
+				<div id="collapse5" class="panel-collapse collapse collapse-left-body {if ROUTE_C=='thankful'}in{/if}" role="tabpanel">
+					<div class="panel-body">
+						<a class="collapse-title2 {if ROUTE_C=='thankful' && ROUTE_A=='people'}collapse-active2{/if}" href="<?=url('member','thankful','people')?>">好友推荐</a>
+						<a class="collapse-title2 {if ROUTE_C=='thankful' && ROUTE_A=='recommend'}collapse-active2{/if}" href="<?=url('member','thankful','recommend')?>">添加推荐人</a>
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<a class="collapse-title1 {if ROUTE_C=='carefund'}collapse-active1{/if}" data-toggle="collapse" data-parent="#accordion" href="#collapse6" aria-expanded="true" aria-controls="collapse1">
+					<span class="glyphicon glyphicon-heart"></span> 爱心捐助
+				</a>
+				<div id="collapse6" class="panel-collapse collapse collapse-left-body {if ROUTE_C=='carefund'}in{/if}" role="tabpanel">
+					<div class="panel-body">
+						<a class="collapse-title2 {if ROUTE_C=='carefund' && ROUTE_A=='detail'}collapse-active2{/if}"" href="<?=url('activity','carefund','detail')?>">捐款详情</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /左边导航 -->

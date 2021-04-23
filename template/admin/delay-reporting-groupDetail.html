@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="renderer" content="webkit">
+    <title></title>
+    <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+    <script src="statics/admin/js/pintuer.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>  
+    <script src="statics/admin/js/jquery.date_input.pack.js"></script>
+    <style type='text/css'>
+        .s_style{
+            background: #fefefe none repeat scroll 0 0;
+            border: 1px solid #bbb;
+            border-radius: 3px;
+            color: #333;
+            font-size: 14px;
+            padding: 7px;
+        }
+        #page{height: 60px;margin-top: 20px;text-align: center;}
+        #page ul li{float: left;margin-right:10px;}
+        #page ul .current{ background-color:#0099ff;text-align:center;}
+        .sxBtnBox{margin: 0 auto;width: 200px;display: flex;justify-content: space-between;}
+    </style>
+</head>
+<body>
+
+    <div class="panel admin-panel">
+        <div class="panel-head"><strong class="icon-reorder">团队报表</strong> <a href="" style="float:right; display:none;">添加字段</a></div>
+        <div class="wrap js-check-wrap">
+            <form class="well form-search" method="get" action="">
+                <input type="hidden" value="{$m}" name="m"/>
+                <input type="hidden" value="{$c}" name="c"/>
+                <input type="hidden" value="{$a}" name="a"/>
+                会员昵称：<input name="username" class="s_style reset_input" style="width: 120px;" value="{$_REQUEST['username']}" type="text">&nbsp;&nbsp;
+      {if $show_user_info == 1}
+                微信号：<input name="weixin" class="s_style reset_input" style="width: 120px;" value="{$_REQUEST['weixin']}" type="text">&nbsp;&nbsp;
+      {/if}
+                状态：<select name="online" class="s_style reset_input" style="width:120px;">
+                <option value="" {if $_REQUEST['online']==''}selected = "selected"{/if}>未选</option>
+                <option value="1" {if $_REQUEST['online']=='1'}selected = "selected"{/if}>在线</option>
+                <option value="2" {if $_REQUEST['online']=='2'}selected = "selected"{/if}>离线</option>
+            </select>&nbsp;&nbsp;
+                会员组：<select name="group" class="s_style reset_input" style="width:120px;">
+                <option value="" {if $_REQUEST['group']==''}selected = "selected"{/if}>未选</option>
+                {loop $group $v}
+                <option value="{$v['id']}" {if $_REQUEST['group']=={$v['id']}} selected = "selected" {/if}>{$v['name']}</option>
+                {/loop}
+            </select>&nbsp;&nbsp;
+                时间：<input name="start_time" class="date_picker reset_input" value="{$start_date}" style="width: 120px;">-
+                <input class="date_picker reset_input" name="end_time" value="{$end_date}" style="width: 120px;"> &nbsp; &nbsp;
+                <input class="button border-main icon-search" value="搜索" type="submit">
+                <input class="button border-main icon-search" style="margin-bottom: 6px" value="重置" type="button">
+            </form>
+                <table class="table table-hover table-bordered table-list">
+                    <thead>
+                    <tr>
+                        <th width="50">ID</th>
+                        <th>会员昵称</th>
+                        <th>微信号</th>
+                        <th>直属(个)</th>
+                        <th>团队(个)</th>
+                        <th title="3天内登录过">活跃(个)</th>
+                        <th title="3天内注册的">新注册(个)</th>
+                        <th>团队投注金额(元) <?php if($bet_flag==0){ ?><a href="javascript:bet_sort(1);"><img src="/statics/admin/images/sort_asc.png" height="18"/></a><?php }else{ ?><a href="javascript:bet_sort(0);"><img src="/statics/admin/images/sort_desc.png" height="18"/></a><?php } ?></th>
+                        <th>团队中奖金额(元)</th>
+                        <th>个人投注返水(元)</th>
+                        <th>直属返水(元)</th>
+                        <th>团队返水(元)
+                            <!-- <span style="float:right">
+                                                <a target="_self" href="/test/Report/teamReport?paixu=asc&amp;zhuangtai=1&amp;huiyuanzu=1">升序</a>                       </span> -->
+                        </th>
+                        <th>投注盈亏(元)</th>
+                        <th>总计盈亏(元) <?php if($yk_flag==0){ ?><a href="javascript:yk_sort(1);"><img src="/statics/admin/images/sort_asc.png" height="18"/></a><?php }else{ ?><a href="javascript:yk_sort(0);"><img src="/statics/admin/images/sort_desc.png" height="18"/></a><?php } ?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($list as $v){ ?>
+                    <tr class="uid_{$v['uid']}">
+                        <td>{$v['uid']}</td>
+                        <td><a href="?m=admin&c=user&a=detail&id={$v['uid']}">{$v['username']}</a></td>
+                        <td>{if (!empty($show_user_info) && in_array(2,$show_user_info))}{$v['weixin']}{/if}</td>
+                        <td>{if $v['directly'] == 0}{$v['directly']}{else}<a  a href="javascript:void(0);" id="c1_{$v['uid']}" sdata="true" onclick="selectChildLst(1,{$v['uid']},{$v['directly']});">{$v['directly']}</a>{/if}</td>
+                        <td>{if $v['team'] <= 1}{$v['team']}{else}<a  a href="javascript:void(0);" id="c2_{$v['uid']}" sdata="true" onclick="selectChildLst(2,{$v['uid']},{$v['team']});">{$v['team']}</a>{/if}</td>
+                        <td>{$v['online']}</td>
+                        <td>{$v['reg']}</td>
+                        <td>{$v['team_Betting']}</td>
+                        <td>{$v['team_award']}</td>
+                        <td>{$v['selfBackwater']}</td>
+                        <td>{$v['directlyBackwater']}</td>
+                        <td>{$v['teamBackwater']}</td>
+                        <td>
+                        {if $v['profit_2'] > 0}<font style="color: #FF3300;">{$v['profit_2']}</font>{/if}
+                        {if $v['profit_2'] < 0}<font style="color: #0099ff;">{$v['profit_2']}</font>{/if}
+                        {if $v['profit_2'] == 0}{$v['profit_2']}{/if}
+                        </td>
+                        <td>
+                        {if $v['profit'] > 0}<font style="color: #FF3300;">{$v['profit']}</font>{/if}
+                        {if $v['profit'] < 0}<font style="color: #0099ff;">{$v['profit']}</font>{/if}
+                        {if $v['profit'] == 0}{$v['profit']}{/if}
+                        </td>
+                    </tr>
+                    <?php } ?>
+                    <tr style="<?php echo Session::get('style'); ?>" id="zongji">
+                        <td colspan="4" style="text-align:center">总计</td>
+                        <td>{$total['team']}</td>
+                        <td>{$total['online']}</td>
+                        <td>{$total['reg']}</td>
+                        <td>{$total['team_Betting']}</td>
+                        <td>{$total['team_award']}</td>
+                        <td>{$total['selfBackwater']}</td>
+                        <td>{$total['directlyBackwater']}</td>
+                        <td>{$total['teamBackwater']}</td>
+                        
+                        <td>
+                         {if $total['profit_2'] > 0}<font style="color: #FF3300;font-weight: bold;">{$total['profit_2']}</font>{/if}
+                         {if $total['profit_2'] < 0}<font style="color: #0099ff;font-weight: bold;">{$total['profit_2']}</font>{/if}
+                         {if $total['profit_2'] == 0}{$total['profit_2']}{/if}
+                        </td>
+                        <td>
+                         {if $total['profit'] > 0}<font style="color: #FF3300;font-weight: bold;">{$total['profit']}</font>{/if}
+                         {if $total['profit'] < 0}<font style="color: #0099ff;font-weight: bold;">{$total['profit']}</font>{/if}
+                         {if $total['profit'] == 0}{$total['profit']}{/if}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="15">
+                            <div class="pagelist" id='page' style="{if $show == ''}display:none;{/if}">
+                                <?php echo $show;?>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+        </div>
+    </div>
+
+<script type="text/javascript">
+    var loading = "";//加载中...
+    //时间插件
+    $(function(){
+        $('.date_picker').date_input();
+        $('input[type=button]').click(function () {
+           // $(".reset_input").val("");
+            window.location.href = "?m=admin&c=reporting&a=delayGroupDetail";
+        });
+
+        $('.form-search').submit(function(){
+            var start_time = $('[name="start_time"]').val();
+            var end_time = $('[name="end_time"]').val();
+            var diff_days = (new Date(end_time).getTime() - new Date(start_time).getTime()) / (24 * 60 * 60 * 1000);
+
+            if (diff_days > 31) {
+                layer.msg('查询时间跨度不能大于31天!!!', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+        });
+    })
+
+    function selectChildLst(type,uid,num){
+        
+        var offon = $("#c"+type+"_"+uid).attr('sdata');
+        if(offon == "true"){
+            $("#c"+type+"_"+uid).attr({sdata:"false"});
+        }else {
+            $("#c"+type+"_"+uid).attr({sdata:"true"});
+            $(".c"+type+"_"+uid).remove();
+            return false;
+        }
+        var start_date = $("input[name=start_time]").val();
+        var end_date = $("input[name=end_time]").val();
+        $.ajax({
+            type: "POST",
+            url: "<?=url('admin','reporting','getDelayGroupInfo')?>",
+            data: {'type':type,'uid':uid,'start_time':start_date,'end_time':end_date,'num':num},
+            beforeSend:function(){
+                loading = layer.load(1);
+            },
+            success: function(msg){
+                console.log(msg);
+                layer.close(loading);
+                $('.uid_'+uid).after(msg);
+            }
+        });
+    }
+
+
+    /**
+     * 投注金额排序
+     * */
+    function bet_sort(bet_flag) {
+        var url=window.location.href;
+        var yk_flag = {$yk_flag};
+        var flag = 0;
+        var patt1=new RegExp("bet_flag\=[0,1]");
+        var patt2=new RegExp("&flag\=[0-8]");
+
+        if (yk_flag == 0 && bet_flag == 0) {
+            flag = 5;
+        } else if (yk_flag == 1 && bet_flag == 0) {
+            flag = 6;
+        } else if (yk_flag == 0 && bet_flag == 1) {
+            flag = 7;
+        } else if (yk_flag == 1 && bet_flag == 1) {
+            flag = 8;
+        }
+
+        if(patt2.exec(url)) {
+            url = url.replace(/&flag\=[0-8]/, "&flag=" + flag);
+        }else{
+            url+="&flag="+flag;
+        }
+
+        if(patt1.exec(url)) {
+            url = url.replace(/bet_flag\=[0,1]/, "bet_flag=" + bet_flag);
+        }else{
+            url+="&bet_flag="+bet_flag;
+        }
+        
+        window.location.href=url;
+    }
+    
+    /**
+     * js盈亏排序
+     * */
+    function yk_sort(yk_flag) {
+        var url=window.location.href;
+        var bet_flag = {$bet_flag};
+        var flag = 0;
+        var patt1=new RegExp("yk_flag\=[0,1]");
+        var patt2=new RegExp("&flag\=[0-8]");
+        
+        if (yk_flag == 0 && bet_flag == 0) {
+            flag = 1;
+        } else if (yk_flag == 0 && bet_flag == 1) {
+            flag = 2;
+        } else if (yk_flag == 1 && bet_flag == 0) {
+            flag = 3;
+        } else if (yk_flag == 1 && bet_flag == 1) {
+            flag = 4;
+        }
+
+        if(patt1.exec(url)) {
+            url = url.replace(/yk_flag\=[0,1]/, "yk_flag=" + yk_flag);
+        }else{
+            url+="&yk_flag="+yk_flag;
+        }
+        
+        if(patt2.exec(url)) {
+            url = url.replace(/&flag\=[0-8]/, "&flag=" + flag);
+        }else{
+            url+="&flag="+flag;
+        }
+
+        window.location.href=url;
+    }
+
+    $('.table-list').on('click','.prevBtn',function () {
+        var type = $(this).attr('data-type');
+        var uid = $(this).attr('data-uid');
+        var page = $(this).attr('data-page');
+        var num = $(this).attr('data-num');
+        var start_date = $("input[name=start_time]").val();
+        var end_date = $("input[name=end_time]").val();
+
+        $.ajax({
+            type: "POST",
+            url: "<?=url('admin','reporting','getDelayGroupInfo')?>",
+            data: {'type':type,'uid':uid,'start_time':start_date,'end_time':end_date,page:page,num:num},
+            beforeSend:function(){
+                loading = layer.load(1);
+            },
+            success: function(msg){
+                console.log(msg);
+                layer.close(loading);
+                $('.appendList').remove();
+                $('.uid_'+uid).after(msg);
+            }
+        });
+    });
+    $('.table-list').on('click','.nextBtn',function () {
+        var type = $(this).attr('data-type');
+        var uid = $(this).attr('data-uid');
+        var page = $(this).attr('data-page');
+        var num = $(this).attr('data-num');
+        var start_date = $("input[name=start_time]").val();
+        var end_date = $("input[name=end_time]").val();
+        $.ajax({
+            type: "POST",
+            url: "<?=url('admin','reporting','getDelayGroupInfo')?>",
+            data: {'type':type,'uid':uid,'start_time':start_date,'end_time':end_date,page:page,num:num},
+            beforeSend:function(){
+                loading = layer.load(1);
+            },
+            success: function(msg){
+                console.log(msg);
+                layer.close(loading);
+                $('.appendList').remove();
+                $('.uid_'+uid).after(msg);
+            }
+        });
+    })
+</script>
+</body>
+</html>

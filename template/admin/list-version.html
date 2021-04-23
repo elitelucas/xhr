@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+        <script src="statics/admin/js/pintuer.js"></script>  
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>  
+        <script src="statics/admin/js/jquery.date_input.pack.js"></script>
+		<script src="statics/web/js/clipboard.min.js"></script>
+        {template public-new-ui-header}
+        <style>
+            #page{height: 60px;margin-top: 20px;text-align: center;}
+            #page ul li{float: left;margin-right:10px;}
+            #page ul .current{ background-color:#0099ff;text-align:center;}
+        </style>
+    </head>
+    <body class="new_ui_body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title iboxWTitle">
+                        <h5>历史版本</h5>
+                        <div class="ibox-tools">
+                            下载量:{$download_num}
+                            <select style="width:100px; line-height:15px; display:inline-block" class="input" id="type" name="type">
+                                <option {if $where['type'] == 1}selected{/if} value="1">IOS</option>
+                                <option {if $where['type'] == 2}selected{/if} value="2">Android</option>
+                            </select>
+                            <a class="btn btn-white btn-bitbucket icon-plus-square-o" href="?m=admin&c=role&a=addVersion">新增版本</a>
+                        </div>
+                    </div>
+
+                    <div class="ibox-content list" style="width: 100%;">
+                        <div class="row">
+                            <table class="table table-striped table-bordered table-hover  dataTable" aria-describedby="editable_info">
+                                <thead>
+                                <tr>
+                                    <th>版本号</th>
+                                    <th>更新内容</th>
+                                    <th>地址1</th>
+                                    <th>地址2</th>
+                                    <th>地址3</th>
+                                    <th>更新时间</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    {loop $list $v}
+                                    <tr>
+                                        <td>{$v['version']}</td>
+                                        <td <?php echo showTitle($v['content'], 30);?>><?php echo strCut($v['content'], 30);?></td>
+                                        <td>
+											<span <?php echo showTitle($v['url'], 40);?>><?php echo strCut($v['url'], 40);?></span>
+											<em class="icoCopy" data-title="复制连接" data-clipboard-text="{$v['url']}" style="cursor:pointer;"></em>
+										</td>
+                                        <td>
+											<span <?php echo showTitle($v['url_2'], 40);?>><?php echo strCut($v['url_2'], 40);?></span>
+											<em class="icoCopy" data-title="复制连接" data-clipboard-text="{$v['url_2']}" style="cursor:pointer;"></em>
+										</td>
+                                        <td>
+											<span <?php echo showTitle($v['url_3'], 40);?>><?php echo strCut($v['url_3'], 40);?></span>
+											<em class="icoCopy" data-title="复制连接" data-clipboard-text="{$v['url_3']}" style="cursor:pointer;"></em>
+										</td>
+                                        <td>{$v['addtime']}</td>
+                                    </tr>
+                                    {/loop}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <?php echo $show;?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+		var clipboard = new Clipboard('.icoCopy');
+        clipboard.on('success', function(e) {
+            console.info('Action:', e.action);
+            console.info('Text:', e.text);
+            console.info('Trigger:', e.trigger);
+            layer.msg('已复制到粘贴板',{offset: 'b'});
+
+            e.clearSelection();
+        });
+
+		
+        $(function(){
+            $("#type").change(function(){
+                var type = $(this).val();
+                location.href = '?m=admin&c=role&a=version&type=' + type;
+            });
+        });
+    </script>
+</html>

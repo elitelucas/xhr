@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset=utf-8>
+        <meta name="renderer" content="webkit|ie-comp|ie-stand">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="keywords" content="诚汇通官网，诚汇通，www.chenghuitong.net，p2p网贷平台，p2p理财公司，网络借贷平台，p2p理财产品——深圳市诚汇通金融信息有限公司">
+        <meta name="description" content="诚汇通官网（www.chenghuitong.net）, 国内首批专注于P2P网络投融资服务的平台。投资免手续费，22%年化收益，100%保本保息，第三方托管，广东互联网金融协会会员；每天公布运营数据，为你的资金保驾护航。">
+        <meta name="author" content="ifengjin@ifengjin.cn">
+
+        <title>诚汇通2周年庆，千万红包送壕礼</title>
+
+        <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+        <link rel="stylesheet" href="<?=SITE_PROTOCOL.C('cdn_path')?>activity/20150706/css/base.css">
+        <script type="text/javascript">
+            var _hmt = _hmt || [];
+                    (function() {
+                    var hm = document.createElement("script");
+                            hm.src = "//hm.baidu.com/hm.js?58b625f2fae8bd6127a23680606506af";
+                            var s = document.getElementsByTagName("script")[0];
+                            s.parentNode.insertBefore(hm, s);
+                    })();        </script>    
+    </head>
+
+    <body>
+        <script type="text/javascript">
+                    var _py = _py || [];
+                    _py.push(['a', 'Tm..DUK-NY5HfP8gsyvUJdDDO_']);
+                    _py.push(['domain', 'stats.ipinyou.com']);
+                    _py.push(['e', '']);
+                    - function(d) {
+                    var s = d.createElement('script'),
+                            e = d.body.getElementsByTagName('script')[0]; e.parentNode.insertBefore(s, e),
+                            f = 'https:' == location.protocol;
+                            s.src = (f ? 'https' : 'http') + '://' + (f?'fm.ipinyou.com':'fm.p0y.cn') + '/j/adv.js';
+                    }(document);        </script>
+        <noscript><img src="//stats.ipinyou.com/adv.gif?a=Tm..DUK-NY5HfP8gsyvUJdDDO_&e=" style="display:none;"/></noscript>
+        <div id="header" class="header">
+            <div class="topbar">
+                <div class="container">
+                    <div class="pull-left">
+                        <span><a href="{APP_PATH}">首页</a></span>
+                        <span>客服电话： 400-018-0107</span>
+                        <span>13613002927 (非工作时间)</span>
+                    </div>
+                    <div class="pull-right">
+                        <?php if(isset($this->user['id'])){?>
+                        <!-- 登录后 -->
+                        <span><a href="<?=url('member','main','index')?>"><?=$this->user['username']?></a>，欢迎来到诚汇通！</span>
+                        <span><a href="<?=url('content','login','loginout')?>">[退出]</a></span>
+                        <span>
+                            <a href="<?=url('member','msg','index')?>">
+                                <!--<span class="glyphicon glyphicon-envelope"></span>-->
+                                <img src="<?=SITE_PROTOCOL.C('cdn_path')?>activity/20150706/image/need/icon_email.png">
+                                ( <?=isset($this->user['noreadmsg'])?$this->user['noreadmsg']:0?> )
+                            </a>
+                        </span>
+                        <!-- /登录后 -->
+                        <?php }else{?>
+                        <!-- 登录前 -->
+                        <span><a href="<?=url('content','login','index')?>"> <span class="glyphicon glyphicon-user"></span> 登录</a></span>
+                        <span><a href="<?=url('content','regedit','index')?>"> <span class="glyphicon glyphicon-pencil"></span> 注册</a></span>
+                        <!-- /登录前 -->
+                        <?php }?>     
+                    </div>
+                </div>
+            </div>
+            <div class="nav">
+                <div class="container">
+                    <div class="pull-left"><a href="{APP_PATH}"><img src="<?=SITE_PROTOCOL.C('cdn_path')?>activity/20150610/image/logo.png" alt="logo"></a></div>
+                    <div class="pull-right">
+                        <a href="<?=url('borrow','default','index')?>">我要理财</a>
+                        <a href="<?=url('borrow','release','index')?>">我要融资</a>
+                        <a href="<?=url('activity','carefund','index')?>">关爱基金<sup>new</sup></a>
+                        <a href="<?=url('article','safety','index')?>">安全保障</a>
+                        <a href="<?=url('article','services','guide')?>">新手指引</a>
+                        <a class="header-btn" href="<?=url('member','main','index')?>">我的账户</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="banner">
+            <div class="container">
+                <div class="banner-icon banner-gift-four"></div>
+                <div class="banner-icon banner-gift-three"></div>
+                <div class="banner-icon banner-gift-two"></div>
+                <div class="banner-icon banner-gift-one"></div>
+                <div class="bottom"></div>
+                <div class="banner-icon banner-cake-piao"></div>
+                <div class="banner-icon banner-cake-bottom"></div>
+                <div class="banner-icon banner-cake-middle"></div>
+                <div class="banner-icon banner-cake-top"></div>
+                <div class="banner-icon banner-cake-decoration"></div>
+                <div class="banner-icon banner-2"></div>
+                <div class="banner-icon banner-title"></div>
+                <div class="banner-icon banner-time"></div>
+            </div>
+        </div>
+
+        <div class="title container">
+            <a class="icon-one"></a>
+            <a class="icon-two"></a>
+            <a class="icon-three"></a>
+            <a class="icon-four"></a>
+        </div>   
+
+
+
+        <div class="module-three container">
+            <div class="module-title-three" style="margin-bottom:30px"></div>
+            <div>在7月6日 0点~7月31日 24点期间，诚汇通会员邀请朋友注册投资，根据被邀请人活动期间的首投投资金额，邀请人与被邀请人即可获得相</div>
+            <div>应奖励，推荐有效期在活动期间内。</div>
+            <div class="pl15">*被推荐人奖励： 20元新手注册实名红包+30元现金红包；</div>
+            <div class="pl15">*推荐人奖励：推荐成功30天内，奖励被推荐人累计投资额的0.1%+额外现金。</div>
+            <div class="way-box">
+                <div class="title">方法一：通过推荐链接邀请好友注册投资</div>
+                <div class="clearfix">
+                    <div class="pull-left">我的链接推荐：</div>
+                    <div class="pull-center">
+                        <textarea id="ta"><?php if($user['id']>0):?><?php echo $tj_url;?><?php endif;?></textarea>
+                    </div>
+                    <a id="copy" class="pull-right" href="javascript:void(0)">立即复制</a>
+                </div>
+                <div class="btnbar"><?php if($user['id']<=0):?><a class="log" href="<?php echo url('content','login','index');?>" >登录</a><?php else:?><?php echo $user['username'];?><?php endif;?>查看您的推荐链接。还没有诚汇通账号？<a class="reg" href="<?php echo url('content','regedit','index');?>" target="_blank">立即注册</a>送20元现金</div>
+            </div>
+            <div class="way-box">
+                <div class="title">方法二：好友注册时填写推荐人用户名</div>
+                <div class="clearfix">
+                    <div class="pull-left">我的用户名：</div>
+                    <div class="pull-center">
+                        <textarea id="ta_"><?php if($user['id']>0):?><?php echo $user['username'];?><?php endif;?></textarea>
+                    </div>
+                    <a id="copy_" class="pull-right" href="javascript:void(0)">立即复制</a>
+                </div>
+                <div class="btnbar"><a class="log" href="javascript:void(0)"></a><?php if($user['id']<=0):?><a class="log" href="<?php echo url('content','login','index');?>" >登录</a><?php else:?><?php echo $user['username'];?><?php endif;?>查看您的用户名。还没有诚汇通账号？<a class="reg" href="<?php echo url('content','regedit','index');?>" target="_blank">立即注册</a>送20元现金</div>
+            </div>
+            <h3>奖励细则：</h3>
+            <div>被推荐人奖励：被推荐人注册实名认证奖励20元，首投满1000再送30元现金红包，红包将发到被推荐人非托管账户，可投标可提现。</div>
+            <div>推荐人奖励：①奖励被推荐人累计投资额的0.1%，在被推荐人投标成功次日24：00前发放至推荐人平台非托管账户；</div>
+            <div>②额外现金奖励将于活动结束后的10个工作日内发放至用户平台非托管账户，可投标可提现。</div>
+            <div>奖励的额外现金额度见下表：</div>
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td class="t">被推荐人首投投资额（元）</td>
+                    <td>满1000</td>
+                    <td>满10000</td>
+                    <td>满50000</td>
+                    <td>满100000</td>
+                    <td>满500000</td>
+                </tr>
+                <tr>
+                    <td class="t">推荐人额外现金奖励（元）</td>
+                    <td>5</td>
+                    <td>20</td>
+                    <td>50</td>
+                    <td>100</td>
+                    <td>500</td>
+                </tr>
+            </table>
+        </div>
+   
+    <div class="module-four" style="display: <?php if(!$is_show_dati):?>none<?php endif;?>">
+            <div class="container">
+                <div class="module-title-four" style="margin-bottom:30px"></div>
+                <div>在7月21日 0点~7月24日 24点期间，用户答题即可获得相应奖励，每个用户最多2次答题机会：</div>
+                <div class="indent">①待收5000以上的投资人可免费获得一次答题闯关机会；</div>
+                <div class="indent">②在7月21日0点~24日24点期间累计投资满1万在满标复审后即可增加一次答题闯关机会。</div>
+                <div class="pt10">答题闯关，每关有不同的奖品，奖品可叠加；答错一题所有奖励归0；中途可拿奖品离开！全部对者，即有机会参加终极挑战，答对全</div>
+                <div>部题目即可获得<strong>288元</strong>现金券！终极挑战答错或者中途放弃，所有奖励都将归0！</div>
+                <div>现金券即刻发放到平台非托管账户，仅能在投资后方可提现，所有奖品可重复领取使用！现金券使用截止日期为7月31日24:00，过期作废！</div>
+            </div>
+
+            <div class="main-box clearfix">
+
+                <div class="answer-box">
+
+                    <div class="ques">
+                        <div class="titbar clearfix">
+                            <div class="pull-left"><span id="type">普通</span>答题：第<span id="num">1</span>题</div>
+                            <div class="pull-right">还剩<span id="time">0</span>秒</div>
+                        </div>
+                        <form class="form" id="dati_form" action="#" method="post" onSubmit="return false">
+                            <div class="item">
+                                <div class="ques-box">
+                                    <h3></h3>
+                                    
+                                </div>
+                                <input id="subbtn" class="btn btn-default" type="submit" value="提交答案">
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="feedback">
+                        <?php echo '<div class="close">X</div>';?>
+                        <h1></h1>
+                        <h5></h5>
+                        <div class="clearfix">
+                            <div class="pull-left">
+                                <a class="btn" href="javascript:void(0)" target="_self"></a>
+                                <div class="msg"></div>
+                            </div>
+                            <div class="pull-right">
+                                <a class="btn" href="javascript:void(0)" target="_self"></a>
+                                <div class="msg"></div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <a class="start" href="javascript:void(0)"></a>
+                </div>
+
+                <div class="award-box">
+                    <div class="title">奖品区</div>
+                    <div class="main">
+                        <div>累计获得<span><?php echo $total_chance;?></span>次答题机会</div>
+                        <div>剩余<span><?php echo $remain_chance;?></span>次答题机会</div>
+                        <a class="btn btn-default" href="<?php echo url('borrow','default','index');?>" target="_blank">去投标</a>
+                    </div>
+                    <div class="award-list-box">
+                        <ul class="award-list">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <?php $is_show_top=TRUE;?>
+        <?php if(!$is_show_top):?>
+        <!--
+        <?php endif;?>
+       <div class="module-one container">
+          <div class="module-title-one"></div>
+          <div class="title-one"></div>
+          <div>在7月8日 22:00~7月13日 22:00期间，根据满标复审后的用户的加权投资金额排名，获得对应的奖品：</div>
+          <div>第1名送<span class="inline-btn">iPhone6</span>第2名送<span class="inline-btn">iWatch</span class="inline-btn">第3名送<span class="inline-btn">iPad mini2</span>第4~10名送<span class="inline-btn">羽博 10400毫安移动电源</span></div>
+          <div class="table-module clearfix">
+            <div class="pull-left">
+                <table border="0" cellpadding="0" cellspacing="0" id="jq_top1">
+                <thead>
+                  <tr>
+                    <th>排名</th>
+                    <th>用户昵称</th>
+                    <th>手机号码</th>
+                    <th>加权金额
+                      <span class="tips">?
+                        <div class="tips-box">
+                          <div class="content">P.S：加权投资金额=1月标投资金额*1+3月标投资金额*3+6月标投资金额*6</div>
+                          <div class="arrows"></div>
+                        </div>
+                      </span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+              <div class="help">P.S : 此数据根据投资人投资情况第二天实时更新</div>
+            </div>
+            <div class="pull-right">
+              <table border="0" cellpadding="0" cellspacing="0" id="jq_top2">
+                <thead>
+                  <tr>
+                    <th>排名</th>
+                    <th>用户昵称</th>
+                    <th>手机号码</th>
+                    <th>加权金额
+                      <span class="tips">?
+                        <div class="tips-box">
+                          <div class="content">P.S：加权投资金额=1月标投资金额*1+3月标投资金额*3+6月标投资金额*6</div>
+                          <div class="arrows"></div>
+                        </div>
+                      </span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+              <div class="help">
+                <span class="inline-btn">活动详情：
+                  <div class="content">
+                    1、活动时间：7月8日 22:00~7月13日22:00；<br>
+                    2、活动期间内累计加权投资金额，前十名获得相应奖励，若有投资金额并列则最先达到条件的用户优先获得奖励；<br>
+                    3、网站将于7月17日公布获奖名单并通过注册手机号码联系获奖用户，请保持通讯畅通，客服将在7月14~7月16日内最多联系客户3次，如用户原因无法正常联系上的，视为自动放弃奖品；<br>
+                    4、实物奖品为“Apple/苹果 iPhone6 16G大陆行”，颜色随机；“Apple/苹果 iPad mini2 16G大陆行”，颜色随机；“Apple/苹果 Apple Watch Sport”系列，型号随机发放；Yoobao/ 羽博 10400mAh移动电源；所有实物奖品不兑换不折现；<br>
+                    5、所有奖品将在活动结束后15个工作日内统一发货，邮费由诚汇通平台承担；<br>
+                    6、本次活动解释权归诚汇通所有，用户若有疑问可拨打客服电话：400-018-0107。
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="title-two"></div>
+          <div>在7月8日 22：00~7月13日 22：00期间，根据用户的单个标的累计投资额发奖，奖项不重复领取，根据最高金额比例发放奖励！</div>
+          <div>奖金在活动结束后的10个工作日内发放到平台投资人的非托管账户，奖金可投标可提现！</div>
+          <div class="f14">P.S：仅活动标参与此活动</div>
+          <p class="item"><span class="item-one"></span>第一个投标的投资人有奖：奖励投资金额的<strong>0.1%</strong></p>
+          <p class="item"><span class="item-two"></span>最高金额的投资人有奖：奖励投资金额的<strong>0.18%</strong></p>
+          <p class="item"><span class="item-three"></span>最后满标的投资人有奖：奖励投资金额的<strong>0.13%</strong></p>
+          <a class="btn-ljtb disabled" href="#nogo" style="margin-left:165px"></a>
+          <div class="title-three"></div>
+          <div>在7月8日 22：00~7月13日 22：00期间，只要投资人向客服约标即可获得额外利率福利，约标10万起。</div>
+          <div>三月约标即可获得额外 <span class="ftb24">0.4%</span> 的利率福利，六月约标即可获得额外 <span class="ftb24">0.8%</span> 的利率福利！</div>
+          <h1>如您有约标需求，请联系您的专属客服或值班客服！</h1>
+        </div>    
+        <?php if(!$is_show_top):?>
+        -->
+        <?php endif;?>
+        
+        <div class="module-two">
+            <div class="container">
+                <div class="module-title-two"></div>
+                <p>在7月6日 0点~21日 24点，客户以#平台宣传语我来想#为主题发布建议留言，即有机会获得<span class="hongbao"></span><a href="javascript:void(0)">详情点我点我</a></p>
+                <div>如何获得更多点赞小贴士：</div>
+                <div>疯狂脑暴：为了获得更多点赞，必须脑洞大开，拼命撰稿！</div>
+                <div>疯狂参与：提完建议后必须毫不犹豫去百度贴吧和官方微博，疯狂参与，增加中奖概率！</div>
+                <div>疯狂通知：参加之后，呼朋唤友通知小伙伴帮忙评论和点赞！</div>
+                <a class="btn-wytjy disabled" href="javascript:void(0)" style="margin:10px 0 0 165px"></a>
+            </div>
+        </div>
+
+        <div class="rule">
+            <div class="container">
+                <h3>活动规则：</h3>
+                <div>1、在活动期间，所有奖金将于活动结束后10个工作日内，发放至平台非托管账户；</div>
+                <div>2、在活动期间所有的实物奖品将由客服联系用户核实收货信息，客服将在活动结束后的10个工作日内最多联系客户3次，如用户原因无</div>
+                <div>法联系上的，则视为自动放弃奖品！实物奖品不兑换不折现，在活动结束后的15个工作日内统一发货，邮费由诚汇通平台承担；</div>
+                <div>3、本次活动的解释权归诚汇通平台所有，客户若有疑问请您拨打：400-018-0107。</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="container">
+                <div class="pull-left">
+                    <div class="links">
+                        <a href="http://www.chenghuitong.net/article/company-index.html">关于我们</a>
+                        <a href="http://www.chenghuitong.net/article/safety-index.html">安全保障</a>
+                        <a href="http://www.chenghuitong.net/article/services-help-cateid-3.html">帮助中心</a>
+                        <a href="http://www.chenghuitong.net/article/services-index.html">服务中心</a>
+                        <a href="http://www.chenghuitong.net/article/default-index.html">新闻中心</a>
+                        <a href="http://www.chenghuitong.net/article/company-contact.html">联系我们</a>     
+                    </div>
+                    <div class="copyright">深圳市诚汇通金融信息有限公司<br>深圳市福田区福华三路168号国际商会中心2408-2412室<br>Copyright© 2015 www.chenghuitong.net 粤ICP备13044593号</div>
+                    <div class="beian">
+                        <a href="https://cert.ebs.gov.cn/A71F6F48-ABB7-4F8A-92C4-D73F8FA0DE56" target="_blank">
+                            <img src="<?=SITE_PROTOCOL.C('cdn_path')?>activity/20150706/image/need/beian_gswj.jpg" title="深圳市市场监督管理局企业主体身份公示" alt="深圳市市场监督管理局企业主体身份公示">
+                        </a>
+                        <a href="http://www.miibeian.gov.cn/" target="_blank">
+                            <img src="<?=SITE_PROTOCOL.C('cdn_path')?>activity/20150706/image/need/beian_icp.jpg" title="ICP备案查询" alt="ICP备案查询">
+                        </a>
+                        <a href="https://search.szfw.org/cert/l/CX20140305003565003628" target="_blank">
+                            <img src="<?=SITE_PROTOCOL.C('cdn_path')?>activity/20150706/image/need/beian_cxwz.jpg" title="诚信网站" alt="诚信网站">
+                        </a>
+                        <a href="https://ss.knet.cn/verifyseal.dll?sn=e13101844030042941tvh5000000&amp;ct=df&amp;a=1&amp;pa=0.2732217316515744" target="_blank">
+                            <img src="<?=SITE_PROTOCOL.C('cdn_path')?>activity/20150706/image/need/beian_cnnic.png" title="可信网站" alt="可信网站">
+                        </a>
+                        <a href="https://trustsealinfo.websecurity.norton.com/splash?form_file=fdf/splash.fdf&amp;dn=www.chenghuitong.net&amp;lang=en" target="_blank">
+                            <img src="<?=SITE_PROTOCOL.C('cdn_path')?>activity/20150706/image/need/beian_norton.jpg" title="NORTON" alt="NORTON">
+                        </a>
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <div class="ft28 bold">400-018-0107</div>
+                    <div class="ft12">（周一至周五 9:00-17:30）</div>
+                    <div class="attention">
+                        <a class="weibo" href="http://weibo.com/cht608710" target="_blank"></a>
+                        <a class="tweibo" href="http://e.t.qq.com/cht608710" target="_blank"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="gotop">
+            <div id="gotop"></div>
+        </div>
+
+        <script src="<?=SITE_PROTOCOL.C('cdn_path')?>activity/20150706/js/jquery/1.11.2/jquery.min.js"></script>
+        <script src="<?=SITE_PROTOCOL.C('cdn_path')?>activity/20150706/js/zclip/1.1.1/jquery.zclip.min.js"></script>
+        <script>
+            var total_chance=<?php echo $total_chance;?>;
+                                    $(function() {
+                                        
+              <?php if($is_show_top):?>
+                                            //显示加权投资排行榜
+                  $.getJSON('<?=C('app_home')?>/?m=activity&c=celebration&a=weightedInvest'+'&t'+Math.random(),function(d){
+                      var top1_html=[],top2_html=[];
+                      for(x in d){
+                          var tmp="<tr><td>"+d[x]['sort']+"</td><td>"+d[x]['username']+"</td><td>"+d[x]['phone']+"</td><td>"+d[x]['jqje']+"</td></tr>";
+                          if(x<5){
+                                            top1_html.push(tmp);
+                          }else{
+                                            top2_html.push(tmp);
+                                            }
+                                            }
+                                            $("#jq_top1 tbody").html(top1_html.join(''));
+                                                    $("#jq_top2 tbody").html(top2_html.join(''));
+                                            });
+                <?php endif;?>
+
+          
+                                            $('a#copy').zclip({
+                                    path:'<?=SITE_PROTOCOL.C('cdn_path')?>activity/20150706/js/zclip/1.1.1/ZeroClipboard.swf',
+                                            copy:$('textarea#ta').text(),
+                                            beforeCopy:function(){
+				  $('textarea#ta').css({background: 'yellow',color: '#666'});
+                                            },
+                                            afterCopy:function(){
+				  $('textarea#ta').css({background: '#3399ff',color: '#fff'});
+                                                    $(this).css('background', '#999');
+                                                    $(this).html("已复制");
+                                                    setTimeout(function() {
+					  $('textarea#ta').css({background: '#fff',color: '#333'});
+                                                            $('a#copy').css('background', '#da2832');
+                                                            $('a#copy').html("立即复制");
+                                                    }, 5000)
+                                            }
+                                    });
+                                            $('a#copy_').zclip({
+                                    path:'<?=SITE_PROTOCOL.C('cdn_path')?>activity/20150706/js/zclip/1.1.1/ZeroClipboard.swf',
+                                            copy:$('textarea#ta_').text(),
+                                            beforeCopy:function(){
+				  $('textarea#ta_').css({background: 'yellow',color: '#666'});
+                                            },
+                                            afterCopy:function(){
+				  $('textarea#ta_').css({background: '#3399ff',color: '#fff'});
+                                                    $(this).css('background', '#999');
+                                                    $(this).html("已复制");
+                                                    setTimeout(function() {
+					  $('textarea#ta_').css({background: '#fff',color: '#333'});
+                                                            $('a#copy_').css('background', '#da2832');
+                                                            $('a#copy_').html("立即复制");
+                                                    }, 5000)
+                                            }
+                                    });
+		  
+                                            // 点击开始答题之后隐藏banner
+                                            $(".start").click(function(e) {
+                                                /**
+                                                 * 1.触发dati
+                                                 */
+                                            var obj = $(this);
+                                            $.getJSON('<?=C('app_home')?>/?m=activity&c=celebration&a=dati'+'&t'+Math.random(), function(d){
+                                                if (d.code == 'fail'){
+                                                    alert(d.msg);
+                                                    if(d.redirect){
+                                                        window.location.href=d.redirect;
+                                                    }
+                                                    return;
+                                                }
+                                                //如果成功的话就去拉去题目
+                                                obj.animate({top: '-120%'}, 500);
+                                                getQuestion();                                            
+                                            });
+//			  
+//			  formTimer("#time", 3,{
+//                                            h1: '很遗憾，时间到了!',
+//                                                    h5: '今日所得奖励小诚全部拿走啦',
+//                                                    leftBtnName: '去投标赚机会',
+//                                                    leftBtn: 'btn-default',
+//                                                    leftHref: '<?php echo url('borrow','default','index');?>',
+//                                                    leftLocation: false,
+//                                                    leftMsg: '再投999，999.00元，您可再次获得答题机会',
+//                                                    rightBtnName: '再来一次',
+//                                                    rightBtn: 'btn-disable',
+//                                                    rightHref: 'javascript:void(0)',
+//                                                    rightLocation: false,
+//                                                    rightMsg: ''
+//                        });
+                                    });
+                                    
+                                    //回答问题
+                                    $("#subbtn").click(function(e) {
+                                        answerQuestion();
+                                    });
+
+                                            // 关闭答题反馈框
+                                            $(".feedback .close").click(function(e) {
+                                            $(".feedback").animate({top: '-120%'}, 500);
+                                            restore();
+                                            });
+
+                                            // 返回顶部
+                                            $(window).scroll(function() {
+                                            var bodyHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+                                                    var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+			  if(scrollTop >= bodyHeight/2) {
+                                            $("#gotop").fadeIn();
+                                            } else {
+                                            $("#gotop").fadeOut();
+                                            }
+                                            })
+                                                    $("#gotop").click(function(e) {
+			$("html,body").animate({scrollTop:0},500);
+                                            });
+		  
+                                                    // 顶部banner特效
+                                                    $('.banner-cake-bottom').delay(500).animate({ bottom: '33px' }, 500);
+                                                    $('.banner-cake-middle').delay(500).animate({ top: '400px' }, 500);
+                                                    $('.banner-cake-top').delay(600).animate({ top: '305px' }, 500);
+                                                    $('.banner-cake-decoration').delay(700).animate({ top: '294px' }, 500);
+                                                    $('.banner-2').delay(800).animate({ top: '16px' }, 500);
+                                                    $('.banner-gift-one').delay(1000).animate({ bottom: '148px' }, 500);
+                                                    $('.banner-gift-two').delay(1100).animate({ bottom: '148px' }, 500);
+                                                    $('.banner-gift-three').delay(1200).animate({ bottom: '148px' }, 500);
+                                                    $('.banner-gift-four').delay(1300).animate({ bottom: '148px' }, 500);
+                                            
+    showPrize();
+    });
+        </script>
+        <script>
+                /**
+                 * 拉取题目
+                 */
+                function getQuestion(){
+                    closefb();
+
+                    //显示题目窗口
+                    $.getJSON('<?=C('app_home')?>/?m=activity&c=celebration&a=showQuestion'+'&t'+Math.random(), function(d){
+                        if(d.code=='fail'){
+                            alert(d.msg);
+                            return false;
+                        }
+                        var type_name = (d.question.level == 0)?'普通':'终极';
+                            $(".ques #type").text(type_name); //类型
+                            $(".ques #num").text(d.question.number); //题目编号
+
+                            $(".ques h3").text(d.question.number + "、" + d.question.question); //题目
+
+                            var answer_html_arr = [];
+                            var daan = ['a', 'b', 'c', 'd'];
+                            var dananB = ['A', 'B', 'C', 'D']
+                            for (x in daan){
+                    var key_name = 'answer_' + daan[x];
+                            key_value = d.question[key_name];
+                            if (key_value != ''){
+                    answer_html_arr.push('<label><input type="radio" name="user_answer" value="' + dananB[x] + '"> ' + dananB[x] + '、' + key_value + '</label>');
+                    }
+                    }
+                    $(".ques .ques-box label").remove();
+                    $(".ques .ques-box").append(answer_html_arr.join(""));
+                            formTimer("#time", 15, {
+                            h1: '很遗憾，时间到了!',
+                                    h5: '今日所得奖励小诚全部拿走啦',
+                                    leftBtnName: '去投标赚机会',
+                                    leftBtn: 'btn-default',
+                                    leftHref: '<?php echo url('borrow','default','index');?>',
+                                    leftLocation: false,
+                                    leftMsg: '再投999，999.00元，您可再次获得答题机会',
+                                    rightBtnName: '再来一次',
+                                    rightBtn: '',
+                                    rightHref: 'javascript:void(0)',
+                                    rightLocation: false,
+                                    rightMsg: ''
+                            });
+                    });                      
+                }
+                
+                /**
+                 * 回答问题
+                 */
+                function answerQuestion(){
+                       no_show_timer=1;
+                                    var obj = $(this);
+                                    $.getJSON('<?=C('app_home')?>/?m=activity&c=celebration&a=postAnswer'+'&t'+Math.random(), $("#dati_form").serialize(), function(d){
+                                    try {
+                                        clearTimeout(timer);//清除倒计时
+                                    } catch(err) {
+
+                                    } finally {
+
+                                    }
+                                
+                                
+                                $(".feedback .pull-right .btn").removeClass('btn-disable btn-default');
+                                $(".feedback .pull-left .btn").removeClass('btn-disable btn-default');
+                                
+                                    var options = {
+                                    h1: '很遗憾，时间到了!',
+                                            h5: '今日所得奖励小诚全部拿走啦',
+                                            leftBtnName: (d.has_chance==0&&total_chance==2)?'去投标':'去投标赚机会',
+                                            leftBtn: 'btn-default',
+                                            leftHref: '<?php echo url('borrow','default','index');?>',
+                                            leftLocation: false,
+                                            leftMsg: total_chance<2?'满标金额超过1万元，您可以再次获得答题机会':'',//再投999，999.00元，您可再次获得答题机会
+                                            rightBtnName: '再来一次',
+                                            rightBtn: d.has_chance > 0?'btn-default':'btn-disable',
+                                            rightHref: d.has_chance > 0?'javascript:reAnswer()':'javascript:void(0)',
+                                            rightLocation: false,
+                                            rightMsg: ''
+                                    };
+                                            if (d.answer == 'error'){//回答错误
+                                                options = {
+                                                h1: '很遗憾，回答错误!',
+                                                        h5: '今日所得奖励小诚全部拿走啦',
+                                                        leftBtnName: (d.has_chance==0&&total_chance==2)?'去投标':'去投标赚机会',
+                                                        leftBtn: 'btn-default',
+                                                        leftHref: '<?php echo url('borrow','default','index');?>',
+                                                        leftLocation: false,
+                                                        leftMsg: total_chance<2?'满标金额超过1万元，您可以再次获得答题机会':'',
+                                                        rightBtnName: '再来一次',
+                                                        rightBtn: d.has_chance > 0?'btn-default':'btn-disable',
+                                                        rightHref: d.has_chance > 0?'javascript:reAnswer()':'javascript:void(0)',
+                                                        rightLocation: false,
+                                                        rightMsg: ''
+                                                };
+                                                showPrize();
+                                    }else if (d.code == 'success'){
+                                        $(".feedback .pull-left .btn").removeClass('btn-disable');
+                                        options = {
+                                            
+                                        h1: '恭喜您，回答正确!',
+                                                h5: d.prize_money==288?'恭喜您获得终极大奖':'累计获得'+d.total_prize_money+'元现金券',
+                                                leftBtnName: '继续答题',
+                                                leftBtn: d.prize_money==288?'btn-disable':'btn-default',
+                                                leftHref: d.prize_money==288?'javascript:void(0)':'javascript:getQuestion();',
+                                                leftLocation: false,
+                                                leftMsg: '冲刺大奖，骚年加油',
+                                                rightBtnName: '拿奖闪人',
+                                                rightBtn: d.prize_money==288?'btn-disable':'btn-default',
+                                                rightHref: d.prize_money==288?'javascript:void(0)':'javascript:getPrize();',
+                                                rightLocation: false,
+                                                rightMsg: '心满意足，让钱生钱去'
+                                        };
+                                        
+                                        if(d.right_num==5){//准备进入终极答题
+                                            options = {
+                                                h1: '恭喜您，回答正确!',
+                                                    h5:'<b>您是否要继续闯关？</b><br/><b>小诚温馨提示：终极闯关必须连续答对3题才可获得288元现金奖品，中途不可放弃不可拿奖闪人哦！</b>',
+                                                    leftBtnName: '进入终极答题',
+                                                    leftBtn: d.prize_money==288?'btn-disable':'btn-default',
+                                                    leftHref: d.prize_money==288?'javascript:void(0)':'javascript:getQuestion();',
+                                                    leftLocation: false,
+                                                    leftMsg: '冲刺大奖，骚年加油',
+                                                    rightBtnName: '拿奖闪人',
+                                                    rightBtn: d.prize_money==288?'btn-disable':'btn-default',
+                                                    rightHref: d.prize_money==288?'javascript:void(0)':'javascript:getPrize();',
+                                                    rightLocation: false,
+                                                    rightMsg: '心满意足，让钱生钱去'
+                                            };
+                                        }
+                                        if(d.right_num>5&&d.right_num<8){//准备进入终极答题.
+                                            options = {
+                                                h1: '恭喜您，回答正确!',
+                                                    h5: '',
+                                                    leftBtnName: '继续终极答题',
+                                                    leftBtn: d.prize_money==288?'btn-disable':'btn-default',
+                                                    leftHref: d.prize_money==288?'javascript:void(0)':'javascript:getQuestion();',
+                                                    leftLocation: false,
+                                                    leftMsg: '冲刺大奖，骚年加油',
+                                                    rightBtnName: '拿奖闪人',
+                                                    rightBtn: 'btn-disable',
+                                                    rightHref: 'javascript:void(0)',
+                                                    rightLocation: false,
+                                                    rightMsg: ''
+                                            };
+                                        }
+                                        
+                                        if(d.prize_money==288){
+                                            alert("恭喜您获得终极大奖");                                            
+                                            if(d.has_chance>0){
+                                                options.rightBtnName='再来一次';
+                                                options.rightBtn= 'btn-default';
+                                                options.rightHref= 'javascript:reAnswer()';
+                                                options.rightMsg='心满意足，让钱生钱去';
+                                            }else{
+                                                options.rightBtnName='再来一次';
+                                                options.rightBtn= 'btn-disable';
+                                                options.rightHref= 'javascript:void(0)';
+                                            }
+//                                            showPrize();
+                                        }
+                                    }else if(d.timeout){
+                                        //do nothing
+                                    }else{
+                                        alert(d.msg);
+                                    }
+                                    showfb(options);
+                                    showPrize();
+//                                    if(d.prize_money==288){
+//                                        $(".award-list").append('<li><div class="award_'+d.prize_money+'"></div><div>'+d.prize_money+'元</div><div>现金券</div></li>');//
+//                                    }
+                });
+                }
+                
+                /**
+                 * 领取现金券
+                 */
+                function getPrize(){
+                    $.getJSON('<?=C('app_home')?>/?m=activity&c=celebration&a=getPrize'+'&t'+Math.random(), function(d){
+                        if(d.code=='fail'){
+                            alert(d.msg);
+                            return;
+                        }
+                        
+                        var prize_num=d.right_num;
+                        if(prize_num==8){
+                            prize_num=6;
+                        }else if(prize_num>=6 && prize_num <8){
+                            prize_num=5;
+                        }
+                        
+                        alert("恭喜您获得"+prize_num+"张现金券");
+                        restore();//恢复答题
+                        showPrize();
+                        //$(".award-list").append('<li><div class="award_'+d.prize_money+'"></div><div>'+d.prize_money+'元</div><div>现金券</div></li>');//
+                    });
+                }
+                
+                
+                function restore(){//恢复
+                    $(".start").animate({top: 0}, 500);
+                }
+                function reAnswer(){
+                    $(".start").click();
+                }
+                
+                                            // 开始计时
+		  function  formTimer(id,time,options) {
+                                            var $time = $(id); // 页面显示倒计时数字
+                                                    timer = null;
+			  down(time+1); // +1是因为点击开始答题banner时，这个banner消失需要时间500ms
+                                                    // 倒计时
+                                                            function down(time) {
+			  	if(time==0) {
+                                                            clearTimeout(timer); // 本题时间到，清除计时器
+                                                                    // 弹出反馈框                                                                    
+                                                                    showfb(options);
+                                                                    answerQuestion();
+		  
+                                                            } else {
+                                                            time--;
+                                                                    $time.html(time); // 页面显示倒计时
+			  		timer = setTimeout( function() {
+                                                                    down(time)
+					},1000);
+                                                            }
+                                                            }
+                                                    } // end formTimer
+                                                    
+                                                     // 打开答题反馈框
+                                            var showfb = function(options) {
+                                            var $fb = $(".feedback");
+                                                    var $h1 = $(".feedback h1");
+                                                    var $h5 = $(".feedback h5");
+                                                    var $leftBtn = $(".feedback .pull-left .btn");
+                                                    var $rightBtn = $(".feedback .pull-right .btn");
+                                                    var $leftMsg = $(".feedback .pull-left .msg");
+                                                    var $rightMsg = $(".feedback .pull-right .msg");
+			  
+                                                    $fb.animate({top: '0'}, 500);
+			  
+                                                    var defaults = {
+					  h1: 'null',                  // 大标题提示信息
+					  h5: 'null',                  // 大标题底下的小标题提示信息
+			 leftBtnName: 'null',                  // 左边按钮名称
+			     leftBtn: 'btn-default',           // 左边按钮样式：btn-default（默认样式，红色）、btn-disable（不可用状态）、btn-warning（醒目状态）
+				leftHref: 'javascript:void(0)',    // 左边按钮点击动作
+			leftLocation: false,                   // 是否当前页面跳转
+				 leftMsg: '',                      // 左边按钮下方提示信息
+		    rightBtnName: 'null',                  // 右边按钮名称
+				rightBtn: 'btn-default',           // 右边按钮样式：btn-default（默认样式，红色）、btn-disable（不可用状态）、btn-warning（醒目状态）
+			   rightHref: 'javascript:void(0)',    // 右边按钮点击动作
+		   rightLocation: true,                   // 是否当前页面跳转
+                                                            rightMsg: ''                       // 右边按钮下方提示信息
+                                                    };
+                                                    var options = $.extend(defaults, options);
+			  
+                                                    $h1.html(options.h1);
+                                                    $h5.html(options.h5);
+                                                    $leftBtn.html(options.leftBtnName);
+                                                    $leftBtn.addClass(options.leftBtn);
+                                                    $leftBtn.attr("href", options.leftHref)
+                                                    $leftMsg.html(options.leftMsg);
+                                                    $rightBtn.html(options.rightBtnName);
+                                                    $rightBtn.addClass(options.rightBtn);
+                                                    $rightBtn.attr("href", options.rightHref)
+                                                    $rightMsg.html(options.rightMsg);
+			  if(options.leftLocation) {
+                                            $leftBtn.attr("target", "_self");
+                                            } else {
+//                                            $leftBtn.attr("target", "_blank");
+                                            }
+			  if(options.rightLocation) {
+                                            $rightBtn.attr("target", "_self");
+                                            } else {
+//                                            $rightBtn.attr("target", "_blank");
+                                            }
+                                            }
+                                            
+                    function closefb() {
+                        $(".feedback").animate({top: '-120%'}, 500);
+                    }
+                    
+                    function showPrize(){
+                        $.getJSON('<?=C('app_home')?>/?m=activity&c=celebration&a=getAllPrize'+'&t'+Math.random(), function(d){
+                            $(".award-box span").eq(0).text(d.data.total_chance);
+                            $(".award-box span").eq(1).text(d.data.remain_chance);
+                            var prize_list=d.data.prize_list;
+                            var html_arr=[];
+                            for(y in prize_list){
+//                                console.log(prize_list);
+                                var tmp_list=prize_list[y]['prize_list'];
+                                for(x in tmp_list){
+//                                    alert(tmp_list[x]);
+                                    html_arr.push('<li><div class="award_'+tmp_list[x]+'"></div><div>'+tmp_list[x]+'元</div><div>现金券</div></li>');
+                                }
+                            }
+
+                            $(".award-list").html(html_arr.join(""));//
+                        });
+                    }
+                
+        </script>
+    </body>
+</html>

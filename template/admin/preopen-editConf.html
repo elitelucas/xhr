@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+
+    <!-- template-begin+++ -->
+    {template public-new-ui-header}
+    <!-- template-end+++ -->
+
+    <style type='text/css'>
+        .rules-1{
+            float: left;
+            height: 35px;
+            line-height: 35px;
+            padding-right:10px;
+        }
+        .rules-2{
+            float: left;
+            height: 35px;
+            line-height: 35px;
+            padding:0 10px 0 10px;
+        }
+        .rules-3{
+            float: left;
+            width: 20%;
+        }
+    </style>
+</head>
+<body style="margin: 15px;background-color: #f3f3f4;">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title iboxWTitle">
+            <h5>预开奖信息配置</h5>
+            <div class="ibox-tools">
+                <a href="javascript:void(0)" class="btn btn-white btn-bitbucket" onclick="javascript:history.go(-1);">
+                    <i class="fa fa-reply"></i> 返回
+                </a>
+            </div>
+        </div>
+        <div class="ibox-content bagCol">
+            <div class="ibox-title">
+                <h5>活动详情</h5>
+            </div>
+            <div class="ibox-content">
+                <form method="get" class="form-horizontal" id="form">
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">当前彩种</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" value="{$lottery_type_map[$lottery_type]}" disabled="disabled" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">是否开启预开奖</label>
+                        <div class="col-sm-3">
+                            <select class="form-control m-b" name="is_preopen_running">
+                                <option value="1">是</option>
+                                <option value="0">否</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">计算范围</label>
+                        <div class="col-sm-3">
+                            <select class="form-control m-b" id="cal_range" name="cal_range">
+                                <option value="1">单期</option>
+                                <option value="0">月结</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="single_period_1">
+                        <label class="col-sm-2 control-label">预开奖模式</label>
+                        <div class="col-sm-3">
+                            <select class="form-control m-b" name="setting_type">
+                                <option value="max_val">最大模式</option>
+                                <option value="near_val">接近模式</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="monthly_balance">
+                        <label class="col-sm-2 control-label">彩种杀率范围(百分比)</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" style="width: 45%;display: inline-flex" value="{$json_obj[$sha_lv_key]['percent_1']}" name="percent_1" id="percent_1" data-validate="required:请输入彩种杀率整数值，可填入1~100"/>
+                            <input type="text" class="form-control" style="width: 45%;display: inline-flex" value="{$json_obj[$sha_lv_key]['percent_2']}" name="percent_2" id="percent_2" data-validate="required:请输入彩种杀率整数值，可填入1~100"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="single_period_2">
+                        <label class="col-sm-2 control-label">接近值</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" style="width: 45%;display: inline-flex" value="{$json_obj[$sha_lv_key]['percent']}" name="percent" id="percent" data-validate="required:请输入彩种杀率整数值，可填入1~100"/>
+                            <p style="color: gray;padding-top: 10px;display:none;" class="setting_type_near">
+                            按照排序过的15组开奖结果，从小到大预先计算出每一组的开奖结果对应本期的总投注、总中奖，然后得出杀率，与后台设置的杀率做对比。最接近后台杀率的一组开奖结果即为最终开奖结果，两组或多组与后台所配置杀率相差的绝对值相等，取杀率值最高的一组为最终开奖结果。
+                            </p>
+                            <p style="color: gray;padding-top: 10px;display:none;" class="setting_type_max">
+                            按照排序过的15组开奖结果，从小到大预先计算出每一组的开奖结果对应本期的总投注、总中奖，然后得出杀率，之后取杀率值最高的一组作为开奖结果。
+                            </p>
+                            <p style="color: gray;padding-top: 10px;">
+                            杀率计算方式：(总投注 - 总中奖) / 总投注
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label"></label>
+                        <div class="col-sm-2 col-sm-offset-1">
+                            <button class="btn btn-primary" type="button" data-id="{$activity_info['id']}" id="btn_submit">提交</button>
+                            <button class="btn btn-white" type="button" onclick="javascript:history.go(-1);" id="qx_submit">取消</button>
+                        </div>
+                    </div>
+                    <input type="hidden" name="lottery_type" id="lottery_type" value="{$lottery_type}" />
+                </form>
+            </div>
+        </div>
+    </div>
+
+<script type="text/javascript">
+
+    $(function () {
+        //初始化主开关，是否开启预开奖
+        var is_preopen_running = "{$json_obj[$sha_lv_key]['is_preopen_running']}";
+        if (is_preopen_running == '0') {
+            $('[name="is_preopen_running"]>[value="0"]').prop('selected', true);
+        } else {
+            $('[name="is_preopen_running"]>[value="1"]').prop('selected', true);
+        }
+
+        var cal_range = "{$json_obj[$sha_lv_key]['cal_range']}";
+        if (cal_range == '0') {
+            $('[name="cal_range"]>[value="0"]').prop('selected', true);
+        } else {
+            $('[name="cal_range"]>[value="1"]').prop('selected', true);
+        }
+
+        if(cal_range == '0'){
+            $("#single_period_1").hide();
+            $("#single_period_2").hide();
+            $("#monthly_balance").show();
+        }else{
+            $("#single_period_1").show();
+            $("#single_period_2").show();
+            $("#monthly_balance").hide();
+        }
+
+        //模式类型
+        var $setting_type_near = $('.setting_type_near');
+        var $setting_type_max = $('.setting_type_max');
+        var setting_type = "{$json_obj[$sha_lv_key]['setting_type']}";
+        if (setting_type == 'max_val') {
+            $('[name="percent"]').prop('disabled', true);
+            $setting_type_max.show();
+        } else {
+            $('[name="percent"]').prop('disabled', false);
+            $setting_type_near.show();
+        }
+        $('[name="setting_type"]>[value="' + setting_type + '"]').prop('selected', true);
+
+        //切换模式
+        $('[name="setting_type"]').change(function () {
+            var this_val = $(this).val();
+            if (this_val == 'max_val') {
+                $setting_type_max.show();
+                $setting_type_near.hide();
+                $('[name="percent"]').prop('disabled', true);
+            } else if (this_val == 'near_val') {
+                $setting_type_near.show();
+                $setting_type_max.hide();
+                $('[name="percent"]').prop('disabled', false);
+            }
+        });
+        $('[name="setting_type"]').change();
+
+        $("#cal_range").change(function () {
+            if( $(this).val()==0 ){
+                $("#single_period_1").hide();
+                $("#single_period_2").hide();
+                $("#monthly_balance").show();
+            }else{
+                $("#single_period_1").show();
+                $("#single_period_2").show();
+                $("#monthly_balance").hide();
+            }
+        });
+        
+        $('#btn_submit').click(function () {
+            var lottery_type = $('#lottery_type').val(),
+                percent_1 = $('#percent_1').val(),
+                percent_2 = $('#percent_2').val(),
+                setting_type = $('[name="setting_type"]').val(),
+                cal_range = $("#cal_range").val(),
+                percent = $("#percent").val(),
+                is_preopen_running = $('[name="is_preopen_running"]').val(),
+                url = '?m=admin&c=preopen&a=saveConf';
+
+            var loading = "";//加载中......
+            $.ajax({
+                url: url,
+                data: {
+                    lottery_type : lottery_type,
+                    percent_1 : percent_1,
+                    percent_2 : percent_2,
+                    setting_type : setting_type,
+                    is_preopen_running : is_preopen_running,
+                    cal_range : cal_range,
+                    percent:percent
+                },
+                dataType: 'json',
+                type: 'post',
+                beforeSend: function () {
+                    loading = layer.load(1);
+                },
+                error: function (e) {
+                    layer.close(loading);
+                    layer.alert('保存失败，请检查网络', {icon: 5, shade: [0.5, '#393D49']});
+                },
+                success: function (result) {
+                    layer.close(loading);
+                    if (result.status == '0') {
+                        layer.msg('保存成功', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                            var lottery_type = $('#lottery_type').val();
+                            location.href = '?m=admin&c=preopen&a=list&lottery_type=' + lottery_type;
+                        });
+                    } else {
+                        layer.alert(result.msg, {icon: 5, shade: [0.5, '#393D49']}, function () {
+                            location.reload();
+                        });
+                    }
+                }
+            });
+        });
+
+        //返回
+        $("#btn_cancel").click(function () {
+            var lottery_type = $('#lottery_type').val();
+            location.href = '?m=admin&c=preopen&a=list&lottery_type=' + lottery_type;
+        });
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="renderer" content="webkit">
+    <title>IP黑名单</title>
+    <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+    <script src="statics/admin/js/pintuer.js"></script>
+    <style>
+        #page{height: 60px;margin-top: 20px;text-align: center;}
+        #page ul li{float: left;margin-right:10px;}
+        #page ul .current{ background-color:#0099ff;text-align:center;}
+    </style>
+    {template public-new-ui-header}
+</head>
+
+<body class="new_ui_body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+
+                <div class="ibox-title iboxWTitle">
+                    <h5>{if !empty($id)} 修改黑名单{else} 添加黑名单{/if}</h5>
+                    <div class="ibox-tools">
+                        <a href="javascript:;" class="btn btn-white btn-bitbucket" onclick="history.go(-1);">
+                            <i class="fa fa-reply"></i>返回
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content bagCol" style="width: 100%;">
+
+                    <form method="post" class="form-x"  id="forms">
+                        <div class="ibox-title">
+                            <h5>黑名单信息</h5>
+                        </div>
+                        <div class="ibox-content m-b" style="width: 100%;">
+                            <p style="padding: 0px 0px 0px 30px;color: red;">
+                                特别说明<br />
+                                禁止访问的地址书写格式：如果我要禁止访问 平台域名+/?m=web&c=lobby&a=index 这个链接，那么取m,c,a的值，书写格式为 web/lobby/index
+                            </p>
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label input_title"><i class="red_star">*</i>限制设备</label>
+                                    <div class="col-sm-10">
+                                        <select id="shebei" class="input" style="width:150px; line-height:17px;display:inline-block" {if !empty($list['ip']) || !empty($list['mac'])}disabled {/if}>
+                                            <option value="web" {if !empty($list['ip'])} selected {/if}>H5</option>
+                                            <option value="app" {if !empty($list['mac'])} selected {/if}>APP</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" style="display: none;" id="web">
+                                    <label class="col-sm-2 control-label input_title">IP</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" placeholder="请输入ip" class="input w50" name="ip" value="{$list['ip']}" <?php  if(!empty($list['id'])){ echo 'readonly="readonly"';}  ?> />
+                                        <div class="tipss"></div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" style="display: none;" id="app">
+                                    <label class="col-sm-2 control-label input_title">MAC</label>
+                                    <div class="col-sm-10">
+                                        <input placeholder="请输入mac" type="text" class="input w50" name="mac" value="{$list['mac']}" <?php  if(!empty($list['id'])){ echo 'readonly="readonly"';}  ?> />
+                                        <div class="tipss"></div>
+                                    </div>
+                                </div>
+
+
+                                {if !empty($list['id'])}
+                                    <div class="form-group" style="display: none;" id="webAddress">
+                                        <label class="col-sm-2 control-label input_title">IP归属地</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" style="width:200px;" class="input w50" name="ip_attribution" value="{$list['ip_attribution']}" <?php  if(!empty($list['id'])){ echo 'readonly="readonly"';}  ?> />
+                                            <div class="tipss"></div>
+                                        </div>
+                                    </div>
+                                {/if}
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label input_title">状态</label>
+                                    <div class="col-sm-10" style="margin-top: 6px;">
+                                        <input type="radio" name="status"  value="0" <?php if(empty($list)){ echo 'checked="checked"';}else{ if($list['status'] == 0){ echo 'checked="checked"'; }}    ?>  />开启
+                                        <input type="radio" name="status"  value="1" <?php if($list['status'] == 1){ echo 'checked="checked"'; }   ?> />禁用
+                                        <div class="tipss"></div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label input_title">禁止访问的地址</label>
+                                    <div class="col-sm-10">
+                                        <textarea rows="" cols="" name="url_content" placeholder="m/c/a" style="height:100px;width:363px;">{$list['url_content']}</textarea>
+                                        （按照提示填写(：)，多个地址请用英文逗号分隔）
+                                        <div class="tipss"></div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label input_title">备注</label>
+                                    <div class="col-sm-10">
+                                        <textarea type="text" class="input" name="remark" style="height:100px;width:363px;">{$list['remark']}</textarea>
+                                        <div class="tipss"></div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label input_title"></label>
+                                    <div class="col-sm-4">
+                                        <button class="btn btn-primary" type="button" id='btn'>提交</button>
+                                        <button class="btn btn-white" type="button" onclick="history.go(-1);">取消</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    $(function(){
+        $("#shebei").trigger("change");
+    })
+    $("#shebei").on("change",function(){
+        var obj_val = $(this).find("option:selected").val();
+        if( obj_val == "web") {
+            $("#web").css("display","block");
+            $("#app").css("display","none");
+        } else if(obj_val == "app") {
+            $("#app").css("display","block");
+            $("#web").css("display","none");
+        }
+    })
+    $("#btn").on("click",function(){
+        var data = {
+            "id":"{$list['id']}",
+            "ip":$("input[name='ip']").val(),
+            "ip_attribution":$("input[name='ip_attribution']").val(),
+            "mac":$("input[name='mac']").val(),
+            "status":$("input[name='status']:checked").val(),
+            "url_content":$("textarea[name='url_content']").val(),
+            "remark":$("textarea[name='remark']").val()
+        }
+        if(data['ip'] == "" && data['mac'] == "")
+        {
+            layer.msg('ip或者mac不能为空！！！', {icon: 5, shade: [0.5, '#393D49']});
+            return false;
+        }
+        if(data['url_content'] == "")
+        {
+            layer.msg('禁止访问的地址不能为空！！！', {icon: 5, shade: [0.5, '#393D49']});
+            return false;
+        }
+        $.ajax({
+            type: 'POST',
+            url: '?m=admin&c=role&a=ipBlackAct&type=1',
+            data: data,
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == 0) {
+                    layer.msg(data.msg, {icon: 6, shade: [0.5, '#393D49']}, function () {
+                        location.href = "?m=admin&c=role&a=ipBlacklist";
+                    });
+                } else {
+                    layer.msg(data.msg, {icon: 5, shade: [0.5, '#393D49']});
+                }
+            }
+        });
+
+    });
+</script>
+</html>

@@ -1,0 +1,516 @@
+{template header}
+  <!-- Loan -->
+  <link href="../../statics/resource/css/loan/loan.css" rel="stylesheet">
+
+  <div class="container">
+    <!-- 路径导航 -->
+    <ol class="breadcrumb">
+      <li><a href="<?=url('member','main','index')?>">首页</a></li>
+      <li class="active">我要融资</li>
+    </ol>
+    <!-- /路径导航 -->
+
+    <div class="loan-add-box table-bordered border-radius bgc">
+      <form id="add_bids" class="form-horizontal" role="form" action="<?=url('','','save')?>" method="post">
+        <div class="loan-add-title">基本信息</div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">是否丰付托管标：</label>
+          <div class="col-sm-4">
+            <label class="radio-inline">
+              <input type="radio" name="is_trust" value="0" checked> 否
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="is_trust" value="1"> 是
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">是否活动标：</label>
+          <div class="col-sm-4">
+            <label class="radio-inline">
+              <input type="radio" name="huodong" id="huodong1" value="0" checked> 否
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="huodong" id="huodong2" value="1"> 是
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputUse" class="col-sm-2 control-label">借款用途：</label>
+          <div class="col-sm-4">
+            <select name="use" class="form-control" id="inputUse">
+	            {loop $jkyt $k $v}
+	            <option value="{$k}">{$v['name']}</option>
+	            {/loop}
+            </select>
+          </div>
+          <div class="col-sm-6 help-block"><div style="margin-top:-15px;line-height:16px;">填写您提供给投资者的年利率，所填写的利率是您还款的年利率。1至6个月的年利率不能超过22.4%，7至12个月的年利率不能超过24%。范围：1%至24%，且只保留小数后最后两位。</div></div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputDeadline" class="col-sm-2 control-label">借款期限：</label>
+          <div class="col-sm-2">
+            <input name="time_limit" type="text" class="form-control" id="inputDeadline" placeholder="">
+          </div>
+          <div class="col-sm-2">
+            <label class="radio-inline">
+              <input type="radio"  name="is_datetype" value="0" id="deadline1" checked> 月
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="is_datetype" value="1" id="deadline2"> 天
+            </label>
+          </div>
+          <div class="col-sm-6 help-block">需要借多长时间。按天，系统将按照每年365天来计算借款利息。</div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputMethod" class="col-sm-2 control-label">还款方式：</label>
+          <div class="col-sm-4">
+            <select name="style" class="form-control" id="inputMethod">
+              {loop $hkfx $k $v}
+              <option value="{$v['value']}">{$v['name']}</option>
+              {/loop}
+            </select>
+          </div>
+          <div class="col-sm-6 help-block"><div style="margin-top:-5px;line-height:16px;">按月分期还款是指贷款者借款成功后，每月还本息。到期还本按月付息是指贷款者借款成功后，每月还息，最后一月还同时还本金。</div></div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputAmount" class="col-sm-2 control-label">借款金额：</label>
+          <div class="col-sm-3">
+            <input type="text" name="account" class="form-control" id="inputAmount" placeholder="">
+          </div>
+          <div class="col-sm-1" style="line-height:34px;">元</div>
+          <div class="col-sm-6 help-block"><div style="margin-top:-5px;line-height:16px;">借款成功后，每个月按借款本金收取0.5%，管理费用不计息，不退还，在借款金额中直接扣除。更详尽的信息请查看网站收费规则。</div></div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputRate" class="col-sm-2 control-label">年利率：</label>
+          <div class="col-sm-3">
+            <input name="apr" type="text" class="form-control" id="inputRate" placeholder="">
+          </div>
+          <div class="col-sm-1" style="line-height:34px;">%</div>
+          <div class="col-sm-6 help-block"><div style="margin-top:-15px;line-height:16px;">填写您提供给投资者的年利率，所填写的利率是您还款的年利率。1至6个月的年利率不能超过22.4%，7至12个月的年利率不能超过24%。范围：1%至24%，且只保留小数后最后两位。</div></div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputOrient" class="col-sm-2 control-label">是否定向标：</label>
+          <div class="col-sm-4">
+            <label class="radio-inline">
+              <input type="radio" name="is_dxb" id="orient1" value="0" checked> 否
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="is_dxb" id="orient2" value="1"> 是
+            </label>
+          </div>
+          <div class="col-sm-6 help-block"><div style="margin-top:-5px;line-height:16px;">写向标可邀请特定的用户或朋友来投标，设置好密码后，告诉对方此标的密码即可。</div></div>
+        </div>
+
+        <div id="orientPwd" class="form-group hidden">
+          <label for="inputAmountMin" class="col-sm-2 control-label">定向标密码：</label>
+          <div class="col-sm-3">
+            <input type="password" name="pwd" class="form-control" id="inputOrientPwd" placeholder="">
+          </div>
+          <div class="col-sm-1" style="line-height:34px;"></div>
+          <div class="col-sm-6 help-block">定向标密码可以是数字或文字。如果\"恭喜发财\"\"生日快乐\"等等。</div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputAmountMin" class="col-sm-2 control-label">最低投标金额：</label>
+          <div class="col-sm-3">
+            <input type="text" name="lowest_account" value="50" class="form-control" id="inputAmountMin" placeholder="">
+          </div>
+          <div class="col-sm-1" style="line-height:34px;">元</div>
+          <div class="col-sm-6 help-block">投资者对一个借款标的最低投标投标金额的限制。</div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputAmountMax" class="col-sm-2 control-label">最多投标总额：</label>
+          <div class="col-sm-3">
+            <input type="text" name="most_account" value="0" class="form-control" id="inputAmountMax" placeholder="">
+          </div>
+          <div class="col-sm-1" style="line-height:34px;">元</div>
+          <div class="col-sm-6 help-block">允许投资者对一个借款标的投资总额的限制，0为不限制。</div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputMethod" class="col-sm-2 control-label">有效时间：</label>
+          <div class="col-sm-4">
+            <select name="valid_time" class="form-control" id="inputMethod">
+	            {loop $yxq $k $v}
+	            <option value="{$v['value']}">{$v['name']}</option>
+	            {/loop}
+            </select>
+          </div>
+          <div class="col-sm-6 help-block">设置此次借款融资的天数。融资进度达到100%后直接进行网站的复审。</div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputRate" class="col-sm-2 control-label">保证方：</label>
+          <div class="col-sm-4">
+            <input type="text" name="secured" class="form-control" id="inputRate" placeholder="">
+          </div>
+          <div class="col-sm-6 help-block"></div>
+        </div>
+
+        <div class="loan-add-title margin-top50px">投标奖励</div>
+
+        <div class="form-group">
+          <label for="inputAward" class="col-sm-2 control-label">设置奖励：</label>
+          <div class="col-sm-4">
+            <select name="award" class="form-control" id="inputAward">
+              <option value="0" selected>不设置奖励</option>
+              <!--<option value="1">按固定金额分摊奖励</option>-->
+              <option value="2">按投标金额比例奖励</option>
+            </select>
+          </div>
+          <div class="col-sm-6 help-block"><div style="margin-top:-5px;line-height:16px;">如果您设置了奖励金额，将会冻结您帐户中相应的帐户余额。如果要设置奖励，请确保您的帐户有足够的帐户余额。</div></div>
+        </div>
+
+        <div id="award1" class="hidden">
+        <div class="form-group">
+          <label for="inputAward1-1" class="col-sm-2 control-label">按固定金额分摊：</label>
+          <div class="col-sm-3">
+            <input type="text" name="bonus" class="form-control" id="inputAward1" placeholder="">
+          </div>
+          <div class="col-sm-1" style="line-height:34px;">元</div>
+          <div class="col-sm-6 help-block"><div style="margin-top:-5px;line-height:16px;">不能低于5元，不能高于总标的金额的2%，且请保留到"元"为单位。这里设置本次标的要奖励给所有投标用户的总金额。</div></div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputAward1-2" class="col-sm-2 control-label">标失败也同样奖励：</label>
+          <div class="col-sm-4">
+            <label class="radio-inline">
+              <input type="radio" name="is_false"value="1" id="inputAward1-2_1" checked> 否
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="is_false"value="0" id="orient1-2_2"> 是
+            </label>
+          </div>
+          <div class="col-sm-6 help-block"><div style="margin-top:-5px;line-height:16px;">如果您勾选了此选项，到期未满标或复审失败时同样会奖励给投标用户。如果没有勾选，标的失败时会把奖励金额解冻回帐户余额。</div></div>
+        </div>
+        </div>
+
+        <div id="award2" class="hidden">
+        <div class="form-group">
+          <label for="inputAward2-1" class="col-sm-2 control-label">按投标金额比例：</label>
+          <div class="col-sm-3">
+            <input type="text" name="bonus" class="form-control" id="inputAward2-1" placeholder="">
+          </div>
+          <div class="col-sm-1" style="line-height:34px;">%</div>
+          <div class="col-sm-6 help-block"><div style="margin-top:-5px;line-height:16px;">范围：0.1%~9%，这里设置本次标的要奖励给所有投标用户的奖励比例。</div></div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputAward1-2" class="col-sm-2 control-label">标失败也同样奖励：</label>
+          <div class="col-sm-4">
+            <label class="radio-inline">
+              <input type="radio" name="is_false"value="1" id="inputAward1-2_1" checked> 否
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="is_false"value="0" id="orient1-2_2"> 是
+            </label>
+          </div>
+          <div class="col-sm-6 help-block"><div style="margin-top:-5px;line-height:16px;">如果您勾选了此选项，到期未满标或复审失败时同样会奖励给投标用户。如果没有勾选，标的失败时会把奖励金额解冻回帐户余额。</div></div>
+        </div>
+        </div>
+
+        <div class="loan-add-title margin-top50px">个人信息</div>
+
+        <div class="form-group">
+          <label for="inputMyAccount" class="col-sm-3 control-label">公开我的帐户资金情况：</label>
+          <div class="col-sm-1">
+            <label class="radio-inline">
+              <input type="checkbox" name="open_account" value="1" id="inputMyAccount" checked>
+            </label>
+          </div>
+          <div class="col-sm-8 help-block">如果您勾上此选项，将会实时公开您帐户的：帐户总额、可用余额、冻结总额。</div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputMyLoan" class="col-sm-3 control-label">公开我的借款资金情况：</label>
+          <div class="col-sm-1">
+            <label class="radio-inline">
+              <input type="checkbox" name="open_borrow" value="1" id="inputMyLoan" checked>
+            </label>
+          </div>
+          <div class="col-sm-8 help-block"><div style="margin-top:-5px;line-height:16px;">如果您勾上此选项，将会实时公开您帐户的：借款总额、已还款总额、未还款总额、迟还总额、逾期总额。</div></div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputMyInvest" class="col-sm-3 control-label">公开我的投标资金情况：</label>
+          <div class="col-sm-1">
+            <label class="radio-inline">
+              <input type="checkbox" name="open_tender" value="1" id="inputMyInvest">
+            </label>
+          </div>
+          <div class="col-sm-8 help-block">如果您勾上此选项，将会实时公开您帐户的：投标总额、已收回总额、待收回总额。</div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputMyLimit" class="col-sm-3 control-label">公开我的信用额度情况：</label>
+          <div class="col-sm-1">
+            <label class="radio-inline">
+              <input type="checkbox" name="open_credit" value="1" id="inputMyLimit">
+            </label>
+          </div>
+          <div class="col-sm-8 help-block">如果您勾上此选项，将会实时公开您帐户的：最低信用额度、最高信用额度。</div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputMyInfor" class="col-sm-3 control-label">公开我的证明资料情况：</label>
+          <div class="col-sm-1">
+            <label class="radio-inline">
+              <input type="checkbox" name="open_ziliao" value="1" id="inputMyInfor">
+            </label>
+          </div>
+          <div class="col-sm-8 help-block">
+            <div>如果您勾上此选项，将会实时公开您帐户的：审核通过的证明资料</div>
+            <div id="inputMyInforItem" class="hidden">
+                            {loop $materialclass $v}
+              <p class="radio-inline">
+                              <input name="material" type="radio" value="{$v['id']}" checked/>{$v['name']}&nbsp;&nbsp;
+              </p>
+                            {/loop}
+            </div>
+          </div>
+        </div>
+
+                        <div style="display:none" id="open_materialclass">
+                        </div>
+
+        <div class="loan-add-title margin-top50px">借款详情</div>
+
+        <div class="form-group">
+          <label for="inputTitle" class="col-sm-2 control-label">标题：</label>
+          <div class="col-sm-4">
+            <input type="text" name="title" class="form-control" id="inputTitle" placeholder="">
+          </div>
+          <div class="col-sm-6 help-block">请输入标题</div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputTitle" class="col-sm-2 control-label">上传资料：</label>
+          <div class="col-sm-4">
+            <input type="text" name="litpic" class="form-control" id="litpic" placeholder="">
+          </div>
+          <div class="col-sm-6 help-block" style="margin-top:0px;">
+            <input class="btn btn-warning" id="up-file_img" value="上传" type="button" data-toggle="modal" data-target="#myModal">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputTitle" class="col-sm-2 control-label">信息：</label>
+          <div class="col-sm-4">
+            <textarea class="form-control" name="content" id="content" style="width:710px; height:300px;"></textarea>
+          </div>
+          <div class="col-sm-6 help-block"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputCode" class="col-sm-2 control-label">验证码</label>
+          <div class="col-sm-2">
+            <input type="text" name="code" class="form-control" id="inputCode" placeholder="">
+          </div>
+          <div class="col-sm-2">
+          <a href="javascript:document.getElementById('code_img').src='{APP_PATH}api/checkcode.php?code_len=4&font_size=20&width=130&height=50&font_color=&background=&time='+Math.random();void(0);" >
+          <img id="code_img" src="{APP_PATH}api/checkcode.php?code_len=4&font_size=20&width=130&height=50&font_color=&background=" alt="验证码" onclick='this.src = this.src + "&" + Math.random()'></div>
+		          单击更换验证码  </a>
+          <div class="col-sm-6 help-block">请输入验证码</div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputCode" class="col-sm-2 control-label"></label>
+          <div class="col-sm-4">
+            <input class="btn btn-warning" type="submit" value="确认提交">
+          </div>
+          <div class="col-sm-6 help-block"></div>
+        </div>
+
+                                    <input name="formhash" type="hidden" value="<?=formhash()?>" />
+                                    <input name="type" type="hidden" value="{$id}" />
+
+      </form>
+    </div>
+
+  </div>
+
+  <!-- ckeditor -->
+  <script type="text/javascript" src="../../statics/js/ckeditor/ckeditor.js"></script>
+  <script type="text/javascript">
+    $(function() {
+		// 投标奖励
+		$("#inputAward").change(function(e) {
+			$("#award1").addClass("hidden")
+			$("#award2").addClass("hidden")
+			if($("#inputAward option:selected").val()==1) $("#award1").removeClass("hidden");
+			if($("#inputAward option:selected").val()==2) $("#award2").removeClass("hidden");
+        });
+
+		CKEDITOR.replace( 'content',{width:710,height:300,pages:false,subtitle:false,textareaid:'content',module:'borrow',catid:'',
+alowuploadexts:'',allowbrowser:'1',allowuploadnum:'10',authkey:'142e16a0b1e4dad8ca517e9ba3780b10',isadmin:0,
+filebrowserUploadUrl : "{APP_PATH}index.php?m=attachment&c=attachments&a=upload&module=borrow&isadmin=0&dosubmit=1",
+toolbar :
+[
+['-','Templates'],
+		    ['Cut','Copy','Paste','PasteText','PasteFromWord','-','Print'],
+		    ['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],['ShowBlocks'],['Image','Capture','Flash'],['Maximize'],
+		    '/',
+		    ['Bold','Italic','Underline','Strike','-'],
+		    ['Subscript','Superscript','-'],
+		    ['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'],
+		    ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
+		    ['Link','Unlink','Anchor'],
+		    ['Table','HorizontalRule','Smiley','SpecialChar','PageBreak'],
+		    '/',
+		    ['Styles','Format','Font','FontSize'],
+		    ['TextColor','BGColor'],
+		    ['attachment'],
+]
+});
+	});
+  </script>
+
+<script type="text/javascript" src="../../statics/resource/js/jquery.validate.min.js"></script>
+<script type="text/javascript">
+// 是否定向标
+$("input[name='is_dxb']").click(function(e) {
+    if($("input[name='is_dxb']:checked").val() == 1) {
+		$("#orientPwd").removeClass("hidden");
+	} else {
+		$("#orientPwd").addClass("hidden");
+	}
+});
+// 公开我的资料
+$('input#inputMyInfor').change(function(e) {
+    if ($(this).is(":checked")) {
+		$("#inputMyInforItem").removeClass("hidden");
+	} else {
+		$("#inputMyInforItem").addClass("hidden");
+	}
+});
+
+function upfile_submit() {
+	var val = $('#upfile-input').val();
+	if(/^.+\.(jpg|png|jpeg|gif|bmp)$/.test(val.toLowerCase())){
+		$('#upfile-form').submit();
+	}else {
+		//提示: 文件类型不在允许范围内
+	}
+};
+//监听iframe事件onload
+$(function(){
+	//$("#upload-modal-submit").hide();
+
+	$("#upload-modal-submit").click(function(){
+	var json_str = document.getElementById("upfile-iframe").contentDocument.body.innerHTML;
+	var json = JSON.parse(json_str);
+	$("input[name='litpic']").attr("value",json.url);
+	});
+
+	$("upfile-iframe").bind("load",function(){
+	var json_str = document.getElementById("upfile-iframe").contentDocument.body.innerHTML;
+	var json = JSON.parse(json_str);		//or $.parseJSON(json_str);
+	if (json && json.status != 'x') {
+		//更新input的值
+		$("input[name='litpic']").attr("value",json.url);
+		$(".close").click();
+	}
+});
+});
+$(function(){
+	$("#add_bids").validate({
+	    errorPlacement:function(error,element) {
+			error.appendTo(element.parent().parent().children(".help-block"));
+		},
+		rules: {
+			use: {required:true},
+			time_limit: {
+				required: true,
+				digits:true,
+				min: 1
+			},
+			account: {
+				required: true,
+				min: 500,
+				//max: 100000000,
+				max_credit: <?=$credit?>
+			},
+			apr: {
+				required: true,
+				number:true
+			},
+			code: {
+				required: true
+			},
+			vcode: {
+				required: true
+			},
+			title: {
+				required: true
+			},
+			lowest_account: {
+				min: 50,
+				digits: true
+			},
+			most_account: {
+				digits: true
+			}
+		}
+	});
+});
+jQuery.validator.addMethod("max_credit", function(value, element, param){
+	return value <= param;
+}, "您的可用信用额度只有{0}了，借款金额不能大于可用信用额度！");
+jQuery.validator.addMethod("dxb_pwd", function(value, element){
+	if ($("#is_dxb").is(":checked") && value =="") {
+		return false;
+	}
+	return true;
+}, "请输入定向标密码");
+jQuery.validator.addMethod("bonus_value", function(value, element){
+	if ($("#award").val() == 2 && (value < 0.1 || value > 9)) {
+		return false;
+	}
+	if ($("#award").val() == 1 && value < 5 ) {
+		return false;
+	}
+	return true;
+}, "超出限定奖励范围");
+jQuery.validator.addMethod("apr_half", function(value, element, param){
+	if ($("#time_limit").val() >= 6 && ($("#is_datetype").is(":checked")==false)) {
+		if (value > 24) {
+			return false;
+		}
+	} else {
+		if (value > 22.4) {
+			return false;
+		}
+	}
+	return true;
+}, "超出限定年利率范围");
+jQuery.extend(jQuery.validator.messages, {
+    required: "必选字段",
+	remote: "字段非法或者已经存在",
+	email: "请输入正确格式的电子邮件",
+	url: "请输入合法的网址",
+	date: "请输入合法的日期",
+	dateISO: "请输入合法的日期 (ISO).",
+	number: "请输入合法的数字",
+	digits: "只能输入整数",
+	creditcard: "请输入合法的信用卡号",
+	equalTo: "请再次输入相同的值",
+	accept: "请输入拥有合法后缀名的字符串",
+	maxlength: jQuery.validator.format("请输入一个 长度最多是 {0} 的字符串"),
+	minlength: jQuery.validator.format("请输入一个 长度最少是 {0} 的字符串"),
+	rangelength: jQuery.validator.format("请输入 一个长度介于 {0} 和 {1} 之间的字符串"),
+	range: jQuery.validator.format("请输入一个介于 {0} 和 {1} 之间的值"),
+	max: jQuery.validator.format("请输入一个最大为{0} 的值"),
+	min: jQuery.validator.format("请输入一个最小为{0} 的值")
+});
+</script>
+{template upload-modal}
+{template footer}

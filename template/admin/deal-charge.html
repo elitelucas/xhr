@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="renderer" content="webkit">
+    <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+   <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+   <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+   <script src="statics/admin/js/jquery.js"></script>
+   <script src="statics/admin/js/layer/2.1/layer.js"></script>
+   <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+   <script src="statics/admin/js/bootstrap.min.js"></script>
+   {template public-new-ui-header} 
+    <style type='text/css'>
+
+        #page {
+            height: 60px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #page ul li {
+            float: left;
+            margin-right: 10px;
+        }
+
+        #page ul .current {
+            background-color: #0099ff;
+            text-align: center;
+        }
+
+        #table tr td {
+
+            text-align: left;
+            border: 1px solid #ccc;
+        }
+
+        #table tr td a {
+            color: #2fa4e7;
+        }
+
+        #table tr td {
+
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body class="new_ui_body">
+    <div class="ibox float-e-margins">
+	    <div class="ibox-title iboxWTitle">
+	        <h5>线下充值</h5>
+	        <div class="ibox-tools">
+	            <a  class="btn btn-white btn-bitbucket" id="btn_back">
+	                <i class="fa fa-reply"></i> 返回
+	            </a>
+	        </div>
+	    </div>
+	    <div class="ibox-content bagCol">
+	        <div class="ibox-title ">
+	            <h5>账号信息</h5>
+	        </div>
+	        <div class="ibox-content m-b" style="width: 100%;">
+             	<div class="row">
+	               <div class="col-sm-4 m-b">
+	                   <span class="col-sm-6 back-page text-right">账号 </span>
+	                   <span class="col-sm-6"> {$user['username']} </span>
+	               </div>
+	               <div class="col-sm-4 m-b ">
+	                   <span class="col-sm-6 back-page text-right">真实姓名 </span>
+	                   <span class="col-sm-6">{if in_array(1,$show_user_info)}{$user['realname']}{/if} </span>
+	               </div>
+	               <div class="col-sm-4 m-b ">
+	                   <span class="col-sm-6 back-page text-right">手机号 </span>
+	                   <span class="col-sm-6">{if in_array(3,$show_user_info)}{$user['mobile']}{/if}</span>
+	               </div>
+                   <div class="col-sm-4 m-b ">
+	                     <span class="col-sm-6 back-page text-right">提款卡号 </span>
+	                     <span class="col-sm-6"> {$bank['account']} </span>
+                   </div>
+                   <div class="col-sm-4 m-b ">
+	                   <span class="col-sm-6 back-page text-right">开户银行 </span>
+	                   <span class="col-sm-6"> {$bank['branch']} </span>
+	               </div>
+	               <div class="col-sm-4 m-b ">
+	                   <span class="col-sm-6 back-page text-right">开户人 </span>
+	                   <span class="col-sm-6"> {$bank['name']} </span>
+	               </div>
+                   <input type="hidden" value="{$logId}" id="logId">
+               </div>
+            </div>
+            <div class="ibox-title ">
+	            <h5>充值信息</h5>
+	        </div>
+	        <div class="ibox-content m-b">
+	            <form id='form_update' method="post" class="form-horizontal">
+	               <div class="row">
+		               <div class="col-sm-4 m-b">
+		                   <span class="col-sm-6 back-page text-right">流水号 </span>
+		                   <span class="col-sm-6"> {$recharge['order_sn']} </span>
+		               </div>
+		               <div class="col-sm-4 m-b ">
+		                   <span class="col-sm-6 back-page text-right">充值金额 </span>
+		                   <span class="col-sm-6"> {$recharge['money']} </span>
+		               </div>
+		               <div class="col-sm-4 m-b ">
+		                   <span class="col-sm-6 back-page text-right">充值时间 </span>
+		                   <span class="col-sm-6"> {$recharge['addtime']} </span>
+		               </div>
+		               
+	                  <div class="col-sm-4 m-b">
+		                   <span class="col-sm-6 back-page text-right" id="paymentId" data-id ="{$payConfigs['id']}">充值银行</span>
+		                   <span class="col-sm-6"> {$payment['name']} </span>
+		               </div>
+		               <div class="col-sm-4 m-b ">
+		                   <span class="col-sm-6 back-page text-right">充值卡号 </span>
+		                   <span class="col-sm-6"> {$payment['account']} </span>
+		               </div>
+		               <div class="col-sm-4 m-b ">
+		                   <span class="col-sm-6 back-page text-right">充值备注 </span>
+		                   <span class="col-sm-6"> {$recharge['remark']} </span>
+		               </div>
+		               <div class="col-sm-4 m-b ">
+		                   <span class="col-sm-6 back-page text-right">汇款卡号 </span>
+		                   <span class="col-sm-6"> {$payConfigs['account']} </span>
+		               </div>
+	                  <div class="col-sm-4 m-b ">
+	                      <span class="col-sm-6 back-page text-right">状态 </span>
+	                      <span class="col-sm-6"> {$payment['statusStr']} </span>
+	                  </div>
+	                  <div class="col-sm-4 m-b ">
+	                      <span class="col-sm-6 back-page text-right">最后处理时间 </span>
+	                      <span class="col-sm-6"> {$recharge['verify_time']} </span>
+	                   </div>
+	                  {if $recharge['status'] == 0}
+	                  <div class="col-sm-4 m-b ">
+	                      <span class="col-sm-6 back-page text-right">备注</span>
+	                      <span class="col-sm-6"><input class="col-sm-7" type="text" id="remark"></span>
+	                  </div>
+	                  <div class="col-sm-4 m-b">
+		                   <span class="col-sm-6 back-page text-right"></span>
+		                   <span class="col-sm-6"></span>
+		               </div>
+		               <div class="col-sm-4 m-b ">
+		                   <span class="col-sm-6 back-page text-right"> </span>
+		                   <span class="col-sm-6"></span>
+		               </div>
+		              {/if}
+		              {loop $remarks['remark'] $v}
+			               <div class="col-sm-4 m-b ">
+		                      <span class="col-sm-6 back-page text-right">处理人 </span>
+		                      <span class="col-sm-6">{$v['admin']}</span>
+		                  </div>
+		                  <div class="col-sm-4 m-b">
+			                   <span class="col-sm-6 back-page text-right">备注</span>
+			                   <span class="col-sm-6">{$v['remark']}</span>
+			               </div>
+		              {/loop}
+                  </div>
+                </form>
+                <div class="form-group">
+	            	<div class="col-sm-7 col-sm-offset-2">
+	            	{if $recharge['status']==0}
+            			{if $dealType != 1 }
+	                		<button class="btn btn-primary" type="submit" id="btn_submit">同意</button>
+	                	{/if}
+	                		<button class="btn btn-primary" type="submit" id="btn_cancel">拒绝</button>
+	                		<!-- <button class="btn btn-white"   type="submit" id="btn_backs">返回</button> -->
+                	{/if}
+	            	</div>
+       			</div>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript">
+    var loading = ""
+    $('#btn_submit').click(function () {
+        var url = '';
+        url = '?m=admin&c=finance&a=agreeCharge';
+//            url = '?m=admin&c=finance&a=refuseCharge';
+        $.ajax({
+            url: url,
+            data: {id: $('#logId').val(), verify_remark: $('#remark').val()},
+            dataType: 'json',
+            type: 'post',
+            beforeSend: function () {
+                loading = layer.load(1);
+            },
+            error: function (e) {
+                layer.close(loading);
+                console.log(e);
+                layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+            },
+            success: function (result) {
+                layer.close(loading);
+                if (result.rt > 0) {
+                    layer.msg('操作成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                        location.reload();
+                    });
+                }else {
+                    layer.msg(result.msg, {icon: 6, shade: [0.5, '#393D49']}, function () {
+                        location.reload();
+                    });
+                }
+            }
+        });
+    });
+
+    $('#btn_cancel').click(function () {
+        var url = '';
+        url = '?m=admin&c=finance&a=refuseCharge';
+        $.ajax({
+            url: url,
+            data: {id: $('#logId').val(), verify_remark: $('#remark').val()},
+            dataType: 'json',
+            type: 'post',
+            beforeSend: function () {
+                loading = layer.load(1);
+            },
+            error: function (e) {
+                layer.close(loading);
+                console.log(e);
+                layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+            },
+            success: function (result) {
+                layer.close(loading);
+                if (result.status) {
+                    layer.msg('操作成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                    	<!-- window.history.go(-1); -->
+                        //location.reload();
+						location.href='?m=admin&c=finance&a=charge';
+                    });
+                }else {
+                    layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']}, function () {
+                        location.reload();
+                    });
+                }
+            }
+        });
+    });
+    $('#btn_backs').click(function () {
+        location.href='?m=admin&c=finance&a=charge';
+    });
+    $('#btn_back').click(function () {
+        location.href='?m=admin&c=finance&a=charge';
+    });
+
+</script>
+</body>
+</html>

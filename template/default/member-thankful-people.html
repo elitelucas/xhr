@@ -1,0 +1,76 @@
+{template header}
+  <!-- Investor_center -->
+  <link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+    <script src="../../statics/resource/js/investor_center/jquery.zclip.min.js"></script>
+  
+  <!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+      <li class="active">我的账户</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->
+  {template member-nav-left}
+    
+    <!-- 右边正文 -->
+    <div class="investor-right pull-right border-radius">
+      <div class="investor-title">好友推荐</div>
+      <div class="withdraw-info bg-warning">如果您喜欢诚汇通，欢迎您邀请身边的同事，家人，朋友一起来体验诚汇通。把链接通过电子邮件，微博，或其他各种方式分享给您的朋友。把下边的链接地址发给您的好友，或者您的好友在注册时，在推荐人填写您的注册用户名，这样您就成了他的上线用户。</div>
+      <form action="#" method="post">
+        <div class="personal-form">
+          <div class="personal-form-title pull-left">邀请链接：</div>
+          <div class="personal-form-textarea pull-left"><textarea id="zclipCont" cols="5"><?=url('content','regedit','index',array('uid'=>$userid))?></textarea></div>
+          <div class="personal-form-help2 pull-left"><a class="btn btn-warning" id="zclipBtn" href="javascript:void(0);">复制</a></div>
+        </div>
+      </form>
+      <!--<div class="investor-title">奖励明细</div>
+      <div class="text-danger">推荐人投标列表(2014.9.21日之后)</div>
+      <table class="table table-bordered text-center">
+        <tr>
+            <td width="20%">被推荐人</td>
+            <td width="25%">推荐时间</td>
+            <td width="25%">有效期限</td>	
+            <td width="15%">投标金额</td>	
+            <td width="15%">奖励金额</td>	
+        </tr>
+        {if isset($all_list) && !empty($all_list)}
+            {loop $all_list $vo}
+            <tr>
+                    <td align='center'><?=f_name($vo['username'])?></td>
+                    <td align='center'><?=empty($vo['addtime'])?'-':date('Y-m-d ',$vo['addtime'])?></td>
+                    <td align='center'><?=empty($vo['lasttime'])?'-':date('Y-m-d ',$vo['lasttime'])?></td>			
+                    <td align='center'>&#165 <?=empty($vo['tender_money'])?'0.00':$vo['tender_money']?></td>
+                    <td align='center'>&#165 <?=empty($vo['tender_award'])?'0.00':$vo['tender_award']?></td>		  
+            </tr>
+            {/loop}
+            {else}
+            <tr class="text-center font12px color999"><td colspan="8">查无此记录</td></tr>
+            {/if}
+      </table>
+      <div class="fanye">
+        <?php echo $page['html'];?>
+    </div>-->
+   </div> 
+   
+  </div>
+  <script type="text/javascript">
+    $(function() {
+		$('a#zclipBtn').zclip({
+			path:'../../statics/resource/js/investor_center/ZeroClipboard.swf',
+			copy:$('textarea#zclipCont').text(),
+			/*beforeCopy:function(){
+				$('textarea#zclipCont').css('color','orange');
+			},*/ 
+			afterCopy:function(){
+				$('textarea#zclipCont').css({'color':'#fff',"background-color":"#3399ff"});
+                alert("复制成功！");
+			}
+		});
+		
+	});
+  </script>
+   
+{template footer}

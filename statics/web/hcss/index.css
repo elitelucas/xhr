@@ -1,0 +1,35 @@
+
+/* CSS Document */
+li{list-style:none}
+img{border:0 none;-ms-interpolation-mode:bicubic}
+
+.mainall{ margin:0 auto;  width:100%; }
+.top{ width:100%; line-height:0px;}
+.top img{width:100%;  }
+.jieshao{ background-color:#f4f4f4; padding:16px 10px; color:#888888; line-height:24px; font-size:14px; border-bottom:#e1e1e1 1px solid; border-top:#e1e1e1 1px solid; }
+.xiazai{ height:200px; padding-top:20px;}
+.xiazai_l{ width:49%; float:left; text-align:center;cursor:pointer; }
+.xiazai_b{ width:100%; float:left; text-align:center;cursor:pointer; }
+.xiazai_b button{ width:150px;height: 34px;border: 0;border-radius:34px;background: #000; color:#fff;text-align:center;cursor:pointer; margin: 10px auto;}
+.xiazai_l_mes{ line-height:24px;  font-size:14px;}
+.xiazai_l_mes span{ color:#898989;}
+.ddz_title{ height:36px; background-color:#f4f4f4; color:#151616; padding-left:4%; line-height:36px; font-size:16px; margin-bottom:10px;font-weight:bold;}
+.ddz_message{ height:397px; padding:0 4%;}
+.ddz_message ul li{ height:26px; line-height:26px; font-size:12px;}
+.mes_l{ float:left; width:30%; color:#3b5888;}
+.mes_m{ float:left; width:44%; color:#333333;}
+.mes_r{ float:left; width:26%; text-align:right; color:#8b8b8b;}
+.ddz_title_mes{ background-color:#f4f4f4; color:#666666; padding:4% 4%;   line-height:20px; font-size:14px; }
+.ddz_title_mes span{ color:#666666;}
+.sjimg{ text-align:center; padding:4% 0;background: #ffffff;position:relative;}
+.sjimg_ewm{width:20%;position:absolute;top:52%;left:51%;-webkit-transform:translate(-50%,-95%);transform:translate(-50%,-95%);}
+
+.kfqq{ height:80px; background-color:#333333; text-align:center;cursor:pointer;}
+.kfqq_all{ width:200px; margin:0 auto;}
+.kfqqimg{ float: left; width:20px; margin-top:8px;clear:both;}
+.kfqqmes{ float: left; width:150px; margin-top:8px;line-height:24px;color:#FFF; font-size:14px;}
+
+.link-bar{ color:#777777;font-size:12px; text-align:center; line-height:40px;}
+.link-bar a{color:#777777; text-decoration:none;}
+.cp{width:100%;text-align:center;height:30px;line-height:24px;padding-top:6px;}
+.tit{font-weight:bold;}

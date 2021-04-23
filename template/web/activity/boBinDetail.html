@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+    <title>博饼</title>
+    <link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">
+    <link href="/statics/web/css/bobing.css" rel="stylesheet" type="text/css">
+    <script src="/statics/web/js/jquery.1.8.2.min.js"></script>
+    <script>
+        /**
+         * Created by 77 on 2016/1/9.
+         */
+        $(function() {
+            var calculate_size = function() {
+                var BASE_FONT_SIZE = 100;
+                var docEl = document.documentElement,
+                    clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                size =  BASE_FONT_SIZE * (clientWidth / 750) ;
+                docEl.style.fontSize = size + 'px';
+                if(size>56){
+                    size = 56;
+                    docEl.style.fontSize = size + 'px';
+                }
+            };
+
+            if (document.addEventListener) {
+                var resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+                window.addEventListener(resizeEvt, calculate_size, false);
+                document.addEventListener('DOMContentLoaded', calculate_size, false);
+                calculate_size();
+            }
+        });
+    </script>
+
+</head>
+<body class="detail">
+<header class="detail-title detail-title-h5">
+    <!--<a class="ph">排行榜</a>-->
+    <!-- <a class="fh" href="?m=web&c=activity&a=boBinIndex&id={$uid}&h5=1" >返回</a> -->
+    <a class="fh" href="javascript:void(0)" onclick="javascript:history.go(-1);">返回</a>
+    <h1>详情</h1>
+</header>
+<header class="detail-title  detail-title-app">
+    <!--<a class="ph">排行榜</a>-->
+    <a class="back2" href="?m=web&c=activity&a=boBinIndex&id={$uid}"></a>
+    <!--<h1>详情</h1>-->
+</header>
+<section class="head_app">
+    <div class="detail-nav">
+        <ul>
+            <li class="active"><a href="javascript:void(0)">排行榜</a></li>
+            <li><a href="javascript:void(0)">奖励规则</a></li>
+            <li><a href="javascript:void(0)">历史典故</a></li>
+        </ul>
+    </div>
+    <div class="detail-con detail-con1" style="display: block">
+        <div class="rank-none">
+            <img src="/statics/web/images/bobing/rank-none@2x.png" alt=""/>
+            <p>暂无记录</p>
+            <a class="rank-btn" href="javascript:void(0)" onclick="javascript :history.go(-1);">获取积分</a>
+        </div>
+        <div class="rank">
+            <ul>
+
+            </ul>
+        </div>
+    </div>
+    <div class="detail-con detail-con2" style="display: none">
+        <img width="100%" height="100%" src="{$bonus_rule_img}" alt=""/>
+    </div>
+    <div class="detail-con detail-con3" style="display: none">
+        <p>三百多年前，民族英雄郑成功以厦门为根据地，驱逐荷夷收复台湾。郑成功的士兵基本上来自福建、广东各地，到中秋节前后，士兵们思念亲人。郑成功的部将洪旭，为了抚慰士兵离乡背井、思亲想家之念，激励士兵先国后家，克敌制胜的斗志，便与兵部衙堂的属员，经过一番筹谋，巧设"中秋会饼"， 通过"掷骰子"活动让士兵们赏月玩饼、品茗谈天。</p>
+    </div>
+</section>
+
+<script>
+    $(function(){
+        document.body.addEventListener('touchstart', function () { });
+        var list = '{$res}';
+        var listData = JSON.parse(list);
+
+        var h5 = GetRequest().h5;
+        function GetRequest() {
+            var url = decodeURI(location.search); //获取url中"?"符后的字串
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for(var i = 0; i < strs.length; i ++) {
+                    theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+                }
+            }
+            return theRequest;
+        }
+
+        if(h5 == 1){
+            $(".detail-title-h5").show();
+            $(".detail-title-app").hide();
+//            $("section").addClass("head_app");
+//            $(".ph_app").hide();
+//            $(".box-info .link").show();
+//            $(".box-info strong").hide();
+        }
+
+//        var thisRank = "";
+//        var data= {};
+//        $.ajax({
+////            url: "https://www.kirin88.com/?m=web&c=lobby&a=privateRoom",
+//            type: "post",
+//            data: data,
+//            dataType: "json",
+//            success: function(data) {
+//                console.log(data);
+//                if (data.status == 0) {//口令正确则需要验证金额
+//                    //判断是否达到进入资格
+//
+//                } else {
+//                    thisRank = data.message;
+//                }
+//            },
+//            error: function(error) {
+////                layer.open({
+////                    content: "<p class='alert_msg'>服务器出错了</p>",
+////                    btn: '我知道了'
+////                });
+//            }
+//        });
+
+        //选项卡
+        $(".detail-nav ul li").click(function() {
+            $(this).addClass("active").siblings().removeClass("active");
+            var index = $(this).index()
+            $(".detail-con").eq(index).show().siblings(".detail-con").hide();
+        });
+
+        isRank();
+        function isRank(){
+            if(listData.length == 0){
+                $(".rank").hide();
+                $(".rank-none").show();
+            }else{
+                $(".rank").show();
+                $(".rank-none").hide();
+            }
+        }
+
+//        $(".rank-btn").click(function(){
+//            isRank();
+//            $(".rank").hide();
+//        })
+
+        var rankHtml = "";
+        var listNum = 0;
+        for(var i=0; i<listData.length; i++){
+            if(listData[i].integral != 0){
+                listNum = (i+1);//显示序号
+                if(listNum<10){
+                    listNum = "0"+listNum;
+                }
+
+                if(i == 0){
+                    if(listData[i].avatar ==""){
+                        rankHtml += '<li><span class="rank_num rank_color">'+listNum+'</span><span class="user_img"><img src="/up_files/room/avatar.png" alt=""/></span><span class="user_name">'+ listData[i].username+'</span><img class="rank_top" src="/statics/web/images/bobing/huangguan'+1+'@2x.png" alt=""/><em class="rank_score">'+listData[i].integral+'分</em></li>';
+                    }else{
+                        rankHtml += '<li><span class="rank_num rank_color">'+listNum+'</span><span class="user_img"><img src="'+listData[i].avatar+'" alt=""/></span><span class="user_name">'+ listData[i].username+'</span><img class="rank_top" src="/statics/web/images/bobing/huangguan'+1+'@2x.png" alt=""/><em class="rank_score">'+listData[i].integral+'分</em></li>';
+                    }
+
+                }else if(i == 1){
+                    if(listData[i].avatar ==""){
+                        rankHtml += '<li><span class="rank_num rank_color">'+listNum+'</span><span class="user_img"><img src="/up_files/room/avatar.png" alt=""/></span><span class="user_name">'+ listData[i].username+'</span><img class="rank_top" src="/statics/web/images/bobing/huangguan'+2+'@2x.png" alt=""/><em class="rank_score">'+listData[i].integral+'分</em></li>';
+                    }else{
+                        rankHtml += '<li><span class="rank_num rank_color">'+listNum+'</span><span class="user_img"><img src="'+listData[i].avatar+'" alt=""/></span><span class="user_name">'+ listData[i].username+'</span><img class="rank_top" src="/statics/web/images/bobing/huangguan'+2+'@2x.png" alt=""/><em class="rank_score">'+listData[i].integral+'分</em></li>';
+                    }
+
+                }else if (i==2 ){
+                    if(listData[i].avatar ==""){
+                        rankHtml += '<li><span class="rank_num rank_color">'+listNum+'</span><span class="user_img"><img src="/up_files/room/avatar.png" alt=""/></span><span class="user_name">'+ listData[i].username+'</span><img class="rank_top" src="/statics/web/images/bobing/huangguan'+3+'@2x.png" alt=""/><em class="rank_score">'+listData[i].integral+'分</em></li>';
+                    }else{
+                        rankHtml += '<li><span class="rank_num rank_color">'+listNum+'</span><span class="user_img"><img src="'+listData[i].avatar+'" alt=""/></span><span class="user_name">'+ listData[i].username+'</span><img class="rank_top" src="/statics/web/images/bobing/huangguan'+3+'@2x.png" alt=""/><em class="rank_score">'+listData[i].integral+'分</em></li>';
+                    }
+
+                }else{
+                    if(listData[i].avatar ==""){
+                        rankHtml += '<li><span class="rank_num">'+listNum+'</span><span class="user_img"><img src="/up_files/room/avatar.png" alt=""/></span><span class="user_name">'+ listData[i].username+'</span><em class="rank_score">'+listData[i].integral+'分</em></li>';
+                    }else{
+                        rankHtml += '<li><span class="rank_num">'+listNum+'</span><span class="user_img"><img src="'+listData[i].avatar+'" alt=""/></span><span class="user_name">'+ listData[i].username+'</span><em class="rank_score">'+listData[i].integral+'分</em></li>';
+                    }
+
+                }
+
+            }
+        }
+
+        $(".rank ul").append(rankHtml);
+    })
+</script>
+</body>
+</html>

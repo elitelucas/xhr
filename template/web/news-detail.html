@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>消息</title>
+    <!--<link href="/statics/web/css/css.css?v=1" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+    <link rel="stylesheet" href="/statics/web/extend/dropload/dropload.css">
+    <script src="/statics/web/extend/dropload/dropload.min.js"></script>
+</head>
+<body>
+<header>
+    <em data-href="<?=url('web','message','index')?>&type={$_GET['type']}">返回</em>
+    <!--<em onclick="history.go(-1)">返回</em>-->
+    <h1>{if $type==1}公告详情{else}信息详情{/if}</h1>
+</header>
+<section class="modify pb-0">
+    <div class="rebate">
+        <h2>{$res['title']}</h2>
+        
+        <p>{$res['content']}</p>
+        <div class="rebateTime">
+            <!--<span class="left">来源：叽叽歪歪</span>-->
+            <span class="right"><?=date('Y-m-d', $res['addtime'])?></span>
+        </div>
+    </div>
+</section>
+</body>
+</html>

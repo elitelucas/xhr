@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+    <script src="statics/admin/js/pintuer.js"></script>
+    <script src="statics/admin/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- template-begin+++ -->
+    {template public-new-ui-header}
+    <!-- template-end+++ -->
+    <script src="statics/admin/js/jquery.date_input.pack.js"></script>
+    <link rel="stylesheet" href="statics/admin/jedate/skin/jedate.css">
+    <script type="text/javascript" src="statics/admin/jedate/jquery.jedate.min.js"></script>
+</head>
+<body style="margin: 15px;background-color: #f3f3f4;">
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title iboxWTitle">
+                <h5>团队报表</h5>
+				<div class="ibox-tools">
+	            <a  class="btn btn-white btn-bitbucket" id="btn_back">
+	                <i class="fa fa-reply"></i> 返回
+	            </a>
+	        </div>
+            </div>
+            <div class="ibox-content" style="width: 100%;">
+                <div class="row">
+                    <form method="get" action="?m=admin&c=reporting&a=groupDetailbak" class="form-inline form-search">
+
+                        <div class="col-sm-2">
+                            <div class="input-group m-b"><span class="input-group-addon">会员名</span>
+                                <input name="username" class="form-control" value="{$_REQUEST['username']}" type="text" placeholder="会员名" />
+                            </div>
+                        </div>
+
+                        <!--{if $show_user_info == 1}-->
+                        <!--<div class="col-sm-2">-->
+                            <!--<div class="input-group m-b"><span class="input-group-addon">微信号</span>-->
+                                <!--<input name="weixin" class="form-control" value="{$_REQUEST['weixin']}" type="text" placeholder="微信号" />-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--{/if}-->
+
+                        <div class="col-sm-2">
+                            <div class="input-group m-b"><span class="input-group-addon">类型</span>
+                                <select name="stype" class="form-control" >
+                                    <option value="" {if $_REQUEST['stype']==''}selected = "selected"{/if}>未选</option>
+                                    <option value="1" {if $_REQUEST['stype']=='1'}selected = "selected"{/if}>在线</option>
+                                    <option value="2" {if $_REQUEST['stype']=='2'}selected = "selected"{/if}>离线</option>
+                                    <option value="3" {if $_REQUEST['stype']=='3'}selected = "selected"{/if}>充值</option>
+                                    <option value="4" {if $_REQUEST['stype']=='4'}selected = "selected"{/if}>提现</option>
+                                </select>
+                            </div>
+                        </div>
+						<div class="col-sm-2">
+                            <div class="input-group m-b"><span class="input-group-addon">排序</span>
+                                <select name="sort" class="form-control" >
+                                    <option value="" {if $_REQUEST['sort']==''}selected = "selected"{/if}>未选</option>
+                                    <option value="1" {if $_REQUEST['sort']=='1'}selected = "selected"{/if}>团队投注金额</option>
+                                    <option value="2" {if $_REQUEST['sort']=='2'}selected = "selected"{/if}>总计盈亏</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="input-group m-b"><span class="input-group-addon">会员组</span>
+                                <select name="group" class="form-control">
+                                    <option value="" {if $_REQUEST['group']==''}selected = "selected"{/if}>未选</option>
+                                    {loop $groupList $v}
+                                    <option value="{$v['id']}" {if $_REQUEST['group']=={$v['id']}} selected = "selected" {/if}>{$v['name']}</option>
+                                    {/loop}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="input-group m-b">
+                                <span class="input-group-addon">时间</span>
+                                <input name="start_time" class="date_picker form-control" value="{$start_date}" placeholder="开始时间" style="width: 48%" />
+                                <span style="float: left">&nbsp;&nbsp;</span>
+                                <input style="width: 48%" class="date_picker form-control" name="end_time" value="{$end_date}" placeholder="结束时间"> &nbsp;
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="input-group m-b"><span class="input-group-addon">快捷查询</span>
+                                <select class="form-control" id='quick' name="quick">
+                                    <option value="0" {if $quick == 0}selected{/if}>全部</option>
+                                    <option value="1" {if $quick == 1}selected{/if}>今日</option>
+                                    <option value="2" {if $quick == 2}selected{/if}>昨日</option>
+                                    <option value="3" {if $quick == 3}selected{/if}>本周</option>
+                                    <option value="4" {if $quick == 4}selected{/if}>本月</option>
+                                    <option value="5" {if $quick == 5}selected{/if}>上月</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="input-group m-b">
+                                <button type="submit" class="btn btn-primary">搜索</button>
+                                &nbsp;
+                                <button type="button" class="btn btn-primary" onclick="javascript:location.href = '?m=admin&c=reporting&a=groupDetailbak'">重置</button>
+                                <input type="hidden" value="1" name="isSearch"/>
+                                <input type="hidden" value="{$m}" name="m"/>
+                                <input type="hidden" value="{$c}" name="c"/>
+                                <input type="hidden" value="{$a}" name="a"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div id="editable_wrapper" class="dataTables_wrapper form-inline" role="grid" style="width: 100%">
+                    <table class="table table-striped table-bordered table-hover  dataTable" id="editable" aria-describedby="editable_info">
+                        <thead>
+                        <tr>
+                            <th width="50">ID</th>
+                            <th>会员账号</th>
+                            <th>注册时间</th>
+                            <th>直属(个)</th>
+                            <th>团队(个)</th>
+                            <th title="3天内登录过">活跃(个)</th>
+                            <th title="3天内注册的">新注册(个)</th>
+                            <th>团队投注金额(元)</th>
+                            <th>团队中奖金额(元)</th>
+                            <th>个人投注返水(元)</th>
+                            <th>直属返水(元)</th>
+                            <th>团队返水(元)</th>
+                            <th>投注盈亏(元)</th>
+                            <th>总计盈亏(元)</th>
+                        </tr>
+                        </thead>
+                        <tbody id="list_tb">
+                        {if empty($list)}
+                        <tr>
+                            <td colspan="14" align="center"> 暂无信息 </td>
+                        </tr>
+                        {else}
+                        {loop $list $v}
+                        <tr class="uid_{$v['uid']}">
+                            <td>{$v['uid']}</td>
+                            <td><a href="?m=admin&c=user&a=detail&id={$v['uid']}">{$v['username']}</a></td>
+                            <td>{$v['regtime']}</td>
+                            <td>{if $v['zs_count'] == 0}{$v['zs_count']}{else}<a  a href="javascript:void(0);" id="c1_{$v['uid']}" sdata="true" onclick="selectChildLst(1,{$v['uid']},{$v['zs_count']});">{$v['zs_count']}</a>{/if}</td>
+                            <td>{if $v['td_count'] <= 1}{$v['td_count']}{else}<a  a href="javascript:void(0);" id="c2_{$v['uid']}" sdata="true" onclick="selectChildLst(2,{$v['uid']},{$v['td_count']});">{$v['td_count']}</a>{/if}</td>
+                            <td>{$v['active_user']}</td>
+                            <td>{$v['new_reg']}</td>
+                            <td>{$v['team_Betting']}</td>
+                            <td>{$v['team_win']}</td>
+                            <td>{$v['person_back']}</td>
+                            <td>{$v['zs_back']}</td>
+                            <td>{$v['team_back']}</td>
+                            <td>
+                                {if $v['tz_profit'] > 0}<font style="color: #FF3300;">{$v['tz_profit']}</font>{/if}
+                                {if $v['tz_profit'] < 0}<font style="color: #0099ff;">{$v['tz_profit']}</font>{/if}
+                                {if $v['tz_profit'] == 0}{$v['tz_profit']}{/if}
+                            </td>
+                            <td>
+                                {if $v['profit'] > 0}<font style="color: #FF3300;">{$v['profit']}</font>{/if}
+                                {if $v['profit'] < 0}<font style="color: #0099ff;">{$v['profit']}</font>{/if}
+                                {if $v['profit'] == 0}{$v['profit']}{/if}
+                            </td>
+                        </tr>
+                        {/loop}
+                        <tr style="<?php echo Session::get('style'); ?>" id="zongji">
+                            <td colspan="3" style="text-align:center">总计</td>
+                            <td>{$total['zs_count']}</td>
+                            <td>{$total['td_count']}</td>
+                            <td>{$total['active_user']}</td>
+                            <td>{$total['new_reg']}</td>
+                            <td>{$total['team_Betting']}</td>
+                            <td>{$total['team_win']}</td>
+                            <td>{$total['person_back']}</td>
+                            <td>{$total['zs_back']}</td>
+                            <td>{$total['team_back']}</td>
+
+                            <td>
+                                {if $total['tz_profit'] > 0}<font style="color: #FF3300;font-weight: bold;">{$total['tz_profit']}</font>{/if}
+                                {if $total['tz_profit'] < 0}<font style="color: #0099ff;font-weight: bold;">{$total['tz_profit']}</font>{/if}
+                                {if $total['tz_profit'] == 0}{$total['tz_profit']}{/if}
+                            </td>
+                            <td>
+                                {if $total['profit'] > 0}<font style="color: #FF3300;font-weight: bold;">{$total['profit']}</font>{/if}
+                                {if $total['profit'] < 0}<font style="color: #0099ff;font-weight: bold;">{$total['profit']}</font>{/if}
+                                {if $total['profit'] == 0}{$total['profit']}{/if}
+                            </td>
+                        </tr>
+                        {if $dis==1}
+                            <tr style="<?php echo Session::get('style'); ?>" id="zongji">
+                                <td colspan="4" style="text-align:center">直属总计</td>
+                                <td>{$zsTotal['zs_count']}</td>
+                                <td>{$zsTotal['zs_active_user']}</td>
+                                <td>{$zsTotal['zs_new_reg']}</td>
+                                <td>{$zsTotal['zs_team_Betting']}</td>
+                                <td>{$zsTotal['zs_team_win']}</td>
+                                <td>{$zsTotal['zs_person_back']}</td>
+                                <td>{$zsTotal['zs_zs_back']}</td>
+                                <td>{$zsTotal['zs_team_back']}</td>
+
+                                <td>
+                                    {if $zsTotal['zs_tz_profit'] > 0}<font style="color: #FF3300;font-weight: bold;">{$zsTotal['zs_tz_profit']}</font>{/if}
+                                    {if $zsTotal['zs_tz_profit'] < 0}<font style="color: #0099ff;font-weight: bold;">{$zsTotal['zs_tz_profit']}</font>{/if}
+                                    {if $zsTotal['zs_tz_profit'] == 0}{$zsTotal['zs_tz_profit']}{/if}
+                                </td>
+                                <td>
+                                    {if $zsTotal['zs_profit'] > 0}<font style="color: #FF3300;font-weight: bold;">{$zsTotal['zs_profit']}</font>{/if}
+                                    {if $zsTotal['zs_profit'] < 0}<font style="color: #0099ff;font-weight: bold;">{$zsTotal['zs_profit']}</font>{/if}
+                                    {if $zsTotal['zs_profit'] == 0}{$zsTotal['zs_profit']}{/if}
+                                </td>
+                            </tr>
+                        {/if}
+                        {/if}
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <?php echo $show;?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var loading = "";//加载中...
+    //时间插件
+    $(function(){
+        //时间插件
+        $(".date_picker").jeDate({
+            isinitVal:true,
+            ishmsVal:true,
+            format:"YYYY-MM-DD",
+            zIndex:3000,
+        });
+
+
+        $('.form-search').submit(function(){
+            var start_time = $('[name="start_time"]').val();
+            var end_time = $('[name="end_time"]').val();
+            var diff_days = (new Date(end_time).getTime() - new Date(start_time).getTime()) / (24 * 60 * 60 * 1000);
+            if (start_time > end_time) {
+                layer.msg('起始时间不能大于结束时间', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+            if (diff_days > 31) {
+                layer.msg('查询时间跨度不能大于31天!!!', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+            var username = $.trim($("[name='username']").val());
+            // if (username == "") {
+            //     layer.msg('请输入要查询的用户名', {icon: 5, shade: [0.5, '#393D49']});
+            //     return false;
+            // }
+        });
+		
+		
+		$("#btn_back").click(function () {
+			history.go(-1);
+		});
+    })
+
+    function selectChildLst(type,uid,num){
+		var _href = "?m=admin&c=reporting&a=groupDetailbak";
+		_href += '&stype='+$("[name='stype']").val();
+		_href += '&sort='+$("[name='sort']").val();
+		_href += '&group='+$("[name='group']").val();
+		_href += '&start_time='+$("[name='start_time']").val();
+		_href += '&end_time='+$("[name='end_time']").val();
+		_href += '&quick='+$("[name='quick']").val();
+		_href += '&uid='+uid;
+		_href += '&td_zs='+type;
+		_href += '&isSearch=1';
+		location.href = _href;
+		return;
+
+        var offon = $("#c"+type+"_"+uid).attr('sdata');
+        if(offon == "true"){
+            $("#c"+type+"_"+uid).attr({sdata:"false"});
+            var start_date = $("input[name=start_time]").val();
+            var end_date = $("input[name=end_time]").val();
+            $.ajax({
+                type: "POST",
+                url: "<?=url('admin','reporting','getGroupInfo')?>",
+                data: {'type':type,'uid':uid,'start_time':start_date,'end_time':end_date,'num':num},
+                beforeSend:function(){
+                    loading = layer.load(1);
+                },
+                success: function(msg){
+                    console.log(msg);
+                    layer.close(loading);
+                    $('.appendList').remove();
+                    $('.uid_'+uid).after(msg);
+                }
+            });
+        }
+        
+    }
+
+    $('body').on('click','.prevBtn',function () {
+        var type = $(this).attr('data-type');
+        var uid = $(this).attr('data-uid');
+        var page = $(this).attr('data-page');
+        var num = $(this).attr('data-num');
+        var start_date = $("input[name=start_time]").val();
+        var end_date = $("input[name=end_time]").val();
+
+        $.ajax({
+            type: "POST",
+            url: "<?=url('admin','reporting','getGroupInfo')?>",
+            data: {'type':type,'uid':uid,'start_time':start_date,'end_time':end_date,page:page,num:num},
+            beforeSend:function(){
+                loading = layer.load(1);
+            },
+            success: function(msg){
+                console.log(msg);
+                layer.close(loading);
+                $('.appendList').remove();
+                $('.uid_'+uid).after(msg);
+            }
+        });
+    });
+    $('body').on('click','.nextBtn',function () {
+        var type = $(this).attr('data-type');
+        var uid = $(this).attr('data-uid');
+        var page = $(this).attr('data-page');
+        var num = $(this).attr('data-num');
+        var start_date = $("input[name=start_time]").val();
+        var end_date = $("input[name=end_time]").val();
+        $.ajax({
+            type: "POST",
+            url: "<?=url('admin','reporting','getGroupInfo')?>",
+            data: {'type':type,'uid':uid,'start_time':start_date,'end_time':end_date,page:page,num:num},
+            beforeSend:function(){
+                loading = layer.load(1);
+            },
+            success: function(msg){
+                console.log(msg);
+                layer.close(loading);
+                $('.appendList').remove();
+                $('.uid_'+uid).after(msg);
+            }
+        });
+    })
+</script>
+</body>
+</html>

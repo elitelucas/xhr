@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link rel="stylesheet" href="statics/admin/css/admin.css">
+        <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+        <script src="statics/admin/js/jquery.js"></script>
+        <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+        <script src="statics/admin/js/pintuer.js"></script>  
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>  
+        <script src="statics/admin/js/jquery.date_input.pack.js"></script> 
+        <style>
+            #page{height: 60px;margin-top: 20px;text-align: center;}
+            #page ul li{float: left;margin-right:10px;}
+            #page ul .current{ background-color:#0099ff;text-align:center;}
+            .my_css li{
+                line-height: 30px;
+            }
+        </style>
+    </head>
+    <body>
+        <form method="post" id="form" action="">
+            <div class="panel admin-panel">
+                <div class="panel-head"><strong class="icon-reorder"> 逆向投注开关</strong><a style="float:right; display:block;color:#2fa4e7;" href="?m=admin&c=message&a=room">返回</a></div>
+                <div class="padding border-bottom">
+                    <ul style="padding-left:30px;" class="my_css">
+                        {loop $list $k $v}
+                        <li>
+                            <span style="margin-left:135px;">{$v['name']}：</span>
+                            <input {if $v['state'] == '1'} checked {/if} type="radio" onclick="upState({$k},1)"/> 开启
+                            <input {if $v['state'] == '0'} checked {/if} type="radio" onclick="upState({$k},0)"/> 关闭
+                        </li>
+                        {/loop}
+                    </ul>
+                </div>
+            </div>
+        </form>
+        <script type="text/javascript">
+            var loading = "";//加载中......
+            
+            //开关
+            function upState(type,state){
+                var id = '{$id}';
+                $.ajax({
+                    url: '?m=admin&c=message&a=upReverse&id=' + id,
+                    data: {type:type,state:state},
+                    dataType: 'json',
+                    type: 'post',
+                    beforeSend: function () {
+                        loading = layer.load(1);
+                    },
+                    error: function () {
+                        layer.close(loading);
+                        layer.msg('服务器错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                    },
+                    success: function (result) {
+                        layer.close(loading);
+                        if (result.rt > 0) {
+                            layer.msg('操作成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                                location.reload();
+                            });
+                        }
+                    }
+                });
+            }
+
+            $(function () {
+            });
+        </script>
+    </body>
+</html>

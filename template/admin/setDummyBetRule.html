@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <!--  <link rel="stylesheet" href="statics/admin/css/pintuer.css"> -->
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+    <script src="statics/admin/js/pintuer.js"></script>
+    <script src="statics/admin/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- template-begin+++ -->
+    {template public-new-ui-header}
+    <!-- template-end+++ -->
+    <script src="statics/admin/js/jquery.date_input.pack.js"></script>
+    <link rel="stylesheet" href="statics/admin/jedate/skin/jedate.css">
+    <script type="text/javascript" src="statics/admin/jedate/jquery.jedate.min.js"></script>
+
+    <!-- 图片上传 引入插件 -->
+    <script src="statics/admin/fileupload/js/vendor/jquery.ui.widget.js"></script>
+    <script src="statics/admin/fileupload/js/jquery.fileupload.js"></script>
+
+    <style type='text/css'>
+        .rules-1{
+            float: left;
+            height: 35px;
+            line-height: 35px;
+            padding-right:10px;
+        }
+        .rules-2{
+            float: left;
+            height: 35px;
+            line-height: 35px;
+            padding:0 10px 0 10px;
+        }
+        .rules-3{
+            float: left;
+            width: 20%;
+        }
+    </style>
+</head>
+<body style="margin: 15px;background-color: #f3f3f4;">
+<div class="ibox float-e-margins">
+    <div class="ibox-title iboxWTitle">
+        <h5>假人配置</h5>
+        <div class="ibox-tools">
+            <a href="javascript:void(0)" class="btn btn-white btn-bitbucket" onclick="javascript:history.go(-1);">
+                <i class="fa fa-reply"></i> 返回
+            </a>
+        </div>
+    </div>
+    <div class="ibox-content bagCol">
+        <div class="ibox-title">
+            <h5>详情</h5>
+        </div>
+        <div class="ibox-content">
+            <form method="get" class="form-horizontal">
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">时间段</label>
+                    <div class="col-sm-7">
+                        <input type="number" id="start_time" value="{$config['startTime']}" class="form-control rules-3" />
+                        <span class="rules-2"> - </span>
+                        <input type="number" value="{$config['endTime']}" id="end_time" class="form-control rules-3" />
+                        <p style="color: gray;padding-top: 10px;clear: both">
+                            24小时制，必须要以彩种开售时间配置<br />
+                            加拿大28：开售时间段为当日20~次日19;<br />
+                            幸运28/重庆时时彩：开售时间段为09~24;<br />
+                            幸运飞艇：开售时间段为当日13~次日04;<br />
+                            北京PK10：开售时间段为09~24;<br />
+                            三分彩/六合彩/急速赛车/百人牛牛：开售时间段为00~24;
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">房间</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="room">
+                            {loop $roomList $v}
+                            <option value="{$v['id']}" data-lower="{$v['lower']}" data-lottery-type="{$v['lottery_type']}" {if $config['room'] == $v['id']}selected="selected"{/if}>{$v['lottery_title']}--{$v['title']}</option>
+                            {/loop}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">假人设置</label>
+                    <div class="col-sm-7">
+                        <a href="javascript:void(0)" data-type="user" onclick="setUserNum(this)" style="line-height: 35px;color: #0099ff;">设置</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;已选择假人:【<span id="user_num">{$optDummyNum}</span>】
+                        <input type="hidden" id="user_id" value='<?php echo  json_encode($config['ids'],JSON_UNESCAPED_SLASHES);   ?>' />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">投注方式</label>
+                    <div class="col-sm-7">
+                        <div>
+                            <span class="rules-1">
+                                <input type="radio" name="type" value="1" {if empty($id)}checked{else}{if $config['num']['type'] == 1}checked{/if}{/if} />
+                            </span>
+                            <span class="rules-2">总计</span>
+                            <input type="number" value="{if $config['num']['type'] == 1}{$config['num']['data']}{/if}" class="num form-control rules-3" />
+                            <span class="rules-2">注</span>
+                        </div>
+                        <br /><br />
+                        <div>
+                            <span class="rules-1">
+                                <input type="radio" name="type" value="2" {if $config['num']['type'] == 2}checked{/if} />
+                            </span>
+                            <span class="rules-2">每人</span>
+                            <input type="number" value="{if $config['num']['type'] == 2}{$config['num']['data']}{/if}" class="num form-control rules-3" />
+                            <span class="rules-2">注</span>
+                        </div>
+                        <br /><br />
+                        <div>
+                            <span class="rules-1">
+                                <input type="radio" name="type" value="3" {if $config['num']['type'] == 3}checked{/if} />
+                            </span>
+                            <span class="rules-2">每人不同注数</span>
+                            <input type="hidden" class="hidden_num" value='<?php if($config["num"]["type"] == 3){ echo json_encode($config["num"]["data"],JSON_UNESCAPED_SLASHES); }   ?>'/>
+                            <span class="rules-2">
+                                <a id="type_set" style="display: none;color: #0099ff;" href="javascript:void(0)" data-type="type" onclick="setUserNum(this)">
+                                    设置
+                                </a>
+                            </span>
+                        </div>
+                        <p style="color: gray;padding-top: 10px;clear: both">
+                            1个小时最多配置3000注，2个小时最多配置6000注，以此类推
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">下注金额</label>
+                    <div class="col-sm-7">
+                        <div>
+                            <span class="rules-1">
+                                <input type="radio" name="money" value="1" {if empty($id)}checked{else}{if $config['money']['type'] == 1}{/if}checked{/if} />
+                            </span>
+                            <span class="rules-2">每人每注</span>
+                            <input type="number" id="start_money" value="{if $config['money']['type'] == 1}{$config['money']['data']['start_money']}{/if}" class="form-control rules-3" />
+                            <span class="rules-2"> - </span>
+                            <input type="number" id="end_money" value="{if $config['money']['type'] == 1}{$config['money']['data']['end_money']}{/if}" class="form-control rules-3" />
+                        </div>
+                        <br /><br />
+                        <div>
+                            <span class="rules-1">
+                                <input type="radio" name="money" value="2" {if $config['money']['type'] == 2}checked{/if} />
+                            </span>
+                            <span class="rules-2">每人不同金额</span>
+                            <input type="hidden" class="hidden_money" value='<?php if($config["money"]["type"] == 2){ echo json_encode($config["money"]["data"],JSON_UNESCAPED_SLASHES); }   ?>' />
+                            <span class="rules-2">
+                                <a id="money_set" style="display: none;color: #0099ff;" href="javascript:void(0)" data-type="money" onclick="setUserNum(this)">
+                                    设置
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">下注金额开启倍数</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id='multiple' name="multiple">
+                            <option value="0" {if $config['multiple'] == 0}selected{/if}>关闭</option>
+                            <option value="1" {if $config['multiple'] == 1}selected{/if}>5倍</option>
+                            <option value="10" {if $config['multiple'] == 10}selected{/if}>10倍</option>
+                            <option value="100" {if $config['multiple'] == 100}selected{/if}>100倍</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">玩法概率</label>
+                    <div class="col-sm-10">
+                        <div class="field lottery-type-way-1-3" style="display: none">
+                            <span class="rules-1">大小单双</span>
+                            <input type="number" value="{$config['way']['1']}" name="way" data-way="1" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">组合</span>
+                            <input type="number" value="{$config['way']['2']}" name="way" data-way="2" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">极值</span>
+                            <input type="number" value="{$config['way']['3']}" name="way" data-way="3" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">单点</span>
+                            <input type="number" value="{$config['way']['4']}" name="way" data-way="4" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">特殊玩法</span>
+                            <input type="number" value="{$config['way']['5']}" name="way" data-way="5" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                        </div>
+                        <div class="field lottery-type-way-2-4-9-14" style="display: none">
+                            <span class="rules-1">猜双面</span>
+                            <input type="number" value="{$config['way']['1']}" name="way" data-way="1" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">猜车号</span>
+                            <input type="number" value="{$config['way']['2']}" name="way" data-way="2" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">猜龙虎</span>
+                            <input type="number" value="{$config['way']['3']}" name="way" data-way="3" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">猜庄闲</span>
+                            <input type="number" value="{$config['way']['4']}" name="way" data-way="4" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">猜冠亚</span>
+                            <input type="number" value="{$config['way']['5']}" name="way" data-way="5" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">冠亚和</span>
+                            <input type="number" value="{$config['way']['6']}" name="way" data-way="6" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                        </div>
+                        <div class="field lottery-type-way-5-6-11" style="display: none">
+                            <span class="rules-1">猜双面</span>
+                            <input type="text" value="{$config['way']['1']}" name="way" data-way="1" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">猜数字</span>
+                            <input type="text" value="{$config['way']['2']}" name="way" data-way="2" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">猜总和</span>
+                            <input type="text" value="{$config['way']['3']}" name="way" data-way="3" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">猜龙虎</span>
+                            <input type="text" value="{$config['way']['4']}" name="way" data-way="4" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                        </div>
+                        <div class="field lottery-type-way-7-8" style="display: none">
+                            <span class="rules-1">特码</span>
+                            <input type="number" value="{$config['way']['1']}" name="way" data-way="1" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">正码</span>
+                            <input type="number" value="{$config['way']['2']}" name="way" data-way="2" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">正特</span>
+                            <input type="number" value="{$config['way']['3']}" name="way" data-way="3" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">连码</span>
+                            <input type="number" value="{$config['way']['4']}" name="way" data-way="4" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">半波</span>
+                            <input type="number" value="{$config['way']['5']}" name="way" data-way="5" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">尾数</span>
+                            <input type="number" value="{$config['way']['6']}" name="way" data-way="6" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">一肖</span>
+                            <input type="number" value="{$config['way']['7']}" name="way" data-way="7" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <br /><br />
+                            <span class="rules-1">特肖</span>
+                            <input type="number" value="{$config['way']['8']}" name="way" data-way="8" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">连肖</span>
+                            <input type="number" value="{$config['way']['9']}" name="way" data-way="9" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">连尾</span>
+                            <input type="number" value="{$config['way']['10']}" name="way" data-way="10" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">不中</span>
+                            <input type="number" value="{$config['way']['11']}" name="way" data-way="11" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">正码1-6</span>
+                            <input type="number" value="{$config['way']['12']}" name="way" data-way="12" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">正1-6龙虎</span>
+                            <input type="number" value="{$config['way']['13']}" name="way" data-way="13" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                        </div>
+                        <div class="field lottery-type-way-10" style="display: none">
+                            <span class="rules-1">猜牛牛</span>
+                            <input type="number" value="{$config['way']['1']}" name="way" data-way="1" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">猜牌面</span>
+                            <input type="number" value="{$config['way']['2']}" name="way" data-way="2" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">猜双面</span>
+                            <input type="number" value="{$config['way']['3']}" name="way" data-way="3" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">猜花色</span>
+                            <input type="number" value="{$config['way']['4']}" name="way" data-way="4" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">猜龙虎</span>
+                            <input type="number" value="{$config['way']['5']}" name="way" data-way="5" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">猜公牌</span>
+                            <input type="number" value="{$config['way']['6']}" name="way" data-way="6" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">猜总和</span>
+                            <input type="number" value="{$config['way']['7']}" name="way" data-way="7" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">猜胜负</span>
+                            <input type="number" value="{$config['way']['8']}" name="way" data-way="8" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                        </div>
+                        <div class="field lottery-type-way-12" style="display: none">
+                            <span class="rules-1">单双</span>
+                            <input type="number" value="{$config['way']['1']}" name="way" data-way="1" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">半场</span>
+                            <input type="number" value="{$config['way']['2']}" name="way" data-way="2" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">全场</span>
+                            <input type="number" value="{$config['way']['3']}" name="way" data-way="3" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">加时</span>
+                            <input type="number" value="{$config['way']['4']}" name="way" data-way="4" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">点球</span>
+                            <input type="number" value="{$config['way']['5']}" name="way" data-way="5" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                        </div>
+                        <div class="field lottery-type-way-13" style="display: none">
+                            <span class="rules-1">猜数字</span>
+                            <input type="number" value="{$config['way']['1']}" name="way" data-way="1" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">猜双面</span>
+                            <input type="number" value="{$config['way']['2']}" name="way" data-way="2" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">猜总和</span>
+                            <input type="number" value="{$config['way']['3']}" name="way" data-way="3" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">猜对子</span>
+                            <input type="number" value="{$config['way']['4']}" name="way" data-way="4" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">猜围骰</span>
+                            <input type="number" value="{$config['way']['5']}" name="way" data-way="5" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">猜单骰</span>
+                            <input type="number" value="{$config['way']['6']}" name="way" data-way="6" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                            <span class="rules-1">猜双骰</span>
+                            <input type="number" value="{$config['way']['7']}" name="way" data-way="7" class="form-control rules-3" style="width: 80px;" />
+                            <span class="rules-2"></span>
+                        </div>
+                        <p style="color: gray;padding-top: 10px;clear: both">
+                            比例可为"0"，但所有下注类型比例合计需为"100";
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label"></label>
+                    <div class="col-sm-2 col-sm-offset-1">
+                        <button class="btn btn-primary" type="button" id="btn_submit">保存内容</button>
+                        <button class="btn btn-white" type="button" style="border: 1px solid #e7eaec" onclick="javascript:history.go(-1);" id="qx_submit">取消</button>
+                    </div>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="set_type" style="display: none">
+    <div style="height: 284px; overflow: auto;">
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>用户名</th>
+                <th>用昵称</th>
+                <th>注数</th>
+            </tr>
+            </thead>
+            <tbody id="set_type_body"></tbody>
+        </table>
+    </div>
+    <div style="margin:10px auto;width: 50%">
+        <input type='submit' value='确定' class='btn btn-block btn-outline btn-primary' id="submit1" onclick='setTableType()' />
+    </div>
+</div>
+
+<div id="set_money" style="display: none">
+    <div style="height: 284px; overflow: auto;">
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>用户名</th>
+                <th>用昵称</th>
+                <th>金额(每注)</th>
+            </tr>
+            </thead>
+            <tbody id="set_money_body"></tbody>
+        </table>
+    </div>
+    <div style="margin:10px auto;width: 50%">
+        <input type='submit' value='确定' class='btn btn-block btn-outline btn-primary' id="submit2" onclick='setTableMoney()' />
+    </div>
+</div>
+
+<div id="set_user" style="display: none">
+    <div style="height: 284px; overflow: auto;">
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+            <tr>
+                <th><input type="checkbox" onclick="selectAll(this)" /></th>
+                <th>序号</th>
+                <th>用户名</th>
+                <th>用昵称</th>
+                <!-- <th>余额</th> -->
+            </tr>
+            </thead>
+            <tbody id="set_user_body"></tbody>
+        </table>
+    </div>
+    <div style="margin:10px auto;width: 50%">
+        <input type='submit' value='确定' class='btn btn-block btn-outline btn-primary' onclick='setTableUser()' />
+    </div>
+</div>
+<script type="text/javascript">
+    var loading = "";//加载中......
+    var index;
+    $(function(){
+        $("#room").trigger("change");
+        $("input[name='type']:checked").click();
+        $("input[name='money']:checked").click();
+    });
+
+    //获取机器人列表
+    $("#room").on("change",function() {
+        var data = {
+            'room_id':$("#room").val()
+        }
+        // $("#user_num").text('0');
+        var lottery_type = $("#room option:selected").attr("data-lottery-type");
+        if(lottery_type == 1 || lottery_type == 3) {
+            $(".lottery-type-way-1-3").show();
+            $(".lottery-type-way-2-4-9-14").hide();
+            $(".lottery-type-way-5-6-11").hide();
+            $(".lottery-type-way-7-8").hide();
+            $(".lottery-type-way-10").hide();
+            $(".lottery-type-way-12").hide();
+            $(".lottery-type-way-13").hide();
+        } else if(lottery_type == 2 || lottery_type == 4 || lottery_type == 9 || lottery_type == 14) {
+            $(".lottery-type-way-1-3").hide();
+            $(".lottery-type-way-2-4-9-14").show();
+            $(".lottery-type-way-5-6-11").hide();
+            $(".lottery-type-way-7-8").hide();
+            $(".lottery-type-way-10").hide();
+            $(".lottery-type-way-12").hide();
+            $(".lottery-type-way-13").hide();
+        } else if (lottery_type == 5 || lottery_type == 6 || lottery_type == 11) {
+            $(".lottery-type-way-1-3").hide();
+            $(".lottery-type-way-2-4-9-14").hide();
+            $(".lottery-type-way-5-6-11").show();
+            $(".lottery-type-way-7-8").hide();
+            $(".lottery-type-way-10").hide();
+            $(".lottery-type-way-12").hide();
+            $(".lottery-type-way-13").hide();
+        } else if (lottery_type == 7 || lottery_type == 8) {
+            $(".lottery-type-way-1-3").hide();
+            $(".lottery-type-way-2-4-9-14").hide();
+            $(".lottery-type-way-5-6-11").hide();
+            $(".lottery-type-way-7-8").show();
+            $(".lottery-type-way-10").hide();
+            $(".lottery-type-way-12").hide();
+            $(".lottery-type-way-13").hide();
+        } else if (lottery_type == 10) {
+            $(".lottery-type-way-1-3").hide();
+            $(".lottery-type-way-2-4-9-14").hide();
+            $(".lottery-type-way-5-6-11").hide();
+            $(".lottery-type-way-7-8").hide();
+            $(".lottery-type-way-10").show();
+            $(".lottery-type-way-12").hide();
+            $(".lottery-type-way-13").hide();
+        } else if (lottery_type == 12) {
+            $(".lottery-type-way-1-3").hide();
+            $(".lottery-type-way-2-4-9-14").hide();
+            $(".lottery-type-way-5-6-11").hide();
+            $(".lottery-type-way-7-8").hide();
+            $(".lottery-type-way-10").hide();
+            $(".lottery-type-way-12").show();
+            $(".lottery-type-way-13").hide();
+        } else if (lottery_type == 13) {
+            $(".lottery-type-way-1-3").hide();
+            $(".lottery-type-way-2-4-9-14").hide();
+            $(".lottery-type-way-5-6-11").hide();
+            $(".lottery-type-way-7-8").hide();
+            $(".lottery-type-way-10").hide();
+            $(".lottery-type-way-12").hide();
+            $(".lottery-type-way-13").show();
+        }
+        $.ajax({
+            url: "<?=url('admin','rank','getDummyList')?>",
+            data: data,
+            dataType: 'json',
+            type: 'post',
+            beforeSend: function () {
+                loading = layer.load(1);
+            },
+            error: function () {
+                layer.close(loading);
+                layer.msg('网络错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+            },
+            success: function (data) {
+                layer.close(loading);
+                var userInfo = $("#user_id").val();
+                var obj = $($("#set_user_body"));
+                obj.empty();
+                var html = '';
+                if(userInfo != "null" && userInfo != "") {
+                    userInfo = JSON.parse(userInfo);
+                    if(userInfo['room'] == $("#room").val()) {
+                        for(var a=0; a<userInfo['data'].length; a++) {
+                            html += "<tr>" +
+                                    "<td><input type='checkbox' class='check_box' data-id='"+userInfo['data'][a]['id']+"' data-username='"+userInfo['data'][a]['username']+"' data-nickname='"+userInfo['data'][a]['nickname']+"'  data-money='"+userInfo['data'][a]['money']+"' data-avatar='"+userInfo['data'][a]['avatar']+"' checked /></td>" +
+                                    "<td>"+userInfo['data'][a]['id']+"</td>" +
+                                    "<td>"+userInfo['data'][a]['username']+"</td>" +
+                                    "<td>"+userInfo['data'][a]['nickname']+"</td>" +
+                                    <!-- "<td>"+userInfo['data'][a]['money']+"</td>" + -->
+                                    "</tr>"
+                        }
+                    } else {
+                        $(".hidden_money").val("");
+                        $(".hidden_num").val("");
+                        $("#user_id").val("");
+                        $("input[type='checkbox']").attr("checked",false);
+                        if(data['list'] == "") {
+                            html += "<tr><td colspan='5'> 暂无可选用的假人，<a href='?m=admin&c=role&a=editDummy'>请添加假人</a> </td></tr>"
+                        } else {
+                            for(var a=0; a<data['list'].length; a++) {
+                                html += "<tr>" +
+                                        "<td><input type='checkbox' class='check_box' data-id='"+data['list'][a]['id']+"' data-username='"+data['list'][a]['username']+"' data-nickname='"+data['list'][a]['nickname']+"' data-money='"+data['list'][a]['money']+"' data-avatar='"+data['list'][a]['avatar']+"' /></td>" +
+                                        "<td>"+data['list'][a]['id']+"</td>" +
+                                        "<td>"+data['list'][a]['username']+"</td>" +
+                                        "<td>"+data['list'][a]['nickname']+"</td>" +
+                                        <!-- "<td>"+data['list'][a]['money']+"</td>" + -->
+                                        "</tr>"
+                            }
+                        }
+                    }
+                } else {
+                    if(data['list'] == "") {
+                        html += "<tr><td colspan='5'> 暂无可选用的假人，<a href='?m=admin&c=role&a=editDummy'>请添加假人</a> </td></tr>"
+                    } else {
+                        for(var a=0; a<data['list'].length; a++) {
+                            html += "<tr>" +
+                                    "<td><input type='checkbox' class='check_box' data-id='"+data['list'][a]['id']+"' data-username='"+data['list'][a]['username']+"' data-nickname='"+data['list'][a]['nickname']+"' data-money='"+data['list'][a]['money']+"' data-avatar='"+data['list'][a]['avatar']+"' /></td>" +
+                                    "<td>"+data['list'][a]['id']+"</td>" +
+                                    "<td>"+data['list'][a]['username']+"</td>" +
+                                    "<td>"+data['list'][a]['nickname']+"</td>" +
+                                    <!-- "<td>"+data['list'][a]['money']+"</td>" + -->
+                                    "</tr>"
+                        }
+                    }
+                }
+                obj.append(html);
+            }
+        });
+
+    });
+
+    $("input[name='type']").on("click",function(){
+        if($("input[name='type']:checked").val() == 3) {
+            $("#type_set").show();
+        } else {
+            $("#type_set").hide();
+        }
+    });
+
+    $("input[name='money']").on("click",function(){
+        if($("input[name='money']:checked").val() == 2) {
+            $("#money_set").show();
+        } else {
+            $("#money_set").hide();
+        }
+    });
+
+    function setUserNum(a)
+    {
+        var obj = $(a);
+        var dome;
+        var title;
+        var userInfo = $("#user_id").val();
+        var room = $("#room").val();
+        var html = '';
+        var check = true;
+        if(obj.attr("data-type") == "user") {
+            title ="假人列表";
+            dome = $("#set_user");
+        } else if(obj.attr("data-type") == "type") {
+            title ="注数设置";
+            dome = $("#set_type");
+            obj = $($("#set_type_body"));
+            obj.empty();
+            var num = $(".hidden_num").val();
+            if(num != "null" && num != "") {
+                num = JSON.parse(num);
+                if(userInfo != "null" && userInfo != "") {
+                    userInfo = JSON.parse(userInfo);
+                    if((num.length != userInfo['data'].length) || room != userInfo['room']) {
+                        for(var a=0; a<userInfo['data'].length; a++) {
+                            html +="<tr><td>"+userInfo['data'][a]['id']+"</td><td>"+userInfo['data'][a]['username']+"</td><td>"+userInfo['data'][a]['nickname']+"</td><td><input type='text' class='type_num' data-id='"+userInfo['data'][a]['id']+"' data-username='"+userInfo['data'][a]['username']+"' data-nickname='"+userInfo['data'][a]['nickname']+"' data-avatar='"+userInfo['data'][a]['avatar']+"' /></td></tr>"
+                        }
+                    } else {
+                        for(var j=0; j<userInfo['data'].length; j++) {
+                            if(userInfo['data'][j]['id'] != num[j]['id']) {
+                                check = false;
+                            }
+                        }
+                        if(check === false) {
+                            for(var a=0; a<userInfo['data'].length; a++) {
+                                html +="<tr><td>"+userInfo['data'][a]['id']+"</td><td>"+userInfo['data'][a]['username']+"</td><td>"+userInfo['data'][a]['nickname']+"</td><td><input type='text' class='type_num' data-id='"+userInfo['data'][a]['id']+"' data-username='"+userInfo['data'][a]['username']+"' data-nickname='"+userInfo['data'][a]['nickname']+"' data-avatar='"+userInfo['data'][a]['avatar']+"' /></td></tr>"
+                            }
+                        } else {
+                            for(var a=0; a<num.length; a++) {
+                                html +="<tr><td>"+num[a]['id']+"</td><td>"+num[a]['username']+"</td><td>"+num[a]['nickname']+"</td><td><input type='text' class='type_num' data-id='"+num[a]['id']+"' data-username='"+num[a]['username']+"' data-nickname='"+num[a]['nickname']+"' value='"+num[a]['num']+"' data-avatar='"+num[a]['avatar']+"' /></td></tr>"
+                            }
+                        }
+                    }
+                    $("#submit1").show();
+                } else {
+                    html +="<tr><td colspan='4'>您未设置假人，请先设置假人</td></tr>"
+                    $("#submit1").hide();
+                }
+                obj.append(html);
+
+            } else {
+                if(userInfo != "null" && userInfo != "") {
+                    userInfo = JSON.parse(userInfo);
+                    if (userInfo['data'].length > 0) {
+                        for(var a=0; a<userInfo['data'].length; a++) {
+                            html +="<tr><td>"+userInfo['data'][a]['id']+"</td><td>"+userInfo['data'][a]['username']+"</td><td>"+userInfo['data'][a]['nickname']+"</td><td><input type='text' class='type_num' data-id='"+userInfo['data'][a]['id']+"' data-username='"+userInfo['data'][a]['username']+"' data-nickname='"+userInfo['data'][a]['nickname']+"' data-avatar='"+userInfo['data'][a]['avatar']+"' /></td></tr>"
+                        }
+                        $("#submit1").show();
+                    } else {
+                        html +="<tr><td colspan='4'>您未设置假人，请先设置假人</td></tr>"
+                        $("#submit1").hide();
+                    }
+                } else {
+                    html +="<tr><td colspan='4'>您未设置假人，请先设置假人</td></tr>"
+                    $("#submit1").hide();
+                }
+                obj.append(html);
+            }
+
+        } else if(obj.attr("data-type") == "money") {
+            title ="金额设置";
+            dome = $("#set_money");
+            obj = $($("#set_money_body"));
+            obj.empty();
+            var money = $(".hidden_money").val();
+            if(money != "null" && money != "") {
+                money = JSON.parse(money);
+                if(userInfo != "null" && userInfo != "") {
+                    userInfo = JSON.parse(userInfo);
+                    if(money.length != userInfo['data'].length) {
+                        for(var a=0; a<userInfo['data'].length; a++) {
+                            html +="<tr><td>"+userInfo['data'][a]['id']+"</td><td>"+userInfo['data'][a]['username']+"</td><td>"+userInfo['data'][a]['nickname']+"</td><td><input type='text' class='type_money_start' data-id='"+userInfo['data'][a]['id']+"' data-username='"+userInfo['data'][a]['username']+"' data-nickname='"+userInfo['data'][a]['nickname']+"' />-<input type='text' class='type_money_end' data-id='"+userInfo['data'][a]['id']+"' data-username='"+userInfo['data'][a]['username']+"' data-nickname='"+userInfo['data'][a]['nickname']+"' data-avatar='"+userInfo['data'][a]['avatar']+"' /></td></tr>"
+                        }
+                    } else {
+                        for(var j=0; j<userInfo['data'].length; j++) {
+                            if(userInfo['data'][j]['id'] != money[j]['id']) {
+                                check = false;
+                            }
+                        }
+                        if(check === false) {
+                            for(var a=0; a<userInfo['data'].length; a++) {
+                                html +="<tr><td>"+userInfo['data'][a]['id']+"</td><td>"+userInfo['data'][a]['username']+"</td><td>"+userInfo['data'][a]['nickname']+"</td><td><input type='text' class='type_money_start' data-id='"+userInfo['data'][a]['id']+"' data-username='"+userInfo['data'][a]['username']+"' data-nickname='"+userInfo['data'][a]['nickname']+"' />-<input type='text' class='type_money_end' data-id='"+userInfo['data'][a]['id']+"' data-username='"+userInfo['data'][a]['username']+"' data-nickname='"+userInfo['data'][a]['nickname']+"' data-avatar='"+userInfo['data'][a]['avatar']+"' /></td></tr>"
+                            }
+                        } else {
+                            for(var a=0; a<money.length; a++) {
+                                html +="<tr><td>"+money[a]['id']+"</td><td>"+money[a]['username']+"</td><td>"+money[a]['nickname']+"</td><td><input type='text' class='type_money_start' data-id='"+money[a]['id']+"' data-username='"+money[a]['username']+"' data-nickname='"+money[a]['nickname']+"' value='"+money[a]['money_start']+"' />-<input type='text' class='type_money_end' data-id='"+money[a]['id']+"' data-username='"+money[a]['username']+"' data-nickname='"+money[a]['nickname']+"' value='"+money[a]['money_end']+"' data-avatar='"+money[a]['avatar']+"' /></td></tr>"
+                            }
+                        }
+                    }
+                    $("#submit2").show();
+                } else {
+                    html +="<tr><td colspan='4'>您未设置假人，请先设置假人</td></tr>"
+                    $("#submit2").hide();
+                }
+                obj.append(html);
+            } else {
+                if(userInfo != "null" && userInfo != "") {
+                    userInfo = JSON.parse(userInfo);
+                    if (userInfo['data'].length > 0) {
+                        for(var a=0; a<userInfo['data'].length; a++) {
+                            html +="<tr><td>"+userInfo['data'][a]['id']+"</td><td>"+userInfo['data'][a]['username']+"</td><td>"+userInfo['data'][a]['nickname']+"</td><td><input type='text' class='type_money_start' data-id='"+userInfo['data'][a]['id']+"' data-username='"+userInfo['data'][a]['username']+"' data-nickname='"+userInfo['data'][a]['nickname']+"' />-<input type='text' class='type_money_end' data-id='"+userInfo['data'][a]['id']+"' data-username='"+userInfo['data'][a]['username']+"' data-nickname='"+userInfo['data'][a]['nickname']+"' data-avatar='"+userInfo['data'][a]['avatar']+"' /></td></tr>"
+                        }
+                        $("#submit2").show();
+                    } else {
+                        html +="<tr><td colspan='4'>您未设置假人，请先设置假人</td></tr>"
+                        $("#submit2").hide();
+                    }
+
+                } else {
+                    html +="<tr><td colspan='4'>您未设置假人，请先设置假人</td></tr>"
+                    $("#submit2").hide();
+                }
+                obj.append(html);
+            }
+        }
+        index=layer.open({
+            type: 1,
+            title:title,
+            skin: 'layui-layer-demo', //样式类名
+            area: ['630px', '380px'],
+            anim: 2,
+            shadeClose: true, //开启遮罩关闭
+            content:dome
+        });
+    }
+
+    //保存注数
+    function setTableType()
+    {
+        var data = [];
+        var check = true;
+        var reg = /^[1-9]\d*$/;
+        var num = 0;
+        var startTime = parseInt($("#start_time").val());
+        var endTime = parseInt($("#end_time").val());
+        $.each($(".type_num"),function(index,value){
+            var obj = $(value);
+
+            if(obj.val() == "" || !reg.test(obj.val())) {
+                check = false;
+            }
+
+            var tmp = {};
+            tmp['id'] = obj.attr("data-id");
+            tmp['num'] = $.trim(obj.val());
+            num+=parseInt(tmp['num']);
+            tmp['username'] = obj.attr("data-username");
+            tmp['nickname'] = obj.attr("data-nickname");
+            tmp['avatar'] = obj.attr("data-avatar");
+            data.push(tmp);
+        });
+        if($("#start_time").val() == "" || $("#end_time").val() == "") {
+            layer.alert('请先设置假人运行时间!', {icon: 5, shade: [0.5, '#393D49'],zIndex: 19891024});
+            return false;
+        }
+        if (endTime < startTime) {
+            if(num > (endTime + 24 - startTime)*3000) {
+                layer.alert('单次配置注数合计不能超过 '+((endTime + 24) - startTime)*3000+' 注<br />假人运行时间共计：'+ ((endTime + 24) - startTime) +'时', {icon: 5, shade: [0.5, '#393D49'],zIndex: 19891024});
+                return false;
+            }
+        } else {
+            if(num > (endTime - startTime)*3000)
+            {
+                layer.alert('单次配置注数合计不能超过 '+(endTime - startTime)*3000+' 注<br />假人运行时间共计：'+ (endTime - startTime) +'时', {icon: 5, shade: [0.5, '#393D49'],zIndex: 19891024});
+                return false;
+            }
+        }
+
+        if (check === false) {
+            layer.alert('注数必须为正整数，并且不能为空~', {icon: 5, shade: [0.5, '#393D49'],zIndex: 19891024});
+            return false;
+        }
+        $(".hidden_num").val(JSON.stringify(data));
+        layer.close(index)
+    }
+
+    //保存金额
+    function setTableMoney()
+    {
+        var data = [];
+        var check = true;
+        var check1 = true;
+        var check2 = true;
+        var check3 = true;
+        var lower = parseInt($("#room").find("option:selected").attr('data-lower'))
+        var reg = /^[1-9]\d*$/;
+        $.each($(".type_money_start"),function(index,value){
+            var obj = $(value);
+            if(obj.val() == "" || !reg.test(obj.val()) || $($(".type_money_end")[index]).val() == "" || !reg.test($($(".type_money_end")[index]).val())) {
+                check = false;
+            }
+            if(parseInt(obj.val()) > parseInt($($(".type_money_end")[index]).val())) {
+                check1 = false;
+            }
+            if($($(".type_money_end")[index]).val() > 10000) {
+                check2 = false;
+            }
+            if (parseInt(obj.val()) < lower) {
+                check3 = false;
+            }
+            var tmp = {};
+            tmp['id'] = obj.attr("data-id");
+            tmp['money_start'] = $.trim(obj.val());
+            tmp['money_end'] = $.trim($($(".type_money_end")[index]).val());
+            tmp['avatar'] = $($(".type_money_end")[index]).attr("data-avatar");
+            tmp['username'] = obj.attr("data-username");
+            tmp['nickname'] = obj.attr("data-nickname");
+            data.push(tmp);
+        });
+        if(check === false) {
+            layer.alert('金额必须为正整数，并且不能为空~', {icon: 5, shade: [0.5, '#393D49'],zIndex: 19891024});
+            return false;
+        }
+        if(check1 === false) {
+            layer.alert('金额起始值不能大于结束值', {icon: 5, shade: [0.5, '#393D49'],zIndex: 19891024});
+            return false;
+        }
+        if(check2 === false){
+            layer.alert('金额结束值最大为10000', {icon: 5, shade: [0.5, '#393D49'],zIndex: 19891024});
+            return false;
+        }
+        if(check3 === false){
+            layer.alert('金额起始值不能小于房间最小限额' + lower , {icon: 5, shade: [0.5, '#393D49'],zIndex: 19891024});
+            return false;
+        }
+        $(".hidden_money").val(JSON.stringify(data));
+        layer.close(index)
+    }
+
+    //设置机器人
+    function setTableUser(){
+        var ids = {
+            'room':$("#room").val(),
+            'data':[]
+        };
+        $.each($('.check_box'),function(index,value){
+            if($(value).prop("checked")) {
+                var tmp = {};
+                tmp['id'] = $(value).attr("data-id");
+                tmp['username'] = $(value).attr("data-username");
+                tmp['nickname'] = $(value).attr("data-nickname");
+                tmp['money'] = $(value).attr("data-money");
+                tmp['avatar'] = $(value).attr("data-avatar");
+                ids['data'].push(tmp);
+            }
+        });
+        $("#user_num").text(ids.data.length);
+        $("#user_id").val(JSON.stringify(ids));
+        layer.close(index)
+
+    }
+
+    //机器人全选
+    function selectAll(obj) {
+        if($(obj).prop("checked")) {
+            $(".check_box").prop("checked",true);
+        } else {
+            $(".check_box").prop("checked",false);
+        }
+    }
+
+    //返回按钮
+    $("#btn_cancel").click(function () {
+        location.href = '?m=admin&c=rank&a=dummyBetRuleList';
+    });
+
+    $("#btn_submit").on("click",function(){
+        var data = {
+            'lottery_type':$("#room option:selected").attr("data-lottery-type"),
+            'startTime':parseInt($("#start_time").val()),
+            'endTime':parseInt($("#end_time").val()),
+            'room':$("#room").val(),
+            'ids':[],
+            'status':"0",
+            'num':{},
+            'money':{},
+            'id':"<?php echo $id;  ?>",
+            'way':{},
+            'multiple':$("#multiple").val()
+        }
+
+        if($("#user_id").val() == "" || $("#user_id").val() == "null") {
+            layer.alert('请选择假人', {icon: 5, shade: [0.5, '#393D49'],zIndex: 19891024});
+            return false;
+        }
+        var userID = JSON.parse($("#user_id").val());
+        for(var a=0; a<userID['data'].length; a++) {
+            var tmpIds = {
+                "id":userID['data'][a]['id'],
+                "username":userID['data'][a]['username'],
+                "nickname":userID['data'][a]['nickname'],
+                "avatar":userID['data'][a]['avatar']
+            }
+            data['ids'].push(tmpIds);
+        }
+        if(data['startTime'] == data['endTime']) {
+            layer.alert('时间段：起始时间不能等于结束时间~', {icon: 5, shade: [0.5, '#393D49'],zIndex: 19891024});
+            return false;
+        }
+        var reg_time=/^(1?[0-9]|2[0-4])$/;
+        if(!reg_time.test(data['startTime']) || !reg_time.test(data['endTime'])) {
+            layer.alert('时间段：只能输入0-24之间的正整数~', {icon: 5, shade: [0.5, '#393D49'],zIndex: 19891024});
+            return false;
+        }
+        if (data.lottery_type == 2 || data.lottery_type == 6 || data.lottery_type == 7 || data.lottery_type == 8 ||
+            data.lottery_type == 9 || data.lottery_type == 10 || data.lottery_type == 11 || data.lottery_type == 13 ||
+            data.lottery_type == 14) {
+            if(data['startTime'] > data['endTime']) {
+                layer.alert('时间段：该彩种起始时间不能大于结束时间~', {icon: 5, shade: [0.5, '#393D49'],zIndex: 19891024});
+                return false;
+            }
+        }
+
+        var reg_num = /^[1-9]\d*$/;
+        var type = $("input[name='type']:checked").val();
+        data['num']['type'] = type;
+        if(type == 1) {
+            data['num']['data'] = $("input[name='type']:checked").parent().parent().find(".num").val();
+            if(parseInt(data['num']['data'])%parseInt(data['ids'].length) != 0) {
+                layer.alert('下注数：注数与假人个数取余必须等于0', {icon: 5, shade: [0.5, '#393D49'],zIndex: 19891024});
+                return false;
+            }
+            if(!reg_num.test(data['num']['data'])) {
+                layer.alert('下注数：只能输入正整数~', {icon: 5, shade: [0.5, '#393D49'],zIndex: 19891024});
+                return false;
+            }
+            if(data['endTime'] < data['startTime']){
+                if(data['num']['data'] > ((data['endTime'] + 24) - data['startTime'])*3000) {
+                    layer.alert('单次配置注数合计不能超过 '+ ((data['endTime'] + 24) - data['startTime'])*3000 +' 注<br />假人运行时间共计：'+ ((data['endTime'] + 24) - data['startTime']) + '小时', {icon: 5, shade: [0.5, '#393D49'],zIndex: 19891024});
+                    return false;
+                }
+            } else {
+                if(data['num']['data'] > (data['endTime'] - data['startTime'])*3000) {
+                    layer.alert('单次配置注数合计不能超过 '+ (data['endTime'] - data['startTime'])*3000 +' 注<br />假人运行时间共计：'+ (data['endTime'] - data['startTime']) + '小时', {icon: 5, shade: [0.5, '#393D49'],zIndex: 19891024});
+                    return false;
+                }
+            }
+
+        } else if(type == 2) {
+            data['num']['data'] = $("input[name='type']:checked").parent().parent().find(".num").val();
+            if(!reg_num.test(data['num']['data'])) {
+                layer.alert('下注数：只能输入正整数~', {icon: 5, shade: [0.5, '#393D49'],zIndex: 19891024});
+                return false;
+            }
+            if(data['endTime'] < data['startTime']){
+                if(parseInt(data['num']['data']) * parseInt(data['ids'].length) > ((data['endTime'] + 24) - data['startTime'])*3000) {
+                    layer.alert('单次配置注数合计不能超过 '+ ((data['endTime'] + 24) - data['startTime'])*3000 +' 注<br />假人运行时间共计：'+ ((data['endTime'] + 24) - data['startTime']) + '小时', {icon: 5, shade: [0.5, '#393D49'],zIndex: 19891024});
+                    return false;
+                }
+            } else {
+                if(parseInt(data['num']['data']) * parseInt(data['ids'].length) > (data['endTime'] - data['startTime'])*3000) {
+                    layer.alert('单次配置注数合计不能超过 '+ (data['endTime'] - data['startTime'])*3000 +' 注<br />假人运行时间共计：'+ (data['endTime'] - data['startTime']) + '小时', {icon: 5, shade: [0.5, '#393D49'],zIndex: 19891024});
+                    return false;
+                }
+            }
+
+        } else if(type == 3) {
+            data['num']['data'] = $(".hidden_num").val();
+            if(data['num']['data'] == "") {
+                layer.alert('下注数：不能为空~', {icon: 5, shade: [0.5, '#393D49'],zIndex: 19891024});
+                return false;
+            }
+        }
+
+        var money = $("input[name='money']:checked").val();
+        data['money']['type'] = money;
+        var tmpMoney = {};
+        if(money == 1) {
+            var lower = parseInt($("#room").find("option:selected").attr('data-lower'))
+            tmpMoney['start_money'] = parseInt($("#start_money").val());
+            tmpMoney['end_money'] = parseInt($("#end_money").val());
+            if(!reg_num.test(tmpMoney['start_money']) || !reg_num.test(tmpMoney['end_money'])) {
+                layer.alert('下注金额：只能输入正整数~', {icon: 5, shade: [0.5, '#393D49'],zIndex: 19891024});
+                return false;
+            }
+            if(tmpMoney['start_money'] < lower) {
+                layer.alert('下注金额：起始值不能小于房间最小限额' + lower, {icon: 5, shade: [0.5, '#393D49'],zIndex: 19891024});
+                return false;
+            }
+
+            if(tmpMoney['start_money'] > tmpMoney['end_money']) {
+                layer.alert('下注金额：起始值不能大于结束值~', {icon: 5, shade: [0.5, '#393D49'],zIndex: 19891024});
+                return false;
+            }
+            if(tmpMoney['end_money'] > 10000){
+                layer.alert('下注金额：结束值最大值为10000~', {icon: 5, shade: [0.5, '#393D49'],zIndex: 19891024});
+                return false;
+            }
+            data['money']['data'] = JSON.stringify(tmpMoney);
+        } else if(money == 2) {
+            data['money']['data'] = $(".hidden_money").val();
+            if(data['money']['data'] == "") {
+                layer.alert('下注金额：不能为空~', {icon: 5, shade: [0.5, '#393D49'],zIndex: 19891024});
+                return false;
+            }
+        }
+        var wayGl = 0;
+        var checkGl = true;
+        var way_test = /^[0-9]\d*$/;
+        if (data.lottery_type == 1 || data.lottery_type == 3) {
+            $.each($(".lottery-type-way-1-3 input[name='way']"),function(index,value){
+                data['way'][$(value).attr("data-way")] = $(value).val();
+                wayGl+=parseInt($(value).val());
+                if(!way_test.test($(value).val())) {
+                    checkGl = false;
+                }
+            });
+        } else if(data.lottery_type == 2 || data.lottery_type == 4 || data.lottery_type == 9 || data.lottery_type == 14) {
+            $.each($(".lottery-type-way-2-4-9-14 input[name='way']"),function(index,value){
+                data['way'][$(value).attr("data-way")] = $(value).val();
+                wayGl+=parseInt($(value).val());
+                if(!way_test.test($(value).val())) {
+                    checkGl = false;
+                }
+            });
+        } else if(data.lottery_type == 5 || data.lottery_type == 6 || data.lottery_type == 11) {
+            $.each($(".lottery-type-way-5-6-11 input[name='way']"),function(index,value){
+                data['way'][$(value).attr("data-way")] = $(value).val();
+                wayGl+=parseInt($(value).val());
+                if(!way_test.test($(value).val())) {
+                    checkGl = false;
+                }
+            });
+        } else if(data.lottery_type == 7 || data.lottery_type == 8) {
+            $.each($(".lottery-type-way-7-8 input[name='way']"),function(index,value){
+                data['way'][$(value).attr("data-way")] = $(value).val();
+                wayGl+=parseInt($(value).val());
+                if(!way_test.test($(value).val())) {
+                    checkGl = false;
+                }
+            });
+        } else if (data.lottery_type == 10) {
+            $.each($(".lottery-type-way-10 input[name='way']"),function(index,value){
+                data['way'][$(value).attr("data-way")] = $(value).val();
+                wayGl+=parseInt($(value).val());
+                if(!way_test.test($(value).val())) {
+                    checkGl = false;
+                }
+            });
+        } else if (data.lottery_type == 12) {
+            $.each($(".lottery-type-way-12 input[name='way']"),function(index,value){
+                data['way'][$(value).attr("data-way")] = $(value).val();
+                wayGl+=parseInt($(value).val());
+                if(!way_test.test($(value).val())) {
+                    checkGl = false;
+                }
+            });
+        } else if (data.lottery_type == 13) {
+            $.each($(".lottery-type-way-13 input[name='way']"),function(index,value){
+                data['way'][$(value).attr("data-way")] = $(value).val();
+                wayGl+=parseInt($(value).val());
+                if(!way_test.test($(value).val())) {
+                    checkGl = false;
+                }
+            });
+        }
+
+        if(checkGl === false) {
+            layer.alert('玩法概率的值为正整数，请重试', {icon: 5, shade: [0.5, '#393D49'],zIndex: 19891024});
+            return false;
+        }
+        if(wayGl != 100) {
+            layer.alert('玩法概率合计不等于100，请重试', {icon: 5, shade: [0.5, '#393D49'],zIndex: 19891024});
+            return false;
+        }
+        console.log(data)
+
+        $.ajax({
+            url: "?m=admin&c=rank&a=saveDummyBetRule&type=conf",
+            data: data,
+            dataType: 'json',
+            type: 'post',
+            beforeSend: function () {
+                loading = layer.load(1);
+            },
+            error: function () {
+                layer.close(loading);
+                layer.msg('网络错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+            },
+            success: function (data) {
+                layer.close(loading);
+                if(data['code'] == 0) {
+                    layer.msg(data.msg, {icon: 6, shade: [0.5, '#393D49']}, function () {
+                        location.href = '?m=admin&c=rank&a=dummyBetRuleList';
+                    });
+                } else {
+                    layer.msg(data.msg, {icon: 5, shade: [0.5, '#393D49']});
+                }
+            }
+        });
+
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>开奖结果</title>
+    {template public-header}
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    <link rel="stylesheet" href="/statics/web/extend/dropload/dropload.css">
+    <script src="/statics/web/extend/dropload/dropload.min.js"></script>
+    <style type="text/css">
+	.mycolor{
+	display: inline-block;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    border-radius: 5px;
+    font-style: normal;
+    color: white;
+    margin-bottom: 35px;
+    margin-right: 0.5rem;
+        text-shadow: 0 0 1px #000;
+	}
+.color1{background-color:#fcf53c}
+.color2{background-color:#4990e2}
+.color3{background-color:#4a4a4a}
+.color4{background-color:#f6a623}
+.color5{background-color:#50b8e3}
+.color6{background-color:#5d12fe}
+.color7{background-color:#b4b3b3}
+.color8{background-color:#d0011b}
+.color9{background-color:#801111}
+.color10{background-color:#7ed321}
+
+
+        /*六合彩*/
+        .prizeResult dl{ width: 65px; float: left; height: 134px; margin: 0 5px;}
+        .prizeResult dl.jiajia{
+            font-size: 32px;
+            font-weight: 600;
+            text-align: center;
+            line-height: 134px;}
+        .prizeResult dd,.prizeResult dt{ width: 100%;}
+        .prizeResult dt{height: 73px; line-height: 73px; text-align: center;  font-size: 27px; font-weight: 600}
+        .prizeResult dt.col0{ background: url("/statics/web/images/trendChart/lhc_redball@2x.png");  background-size: 100%;}
+        .prizeResult dt.col1{ background: url("/statics/web/images/trendChart/lhc_greenball@2x.png");background-size: 100%; }
+        .prizeResult dt.col2{ background: url("/statics/web/images/trendChart/lhc_blueball@2x.png"); background-size: 100%;}
+        .prizeResult dd{
+            width: 59px;
+            height: 59px;
+            background-color: #e4e4e4;
+            text-align: center;
+            line-height: 59px;
+            margin: 10px 3px 0;}
+        
+/* 妞妞 */
+.flexBtBox{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.flexBtBox>div{
+    width: 40%;
+}
+.vsImg{
+    width: 60px;
+    display: block;
+}
+.bluePai>div,.redPai>div{
+    height: 90px;
+    float: left;
+    width: 20%;
+    background-size: 100% 100%;
+}
+.rstText{
+    display: flex;
+    justify-content: space-between;
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+.prizeResult{padding-top: 10px;}
+.rstText>div{background: #F7F7F7;padding: 4px 0px;text-align: center;width: 48%;}
+.success{color: #27D22B;}
+.failed{color: #D22727;}
+/* 扑克url */
+.poker1_1{
+    background: url('/statics/web/images/niuniu/poker1_1@2x.png')no-repeat;
+}
+.poker1_2{
+    background: url('/statics/web/images/niuniu/poker1_2@2x.png')no-repeat;
+}
+.poker1_3{
+    background: url('/statics/web/images/niuniu/poker1_3@2x.png')no-repeat;
+}
+.poker1_4{
+    background: url('/statics/web/images/niuniu/poker1_4@2x.png')no-repeat;
+}
+.poker2_1{
+    background: url('/statics/web/images/niuniu/poker2_1@2x.png')no-repeat;
+}
+.poker2_2{
+    background: url('/statics/web/images/niuniu/poker2_2@2x.png')no-repeat;
+}
+.poker2_3{
+    background: url('/statics/web/images/niuniu/poker2_3@2x.png')no-repeat;
+}
+.poker2_4{
+    background: url('/statics/web/images/niuniu/poker2_4@2x.png')no-repeat;
+}
+.poker3_1{
+    background: url('/statics/web/images/niuniu/poker3_1@2x.png')no-repeat;
+}
+.poker3_2{
+    background: url('/statics/web/images/niuniu/poker3_2@2x.png')no-repeat;
+}
+.poker3_3{
+    background: url('/statics/web/images/niuniu/poker3_3@2x.png')no-repeat;
+}
+.poker3_4{
+    background: url('/statics/web/images/niuniu/poker3_4@2x.png')no-repeat;
+}
+.poker4_1{
+    background: url('/statics/web/images/niuniu/poker4_1@2x.png')no-repeat;
+}
+.poker4_2{
+    background: url('/statics/web/images/niuniu/poker4_2@2x.png')no-repeat;
+}
+.poker4_3{
+    background: url('/statics/web/images/niuniu/poker4_3@2x.png')no-repeat;
+}
+.poker4_4{
+    background: url('/statics/web/images/niuniu/poker4_4@2x.png')no-repeat;
+}
+.poker5_1{
+    background: url('/statics/web/images/niuniu/poker5_1@2x.png')no-repeat;
+}
+.poker5_2{
+    background: url('/statics/web/images/niuniu/poker5_2@2x.png')no-repeat;
+}
+.poker5_3{
+    background: url('/statics/web/images/niuniu/poker5_3@2x.png')no-repeat;
+}
+.poker5_4{
+    background: url('/statics/web/images/niuniu/poker5_4@2x.png')no-repeat;
+}
+.poker6_1{
+    background: url('/statics/web/images/niuniu/poker6_1@2x.png')no-repeat;
+}
+.poker6_2{
+    background: url('/statics/web/images/niuniu/poker6_2@2x.png')no-repeat;
+}
+.poker6_3{
+    background: url('/statics/web/images/niuniu/poker6_3@2x.png')no-repeat;
+}
+.poker6_4{
+    background: url('/statics/web/images/niuniu/poker6_4@2x.png')no-repeat;
+}
+.poker7_1{
+    background: url('/statics/web/images/niuniu/poker7_1@2x.png')no-repeat;
+}
+.poker7_2{
+    background: url('/statics/web/images/niuniu/poker7_2@2x.png')no-repeat;
+}
+.poker7_3{
+    background: url('/statics/web/images/niuniu/poker7_3@2x.png')no-repeat;
+}
+.poker7_4{
+    background: url('/statics/web/images/niuniu/poker7_4@2x.png')no-repeat;
+}
+.poker8_1{
+    background: url('/statics/web/images/niuniu/poker8_1@2x.png')no-repeat;
+}
+.poker8_2{
+    background: url('/statics/web/images/niuniu/poker8_2@2x.png')no-repeat;
+}
+.poker8_3{
+    background: url('/statics/web/images/niuniu/poker8_3@2x.png')no-repeat;
+}
+.poker8_4{
+    background: url('/statics/web/images/niuniu/poker8_4@2x.png')no-repeat;
+}
+.poker9_1{
+    background: url('/statics/web/images/niuniu/poker9_1@2x.png')no-repeat;
+}
+.poker9_2{
+    background: url('/statics/web/images/niuniu/poker9_2@2x.png')no-repeat;
+}
+.poker9_3{
+    background: url('/statics/web/images/niuniu/poker9_3@2x.png')no-repeat;
+}
+.poker9_4{
+    background: url('/statics/web/images/niuniu/poker9_4@2x.png')no-repeat;
+}
+.poker10_1{
+    background: url('/statics/web/images/niuniu/poker10_1@2x.png')no-repeat;
+}
+.poker10_2{
+    background: url('/statics/web/images/niuniu/poker10_2@2x.png')no-repeat;
+}
+.poker10_3{
+    background: url('/statics/web/images/niuniu/poker10_3@2x.png')no-repeat;
+}
+.poker10_4{
+    background: url('/statics/web/images/niuniu/poker10_4@2x.png')no-repeat;
+}
+.poker11_1{
+    background: url('/statics/web/images/niuniu/poker11_1@2x.png')no-repeat;
+}
+.poker11_2{
+    background: url('/statics/web/images/niuniu/poker11_2@2x.png')no-repeat;
+}
+.poker11_3{
+    background: url('/statics/web/images/niuniu/poker11_3@2x.png')no-repeat;
+}
+.poker11_4{
+    background: url('/statics/web/images/niuniu/poker11_4@2x.png')no-repeat;
+}
+.poker12_1{
+    background: url('/statics/web/images/niuniu/poker12_1@2x.png')no-repeat;
+}
+.poker12_2{
+    background: url('/statics/web/images/niuniu/poker12_2@2x.png')no-repeat;
+}
+.poker12_3{
+    background: url('/statics/web/images/niuniu/poker12_3@2x.png')no-repeat;
+}
+.poker12_4{
+    background: url('/statics/web/images/niuniu/poker12_4@2x.png')no-repeat;
+}
+.poker13_1{
+    background: url('/statics/web/images/niuniu/poker13_1@2x.png')no-repeat;
+}
+.poker13_2{
+    background: url('/statics/web/images/niuniu/poker13_2@2x.png')no-repeat;
+}
+.poker13_3{
+    background: url('/statics/web/images/niuniu/poker13_3@2x.png')no-repeat;
+}
+.poker13_4{
+    background: url('/statics/web/images/niuniu/poker13_4@2x.png')no-repeat;
+}
+.flexBtBox{
+    display: flex;
+    justify-content: space-between;
+}
+	</style>
+</head>
+<body>
+<header>
+    <em onclick="history.go(-1)">返回</em>
+    <h1>开奖结果</h1>
+</header>
+<section>
+            <div class="teamSearchW teamSearchT">
+            <div class="teamSearch">
+                <input type="text" class="inputDate" placeholder="开奖时间：今天"  />
+                <input name="date" type="date" placeholder="开奖时间：今天" onchange="getData()"/>
+                <em></em>
+            </div>
+            <div class="teamSearch">
+                <input type="text" class="sel" value="幸运28" />
+                <select class="select" name="type" onchange="getData()" >
+                    {loop $gameInfo $v}
+                    <option value="{$v['id']}">{$v['name']}</option>
+                    {/loop}
+                </select>
+                <em></em>
+            </div>
+            <!--<div class="teamSearchCeng">-->
+            <!--<div class="teamSearchCondition clearfix">-->
+            <!--<div>-->
+            <!--<span>从：</span><label><input type="text" placeholder="年"></label>-->
+            <!--</div>-->
+            <!--<div>-->
+            <!--<span>到：</span><label><input type="text" placeholder="年"></label>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<div class="teamSearchButton"><button>查询</button><button class="cancel">取消</button></div>-->
+            <!--</div>-->
+        </div>
+    <div class="prize">
+        <ul id="record_list">
+        </ul>
+    </div>
+</section>
+    <script type="text/javascript">
+        var color = [
+            [01,02,07,08,12,13,18,19,23,24,29,30,34,35,40,45,46],
+            [03,04,09,10,14,15,20,25,26,31,36,37,41,42,47,48],
+            [05,06,11,16,17,21,22,27,28,32,33,38,39,43,44,49]
+        ]
+        var start_time = 0;
+        var lottery_type = 0;
+        //条件筛选sss
+        function getData() {
+            start_time = $("input[name=date]").val();
+            lottery_type = $("select option:selected").val();
+            var timestamp = Date.parse(new Date())/1000;
+            if(timestamp < Date.parse(start_time)/1000){
+                fnSet.alert("查询时间不能大于当天");
+                return false
+            }
+            pageData();
+        }
+        var page = 1; //页码
+        function pageData() {
+            page = 1; //页码
+            $('#record_list').html("");
+            $('.dropload-down').remove();
+//            myAjax();
+            // dropload
+            $('.bettingRecordList').dropload({
+                scrollArea : window,
+                loadDownFn : function(me){
+                    //拼接
+                    myAjax(me);
+                    page++; //页面加1
+                },
+                threshold : 50
+            });
+        }
+
+        function myAjax(me){
+            var result = '';
+            $.ajax({
+                type: 'GET',
+                url: "<?=url('','openAward','dataList')?>" + "&date=" + start_time + "&lottery_type=" + lottery_type + "&page=" + page,
+                dataType: 'json',
+                success: function(data){
+                    var dataLen = data.list.length;
+                    console.log(data.list);
+                    if(page>2){
+                        $('.zhanwei').removeClass('zhanwei');
+                    }else if (dataLen > 0){
+                        $('.zhanwei').removeClass('zhanwei');
+                    }else {
+                        $('.prize').addClass('zhanwei');
+//                                var mainTop = $(".bettingRecordList").offset().top;
+//                                var newHeight = windowHeight-mainTop;
+//                                $(".bettingRecordList").css({height:newHeight});
+                    }
+                    if (dataLen > 0) {
+                        if(lottery_type == 2 || lottery_type == 4 || lottery_type == 9){
+                            console.log(data);
+                            for(var i=0; i < dataLen; i++) {
+                                var str = '';
+
+                                for(var j=0; j<data.list[i].spare_2.length; j++){
+                                    if(data.list[i].spare_2[j]!=""){
+                                        var spare_2 =  data.list[i].spare_2[j].split("-");
+                                        str += '<em class="colorDan" style="color:'+spare_2[1]+' ">' + spare_2[0] + '</em>';
+                                    }
+
+
+                                }
+                                result +=  '<li>'
+                                    + '<div class="prizeNo"><h3>第<span>' + data.list[i].issue + '</span>期</h3><span>' + data.list[i].open_time + '</span></div>'
+                                    + '<div class="prizeResult"><h4>'+data.list[i].open_result+'</h4>'
+                                    + '<span>' + str + '</span>'
+                                    + '</div>'
+                                    + '</li>';
+                            }
+                        }else if(lottery_type == 1 || lottery_type ==3) {
+                            for(var i=0; i < dataLen; i++) {
+                                var str = '';
+                                for(var j=0; j<data.list[i].spare_2.length; j++){
+                                    if(data.list[i].spare_2[j]!=""){
+                                        var spare_2 =  data.list[i].spare_2[j].split("-");
+                                        str += '<em class="colorDan" style="color:'+spare_2[1]+' ">' + spare_2[0] + '</em>';
+                                    }
+
+
+                                }
+                                result +=  '<li>'
+                                    + '<div class="prizeNo"><h3>第<span>' + data.list[i].issue + '</span>期</h3><span>' + data.list[i].open_time + '</span></div>'
+                                    + '<div class="prizeResult"><h4>' + data.list[i].spare_1 + '=<em class="colorH">' + data.list[i].open_result + '</em></h4>'
+                                    + '<span>' + str + '</span>'
+                                    + '</div>'
+                                    + '</li>';
+                            }
+                        }else if(lottery_type == 6 || lottery_type == 5 || lottery_type == 11){
+                            for(var i=0; i < dataLen; i++) {
+                                var str = '';
+                                for(var j=0; j<data.list[i].spare_2.length; j++){
+                                    if(data.list[i].spare_2[j]!=""){
+                                        var spare_2 =  data.list[i].spare_2[j].split("-");
+                                        str += '<em class="colorDan">' + spare_2[0] + '</em>';
+                                    }
+
+
+                                }
+                                var open_result = data.list[i].open_result.split(",")
+                                var str2 = "";
+                                for(var k = 0; k<open_result.length; k++){
+                                    str2 +='<em class="colorDan" style="color:#f30700; margin-right: 5px; ">'+open_result[k]+'</em>'
+                                }
+                                result +=  '<li>'
+                                    + '<div class="prizeNo"><h3>第<span>' + data.list[i].issue + '</span>期</h3><span>' + data.list[i].open_time + '</span></div>'
+                                    + '<div class="prizeResult"><h4>'+str2+'</h4>'
+                                    + '<span>' + str + '</span>'
+                                    + '</div>'
+                                    + '</li>';
+                            }
+
+                        }else if(lottery_type == 7 || lottery_type == 8){
+                            for(var i=0; i < dataLen; i++) {
+                                var str = '';
+                                var open_result = data.list[i].open_result.split(",")
+                                for(var j=0; j<data.list[i].spare_2.length; j++){
+
+                                    for(var c = 0 ; c<color.length; c++){
+                                        if($.inArray(open_result[j]-0,color[c]) != -1){
+                                            if(j == 6){
+                                                str += '<dl class="jiajia">+</dl><dl><dt class="col'+c+'">'+open_result[j]+'</dt><dd>'+data.list[i].spare_2[j]+'</dd></dl>';
+                                            }else{
+                                                str += '<dl><dt class="col'+c+'">'+open_result[j]+'</dt><dd>'+data.list[i].spare_2[j]+'</dd></dl>';
+                                            }
+                                        }
+
+                                    }
+
+
+                                }
+
+                                result +=  '<li>'
+                                    + '<div class="prizeNo"><h3>第<span>' + data.list[i].issue + '</span>期</h3><span>' + data.list[i].open_time + '</span></div>'
+                                    + '<div class="prizeResult">'
+                                    + str
+                                    + '</div>'
+                                    + '</li>';
+                            }
+
+                        }else if(lottery_type==10){
+                            var pokeArr = [{name:'黑桃A',url:'poker1_1'},{name:'黑桃2',url:'poker2_1'},{name:'黑桃3',url:'poker3_1'},{name:'黑桃4',url:'poker4_1'},{name:'黑桃5',url:'poker5_1'},{name:'黑桃6',url:'poker6_1'},{name:'黑桃7',url:'poker7_1'},{name:'黑桃8',url:'poker8_1'},{name:'黑桃9',url:'poker9_1'},{name:'黑桃10',url:'poker10_1'},{name:'黑桃J',url:'poker11_1'},{name:'黑桃Q',url:'poker12_1'},{name:'黑桃K',url:'poker13_1'},
+                                {name:'红心A',url:'poker1_2'},{name:'红心2',url:'poker2_2'},{name:'红心3',url:'poker3_2'},{name:'红心4',url:'poker4_2'},{name:'红心5',url:'poker5_2'},{name:'红心6',url:'poker6_2'},{name:'红心7',url:'poker7_2'},{name:'红心8',url:'poker8_2'},{name:'红心9',url:'poker9_2'},{name:'红心10',url:'poker10_2'},{name:'红心J',url:'poker11_2'},{name:'红心Q',url:'poker12_2'},{name:'红心K',url:'poker13_2'},
+                                {name:'梅花A',url:'poker1_3'},{name:'梅花2',url:'poker2_3'},{name:'梅花3',url:'poker3_3'},{name:'梅花4',url:'poker4_3'},{name:'梅花5',url:'poker5_3'},{name:'梅花6',url:'poker6_3'},{name:'梅花7',url:'poker7_3'},{name:'梅花8',url:'poker8_3'},{name:'梅花9',url:'poker9_3'},{name:'梅花10',url:'poker10_3'},{name:'梅花J',url:'poker11_3'},{name:'梅花Q',url:'poker12_3'},{name:'梅花K',url:'poker13_3'},
+                                {name:'方块A',url:'poker1_4'},{name:'方块2',url:'poker2_4'},{name:'方块3',url:'poker3_4'},{name:'方块4',url:'poker4_4'},{name:'方块5',url:'poker5_4'},{name:'方块6',url:'poker6_4'},{name:'方块7',url:'poker7_4'},{name:'方块8',url:'poker8_4'},{name:'方块9',url:'poker9_4'},{name:'方块10',url:'poker10_4'},{name:'方块J',url:'poker11_4'},{name:'方块Q',url:'poker12_4'},{name:'方块K',url:'poker13_4'},];
+                            for(var i=0;i<dataLen;i++){
+                                var html = '';
+                                var blueHtml = '';
+                                var redHtml = '';
+                                var bluePai = data.list[i].blue.lottery_pai_arr;
+                                var blueRst = data.list[i].blue.lottery_niu;
+                                var redPai = data.list[i].red.lottery_pai_arr;
+                                var redRst = data.list[i].red.lottery_niu;
+                                var win='';
+                                var lose='';
+                                for(var k=0;k<bluePai.length;k++){
+                                    for(var g=0;g<pokeArr.length;g++){
+                                        if(bluePai[k]==pokeArr[g].name){
+                                            blueHtml+='<div class="'+pokeArr[g].url+'"></div>';
+                                        }
+                                        if(redPai[k]==pokeArr[g].name){
+                                            redHtml+='<div class="'+pokeArr[g].url+'"></div>';
+                                        }
+                                    }
+                                }
+                                result +=  '<li>'
+                                result+= '<div class="prizeNo"><h3>第<span>' + data.list[i].issue + '</span>期</h3><span>' + data.list[i].open_time + '</span></div>'
+                                result+= '<div class="prizeResult flexBtBox">'
+                                result+= '<div class="bluePai">'+blueHtml+'</div>'
+                                result+='<img src="statics/web/images/niuniu/vs_pic@2x.png" class="vsImg"/>'
+                                result+= '<div class="redPai">'+redHtml+'</div>'
+                                result+= '</div>'
+                                result+= '<div class="flexBtBox">'
+                                result+= '<div class="rstText">'
+                                if(data.list[i].blue.win==1){
+                                    result+='<div>蓝方<span class="success">胜</span></div>'
+                                }else{
+                                    result+='<div>蓝方<span class="failed">败</span></div>'
+                                }
+                                result+= '<div>'+blueRst+'</div>'
+                                result+= '</div>'
+                                result+= '<div class="rstText">'
+                                if(data.list[i].red.win==1){
+                                    result+='<div>红方<span class="success">胜</span></div>'
+                                }else{
+                                    result+='<div>红方<span class="failed">败</span></div>'
+                                }
+                                result+= '<div>'+redRst+'</div>'
+                                result+= '</div>'
+                                result+= '</div>'
+                                result+= '</li>';
+                            }
+                        }
+                    }else{
+                        // 锁定
+                        me.lock();
+                        // 无数据
+                        me.noData();
+                    }
+
+                    // 为了测试，延迟1秒加载
+                    setTimeout(function(){
+                        $('#record_list').append(result);
+                        // 每次数据加载完，必须重置
+                        me.resetload();
+                    },1000);
+                },
+                error: function(xhr, type){
+                    // 即使加载出错，也得重置
+                    me.resetload();
+                }
+            });
+        }
+        getData();
+    </script>
+</body>
+</html>

@@ -1,0 +1,257 @@
+{template header}
+  <!-- Investor_center -->
+  <link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+  
+  <!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+      <li class="active">我的账户</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->
+  {template member-nav-left}
+
+    
+    <!-- 右边正文 -->
+    <div class="investor-right pull-right border-radius">
+      <ul class="nav nav-tabs" role="tablist" id="myTab">
+        <li {if ROUTE_A=='auto'}class="active"{/if}><a href="<?=url('member','tender','auto')?>">自动投标设置</a></li>
+        <li {if ROUTE_A=='edit'}class="active"{/if}><a href="<?=url('member','tender','edit')?>">添加自动投标</a></li>
+      </ul>
+
+      <div class="tab-content">
+        <!-- 自动投标设置 -->
+        {if (isset($datas) && !empty($datas) || $data['style']!=1)}
+        <div class="tab-pane active" id="home">
+          <div class="withdraw-info bg-warning">
+            <div>设置月份标 (如若月份标无效,请重新检查设置条件再进行修改) </div>
+            <div>当前排名：已设置自动投标的用户排名;  有效排名：设置自动投标，资金已提前到位的用户排名。</div>
+          </div>
+          
+          <table class="table table-bordered font12px text-center table-hover">
+            <tr>
+              <td>月份</td>
+              <td>有效金额</td>
+              <td>还款方式</td>
+              <td>有效时间</td>
+              <td>是否有效</td>
+              <td>当前排名</td>
+              <td>有效排名</td>
+              <td>操作</td>
+            </tr>
+            {loop $datas $key $val}
+            <tr>
+            	<td>{$val['timelimit']}</td>            	                       
+                <td>               
+                {if $val['tender_type']==1}
+                 <?=empty($val['tender_scale'])?'0':$val['tender_scale']*100?>%
+                {else}
+                 	￥<?=empty($val['min_account'])?'0.00':$val['min_account']?>
+                 ~<?=empty($val['tender_account'])?'0.00':$val['tender_account']?>
+                {/if}
+                </td>
+                <td> {if $val['borrow_style']==3}按月付息、到期还本{else}按月分期、等额本息{/if}</td>
+                <td><?=date('Y-m-d',$val['validity_start'])?> — <?=date('Y-m-d',$val['validity_end'])?></td>                 
+                <td>
+                		{if $val['status']!=1 || $val['validity_start']>$val['validity_end'] 
+                		|| $val['tender_type']=='1' || $val['remark']=='1'}
+                		<span style="color:red">失效</span>{else}有效{/if}
+                </td>
+                <td>
+                	{if $val['sort']=='-' || $val['validity_start']>$val['validity_end']}
+                		-
+                	{elseif $val['sort']=='0'}	
+                		  <?=$val['sort']+1?>      	
+                	{else}
+                		{$val['sort']}
+                	{/if}             	
+                </td>
+                <td>
+                	<span style="color:red">
+                	 {if $val['real_sort']=='0'}<?=$val['real_sort']+1?>{else}<?=$val['real_sort']?>{/if}
+                	</span>
+                </td>
+                <td>        
+                  <a href="#" id="del{$val['id']}" onclick="del({$val['id']})">删除</a>
+                  &nbsp;              
+                   <a href="<?=url('','','edit',array('id'=>$val['id']))?>">修改</a>                     
+                </td>             
+            </tr>
+            {/loop}    
+            {if (isset($datas) && empty($datas))}
+            <tr class="text-center font12px color999"><td colspan="8">查无此记录</td></tr>
+            {/if}
+          </table>
+            <div class="fanye">
+                <?php echo $page['html'];?>
+            </div>
+        </div>
+        <!-- /自动投标设置 -->
+        {else}
+        <!-- 添加自动投标 -->
+        <div class="tab-pane active" id="profile">
+          <div class="withdraw-info bg-warning">
+            <div>自动投标信息，只有满足您所设置的条件时系统才会为您自动投标。</div>
+          </div>
+          <form id="auto_bids_setting" action="<?=url('','','auto')?>" method="post">
+            <div class="auto-form-div">
+              <div class="pull-left margin-right10px">是否生效：</div>
+              <div class="pull-left margin-right10px">
+                  <input type="checkbox" name="status" id="status" {if $data['status']==1}checked{/if} />
+              </div>
+              <div class="pull-left help-block"><span class="glyphicon glyphicon-info-sign"></span> 若没有勾选，设置均无效</div>
+            </div>
+            <div class="auto-form-div">
+              <div class="pull-left margin-right10px">还款方式：</div>
+              <div class="pull-left margin-right30px">
+                  <select name='borrow_style' class="form-control">
+                        <option value="0" <?=$data['borrow_style']==0?'selected="selected"':''?>>按月分期、等额本息</option>
+                        <option value="3" <?=$data['borrow_style']==3?'selected="selected"':''?>>按月付息、到期还本</option>
+                    </select> 
+              </div>
+              <div class="pull-left help-block"><span class="glyphicon glyphicon-info-sign"></span> 筛选借款标的还款方式</div>
+            </div>
+            <div class="auto-form-div">
+              <div class="pull-left margin-right10px">借款期限：</div>
+              <div class="pull-left margin-right30px">
+                  {if isset({$data['id']})}
+                        <select  disabled='true' class="form-control">
+                            <option >{$data['timelimit']}个月</option>                         
+                        </select>         
+                        <input type='hidden' name="timelimit" value="{$data['timelimit']}">                                  	
+                    {else}
+                        <select name="timelimit" class="form-control">
+                            <?php for($i=1;$i<=12;$i++){?>
+                            <option  value="{$i}" <?=$data['timelimit']==$i?'selected="selected"':''?>>{$i}个月</option>
+                            <?php }?>
+                        </select>                    
+                    {/if}
+              </div>
+              <div class="pull-left help-block"><span class="glyphicon glyphicon-info-sign"></span> 筛选借款标的期限</div>
+            </div>
+            <div class="auto-form-div">
+              <div class="pull-left margin-right10px">投标金额：</div>
+              <div class="pull-left margin-right30px">
+                    <input type="hidden" name='tender_type' value='0'  >
+                    <input type='text' name='min_account' class="pull-left auto-input form-control" value="{$data['min_account']}">
+                	<div class="pull-left margin-left5px margin-right5px">-</div>
+                    <input type='text' name='tender_account' class="pull-left auto-input form-control" value="{$data['tender_account']}">
+                    <input type='hidden' name="tender_status" value="{$data['tender_status']}">
+              </div>
+              <div class="pull-left help-block"><span class="glyphicon glyphicon-info-sign"></span> 
+                  若帐户的可用余额不在此区间的设置范围内，则自动投标将自动失效。</div>
+            </div>
+            <div class="auto-form-div">
+              <div class="pull-left margin-right10px">生效方式：</div>
+              <div class="pull-left margin-right30px">
+                  <select class="form-control" name='life_style'>
+                    <option value="1" <?=$data['life_style']==1 && isset($data['life_style'])?'selected="selected"':''?>>一次生效</option>
+                    <option value="0" <?=$data['life_style']==0 && isset($data['life_style'])?'selected="selected"':''?>>永久生效</option>
+                </select> 
+              </div>
+              <div class="pull-left help-block"><span class="glyphicon glyphicon-info-sign"></span> 是否永久生效, 设置永久生效,则在生效时间范围内一直有效</div>
+            </div>
+            <div class="auto-form-div">
+              <div class="pull-left margin-right10px">生效时间：</div>
+              <div class="pull-left margin-right30px">
+                <div class="pull-left"><?=form::date('validity_start',date('Y-m-d',empty($data['validity_start'])?SYS_TIME:$data['validity_start']))?>00:00:00</div>
+                <div class="pull-left margin-left5px margin-right5px">到</div>
+                <div class="pull-left"><?=form::date('validity_end',date('Y-m-d',empty($data['validity_end'])?SYS_TIME:$data['validity_end']))?>23:59:59
+                        <input type='hidden' name="validity_status" value="{$data['validity_status']}"></div>
+              </div>
+            </div>
+            <div class="auto-form-div">
+              <div class="margin-left25px">
+                  <input type='hidden' name='id' value="{$data['id']}">     	
+                    <input type='hidden' name='formhash' value='<?=formhash()?>' >
+                    <input type='hidden' name='action' value='do' >
+                    <input type="submit" class="withdraw-btn btn btn-warning" value="提交设置" id="myform_button2">
+               </div>
+            </div>
+          </form>
+        </div>
+        <!-- /添加自动投标 -->
+      {/if}  
+      </div>
+      
+      
+    </div>
+    <!-- /右边正文 -->
+  </div>
+<script>
+function del(val){
+    if(confirm('您确定要删除记录吗？')){	 
+    $.ajax({url: "<?=url('','','del')?>", data: {id:val}, dataType: 'json', type: 'get', success: function(data) {
+        if (data) {
+           alert('恭喜您,删除成功!',function(){window.location.reload();});
+            window.location.href="<?=url('','','auto')?>";
+        }
+        else {
+            alert('很抱歉,删除失败!',function(){window.location.reload();});
+        }
+        return data;
+     }});
+     }   
+}
+</script>
+<script type="text/javascript" src="../../statics/resource/js/jquery.validate.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#auto_bids_setting").validate({
+	    errorPlacement:function(error,element) {
+			error.appendTo(element.parent().parent().children(".help-block"));
+		},
+		rules: {
+			borrow_style: {
+				required: true
+			}, 
+			status: {
+			}, 
+			timelimit: {
+				required: true, 
+				digits: true, 
+				min: 1, 
+				max: 12
+			}, 
+			min_account: {
+				number: true, 
+				min: 50
+			}, 
+			life_style: {
+				required: true
+			}, 
+			validity_start: {
+				required: true, 
+				date: true
+			}, 
+			validity_end: {
+				required: true, 
+				date: true
+			}
+		}
+	});
+});
+jQuery.extend(jQuery.validator.messages, {
+    required: "必选字段",
+	remote: "字段非法或者已经存在",
+	email: "请输入正确格式的电子邮件",
+	url: "请输入合法的网址",
+	date: "请输入合法的日期",
+	dateISO: "请输入合法的日期 (ISO).",
+	number: "请输入合法的数字",
+	digits: "只能输入整数",
+	creditcard: "请输入合法的信用卡号",
+	equalTo: "请再次输入相同的值",
+	accept: "请输入拥有合法后缀名的字符串",
+	maxlength: jQuery.validator.format("请输入一个 长度最多是 {0} 的字符串"),
+	minlength: jQuery.validator.format("请输入一个 长度最少是 {0} 的字符串"),
+	rangelength: jQuery.validator.format("请输入 一个长度介于 {0} 和 {1} 之间的字符串"),
+	range: jQuery.validator.format("请输入一个介于 {0} 和 {1} 之间的值"),
+	max: jQuery.validator.format("请输入一个最大为{0} 的值"),
+	min: jQuery.validator.format("请输入一个最小为{0} 的值")
+});
+</script>
+{template footer}

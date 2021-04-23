@@ -1,0 +1,2035 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>幸运转盘</title>
+        <meta name = "viewport" content = "width = device-width, initial-scale = 1.0, maximum-scale = 1.0, user-scalable = 0" />
+        <!-- <link rel="stylesheet" href="__CSS__/common.css" /> -->
+        <!-- <script src="statics/web/js/style.js"></script> -->
+        <script src="statics/web/js/jquery.1.8.2.min.js"></script>
+        <script src="statics/web/js/awardRotate.js"></script>
+        <script src="statics/web/extend/layer/mobile/layer.js"></script>
+        <script>
+            (function (doc, win) {
+                var docEl = doc.documentElement,
+                    resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                    recalc = function () {
+                        var clientWidth = docEl.clientWidth;
+                        if (!clientWidth) return;
+                        if(clientWidth>=750){
+                            docEl.style.fontSize = '100px';
+                        }else{
+                            docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+                        }
+                    };
+                if (!doc.addEventListener) return;
+                win.addEventListener(resizeEvt, recalc, false);
+                doc.addEventListener('DOMContentLoaded', recalc, false);
+            })(document, window);
+        </script>
+        <style>
+            body{font-size: 13px;font-family: "微软雅黑";}
+            body,ul,li,dl,dt,dd,h1,h2,h3,h4,h5,h6,p,form{margin: 0;padding: 0;}
+            h1,h2,h3,h4,h5,h6{font-weight: 100;}
+            ul li{list-style: none;}
+            a{text-decoration: none;}
+            i{  font-style:normal;}
+            img{border: 0;}
+            input{outline: none;padding: 0;} /*去掉有些浏览器在点击input时可能出现的蓝色边框*/
+            button{outline: none;cursor: pointer;padding: 0;}
+            em{font-style: normal;}
+            .fl{
+                float: left;
+            }
+            .fr{
+                float: right;
+            }
+            body{
+                width: 100%;
+                height: 100%;
+                /* background: url(statics/web/images/turntable/bg_luckyturn.jpg) repeat-y; */
+                background-size: 100%;
+                color: #8accfb;
+            }
+            .page{
+                width: 100%;
+                height: 100%;
+            }
+            .top{
+                height: 10.1rem;
+                background: url(statics/web/images/turntable/bg_top.png) no-repeat left bottom;
+                background-size: 100%;
+            }
+            .myPoint{
+                color: #fff;
+                text-align: center;
+                margin-bottom: .2rem;
+                margin-top: -.2rem;
+            }
+            .myPoint a{
+                color: #fff;
+            }
+            .title{
+                margin-top: .1rem;
+            }
+            .title img{
+                width: 100%;
+            }
+            .turntable{
+                width: 6.05rem;
+                height: 6.05rem;
+                background: url(statics/web/images/turntable/zhuanpan3.png) no-repeat;
+                background-size: 100%;
+                margin: 0 auto;
+                position: relative;
+            }
+            .turntable_pointer{
+                width: 6.05rem;
+                height: 6.05rem;
+                background: url(statics/web/images/turntable/zhuanpan2.png) no-repeat;
+                background-size: 100%;
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+            .pointer{
+                width: 1.76rem;
+                height: 1.76rem;
+                position: absolute;
+                border-radius: 50%;
+                background: url(statics/web/images/turntable/anniu.png);
+                background-size: 100%;
+                border: 0;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 7;
+            }
+            .bottom{
+                
+            }
+            .bottom h2{
+                font-size: 18px;
+                color: #fdfc53;
+                padding: .36rem 0;
+                text-align: center;
+                background: url(statics/web/images/turntable/line_title.png) no-repeat center bottom;
+                background-size: 100%;
+                font-weight: 500;
+            }
+            .bottom h2.star:after{
+                content: '';
+                display: inline-block;
+                width: .36rem;
+                height: .36rem;
+                margin-left: .16rem;
+                vertical-align: middle;
+                background: url(statics/web/images/turntable/star_decoration.png) no-repeat center center;
+                background-size: 100%;
+                margin-top: -.08rem;
+            }
+            
+            .bottom h2.star:before{
+                content: '';
+                display: inline-block;
+                width: .36rem;
+                height: .36rem;
+                margin-right: .16rem;
+                vertical-align: middle;
+                background: url(statics/web/images/turntable/star_decoration.png) no-repeat center center;
+                background-size: 100%;
+                margin-top: -.08rem;
+            }
+            .list .zjmdList{
+                padding: .3rem .75rem 0;
+                height: 2rem;
+                overflow: hidden;
+            }
+            .list ul li{
+                height: .62rem;
+                line-height: .62rem;
+                border-bottom: .01rem dashed #b4c4ff;
+                padding: 0 .4rem;
+            }
+            .ruleCon{
+                padding: .3rem 1.15rem 0;
+            }
+            .ruleCon p{
+                line-height: .4rem;
+                text-align: justify;
+            }
+            .explain{
+                margin: 1rem 0 .18rem;
+                text-align: center;
+            }
+            .turntable_con ul {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 5;
+
+            }
+            .turntable_con ul li {
+                position: absolute;
+                display: flex;
+                text-align: center;
+                vertical-align: middle;
+            }
+            .turntable_con ul li p {
+                display: none;
+            }
+            /* ##################--[4] */
+            #PC .four li {
+                width: .7rem;
+                height: .7rem;
+                overflow: hidden;
+            }
+            .four li {
+                width: .9rem;
+                height: .9rem;
+                overflow: hidden;
+            }
+            .four li:nth-child(1) {
+                left: 1.56rem;
+                top: 1.61rem;
+                transform: rotate(-46deg);
+                -webkit-transform: rotate(-46deg);
+                -moz-transform: rotate(-46deg);
+                -o-transform: rotate(-46deg);
+                -ms-transform: rotate(-46deg);
+            }
+            .four li:nth-child(2) {
+                left: 3.56rem;
+                top: 1.55rem;
+                transform: rotate(44deg);
+                -webkit-transform: rotate(44deg);
+                -moz-transform: rotate(44deg);
+                -o-transform: rotate(44deg);
+                -ms-transform: rotate(44deg);
+            }
+            .four li:nth-child(3) {
+                left: 3.56rem;
+                top: 3.56rem;
+                transform: rotate(134deg);
+                -webkit-transform: rotate(134deg);
+                -moz-transform: rotate(134deg);
+                -o-transform: rotate(134deg);
+                -ms-transform: rotate(134deg);
+            }
+            .four li:nth-child(4) {
+                left: 1.63rem;
+                top: 3.63rem;
+                transform: rotate(-136deg);
+                -webkit-transform: rotate(-136deg);
+                -moz-transform: rotate(-136deg);
+                -o-transform: rotate(-136deg);
+                -ms-transform: rotate(-136deg);
+            }
+            .turntable_con ul li img {
+                max-width: 100%;
+                max-height: 100%;
+            }
+            /* ##################--[6] */
+            /*.six li {
+                width: .80rem;
+                height: .80rem;
+                overflow: hidden;
+            }
+
+            .six li img {
+                max-width: 100%;
+                max-height: 100%;
+            }
+
+            .six li:nth-child(1) {
+                left: 1.95rem;
+                top: 1.50rem;
+                -webkit-transform: rotate(-30deg);
+                -ms-transform: rotate(-30deg);
+                -o-transform: rotate(-30deg);
+                transform: rotate(-30deg);
+            }
+
+            .six li:nth-child(2) {
+                left: 3.36rem;
+                top: 1.46rem;
+                -webkit-transform: rotate(30deg);
+                -ms-transform: rotate(30deg);
+                -o-transform: rotate(30deg);
+                transform: rotate(30deg);
+            }
+
+            .six li:nth-child(3) {
+                left: 4.10rem;
+                top: 2.63rem;
+                -webkit-transform: rotate(90deg);
+                -ms-transform: rotate(90deg);
+                -o-transform: rotate(90deg);
+                transform: rotate(90deg);
+            }
+
+            .six li:nth-child(4) {
+                left: 3.46rem;
+                top: 3.88rem;
+                -webkit-transform: rotate(150deg);
+                -ms-transform: rotate(150deg);
+                -o-transform: rotate(150deg);
+                transform: rotate(150deg);
+            }
+
+            .six li:nth-child(6) {
+                left: 1.34rem;
+                top: 2.74rem;
+                -webkit-transform: rotate(-90deg);
+                -ms-transform: rotate(-90deg);
+                -o-transform: rotate(-90deg);
+                transform: rotate(-90deg);
+            }
+
+            .six li:nth-child(5) {
+                -webkit-transform: rotate(-90deg);
+                -ms-transform: rotate(-90deg);
+                -o-transform: rotate(-90deg);
+                transform: rotate(-90deg);
+                left: 2.02rem;
+                top: 3.88rem;
+            }*/
+
+            /* ##################--[8] */
+            .eight li {
+                width: .70rem;
+                height: .70rem;
+                overflow: hidden;
+            }
+            .eight li:nth-child(1) {
+                left: 2.12rem;
+                top: 1.34rem;
+                -webkit-transform: rotate(-24deg);
+                -ms-transform: rotate(-24deg);
+                -o-transform: rotate(-24deg);
+                transform: rotate(-24deg);
+            }
+
+            .eight li:nth-child(2) {
+                left: 3.23rem;
+                top: 1.33rem;
+                -webkit-transform: rotate(22deg);
+                -ms-transform: rotate(22deg);
+                -o-transform: rotate(22deg);
+                transform: rotate(22deg);
+            }
+
+            .eight li:nth-child(3) {
+                left: 4.04rem;
+                top: 2.11rem;
+                -webkit-transform: rotate(65deg);
+                -ms-transform: rotate(65deg);
+                -o-transform: rotate(65deg);
+                transform: rotate(65deg);
+            }
+
+            .eight li:nth-child(4) {
+                left: 4.06rem;
+                top: 3.23rem;
+                -webkit-transform: rotate(111deg);
+                -ms-transform: rotate(111deg);
+                -o-transform: rotate(111deg);
+                transform: rotate(111deg);
+            }
+
+            .eight li:nth-child(5) {
+                left: 3.26rem;
+                top: 4.06rem;
+                -webkit-transform: rotate(156deg);
+                -ms-transform: rotate(156deg);
+                -o-transform: rotate(156deg);
+                transform: rotate(156deg);
+            }
+
+            .eight li:nth-child(6) {
+                -webkit-transform: rotate(201deg);
+                -ms-transform: rotate(201deg);
+                -o-transform: rotate(201deg);
+                transform: rotate(201deg);
+                left: 2.11rem;
+                top: 4.07rem;
+            }
+
+            .eight li:nth-child(7) {
+                -webkit-transform: rotate(-114deg);
+                -ms-transform: rotate(-114deg);
+                -o-transform: rotate(-114deg);
+                transform: rotate(-114deg);
+                left: 1.32rem;
+                top: 3.25rem;
+            }
+            .eight li:nth-child(8) {
+                -webkit-transform: rotate(-69deg);
+                -ms-transform: rotate(-69deg);
+                -o-transform: rotate(-69deg);
+                transform: rotate(-69deg);
+                left: 1.32rem;
+                top: 2.12rem;
+            }
+
+            /* ##################--[10] */
+            .ten li {
+                width: .50rem;
+                height: .50rem;
+                overflow: hidden;
+            }
+            .ten li:nth-child(1) {
+                left: 2.33rem;
+                top: 1.4rem;
+                -webkit-transform: rotate(-20.1deg);
+                -ms-transform: rotate(-20.1deg);
+                -o-transform: rotate(-20.1deg);
+                transform: rotate(-20.1deg);
+            }
+
+            .ten li:nth-child(2) {
+                left: 3.20rem;
+                top: 1.39rem;
+                -webkit-transform: rotate(18deg);
+                -ms-transform: rotate(18deg);
+                -o-transform: rotate(18deg);
+                transform: rotate(18deg);
+            }
+
+            .ten li:nth-child(3) {
+                left: 3.91rem;
+                top: 1.96rem;
+                -webkit-transform: rotate(52.8deg);
+                -ms-transform: rotate(52.8deg);
+                -o-transform: rotate(52.8deg);
+                transform: rotate(52.8deg);
+            }
+
+            .ten li:nth-child(4) {
+                left: 4.17rem;
+                top: 2.79rem;
+                -webkit-transform: rotate(89.7deg);
+                -ms-transform: rotate(89.7deg);
+                -o-transform: rotate(89.7deg);
+                transform: rotate(89.7deg);
+            }
+
+            .ten li:nth-child(5) {
+                left: 3.9rem;
+                top: 3.56rem;
+                -webkit-transform: rotate(124.6deg);
+                -ms-transform: rotate(124.6deg);
+                -o-transform: rotate(124.6deg);
+                transform: rotate(124.6deg);
+            }
+
+            .ten li:nth-child(6) {
+                -webkit-transform: rotate(159.4deg);
+                -ms-transform: rotate(159.4deg);
+                -o-transform: rotate(159.4deg);
+                transform: rotate(159.4deg);
+                left: 3.22rem;
+                top: 4.09rem;
+            }
+
+            .ten li:nth-child(7) {
+                -webkit-transform: rotate(-164.7deg);
+                -ms-transform: rotate(-164.7deg);
+                -o-transform: rotate(-164.7deg);
+                transform: rotate(-164.7deg);
+                left: 2.35rem;
+                top: 4.1rem;
+            }
+            .ten li:nth-child(8) {
+                -webkit-transform: rotate(-125.9deg);
+                -ms-transform: rotate(-125.9deg);
+                -o-transform: rotate(-125.9deg);
+                transform: rotate(-125.9deg);
+                left: 1.6rem;
+                top: 3.6rem;
+            }
+            .ten li:nth-child(9) {
+                -webkit-transform: rotate(-91.4deg);
+                -ms-transform: rotate(-91.4deg);
+                -o-transform: rotate(-91.4deg);
+                transform: rotate(-91.4deg);
+                left: 1.37rem;
+                top: 2.75rem;
+            }
+            .ten li:nth-child(10) {
+                -webkit-transform: rotate(-54.9deg);
+                -ms-transform: rotate(-54.9deg);
+                -o-transform: rotate(-54.9deg);
+                transform: rotate(-54.9deg);
+                left: 1.63rem;
+                top: 1.92rem;
+            }
+            /* ##################--[12] */
+            .twelve li {
+                width: .46rem;
+                height: .46rem;
+                overflow: hidden;
+            }
+            .twelve li:nth-child(1) {
+                left: 2.41rem;
+                top: 1.42rem;
+                -webkit-transform: rotate(-16deg);
+                -ms-transform: rotate(-16deg);
+                -o-transform: rotate(-16deg);
+                transform: rotate(-16deg);
+            }
+
+            .twelve li:nth-child(2) {
+                left: 3.18rem;
+                top: 1.41rem;
+                -webkit-transform: rotate(15.1deg);
+                -ms-transform: rotate(15.1deg);
+                -o-transform: rotate(15.1deg);
+                transform: rotate(14.2deg);
+            }
+
+            .twelve li:nth-child(3) {
+                left: 3.84rem;
+                top: 1.79rem;
+                -webkit-transform: rotate(44deg);
+                -ms-transform: rotate(44deg);
+                -o-transform: rotate(44deg);
+                transform: rotate(44deg);
+            }
+
+            .twelve li:nth-child(4) {
+                left: 4.2rem;
+                top: 2.45rem;
+                -webkit-transform: rotate(74deg);
+                -ms-transform: rotate(74deg);
+                -o-transform: rotate(74deg);
+                transform: rotate(74deg);
+            }
+
+            .twelve li:nth-child(5) {
+                left: 4.22rem;
+                top: 3.21rem;
+                -webkit-transform: rotate(103deg);
+                -ms-transform: rotate(103deg);
+                -o-transform: rotate(103deg);
+                transform: rotate(103deg);
+            }
+
+            .twelve li:nth-child(6) {
+                -webkit-transform: rotate(134deg);
+                -ms-transform: rotate(134deg);
+                -o-transform: rotate(134deg);
+                transform: rotate(134deg);
+                left: 3.82rem;
+                top: 3.85rem;
+            }
+
+            .twelve li:nth-child(7) {
+                -webkit-transform: rotate(-199deg);
+                -ms-transform: rotate(-199deg);
+                -o-transform: rotate(-199deg);
+                transform: rotate(-199deg);
+                left: 3.19rem;
+                top: 4.23rem;
+            }
+            .twelve li:nth-child(8) {
+                -webkit-transform: rotate(-167deg);
+                -ms-transform: rotate(-167deg);
+                -o-transform: rotate(-167deg);
+                transform: rotate(-167deg);
+                left: 2.42rem;
+                top: 4.22rem;
+            }
+            .twelve li:nth-child(9) {
+                -webkit-transform: rotate(-137deg);
+                -ms-transform: rotate(-137deg);
+                -o-transform: rotate(-137deg);
+                transform: rotate(-137deg);
+                left: 1.78rem;
+                top: 3.87rem;
+            }
+            .twelve li:nth-child(10) {
+                -webkit-transform: rotate(-107deg);
+                -ms-transform: rotate(-107deg);
+                -o-transform: rotate(-107deg);
+                transform: rotate(-107deg);
+                left: 1.38rem;
+                top: 3.22rem;
+            }
+            .twelve li:nth-child(11) {
+                -webkit-transform: rotate(-76deg);
+                -ms-transform: rotate(-76deg);
+                -o-transform: rotate(-76deg);
+                transform: rotate(-76deg);
+                left: 1.35rem;
+                top: 2.46rem;
+            }
+            .twelve li:nth-child(12) {
+                -webkit-transform: rotate(-47deg);
+                -ms-transform: rotate(-47deg);
+                -o-transform: rotate(-47deg);
+                transform: rotate(-47deg);
+                left: 1.72rem;
+                top: 1.75rem;
+            }
+            /* 加载中的动画效果 */
+            .spinner {
+  margin: 100px auto;
+  width: 20px;
+  height: 20px;
+  position: relative;
+}
+ 
+.container1 > div, .container2 > div, .container3 > div {
+  width: 6px;
+  height: 6px;
+  background-color: #333;
+ 
+  border-radius: 100%;
+  position: absolute;
+  -webkit-animation: bouncedelay 1.2s infinite ease-in-out;
+  animation: bouncedelay 1.2s infinite ease-in-out;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+ 
+.spinner .spinner-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+ 
+.container2 {
+  -webkit-transform: rotateZ(45deg);
+  transform: rotateZ(45deg);
+}
+ 
+.container3 {
+  -webkit-transform: rotateZ(90deg);
+  transform: rotateZ(90deg);
+}
+ 
+.circle1 { top: 0; left: 0; }
+.circle2 { top: 0; right: 0; }
+.circle3 { right: 0; bottom: 0; }
+.circle4 { left: 0; bottom: 0; }
+ 
+.container2 .circle1 {
+  -webkit-animation-delay: -1.1s;
+  animation-delay: -1.1s;
+}
+ 
+.container3 .circle1 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+ 
+.container1 .circle2 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+}
+ 
+.container2 .circle2 {
+  -webkit-animation-delay: -0.8s;
+  animation-delay: -0.8s;
+}
+ 
+.container3 .circle2 {
+  -webkit-animation-delay: -0.7s;
+  animation-delay: -0.7s;
+}
+ 
+.container1 .circle3 {
+  -webkit-animation-delay: -0.6s;
+  animation-delay: -0.6s;
+}
+ 
+.container2 .circle3 {
+  -webkit-animation-delay: -0.5s;
+  animation-delay: -0.5s;
+}
+ 
+.container3 .circle3 {
+  -webkit-animation-delay: -0.4s;
+  animation-delay: -0.4s;
+}
+ 
+.container1 .circle4 {
+  -webkit-animation-delay: -0.3s;
+  animation-delay: -0.3s;
+}
+ 
+.container2 .circle4 {
+  -webkit-animation-delay: -0.2s;
+  animation-delay: -0.2s;
+}
+ 
+.container3 .circle4 {
+  -webkit-animation-delay: -0.1s;
+  animation-delay: -0.1s;
+}
+ 
+@-webkit-keyframes bouncedelay {
+  0%, 80%, 100% { -webkit-transform: scale(0.0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+ 
+@keyframes bouncedelay {
+  0%, 80%, 100% {
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 40% {
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
+}
+</style>
+<style>
+.listPC {
+    border-radius: 5px;
+    background: #3e742b;
+    position: relative;
+    top: 250px;
+    left: 50%;
+    margin-left: -550px;
+    display: inline-block;
+    opacity: 0.96;
+}
+.style3 .listPC{background: rgba(0, 0, 0, .2);}
+.style1 .listPC{background: rgba(0, 0, 0, .4);}
+
+.starlistPC{
+    width: 300px;
+    height: 450px;
+    overflow: hidden;
+    position: relative;
+}
+img.zong2 {
+    position: absolute;
+    bottom: -70px;
+    left: -80px;
+}
+h2.starPC {
+    text-align: center;
+    background: #315c21;
+    padding: 10px 0px;
+    color: yellow;
+    border-radius: 5px 5px 0px 0px;
+    position: absolute;
+    width: 100%;
+    z-index: 9999;
+}
+.style3 h2.starPC{background: rgba(0, 0, 0, 1);color: #53FC67;}
+.style1 h2.starPC{background: rgba(0, 0, 0, 1);}
+.rulePC {
+    width: 300px;
+    height: 450px;
+    border-radius: 5px;
+    background: #3e742b;
+    opacity: 0.96;
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    margin-left: 270px;
+    display: inline-block;
+}
+.style3 .rulePC{background: rgba(0, 0, 0, .2);}
+.style1 .rulePC{background: rgba(0, 0, 0, .4);}
+img.zong1 {
+    position: absolute;
+    right: -80px;
+    bottom: -70px;
+}
+.rulePC h2{
+    text-align: center;
+    background: #315c21;
+    padding: 10px 0px;
+    color: yellow;
+    border-radius: 5px 5px 0px 0px;
+}
+.style3 .rulePC h2{
+    text-align: center;
+    background: rgba(0, 0, 0, 1);
+    padding: 10px 0px;
+    color: #53FC67;
+    border-radius: 5px 5px 0px 0px;
+}
+.style1 .rulePC h2{
+    text-align: center;
+    background: rgba(0, 0, 0, 1);
+    padding: 10px 0px;
+    border-radius: 5px 5px 0px 0px;
+}
+.turntablePC{
+    width: 470px;
+    background: url(statics/web/images/turntable/zhuanpan3.png) no-repeat;
+    background-size: 100%;
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    margin-left: -225px;
+    top: 245px;
+    display: inline-block;
+}
+.turntable_pointerPC{
+    width: 490px;
+    height: 498px;
+    background: url(statics/web/images/turntable/zhuanpan2.png) no-repeat;
+    background-size: 100%;
+    position: absolute;
+    left: -10px;
+    top: -16px;
+}
+.imgbox {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 100px;
+}
+.style3 .imgbox{top: 20px;}
+.style1 .imgbox{top: 20px;}
+.pagePC{
+    height: 718px;
+
+}
+.imgboxbott {
+    overflow: hidden;
+    margin-top: -186px;
+}
+.bottomPC , .topPC{
+    position: relative;
+}
+.imgboxbottr {
+    display: inline-block;
+    position: absolute;
+    left: 50%;
+    margin-left: -127px;
+    margin-top: -71px;
+}
+.PCli{
+    overflow: hidden;
+    color: white;
+    line-height: 62px;
+    font-size: 17px;
+    border-bottom: 1px solid #568444;
+    width: 80%;
+    margin: 0 auto;
+}
+.titlePC span {
+    left: 50%;
+    margin: -243.5px;
+    position: relative;
+    top: 203px;
+    font-size: 19px;
+    color: #000;
+}
+.style3 .titlePC span{top: 150px;color: white;}
+.style1 .titlePC span{top: 150px;color: white;}
+.ulBox{
+    position: absolute;
+    width: 100%;
+    text-align: center;
+}
+.ruleConPC{
+    padding: 20px;
+}
+.ruleConPC span{
+    font-size: 17px;
+    color: white;
+}
+.ruleConPC p {
+    text-indent: 2em;
+}
+.ruleConPC p>span{
+    text-indent:2em;
+    color: white;
+    font-size: 15px;
+}
+.myPointPC{
+    color: #fff;
+    position: absolute;
+    top: 760px;
+    left: 50%;
+    margin-left: -45px;
+    font-size: 20px;
+}
+.explainPC{
+    position: fixed;
+    text-align: center;
+    bottom: 10px;
+    color: #88d06e;
+    width: 100%;
+}
+
+p.pop-upt {
+    width: 40px;
+    height: 40px;
+    background: #19be6b;
+    font-size: 33px;
+    font-weight: 700;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 40px;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    margin-top: -35px;
+}
+p.pop-upP,p.pop-upPNo {
+    display: inline-block;
+    margin-top: 36px;
+    color: black;
+    font-size: 17px;
+}
+p.pop-upb,p.pop-upbNo {
+    border: 1px solid #EEE;
+    width: 60px;
+    height: 30px;
+    border-radius: 5px;
+    line-height: 30px;
+    margin-left: 170px;
+    margin-top: 20px;
+    background: #2d8cf0;
+    color: white;
+}
+p.pop-upb:hover{
+    cursor:pointer
+}
+p.pop-upbNo:hover{
+    cursor:pointer
+}
+.pop-up,.pop-upNo{
+    position: absolute;
+    z-index: 999;
+    top: 50%;
+    left: 50%;
+    width: 414px;
+    height: 150px;
+    background: white;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 46px;
+    margin-left: -200px;
+    margin-top: -75px;
+    box-shadow: 2px 2px 5px 0 #888894;
+}
+
+.pop-uptNo{
+    width: 40px;
+    height: 40px;
+    background: #d22727;
+    font-size: 20px;
+    font-weight: 700;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 40px;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    margin-top: -35px;
+}
+.style1,.style2,.style3{display: none;}
+.zjmdList {overflow: hidden;height: 410px;margin-top: 40px;}
+.title h2{padding: 20px;padding-bottom: 0px;}
+.title span{color: white;text-align: center;display: block;margin-bottom: 10px;}
+</style>
+    </head>
+    <body>
+        <div id="H5">
+            <div class="page">
+                <div class="top">
+                    <div class="title">
+                        <h2><img src="statics/web/images/turntable/title.png"/></h2>
+                        <span>活动时间：{$readable_start_date}-{$readable_end_date}</span>
+                    </div>
+                    <div class="myPoint">
+                        <span>我的次数: <em><?php echo $final_join_times ? : 0 ?></em></span>
+                        <!-- <a href="#" target="_blank">[ 中奖记录 ]</a> -->
+                    </div>
+                    <div class="turntable">
+                        <div class="turntable_con">
+                            <div class='rotate'>
+                                <img id="" src="{$running_turntable['turn_pic']}" alt="" style="width:100%;" />
+                                <ul class="{$turn_class_name}">
+                                    {loop $activity_setting_arr $v}
+                                        <li>
+                                            <p>{$v['name']}</p>
+                                            <img src="{$v['img']}" style="" alt="">
+                                        </li>
+                                    {/loop}
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="turntable_pointer">
+                            <button class="pointer"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="bottom">
+                    <div class="list">
+                        <h2 class="star">中奖名单</h2>
+                        <div class="turntable_r_m ">
+                            <div class="zjmdList">
+                                <!-- 暂无中奖名单 -->
+                                <ul>
+                                    {loop $award_data $v2}
+                                        <li class="lih">
+                                            <span class="fl">恭喜<em> <?php echo preg_replace('/(^.).*?(.$)/u', '$1***$2', $v2['username']) ?></em></span>
+                                            <span class="fr">获得<em>{$v2['prize_name']}</em></span>              
+                                        </li>
+                                    {/loop}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rule">
+                        <h2>活动详情</h2>
+                        <div class="ruleCon">
+                            <p>活动时间：{$readable_start_date}-{$readable_end_date}</p>
+                            <!-- <p>会员彩票积分满1888，便可参与一次大转盘</p>
+                            <p>1.抽奖机会只有一次;</p>
+                            <p>2.活动期间关注xx微信订阅号,回复 "xxx" 或点击菜单栏玩游戏,即可参与大转盘游戏</p> -->
+                            <p>活动内容：<?php echo nl2br($running_turntable['activity_details']); ?>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="explain">
+                    <p>{$running_turntable['activity_statement']}</p>
+                </div>
+                <textarea id="activity_setting_json" style="display:none;">{$activity_setting_json}</textarea>
+            </div>
+            <!-- 加载动画 -->
+            <div class="spinner"style="display:none">
+                    <div class="spinner-container container1">
+                      <div class="circle1"></div>
+                      <div class="circle2"></div>
+                      <div class="circle3"></div>
+                      <div class="circle4"></div>
+                    </div>
+                    <div class="spinner-container container2">
+                      <div class="circle1"></div>
+                      <div class="circle2"></div>
+                      <div class="circle3"></div>
+                      <div class="circle4"></div>
+                    </div>
+                    <div class="spinner-container container3">
+                      <div class="circle1"></div>
+                      <div class="circle2"></div>
+                      <div class="circle3"></div>
+                      <div class="circle4"></div>
+                    </div>
+            </div>
+        </div>
+        <div id="PC">
+            <!-- nomal -->
+            <div class="style1">
+                <div class="pagePC">
+                    <div class="topPC">
+                        <div class="titlePC">
+                            <!-- <h2><img src="statics/web/images/turntable/title.png"/></h2> -->
+                            <div class="imgbox">
+                                <img src="statics/web/images/turntable/title_pic1.png" alt="">
+                            </div>
+                        </div>
+                        <div class="myPointPC">
+                            <span>我的次数: <em><?php echo $final_join_times ? : 0 ?></em></span>
+                            <!-- <a href="#" target="_blank">[ 中奖记录 ]</a> -->
+                        </div>
+                        <div class="turntablePC">
+                            <div class="turntable_con">
+                                <div class="rotate">
+                                    <img id="" src="{$running_turntable['turn_pic']}" alt="" style="width:100%;" />
+                                    <ul class="{$turn_class_name}">
+                                        {loop $activity_setting_arr $v}
+                                            <li class="liLen">
+                                                <p>{$v['name']}</p>
+                                                <img src="{$v['img']}" style="" alt="">
+                                            </li>
+                                        {/loop}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="turntable_pointerPC">
+                                <button class="pointer"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottomPC">
+                        <div class="listPC">
+                            <div class="starlistPC">
+                                <h2 class="starPC">中奖名单</h2>
+                                    <div class="turntable_r_m ">
+                                        <div class="zjmdList" style="overflow: hidden;height: 410px;margin-top: 40px;">
+                                            <!-- 暂无中奖名单 -->
+                                            <ul class="ulBox">
+                                                {loop $award_data $v2}
+                                                    <li class="PCli lih">
+                                                        <span class="flPC">恭喜<em> <?php echo preg_replace('/(^.).*?(.$)/u', '$1***$2', $v2['username']) ?></em></span>
+                                                        <span class="frPC">获得<em>{$v2['prize_name']}</em></span>              
+                                                    </li>
+                                                {/loop}
+                                            </ul>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="rulePC">
+                            <h2>活动详情</h2>
+                            <div class="ruleConPC">
+                                <!-- <span>活动时间：{$readable_start_date}-{$readable_end_date}</span> -->
+                                <!-- <p>会员彩票积分满1888，便可参与一次大转盘</p>
+                                <p>1.抽奖机会只有一次;</p>
+                                <p>2.活动期间关注xx微信订阅号,回复 "xxx" 或点击菜单栏玩游戏,即可参与大转盘游戏</p> -->
+                                <span>活动内容：</span>
+                                <p><span><?php echo nl2br($running_turntable['activity_details']); ?></span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="explainPC">
+                        <p>{$running_turntable['activity_statement']}</p>
+                    </div>
+                    <textarea id="activity_setting_json" style="display:none;">{$activity_setting_json}</textarea>
+                </div>
+                <div class="imgboxbottr">
+                    <img src="statics/web/images/turntable/12.png" alt="">
+                </div>
+            </div>
+            <div class="style2">
+                <div class="pagePC">
+                    <div class="topPC">
+                        <div class="titlePC">
+                            <!-- <h2><img src="statics/web/images/turntable/title.png"/></h2> -->
+                            <div class="imgbox">
+                                <img src="statics/web/images/turntable/title11.png" alt="">
+                            </div>
+                            <span>活动时间：{$readable_start_date}-{$readable_end_date}</span>
+                        </div>
+                        <div class="myPointPC">
+                            <span>我的次数: <em><?php echo $final_join_times ? : 0 ?></em></span>
+                            <!-- <a href="#" target="_blank">[ 中奖记录 ]</a> -->
+                        </div>
+                        <div class="turntablePC">
+                            <div class="turntable_con">
+                                <div class="rotate">
+                                    <img id="" src="{$running_turntable['turn_pic']}" alt="" style="width:100%;" />
+                                    <ul class="{$turn_class_name}">
+                                        {loop $activity_setting_arr $v}
+                                            <li class="liLen">
+                                                <p>{$v['name']}</p>
+                                                <img src="{$v['img']}" style="" alt="">
+                                            </li>
+                                        {/loop}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="turntable_pointerPC">
+                                <button class="pointer"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottomPC">
+                        <div class="listPC">
+                            <div class="starlistPC">
+                                <h2 class="starPC">中奖名单</h2>
+                                    <div class="turntable_r_m ">
+                                        <div class="zjmdList">
+                                            <!-- 暂无中奖名单 -->
+                                            <ul class="ulBox">
+                                                {loop $award_data $v2}
+                                                    <li class="PCli lih">
+                                                        <span class="flPC">恭喜<em> <?php echo preg_replace('/(^.).*?(.$)/u', '$1***$2', $v2['username']) ?></em></span>
+                                                        <span class="frPC">获得<em>{$v2['prize_name']}</em></span>              
+                                                    </li>
+                                                {/loop}
+                                            </ul>
+                                        </div>
+                                    </div>
+                            </div>
+                            <img class="zong2" src="statics/web/images/turntable/zong2.png" alt="">
+                        </div>
+                        <div class="rulePC">
+                            <h2>活动详情</h2>
+                            <div class="ruleConPC">
+                                <!-- <span>活动时间：{$readable_start_date}-{$readable_end_date}</span> -->
+                                <!-- <p>会员彩票积分满1888，便可参与一次大转盘</p>
+                                <p>1.抽奖机会只有一次;</p>
+                                <p>2.活动期间关注xx微信订阅号,回复 "xxx" 或点击菜单栏玩游戏,即可参与大转盘游戏</p> -->
+                                <span>活动内容：</span>
+                                <p><span><?php echo nl2br($running_turntable['activity_details']); ?></span></p>
+                            </div>
+                            <img class="zong1" src="statics/web/images/turntable/zong1.png" alt="">
+                        </div>
+                    </div>
+                    <div class="explainPC">
+                        <p>{$running_turntable['activity_statement']}</p>
+                    </div>
+                    <textarea id="activity_setting_json" style="display:none;">{$activity_setting_json}</textarea>
+                </div>
+                <div class="imgboxbottr">
+                    <img src="statics/web/images/turntable/12.png" alt="">
+                </div>
+                <div class="imgboxbott">
+                    <img src="statics/web/images/turntable/cao.png" alt="">
+                </div>
+            </div>
+            <!-- 世界杯 -->
+            <div class="style3">
+                <div class="pagePC">
+                    <div class="topPC">
+                        <div class="titlePC">
+                            <!-- <h2><img src="statics/web/images/turntable/title.png"/></h2> -->
+                            <div class="imgbox">
+                                <img src="statics/web/images/turntable/title_pic3.png" alt="">
+                            </div>
+                            <span>活动时间：{$readable_start_date}-{$readable_end_date}</span>
+                        </div>
+                        <div class="myPointPC">
+                            <span>我的次数: <em><?php echo $final_join_times ? : 0 ?></em></span>
+                            <!-- <a href="#" target="_blank">[ 中奖记录 ]</a> -->
+                        </div>
+                        <div class="turntablePC">
+                            <div class="turntable_con">
+                                <div class="rotate">
+                                    <img id="" src="{$running_turntable['turn_pic']}" alt="" style="width:100%;" />
+                                    <ul class="{$turn_class_name}">
+                                        {loop $activity_setting_arr $v}
+                                            <li class="liLen">
+                                                <p>{$v['name']}</p>
+                                                <img src="{$v['img']}" style="" alt="">
+                                            </li>
+                                        {/loop}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="turntable_pointerPC">
+                                <button class="pointer"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottomPC">
+                        <div class="listPC">
+                            <div class="starlistPC">
+                                <h2 class="starPC">中奖名单</h2>
+                                    <div class="turntable_r_m ">
+                                        <div class="zjmdList" style="overflow: hidden;height: 410px;margin-top: 40px;">
+                                            <!-- 暂无中奖名单 -->
+                                            <ul class="ulBox">
+                                                {loop $award_data $v2}
+                                                    <li class="PCli lih">
+                                                        <span class="flPC">恭喜<em> <?php echo preg_replace('/(^.).*?(.$)/u', '$1***$2', $v2['username']) ?></em></span>
+                                                        <span class="frPC">获得<em>{$v2['prize_name']}</em></span>              
+                                                    </li>
+                                                {/loop}
+                                            </ul>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="rulePC">
+                            <h2>活动详情</h2>
+                            <div class="ruleConPC">
+                                <!-- <span>活动时间：{$readable_start_date}-{$readable_end_date}</span> -->
+                                <!-- <p>会员彩票积分满1888，便可参与一次大转盘</p>
+                                <p>1.抽奖机会只有一次;</p>
+                                <p>2.活动期间关注xx微信订阅号,回复 "xxx" 或点击菜单栏玩游戏,即可参与大转盘游戏</p> -->
+                                <span>活动内容：</span>
+                                <p><span><?php echo nl2br($running_turntable['activity_details']); ?></span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="explainPC">
+                        <p>{$running_turntable['activity_statement']}</p>
+                    </div>
+                    <textarea id="activity_setting_json" style="display:none;">{$activity_setting_json}</textarea>
+                </div>
+                <div class="imgboxbottr">
+                    <img src="statics/web/images/turntable/12.png" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="pop-up" style="display: none;">
+            <p class="pop-upt">√</p>
+            <p class="pop-upP"></p>
+            <p class="pop-upb">确定</p>
+        </div>
+        <div class="pop-upNo" style="display: none;">
+            <p class="pop-uptNo">i</p>
+            <p class="pop-upPNo"></p>
+            <p class="pop-upbNo">我知道了</p>
+        </div>
+    </body>
+</html>
+<script>
+    
+</script>
+<script>
+    var turnNum = "{$running_turntable['turn_num']}";   
+    var isPc=false; 
+    if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+		document.getElementById("PC").style.display = "none"
+        document.getElementById("H5").style.display = "block"
+        var bRotate = false;
+        var rotateFn = function(awards, angles, txt) {
+            bRotate = !bRotate;
+            $('.rotate').stopRotate();
+            $('.rotate').rotate({
+                angle: 0, // 根据给定的角度旋转图片
+                animateTo: angles + 1800,
+                duration: 8000,
+                callback: function() {
+                    //显示中的奖
+                    layer.open({
+                        content: "<p class='alert_msg'>" + txt + "</p>",
+                        btn: 'OK',
+                        yes:function () {
+                            window.location.reload();
+                        }
+                    }); 
+                    $('.pointer').one('click tap', luckyDrawFun);
+                    bRotate = !bRotate;
+                }
+            })
+        };
+        var return_back = '{$return_back}';
+        var activity_setting_json = $('#activity_setting_json').text();
+        if (!activity_setting_json=='') {
+            var gift = JSON.parse(activity_setting_json);
+        }
+        $('.pointer').one('click tap', luckyDrawFun);
+        function luckyDrawFun() {
+            
+        if (return_back == '1') {
+            layer.open({
+                content: "<p class='alert_msg'>{$return_msg}</p>",
+                btn: '我知道了',
+                // end : function () {
+                //     window.location.href =  '/?m=web&c=lobby&a=index';
+                // }
+            });
+            return false;
+        }
+
+        $.ajax({
+            url: "?m=web&c=turntable&a=luckyDrawFun",
+            type: 'post',
+            dataType: 'json',
+            data : {
+                turntable_id : '{$turntable_id}',
+                is_newer : '{$is_newer}',
+                user_id : '{$user_id}',
+            },
+            success: function(data) {
+                
+                // $('.pointer').unbind('click tap');
+                // var obj = JSON.parse(data);
+                var obj = data;
+                if (obj['code'] != 0) {
+                    // layer.alert(obj['msg']);
+                    layer.open({
+                        content: "<p class='alert_msg'>" + obj['msg'] + "</p>",
+                        btn: '好的'
+                    }); 
+                    // $.alert(obj['msg'], function() {
+                        // window.location.reload();
+                    // });
+                    $('.pointer').one('click tap', luckyDrawFun);
+                    return false
+                } else {
+                    if (bRotate) return;
+                    var item = obj['msg'];
+                    var mathFloor;
+                    if (turnNum == 8) {
+                        mathFloor = Math.floor(Math.random() * 44);
+                        switch (item) {
+                            case gift[0]['id']:
+                                //var angle = [26, 88, 137, 185, 235, 287, 337];
+                                rotateFn(0, mathFloor + 1,  '' + gift[0]['name']); //不中奖
+                                break;
+                            case gift[1]['id']:
+                                //var angle = [88, 137, 185, 235, 287];
+                                rotateFn(1, mathFloor + 316,  '[一等奖]' + gift[1]['name']); //一等奖
+                                break;
+                            case gift[2]['id']:
+                                //var angle = [137, 185, 235, 287];
+                                rotateFn(2, mathFloor + 271,  '[二等奖]' + gift[2]['name']); //二等奖
+                                break;
+                            case gift[3]['id']:
+                                //var angle = [137, 185, 235, 287];
+                                rotateFn(3, mathFloor + 226,  '[三等奖]' + gift[3]['name']); //三等奖
+                                break;
+                            case gift[4]['id']:
+                                //var angle = [185, 235, 287];
+                                rotateFn(4, mathFloor + 181,  '[四等奖]' + gift[4]['name']); //四等奖
+                                break;
+                            case gift[5]['id']:
+                                //var angle = [185, 235, 287];
+                                rotateFn(5, mathFloor + 136,  '[五等奖]' + gift[5]['name']); //五等奖
+                                break;
+                            case gift[6]['id']:
+                                //var angle = [235, 287];
+                                rotateFn(6, mathFloor + 91,  '[六等奖]' + gift[6]['name']); //六等奖
+                                break;
+                            case gift[7]['id']:
+                                //var angle = [287];
+                                rotateFn(7, mathFloor + 46,  '[七等奖]' + gift[7]['name']); //七等奖
+                                break;
+                        }
+                    } else if (turnNum == 4) {
+                        mathFloor = Math.floor(Math.random() * 89);
+                        switch (item) {
+                            case gift[0]['id']:
+                                //var angle = [26, 88, 137, 185, 235, 287, 337];
+                                rotateFn(0, mathFloor + 1, '' + gift[0]['name']); //不中奖
+                                break;
+                            case gift[1]['id']:
+                                //var angle = [88, 137, 185, 235, 287];
+                                rotateFn(1, mathFloor + 271, '[一等奖]' + gift[1]['name']); //一等奖
+                                break;
+                            case gift[2]['id']:
+                                //var angle = [137, 185, 235, 287];
+                                rotateFn(2, mathFloor + 181, '[二等奖]' + gift[2]['name']); //二等奖
+                                break;
+                            case gift[3]['id']:
+                                //var angle = [137, 185, 235, 287];
+                                rotateFn(3, mathFloor + 91, '[三等奖]' + gift[3]['name']); //三等奖
+                                break;
+                        }
+                    } else if (turnNum == 10) {
+                        mathFloor = Math.floor(Math.random() * 35);
+                        switch (item) {
+                            case gift[0]['id']:
+                                //var angle = [26, 88, 137, 185, 235, 287, 337];
+                                rotateFn(0, mathFloor + 1,  '' + gift[0]['name']); //不中奖
+                                break;
+                            case gift[1]['id']:
+                                //var angle = [88, 137, 185, 235, 287];
+                                rotateFn(1, mathFloor + 325,  '[一等奖]' + gift[1]['name']); //一等奖
+                                break;
+                            case gift[2]['id']:
+                                //var angle = [137, 185, 235, 287];
+                                rotateFn(2, mathFloor + 289,  '[二等奖]' + gift[2]['name']); //二等奖
+                                break;
+                            case gift[3]['id']:
+                                //var angle = [137, 185, 235, 287];
+                                rotateFn(3, mathFloor + 253,  '[三等奖]' + gift[3]['name']); //三等奖
+                                break;
+                            case gift[4]['id']:
+                                //var angle = [185, 235, 287];
+                                rotateFn(4, mathFloor + 217,  '[四等奖]' + gift[4]['name']); //四等奖
+                                break;
+                            case gift[5]['id']:
+                                //var angle = [185, 235, 287];
+                                rotateFn(5, mathFloor + 181,  '[五等奖]' + gift[5]['name']); //五等奖
+                                break;
+                            case gift[6]['id']:
+                                //var angle = [185, 235, 287];
+                                rotateFn(6, mathFloor + 145,  '[六等奖]' + gift[6]['name']); //6等奖
+                                break;
+                            case gift[7]['id']:
+                                //var angle = [185, 235, 287];
+                                rotateFn(7, mathFloor + 109,  '[七等奖]' + gift[7]['name']); //7等奖
+                                break;
+                            case gift[8]['id']:
+                                //var angle = [185, 235, 288];
+                                rotateFn(8, mathFloor + 73,  '[八等奖]' + gift[8]['name']); //8等奖
+                                break;
+                            case gift[9]['id']:
+                                //var angle = [186, 235, 290];
+                                rotateFn(9, mathFloor + 37,  '[九等奖]' + gift[9]['name']); //9等奖
+                                break;
+                        }
+                    } else if (turnNum == 12) {
+                        mathFloor = Math.floor(Math.random() * 29);
+                        switch (item) {
+                            case gift[0]['id']:
+                                //var angle = [26, 88, 137, 185, 235, 287, 337];
+                                rotateFn(0, mathFloor + 1, '' + gift[0]['name']); //不中奖
+                                break;
+                            case gift[1]['id']:
+                                //var angle = [88, 137, 185, 235, 287];
+                                rotateFn(1, mathFloor + 331, '[一等奖]' + gift[1]['name']); //一等奖
+                                break;
+                            case gift[2]['id']:
+                                //var angle = [137, 185, 235, 287];
+                                rotateFn(2, mathFloor + 301, '[二等奖]' + gift[2]['name']); //二等奖
+                                break;
+                            case gift[3]['id']:
+                                //var angle = [137, 185, 235, 287];
+                                rotateFn(3, mathFloor + 271, '[三等奖]' + gift[3]['name']); //三等奖
+                                break;
+                            case gift[4]['id']:
+                                //var angle = [185, 235, 287];
+                                rotateFn(4, mathFloor + 241, '[四等奖]' + gift[4]['name']); //四等奖
+                                break;
+                            case gift[5]['id']:
+                                //var angle = [185, 235, 287];
+                                rotateFn(5, mathFloor + 211, '[五等奖]' + gift[5]['name']); //五等奖
+                                break;
+                            case gift[6]['id']:
+                                //var angle = [185, 235, 287];
+                                rotateFn(6, mathFloor + 181, '[六等奖]' + gift[6]['name']); //6等奖
+                                break;
+                            case gift[7]['id']:
+                                //var angle = [185, 235, 287];
+                                rotateFn(7, mathFloor + 151, '[七等奖]' + gift[7]['name']); //7等奖
+                                break;
+                            case gift[8]['id']:
+                                //var angle = [185, 235, 288];
+                                rotateFn(8, mathFloor + 121, '[八等奖]' + gift[8]['name']); //8等奖
+                                break;
+                            case gift[9]['id']:
+                                //var angle = [186, 235, 290];
+                                rotateFn(9, mathFloor + 91, '[九等奖]' + gift[9]['name']); //9等奖
+                                break;
+                            case gift[10]['id']:
+                                //var angle = [186, 235, 291];
+                                rotateFn(10, mathFloor + 61, '[十等奖]' + gift[10]['name']); //10等奖
+                                break;
+                            case gift[11]['id']:
+                                //var angle = [186, 235, 291];
+                                rotateFn(11, mathFloor + 31, '[十一等奖]' + gift[11]['name']); //11等奖
+                                break;
+                        }
+                    }
+                }
+            }
+        });
+    }  
+        if(return_back == '2'){
+            layer.open({
+                content: "<p class='alert_msg'>{$return_msg}</p>",
+                btn: '我知道了',
+                end : function () {
+                    window.location.href =  '/?m=web&c=lobby&a=index';
+                }
+            });
+        }
+	} else {
+        document.getElementById("H5").style.display = "none"
+        document.getElementById("PC").style.display = "block"
+        isPc=true
+        var bRotate = false;
+        var rotateFn = function(awards, angles, txt) {
+            bRotate = !bRotate;
+            $('.rotate').stopRotate();
+            $('.rotate').rotate({
+                angle: 0, // 根据给定的角度旋转图片
+                animateTo: angles + 1800,
+                duration: 8000,
+                callback: function() {
+                    $('.pop-upP').text("获得:"+txt)
+                    $('.pop-up').css({'display': 'block'})
+                     $('.pop-upb').on('click',function(){
+                         window.location.reload();
+                     })       
+                    
+                }
+            })     
+        };
+        var return_back = '{$return_back}';
+        var activity_setting_json = $('#activity_setting_json').text();
+        if (!activity_setting_json == '') {
+            var gift = JSON.parse(activity_setting_json);
+        }
+        $('.pointer').one('click tap', luckyDrawFun);
+        function luckyDrawFun() {   
+            
+        if (return_back == '1') {
+            $('.pop-upPNo').html("<p class='alert_msg'>{$return_msg}</p>")
+            $('.pop-upNo').css({'display': 'block'})
+            $('.pop-upbNo').on('click',function(){
+                window.location.reload();
+            }) 
+            return false;
+        }
+        $.ajax({
+            url: "?m=web&c=turntable&a=luckyDrawFun",
+            type: 'post',
+            dataType: 'json',
+            data : {
+                turntable_id : '{$turntable_id}',
+                is_newer : '{$is_newer}',
+                user_id : '{$user_id}',
+            },
+            success: function(data) {
+                // $('.pointer').unbind('click tap');
+                // var obj = JSON.parse(data);
+                var obj = data;
+                if (obj['code'] != 0) {
+                    // layer.alert(obj['msg']);
+                    layer.open({
+                        content: "<p class='alert_msg'>" + obj['msg'] + "</p>",
+                        btn: '好的'
+                    }); 
+                    // $.alert(obj['msg'], function() {
+                        // window.location.reload();
+                    // });
+                    $('.pointer').one('click tap', luckyDrawFun);
+                    return false
+                } else {
+                    if (bRotate) return;
+                    var item = obj['msg'];
+                    var mathFloor;
+                    if (turnNum == 8) {
+                        mathFloor = Math.floor(Math.random() * 44);
+                        switch (item) {
+                            case gift[0]['id']:
+                                //var angle = [26, 88, 137, 185, 235, 287, 337];
+                                rotateFn(0, mathFloor + 1,  '' + gift[0]['name']); //不中奖
+                                break;
+                            case gift[1]['id']:
+                                //var angle = [88, 137, 185, 235, 287];
+                                rotateFn(1, mathFloor + 316,  '[一等奖]' + gift[1]['name']); //一等奖
+                                break;
+                            case gift[2]['id']:
+                                //var angle = [137, 185, 235, 287];
+                                rotateFn(2, mathFloor + 271,  '[二等奖]' + gift[2]['name']); //二等奖
+                                break;
+                            case gift[3]['id']:
+                                //var angle = [137, 185, 235, 287];
+                                rotateFn(3, mathFloor + 226,  '[三等奖]' + gift[3]['name']); //三等奖
+                                break;
+                            case gift[4]['id']:
+                                //var angle = [185, 235, 287];
+                                rotateFn(4, mathFloor + 181,  '[四等奖]' + gift[4]['name']); //四等奖
+                                break;
+                            case gift[5]['id']:
+                                //var angle = [185, 235, 287];
+                                rotateFn(5, mathFloor + 136,  '[五等奖]' + gift[5]['name']); //五等奖
+                                break;
+                            case gift[6]['id']:
+                                //var angle = [235, 287];
+                                rotateFn(6, mathFloor + 91,  '[六等奖]' + gift[6]['name']); //六等奖
+                                break;
+                            case gift[7]['id']:
+                                //var angle = [287];
+                                rotateFn(7, mathFloor + 46,  '[七等奖]' + gift[7]['name']); //七等奖
+                                break;
+                        }
+                    } else if (turnNum == 4) {
+                        mathFloor = Math.floor(Math.random() * 89);
+                        switch (item) {
+                            case gift[0]['id']:
+                                //var angle = [26, 88, 137, 185, 235, 287, 337];
+                                rotateFn(0, mathFloor + 1, '' + gift[0]['name']); //不中奖
+                                break;
+                            case gift[1]['id']:
+                                //var angle = [88, 137, 185, 235, 287];
+                                rotateFn(1, mathFloor + 271, '[一等奖]' + gift[1]['name']); //一等奖
+                                break;
+                            case gift[2]['id']:
+                                //var angle = [137, 185, 235, 287];
+                                rotateFn(2, mathFloor + 181, '[二等奖]' + gift[2]['name']); //二等奖
+                                break;
+                            case gift[3]['id']:
+                                //var angle = [137, 185, 235, 287];
+                                rotateFn(3, mathFloor + 91, '[三等奖]' + gift[3]['name']); //三等奖
+                                break;
+                        }
+                    } else if (turnNum == 10) {
+                        mathFloor = Math.floor(Math.random() * 35);
+                        switch (item) {
+                            case gift[0]['id']:
+                                //var angle = [26, 88, 137, 185, 235, 287, 337];
+                                rotateFn(0, mathFloor + 1,  '' + gift[0]['name']); //不中奖
+                                break;
+                            case gift[1]['id']:
+                                //var angle = [88, 137, 185, 235, 287];
+                                rotateFn(1, mathFloor + 325,  '[一等奖]' + gift[1]['name']); //一等奖
+                                break;
+                            case gift[2]['id']:
+                                //var angle = [137, 185, 235, 287];
+                                rotateFn(2, mathFloor + 289,  '[二等奖]' + gift[2]['name']); //二等奖
+                                break;
+                            case gift[3]['id']:
+                                //var angle = [137, 185, 235, 287];
+                                rotateFn(3, mathFloor + 253,  '[三等奖]' + gift[3]['name']); //三等奖
+                                break;
+                            case gift[4]['id']:
+                                //var angle = [185, 235, 287];
+                                rotateFn(4, mathFloor + 217,  '[四等奖]' + gift[4]['name']); //四等奖
+                                break;
+                            case gift[5]['id']:
+                                //var angle = [185, 235, 287];
+                                rotateFn(5, mathFloor + 181,  '[五等奖]' + gift[5]['name']); //五等奖
+                                break;
+                            case gift[6]['id']:
+                                //var angle = [185, 235, 287];
+                                rotateFn(6, mathFloor + 145,  '[六等奖]' + gift[6]['name']); //6等奖
+                                break;
+                            case gift[7]['id']:
+                                //var angle = [185, 235, 287];
+                                rotateFn(7, mathFloor + 109,  '[七等奖]' + gift[7]['name']); //7等奖
+                                break;
+                            case gift[8]['id']:
+                                //var angle = [185, 235, 288];
+                                rotateFn(8, mathFloor + 73,  '[八等奖]' + gift[8]['name']); //8等奖
+                                break;
+                            case gift[9]['id']:
+                                //var angle = [186, 235, 290];
+                                rotateFn(9, mathFloor + 37,  '[九等奖]' + gift[9]['name']); //9等奖
+                                break;
+                        }
+                    } else if (turnNum == 12) {
+                        mathFloor = Math.floor(Math.random() * 29);
+                        switch (item) {
+                            case gift[0]['id']:
+                                //var angle = [26, 88, 137, 185, 235, 287, 337];
+                                rotateFn(0, mathFloor + 1, '' + gift[0]['name']); //不中奖
+                                break;
+                            case gift[1]['id']:
+                                //var angle = [88, 137, 185, 235, 287];
+                                rotateFn(1, mathFloor + 331, '[一等奖]' + gift[1]['name']); //一等奖
+                                break;
+                            case gift[2]['id']:
+                                //var angle = [137, 185, 235, 287];
+                                rotateFn(2, mathFloor + 301, '[二等奖]' + gift[2]['name']); //二等奖
+                                break;
+                            case gift[3]['id']:
+                                //var angle = [137, 185, 235, 287];
+                                rotateFn(3, mathFloor + 271, '[三等奖]' + gift[3]['name']); //三等奖
+                                break;
+                            case gift[4]['id']:
+                                //var angle = [185, 235, 287];
+                                rotateFn(4, mathFloor + 241, '[四等奖]' + gift[4]['name']); //四等奖
+                                break;
+                            case gift[5]['id']:
+                                //var angle = [185, 235, 287];
+                                rotateFn(5, mathFloor + 211, '[五等奖]' + gift[5]['name']); //五等奖
+                                break;
+                            case gift[6]['id']:
+                                //var angle = [185, 235, 287];
+                                rotateFn(6, mathFloor + 181, '[六等奖]' + gift[6]['name']); //6等奖
+                                break;
+                            case gift[7]['id']:
+                                //var angle = [185, 235, 287];
+                                rotateFn(7, mathFloor + 151, '[七等奖]' + gift[7]['name']); //7等奖
+                                break;
+                            case gift[8]['id']:
+                                //var angle = [185, 235, 288];
+                                rotateFn(8, mathFloor + 121, '[八等奖]' + gift[8]['name']); //8等奖
+                                break;
+                            case gift[9]['id']:
+                                //var angle = [186, 235, 290];
+                                rotateFn(9, mathFloor + 91, '[九等奖]' + gift[9]['name']); //9等奖
+                                break;
+                            case gift[10]['id']:
+                                //var angle = [186, 235, 291];
+                                rotateFn(10, mathFloor + 61, '[十等奖]' + gift[10]['name']); //10等奖
+                                break;
+                            case gift[11]['id']:
+                                //var angle = [186, 235, 291];
+                                rotateFn(11, mathFloor + 31, '[十一等奖]' + gift[11]['name']); //11等奖
+                                break;
+                        }
+                    }
+                }
+            }
+        });
+    }
+        if (return_back == '2') {
+            $('.pop-upPNo').html("<p class='alert_msg'>{$return_msg}</p>")
+            $('.pop-upNo').css({'display': 'block'})
+            $('.pop-upbNo').on('click',function(){
+                var path= window.location.href.substring(0,window.location.href.indexOf('?'))
+                window.location.href = path+'pcweb/index.html#/home'
+            })
+        }
+        // 8格
+        if (turnNum==8) {
+            $('.eight li:nth-child(1)').css({
+            'top': '90px',
+            'left': '150px'
+            })
+            $('.eight li:nth-child(2)').css({
+                'top': '90px',
+                'left': '245px'
+            })
+            $('.eight li:nth-child(3)').css({
+                'top': '150px',
+                'left': '310px'
+            })
+            $('.eight li:nth-child(4)').css({
+                'top': '245px',
+                'left': '310px'
+            })
+            $('.eight li:nth-child(5)').css({
+                'top': '310px',
+                'left': '245px'
+            })
+            $('.eight li:nth-child(6)').css({
+                'top': '310px',
+                'left': '150px'
+            })
+            $('.eight li:nth-child(7)').css({
+                'top': '250px',
+                'left': '85px'
+            })
+            $('.eight li:nth-child(8)').css({
+                'top': '157px',
+                'left': '95px'
+            })
+        }else if (turnNum==4) {
+            $('.four li:nth-child(1)').css({
+            'left': '115px',
+            'top': '115px'
+            })
+            $('.four li:nth-child(2)').css({
+                'left': '285px',
+                'top': '120px'
+            })
+            $('.four li:nth-child(3)').css({
+                'left': '285px',
+                'top': '285px'
+            })
+            $('.four li:nth-child(4)').css({
+                // 'left': '110px',
+                // 'top': '275px'
+                'left': '110px',
+                'top': '275px'
+            })
+        }else if (turnNum==10) {
+            $('.ten li:nth-child(1)').css({
+            'left': '175px',
+            'top': '100px',
+            })
+            $('.ten li:nth-child(2)').css({
+                'left': '250px',
+                'top': '100px',
+            })
+            $('.ten li:nth-child(3)').css({
+                'left': '300px',
+                'top': '140px',
+            })
+            $('.ten li:nth-child(4)').css({
+                'left': '325px',
+                'top': '210px',
+            })
+            $('.ten li:nth-child(5)').css({
+                'left': '305px',
+                'top': '275px',
+            })
+            $('.ten li:nth-child(6)').css({
+                'left': '250px',
+                'top': '320px',
+            })
+            $('.ten li:nth-child(7)').css({
+                'left': '175px',
+                'top': '320px',
+            })
+            $('.ten li:nth-child(8)').css({
+                'left': '115px',
+                'top': '280px',
+            })
+            $('.ten li:nth-child(9)').css({
+                'left': '95px',
+                'top': '205px',
+            })
+            $('.ten li:nth-child(10)').css({
+                'left': '110px',
+                'top': '135px',
+            })
+        }else{
+            $('.twelve li:nth-child(1)').css({
+            'left': '180px',
+            'top': '100px',
+            })
+            $('.twelve li:nth-child(2)').css({
+                'left': '245px',
+                'top': '100px',
+            })
+            $('.twelve li:nth-child(3)').css({
+                'left': '295px',
+                'top': '130px',
+            })
+            $('.twelve li:nth-child(4)').css({
+                'left': '325px',
+                'top': '185px',
+            })
+            $('.twelve li:nth-child(5)').css({
+                'left': '325px',
+                'top': '245px',
+            })
+            $('.twelve li:nth-child(6)').css({
+                'left': '290px',
+                'top': '290px',
+            })
+            $('.twelve li:nth-child(7)').css({
+                'left': '240px',
+                'top': '320px',
+            })
+            $('.twelve li:nth-child(8)').css({
+                'left': '180px',
+                'top': '325px',
+            })
+            $('.twelve li:nth-child(9)').css({
+                'left': '130px',
+                'top': '300px',
+            })
+            $('.twelve li:nth-child(10)').css({
+                'left': '100px',
+                'top': '245px',
+            })
+            $('.twelve li:nth-child(11)').css({
+                'left': '95px',
+                'top': '185px',
+            })
+            $('.twelve li:nth-child(12)').css({
+                'left': '120px',
+                'top': '130px',
+            })
+
+        }
+
+	}
+    // $(window).load(function(){
+    //     $(".spinner").css('display','block');
+    // })
+    // //加载完成
+    // $(document).ready(function(){
+    //     $(".spinner").css('display','none');
+    //     console.log('加载完成');
+    // });
+(function($) {
+    // $(".turntable_r_b").on("click", function() {
+    //     var turntable_r_c = $(".turntable_r_c");
+    //     if (turntable_r_c.css("display") == "none") {
+    //         $(".turntable_r_c").show();
+    //         $(".ico-sanjiao").css('transform', 'rotate(180deg)')
+    //     } else {
+    //         $(".turntable_r_c").hide();
+    //         $(".ico-sanjiao").css('transform', 'rotate(0)')
+    //     }
+    // })
+    $.fn.myScroll = function(options){
+        //默认配置
+    var defaults = {
+            speed: 40, //滚动速度,值越大速度越慢
+            rowHeight: 24 //每行的高度
+    };
+    
+    var opts = $.extend({}, defaults, options),intId = [];
+    
+    function marquee(obj, step){
+    
+        obj.find("ul").animate({
+            marginTop: '-=1'
+        },0,function(){
+                var s = Math.abs(parseInt($(this).css("margin-top")));
+                if(s >= step){
+                    $(this).find("li").slice(0, 1).appendTo($(this));
+                    $(this).css("margin-top", 0);
+                }
+            });
+        }
+        
+        this.each(function(i){        
+            var sh = $(".lih").height(),speed = opts["speed"],_this = $(this); 
+            intId[i] = setInterval(function(){
+                if(_this.find("ul").height()<=_this.height()){
+                    clearInterval(intId[i]);
+                }else{
+                    marquee(_this, sh);
+                }
+            }, speed);
+
+            _this.hover(function(){
+                clearInterval(intId[i]);
+            },function(){
+                intId[i] = setInterval(function(){
+                    if(_this.find("ul").height()<=_this.height()){
+                        clearInterval(intId[i]);
+                    }else{
+                        marquee(_this, sh);
+                    }
+                }, speed);
+            });
+        
+        });
+
+    }
+
+})(jQuery);
+
+$(function() {
+    function getQueryVariable(variable){
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+                        var pair = vars[i].split("=");
+                        if(pair[0] == variable){return pair[1];}
+        }
+        return(false);
+    };
+    $.ajax({
+        url: "?m=api&c=app&a=getActivityBack",
+        type: 'post',
+        dataType: 'json',
+        data : {
+            token : getQueryVariable('token'),
+            type : 1,
+        },
+        success: function(data) {
+            // data：1默认模板  2端午节模板 3世界杯模板
+            if(data.data==1){
+                $('.style1').show();
+                if(isPc){
+                    document.getElementsByTagName('body')[0].style.background = "url(statics/web/images/turntable/bg_pic1.jpg) no-repeat" 
+                }else{
+                    document.getElementsByTagName('body')[0].style.background = "url(statics/web/images/turntable/bg_luckyturn.jpg) repeat-y"                     
+                }
+            }else if(data.data==2){
+                if(isPc){
+                    document.getElementsByTagName('body')[0].style.background = "url(statics/web/images/turntable/back.jpg) no-repeat"
+                }else{
+                    $('.title img').attr('src','statics/web/images/turntable/title11.png')
+                    document.getElementsByTagName('body')[0].style.background = "url(statics/web/images/turntable/back.jpg) no-repeat"                    
+                }
+                $('.style2').show();
+            }else if(data.data==3){
+                if(isPc){
+                    document.getElementsByTagName('body')[0].style.background = "url(statics/web/images/turntable/bg_pic3.jpg) no-repeat"
+                }else{
+                    $('.title img').attr('src','statics/web/images/turntable/title_pic3.png')                    
+                    document.getElementsByTagName('body')[0].style.background = "url(statics/web/images/turntable/mobile_pic3.jpg) no-repeat"                  
+                }
+                styleType=3
+                $('.style3').show();                
+                // $('.style3').show();
+            }
+        }
+    })
+setTimeout(function(){
+     $(".zjmdList").myScroll({
+        speed: 60, //数值越大，速度越慢
+        rowHeight: $(".zjmdList").find("li").height() //li的高度
+    });
+},20)
+    var alreadyNum = 0;
+    var rotateTimeOut = function() {
+        $('.rotate').rotate({
+            angle: 0,
+            animateTo: 2160,
+            duration: 8000,
+            callback: function() {
+                // layer.alert('网络超时，请检查您的网络设置！');
+                // $.alert('网络超时，请检查您的网络设置！', function() {
+                //     window.location.reload();
+                // });
+                layer.open({
+                    content: "<p class='alert_msg'>网络超时，请检查您的网络设置！</p>",
+                    btn: '我知道了'
+                }); 
+            }
+        });
+    };
+    
+    
+    
+});
+</script>

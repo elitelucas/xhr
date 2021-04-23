@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <!--  <link rel="stylesheet" href="statics/admin/css/pintuer.css"> -->
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+    <script src="statics/admin/js/pintuer.js"></script>
+
+    <!-- template-begin+++ -->
+    {template public-new-ui-header}
+    <!-- template-end+++ -->
+    <script src="statics/admin/js/jquery.date_input.pack.js"></script>
+    <link rel="stylesheet" href="statics/admin/jedate/skin/jedate.css">
+    <script type="text/javascript" src="statics/admin/jedate/jquery.jedate.min.js"></script>
+</head>
+<body style="margin: 15px;background-color: #f3f3f4;">
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title iboxWTitle">
+                <h5>游戏输赢详情列表</h5>
+                <div class="ibox-tools">
+                    <a href="javascript:void(0)" class="btn btn-white btn-bitbucket" onclick="javascript:history.go(-1);">
+                        <i class="fa fa-reply"></i> 返回
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content" style="width: 100%;">
+                <div class="row">
+                    <form method="post" id="cal_form" class="form-inline">
+
+                        <div class="col-sm-2">
+                            <div class="input-group m-b"><span class="input-group-addon">快捷筛选</span>
+                                <select name="time_type" class="form-control">
+                                    <option value="" {if $_REQUEST['time_type'] == ""} selected {/if}>请选择</option>
+                                    <option value="today" {if $_REQUEST['time_type'] == "today"} selected {/if}>今天</option>
+                                    <option value="yesterday" {if $_REQUEST['time_type'] == "yesterday"} selected {/if}>昨天</option>
+                                    <option value="this_week" {if $_REQUEST['time_type'] == "this_week"} selected {/if}>本周</option>
+                                    <option value="last_week" {if $_REQUEST['time_type'] == "last_week"} selected {/if}>上周</option>
+                                    <option value="this_month" {if $_REQUEST['time_type'] == "this_month"} selected {/if}>本月</option>
+                                    <option value="last_month" {if $_REQUEST['time_type'] == "last_month"} selected {/if}>上月</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="input-group m-b">
+                                <span class="input-group-addon">时间</span>
+                                <input style="width: 48%" class="date_picker form-control" type="text" data-am-datepicker="" value="{$start_date}" name="start_date" placeholder="开始时间" />
+                                <span style="float: left">&nbsp;&nbsp;</span>
+                                <input style="width: 48%" class="date_picker form-control" type="text" data-am-datepicker="" value="{$end_date}" name="end_date" placeholder="结束时间" />
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="input-group m-b">
+                                <button type="submit" class="btn btn-primary">搜索</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div id="editable_wrapper" class="dataTables_wrapper form-inline" role="grid" style="width: 100%">
+                    <table class="table table-striped table-bordered table-hover  dataTable" id="editable" aria-describedby="editable_info">
+                        <thead>
+                        <tr>
+                            <th>彩种</th>
+                            <th>账户名</th>
+                            <th>代理等级</th>
+                            <th>团队投注人数</th>
+                            <th>投注次数</th>
+                            <th>投注额</th>
+                            <th>中奖额</th>
+                            <th>平台盈利</th>
+                            <th>人均投注额</th>
+                            <th>人均投注次数</th>
+                        </tr>
+                        </thead>
+                        <tbody id="list_tb">
+                        {if empty($data)}
+                        <tr>
+                            <td colspan="10" align="center"> 暂无信息 </td>
+                        </tr>
+                        {else}
+                            {loop $calculation_users $cal_data}
+                                {if ($cal_data['sum_bet_peoples'] > 0 || $user_id != '') && $user_id != $cal_data['user_id']}
+                                <tr>
+                                    <td class="text-center">{$lottery_name}</td>
+                                    {if $cal_data['has_link'] == '1' && $cal_data['user_id'] != $user_id }
+                                    <td class="text-center link-color"><a href="?m=admin&c=reporting&a=betWinReportDetail&start_date={$start_date}&end_date={$end_date}&lottery_type={$lottery_type}&lottery_name={$lottery_name}&user_id={$cal_data['user_id']}&layer={$layer_text}">{$cal_data['username']}</a></td>
+                                    {else}
+                                    <td class="text-center">{$cal_data['username']}</td>
+                                    {/if}
+                                    <td class="text-center">{$cal_data['user_title']}</td>
+                                    <td class="text-center">{$cal_data['sum_bet_peoples']}</td>
+                                    <td class="text-right">{$cal_data['sum_bet_times']}</td>
+                                    <td class="text-right">{$cal_data['sum_bet_moneys']}</td>
+                                    <td class="text-right">{$cal_data['sum_bet_awards']}</td>
+                                    <td class="text-right {if $cal_data['profit_val'] > 0} profit-plus-color {else} profit-minus-color {/if}" >{$cal_data['profit_val']}</td>
+                                    <td class="text-right">{$cal_data['per_bet_val']}</td>
+                                    <td class="text-right">{$cal_data['per_times_val']}</td>
+                                </tr>
+                                {/if}
+                            {/loop}
+                        {/if}
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <?php echo $show;?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script>
+    $(function(){
+        //时间插件
+        $(".date_picker").jeDate({
+            //isinitVal:true,
+            ishmsVal:true,
+            format:"YYYY-MM-DD",
+            zIndex:3000,
+        });
+
+        //缓存日期选择时的需要填入的格式化字符串object
+        var date_hash_obj = {
+            today : [
+                "{$date_format['today']}",
+                "{$date_format['today']}",
+            ],
+            yesterday : [
+                "{$date_format['yesterday']}",
+                "{$date_format['yesterday']}",
+            ],
+            this_week : [
+                "{$date_format['this_week_a']}",
+                "{$date_format['this_week_b']}",
+            ],
+            last_week : [
+                "{$date_format['last_week_a']}",
+                "{$date_format['last_week_b']}",
+            ],
+            this_month : [
+                "{$date_format['this_month_a']}",
+                "{$date_format['this_month_b']}",
+            ],
+            last_month : [
+                "{$date_format['last_month_a']}",
+                "{$date_format['last_month_b']}",
+            ],
+        };
+
+        var $start_date = $('[name="start_date"]');
+        var $end_date = $('[name="end_date"]');
+
+        //点击时，触发事件：将格式化日期字串填入文本框
+        $("[name='time_type']").change(function () {
+            //取缓存对象date_hash_obj对应的键
+            var date_val = $(this).val();
+
+            //直接赋值，将字符串填入日期文本框
+            $start_date.val(date_hash_obj[date_val][0]);
+            $end_date.val(date_hash_obj[date_val][1]);
+
+            //重置条件时，需要重置分页页码为1
+            $('#change_condition').val(1);
+
+            //触发表单提交事件
+            $('#cal_form').submit();
+        });
+        
+        $('#cal_form').submit(function () {
+            var start_date = $('[name="start_date"]').val();
+            var end_date = $('[name="end_date"]').val();
+            var diff_days = (new Date(end_date).getTime() - new Date(start_date).getTime()) / (24 * 60 * 60 * 1000);
+
+            if (diff_days > 31) {
+                layer.msg('查询时间跨度不能大于31天!!!', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+        });
+    });
+
+</script>
+</html>

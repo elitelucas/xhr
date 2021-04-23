@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>{$titleName}</title>
+    {template public-header}
+    <link href="/statics/web/css/swiper.min.css" rel="stylesheet" type="text/css">
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">-->
+    <script src="/statics/web/js/jquery.1.8.2.min.js"></script>
+    <!--<script type="text/javascript" src="/statics/web/js/yxMobileSlider.js"></script>-->
+    <!--<script type="text/javascript" src="/statics/web/js/swiper.jquery.min.js"></script>-->
+    <script src="/statics/web/js/style.js"></script>
+    <!--<script src="/statics/web/extend/layer/mobile/layer.js"></script>-->
+</head>
+<body>
+<script>
+    $(function () {
+    	var url = '{$url}';
+    	var tips = '{$tips}';
+    	var type = {$type};
+    	
+        fnSet.alert(tips,function () {
+        	if (type == 1) {
+        		history.go(-1);
+        	}else if (type == 2) {
+        		if (url != '') {
+        			window.location.href = url;
+        		}else {
+        			history.go(-1);
+        		}
+        	}
+        });
+    })
+</script>
+</body>
+</html>

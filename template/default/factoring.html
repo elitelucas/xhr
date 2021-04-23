@@ -1,0 +1,292 @@
+{template header}
+
+  <!-- Invest -->
+  <link rel="stylesheet" href="../../statics/resource/css/invest/invest.css">
+  <div class="container">
+    <!-- 路径导航 -->
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('borrow','default','index')?>">我要理财</a></li>
+      <li class="active">保理专区</li>
+    </ol>
+    <!-- /路径导航 -->
+    
+    <div class="invest-box">
+      
+      <!-- 标的分类标题 -->
+      <ul class="invest-title unlist text-center font18px">
+        <li><a href="<?=url('borrow','default','index')?>">优选专区</a></li>
+        <li class="invest-active">保理专区</li>
+      </ul>
+      <!-- /标的分类标题 -->
+      
+      <!-- 搜索条件 -->
+      <div class="invest-search-box">
+        <!-- 还款期限 -->
+        <div class="invest-search">
+          <div class="invest-search-left pull-left">还款期限:</div>
+          <div class="invest-search-right pull-right">
+            <a class="invest-search-active invest-search-item pull-left" href="javascript:void(0);">全部</a>
+            <a class="invest-search-item pull-left" href="javascript:void(0);">一月</a>
+            <a class="invest-search-item pull-left" href="javascript:void(0);">二月</a>
+            <a class="invest-search-item pull-left" href="javascript:void(0);">三月</a>
+            <a class="invest-search-item pull-left" href="javascript:void(0);">六月</a>
+            <a class="invest-search-item pull-left" href="javascript:void(0);">十二月</a>
+          </div>
+        </div>
+        <!-- /还款期限 -->　　　　　　
+        
+        <!-- 还款方式 -->
+        <div class="invest-search">
+          <div class="invest-search-left pull-left">还款方式:</div>
+          <div class="invest-search-right pull-right">
+            <a class="invest-search-active invest-search-item pull-left" href="javascript:void(0);">全部</a>
+            <a class="invest-search-item pull-left" href="javascript:void(0);">按月分期等额本息</a>
+            <a class="invest-search-item pull-left" href="javascript:void(0);">按月付息到期还本</a>
+          </div>
+        </div>
+        <!-- /还款方式 -->　
+        　　　　　　
+        <!-- 还款状态 -->
+        <div class="invest-search">
+          <div class="invest-search-left pull-left">还款期限:</div>
+          <div class="invest-search-right pull-right">
+            <a class="invest-search-active invest-search-item pull-left" href="javascript:void(0);">全部</a>
+            <a class="invest-search-item pull-left" href="javascript:void(0);">正在借款</a>
+            <a class="invest-search-item pull-left" href="javascript:void(0);">正在还款</a>
+            <a class="invest-search-item pull-left" href="javascript:void(0);">已还款</a>
+            <a class="invest-search-item pull-left" href="javascript:void(0);">逾期</a>
+          </div>
+        </div>
+        <!-- /还款状态 -->
+      </div>
+      <div class="clearfix"></div>
+      <!-- /搜索条件 -->
+      
+      <!-- 发标预告 -->
+      <div class="baoli-fabiao-box fabiao-box">
+          <div class="fabiao-title">发标预告</div>
+          <div id="fabiaoContent" class="fabiao-content">
+            <div class="fabiao pull-left">
+              <div id="fabiaoItem" class="pull-left">2014-10-14发标公告：9:30发一月标30W、等额本息三月标30W、续发到期还本三月标20W、到期还本六月标30W、过夜标为等额本息六月标40W，满标后视业务情况续发。</div>
+            </div>
+          </div>
+      </div>
+      <!-- /发标预告 -->
+      
+    </div>
+    
+    <!-- 标的列表 -->
+    <div class="clearfix"></div>
+    <ul class="baoli-list unlist">
+      <li class="baoli-list-li border-radius shadow">
+        <div class="baoli-list-left pull-left">
+          <div class="baoli-list-title"><a href="baoli_detail.html">中国联通广告策划公关服务费用应收账款转让项目（三期）</a></div>
+          <ul class="baoli-list-ul unlist">
+            <li class="baoli-list-li1">
+              <div class="baoli-param font16px">借款金额</div>
+              <div class="baoli-value"><span class="font24px bold color-main">1000</span>万</div>
+            </li>
+            <li class="baoli-list-li1">
+              <div class="baoli-param font16px">年化利率</div>
+              <div class="baoli-value"><span class="font24px bold color-main">10.00</span>%</div>
+            </li>
+            <li class="baoli-list-li1">
+              <div class="baoli-param font16px">借款期限</div>
+              <div class="baoli-value"><span class="font24px bold color-main">4</span>个月</div>
+            </li>
+            <li class="baoli-list-li2">
+              <div class="baoli-param font16px">起投金额</div>
+              <div class="baoli-value"><span class="font24px bold color-main">50</span>元</div>
+            </li>
+          </ul>
+        </div>
+        <div class="baoli-list-right pull-right">
+          <div>保理机构：<span class="bold">同益达融资担保</span></div>
+          <div>还款方式：<span class="bold">按月付息，到期还本</span></div>
+          <!-- 进度 -->
+          <div class="baoli-progress-value text-right font12px">60%</div>
+          <div class="baoli-progress-left pull-left">投资进度：</div>
+          <div class="baoli-progress-right pull-left">
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:60%;"></div>
+            </div>
+          </div>
+          <!-- /进度 -->
+          <div class="baoli-btn-div">
+            <a class="baoli-btn btn btn-warning" href="baoli_detail.html">立即投标</a>
+          </div>
+        </div>
+      </li>
+      
+      <!-- ========================================循环======================================== -->
+      <li class="baoli-list-li border-radius shadow">
+        <div class="baoli-list-left pull-left">
+          <div class="baoli-list-title"><a href="baoli_detail.html">中国联通广告策划公关服务费用应收账款转让项目（三期）</a></div>
+          <ul class="baoli-list-ul unlist">
+            <li class="baoli-list-li1">
+              <div class="baoli-param font16px">借款金额</div>
+              <div class="baoli-value"><span class="font24px bold color-main">1000</span>万</div>
+            </li>
+            <li class="baoli-list-li1">
+              <div class="baoli-param font16px">年化利率</div>
+              <div class="baoli-value"><span class="font24px bold color-main">10.00</span>%</div>
+            </li>
+            <li class="baoli-list-li1">
+              <div class="baoli-param font16px">借款期限</div>
+              <div class="baoli-value"><span class="font24px bold color-main">4</span>个月</div>
+            </li>
+            <li class="baoli-list-li2">
+              <div class="baoli-param font16px">起投金额</div>
+              <div class="baoli-value"><span class="font24px bold color-main">50</span>元</div>
+            </li>
+          </ul>
+        </div>
+        <div class="baoli-list-right pull-right">
+          <div>保理机构：<span class="bold">同益达融资担保</span></div>
+          <div>还款方式：<span class="bold">按月付息，到期还本</span></div>
+          <!-- 进度 -->
+          <div class="baoli-progress-value text-right font12px">60%</div>
+          <div class="baoli-progress-left pull-left">投资进度：</div>
+          <div class="baoli-progress-right pull-left">
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:60%;"></div>
+            </div>
+          </div>
+          <!-- /进度 -->
+          <div class="baoli-btn-div">
+            <a class="baoli-btn btn btn-warning" href="baoli_detail.html">立即投标</a>
+          </div>
+        </div>
+      </li>
+      <li class="baoli-list-li border-radius shadow">
+        <div class="baoli-list-left pull-left">
+          <div class="baoli-list-title"><a href="baoli_detail.html">中国联通广告策划公关服务费用应收账款转让项目（三期）</a></div>
+          <ul class="baoli-list-ul unlist">
+            <li class="baoli-list-li1">
+              <div class="baoli-param font16px">借款金额</div>
+              <div class="baoli-value"><span class="font24px bold color-main">1000</span>万</div>
+            </li>
+            <li class="baoli-list-li1">
+              <div class="baoli-param font16px">年化利率</div>
+              <div class="baoli-value"><span class="font24px bold color-main">10.00</span>%</div>
+            </li>
+            <li class="baoli-list-li1">
+              <div class="baoli-param font16px">借款期限</div>
+              <div class="baoli-value"><span class="font24px bold color-main">4</span>个月</div>
+            </li>
+            <li class="baoli-list-li2">
+              <div class="baoli-param font16px">起投金额</div>
+              <div class="baoli-value"><span class="font24px bold color-main">50</span>元</div>
+            </li>
+          </ul>
+        </div>
+        <div class="baoli-list-right pull-right">
+          <div>保理机构：<span class="bold">同益达融资担保</span></div>
+          <div>还款方式：<span class="bold">按月付息，到期还本</span></div>
+          <!-- 进度 -->
+          <div class="baoli-progress-value text-right font12px">60%</div>
+          <div class="baoli-progress-left pull-left">投资进度：</div>
+          <div class="baoli-progress-right pull-left">
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:60%;"></div>
+            </div>
+          </div>
+          <!-- /进度 -->
+          <div class="baoli-btn-div">
+            <a class="baoli-btn btn btn-warning" href="baoli_detail.html">立即投标</a>
+          </div>
+        </div>
+      </li>
+      <li class="baoli-list-li border-radius shadow">
+        <div class="baoli-list-left pull-left">
+          <div class="baoli-list-title"><a href="baoli_detail.html">中国联通广告策划公关服务费用应收账款转让项目（三期）</a></div>
+          <ul class="baoli-list-ul unlist">
+            <li class="baoli-list-li1">
+              <div class="baoli-param font16px">借款金额</div>
+              <div class="baoli-value"><span class="font24px bold color-main">1000</span>万</div>
+            </li>
+            <li class="baoli-list-li1">
+              <div class="baoli-param font16px">年化利率</div>
+              <div class="baoli-value"><span class="font24px bold color-main">10.00</span>%</div>
+            </li>
+            <li class="baoli-list-li1">
+              <div class="baoli-param font16px">借款期限</div>
+              <div class="baoli-value"><span class="font24px bold color-main">4</span>个月</div>
+            </li>
+            <li class="baoli-list-li2">
+              <div class="baoli-param font16px">起投金额</div>
+              <div class="baoli-value"><span class="font24px bold color-main">50</span>元</div>
+            </li>
+          </ul>
+        </div>
+        <div class="baoli-list-right pull-right">
+          <div>保理机构：<span class="bold">同益达融资担保</span></div>
+          <div>还款方式：<span class="bold">按月付息，到期还本</span></div>
+          <!-- 进度 -->
+          <div class="baoli-progress-value text-right font12px">60%</div>
+          <div class="baoli-progress-left pull-left">投资进度：</div>
+          <div class="baoli-progress-right pull-left">
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:60%;"></div>
+            </div>
+          </div>
+          <!-- /进度 -->
+          <div class="baoli-btn-div">
+            <a class="baoli-btn btn btn-warning" href="baoli_detail.html">立即投标</a>
+          </div>
+        </div>
+      </li>
+      <li class="baoli-list-li border-radius shadow">
+        <div class="baoli-list-left pull-left">
+          <div class="baoli-list-title"><a href="baoli_detail.html">中国联通广告策划公关服务费用应收账款转让项目（三期）</a></div>
+          <ul class="baoli-list-ul unlist">
+            <li class="baoli-list-li1">
+              <div class="baoli-param font16px">借款金额</div>
+              <div class="baoli-value"><span class="font24px bold color-main">1000</span>万</div>
+            </li>
+            <li class="baoli-list-li1">
+              <div class="baoli-param font16px">年化利率</div>
+              <div class="baoli-value"><span class="font24px bold color-main">10.00</span>%</div>
+            </li>
+            <li class="baoli-list-li1">
+              <div class="baoli-param font16px">借款期限</div>
+              <div class="baoli-value"><span class="font24px bold color-main">4</span>个月</div>
+            </li>
+            <li class="baoli-list-li2">
+              <div class="baoli-param font16px">起投金额</div>
+              <div class="baoli-value"><span class="font24px bold color-main">50</span>元</div>
+            </li>
+          </ul>
+        </div>
+        <div class="baoli-list-right pull-right">
+          <div>保理机构：<span class="bold">同益达融资担保</span></div>
+          <div>还款方式：<span class="bold">按月付息，到期还本</span></div>
+          <!-- 进度 -->
+          <div class="baoli-progress-value text-right font12px">60%</div>
+          <div class="baoli-progress-left pull-left">投资进度：</div>
+          <div class="baoli-progress-right pull-left">
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:60%;"></div>
+            </div>
+          </div>
+          <!-- /进度 -->
+          <div class="baoli-btn-div">
+            <a class="baoli-btn btn btn-warning" href="baoli_detail.html">立即投标</a>
+          </div>
+        </div>
+      </li>
+      <!-- ========================================/循环======================================== -->
+      
+    </ul>
+    <!-- /标的列表 -->
+    
+    <!-- 分页 -->
+    <div class="text-center">
+      <?=$page['html']?>
+    </div>
+    <!-- 分页 -->
+    
+  </div>
+  
+{template footer}

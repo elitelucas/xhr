@@ -1,0 +1,406 @@
+.room{top: 197px;}
+.rhHead{background: url(/statics/web/images/sjb/footballbg_pic.png)no-repeat;background-size: 100% 100%;position: relative;color: #fff;overflow: auto;}
+.rhTitle{position: relative;padding: 10px;}
+.rhTitle img{position: absolute;left: 20px;width: 14px;height: 24px;top: 14px;z-index: 2;}
+.rhTitle div{text-align: center;font-size: 16px;}
+.rhTitle div p{font-size: 12px;}
+.rhMoney{position: absolute;right: 0px;top: 50px;border-top-left-radius: 10px;border-bottom-left-radius: 10px;background: #4E5384;padding: 5px 5px 5px 10px;}
+.rhMoney img{width: 16px;margin-right: 5px;}
+.rhGrpPanel{width: 80%;margin: 20px auto;display: flex;justify-content: space-between;text-align: center;}
+.rhGrpBox{font-size: 14px;width: 130px}
+.rhGrpBox img{display: block;margin: 0 auto;margin-bottom: 5px;width: 60px;}
+.rhState{color: #FFE63C;background:rgba(0,0,0,1);padding: 5px;font-size: 12px;display: inline;}
+.rhFenShu{font-size: 28px;margin-top: 10px;}
+.rhFenShu p{font-size: 12px;}
+.rhMid{width: 100px;}
+.rhLive{background:rgba(0,0,0,1);border-radius: 6px;font-size: 12px;padding: 5px;margin-top: 10px;}
+.rhLive a{color: white;}
+.rhLive img{vertical-align: middle;margin: 0px 5px;width: 16px;}
+.gdTitle{height: 24px;overflow: hidden;position: relative;}
+.gdTitle div{line-height: 24px;position: absolute;text-align: center;width: 100%}
+.gdTitle div:first-child{animation: anim1 10s linear infinite;}
+.gdTitle div:last-child{animation: anim2 10s linear infinite;}
+.customNews.roomNews .textArea{width: calc(100% - 150px);}
+.lockedOdds{background: #F4F4F6;border-color: #CACACA;color: #CACACA}
+.ckOdds1>span:first-child{font-size: 14px;margin-right: 5px;}
+.quxiao li label{width: auto;}
+.leftTbFlex{color: #d22727;}
+.gentouCon .con .con-r p span{width: auto;}
+.gentouCon .con .con-r p label{width: auto;}
+.config-confirm p{justify-content: space-between;}
+.tbTitle{display: flex;justify-content: space-between;color: white;}
+@keyframes timeFade{
+  0%{opacity: 1;}
+  100%{opacity: 0;}
+}
+.timeAni{animation: timeFade 1s infinite;margin-left: 5px;}
+.oddWayTitle{margin-right: 5px;}
+.xsTip{color: #d22727;margin-top: 10px;}
+.userBetting dd .bet-con p{padding-left: 0px !important;}
+.subTitle{width: 80% !important;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;left: 10%;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.lottRstPanel{
+  position: relative;
+  overflow: auto;
+}
+.zhui_details_w{
+  display: none;
+}
+.rstIssue{
+  position: absolute;
+  top: 5px;
+  text-align: center;
+  width: 100%;
+  color: white;
+  z-index: 1;
+}
+.vsBox{
+  position: absolute;
+  top: 40px;
+  z-index: 1;
+  width: 100%;
+  
+}
+.vsBox img{
+  display: block;
+  margin: 0 auto;
+  width: 36px;
+}
+.pageTriangle{
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  background: url('/statics/web/images/niuniu/niuniu_down_icon@2x.png')no-repeat;
+  background-size: 100% 100%;
+  width: 16px;
+  z-index: 1;
+  height: 12px;
+}
+.blueLeft{
+  float: left;
+  background: #2E4167;
+  position: relative;
+  width: 50%;
+}
+.blueTitle{
+  color: #425F97;
+  padding-left: 10px;
+  margin: 5px;
+}
+.bluePoke{
+  width: 80%;
+  margin: 0 auto;
+  overflow: auto;
+  padding: 3px;
+  border-radius: 5px;
+  background: #202d48;
+  margin-bottom: 5px;
+}
+.bluePoke>div{
+  float: left;
+  width: 20%;
+  height: 50px;
+  background-size: 100% 100%;
+}
+.waitRstPoke{
+  background: url('/statics/web/images/niuniu/poker_default@2x.png')no-repeat;
+}
+.redRight{
+  float: left;
+  background: #D22727;
+  width: 50%;
+  position: relative;
+}
+.redPoke{
+  width: 80%;
+  margin: 0 auto;
+  overflow: auto;
+  padding: 3px;
+  border-radius: 5px;
+  background: #202d48;
+  margin-bottom: 5px;
+  
+}
+.redPoke>div{
+  height: 50px;
+  float: left;
+  width: 20%;
+  background-size: 100% 100%;
+}
+.redTitle{
+  color: #EB7057;
+  padding-right: 10px;
+  margin: 5px;
+  text-align: right;
+}
+.bettPanel{
+  display: none;
+}
+.boxShadow{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  opacity: .5;
+  display: none;
+}
+.winIndex{
+  z-index: 998;
+  position: relative;
+}
+.lottRstTip{
+  position: absolute;
+  width: 40%;
+  left: 30%;
+  bottom: 5px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  background: url('/statics/web/images/niuniu/niuniu_lab_icon@2x.png')no-repeat;
+  background-size: 100% 100%;
+  z-index: 999;
+}
+
+.checkPanel1{
+  overflow: auto;
+}
+.ckOdds2 span:first-child,.ckOdds4 span:first-child{
+  background-size: 100% 100%;width: 20px;height: 30px;display: block;float: left;
+}
+.oddsExplain{
+  line-height: 40px;
+  display: block;
+}
+.desc{
+  color: #D22727;
+  text-align: center;
+  line-height: 30px;
+}
+.checkPanel1>div{
+  width: 48%;
+  background: #F4F4F6;
+  border: 1px solid #CACACA;
+  margin-right: 4%;
+  margin-top: 10px;
+  border-radius: 5px;
+  height: 36px;
+  line-height: 30px;
+  padding: 2px 4px;
+  float: left;
+}
+.checkPanel1>div:nth-child(2n+0){
+  margin-right: 0px;
+}
+.checkPanel1 .yuanIndex{
+  border-radius: 50%;
+  background: white;
+  text-align: center;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  float: left;
+  margin-top: 3px;
+  font-size: 14px;
+}
+.checkPanel1 .peilv1{
+  float: right;
+  font-size: 10px;
+  color: #D22727;
+}
+.ysdText{
+  float: right;
+  font-size: 10px;
+  color: #CACACA;
+}
+#selectPanel1{
+  text-align: center;
+  margin-bottom: 10px;
+  width: 100%;
+  height: 30px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+#selectPanel1 option{
+  text-align: center;
+}
+.checkPanel2{
+  overflow: auto;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.checkPanel2>div{
+  width: 49%;
+  background: #F4F4F6;
+  border: 1px solid #CACACA;
+  margin-top: 10px;
+  border-radius: 5px;
+  height: 26px;
+  line-height: 20px;
+  padding: 2px 4px;
+  overflow: auto;
+}
+.checkPanel2>div span:first-child{float: left;}
+.checkPanel2>div span:last-child{float: right;color: #D91D37}
+.ckedOdds1{
+  border: 1px solid #D22727 !important;
+}
+
+/* 投注操作区 */
+.bettPanel{
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  z-index: 999;
+  background: #F2F2F2;
+  padding: 2px 4px;
+  box-shadow: -1px -2px 3px #ccc;
+  display: none;
+}
+.bpTop{
+  overflow: auto;
+  padding-top: 5px;
+}
+.cmPanel{
+  position: absolute;
+  bottom: 50px;
+  z-index: 1000;
+  display: none;
+}
+.cmPanel>div{
+  float: left;
+  
+  background-size: 100% 100%;
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+  text-align: center;
+  font-size: 10px;
+}
+.ybBg0{
+  background: url('/statics/web/images/chip-1.png')no-repeat;
+}
+.ybBg1{
+  background: url('/statics/web/images/chip-2.png')no-repeat;
+}
+.ybBg2{
+  background: url('/statics/web/images/chip-5.png')no-repeat;
+}
+.ybBg3{
+  background: url('/statics/web/images/chip-10.png')no-repeat;
+}
+.ybBg4{
+  background: url('/statics/web/images/chip-50.png')no-repeat;
+}
+.ybBg5{
+  background: url('/statics/web/images/chip-100.png')no-repeat;
+}
+.ckedYuanbao{
+  position: relative;
+  bottom: 6px;
+}
+.bet-min{
+  float: right;
+  width: 20%;
+  height: 28px;
+  margin-top: 4px;
+  background: #0090DB;
+  font-size: 12px;
+}
+.bpTop p{
+  clear: both;
+  font-size: 12px;
+  color: #999;
+  margin: 2px;
+}
+.bpTop p span{
+  color: #D91D37;
+}
+.bpBottom{
+  overflow: auto;
+  margin-bottom: 4px;
+}
+.moneyInput{
+  float: left;
+  width: 58%;
+}
+.moneyInput input{
+  height: 24px;
+  border-radius: 5px;
+  width: 100%;
+}
+.bpBtnPanel{
+  float: right;
+  display: flex;
+  justify-content: space-between;
+  width: 40%;
+  margin-left: 2%;
+}
+.bpBtnPanel button{
+  height: 24px;
+  width: 48%;
+  font-size: 12px;
+}
+.bettBtn{
+  background: #FF8624;
+}
+.add-list{
+  background: #D22727;
+}
+.bettCancel{
+  background: #666;
+}
+.betRight{
+  padding-bottom: 10px;
+}
+.issueStyle{
+  color: #2aa7f6;
+}
+.lottery li{
+  overflow: auto;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0px;
+  font-size: 12px;
+}
+.rstPanel{
+  overflow: auto;
+  display: flex;
+  justify-content: space-between;
+  width: 40%;
+}
+.rstPanel>div{
+  width: 19%;
+  height: 34px;
+  background-size: 100% 100%;
+}
+.lottery{
+  top: 198px;
+}
+.tit{
+  text-align: center;
+}
+.chase-table{
+  max-height: 120px;
+  overflow: scroll;
+}

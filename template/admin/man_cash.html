@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+    <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+    <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+    <script src="statics/admin/js/bootstrap.min.js"></script>
+    {template public-new-ui-header} 
+    <style>
+        #page {
+            height: 60px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #page ul li {
+            float: left;
+            margin-right: 10px;
+        }
+
+        #page ul .current {
+            background-color: #0099ff;
+            text-align: center;
+        }
+    </style>
+</head>
+ <body class="new_ui_body">
+    <div class="ibox float-e-margins">
+	    <div class="ibox-title iboxWTitle">
+	        <h5>手动提现</h5>
+	        <div class="ibox-tools">
+	            <a  class="btn btn-white btn-bitbucket" id="btn_back">
+	                <i class="fa fa-reply"></i> 返回
+	            </a>
+	        </div>
+	    </div>
+	    <div class="ibox-content bagCol">
+	        <div class="ibox-title ">
+	            <h5>手动提现信息</h5>
+	        </div>
+	        <div class="ibox-content">
+            	<form id='form' method="post" class="form-horizontal">
+	            	<input type="hidden"  value="" name="bank_id" id="bank_id" />
+	            	<input type="hidden"  value="" name="user_id" id="user_id" />
+	            	<div class="form-group">
+	                    <label class="col-sm-2 control-label">用户名</label>
+	                    <div class="col-sm-2">
+	                        <input type="text" class="form-control" value="" name="user_name" id="user_name" />
+	                        <span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">姓名</label>
+	                    <div class="col-sm-2">
+	                        <input type="text" class="form-control" value="" name="real_name" id="real_name" readonly/>
+	                        <span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">提现金额</label>
+	                    <div class="col-sm-3">
+	                        <input type="number" class="form-control" placeholder="最低提现{$cash['cash_lower']} 最高提现{$cash['cash_upper']}" value="" name="cash_money" id="cash_money" />
+	                        <span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">账户余额</label>
+	                    <div class="col-sm-2">
+	                        <input type="text" class="form-control" value="" name="money" id="money" readonly/>
+	                        <span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">提现时间</label>
+	                    <div class="col-sm-3">
+	                        <input type="text" class="form-control" value="{$time}" name="time" id="time" readonly/>
+	                        <span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">提款银行</label>
+	                    <div class="col-sm-3">
+	                        <input type="text" class="form-control" value="" name="bank" id="bank" readonly/>
+	                        <span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                 <div class="form-group">
+	                    <label class="col-sm-2 control-label">会员组</label>
+	                    <div class="col-sm-2">
+	                        <input type="text" class="form-control" value="" name="group" id="group" readonly/>
+	                        <span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group">
+	                    <label class="col-sm-2 control-label">提款卡号</label>
+	                    <div class="col-sm-3">
+	                        <input type="text" class="form-control" value="" name="card" id="card" readonly/>
+	                        <span class="help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	           </form>
+	           <div class="form-group">
+	            	<div class="col-sm-4 col-sm-offset-2">
+	                	<button class="btn btn-primary" type="submit" id="btn_submit">提交</button>
+	                	<button class="btn btn-white" id="btn_cancel" type="submit" onclick="javascript:history.go(-1);">返回</button>
+	            	</div>
+       			</div>
+  			</div>
+		</div>
+	</div>
+<script type="text/javascript">
+    var loading = "";//加载中......
+
+    function CheckDateTime(str){
+        var reg=/^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/;
+        var r=str.match(reg);
+        if(r==null) return false;
+        r[2]=r[2]-1;
+        var d= new Date(r[1],r[2],r[3],r[4],r[5],r[6]);
+        if(d.getFullYear()!=r[1]) return false;
+        if(d.getMonth()!=r[2]) return false;
+        if(d.getDate()!=r[3]) return false;
+        if(d.getHours()!=r[4]) return false;
+        if(d.getMinutes()!=r[5]) return false;
+        if(d.getSeconds()!=r[6]) return false;
+        return true;
+    }
+
+
+    $(function () {
+        $('#user_name').blur(function () {
+            var username = $(this).val();
+            console.log(username);
+            if(username == ''){
+                return false;
+            }
+            $.ajax({
+                url: '?m=admin&c=finance&a=man_cash_get_info',
+                data: {username:username},
+                dataType: 'json',
+                type: 'post',
+                beforeSend: function () {
+                    loading = layer.load(1);
+                },
+                error: function () {
+                    layer.close(loading);
+                    layer.msg('网络异常，稍后再试！！！', {icon: 5, shade: [0.5, '#393D49']});
+                },
+                success: function (result) {
+                    layer.close(loading);
+                    if (result.code>0) {
+                        console.log(result);
+                        $('#real_name').val(result.data.realname);
+                        $('#money').val(result.data.money);
+                        $('#bank').val(result.data.bank_name);
+                        $('#card').val(result.data.account);
+                        $('#group').val(result.data.gname);
+                        $('#bank_id').val(result.data.bank_id);
+                        $('#user_id').val(result.data.user_id);
+                    } else {
+                        layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']}, function () {
+//                                location.reload();
+                        });
+                    }
+                }
+            });
+        });
+
+        $('#btn_submit').click(function () {
+            var url = '';
+
+            var username = $('#user_name').val();
+            if(username == ''){
+                layer.msg('请输入用户名', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+
+            var time = $('#time').val();
+            if(!CheckDateTime(time)){
+                layer.msg('请输入合法时间格式', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+
+            var cash_money = $('#cash_money').val();
+            if (cash_money==null||cash_money==''){
+                layer.msg('请输入提现金额', {icon: 5, shade: [0.5, '#393D49']});
+                return;
+            }
+            url = '?m=admin&c=finance&a=do_man_cash';
+            var data = $('#form').serialize();
+            $.ajax({
+                url: url,
+                data: data,
+                dataType: 'json',
+                type: 'post',
+                beforeSend: function () {
+                    loading = layer.load(1);
+                },
+                error: function (e) {
+                    layer.close(loading);
+                    console.log(e);
+                    layer.msg('网络异常', {icon: 5, shade: [0.5, '#393D49']});
+                },
+                success: function (result) {
+                    layer.close(loading);
+                    if (result.code > 0) {
+                        layer.msg(result.msg, {icon: 6, shade: [0.5, '#393D49']}, function () {
+                            location.href='?m=admin&c=finance&a=drawal';
+                        });
+                    }else {
+                        layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']}, function () {
+//                            location.reload();
+                        });
+                    }
+                }
+            });
+        });
+        $("#btn_back").click(function () {
+            location.href = '?m=admin&c=finance&a=drawal';
+        });
+
+//        $("#btn_cancel").click(function () {
+////            location.href = '?m=admin&c=finance&a=bank';
+//        });
+    });
+
+</script>
+</body>
+</html>

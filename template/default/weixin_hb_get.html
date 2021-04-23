@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- Meta, title, CSS, favglyphicons, etc. -->
+	<meta charset="utf-8">
+	<title>关注诚汇通微信,抢百元红包啦！100%有奖，快来抢吧</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+	<meta name="description" content="">
+
+	<!-- Bootstrap -->
+	<link href="../../statics/weixin/css/cht.css" rel="stylesheet" media="screen">
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="assets/js/html5shiv.js"></script>
+	<script src="assets/js/respond/respond.min.js"></script>
+	<![endif]-->
+
+</head>
+<style>
+    .wcolor {
+        color: red
+    }
+</style>
+<body style="padding-top: 0; background: url(../../statics/weixin/images/hb_bg.jpg); ">
+
+	<!-- Carousel
+	================================================== -->
+	<!-- /container -->
+	<div class="container">
+		<div class="row mt20">
+			<div class="col-12">
+				<div class="hongb">
+					<div class="hb-pic"><img src="../../statics/weixin/images/hongb_pic.png" alt=""></div>
+					<div class="lq_hb"><button onClick="getredbag()" type="button" class="lingqu-1" id="lq">领取红包</button></div>
+				</div>
+                            <div class="hbgz" style="text-align: left; color: #301ce7">
+                                <p><b id="info"></b></p>
+                            </div>
+				<div class="hbgz">
+					<p><b>一、活动时间</b></p>
+					<p>2014.7.28-2014.10.27</p>
+					<p class="mt10"><b>二、活动规则</b></p>
+					<p>1.关注官方微信服务号 “诚汇通”（微信号：chenghuitong_1）；</p>
+					<p>2.输入诚汇通的账号和密码进行账号绑定（还未注册的用户可在官网<span class="wcolor">www.chenghuitong.net</span>注册实名成功后参与）；</p>
+					<p>3.绑定成功后即可领取红包，最高面额100元； </p>
+					<p>4.领到的红包立即到账，请到微信账户中心→我的账户领取兑换；</p>
+                                        <p>5.<span class="wcolor">将本次活动（此页面）分享到朋友圈，并发送分享截图及平台用户名至诚汇通微信，即可再获得2元奖励！</span>（分享所得的2元奖励将于次月5号统一发放到平台账户,节假日顺延）</p>
+					<p>6. 每个微信号只能领取一次</p>
+					<p>7.本次活动最终解释权归深圳市诚汇通金融信息有限公司所有</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+        <!-- JavaScript plugins (requires jQuery) -->
+	<script src="../../statics/weixin/assets/js/jquery.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="../../statics/weixin/assets/js/bootstrap.min.js"></script>
+
+	<script src="../../statics/weixin/assets/js/holder/holder.js"></script>
+
+	<script type="text/javascript"></script>
+
+        <script type="text/javascript">
+                 
+    document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {  
+    // 分享给微信好友 (点击右上角发送给朋友时执行)  
+    var wxData = {  
+        "appId": "wxbdd9a6c44e78c842", // 服务号可以填写appId  
+        "imgUrl" : 'https://www.chenghuitong.net/statics/weixin/images/redbag.png',  
+        "link" : 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxbdd9a6c44e78c842&redirect_uri=https%3A%2F%2Fwww.chenghuitong.net%2F%3Fm%3Dweixin%26c%3Ddefault%26a%3Dhb_get&response_type=code&scope=snsapi_base&state=123#wechat_redirect',  
+        "desc" : '关注诚汇通微信抢百元红包啦！100%有奖！',  
+        "title" : "关注诚汇通微信抢百元红包啦！100%有奖"  
+    };  
+    WeixinJSBridge.on('menu:share:appmessage', function (argv) {  
+        WeixinJSBridge.invoke('sendAppMessage', {  
+            "appid":wxData.appId,  
+            "img_url":wxData.imgUrl,  
+            "link":wxData.link,  
+            "desc":wxData.desc,  
+            "title":wxData.title,  
+            "img_width":"160",  
+            "img_height":"160"  
+       }, function (res) {
+                        _report('send_msg', res.err_msg);
+          
+    }) 
+});  
+   WeixinJSBridge.on('menu:share:timeline', function (argv) {
+                    WeixinJSBridge.invoke('shareTimeline', {
+                "appid":wxData.appId,  
+            "img_url":wxData.imgUrl,  
+            "link":wxData.link,  
+            "desc":wxData.desc,  
+            "title":wxData.title,  
+            "img_width":"160",  
+            "img_height":"160"  
+                    }, function (res) {
+                        _report('timeline', res.err_msg);
+                    });
+                });
+            }, false)
+          
+            function getredbag(){
+                $.post("?m=weixin&c=default&a=gethb",
+                   function(data){
+                       if(data==1){
+                            $("#info").text('领取失败');
+                       }else if(data == 3){
+                            $("#info").text('您已经领取过啦！');
+                       }else if(data == 4){
+                            $("#info").text('抱歉，活动还没开始！');
+                       }else if(data == 5){
+                            $("#info").text('抱歉，活动已结束！');
+                       }else{
+                            $("#info").text(data);
+                       }
+                   });
+            }
+        </script>
+</body>
+</html>

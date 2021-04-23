@@ -1,0 +1,876 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="ie-comp">
+<title>千万红包豪礼</title>
+<link rel="stylesheet" type="text/css" href="../../statics/actyear/css/base.css?v=2"/>
+<link rel="stylesheet" type="text/css" href="../../statics/actyear/css/yearActivity.css?v=2">
+</head>
+
+<body>
+<div class="header">
+  <div class="topbar">
+    <div class="container">
+      <div class="pull-left">
+        <a href="https://www.chenghuitong.net/">
+          <span class="home"></span>
+          <span>首页</span>
+        </a>
+        <a>
+          <span class="tel"></span>
+          <span>客服电话：400-018-0107</span>
+        </a>
+        <a>
+          <span>13613002927（非工作时间）</span>
+        </a>
+      </div>
+      <div class="pull-right">
+		<?php if(isset($this->user['id'])){?>
+		<a href="<?=url('member','main','index')?>">
+			<span><?=$this->user['username']?></span>，
+		</a>
+		<a>
+          <span>欢迎来到诚汇通！</span>
+        </a>
+		<a href="<?=url('content','login','loginout')?>">
+          <span>[退出]</span>
+        </a>
+        <a href="<?=url('member','msg','index')?>">
+           <span class="email"></span>
+           <span>(<?=isset($this->user['noreadmsg'])?$this->user['noreadmsg']:0?>)</span>
+        </a>
+		<?php }else{?>
+        <a href="<?=url('content','login','index')?>">
+          <span class="log"></span>
+          <span>登录</span>
+        </a>
+		<a href="<?=url('content','regedit','index')?>">
+           <span class="reg"></span>
+           <span>注册</span>
+         </a>
+		<?php }?>
+         <a href="<?=url('article','services','help')?>">
+           <span class="help"></span>
+           <span>帮助中心</span>
+         </a>
+         <a href="<?=url('article','default','calculator')?>">
+           <span class="calc"></span>
+           <span>投资计算器</span>
+         </a>
+      </div>
+    </div>
+  </div>
+  <div class="nav">
+    <div class="container">
+      <div class="pull-left"><a href="https://www.chenghuitong.net/"><img src="../../statics/actyear/image/need/logo.png" alt="logo"></a></div>
+      <div class="pull-right">
+        <a href="https://www.chenghuitong.net/borrow/default-index.html">我要理财</a>
+        <a href="https://www.chenghuitong.net/borrow/release-index.html">我要融资</a>
+        <a href="https://www.chenghuitong.net/activity/carefund-index.html">关爱基金<sup>new</sup></a>
+        <a href="http://www.chenghuitong.net/article/safety-index.html">安全保障</a>
+        <a href="http://www.chenghuitong.net/article/services-guide.html">新手指引</a>
+        <a class="header-btn" href="https://www.chenghuitong.net/member/main-index.html">我的账户</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="banner" style="background:url(../../statics/actyear/image/yearActivity/banner01.jpg) no-repeat center 0; height:278px;"></div>
+<div class="banner" style="background:url(../../statics/actyear/image/yearActivity/banner02.jpg) no-repeat center 0; height:289px;"></div>
+<div class="container award">
+    <p class="text-indent2 white">活动期间每累计投资满5000即可获得一次抽红包的机会，投资金额越大，获得的返现红包就越大哦~</p>
+    <p class="text-indent2 white">2013年注册用户可免费获得<b class="yellow f18">4</b>次抽奖机会，2014年注册用户可免费获得<b class="yellow f18">3</b>次抽奖机会，2015年注册用户可免费获得<b class="yellow f18">2</b>次抽奖机会，2016年注册用户可免费获得<b class="yellow f18">1</b>次抽奖机会；</p>
+    <div class="cl award-main">
+    	<div class="fl" id="lottery">
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr class="lottery-group">
+                    <td class="lottery-unit active"><span><img src="../../statics/actyear/image/yearActivity/award18.png"></span></td>
+                    <td class="lottery-unit"><span><img src="../../statics/actyear/image/yearActivity/award888.png"></span></td>
+                    <td class="lottery-unit"><span><img src="../../statics/actyear/image/yearActivity/award3.png"></span></td>
+                </tr>
+                <tr class="lottery-group">
+                    <td class="lottery-unit"><span><img src="../../statics/actyear/image/yearActivity/award168.png"></span></td>
+                    <td class="td_5"><a href="javascript:;" {if !isset($this->user['id'])}class="gray"{/if}>立即<br>抽奖</a></td>
+                    <td class="lottery-unit"><span><img src="../../statics/actyear/image/yearActivity/award68.png"></span></td>
+                </tr>
+                <tr class="lottery-group">
+                    <td class="lottery-unit"><span><img src="../../statics/actyear/image/yearActivity/award1.png"></span></td>
+                    <td class="lottery-unit"><span><img src="../../statics/actyear/image/yearActivity/award28.png"></span></td>
+                    <td class="lottery-unit"><span><img src="../../statics/actyear/image/yearActivity/award8.png"></span></td>
+                </tr>
+            </table>
+        </div>
+    	<div class="fr award-right">
+        	<div>
+            	<ul class="tabs">
+            	  <li class="active">新年大运榜</li>
+            	  <li>新年好运榜</li>
+            	</ul>
+                <div id="bigAward" class="big-award award-con">
+                    <ul>
+                        <li>
+							{loop $bigPrize $key $vo}
+                            <div class="ui-award-inner">
+                                <img src="../../statics/actyear/image/yearActivity/money<?=intval($vo['money'])?>.png">
+                                <p><?=f_name($vo['username'])?>获得<b class="red"><?=intval($vo['money'])?>元</b>红包</p>
+                            </div>
+							{if ($key+1)%3==0 && $key!=count($bigPrize)-1}</li><li>{/if}
+							{/loop}
+                        </li>
+                    </ul>
+                </div>
+                <div id="goodAward" class="good-award award-con">
+                    <ul>
+						{loop $timePrize $vo}
+                        <li>
+                        	<span class="username"><?=f_name($vo['username'])?></span>
+                        	<span class="get-award">获得<b class="red"><?=intval($vo['money'])?>元</b>红包</span>
+                        </li>
+						{/loop}
+                    </ul>
+                </div>
+           </div>
+        	<div style="margin-top:11px;">
+            	<ul class="tabs">
+            	  <li class="active">我的抽奖机会</li>
+            	  <li>我的奖品</li>
+            	</ul>
+                <div class="award-con award-con2">
+					{if !isset($this->user['id'])}
+					<!--未登录状态-start-->
+                    <div class="tc pdt50">
+                        <a href="<?=url('content','login','index')?>" class="btn">登录/注册</a>
+                        <p class="f14 bold">登录/注册查看抽奖机会</p>
+                    </div>
+					<!--未登录状态-end-->
+					{else}
+					<!--登录-已投标-start-->
+                    <div class="tc pdt40">
+                    	<p class="f14 bold">您已获得<b class="red">{$userBao['total']}</b>次抽奖机会，还剩<b id="valid_num" class="red">{$userBao['valid']}</b>次</p>
+                        <a href="<?=url('borrow','default','index')?>" target="_blank" class="btn">去投标</a>
+                        <p class="f14 bold">累计投资满<b class="red">5000</b>即可获得一次抽奖机会</p>
+                    </div>
+					<!--登录-已投标-end-->
+					{/if}
+                </div>
+                <div class="award-con award-con2">
+					{if !isset($this->user['id'])}
+					<!--未登录状态-start-->
+                    <div class="tc pdt50">
+                        <a href="<?=url('content','login','index')?>" class="btn">登录/注册</a>
+                        <p class="f14 bold">登录/注册查看奖品</p>
+                    </div>
+					<!--未登录状态-end-->
+					{else}
+					<!--登录-未获得奖品状态-start-->
+					<div id="empty_award" class="tc pdt40" {if $userBao['money']}style="display:none"{/if}>
+						<p class="f14 bold">您还未获得红包奖品</p>
+						<a href="<?=url('borrow','default','index')?>" target="_blank" class="btn">去投标</a>
+						<p class="f14 bold">累计投资满<b class="red">5000</b>即可获得一次抽奖机会</p>
+					</div>
+					<!--登录-未获得奖品状态-end-->
+					<!--登录-获得奖品状态-start-->
+					<div id="has_award" class="about-show-box" {if !$userBao['money']}style="display:none"{/if}>
+						<div class="about-show-b">
+							<ul id="ui-award3-list" class="ui-award3-list">
+								{loop $userBao['money'] $money}
+								<li>
+									<p>恭喜您已获得</p>
+									<img src="../../statics/actyear/image/yearActivity/money<?=intval($money)?>.png">
+								</li>
+								{/loop}
+							</ul>
+						</div>
+					</div>
+					<!--登录-获得奖品状态-end-->
+					{/if}
+                </div>
+           </div>
+        </div>
+    </div>
+    <div class="white f14">
+        <p><b style=" font-size:16px;">活动规则：</b></p>
+        <p>1. 活动时间：2016年2月5日22:00~2月15日22:00；</p>
+        <p>2. 用户在活动期间每累计投资满5000元即可获得一次抽红包的机会，投资金额越大，获得的返现红包就越大，抽奖机会在满标复审后获得；</p>
+        <p>3. 2013年注册用户可免费获得4次抽奖机会，2014年注册用户可免费获得3次抽奖机会，2015年注册用户可免费获得2次抽奖机会，2016年注册用户可免费获得1次抽奖机会；所有抽奖机会将在2月15日24:00过期作废；</p>
+        <p>4. 获得的红包将由系统自动发放到投资人非托管账户，可投标也可提现；</p>
+        <p>5. 活动解释权归诚汇通所有。</p>
+    </div>
+</div>
+<div class="award2">
+	<div class="container">
+    	<div class="tc">
+            <img src="../../statics/actyear/image/yearActivity/main-img.jpg">
+            <img src="../../statics/actyear/image/yearActivity/main-img2.jpg">
+        </div>
+        <div class="award2-con">
+        	<ul class="day-list">
+			  <li class="active">
+                <h3>除夕夜</h3>
+                <span class="btn-more"></span>
+                <div class="mask"></div>
+              </li>
+        	  <li>
+              	<h3>大年初一</h3>
+                <span class="btn-more"></span>
+                <div class="mask"></div>
+              </li>
+        	  <li>
+              	<h3>大年初二</h3>
+                <span class="btn-more"></span>
+                <div class="mask"></div>
+              </li>
+        	  <li>
+              	<h3>大年初三</h3>
+                <span class="btn-more"></span>
+                <div class="mask"></div>
+              </li>
+        	  <li>
+              	<h3>大年初四</h3>
+                <span class="btn-more"></span>
+                <div class="mask"></div>
+              </li>
+        	  <li>
+              	<h3>大年初五</h3>
+                <span class="btn-more"></span>
+                <div class="mask"></div>
+              </li>
+        	  <li>
+              	<h3>大年初六</h3>
+                <span class="btn-more"></span>
+                <div class="mask"></div>
+              </li>
+        	</ul>
+
+            <!--除夕夜-->
+            <div class="bonus-day" style="display:block;">
+                <div class="cl bonus">
+                  <div class="fl left">
+                    <div class="name"><h4>刘建</h4><span>董事长</span></div>
+                    <div class="pdb5">2016/2/7 除夕夜<span class="mgl20">19:30</span></div>
+                    <div class="pdb5">回馈投资人</div>
+                    <div class="num red"><span>818</span>元</div>
+                  </div>
+                  <div class="fr right cl">
+                    <div class="fl crowd-con">
+                        <span>100个</span>
+                        诚汇通2000人<br>已投标1群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>100个</span>
+                        诚汇通2000人<br>已投标2群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>100个</span>
+                        诚汇通<br>已认证客户群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>100个</span>
+                        诚汇通客户1群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>100个</span>
+                        诚汇通客户2群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>100个</span>
+                        诚汇通客户3群
+                    </div>
+                  </div>
+                </div>
+                <div class="cl bonus">
+                  <div class="fl left">
+                    <div class="name"><h4>宋厚勇</h4><span>董事总经理</span></div>
+                    <div class="pdb5">2016/2/7 除夕夜<span class="mgl20">19:40</span></div>
+                    <div class="pdb5">回馈投资人</div>
+                    <div class="num red"><span>318</span>元</div>
+                  </div>
+                  <div class="fr right cl">
+                    <div class="fl crowd-con">
+                        <span>100个</span>
+                        诚汇通2000人<br>已投标1群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>100个</span>
+                        诚汇通2000人<br>已投标2群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>80个</span>
+                        诚汇通<br>已认证客户群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>80个</span>
+                        诚汇通客户1群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>80个</span>
+                        诚汇通客户2群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>100个</span>
+                        诚汇通客户3群
+                    </div>
+                  </div>
+                </div>
+                <div class="cl bonus borderless">
+                  <div class="fl left">
+                    <div class="name"><h4>兰翔</h4><span>副总经理</span></div>
+                    <div class="pdb5">2016/2/7 除夕夜<span class="mgl20">19:50</span></div>
+                    <div class="pdb5">回馈投资人</div>
+                    <div class="num red"><span>268</span>元</div>
+                  </div>
+                  <div class="fr right cl">
+                    <div class="fl crowd-con">
+                        <span>100个</span>
+                        诚汇通2000人<br>已投标1群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>100个</span>
+                        诚汇通2000人<br>已投标2群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>80个</span>
+                        诚汇通<br>已认证客户群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>80个</span>
+                        诚汇通客户1群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>80个</span>
+                        诚汇通客户2群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>100个</span>
+                        诚汇通客户3群
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <!--大年初一-->
+            <div class="bonus-day">
+                <div class="cl bonus borderless">
+                  <div class="fl left">
+                    <div class="name"><h4>宋厚勇</h4><span>董事总经理</span></div>
+                    <div class="pdb5">2016/2/8 大年初一<span class="mgl20">11:00</span></div>
+                    <div class="pdb5">回馈投资人</div>
+                    <div class="num red"><span>468</span>元</div>
+                  </div>
+                  <div class="fr right cl">
+                    <div class="fl crowd-con">
+                        <span>100个</span>
+                        诚汇通2000人<br>已投标1群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>100个</span>
+                        诚汇通2000人<br>已投标2群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>80个</span>
+                        诚汇通<br>已认证客户群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>80个</span>
+                        诚汇通客户1群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>80个</span>
+                        诚汇通客户2群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>100个</span>
+                        诚汇通客户3群
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <!--大年初二-->
+            <div class="bonus-day">
+                <div class="cl bonus borderless">
+                  <div class="fl left">
+                    <div class="name"><h4>兰翔</h4><span>副总经理</span></div>
+                    <div class="pdb5">2016/2/9 大年初二<span class="mgl20">11:00</span></div>
+                    <div class="pdb5">回馈投资人</div>
+                    <div class="num red"><span>468</span>元</div>
+                  </div>
+                  <div class="fr right cl">
+                    <div class="fl crowd-con">
+                        <span>100个</span>
+                        诚汇通2000人<br>已投标1群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>100个</span>
+                        诚汇通2000人<br>已投标2群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>80个</span>
+                        诚汇通<br>已认证客户群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>80个</span>
+                        诚汇通客户1群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>80个</span>
+                        诚汇通客户2群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>100个</span>
+                        诚汇通客户3群
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <!--大年初三-->
+            <div class="bonus-day">
+                <div class="cl bonus borderless">
+                  <div class="fl left">
+                    <div class="name"><h4>财务部</h4></div>
+                    <div class="pdb5">2016/2/10 大年初三<span class="mgl20">11:00</span></div>
+                    <div class="pdb5">回馈投资人</div>
+                    <div class="num red"><span>328</span>元</div>
+                  </div>
+                  <div class="fr right cl">
+                    <div class="fl crowd-con">
+                        <span>100个</span>
+                        诚汇通2000人<br>已投标1群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>100个</span>
+                        诚汇通2000人<br>已投标2群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>80个</span>
+                        诚汇通<br>已认证客户群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>80个</span>
+                        诚汇通客户1群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>80个</span>
+                        诚汇通客户2群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>100个</span>
+                        诚汇通客户3群
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <!--大年初四-->
+            <div class="bonus-day">
+                <div class="cl bonus borderless">
+                  <div class="fl left">
+                    <div class="name"><h4>营销部</h4></div>
+                    <div class="pdb5">2016/2/11 大年初四<span class="mgl20">11:00</span></div>
+                    <div class="pdb5">回馈投资人</div>
+                    <div class="num red"><span>328</span>元</div>
+                  </div>
+                  <div class="fr right cl">
+                    <div class="fl crowd-con">
+                        <span>100个</span>
+                        诚汇通2000人<br>已投标1群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>100个</span>
+                        诚汇通2000人<br>已投标2群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>80个</span>
+                        诚汇通<br>已认证客户群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>80个</span>
+                        诚汇通客户1群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>80个</span>
+                        诚汇通客户2群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>100个</span>
+                        诚汇通客户3群
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <!--大年初五-->
+            <div class="bonus-day">
+                <div class="cl bonus borderless">
+                  <div class="fl left">
+                    <div class="name"><h4>运营部</h4></div>
+                    <div class="pdb5">2016/2/12 大年初五<span class="mgl20">11:00</span></div>
+                    <div class="pdb5">回馈投资人</div>
+                    <div class="num red"><span>328</span>元</div>
+                  </div>
+                  <div class="fr right cl">
+                    <div class="fl crowd-con">
+                        <span>100个</span>
+                        诚汇通2000人<br>已投标1群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>100个</span>
+                        诚汇通2000人<br>已投标2群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>80个</span>
+                        诚汇通<br>已认证客户群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>80个</span>
+                        诚汇通客户1群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>80个</span>
+                        诚汇通客户2群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>100个</span>
+                        诚汇通客户3群
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <!--大年初六-->
+            <div class="bonus-day">
+                <div class="cl bonus borderless">
+                  <div class="fl left">
+                    <div class="name"><h4>客服部</h4></div>
+                    <div class="pdb5">2016/2/13 大年初六<span class="mgl20">11:00</span></div>
+                    <div class="pdb5">回馈投资人</div>
+                    <div class="num red"><span>328</span>元</div>
+                  </div>
+                  <div class="fr right cl">
+                    <div class="fl crowd-con">
+                        <span>100个</span>
+                        诚汇通2000人<br>已投标1群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>100个</span>
+                        诚汇通2000人<br>已投标2群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>80个</span>
+                        诚汇通<br>已认证客户群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>80个</span>
+                        诚汇通客户1群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>80个</span>
+                        诚汇通客户2群
+                    </div>
+                    <div class="fl crowd-con">
+                        <span>100个</span>
+                        诚汇通客户3群
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="float_left">
+    <img src="../../statics/actyear/image/yearActivity/float-img.png" class="float-img">
+    <img src="../../statics/actyear/image/yearActivity/erweima.png" class="erweima">
+    <span id="float_colse">X</span>
+    <span class="back-top">TOP</span>
+</div>
+<!--活动中奖弹出层-->
+<div class="award-box" style="display:none;">
+	<div class="money">恭喜您，获得<span class="yellow">888元</span>红包！</div>
+    <div>
+    	<a href="javascript:;" class="btn btn-award">继续抽奖</a>
+        <a href="<?=url('borrow','default','index')?>" target="_blank" class="btn btn-invest">去投标</a>
+    </div>
+    <span class="bold tr tips">累计投资满5000即可抽奖返现</span>
+    <span class="close"></span>
+</div>
+
+<!--未登录弹框-->
+<div class="activity-notLogin" style="display:none;">
+	<div class="bold f14 pdb5">温馨提示：</div>
+    <div>您尚未登录，请登录后再进行抽奖！！</div>
+    <div class="tc"><a href="<?=url('content','login','index')?>">去登录 >></a></div>
+	<span class="close"></span>
+</div>
+
+<!--抽奖次数用完提示弹框-->
+<div class="activity-tips" style="display:none;">
+	<div class="bold f14 pdb5">温馨提示：</div>
+    <div class="msg">您的抽奖机会已用完，再投资可获得更多抽奖机会！</div>
+    <div class="tc"><a href="<?=url('borrow','default','index')?>">去投标 >></a></div>
+	<span class="close"></span>
+</div>
+
+<!--活动结束弹出层-->
+<div class="activity-end" style="display:none;">
+	<span class="close"></span>
+</div>
+<div class="maskBox" style="display:none;"></div>
+
+<div class="footer">
+  <div class="container">
+    <div class="pull-left">
+      <div class="links">
+        <a href="http://www.chenghuitong.net/article/company-index.html">关于我们</a>
+        <a href="http://www.chenghuitong.net/article/safety-index.html">安全保障</a>
+        <a href="http://www.chenghuitong.net/article/services-help-cateid-3.html">帮助中心</a>
+        <a href="http://www.chenghuitong.net/article/services-index.html">服务中心</a>
+        <a href="http://www.chenghuitong.net/article/default-index.html">新闻中心</a>
+        <a href="http://www.chenghuitong.net/article/company-contact.html">联系我们</a>
+      </div>
+      <div class="copyright">深圳市诚汇通金融信息有限公司<br>深圳市福田区福华三路168号国际商会中心2408-2412室<br>Copyright© 2016 www.chenghuitong.net 粤ICP备13044593号</div>
+      <div class="beian">
+        <a href="https://cert.ebs.gov.cn/A71F6F48-ABB7-4F8A-92C4-D73F8FA0DE56" target="_blank">
+          <img src="../../statics/actyear/image/need/beian_gswj.jpg" title="深圳市市场监督管理局企业主体身份公示" alt="深圳市市场监督管理局企业主体身份公示">
+        </a>
+        <a href="http://www.miibeian.gov.cn/" target="_blank">
+          <img src="../../statics/actyear/image/need/beian_icp.jpg" title="ICP备案查询" alt="ICP备案查询">
+        </a>
+        <a href="https://search.szfw.org/cert/l/CX20140305003565003628" target="_blank">
+          <img src="../../statics/actyear/image/need/beian_cxwz.jpg" title="诚信网站" alt="诚信网站">
+        </a>
+        <a href="https://ss.knet.cn/verifyseal.dll?sn=e13101844030042941tvh5000000&amp;ct=df&amp;a=1&amp;pa=0.2732217316515744" target="_blank">
+          <img src="../../statics/actyear/image/need/beian_cnnic.png" title="可信网站" alt="可信网站">
+        </a>
+        <a href="https://trustsealinfo.websecurity.norton.com/splash?form_file=fdf/splash.fdf&amp;dn=www.chenghuitong.net&amp;lang=en" target="_blank">
+        <img src="../../statics/actyear/image/need/beian_norton.jpg" title="NORTON" alt="NORTON">
+      </a>
+      </div>
+    </div>
+    <div class="pull-right">
+      <div class="tel">400-018-0107</div>
+      <div class="time">（周一至周五 9:00-17:30）</div>
+      <div class="attention">
+        <a class="weibo" href="http://weibo.com/cht608710" target="_blank"></a>
+        <a class="tweibo" href="http://e.t.qq.com/cht608710" target="_blank"></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="../../statics/actyear/js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../../statics/actyear/js/lottery.js?v=2"></script>
+<script src="../../statics/actyear/js/jq_scroll.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	{if $actCfg['end_time'] < SYS_TIME}
+	$('.activity-end, .maskBox').show();
+	$('.td_5 a').addClass('gray');
+	{/if}
+
+	var getMoney = 0; //本次抽中的奖
+
+	/***九宫格抽奖***/
+	lottery.lottery({
+		selector:  '#lottery',
+		width:     3,
+		height:    3,
+		index:     0,    // 初始位置
+		initSpeed: 200,  // 初始转动速度
+		downMax:   200,  // 减速上限
+		waiting:   3000, // 匀速转动时长
+		beforeRoll: function() {
+			{if !isset($this->user['id'])}
+				$('.activity-notLogin, .maskBox').show();
+				return false;
+			{/if}
+
+			if (new Date().getTime() / 1000 < {$actCfg['start_time']}) {
+				showMsg('不要心急，活动<?=date("n月j号 H:i",$actCfg["start_time"])?>开始！');
+				return false;
+			}
+			if (new Date().getTime() / 1000 > <?=($actCfg['end_time'])?>) {
+				$('.activity-end, .maskBox').show();
+				return false;
+			}
+			if (parseInt($('#valid_num').text()) == 0) {
+				showMsg('您的抽奖机会已用完，再投资可获得更多抽奖机会！');
+				return false;
+			}
+			var _this = this;
+			getMoney = 0;
+			$.ajax({
+				url: '/activity/actyear-open.html',
+				type: 'POST',
+				dataType: 'json',
+				timeout: 4000,
+				success: function(data){
+					if (data.status !== 0) {
+						showMsg(data.msg);
+					} else {
+						var targetArr = {
+							'888': 1,
+							'168': 7,
+							'68':  3,
+							'28':  5,
+							'18':  0,
+							'8':   4,
+							'3':   2,
+							'1':   6
+						};
+						getMoney = data.money;
+						_this.options.target = targetArr[data.money];
+						$('#valid_num').text(data.valid);
+					}
+				},
+				error: function(){
+					showMsg('网络异常，请稍后再试。');
+				}
+			});
+			return true;
+		},
+		aim: function(){ },
+		finish: function() {
+			if (getMoney) {
+				$('#empty_award').hide();
+				$('#has_award').show();
+				$('.award-box .yellow').text(getMoney+'元');
+				$('#ui-award3-list').prepend('<li><p>恭喜您已获得</p><img src="../../statics/actyear/image/yearActivity/money'+getMoney+'.png"></li>');
+				carousel();
+				$(".maskBox,.award-box").show();
+			}
+		}
+	});
+
+	//显示提示信息
+	function showMsg(msg) {
+		$('.activity-tips .msg').text(msg);
+		$('.activity-tips, .maskBox').show();
+	}
+
+	/***向上轮播切换***/
+	$("#bigAward").Scroll({
+		line: 1,
+		speed: 500,
+		timer: 3000,
+		up: "but_up",
+		down: "but_down"
+	});
+	$("#goodAward").Scroll({
+		line: 1,
+		speed: 500,
+		timer: 3000,
+		up: "but_up",
+		down: "but_down"
+	});
+
+	$(".tabs li").mouseover(function(e) {
+		var $index = $(".tabs li").index(this);
+		$(this).addClass("active").siblings().removeClass("active");
+		$(".award-con").eq($index).show().siblings(".award-con").hide();
+	});
+
+	/***我的奖品轮播图***/
+	carousel();
+
+	/*中奖弹框*/
+	$(".award-box .close,.award-box .btn-award").click(function(e) {
+        $(".maskBox,.award-box").hide();
+    });
+
+	/*活动结束弹框*/
+	$(".activity-end .close").click(function(e) {
+        $(".maskBox,.activity-end").hide();
+    });
+
+
+	/*未登录弹框*/
+	$(".activity-notLogin .close").click(function(e) {
+        $(".maskBox,.activity-notLogin").hide();
+    });
+
+	/*抽奖次数用完*/
+	$(".activity-tips .close").click(function(e) {
+        $(".maskBox,.activity-tips").hide();
+    });
+
+	/**/
+	$(".day-list li").click(function(e) {
+		var $index = $(".day-list li").index(this);
+		$(this).addClass("active").siblings().removeClass();
+		$(".bonus-day").eq($index).show().siblings(".bonus-day").hide();
+	});
+
+	{if date('Ymd')>20160207 && date('Ymd')<=20160213}
+	$('.day-list li').eq(<?=(date('Ymd')-20160207)?>).click(); //根据日期自动点亮
+	{/if}
+
+	/*右边浮动窗*/
+	$("#float_colse").click(function(e) {
+		$(".float_left").hide();
+	});
+
+	$(".back-top").click(function(e) { // 如果点击了back则返回头部
+		$("body,html").animate({
+			scrollTop: 0
+		});
+	});
+
+});
+
+function carousel() {
+	var $key = 0;
+	var $len = $("#ui-award3-list li").length;
+	var $w_li = $("#ui-award3-list li").width();
+	var $w_ul = $w_li * $len;
+	if ($len > 3) {
+		$("#ui-award3-list").parent().parent().append("<a href='javascript:void(0);' class='about-direction-nav icons about-prev'></a><a href='javascript:void(0);' class='about-direction-nav icons about-next'></a>");
+	}
+	$("#ui-award3-list").css({
+		"width": $w_ul
+	});
+	$("#ui-award3-list").parent().siblings(".about-next").click(function(e) {
+		$key++;
+		if ($key > $len - 3) {
+			$key = $len - 3;
+			$("#ui-award3-list").css("left", -$key * $w_li);
+		}
+		if ($key > $len - 4) {
+			$(this).css({
+				"opacity": "0.2",
+				"filter": "alpha(opacity=20)"
+			});
+		}
+		$("#ui-award3-list").parent().siblings(".about-prev").css({
+			"opacity": "1",
+			"filter": "alpha(opacity=100)"
+		});
+		$("#ui-award3-list").stop().animate({
+			left: -$key * $w_li
+		});
+	});
+	$("#ui-award3-list").parent().siblings(".about-prev").click(function(e) {
+		$key--;
+		if ($key < 0) {
+			$key = 0;
+			$("#ui-award3-list").css("left", 0);
+		}
+		if ($key < 1) {
+			$(this).css({
+				"opacity": "0.2",
+				"filter": "alpha(opacity=20)"
+			});
+		}
+		$("#ui-award3-list").parent().siblings(".about-next").css({
+			"opacity": "1",
+			"filter": "alpha(opacity=100)"
+		});
+		$("#ui-award3-list").stop().animate({
+			left: -$key * $w_li
+		});
+	});
+}
+</script>
+
+</body>
+</html>

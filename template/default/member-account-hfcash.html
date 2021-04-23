@@ -1,0 +1,50 @@
+{template header}
+  <!-- Investor_center -->
+  <link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+
+  <!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+      <li class="active">我的账户</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->
+{template member-nav-left}
+    <!-- 右边正文 -->
+    <div class="investor-right pull-right border-radius">
+      <ul class="nav nav-tabs" role="tablist" id="myTab">
+        <li class="{if ROUTE_A=='hfcash'}active{/if}"><a href="<?=url('huifu','default','hfcash')?>">申请提现</a></li>
+      </ul>
+
+      <div class="tab-content">
+        <!-- 申请提现 -->
+        <div class="tab-pane active" id="home">
+
+          <div class="line-height40px">
+              <br/>
+            <table style="width:100%;" border="0" cellpadding="0" cellspacing="0">
+			  <tr>
+                <td class="pl15">
+                    <div style="line-height:24px;">
+						<h4 style="margin-bottom:30px">温馨提示：</h4>
+						<p>因平台与汇付合作已终止，请移步汇付天下进行提现操作：<a href="https://c.chinapnr.com/p2puser/" target="_blank">https://c.chinapnr.com/p2puser/</a></p>
+						<p>更多详情请查看平台公告：<a href="http://www.chenghuitong.net/article/default-disp-id-1701.html" target="_blank">http://www.chenghuitong.net/article/default-disp-id-1701.html</a></p>
+					</div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <!-- /申请提现 -->
+
+      </div>
+
+
+    </div>
+    <!-- /右边正文 -->
+  </div>
+
+{template footer}

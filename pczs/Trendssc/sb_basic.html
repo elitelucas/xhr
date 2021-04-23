@@ -1,0 +1,46 @@
+<style type="text/css">
+	.sub_table thead tr td{
+		width: 45px;
+	}
+</style>
+				<div class="trend_numstat">
+					
+					<div class="trend_numstat_tab">
+						<table class="sub_table double_th" border="0" cellpadding="0" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<td rowspan="2">{{english.期号}}</td>
+									<td rowspan="5">{{english.总和}}</td>
+									<td rowspan="2">{{english.大}}</td>
+									<td rowspan="2">{{english.小}}</td>
+									<td rowspan="2">{{english.单}}</td>
+									<td rowspan="2">{{english.双}}</td>
+									<td rowspan="2">{{english.豹子}}</td>
+								</tr>
+							</thead>
+							<tbody id="reslist">
+
+							</tbody>
+						</table>
+						
+						
+					</div>
+				</div>
+				
+			</div>
+		</div>
+
+
+		<script type="text/javascript" src="../js/English.js"></script>
+		<script type="text/javascript">
+			(function(exports) {
+				exports.app = new Vue({
+					el: '.trend_numstat',
+					data: function() {
+						return {
+							english: english
+						}
+					}
+				})
+			})(window);
+		</script>

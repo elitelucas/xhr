@@ -1,0 +1,162 @@
+{template header}
+  <!-- Investor_center -->
+  <link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+
+  <!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+      <li class="active">我的账户</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->
+{template member-nav-left}
+    <!-- 右边正文 -->
+    <div class="investor-right pull-right border-radius">
+      <ul class="nav nav-tabs" role="tablist" id="myTab">
+        <li class="{if ROUTE_A=='cash'}active{/if}"><a href="<?=url('member','account','cash')?>">申请提现</a></li>
+        <li class="{if ROUTE_A=='cash_bank'}active{/if}"><a href="<?=url('member','account','cash_bank')?>">提现银行账号</a></li>
+        <li class="{if ROUTE_A=='bankup'}active{/if}"><a href="<?=url('member','account','bankup')?>">修改提现银行</a></li>
+        <li class="{if ROUTE_A=='cash_log'}active{/if}"><a href="<?=url('member','account','cash_log')?>">提现记录</a></li>
+      </ul>
+
+      <div class="tab-content">
+        <!-- 申请提现 -->
+        <div class="tab-pane active" id="home">
+          <div class="withdraw-info bg-warning">
+            <div>温馨提示:</div>
+            <!--<div>1、周六下午14：00后至周日24：00期间关闭，周一09：00将会自动开放。</div>
+            <div>2、国家节假日期间的提现功能关闭时间，以提前发布的假日安排公告为准。</div>-->
+            <div>1、请输入您要取出金额,我们将在1至3个工作日(国家节假日除外)之内将钱转入您网站上填写的银行帐号。</div>
+            <div>2、如您急需要把钱转到您的帐号或者24小时之内网站未将钱转入到您的银行帐号,请联系客服中心。</div>
+            <div>3、确保您的银行帐号的姓名和您的网站上的真实姓名一致,信用卡不得设为提现账号。</div>
+            <div>4、在钱打到您帐号时会发一封站内信通知您。</div>
+            <div>5、每笔提现金额至少100元以上。</div>
+            <div>6、每笔提现金额最高不能超过200000元以上。</div>
+            <div class="color-main fbold">7、充值不投标，15日后方可提现。平台禁止信用卡套现行为,一经发现将予以处罚，包括但不限于：限制提现、冻结账户、永久停止服务，并有可能影响相关信用记录。</div>
+            <div>8、5月12~5月14日期间注册的用户提现请先绑定托管账户，<a href="<?=url('huifu','default','hfaccount')?>" target="_blank">去绑定</a>，遇到问题，请查看：<a href="http://www.chenghuitong.net/article/default-disp-id-1477.html" target="_blank">http://www.chenghuitong.net/article/default-disp-id-1477.html</a></div>
+          </div>
+
+          <div class="line-height40px">
+            <form action="<?=url('member','account','cash')?>" method="post">
+            <table style="width:100%;" border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td align="right" width="15%">真实姓名：</td>
+                <td class="pl15" width="85%"><?php echo f_realname($data['realname']);?></td>
+              </tr>
+              <tr>
+                <td align="right">账户总额：</td>
+                <td class="pl15">￥{$data['money']}</td>
+              </tr>
+              <tr>
+                <td align="right">可用余额：</td>
+                <td class="pl15">￥{$data['money_usable']}</td>
+              </tr>
+              <tr>
+                <td align="right">冻结总额：</td>
+                <td class="pl15">￥{$data['money_freeze']}</td>
+              </tr>
+              {if !empty($data['cash_money'])}
+              <tr>
+                <td align="right">可提现额度：</td>
+                <td class="pl15">￥{$data['cash_money']}</td>
+              </tr>
+              {/if}
+              <tr>
+                <td align="right">可免费提现：</td>
+                <td class="pl15">￥{$data['mf_money']}</td>
+              </tr>
+              <tr>
+                <td align="right">提现银行：</td>
+                <td class="pl15 pb10" style="line-height:20px;">
+                  <span class="margin-right10px">{$glossary[$bank['bank']]['value']}</span>
+                  <span class="margin-right10px">{$bank['branch']}</span>
+                  <span class="margin-right10px"><?=f_bank($bank['account'])?></span>
+                </td>
+              </tr>
+              <tr>
+                <td align="right">提现金额：</td>
+                <td class="pl15">
+                  <div class="pull-left"><input class="form-control" type="text" name="money"></div>
+                  <div class="pull-left"><span class="margin-left15px">请输入￥100.00以上的金额</span></div>
+                </td>
+              </tr>
+              <tr>
+                <td align="right">交易密码：</td>
+                <td class="pl15">
+                  <div class="pull-left"><input class="form-control" type="password" name="paypassword"></div>
+                  <div class="pull-left"><span class="margin-left15px"></span></div>
+                </td>
+              </tr>
+              <tr>
+                <td align="right" valign="top">温馨提示：</td>
+                <td style="line-height:24px; padding-top:7px; color:#FF0000;">为了提高提现速度，请您在提现时尽量不要分笔提现；如需修改提现银行卡，请先修改，再申请提现，否则提现将会延迟到账；</td>
+              </tr>
+              <tr>
+                <td align="right">提现手续费：</td>
+                <td class="pl15">
+                  <span>￥</span>
+                  <span id = "cash-fee">0.00</span>
+                  <span class="ml30"><a href="<?=url('activity','carefund','index')?>" style="color:#fc3a3a;">
+                  <span class="glyphicon glyphicon-heart" style="color:#fc3a3a;"></span> 爱心捐助</a></span>
+                </td>
+                <input type="hidden" name="money_freeze" value="{$data['money_freeze']}" />
+                <input type='hidden' name='save' value='save'>
+                <input type='hidden' name='formhash' value='<?=formhash()?>' >
+              </tr>
+              <tr>
+                <td align="right">&nbsp;</td>
+                <td class="pl15"><input type=submit class="withdraw-btn btn btn-warning" value="确认提交"></td>
+              </tr>
+            </table>
+            <script type="text/javascript">
+              $("input[name='money']").blur(function(){
+                  if ($(this).val() == '') {
+                      return false;
+                  }
+
+                  var re = /^[0-9]+.?[0-9]*$/;
+                  if (!re.test($(this).val())){
+                        alert("请输正确金额!");
+                        return false;
+                  }
+
+                  if($(this).val()<100){
+                        alert('请输入100或以上金额!');
+                        return false;
+                  }
+                  $('#cash-fee').text('正在计算提现手续费...');
+                  $.ajax({
+                      type: "GET",
+                      url: "<?=url('member','account','public_cashfee_ajx')?>",
+                      data: {
+                          money: $(this).val()
+                      },
+                      success: function(data){
+                          if(data=="false"){
+                              $('#cash-fee').text('0.00');
+                              return false;
+                          }else if(data){
+                              $('#cash-fee').text(data);
+                              return true;
+                          }
+                      }
+                  });
+              });
+            </script>
+            </form>
+          </div>
+
+        </div>
+        <!-- /申请提现 -->
+
+      </div>
+
+
+    </div>
+    <!-- /右边正文 -->
+  </div>
+
+{template footer}

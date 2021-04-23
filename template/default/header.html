@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width">
+  <meta name="keywords" content="{if $header['keywords']}{$header['keywords']}{else}诚汇通P2P网络借贷平台,P2P网络贷款,网上理财,网上投资,网上投资理财,借贷平台,投资理财平台,民间借贷,小额贷款,汽车抵押贷款,信用贷款{/if}">
+  <meta name="description" content="{if $header['description']}{$header['description']}{else}诚汇通是一家专业提供P2P网络借贷, 民间借贷,小额贷款, 汽车抵押贷款,短期借款的网络借贷平台,为P2P理财用户提供安全、便捷、有保障、高收益的P2P投资理财产品,是个人投资理财,小额贷款的最佳选择{/if}">
+  <meta name="author" content="ifengjin@ifengjin.cn">
+
+  <title>{if $header['title']}{$header['title']}{else}诚汇通P2P网贷平台-可信赖的P2P网络借贷平台{/if}</title>
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="bookmark" href="/favicon.ico"/>
+
+  <link href="<?=SITE_PROTOCOL.C('cdn_path')?>resource/js/bootstrap/3.2.0/css/bootstrap.min2.css" rel="stylesheet">
+  <link href="<?=SITE_PROTOCOL.C('cdn_path')?>resource/css/master.css?v=160307" rel="stylesheet">
+  <link rel="stylesheet" href="<?=SITE_PROTOCOL.C('cdn_path')?>resource/js/owlcarousel/v2.0.0/owl.carousel.min.css">
+
+  <script src="<?=SITE_PROTOCOL.C('cdn_path')?>resource/js/jquery/1.10.2/jquery-1.10.2.min.js"></script>
+  <script src="<?=SITE_PROTOCOL.C('cdn_path')?>resource/js/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <script src="<?=SITE_PROTOCOL.C('cdn_path')?>resource/js/owlcarousel/v2.0.0/owl.carousel.min.js"></script>
+  <script src="<?=SITE_PROTOCOL.C('cdn_path')?>resource/js/common.js"></script>
+
+  <script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?58b625f2fae8bd6127a23680606506af";
+	  var s = document.getElementsByTagName("script")[0];
+	  s.parentNode.insertBefore(hm, s);
+	})();
+  </script>
+
+  <!--[if lt IE 9]>
+    <script src="<?=SITE_PROTOCOL.C('cdn_path')?>resource/js/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="<?=SITE_PROTOCOL.C('cdn_path')?>resource/js/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+<script type="text/javascript">
+var _py = _py || [];
+_py.push(['a', 'Tm..DUK-NY5HfP8gsyvUJdDDO_']);
+_py.push(['domain','stats.ipinyou.com']);
+_py.push(['e','']);
+-function(d) {
+	var s = d.createElement('script'),
+	e = d.body.getElementsByTagName('script')[0]; e.parentNode.insertBefore(s, e),
+	f = 'https:' == location.protocol;
+	s.src = (f ? 'https' : 'http') + '://'+(f?'fm.ipinyou.com':'fm.p0y.cn')+'/j/adv.js';
+}(document);
+</script>
+<noscript><img src="//stats.ipinyou.com/adv.gif?a=Tm..DUK-NY5HfP8gsyvUJdDDO_&e=" style="display:none;"/></noscript>
+
+<script type="text/javascript">
+var _mvq = window._mvq || [];
+window._mvq = _mvq;
+_mvq.push(['$setAccount', 'm-102374-0']);
+_mvq.push(['$logConversion']);
+(function() {
+	var mvl = document.createElement('script');
+	mvl.type = 'text/javascript'; mvl.async = true;
+	mvl.src = ('https:' == document.location.protocol ? 'https://static-ssl.mediav.com/mvl.js' : 'http://static.mediav.com/mvl.js');
+	var s = document.getElementsByTagName('script')[0];
+	s.parentNode.insertBefore(mvl, s);
+})();
+</script>
+  {template kefu-list-box}
+  <!-- header -->
+  <div class="cht-header">
+    <!-- 顶部条 -->
+    <div class="cht-topbar">
+      <div class="container">
+        <div class="pull-left margin-right15px">
+          <a href="{APP_PATH}"><span class="glyphicon glyphicon-home"></span> 首页</a>
+        </div>
+        <div class="pull-left margin-right15px">
+          <span class="glyphicon glyphicon-earphone"></span>
+          <span>客服电话：</span>
+          <span class="bold">400-018-0107</span>
+          <span class="margin-left15px">13613002927</span>
+        </div>
+        <div class="pull-right">
+          <?php if(isset($this->user['id'])){?>
+          <!-- 登录后 -->
+          <span class="margin-left10px"><a href="<?=url('member','main','index')?>"><?=$this->user['username']?></a>，欢迎来到诚汇通！</span>
+          <span class="margin-left10px"><a href="<?=url('content','login','loginout')?>">[退出]</a></span>
+          <span class="margin-left10px">
+            <a href="<?=url('member','msg','index')?>">
+              <span class="glyphicon glyphicon-envelope"></span>
+              (<span class="cmain"><?=isset($this->user['noreadmsg'])?$this->user['noreadmsg']:0?></span>)
+            </a>
+          </span>
+          <!-- /登录后 -->
+          <?php }else{?>
+          <!-- 登录前 -->
+          <span class="margin-left10px"><a href="<?=url('content','login','index')?>"> <span class="glyphicon glyphicon-user"></span> 登录</a></span>
+          <span class="margin-left10px"><a href="<?=url('content','regedit','index')?>"> <span class="glyphicon glyphicon-pencil"></span> 注册</a></span>
+          <!-- /登录前 -->
+          <?php }?>
+          <span class="margin-left10px"><a href="<?=url('article','services','help')?>"><span class="glyphicon glyphicon-question-sign"></span> 帮助中心</a></span>
+          <span class="margin-left10px"><a href="<?=url('article','default','calculator')?>"><span class="glyphicon glyphicon-calendar"></span> 投资计算器</a></span>
+        </div>
+      </div>
+    </div>
+    <!-- /顶部条 -->
+    <!-- 导航 -->
+    <div class="cht-navbar container">
+      <!-- logo -->
+      <div class="cht-logo pull-left">
+        <a href="{APP_PATH}"><img src="../../statics/resource/images/logo.png" alt="诚汇通LOGOwww.chenghuitong.net" width="180"></a>
+      </div>
+      <!-- logo -->
+      <!-- nav -->
+      <ul class="cht-nav pull-left unlist font16px bold">
+        <li><a href="<?=url('borrow','default','index')?>">我要理财</a></li>
+        <li><a href="<?=url('borrow','release','index')?>">我要融资</a></li>
+        <li><a href="<?=url('activity','carefund','index')?>">关爱基金<!--<span class="badge love-badge">new</span>--></a></li>
+        <li><a href="<?=url('article','safety','index')?>">安全保障</a></li>
+        <li><a href="<?=url('article','services','guide')?>">新手指引</a></li>
+      </ul>
+      <!-- nav -->
+      <a class="cht-nav-btn btn btn-warning btn-lg pull-right" href="<?=url('member','main','index')?>">我的账户</a>
+    </div>
+    <!-- /导航 -->
+  </div>
+  <div class="clearfix"></div>
+  <!-- /header -->

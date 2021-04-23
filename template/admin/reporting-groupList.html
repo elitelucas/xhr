@@ -1,0 +1,19 @@
+
+<?php foreach ($resData as $v){ ?>
+<tr class="c{$type}_{$id}" {if $type == 2}style="background-color: #E7F5FF"{else}style="background-color: #F0F0F0"{/if}>
+    <td>{$v['uid']}</td>
+    <td>{$v['username']}</td>
+    <td>{$v['weixin']}</td>
+    <td>{$v['directly']}</td>
+    <td>{$v['team']}</td>
+    <td>{$v['online']}</td>
+    <td>{$v['reg']}</td>
+    <td>{$v['team_Betting']}</td>
+    <td>{$v['team_award']}</td>
+    <td>{$v['selfBackwater']}</td>
+    <td>{$v['directlyBackwater']}</td>
+    <td>{$v['teamBackwater']}</td>
+    <td {if $v['profit_2'] < 0} style="color: red"{/if}>{$v['profit_2']}</td>
+    <td {if $v['profit'] < 0} style="color: red"{/if}>{$v['profit']}</td>
+</tr>
+<?php } ?>

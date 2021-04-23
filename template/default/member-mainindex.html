@@ -1,0 +1,273 @@
+{template header}
+  <link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+  <!-- 申请专属客服 -->
+  <div class="modal fade" id="privateServiceBox" tabindex="-1" role="dialog" aria-labelledby="myModalPrivateService" aria-hidden="true" data-backdrop="static" aria-describedby="申请专属客服">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form action="<?=url('','','upkefu')?>" method="post">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><div class="btn-close"></div></button>
+          <h4 class="modal-title" id="myModalPrivateService">请选择您的专属客服：（VIP会员有效时间为1年）</h4>
+        </div>
+        <div class="modal-body">
+          <!-- 客服列表 -->
+          <div class="private-service">
+            <div id="privateServiceList" class="private-service-list-box owl-carousel">
+              {loop $kefus $kf}
+              <div class="item <?=($user['customer']==$kf['id'])? 'item-active':''?>" onclick="getkefuid({$kf['id']});">
+                <img class="img-circle private-service-touxiang" src="../../statics/resource/images/kefu/kf_{$kf['id']}.jpg" alt="诚汇通客服{$kf['realname']}">
+                <div class="private-service-name">{$kf['realname']}</div>
+                <div class="private-service-icon-tel"></div>
+                <p class="private-service-tel cmain">{$kf['mobile']}</p>
+              </div>
+              {/loop}
+            </div>
+          </div>
+          <!-- /客服列表 -->
+        </div>
+        <div class="modal-footer">
+          <input type='hidden' value="" id='kefuid' name='kefuid'/>
+          <input type='hidden' value="" id='isvip' name='isvip'/>
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <input type="submit" value="确定" class="btn btn-warning" />
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- /申请专属客服 -->
+  <!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+      <li class="active">我的账户</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->
+  {template member-nav-left}
+    <!-- 右边正文 -->
+    <div class="investor-right pull-right border-radius">
+      <!-- 上部个人信息 -->
+      <div class="index-title" style="margin-top:-40px;">账户信息</div>
+      <div class="touxiang-box">
+        <!-- 头像 -->
+        <div class="touxiang-left pull-left">
+          <a href="javascript:void(0);" class="touxiang">{if !empty($user['avatar'])}<img class="img-thumbnail" src="{$destination}" alt="">{/if}</a>
+          <div class="line-height40px text-center">
+              <form id="ava_form" action="<?=url('attachment','attachments','avatar_upload')?>" method="post" enctype="multipart/form-data" style="position:relative;">
+                  <div class="line-height40px text-center">
+                    <button type="button" class="btn btn-warning">更换头像</button>
+                    <input id="upfile" name="upfile" type="file" style="width:75px;height:34px;margin:0;padding:0;position:absolute;top:0px;left:90px;display:block;filter:alpha(opacity=0);opacity:0;-moz-opacity:0;-khtml-opacity:0;">
+                  </div>
+              </form>
+            </div>
+        </div>
+        <!-- /头像 -->
+        <!-- 个人信息 -->
+        <div class="touxiang-right pull-right">
+          <div class="love"><a href="<?=url('activity','carefund','index')?>"><span class="glyphicon glyphicon-heart"></span> 爱心捐助</a></div>
+          <div class="touxiang-right-left pull-left text-right">
+            <div class="touxiang-div">用户名：</div>
+            <div class="touxiang-div">丰付托管：</div>
+            <div class="touxiang-div">注册时间：</div>
+            {if !in_array($user['invitation_code'],array('0797','10797'))}
+            <div class="touxiang-div">VIP申请：</div>
+            {/if}
+            <div class="touxiang-div">信用等级：</div>
+            <div class="touxiang-div">会员认证：</div>
+            <div class="touxiang-div">姓名：</div>
+            <div class="touxiang-div">邮箱：</div>
+            {if !in_array($user['invitation_code'],array('0797','10797'))}
+            <div class="touxiang-div">您的{if $user['vip_status']==0 || $user['customername']==''}引导{else}专属{/if}客服：</div>
+            {/if}
+          </div>
+          <div class="touxiang-right-right pull-right">
+            <div class="touxiang-div">{$user['username']}</div>
+            <div class="touxiang-div">
+				{if !empty($user['ffid'])}
+				<a href="<?=url('fengfu','default','account')?>" target="_blank">查看账户</a>
+				{elseif $user['ffwaitactivate']==1}
+				<a href="<?=url('fengfu','default','activate')?>"><span style="color:red;"><b>去激活</b></span></a>
+				{else}
+				<a href="<?=url('fengfu','default','bind')?>"><span style="color:red;"><b>我要绑定</b></span></a>
+				{/if}
+			</div>
+            <div class="touxiang-div"><?=date('Y-m-d',$user['addtime'])?></div>
+            {if !in_array($user['invitation_code'],array('0797','10797'))}
+            <div class="touxiang-div">
+                {if $user['vip_status']==0 || $user['customername']==''}未申请
+                &nbsp;
+                [<a data-toggle="modal" href="#privateServiceBox" onclick="upvip()"><U>申请成为VIP</U></a>]
+                {elseif $user['vip_status']==1 && $user['customername']!=''}申请中
+                {elseif $user['vip_status']==3 && $user['customername']!=''}申请未通过
+                {elseif $user['vip_verifytime']==0}-{else}
+                <?=date('Y-m-d',$user['vip_verifytime'])?> 到期
+                {/if}
+            </div>
+            {/if}
+            <div class="touxiang-div">
+                <img src="../../statics/images/credit/{$user['UGimageurl']}" />
+            </div>
+            <div class="touxiang-div">
+              {if $user['phone_status']==2}
+              <div class="_icon-phone" title="手机认证"></div>
+              {else}
+              <a class="icon-phone" href="<?=url('member','verify','phone')?>" title="手机认证"></a>
+              {/if}
+
+              {if $user['email_status']==2}
+              <div class="_icon-email" title="邮箱认证"></div>
+              {else}
+              <a class="icon-email" href="<?=url('member','verify','email')?>" title="邮箱认证"></a>
+              {/if}
+
+              {if $user['real_status']==2}
+              <div class="_icon-name" title="实名认证"></div>
+              {else}
+              <a class="icon-name" href="<?=url('member','verify','real')?>" title="实名认证"></a>
+              {/if}
+              {if !in_array($user['invitation_code'],array('0797','10797'))}
+              {if $user['vip_status']==2}
+              <div class="_icon-vip" title="VIP"></div>
+              {else}
+              <a class="icon-vip" href="<?=url('member','verify','vip')?>" title="VIP"></a>
+              {/if}
+              {/if}
+			  <?
+			  if($user['invitation_code'] != '' && $user['vip_status']==2){
+			  ?>
+			  	<div class="_icon-vip" title="VIP"></div>
+			  <?
+			  }
+			  ?>
+            </div>
+            <div class="touxiang-div">
+                <?php if(empty($user['realname'])){ echo '未填写';}else {
+                    	echo f_realname($user['realname']);
+                    }?>
+            </div>
+            <div class="touxiang-div">
+                <?php if(empty($this->user['email'])){ echo'未填写';}else {
+                $endstr = explode("@",$this->user['email']);
+                    	  echo mb_substr($endstr[0], 0, 3, "UTF-8")."***@".$endstr[1];
+
+                    }?>
+            </div>
+            {if !in_array($user['invitation_code'],array('0797','10797'))}
+            <div class="touxiang-div">
+                <span class="margin-right10px">
+                    {if empty($user['customername'])}
+                    未申请
+                    &nbsp;
+                    <!--<input value="申请专属客服" type="button" data-toggle="modal" data-target="#privateServiceBox">-->
+                    [<a data-toggle="modal" href="#privateServiceBox">申请专属客服</a>]
+                   {elseif isset($user['vip_status']) && $user['vip_status']==3}
+                        未通过
+                     <!--<input value="重新更改客服" type="button" data-toggle="modal" data-target="#privateServiceBox">-->
+                     <!--[<a class="cmain" data-toggle="modal" href="#privateServiceBox">更改</a>]-->
+                     <a class="cmain" data-toggle="modal" href="#privateServiceBox">[更改]</a>
+                    {else}
+                    {$user['customername']}
+                      &nbsp;
+                      <span style="color:red;"><b>您已选定客服</b></span>
+                    {/if}
+                </span>
+            </div>
+            {/if}
+          </div>
+        </div>
+        <!-- /个人信息 -->
+      </div>
+      <!-- /上部个人信息 -->
+      <div class="index-title">帐户统计（非托管）</div>
+      <table class="table table-bordered table-hover">
+        <tr>
+          <td colspan="3">
+            <div class="pull-left line-height30px">
+              <span class="margin-right10px">帐户总额：<span class="fbold">￥{$tender['money']}</span></span>
+              <a class="font12px" href="<?=url('member','account','log')?>">[交易明细]</a>
+            </div>
+            <div class="pull-right">
+              <a class="btn btn-warning btn-sm margin-left10px" href="<?=url('borrow','default','index')?>">我要投标</a>
+              <a class="btn btn-warning btn-sm margin-left10px" href="<?=url('','tender','auto')?>">自动投标</a>
+              <a class="btn btn-warning btn-sm margin-left10px" href="<?=url('member','account','recharge')?>">充值</a>
+              <a class="btn btn-warning btn-sm margin-left10px" href="<?=url('member','account','cash')?>">提现</a>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>可用余额：￥{$tender['money_usable']}</td>
+          <td>冻结金额：￥{$tender['money_freeze']}</td>
+          <td>待收总额：￥{$tender['money_wait']}<span class="margin-left10px"><a href="<?=url('member','tender','repayno')?>">[待收明细]</a></span></td>
+        </tr>
+        <tr>
+          <td>待收利息：￥{if !empty($lixi_account)}{$lixi_account}{else}0.00{/if}</td>
+          <td>平台奖励：￥{$tender['total_award']}</td>
+          <td>线下充值：￥<? echo !empty($czmoney) ? $czmoney : '0.00';?><span class="margin-left10px"><a href="<?=url('','account','recharge_logs')?>">[明细]</a></span></td>
+        </tr>
+        {if !empty($tender['credit'])}
+        <tr>
+          <td>借款额度：￥{$tender['credit']} <span class="margin-left10px"><a href="<?=url('','borrow','credit')?>">[申请额度]</a></span></td>
+          <td>可用额度：￥{$tender['credit_use']}</td>
+          <td>已使额度：￥{$tender['credit_nouse']}</td>
+        </tr>
+        {/if}
+      </table>
+      <div class="index-title">帐户统计（托管）</div>
+      <table class="table table-bordered table-hover">
+        <tr>
+          <td colspan="3">
+            <div class="pull-left line-height30px">
+              <span class="margin-right10px">帐户总额：<span class="fbold">￥{$ffMoneySum}</span></span>
+              <a class="font12px" href="<?=url('fengfu','default','fflog')?>">[交易明细]</a>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>可用余额：￥{$rs['withdrawAbleBalance']}</td>
+          <td>冻结金额：￥{$rs['frozenBalance']}</td>
+          <td>待收总额：￥{if $coll_account}{$coll_account}{else}0.00{/if}</td>
+        </tr>
+      </table>
+<!--      <div class="index-title">诚信宝帐户统计</div>
+      <table class="table table-bordered table-hover">
+        <tr>
+          <td colspan="3">
+            <div class="pull-left line-height30px">
+              <span class="margin-right10px">投资总额：<span class="fbold">￥{$myallmoeny}</span></span>
+              <a class="font12px" href="<?=url('chtpay','default','log')?>">[交易明细]</a>
+            </div>
+          </td>
+        </tr>
+      </table>-->
+    </div>
+    <!-- /右边正文 -->
+  </div>
+   <script type="text/javascript">
+    $(function() {
+	  // 申请专属客服
+	  $("#privateServiceBox #privateServiceList .item").click(function(e) {
+	    $("#privateServiceBox #privateServiceList .item").removeClass("item-active");
+        $(this).addClass("item-active");
+      });
+	  $("#privateServiceList").owlCarousel({
+	    items: 5,//可自动铺满，多少个客服就写多少个
+	    loop: true,
+	    merge: true,
+	    nav: true,
+	    navText: ['','']
+	 }); // end
+
+	 $("#upfile").change(function(e) {
+        $("#ava_form").submit();
+     });
+
+	});
+
+    function getkefuid(kfid){$("#kefuid").val(kfid);}
+    function upvip(){$("#isvip").val(1);}
+    function ava_form_submit(){$("#ava_form").submit();}
+  </script>
+  {template footer}

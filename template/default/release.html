@@ -1,0 +1,89 @@
+{template header}
+  <!-- Loan -->
+  <link href="../../statics/resource/css/loan/loan.css" rel="stylesheet">
+  
+  <div class="container">
+    <!-- 路径导航 -->
+    <ol class="breadcrumb">
+      <li><a href="<?=url('member','main','index')?>">首页</a></li>
+      <li class="active">我要融资</li>
+    </ol>
+    <!-- /路径导航 -->
+    
+    <!-- 基本信息 -->
+    <div class="loan-info">
+      <div class="font18px margin-left30px">融资流程</div>
+      <div class="steps-box">
+        <a href="javascript:void(0);">注册诚汇通</a>
+        <div class="arrows"><span class="glyphicon glyphicon-arrow-right"></span></div>
+        <a href="javascript:void(0);">实名认证</a>
+        <div class="arrows"><span class="glyphicon glyphicon-arrow-right"></span></div>
+        <a href="javascript:void(0);">资料审核</a>
+        <div class="arrows"><span class="glyphicon glyphicon-arrow-right"></span></div>
+        <a href="javascript:void(0);">实地考察</a>
+        <div class="arrows"><span class="glyphicon glyphicon-arrow-right"></span></div>
+        <a href="javascript:void(0);">风控评估</a>
+        <div class="arrows"><span class="glyphicon glyphicon-arrow-right"></span></div>
+        <a href="javascript:void(0);">审核通过</a>
+        <div class="arrows"><span class="glyphicon glyphicon-arrow-right"></span></div>
+        <a href="javascript:void(0);">获得额度</a>
+        <div class="arrows"><span class="glyphicon glyphicon-arrow-right"></span></div>
+        <a href="javascript:void(0);">发布借款</a>
+      </div>
+    </div>
+    <!-- /基本信息 -->
+    
+    <!-- 借款类型 -->
+    <div class="loan-genre">
+      <div class="loan-title font18px margin-left10px">借款类型</div>
+      <ul class="loan-ul unlist">
+        <!-- 房产抵押贷 -->
+        <li>
+          <div class="loan-li-title font18px">
+            <div class="project-flag text-center">
+              <span class="flg-xin"></span>
+              <span>信用贷</span>
+            </div>
+          </div>
+          <div class="loan-li-p">信用贷对应发布的信用标显示“信”字标记，借款人提供资料，经过诚汇通专业的风控团队审核，并具备充分的还款来源。信用贷的额度控制在借款人还款能力之内。</div>
+          <div class="loan-li-btn"><a class="btn btn-warning" href="<?=url('borrow','release','add',array("type"=>1))?>">立即申请</a></div>
+        </li>
+        <!-- 房产抵押贷 -->
+        <li>
+          <div class="loan-li-title font18px">
+            <div class="project-flag text-center">
+              <span class="flg-ya"></span>
+              <span>抵押贷</span>
+            </div>
+          </div>
+          <div class="loan-li-p">抵押贷对应发布的抵押标显示“押”字标记，借款者以抵押物作为保证，如房产、汽车，线下办理抵押手续，贷款到期若借款者不能归还，诚汇通有权处理其抵押物。</div>
+          <div class="loan-li-btn"><a class="btn btn-warning" href="<?=url('borrow','release','add',array("type"=>2))?>">立即申请</a></div>
+        </li>
+        <!-- 房产抵押贷 -->
+        <li>
+          <div class="loan-li-title font18px">
+            <div class="project-flag text-center">
+              <span class="flg-dan"></span>
+              <span>担保贷</span>
+            </div>
+          </div>
+          <div class="loan-li-p">担保贷对应发布的担保标显示“担”字标记，是由诚汇通合作的担保公司、小贷公司等机构提供的担保借款，并由担保公司、小贷公司提供担保，诚汇通做进一步的风控审核。</div>
+          <div class="loan-li-btn"><a class="btn btn-warning" href="javascript:void(0);">立即申请</a></div>
+        </li>
+        <!-- 房产抵押贷 -->
+        <li>
+          <div class="loan-li-title font18px">
+            <div class="project-flag text-center">
+              <span class="flg-bao"></span>
+              <span>保理贷</span>
+            </div>
+          </div>
+          <div class="loan-li-p">诚汇通将平台上的投资人、保理公司、原应收账款的两端对接起来。投资人支付对价给保理公司，保理公司转让应收账款给投资人且到期回购，投资人获得相应的投资收益。</div>
+          <div class="loan-li-btn"><a class="btn btn-warning" href="javascript:void(0);">立即申请</a></div>
+        </li>
+      </ul>
+    </div>
+    <!-- /借款类型 -->
+  </div>
+  
+{template footer}

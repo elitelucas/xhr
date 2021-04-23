@@ -1,0 +1,268 @@
+{template header}
+  <!-- Investor_center -->
+  <link href="../../statics/resource/css/investor_center/investor_center.css" rel="stylesheet">
+
+  <!-- 路径导航 -->
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a href="{APP_PATH}">首页</a></li>
+      <li><a href="<?=url('member','main','index')?>">账户中心</a></li>
+      <li class="active">我的账户</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+  <!-- /路径导航 -->
+{template member-nav-left}
+
+    <!-- 右边正文 -->
+    <div class="investor-right pull-right border-radius">
+      <ul class="nav nav-tabs" role="tablist" id="myTab">
+        <li class="{if ROUTE_A=='cash'}active{/if}"><a href="<?=url('member','account','cash')?>">申请提现</a></li>
+        <li class="{if ROUTE_A=='cash_bank'}active{/if}"><a href="<?=url('member','account','cash_bank')?>">提现银行账号</a></li>
+        <li class="{if ROUTE_A=='bankup'}active{/if}"><a href="<?=url('member','account','bankup')?>">修改提现银行</a></li>
+        <li class="{if ROUTE_A=='cash_log'}active{/if}"><a href="<?=url('member','account','cash_log')?>">提现记录</a></li>
+      </ul>
+
+      <div class="tab-content">
+        <!-- 申请提现 -->
+        <div class="tab-pane active" id="modify">
+          <div class="withdraw-info bg-warning">
+            <div>温馨提示:</div>
+            <div>1、为了提升实时审核效率，提现银行卡号修改申请提交后，请您向您的专属客服报备；</div>
+            <div>2、为了防止部分客户频繁修改银行卡号，本公司规定，客户更改提现银行卡的权限只有两次；</div>
+			<div style="color:#FF0000;">3、请勿在提交提现申请后修改提现银行卡，否则提现资金将无法到账。</div>
+          </div>
+           {if $count>=2}
+            <div class="line-height40px">
+               已申请过两次，请联系客服修改
+             </div>
+            {elseif isset($bankstatus) && !empty($bankstatus)}
+             <!--申请中,或 已认证,将不修改-->
+             <div class="line-height40px">
+               已申请的新银行账号：<?=f_bank($bankstatus['banknum'])?>
+             </div>
+             {else}
+          <div class="line-height40px mb50" style="display:inline-block;width:580px;">
+            <form action="<?=url('','','bankup')?>" method="post">
+            <div class="withdraw-left pull-left text-right">
+              <div class="withdraw-div">银行卡账号：</div>
+              <div class="withdraw-div">开户行全称：</div>
+              <div class="withdraw-div">开户地：</div>
+              <div class="withdraw-div">开户行支行名称：</div>
+              <div class="withdraw-div">真实姓名：</div>
+              <div class="withdraw-div">身份证号码：</div>
+              <div class="withdraw-div" style="height:94px;">更改原因：</div>
+              <div class="withdraw-div">手机号码：</div>
+              <div class="withdraw-div">手机验证码：</div>
+            </div>
+            <div class="withdraw-right pull-right">
+              <div class="withdraw-div">
+                <div class="pull-left">
+                  <input class="form-control" type="text" name='banknum' id='banknum'>
+                </div>
+                <div class="pull-left">
+                  <span class="margin-left15px"><span class="glyphicon glyphicon-info-sign"></span> 请输入银行卡账号</span>
+                </div>
+              </div>
+
+              <div class="withdraw-div">
+                <div class="pull-left">
+                    <select name="bankname" class="form-control">
+                        {loop $glossary $vo}
+                            <option value="{$vo['id']}">{$vo['name']}</option>
+                        {/loop}
+                      </select>
+                </div>
+                <div class="pull-left"><span class="margin-left15px"></span></div>
+              </div>
+
+              <div class="withdraw-div">
+                <div class="pull-left">
+                  <div class="pull-left margin-right10px">
+                      <select id="province" name="province" class="form-control"><option value="">请选择省市</option></select>
+                  </div>
+                  <div class="pull-left margin-right10px">
+                      <select id="city" name="city" class="form-control"><option value="">请选择城市</option></select>
+                  </div>
+                  <div class="pull-left margin-right10px">
+                        <select id="area" name="area" class="form-control"><option value="">请选择区/县</option></select>
+                  </div>
+                </div>
+                <div class="pull-left"><span class="margin-left15px"></span></div>
+              </div>
+
+              <div class="withdraw-div">
+                <div class="pull-left"><input class="form-control" type="text" name='branch' id='branch'></div>
+                <div class="pull-left"><span class="margin-left15px">
+                  <span class="glyphicon glyphicon-info-sign"></span> 请输入开户行支行</span>
+                </div>
+              </div>
+
+              <div class="withdraw-div">
+                <div class="pull-left"><?=f_realname($user['realname'])?></div>
+              </div>
+
+              <div class="withdraw-div">
+                <div class="pull-left"><?=f_cardid($userAtt['card_id'])?></div>
+              </div>
+
+              <div class="withdraw-div" style="height:94px;">
+                <div class="pull-left"><textarea class="form-control" name="remark" style="width:200px;height:90px;"></textarea></div>
+                <div class="pull-left"><span class="margin-left15px"></span></div>
+              </div>
+              <div style="height:0;clear:both;"></div>
+
+              <div class="withdraw-div">
+				  <div class="pull-left"><?php if(!empty($user['phone'])){echo f_bank($user['phone']);}?></div>
+              </div>
+
+              <div class="withdraw-div22">
+                <div class="pull-left"><input class="form-control" type="text"  name='attachment' id='attachment'></div>
+                <div class="pull-left"><span class="margin-left15px">
+                  <span class="glyphicon glyphicon-info-sign"></span> 请输入手机接到的6位验证码</span>
+                </div>
+              </div>
+
+              <div class="withdraw-div">
+<!--                <a class="withdraw-btn btn btn-warning" href="javascript:void(0);">发送验证码</a>
+                <a class="withdraw-btn btn btn-warning" href="javascript:void(0);">立即修改</a>-->
+                <input type="hidden" name="id" id="id" value="0">
+                <input type="hidden" name="send_to" id="send_to"  value="{$user['phone']}">
+                <input type="button" class="withdraw-btn btn btn-warning" value="发送手机验证码" id="smdbutton"><br/>
+                <input type="submit" class="withdraw-btn btn btn-warning" value="立即修改" id="verybutton">
+                <input type="hidden" name="save" value="save">
+                <input type="hidden" name="formhash" value="<?=formhash()?>">
+              </div>
+            </div>
+            </form>
+          </div>
+          {/if}
+        </div>
+        <!-- /申请提现 -->
+      </div>
+
+
+    </div>
+    <!-- /右边正文 -->
+  </div>
+<script language="javascript" type="text/javascript" src="../../statics/js/district.js" charset="UTF-8"></script>
+<script language="javascript" type="text/javascript" src="../../statics/js/common.js"></script>
+<script language="JavaScript" type="text/javascript">
+var i_sec=0;
+self.setInterval("clock()",1000);
+function clock()
+{
+	if(i_sec>0){
+		i_sec--;
+		$('#smdbutton').attr("disabled","disabled");
+		$('#smdbutton').val(' 如未收到,请等待 '+i_sec+' 秒重发 ');
+	}else{
+		$('#smdbutton').removeAttr("disabled");
+		$('#smdbutton').val(' 发送手机验证码 ');
+	}
+}
+$(function() {
+	$('#smdbutton').click(function(){
+		i_sec=60;
+		$.ajax({
+			url: "<?=url('','','vphone_ajax')?>",
+			success: function(data){
+				if(data=='-1'){
+					i_sec=0;
+					alert("您还没有做手机认证，请先认证手机。");
+					$('#smdbutton').attr("disabled","disabled");
+					$('#verybutton').attr("disabled","disabled");
+				}else if(data=='-2'){
+					i_sec=0;
+					alert("请稍后再重试。");
+					$('#verybutton').attr("disabled","disabled");
+				}else{
+					$('#id').val(data);
+				}
+			}
+		});
+	});
+	$('#verybutton').click(function(){
+		if ($('#banknum').val() == '') {
+			alert('请输入银行卡账号');
+			$('#banknum').focus();
+			return false;
+		}
+		if (!/^\d{16,19}$/.test($('#banknum').val())) {
+			alert('银行卡账号为16-19位纯数字');
+			$('#banknum').focus();
+			return false;
+		}
+		if ($('#province').val() == '') {
+			alert('请选择开户地省市');
+			$('#province').focus();
+			return false;
+		}
+		if ($('#branch').val() == '') {
+			alert('请输入开户行支行名称');
+			$('#branch').focus();
+			return false;
+		}
+		if (!/^[\u4e00-\u9fa5]+$/.test($('#branch').val())) {
+			alert('支行名称只允许填写中文');
+			$('#branch').focus();
+			return false;
+		}
+		if ($('#attachment').val() == '') {
+			alert('请输入手机验证码');
+			$('#attachment').focus();
+			return false;
+		}
+		return true;
+	});
+    addressInit('province', 'city', 'area');
+});
+var addressInit = function(_cmbProvince, _cmbCity, _cmbArea, defaultProvince, defaultCity, defaultArea){
+    var cmbProvince = document.getElementById(_cmbProvince);
+    var cmbCity = document.getElementById(_cmbCity);
+    var cmbArea = document.getElementById(_cmbArea);
+     
+    function cmbSelect(cmb, str){
+		if(str){
+	        $(cmb).attr("value",str);
+		}
+    }
+    function cmbAddOption(cmb, str, val)    {
+        var option = document.createElement("OPTION");
+        cmb.options.add(option);
+        option.innerHTML = val;
+        option.value = str;
+    }
+     
+    function changeCity()    {
+        cmbArea.options.length = 0;
+        if(cmbCity.selectedIndex == -1)return;
+        var item = cmbCity.options[cmbCity.selectedIndex].value;
+		$.each(area[item],function(key,val){
+			cmbAddOption(cmbArea, key, val[0]);
+		});
+        cmbSelect(cmbArea, defaultArea);
+    }
+    function changeProvince()    {
+        cmbCity.options.length = 0;
+        cmbCity.onchange = null;
+        if(cmbProvince.selectedIndex == -1)return;
+        var item = cmbProvince.options[cmbProvince.selectedIndex].value;
+		$.each(city[item],function(key,val){
+			cmbAddOption(cmbCity, key, val[0]);
+		});
+        cmbSelect(cmbCity, defaultCity);
+        changeCity();
+        cmbCity.onchange = changeCity;
+		if(cmbProvince.options[0].value==0){
+			cmbProvince.options.remove(0);
+		}
+    }
+    $.each(province,function(key,val){
+		cmbAddOption(cmbProvince, key, val[0]);
+	});
+	cmbProvince.onchange = changeProvince;
+    cmbSelect(cmbProvince, defaultProvince);
+};
+</script>
+{template footer}

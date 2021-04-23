@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <!-- <script src="statics/admin/js/jquery.min.js" type="text/javascript"></script> -->
+    <link rel="stylesheet" href="statics/admin/css/datePicker.css">
+    <!--  <link rel="stylesheet" href="statics/admin/css/pintuer.css"> -->
+    <link rel="stylesheet" href="statics/admin/css/admin.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+    <link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+    <script src="statics/admin/js/jquery.js"></script>
+    <script src="statics/admin/js/layer/2.1/layer.js"></script>
+    <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+    <script src="statics/admin/js/pintuer.js"></script>
+    <script src="statics/admin/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- template-begin+++ -->
+    {template public-new-ui-header}
+    <!-- template-end+++ -->
+    <script src="statics/admin/js/jquery.date_input.pack.js"></script>
+    <link rel="stylesheet" href="statics/admin/jedate/skin/jedate.css">
+    <script type="text/javascript" src="statics/admin/jedate/jquery.jedate.min.js"></script>
+
+    <!-- 图片上传 引入插件 -->
+    <script src="statics/admin/fileupload/js/vendor/jquery.ui.widget.js"></script>
+    <script src="statics/admin/fileupload/js/jquery.fileupload.js"></script>
+
+    <style type='text/css'>
+        #page{height: 60px;margin-top: 20px;text-align: center;}
+        #page ul li{float: left;margin-right:10px;}
+        #page ul .current{ background-color:#0099ff;text-align:center;}
+        .table td div.username{
+            height: 23px;
+            overflow: hidden;
+            white-space:nowrap;
+            text-overflow: ellipsis;
+        }
+        .table tbody tr td{
+            vertical-align: middle;
+        }
+        .table>thead>tr>th {
+            vertical-align: middle;
+        }
+        .rules-1{
+            float: left;
+            height: 35px;
+            line-height: 35px;
+            padding-right:10px;
+        }
+        .rules-2{
+            float: left;
+            height: 35px;
+            line-height: 35px;
+            padding:0 10px 0 10px;
+        }
+        .rules-3{
+            float: left;
+            width: 20%;
+        }
+    </style>
+</head>
+<body style="margin: 15px;background-color: #f3f3f4;">
+<div class="ibox float-e-margins">
+    <div class="ibox-title iboxWTitle">
+        <h5>编辑预留人员名单</h5>
+        <div class="ibox-tools">
+            <a href="javascript:void(0)" class="btn btn-white btn-bitbucket" onclick="javascript:history.go(-1);">
+                <i class="fa fa-reply"></i> 返回
+            </a>
+        </div>
+    </div>
+    <div class="ibox-content bagCol">
+        <div class="ibox-title">
+            <h5>编辑详情</h5>
+        </div>
+        <div class="ibox-content">
+            <form method="get" class="form-horizontal">
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">预留人员名单</label>
+                    <div class="col-sm-4">
+                        <textarea rows="4" name="reserved_users" id="reserved_users" class="form-control">{$redpacket_reserved_users_str}</textarea>
+                        <p style="color: gray;padding-top: 10px;">注：如有多个领取人，请用英文分号“;”隔开，多余空格会自动过滤</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">已领名单</label>
+                    <div class="col-sm-4">
+                        <textarea rows="4" name="reserved_users_already_gain" id="reserved_users_already_gain" class="form-control" readonly="readonly">{$redpacket_reserved_users_gain_str}</textarea>
+                        <p style="color: gray;padding-top: 10px;">注：此名单为已领红包的预留人员</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">最大预留人数</label>
+                    <div class="col-sm-4">
+                        <input class="form-control modify_info" id="reserved_count" readonly="readonly" type="text" value="{$redpacket_reserved_count}"  />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">预留红包剩余个数</label>
+                    <div class="col-sm-4">
+                        <input class="form-control modify_info" id="reserved_remaining_count" readonly="readonly" type="text" value="{$redpacket_reserved_remaining_count}"  />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">活动创建人</label>
+                    <div class="col-sm-4">
+                        <input class="form-control modify_info" readonly="readonly" type="text" value="{$admin_username}" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">活动最后修改时间</label>
+                    <div class="col-sm-4">
+                        <input class="form-control modify_info" readonly="readonly" type="text" value="{$last_updatetime}"  />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-2 col-sm-offset-1">
+                        <button class="btn btn-primary" type="button" data-id="{$redpacket_id}" id="btn_submit">提交</button>
+                        <button class="btn btn-white" type="button" style="border: 1px solid #e7eaec" onclick="javascript:history.go(-1);" id="qx_submit">取消</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        var loading = "";
+
+        $("#btn_submit").click(function () {
+            //所有预留名单
+            var reserved_users_str = $('#reserved_users').val().replace(/\s+/g,'');
+            var post_data_obj = {
+                reserved_users_str : reserved_users_str,
+                redpacket_id : $(this).data('id'),
+            };
+
+            var reserved_users_arr = reserved_users_str.split(';');
+
+            var sure_arr = [];
+            var user_count = 0;
+            for (var i in reserved_users_arr) {
+                if (reserved_users_arr[i] == '') {
+                    continue;
+                }
+                user_count++;
+                sure_arr[i] = ' <span class="reserved_users">' + reserved_users_arr[i] + '</span> ';
+            }
+
+            var reserved_remaining_count = $('#reserved_remaining_count').val();
+            if (reserved_remaining_count == '0') {
+                layer.alert('预留红包已没有剩余！', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+
+            var reserved_count = $('#reserved_count').val();
+            if (user_count > reserved_count) {
+                layer.alert('名单人数(' + user_count + ')不能大于预留人数(' + reserved_count + ')！', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+
+            //添加当名单为空时的逻辑判断
+            if (user_count == 0) {
+                layer.alert('名单不能为空！', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+
+            //已领预留名单
+            var reserved_users_already_gain_str = $('#reserved_users_already_gain').val().replace(/\s+/g,'');
+            var reserved_users_already_gain_arr = reserved_users_already_gain_str.split(';');
+
+            for (var idx in reserved_users_already_gain_arr) {
+                if ($.inArray(reserved_users_already_gain_arr[idx], reserved_users_arr) == -1 && reserved_users_already_gain_arr[idx] != '') {
+                    var tmp_tips_msg = '预留用户 ' + reserved_users_already_gain_arr[idx] + ' 已领取过红包，不能删除！';
+                    layer.alert(tmp_tips_msg, {icon: 5, shade: [0.5, '#393D49']});
+                    return false;
+                }
+            }
+
+            sure_arr.unshift('<div><p class="reserved_tips">即将添加以下<span> ' , user_count , ' </span>个用户到预留名单：</p>');
+            sure_arr.push('</div>');
+
+            sure_html = sure_arr.join('');
+
+            layer.confirm(sure_html, {title:'确认信息'}, function(layer_index){
+                reserved_save(post_data_obj);
+                layer.close(layer_index);
+            });
+
+        });
+
+        //提交保存方法
+        function reserved_save (post_data_obj) {
+            $.ajax({
+                url: '?m=admin&c=redpacket&a=saveReserved',
+                data: post_data_obj,
+                dataType : 'json',
+                type: 'POST',
+                beforeSend: function () {
+                    loading = layer.load(1);
+                },
+                error: function () {
+                    layer.close(loading);
+                    layer.msg('网络错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+                },
+                success: function (result) {
+                    layer.close(loading);
+                    if (parseInt(result.rt) == 0) {
+                        layer.msg('操作成功！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+                            location.href='?m=admin&c=redpacket&a=redpacketList'
+                        });
+                    } else {
+                        layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']});
+                    }
+                }
+            });
+        }
+    });
+
+</script>
+</body>
+</html>

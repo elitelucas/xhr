@@ -1,0 +1,56 @@
+{template header}
+  <!-- News -->
+  <link href="../../statics/resource/css/news_center/news.css" rel="stylesheet">
+  
+  <!-- 路径导航 -->
+  {template article-nav-path}
+  <!-- /路径导航 -->
+  
+  <div class="container">
+    <!-- 左边导航 -->
+	{template article-nav-left}
+    <!-- /左边导航 -->
+    
+    <!-- 右边新闻内容 -->
+    <div class="news-right pull-right">
+      <!-- 标题 -->
+      <div class="news-title-box">
+        <div class="news-title font18px bold text-center">{$data['title']}</div>
+        <div class="font12px color999 text-center">
+          <span class="margin-right15px">发布时间 / <?php if($data['addtime']=='0'){echo'尚未发布';}else{?> <?php echo date('Y-m-d H:i:s',$data['addtime']);} ?></span>
+        </div>
+      </div>
+      <!-- /标题 -->
+      
+      <!-- 内容 -->
+      <div class="news-content">
+      {$data['content']}
+      </div>
+      <!-- /内容 -->
+      
+      <!-- 上一条新闻 下一条新闻 -->
+      <div class="news-go">
+        <div class="pull-left text-left">
+        {if !empty($prev_data)}  
+          <a href="<?=url('','','',array('id'=>$prev_data['id']))?>">
+          <span>上一篇：</span>{$prev_data['title']}
+          </a>
+        {else} &nbsp;
+        {/if}
+        </div>
+        <div class="pull-right text-right">
+        {if !empty($next_data)}  
+          <a href="<?=url('','','',array('id'=>$next_data['id']))?>">
+          <span>下一篇：</span>{$next_data['title']}
+          </a>
+        {else} &nbsp;
+        {/if}
+        </div>
+      </div>
+      <!-- /上一条新闻 下一条新闻 -->
+      
+    </div>
+    <!-- /右边新闻内容 -->
+  </div>
+  
+{template footer}

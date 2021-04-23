@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<!--说明网站开启webapp 程序的支持-->
+		<meta name="apple-touch-fullscreen" content="yes" />
+		<!--添加到主屏幕后，全屏显示-->
+		<meta name="apple-mobile-web-app-status-bar-style" content="#f96a36" />
+		<!--在web app应用下状态条（屏幕顶部条）的颜色-->
+		<meta name="format-detection" content="telephone=no" />
+		<title>普通账户提现</title>
+		<link rel="stylesheet" href="../../statics/app/css/style.css">
+		<link rel="stylesheet" href="../../statics/app/css/plugs/amazeui.min.css" />
+		<script type="text/javascript" src="../../statics/app/js/plugs/jquery-2.1.3.min.js"></script>
+		<script type="text/javascript" src="../../statics/app/js/plugs/amazeui.min.js"></script>
+		<script type="text/javascript" src="../../statics/app/js/fontSize.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../statics/app/css/plugs/mui.css" />
+		<script type="text/javascript" src="../../statics/app/js/layer.m/layer.m.js"></script>
+		<script type="text/javascript" src="../../statics/app/js/common.js"></script>
+	</head>
+
+	<body class="cht-bg">
+		<!--提现-->
+		<div class="cht-box-change cht-box-tx">
+			<form class="mui-input-group am-form" action="" method="post">
+				<div class="cht-form-block">
+					<section class="cht-form">
+						<div class="am-form-group mui-input-row">
+							{if !empty($data['cash_money'])}
+							<div class="cht-tx">
+								<label class="c96">可提现金额</label>
+								<span>￥{$data['cash_money']}</span>
+							</div>
+							{/if}
+							<div class="cht-tx">
+								<label class="c96">可免费提现</label>
+								<span>￥{$data['mf_money']}</span>
+							</div>
+							<div class="cht-tx">
+								<label class="c96">可用余额</label>
+								<span>￥{$data['money_usable']}</span>
+							</div>
+						</div>
+					</section>
+				</div>
+				<div class="cht-form-block">
+					<section class="cht-form">
+						<div class="am-form-group mui-input-row">
+							<div class="cht-tx">
+								<label>提现银行</label>
+								<span>{$glossary[$bank['bank']]['value']} {$bank['branch']} <br><?=f_bank($bank['account'])?></span>
+							</div>
+						</div>
+					</section>
+				</div>
+				<div class="cht-form-block">
+					<section class="cht-form">
+						<div class="cht-form-pepoleInfo">
+							<div class="mui-input-row">
+								<div class="cht-tx">
+									<p class="title c96">为提高取现速度，请尽量不要分笔提现</p>
+								</div>
+								<div class="cht-tx">
+									<label class="c96">提现金额(￥)</label>
+									<input style="color:#333;font-size:1.7rem" id="money" name="money" class="cht-inputBorder" type="number" step="0.01" placeholder="请输入100元以上的金额">
+								</div>
+								<div class="cht-tx">
+									<label style="margin-top:0.3rem;margin-bottom:0.3rem" class="c96">提现手续费</label>
+									<span style="margin-top:0.3rem;margin-bottom:0.3rem" id="cash-fee">￥0.00</span>
+								</div>
+								<div class="cht-tx">
+									<label class="c96">交易密码</label>
+									<input style="color:#333;font-size:1.7rem" id="paypswd" class="cht-inputBorder" name="paypassword" type="password" placeholder="请输入交易密码">
+								</div>
+								<div class="cht-tx" style="height:1.2rem"></div>
+							</div>
+						</div>
+					</section>
+				</div>
+				<input type="hidden" name="save" id="save" value="save">
+				<button type="submit" class="am-btn am-btn-default am-btn-block cht-btn-submit" id="submit" disabled>提交申请</button>
+			</form>
+			<div class="am-container cht-tx-modify">
+				{if $isAppbank}
+				<a href="<?=url('','','modifyBank',array('portal'=>'cash'))?>">修改银行卡账号</a>
+				{/if}
+				<div class="cht-hint">
+					<p>1. 我们将在1至3个工作日(国家节假日除外)之内将 钱转入您的银行帐号。</p>
+					<p>2. 如您急需要把钱转到您的帐号或者24小时之内网站未将钱转入到您的银行帐号,请联系客服中心</p>
+					<p>3. 确保您的银行帐号的姓名和您的网站上的真实姓名一致,信用卡不得设为提现账号。</p>
+					<p>4. 在钱打到您帐号时会发一封站内信通知您。</p>
+					<p>5. 每笔提现金额最高不能超过200000元以上。</p>
+					<p>6. 充值不投标，15日后方可提现。平台禁止信用卡套现行为,一经发现将予以处罚，包括但不限于：限制提现、冻结账户、永久停止服务，并有可能影响相关信用记录。</p>
+					<p>7. 5月12~5月14日期间注册的用户提现请先绑定托管账户，去绑定，遇到问题，请查看：<a href="http://www.chenghuitong.net/article/default-disp-id-1477.html">http://www.chenghuitong.net/article/default-disp-id-1477.html</a></p>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+		$(function () {
+			var $fee = $('#cash-fee');
+			var handler = null;
+
+			function checkVal() {
+				if ($('#money').val() === '' || $('#paypswd').val() === '') {
+					$('#submit').attr('disabled', true);
+				} else {
+					$('#submit').attr('disabled', false);
+				}
+			}
+
+			function cashFee() {
+				handler = null;
+				$.ajax({
+					type: "GET",
+					url: "<?=url('','','public_cashfee_ajx')?>",
+					data: {
+						money: $("#money").val()
+					},
+					success: function (data) {
+						if (data === "false") {
+							$fee.text('0.00');
+						} else if (data) {
+							$fee.text(data);
+						}
+					}
+				});
+			}
+
+			$("#money").keyup(function () {
+				$fee.text('正在计算手续费...');
+
+				if (handler) {
+					clearTimeout(handler);
+				}
+				handler = setTimeout(cashFee, 600);
+
+				checkVal();
+			});
+
+			$('#paypswd').keyup(function () {
+				checkVal();
+			});
+
+			$('#submit').click(function () {
+				$('input').blur();
+
+				if (!/^\d+(\.\d{1,2})?$/.test($("#money").val())) {
+					layerTips('请输正确的提现金额！');
+					return false;
+				}
+
+				if ($("#money").val() < 100) {
+					layerTips('请输入100或以上金额！');
+					return false;
+				}
+
+				$('#submit').attr('disabled', true);
+				$.ajax({
+					type: 'POST',
+					url: "<?=url('','','')?>",
+					dataType: 'json',
+					data: {
+						money: $('#money').val(),
+						paypassword: $('#paypswd').val(),
+						save: $('#save').val()
+					},
+					success: function (data) {
+						$('#submit').attr('disabled', false);
+						if (data.status == 1) {
+							layerTips(data.msg);
+						} else {
+							location.href = "<?=url('','','appTips',array('tips' => '您的提现正在受理中！', 'title' => '申请成功'))?>";
+						}
+					}
+				});
+
+				return false;
+			});
+		});
+		</script>
+	</body>
+
+</html>

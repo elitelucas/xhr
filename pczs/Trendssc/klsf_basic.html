@@ -1,0 +1,74 @@
+
+				<div class="lottery_numstat">
+					
+					<div class="trend_numstat_tab">
+						<table class="gd11x5_tab sub_table" border="0" cellpadding="0" cellspacing="0">
+							<thead>
+								<tr>
+									<th>
+										<div class="out">
+											<b class="h-b">{{english.彩球}}</b>
+											<em class="h-em">{{english.期号}}</em>
+										</div>
+									</th>
+									
+									<td>1</td>
+									<td>2</td>
+									<td>3</td>
+									<td>4</td>
+									<td>5</td>
+									
+									<td>6</td>
+									<td>7</td>
+									<td>8</td>
+									<td>9</td>
+									<td>10</td>
+									
+									<td>11</td>
+									<td>12</td>
+									<td>13</td>
+									<td>14</td>
+									<td>15</td>
+									
+									<td>16</td>
+									<td>17</td>
+									<td>18</td>
+									<td>19</td>
+									<td>20</td>
+								</tr>
+							</thead>
+							<tbody id="getResult">
+								<tr>
+									
+								</tr>
+								<tr class="total_times" delay="false">
+									<td>{{english.出现总次数}}</td>
+								</tr>
+								<tr class="average" delay="false">
+									<td>{{english.平均遗漏值}}</td>
+								</tr>
+								<tr class="max" delay="false">
+									<td>{{english.最大遗漏值}}</td>
+								</tr>
+								<tr class="max_continue" delay="false">
+									<td>{{english.最大连出值}}</td>
+								</tr>
+							</tbody>
+						</table>
+
+					</div>
+				</div>
+
+<script type="text/javascript" src="../js/English.js"></script>
+<script type="text/javascript">
+	(function(exports) {
+		exports.app = new Vue({
+			el: '.lottery_numstat',
+			data: function() {
+				return {
+					english: english
+				}
+			}
+		})
+	})(window);
+</script>

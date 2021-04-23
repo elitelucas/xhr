@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<title></title>
+	<link rel="stylesheet" href="statics/admin/css/datePicker.css">
+	<!--  <link rel="stylesheet" href="statics/admin/css/pintuer.css"> -->
+	<link rel="stylesheet" href="statics/admin/css/admin.css">
+	<link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.css">
+	<link rel="stylesheet" href="statics/admin/js/layer/2.1/skin/layer.ext.css">
+	<script src="statics/admin/js/jquery.js"></script>
+	<script src="statics/admin/js/layer/2.1/layer.js"></script>
+	<script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+
+	<!-- template-begin+++ -->
+	{template public-new-ui-header}
+	<!-- template-end+++ -->
+	<script src="statics/admin/js/jquery.date_input.pack.js"></script>
+	<link rel="stylesheet" href="statics/admin/jedate/skin/jedate.css">
+	<script type="text/javascript" src="statics/admin/jedate/jquery.jedate.min.js"></script>
+</head>
+<body style="margin: 15px;background-color: #f3f3f4;">
+<div class="row">
+	<div class="col-sm-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title iboxWTitle">
+				<h5>流水报表</h5>
+			</div>
+			<div class="ibox-content" style="width: 100%;">
+				<div class="row">
+					<form method="post" id="form" class="form-search">
+
+						<div class="col-sm-2">
+							<div class="input-group m-b"><span class="input-group-addon">流水号</span>
+								<input name="order_num" class="form-control"  value="{$_REQUEST['order_num']}" type="text">
+							</div>
+						</div>
+
+						<div class="col-sm-2">
+							<div class="input-group m-b"><span class="input-group-addon">会员名</span>
+								<input name="account_name" class="form-control" value="{$_REQUEST['account_name']}" type="text">
+							</div>
+						</div>
+
+						<div class="col-sm-2">
+							<div class="input-group m-b"><span class="input-group-addon">卡号</span>
+								<input name="account" class="form-control" value="{$_REQUEST['account']}" type="text">
+							</div>
+						</div>
+
+						<div class="col-sm-3">
+							<div class="input-group m-b">
+								<span class="input-group-addon">时间</span>
+								<input name="start_time" class="date_picker form-control" value="{$_REQUEST['start_time']}" style="width: 48%" placeholder="开始时间" />
+								<span style="float: left">&nbsp;&nbsp;</span>
+								<input class="date_picker form-control" name="end_time" value="{$_REQUEST['end_time']}" placeholder="结束时间" style="width: 48%" />
+							</div>
+						</div>
+
+						<div class="col-sm-2">
+							<div class="input-group m-b"><span class="input-group-addon">快捷查询</span>
+								<select class="form-control" id='quick' name="quick">
+									<option value="0" {if $quick == 0}selected{/if}>全部</option>
+									<option value="1" {if $quick == 1}selected{/if}>今日</option>
+									<option value="2" {if $quick == 2}selected{/if}>昨日</option>
+									<option value="3" {if $quick == 3}selected{/if}>本周</option>
+									<option value="4" {if $quick == 4}selected{/if}>本月</option>
+									<option value="5" {if $quick == 5}selected{/if}>上月</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="col-sm-2">
+							<div class="input-group m-b">
+								<button type="submit" class="btn btn-primary">搜索</button>
+								&nbsp;
+								<button type="button" class="btn btn-primary" onclick="javascript:location.href = '?m=admin&c=reporting&a=ledger'">重置</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div id="editable_wrapper" class="dataTables_wrapper form-inline" role="grid" style="width: 100%">
+					<table class="table table-striped table-bordered table-hover  dataTable" id="editable" aria-describedby="editable_info">
+						<thead>
+						<tr>
+							<th>ID</th>
+							<th>流水号</th>
+							<th>户名</th>
+							<th>卡号</th>
+							<th>进账金额(元)</th>
+							<th>出账金额(元)</th>
+							<th>即时余额(元)</th>
+							<th>当前余额(元)</th>
+							<th>时间</th>
+						</tr>
+						</thead>
+						<tbody id="list_tb">
+						{if empty($rlist) && empty($clist)}
+						<tr>
+							<td colspan="9" align="center"> 暂无信息 </td>
+						</tr>
+						{else}
+						{loop $rlist $v}
+						<tr>
+							<td>{$v['id']}</td>
+							<td>{$v['order_num']}</td>
+							<td>{$v['account_name']}</td>
+							<td>{$v['account']}</td>
+							<td>{$v['money']}</td>
+							<td>0.00</td>
+							<td>{$v['admin_money']}</td>
+							<td>{$v['balance']}</td>
+							<td><?= date("Y-m-d H:i:s",$v['addtime'])?></td>
+						</tr>
+						{/loop}
+						{loop $clist $v}
+						<tr>
+							<td>{$v['id']}</td>
+							<td>{$v['order_num']}</td>
+							<td>{$v['account_name']}</td>
+							<td>{$v['account']}</td>
+							<td>0.00</td>
+							<td>{$v['money']}</td>
+							<td>{$v['admin_money']}</td>
+							<td>{$v['balance']}</td>
+							<td><?= date("Y-m-d H:i:s",$v['addtime'])?></td>
+						</tr>
+						{/loop}
+
+						{/if}
+
+						</tbody>
+					</table>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="dataTables_info" id="editable_info" role="alert" aria-live="polite"	aria-relevant="all" style="<?php echo Session::get('style');?>">
+							<span class="back-page">总进账(元)</span>
+							{$rmoney}
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<span class="back-page">总出账(元)</span>
+							{$cmoney}
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<span class="back-page">总余额(元)</span>
+							<?= $rmoney-$cmoney;?>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    //时间插件
+    $(function(){
+        $(".date_picker").jeDate({
+            //isinitVal:true,
+            ishmsVal:true,
+            format:"YYYY-MM-DD",
+            zIndex:3000,
+        });
+
+
+        $('.form-search').submit(function(){
+            var start_time = $('[name="start_time"]').val();
+            var end_time = $('[name="end_time"]').val();
+            var diff_days = (new Date(end_time).getTime() - new Date(start_time).getTime()) / (24 * 60 * 60 * 1000);
+            if (start_time > end_time) {
+                layer.msg('起始时间不能大于结束时间', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+            if (diff_days > 31) {
+                layer.msg('查询时间跨度不能大于31天!!!', {icon: 5, shade: [0.5, '#393D49']});
+                return false;
+            }
+        });
+    })
+</script>
+</body>
+</html>

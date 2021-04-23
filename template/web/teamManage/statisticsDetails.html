@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="target-densitydpi=320,width=750,user-scalable=no" name="viewport" />
+    <meta content="no" name="apple-touch-fullscreen" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <title>团队管理</title>
+    <!--<link href="/statics/web/css/css.css" rel="stylesheet" type="text/css">-->
+    <!--<script src="/statics/web/js/jquery.1.8.2.min.js"></script>-->
+    <!--<script src="/statics/web/js/style.js"></script>-->
+    {template public-header}
+    <!-- 新增css -->
+    <!--<link href="/statics/web/css/s_min.css" rel="stylesheet" type="text/css">-->
+    <!-- 新增css - end -->
+
+    <!-- layer -->
+    <script src="/statics/web/extend/layer/mobile/layer.js"></script>
+    <!-- layer - end -->
+
+    <!--时间选择插件-->
+    <link rel="stylesheet" href="/statics/web/extend/datepick/datepick.css">
+    <script src="/statics/web/extend/datepick/date.js"></script>
+    <script src="/statics/web/extend/datepick/iscroll.js"></script>
+</head>
+<body>
+<header>
+    <em onclick="javascript :history.go(-1);">返回</em>
+    <h1>自身统计</h1>
+    <div class="headerRight">
+        <ul>
+            <li id="reset">重置</li>
+        </ul>
+    </div>
+</header>
+<section class="my_info">
+    <div class="teamWarp">
+        <div class="time-betting statist_date">
+            <span id="startT">交易时间: <em></em></span><span class="time_text">全部</span><span id="endT"><em></em></span>
+            <div class="statist_date_ico" id="timeSelect"></div>
+        </div>
+
+        <div class="details details_bet">
+            <p>账号：<span id="username"></span></p>
+            <p>直属：<span id="directly"></span><p>
+            <p>团队：<span id="team"></span></p>
+            <p>充值：<span id="recharge"></span></p>
+            <p>提现：<span id="cash"></span></p>
+            <p>投注：<span id="betting"></span></p>
+            <p>中奖：<span id="award"></span></p>
+            <p>自身返水：<span id="selfBackwater"></span></p>
+            <p>直属会员返水：<span id="directlyBackwater"></span></p>
+            <p>团队返水：<span id="teamBackwater"></span></p>
+            <p>盈利总额：<span id="profit"></span></p>
+            <p>活动优惠：<span id="total_hd_money"></span></p>
+            <p>其他收入：<span id="total_other_income"></span></p>
+        </div>
+    </div>
+
+    <!--底部弹窗-->
+    <div class="mask" style="display: none"></div>
+    <div class="pop-wrap down" id="date-pop">
+        <div class="pop-select pop-bg-white">
+            <div class="title">选择时间</div>
+            <div class="content">
+                <div class="demo">
+                    <div class="lie">日期设置-1:<input  id="beginTime" class="kbtn" /></div>
+                    <div class="lie">日期设置-2:<input id="endTime" class="kbtn" /></div>
+                </div>
+                <div id="datePlugin-begin"></div>
+                <div id="datePlugin-end"></div>
+                <div class="btn_warp"><span id="confirm-getDate">确定</span></div>
+            </div>
+        </div>
+        <div class="bottom-con">
+            <a javascript="void(0)" ; type="button" class="pop-cansel">取消</a>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+    var id; //时间选择插件变量
+    //初始化时间
+//    $("#startT em").text(getNowFormatDate());
+//    $("#endT em").text(getNowFormatDate())
+//    var start_time = getNowFormatDate();
+//    var end_time = getNowFormatDate();
+//    function getNowFormatDate() {
+//        var date = new Date();
+//        var seperator1 = "-";
+//        var month = date.getMonth() + 1;
+//        var strDate = date.getDate();
+//        if (month >= 1 && month <= 9) {
+//            month = "0" + month;
+//        }
+//        if (strDate >= 0 && strDate <= 9) {
+//            strDate = "0" + strDate;
+//        }
+//        var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+//        return currentdate;
+//    }
+
+    $(function(){
+
+        //初始化时间选择插件
+        $('#beginTime').date();
+        //	$('#endTime').date({theme:"datetime"});
+        $('#endTime').date();
+        $('#beginTime').click();
+        id = 1;
+        $('#endTime').click();
+
+        var data = new Object();
+//        data.token = token;
+        data.start_time = $("#startT em").text();
+        data.end_time = $("#endT em").text();
+        seach(data);
+
+        //时间选择
+        $("#timeSelect").click(function() {
+            $(".mask").show();
+            $("#date-pop").removeClass("down");
+        //$("#status").addClass("active");
+        })
+        $(".pop-cansel, .mask").click(function() {
+            $(".mask").hide();
+            $("#date-pop").addClass("down");
+        })
+
+        //时间选择确定按钮
+        $('#confirm-getDate').click(function(){
+            $('#dateconfirm').click();
+            $('#dateconfirm2').click();
+            $("#startT em").text($("#beginTime").val());
+            $("#endT em").text($("#endTime").val());
+
+            var data = new Object();
+            data.start_time = $.trim($("#beginTime").val());
+            data.end_time = $.trim($("#endTime").val());
+
+            if(new Date(data.start_time.replace(/-/g, '/')).getTime() <= new Date(data.end_time.replace(/-/g, '/')).getTime()){
+                $(".mask").hide();
+                $("#date-pop").addClass("down");
+                seach(data);
+                return false;
+            }else{
+                layer.open({
+                    content: "起始日期大于结束日期，请重新选择！",
+                    skin: 'msg',
+                    time: 2 //2秒后自动关闭
+                });
+            }
+
+        });
+
+        //重置
+        $("#reset").click(function(){
+            window.location.reload();
+        })
+        
+        function seach($data){
+            if(data.start_time != ''){
+                $(".time_text").text("至");
+            }
+        	$.post("{$ValidUrl}",$data,function(data){
+        		//console.log(data);
+        		var data = $.parseJSON(data);
+        		if(data.status==0){
+                	$('#username').text(data.username);
+                	$('#directly').text(data.directly);
+                	$('#team').text(data.team);
+                	$('#recharge').text(data.recharge);
+                	$('#cash').text(data.cash);
+                	$('#betting').text(data.betting);
+                	$('#award').text(data.award);
+                	$('#selfBackwater').text(data.selfBackwater);
+                	$('#directlyBackwater').text(data.directlyBackwater);
+                	$('#teamBackwater').text(data.teamBackwater);
+                	$('#profit').text(data.profit);
+                	$('#total_hd_money').text(data.total_hd_money);
+                	$('#total_other_income').text(data.total_other_income);
+
+                }else {
+                	layer.open({
+                        //content: "<p class='alert_msg'>"+data.ret_msg+"</p>",
+                        //btn: '<p class="alert_buttom">我知道了</p>'
+                        content: data.ret_msg,
+                        skin: 'msg',
+                        time: 2 //2秒后自动关闭
+                    });
+                }
+        	})
+        }
+        
+    })
+</script>
+
+</body>
+</html>

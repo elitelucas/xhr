@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <title></title>
+        <link rel="stylesheet" href="statics/admin/css/pintuer.css">
+        <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+	    <link type="text/css" href="statics/admin/js/layer/2.1/skin/layer.css" rel="stylesheet">
+	    <script src="statics/admin/js/jquery.js"></script>
+        <script src="statics/admin/js/layer/2.1/layer.js"></script>
+        <script src="statics/admin/js/layer/2.1/extend/layer.ext.js"></script>
+        <script src="statics/admin/js/bootstrap.min.js"></script>
+   	    {template public-new-ui-header} 
+    </head>
+    <body class="new_ui_body">
+    <div class="ibox float-e-margins">
+	    <div class="ibox-title iboxWTitle">
+	        <h5>
+	        	{if $type == 2}pk10投注限制
+	        	{elseif $type == 4}幸运飞艇投注限制
+	        	{elseif $type == 5}重庆时彩投注限制
+	        	{elseif $type == 6}三分彩投注限制
+	        	{elseif $type == 7}六合彩投注限制
+            	{elseif $type == 8}急速六合彩投注限制
+		        {elseif $type == 9}急速赛车投注限制
+		        {elseif $type == 10}牛牛投注限制
+				{elseif $type == 11}分分彩投注限制
+				{elseif $type == 13}欢乐骰宝投注限制
+				{elseif $type == 14}分分PK10投注限制
+		        {/if}
+	        </h5>
+	    </div>
+	    {if in_array($type, [2,4,5,6,9,11,13,14])}
+	    <div class="ibox-content bagCol">
+	        <div class="ibox-title ">
+	            <h5>
+	            {if $type == 2}pk10投注限制
+            	{elseif $type == 4}幸运飞艇投注限制
+	        	{elseif $type == 5}重庆时彩投注限制
+	        	{elseif $type == 6}三分彩投注限制
+		        {elseif $type == 9}急速赛车投注限制
+				{elseif $type == 11}分分彩投注限制
+				{elseif $type == 13}欢乐骰宝投注限制
+				{elseif $type == 14}分分PK10投注限制
+	            {/if}信息
+	            </h5>
+	            <div class="ibox-tools">
+	            	<a class="btn btn-white btn-bitbucket btn_sure" id="update" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+	        <div class="ibox-content">
+	            <form id='form_update' method="post" class="form-horizontal">
+	                <div class="form-group">
+		                <label class="col-sm-2 control-label">
+							{if in_array($type,['2','4','9','14'])}
+								每期每个名次最多猜车号个数
+							{elseif in_array($type,['13'])}
+								每期猜数字最多猜个数
+							{elseif in_array($type,['5','6','11'])}
+								每期每个名次最多猜球数个数
+							{/if}
+						</label>
+	                    <div class="col-sm-1">
+	                        <span class="col-sm-11" style="padding-left: 0px;">
+	                        	<input type="text" class="form-control" id="pk_max" name='max' value="{$pkData['max']}" readonly/>
+	                       	</span>
+	                    </div>
+	                    <label class="col-sm-1 control-label">是否开启</label>
+	                    <div class="col-sm-1">
+		                    <select class="form-control m-b" id="pk_status" name='status' disabled>
+	                            <option {if $pkData['status'] == 0}selected="selected"{/if}  value='0'>关闭</option>
+	                            <option {if $pkData['status'] == 1}selected="selected"{/if}  value='1'>开启</option>
+	                       	</select>
+	                        <span class="col-sm-4 help-block m-b-none"></span>
+	                    </div>
+	                </div>
+                </form>
+            </div>
+        </div>
+        
+        {elseif $type == 7 || $type == 8}
+        <div class="ibox-content bagCol">
+	        <div class="ibox-title ">
+	            <h5>
+	            {if $type == 7}六合彩投注限制
+            	{elseif $type == 8}急速六合彩投注限制
+	            {/if}信息
+	            </h5>
+	            <div class="ibox-tools">
+	            	<a class="btn btn-white btn-bitbucket btn_sure" id="update" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+	        <div class="ibox-content">
+	            <form id='form_update' method="post" class="form-horizontal">
+	                <div class="form-group set_bet">
+	                    <label class="col-sm-2 control-label">每期特码A最多猜数字个数</label>
+	                    <div class="col-sm-1">
+	                        <span class="col-sm-11" style="padding-left: 0px;">
+	                        	<input type="hidden" name='way' value="特码A"/>
+	                        	<input type="text" class="form-control" name='max' value="{$pkData[0]['max']}" readonly/>
+                        	</span>
+	                    </div>
+	                    <label class="col-sm-1 control-label">是否开启</label>
+	                    <div class="col-sm-1">
+		                    <select class="form-control m-b" name="status" disabled>
+	                            <option {if $pkData[0]['status'] == 0}selected="selected"{/if}  value='0'>关闭</option>
+	                            <option {if $pkData[0]['status'] == 1}selected="selected"{/if}  value='1'>开启</option>
+	                        </select>
+	                        <span class="col-sm-4 help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	               
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group set_bet">
+	                    <label class="col-sm-2 control-label">每期特码B最多猜数字个数</label>
+	                    <div class="col-sm-1">
+	                        <span class="col-sm-11" style="padding-left: 0px;">
+	                        	<input type="hidden" name='way' value="特码B"/>
+	                        	<input type="text" class="form-control" name='max' value="{$pkData[1]['max']}" readonly/>
+                        	</span>
+	                    </div>
+	                    <label class="col-sm-1 control-label">是否开启</label>
+	                    <div class="col-sm-1">
+		                    <select class="form-control m-b" name="status" disabled>
+	                            <option {if $pkData[1]['status'] == 0}selected="selected"{/if}  value='0'>关闭</option>
+	                            <option {if $pkData[1]['status'] == 1}selected="selected"{/if}  value='1'>开启</option>
+	                        </select>
+	                        <span class="col-sm-4 help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group set_bet">
+	                    <label class="col-sm-2 control-label">每期正码A最多猜数字个数</label>
+	                    <div class="col-sm-1">
+	                        <span class="col-sm-11" style="padding-left: 0px;">
+	                        	<input type="hidden" name='way' value="正码A"/>
+	                        	<input type="text" class="form-control" name='max' value="{$pkData[2]['max']}" readonly/>
+                        	</span>
+	                    </div>
+	                    <label class="col-sm-1 control-label">是否开启</label>
+	                    <div class="col-sm-1">
+		                    <select class="form-control m-b" name="status" disabled>
+	                            <option {if $pkData[2]['status'] == 0}selected="selected"{/if}  value='0'>关闭</option>
+	                            <option {if $pkData[2]['status'] == 1}selected="selected"{/if}  value='1'>开启</option>
+	                        </select>
+	                        <span class="col-sm-4 help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group set_bet">
+	                    <label class="col-sm-2 control-label">每期正码B最多猜数字个数</label>
+	                    <div class="col-sm-1">
+	                        <span class="col-sm-11" style="padding-left: 0px;">
+	                        	<input type="hidden" name='way' value="正码B"/>
+	                        	<input type="text" class="form-control" name='max' value="{$pkData[3]['max']}" readonly/>
+                        	</span>
+	                    </div>
+	                    <label class="col-sm-1 control-label">是否开启</label>
+	                    <div class="col-sm-1">
+		                    <select class="form-control m-b" name="status" disabled>
+	                            <option {if $pkData[3]['status'] == 0}selected="selected"{/if}  value='0'>关闭</option>
+	                            <option {if $pkData[3]['status'] == 1}selected="selected"{/if}  value='1'>开启</option>
+	                        </select>
+	                        <span class="col-sm-4 help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group set_bet">
+	                    <label class="col-sm-2 control-label">每期正1特最多猜数字个数</label>
+	                    <div class="col-sm-1">
+	                        <span class="col-sm-11" style="padding-left: 0px;">
+	                        	<input type="hidden" name='way' value="正1特"/>
+	                        	<input type="text" class="form-control" name='max' value="{$pkData[4]['max']}" readonly/>
+                        	</span>
+	                    </div>
+	                    <label class="col-sm-1 control-label">是否开启</label>
+	                    <div class="col-sm-1">
+		                    <select class="form-control m-b" name="status" disabled>
+	                            <option {if $pkData[4]['status'] == 0}selected="selected"{/if}  value='0'>关闭</option>
+	                            <option {if $pkData[4]['status'] == 1}selected="selected"{/if}  value='1'>开启</option>
+	                        </select>
+	                        <span class="col-sm-4 help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group set_bet">
+	                    <label class="col-sm-2 control-label">每期正2特最多猜数字个数</label>
+	                    <div class="col-sm-1">
+	                        <span class="col-sm-11" style="padding-left: 0px;">
+	                        	<input type="hidden" name='way' value="正2特"/>
+	                        	<input type="text" class="form-control" name='max' value="{$pkData[5]['max']}" readonly/>
+                        	</span>
+	                    </div>
+	                    <label class="col-sm-1 control-label">是否开启</label>
+	                    <div class="col-sm-1">
+		                    <select class="form-control m-b" name="status" disabled>
+	                            <option {if $pkData[5]['status'] == 0}selected="selected"{/if}  value='0'>关闭</option>
+	                            <option {if $pkData[5]['status'] == 1}selected="selected"{/if}  value='1'>开启</option>
+	                        </select>
+	                        <span class="col-sm-4 help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group set_bet">
+	                    <label class="col-sm-2 control-label">每期正3特最多猜数字个数</label>
+	                    <div class="col-sm-1">
+	                        <span class="col-sm-11" style="padding-left: 0px;">
+	                        	<input type="hidden" name='way' value="正3特"/>
+	                        	<input type="text" class="form-control" name='max' value="{$pkData[6]['max']}" readonly/>
+                        	</span>
+	                    </div>
+	                    <label class="col-sm-1 control-label">是否开启</label>
+	                    <div class="col-sm-1">
+		                    <select class="form-control m-b" name="status" disabled>
+	                            <option {if $pkData[6]['status'] == 0}selected="selected"{/if}  value='0'>关闭</option>
+	                            <option {if $pkData[6]['status'] == 1}selected="selected"{/if}  value='1'>开启</option>
+	                        </select>
+	                        <span class="col-sm-4 help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group set_bet">
+	                    <label class="col-sm-2 control-label">每期正4特最多猜数字个数</label>
+	                    <div class="col-sm-1">
+	                        <span class="col-sm-11" style="padding-left: 0px;">
+	                        	<input type="hidden" name='way' value="正4特"/>
+	                        	<input type="text" class="form-control" name='max' value="{$pkData[7]['max']}" readonly/>
+                        	</span>
+	                    </div>
+	                    <label class="col-sm-1 control-label">是否开启</label>
+	                    <div class="col-sm-1">
+		                    <select class="form-control m-b" name="status" disabled>
+	                            <option {if $pkData[7]['status'] == 0}selected="selected"{/if}  value='0'>关闭</option>
+	                            <option {if $pkData[7]['status'] == 1}selected="selected"{/if}  value='1'>开启</option>
+	                        </select>
+	                        <span class="col-sm-4 help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group set_bet">
+	                    <label class="col-sm-2 control-label">每期正5特最多猜数字个数</label>
+	                    <div class="col-sm-1">
+	                        <span class="col-sm-11" style="padding-left: 0px;">
+	                        	<input type="hidden" name='way' value="正5特"/>
+	                        	<input type="text" class="form-control" name='max' value="{$pkData[8]['max']}" readonly/>
+                        	</span>
+	                    </div>
+	                    <label class="col-sm-1 control-label">是否开启</label>
+	                    <div class="col-sm-1">
+		                    <select class="form-control m-b" name="status" disabled>
+	                            <option {if $pkData[8]['status'] == 0}selected="selected"{/if}  value='0'>关闭</option>
+	                            <option {if $pkData[8]['status'] == 1}selected="selected"{/if}  value='1'>开启</option>
+	                        </select>
+	                        <span class="col-sm-4 help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group set_bet">
+	                    <label class="col-sm-2 control-label">每期正6特最多猜数字个数</label>
+	                    <div class="col-sm-1">
+	                        <span class="col-sm-11" style="padding-left: 0px;">
+	                        	<input type="hidden" name='way' value="正6特"/>
+	                        	<input type="text" class="form-control" name='max' value="{$pkData[9]['max']}" readonly/>
+                        	</span>
+	                    </div>
+	                    <label class="col-sm-1 control-label">是否开启</label>
+	                    <div class="col-sm-1">
+		                    <select class="form-control m-b" name="status" disabled>
+	                            <option {if $pkData[9]['status'] == 0}selected="selected"{/if}  value='0'>关闭</option>
+	                            <option {if $pkData[9]['status'] == 1}selected="selected"{/if}  value='1'>开启</option>
+	                        </select>
+	                        <span class="col-sm-4 help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group set_bet">
+	                    <label class="col-sm-2 control-label">每期尾数最多猜数字个数</label>
+	                    <div class="col-sm-1">
+	                        <span class="col-sm-11" style="padding-left: 0px;">
+	                        	<input type="hidden" name='way' value="尾数"/>
+	                        	<input type="text" class="form-control" name='max' value="{$pkData[10]['max']}" readonly/>
+                        	</span>
+	                    </div>
+	                    <label class="col-sm-1 control-label">是否开启</label>
+	                    <div class="col-sm-1">
+		                    <select class="form-control m-b" name="status" disabled>
+	                            <option {if $pkData[10]['status'] == 0}selected="selected"{/if}  value='0'>关闭</option>
+	                            <option {if $pkData[10]['status'] == 1}selected="selected"{/if}  value='1'>开启</option>
+	                        </select>
+	                        <span class="col-sm-4 help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                 <div class="hr-line-dashed"></div>
+	                <div class="form-group set_bet">
+	                    <label class="col-sm-2 control-label">每期一肖最多猜数字个数</label>
+	                    <div class="col-sm-1">
+	                        <span class="col-sm-11" style="padding-left: 0px;">
+	                        	<input type="hidden" name='way' value="一肖"/>
+	                        	<input type="text" class="form-control" name='max' value="{$pkData[11]['max']}" readonly/>
+                        	</span>
+	                    </div>
+	                    <label class="col-sm-1 control-label">是否开启</label>
+	                    <div class="col-sm-1">
+		                    <select class="form-control m-b" name="status" disabled>
+	                            <option {if $pkData[11]['status'] == 0}selected="selected"{/if}  value='0'>关闭</option>
+	                            <option {if $pkData[11]['status'] == 1}selected="selected"{/if}  value='1'>开启</option>
+	                        </select>
+	                        <span class="col-sm-4 help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="hr-line-dashed"></div>
+	                <div class="form-group set_bet">
+	                    <label class="col-sm-2 control-label">每期特肖最多猜数字个数</label>
+	                    <div class="col-sm-1">
+	                        <span class="col-sm-11" style="padding-left: 0px;">
+	                        	<input type="hidden" name='way' value="特肖"/>
+	                        	<input type="text" class="form-control" name='max' value="{$pkData[12]['max']}" readonly/>
+                        	</span>
+	                    </div>
+	                    <label class="col-sm-1 control-label">是否开启</label>
+	                    <div class="col-sm-1">
+		                    <select class="form-control m-b" name="status" disabled>
+	                            <option {if $pkData[12]['status'] == 0}selected="selected"{/if}  value='0'>关闭</option>
+	                            <option {if $pkData[12]['status'] == 1}selected="selected"{/if}  value='1'>开启</option>
+	                        </select>
+	                        <span class="col-sm-4 help-block m-b-none"></span>
+	                    </div>
+	                </div>
+                </form>
+            </div>
+        </div>
+       {elseif $type == 10}
+	    <div class="ibox-content bagCol">
+	        <div class="ibox-title ">
+	            <h5>牛牛投注限制</h5>
+	            <div class="ibox-tools">
+	            	<a class="btn btn-white btn-bitbucket btn_sure" id="update" data-title="修改"><i class="fa fa-pencil"></i> </a>
+	        	</div>
+	        </div>
+	        <div class="ibox-content">
+	            <form id='form_update' method="post" class="form-horizontal">
+	               <div class="form-group set_bet">
+	                    <label class="col-sm-2 control-label">每期猜牛最多猜牛个数</label>
+	                    <div class="col-sm-1">
+	                        <span class="col-sm-11" style="padding-left: 0px;">
+	                        	<input type="hidden" name='way' value="猜牛"/>
+	                        	<input type="text" class="form-control" name='max' value="{$pkData[0]['max']}" readonly/>
+                        	</span>
+	                    </div>
+	                    <label class="col-sm-1 control-label">是否开启</label>
+	                    <div class="col-sm-1">
+		                    <select class="form-control m-b" name="status" disabled>
+	                            <option {if $pkData[0]['status'] == 0}selected="selected"{/if}  value='0'>关闭</option>
+	                            <option {if $pkData[0]['status'] == 1}selected="selected"{/if}  value='1'>开启</option>
+	                        </select>
+	                        <span class="col-sm-4 help-block m-b-none"></span>
+	                    </div>
+	                </div>
+	                <div class="form-group set_bet">
+	                    <label class="col-sm-2 control-label">每期最多猜牌面个数</label>
+	                    <div class="col-sm-1">
+	                        <span class="col-sm-11" style="padding-left: 0px;">
+	                        	<input type="hidden" name='way' value="猜牌面"/>
+	                        	<input type="text" class="form-control" name='max' value="{$pkData[1]['max']}" readonly/>
+                        	</span>
+	                    </div>
+	                    <label class="col-sm-1 control-label">是否开启</label>
+	                    <div class="col-sm-1">
+		                    <select class="form-control m-b" name="status" disabled>
+	                            <option {if $pkData[1]['status'] == 0}selected="selected"{/if}  value='0'>关闭</option>
+	                            <option {if $pkData[1]['status'] == 1}selected="selected"{/if}  value='1'>开启</option>
+	                        </select>
+	                        <span class="col-sm-4 help-block m-b-none"></span>
+	                    </div>
+	                </div>
+                </form>
+            </div>
+        </div>
+        {/if}
+    </div>
+ <body>
+	<script type="text/javascript">
+        var loading = "";//加载中......
+
+        $(function () {
+        	 $(".btn_sure").click(function () {
+              	var form_id = 'form_' + $(this).attr('id');
+          		var i_class = $(this).children('i').attr('class');
+          		if (i_class == 'fa fa-pencil') {
+          			$(this).attr('data-title', '保存');
+          			$(this).children('i').attr('class', 'fa fa-save');
+          			$('#' + form_id).find('input').each(function() {
+          				$(this).attr('readonly', false);
+         				});
+          			$('#' + form_id).find('select').each(function() {
+         				$(this).attr('disabled', false);
+        				});
+          		}else {
+	                var type = "{$type}";
+	                var url = '?m=admin&c=message&a=setLimit';
+	                if (type == 2 || type == 4 || type == 5 || type == 6 || type == 9 || type == 11 || type == 13 || type == 14) {
+	
+	                    var data = {
+	                        "limitNum":$('#pk_max').val(),
+	                        "status":$('select[name="status"]').val(),
+	                        "type":type
+	                    }
+	                    if (data.limitNum == null|| data.limitNum == ''){
+	                        data.limitNum = 0;
+	                    }
+	
+	                    if (data.limitNum > 10 || data.limitNum < 0) {
+	                        layer.msg('最大数字个数超出范围', {icon: 5, shade: [0.5, '#393D49']});
+	                        return false;
+	                    }
+	
+	                } else if(type == 7 || type == 8 || type == 10) {
+	                    var dome = $(".set_bet")
+	                    var data = {
+	                        "type":type,
+	                        "data":[]
+	                    };
+	                    for(var a=0; a<dome.length; a++){
+	                        var tmp = {
+	                            'name':$(dome[a]).find("input[name='way']").val(),
+	                            'max':$(dome[a]).find("input[name='max']").val(),
+	                            'status':$(dome[a]).find("select[name='status']").val(),
+	                        }
+	                        if (tmp.max == null || tmp.max == '') {
+	                            tmp.max = 0;
+	                        }
+	                        if (tmp.name == "尾数") {
+	                            if (tmp.max > 9 || tmp.max < 0) {
+	                                layer.msg('最大尾数个数超出范围', {icon: 5, shade: [0.5, '#393D49']});
+	                                return false;
+	                            }
+	                        } else if (tmp.name == "一肖" || tmp.name == "特肖") {
+	                            if (tmp.max > 12 || tmp.max < 0) {
+	                                layer.msg('最大生肖个数超出范围', {icon: 5, shade: [0.5, '#393D49']});
+	                                return false;
+	                            }
+	                        } else if (tmp.name == "猜牛") {
+	                            if (tmp.max > 12 || tmp.max < 0) {
+	                                layer.msg('最大猜牛个数超出范围', {icon: 5, shade: [0.5, '#393D49']});
+	                                return false;
+	                            }
+	                        } else if (tmp.name == "猜牌面") {
+	                            if (tmp.max > 13 || tmp.max < 0) {
+	                                layer.msg('最大猜牌面个数超出范围', {icon: 5, shade: [0.5, '#393D49']});
+	                                return false;
+	                            }
+	                        } else {
+	                            if (tmp.max > 49 || tmp.max < 0) {
+	                                layer.msg('最大数字个数超出范围', {icon: 5, shade: [0.5, '#393D49']});
+	                                return false;
+	                            }
+	                        }
+	                        data.data.push(tmp);
+	                    }
+	                }
+	                $.ajax({
+	                    url: url,
+	                    data: data,
+	                    dataType: 'json',
+	                    type: 'post',
+	                    error: function (e) {
+	                        layer.close(loading);
+	                        console.log(e);
+	                        layer.msg('网络错误！！！', {icon: 5, shade: [0.5, '#393D49']});
+	                    },
+	                    success: function (result) {
+	                        layer.close(loading);
+	                        if (result.code == 0) {
+	                            layer.msg('操作成功！！！', {icon: 6, shade: [0.5, '#393D49']}, function () {
+	                                location.reload();
+	                            });
+	                        }else {
+	                            layer.msg(result.msg, {icon: 5, shade: [0.5, '#393D49']});
+	                        }
+	                    }
+	                });
+          		}
+            });
+        });
+        </script>
+    </body>
+</html>
