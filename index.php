@@ -1,5 +1,6 @@
 <?php
-die('sss');
+echo 'eee';
+die;
 //die('qq:411632312  微信:w411632312 乐购完整运营版 别拿论坛比！！！！');die;
 /**
  *  index.php 系统入口
