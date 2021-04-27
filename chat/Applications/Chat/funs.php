@@ -33,6 +33,8 @@ function decode($str){
  * @desc 连接CacheRedis缓存数据库
  */
 function initCacheRedis() {
+    echo 'eeee';
+    die;
     //该参数待放入配置文件
     $cache_redis = new redis();
     $ret = $cache_redis->connect(RD_HOST, RD_PORT);
