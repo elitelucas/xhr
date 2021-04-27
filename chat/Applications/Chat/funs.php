@@ -36,7 +36,7 @@ function initCacheRedis() {
 
     //该参数待放入配置文件
     $cache_redis = new redis();
-    $ret = $cache_redis->connect(RD_HOST, RD_PORT,1.0);
+    $ret = $cache_redis->connect(RD_HOST, RD_PORT);
     if (!$ret) {
         //ErrorCode::errorResponse(9001, 'redis connect error');
         echo 'redis connect error';
