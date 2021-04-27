@@ -30,8 +30,8 @@ return [
     /** 数据库设置 */
     'db_host'             => 'localhost', //Server
     'db_name'             => 'belotto', //数据库名称
-    'db_user'             => 'belotto', //用户名
-    'db_pwd'              => 'belotto', //密码 123456
+    'db_user'             => 'root', //用户名
+    'db_pwd'              => 'ktr1117', //密码 123456
     'db_prefix'           => 'un_', //数据前缀
     'db_lang'             => 'utf8', //数据库编码
     'db_pcon'             => 0, //连接模式，0为正常连接，1为持久连接
