@@ -14,8 +14,8 @@ return [
     'gzip'                => 0, // 是否Gzip压缩后输出
 
     /** 项目设置 */
-    'app_home'            => 'https://365ga.me', //** 不带 '/'
-    'api_host'            => 'https://365ga.me', //** 不带 '/'
+    'app_home'            => 'http://365belotto.com', //** 不带 '/'
+    'api_host'            => 'http://365belotto.com', //** 不带 '/'
     'app_dir'             => '/', //程序安装目录，不带'/'
     'cdn_path'            => '/statics/', //cdn访问地址
     'auth_key'            => 'MZFcm4Iagyy9ypeFPleg', //密钥
@@ -25,13 +25,13 @@ return [
         'secret_key' => 'dabfc5c6bcdb09bbcf1a59dc86a4932a',
     ],
     'bicp_token'      => '75acd47b8c0df897',
-    'home_arr'        => ['https://365ga.me'],
+    'home_arr'        => ['http://365belotto.com'],
     'is_host_admin' => '1',
     /** 数据库设置 */
     'db_host'             => 'localhost', //Server
-    'db_name'             => 'ceshi_365ga_me', //数据库名称
-    'db_user'             => 'ceshi_365ga_me', //用户名
-    'db_pwd'              => 'ceshi_365ga_me', //密码 123456
+    'db_name'             => 'belotto', //数据库名称
+    'db_user'             => 'belotto', //用户名
+    'db_pwd'              => 'belotto', //密码 123456
     'db_prefix'           => 'un_', //数据前缀
     'db_lang'             => 'utf8', //数据库编码
     'db_pcon'             => 0, //连接模式，0为正常连接，1为持久连接
