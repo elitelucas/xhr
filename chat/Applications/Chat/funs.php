@@ -6,9 +6,6 @@
  * Time: 21:03
  */
 
-    echo 'eeee';
-    die;
-
 use \Workerman\Connection\AsyncTcpConnection;
 
 require_once __DIR__.'/../config.php';
