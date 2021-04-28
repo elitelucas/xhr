@@ -193,7 +193,6 @@ class AppAction extends Action{
      * */
     public function customerType()
     {
-        die('sdfsdf');
         $redis = initCacheRedis();
         //客服配置
         $val = $redis->hget('Config:kefu_set','value');
