@@ -108,7 +108,7 @@ return [
 //刷新缓存密码
     'pass'                => 'undsuifgu564',
 //推送服务器
-    'Gateway'             => '161.35.2.60:1236',
+    'Gateway'             => '127.0.0.1:1236',
 
     'weixin' => 'weixin',
     'qq'     => '123456',
