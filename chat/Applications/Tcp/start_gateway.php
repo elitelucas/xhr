@@ -24,8 +24,8 @@ Autoloader::setRootPath(__DIR__);
 $context = array(
     'ssl' => array(
         // 请使用绝对路径
-        'local_cert'  => '/www/wwwroot/xhs/cert/365game.pem', // 或者crt文件
-        'local_pk'    => '/www/wwwroot/xhs/cert/365game.key',
+        'local_cert'  => '/var/www/your_domain/cert/365game.pem', // 或者crt文件
+        'local_pk'    => '/var/www/your_domain/cert/365game.key',
         'verify_peer'               => false,
         // 'allow_self_signed' => true, //如果是自签名证书需要开启此选项
     )
