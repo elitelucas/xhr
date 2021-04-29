@@ -48,7 +48,7 @@ $gateway->pingInterval = 30;
 // 心跳数据
 $gateway->pingData = '{"commandid":"3013"}';
 // 服务注册地址
-$gateway->registerAddress = '127.0.0.1:1237';
+$gateway->registerAddress = '127.0.0.1:1250';
 //$gateway->registerAddress = '47.52.56.123:1236';
 
 /* 
