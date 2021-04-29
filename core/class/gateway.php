@@ -30,7 +30,7 @@ class Gateway
      *
      * @var string
      */
-    public static $registerAddress = '127.0.0.1:1236';
+    public static $registerAddress = '127.0.0.1:1237';
 
 
     /**
