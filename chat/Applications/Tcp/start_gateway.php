@@ -27,11 +27,11 @@ $context = array(
         'local_cert'  => '/var/www/your_domain/cert/365game.pem', // 或者crt文件
         'local_pk'    => '/var/www/your_domain/cert/365game.key',
         'verify_peer'               => false,
-        'allow_self_signed' => true, //如果是自签名证书需要开启此选项
+        //'allow_self_signed' => true, //如果是自签名证书需要开启此选项
     )
 );
 // websocket协议(端口任意，只要没有被其它程序占用就行)
-$gateway = new Gateway("websocket://0.0.0.0:7275");
+$gateway = new Gateway("websocket://0.0.0.0:7275",$context);
 // 开启SSL，websocket+SSL 即wss
 $gateway->transport = 'ssl';
 // 设置名称，方便status时查看
