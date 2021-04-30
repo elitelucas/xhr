@@ -24,8 +24,8 @@ Autoloader::setRootPath(__DIR__);
 $context = array(
     'ssl' => array(
         // 请使用绝对路径
-        'local_cert'  => '/var/www/your_domain/cert/365game.pem', // 或者crt文件
-        'local_pk'    => '/var/www/your_domain/cert/365game.key',
+        'local_cert'  => '/etc/letsencrypt/live/365belotto.com/fullchain.pem', // 或者crt文件
+        'local_pk'    => '/etc/letsencrypt/live/365belotto.com/privkey.pem',
         'verify_peer'               => false,
         //'allow_self_signed' => true, //如果是自签名证书需要开启此选项
     )
