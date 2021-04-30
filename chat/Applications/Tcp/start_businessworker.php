@@ -1,5 +1,4 @@
 <?php
-die('ertert');
 /**
  * This file is part of workerman.
  *
