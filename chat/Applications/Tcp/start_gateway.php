@@ -1,4 +1,6 @@
 <?php 
+echo 'sss';
+die;
 /**
  * This file is part of workerman.
  *
