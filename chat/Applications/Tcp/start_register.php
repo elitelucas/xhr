@@ -1,6 +1,4 @@
 <?php 
-
-die('sdfsdf');
 /**
  * This file is part of workerman.
  *
