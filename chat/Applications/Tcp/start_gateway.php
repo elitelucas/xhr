@@ -31,7 +31,7 @@ $context = array(
     )
 );
 // websocket协议(端口任意，只要没有被其它程序占用就行)
-$gateway = new Gateway("websocket://0.0.0.0:7275",$context);
+$gateway = new Gateway("websocket://0.0.0.0:7275");
 // 开启SSL，websocket+SSL 即wss
 $gateway->transport = 'ssl';
 // 设置名称，方便status时查看
